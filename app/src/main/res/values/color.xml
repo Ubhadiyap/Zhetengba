@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主色调-->
+    <color name="main_color">#52c791</color>
+     <!-- 背景颜色-->
+    <color name="bg_color">#f4f4f4</color>
+</resources>
