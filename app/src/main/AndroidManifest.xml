@@ -26,6 +26,9 @@
         <!--活动详情-->
         <activity android:name=".activity.HuodongAct"
             android:screenOrientation="portrait"></activity>
+        <!--登录界面-->
+        <activity android:name=".activity.LoginAct"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

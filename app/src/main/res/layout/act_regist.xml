@@ -164,16 +164,10 @@
 
 
     <TextView
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
+        style="@style/com_dybtn"
         android:layout_marginTop="15dp"
-        android:background="@drawable/com_dybtn_select"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:gravity="center"
         android:text="注册"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        />
 
 
 </LinearLayout>
