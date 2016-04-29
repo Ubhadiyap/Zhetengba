@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--全局通用较大圆角button 例如注册-->
+    <item android:drawable="@drawable/com_dybtn_pressd" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/com_dybtn_nor" android:state_pressed="false"></item>
+    <item android:drawable="@drawable/com_dybtn_nor"></item>
+</selector>
