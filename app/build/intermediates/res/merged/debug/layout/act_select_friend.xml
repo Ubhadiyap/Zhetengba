@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:gravity="center">
+    <TextView
+        android:gravity="center"
+        android:layout_weight="1"
+        android:id="@+id/tv_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#52c791"
+        android:text="好友"/>
+    <TextView
+        android:gravity="center"
+        android:layout_weight="1"
+        android:id="@+id/tv_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#52c791"
+        android:text="全部"/>
+
+</LinearLayout><!-- From: file:/D:/ZheTengBa/app/src/main/res/layout/act_select_friend.xml -->

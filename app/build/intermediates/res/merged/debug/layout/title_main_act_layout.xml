@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="42dp"
+    android:background="#52c791">
+
+    <LinearLayout
+        android:id="@+id/ll_title_border"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_circle_stroke_yes_white">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tv_activity"
+            style="@style/MainAct_Title_TextView"
+            android:text="简约"
+            android:textColor="#52c791"
+            android:background="@drawable/bg_left_white_circle_yes_stroke"/>
+
+        <TextView
+            style="@style/MainAct_Title_TextView"
+            android:id="@+id/tv_dangqi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="档期"/>
+    </LinearLayout>
+<LinearLayout
+    android:id="@+id/ll_friend"
+    android:orientation="horizontal"
+    android:layout_alignParentRight="true"
+    android:layout_width="80dp"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="好友"
+        android:textSize="14sp"
+        android:textColor="#fff"/>
+    <ImageView
+        android:layout_marginLeft="7dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/arrow_down"/>
+</LinearLayout>
+</RelativeLayout><!-- From: file:/D:/ZheTengBa/app/src/main/res/layout/title_main_act_layout.xml -->

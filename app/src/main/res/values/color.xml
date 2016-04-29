@@ -4,4 +4,8 @@
     <color name="main_color">#52c791</color>
      <!-- 背景颜色-->
     <color name="bg_color">#f4f4f4</color>
+    <!--话题颜色-->
+    <color name="ht_color">#53c9ff</color>
+    <!--档期切换字体颜色-->
+    <color name="dq_color">#666666</color>
 </resources>

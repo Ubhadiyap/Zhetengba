@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingBottom="50dp"></FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_gravity="bottom">
+
+
+        <RadioGroup
+            android:id="@+id/rg_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_cal"
+                style="@style/MainAct_Bottom_RadioButton_Text"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/menu_ticket"
+                android:text="档期" />
+
+            <RadioButton
+                android:layout_weight="1"
+                android:id="@+id/rb_mes"
+                style="@style/MainAct_Bottom_RadioButton_Text"
+                android:drawableTop="@drawable/menu_chat"
+                android:text="消息" />
+
+            <RadioButton
+                android:layout_weight="1"
+                android:id="@+id/rb_pl"
+                style="@style/MainAct_Bottom_RadioButton_Text" />
+
+            <RadioButton
+                android:layout_weight="1"
+                android:id="@+id/rb_cir"
+                style="@style/MainAct_Bottom_RadioButton_Text"
+                android:drawableTop="@drawable/menu_loop"
+                android:text="圈子" />
+
+            <RadioButton
+                android:layout_weight="1"
+                android:id="@+id/rb_my"
+                style="@style/MainAct_Bottom_RadioButton_Text"
+                android:drawableTop="@drawable/menu_me"
+                android:text="我的" />
+
+
+        </RadioGroup>
+        <FrameLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <ImageView
+                android:id="@+id/iv_plane"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/plane"
+                android:layout_gravity="bottom"/>
+        </FrameLayout>
+
+    </FrameLayout>
+</FrameLayout>
+<!-- From: file:/D:/ZheTengBa/app/src/main/res/layout/act_main_layout.xml -->

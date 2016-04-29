@@ -12,4 +12,29 @@
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
     </style>
+    <!--简约/档期-顶部导航栏样式-->
+    <style name="MainAct_Title_TextView">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--简约/档期-底部导航栏字体样式-->
+    <style name="MainAct_Bottom_RadioButton_Text">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:textColor">@drawable/bottom_color_change_text</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!--活动详情对话框样式-->
+    <style name="Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!-- 边框 -->
+        <item name="android:background">#ffffff</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
 </resources>
