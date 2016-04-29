@@ -9,6 +9,8 @@
     <color name="com_btn_pressd">#FF3CCF8B</color>
     <!--为选中颜色-->
     <color name="com_btn_nor">#52C791</color>
+    <!--自定义通用控件点击颜色-->
+    <color name="item_focus_color">#e7e7e7</color>
 
 
 </resources>

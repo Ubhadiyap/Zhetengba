@@ -29,6 +29,9 @@
         <!--登录界面-->
         <activity android:name=".activity.LoginAct"
             android:screenOrientation="portrait"></activity>
+        <!--档期界面-->
+        <activity android:name=".activity.DangqiAct"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

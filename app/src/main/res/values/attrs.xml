@@ -6,4 +6,39 @@
         <attr name="border_color" format="color" />
     </declare-styleable>
 
+    <!--自定义CommonView-->
+
+    <declare-styleable name="CommonView">
+        <attr name="desTextColor" format="color" />
+        <attr name="categoryImage" format="reference" />
+        <attr name="desText" format="string" />
+
+        <attr name="isShowCategoryImage" format="boolean" />
+        <attr name="statusImage" format="reference" />
+        <attr name="statusImage_width" format="dimension" />
+        <attr name="statusImage_height" format="dimension" />
+        <attr name="desTextSize" format="dimension" />
+
+        <attr name="isShowTextNotes" format="boolean" />
+        <attr name="notesText" format="string" />
+        <attr name="notesTextColor" format="color" />
+        <attr name="notesTextSize" format="dimension" />
+
+    </declare-styleable>
+    <!--开关样式-->
+    <declare-styleable name="ToggleButton">
+        <attr name="borderWidth" format="dimension">
+        </attr>
+        <attr name="offBorderColor" format="reference|color">
+        </attr>
+        <attr name="offColor" format="reference|color">
+        </attr>
+        <attr name="onColor" format="reference|color">
+        </attr>
+        <attr name="spotColor" format="reference|color">
+        </attr>
+    </declare-styleable>
+
+
+
 </resources>
