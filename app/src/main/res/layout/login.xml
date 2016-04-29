@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
-            android:background="null"
+            android:background="@null"
             android:layout_marginLeft="10dp"
             android:maxLength="11"
             android:inputType="number"
@@ -60,10 +60,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
-            android:background="null"
+            android:background="@null"
             android:layout_marginLeft="10dp"
-            android:maxLength="11"
-            android:inputType="number"
             android:textColorHint="#cdcdcd"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"

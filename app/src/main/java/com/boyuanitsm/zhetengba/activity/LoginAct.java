@@ -17,7 +17,7 @@ public class LoginAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-       setTopTitle("登录");
+
 
     }
 }
