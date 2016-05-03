@@ -116,8 +116,8 @@ public class CommonView extends RelativeLayout {
         android.view.ViewGroup.LayoutParams params = ivCommon
                 .getLayoutParams();
         params.width = (int) statusImage_width;
-        params.height = (int) statusImage_height;
         ivCommon.setLayoutParams(params);
+        params.height = (int) statusImage_height;
         this.statusImage_width = statusImage_width;
         this.statusImage_height = statusImage_height;
     }

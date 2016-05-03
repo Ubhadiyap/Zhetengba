@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.activity;
 
 import android.os.Bundle;
 
+import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
@@ -11,6 +12,7 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 public class PersonalmesAct extends BaseActivity {
     @Override
     public void setLayout() {
+        setContentView(R.layout.act_personalmes);
 
     }
 
