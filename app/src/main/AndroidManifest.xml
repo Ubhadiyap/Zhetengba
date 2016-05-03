@@ -35,6 +35,13 @@
         <!--个人资料界面-->
         <activity android:name=".activity.PersonalmesAct"
             android:screenOrientation="portrait"></activity>
+        <!--设置界面-->
+        <activity android:name=".activity.SettingAct"
+            android:screenOrientation="portrait"></activity>
+        <!--关于折腾吧界面-->
+        <activity android:name=".activity.AboutztbAct"
+            android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>
