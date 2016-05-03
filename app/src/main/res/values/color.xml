@@ -4,6 +4,7 @@
     <color name="main_color">#52c791</color>
      <!-- 背景颜色-->
     <color name="bg_color">#f4f4f4</color>
+
     <!--话题颜色-->
     <color name="ht_color">#53c9ff</color>
     <!--档期切换字体颜色-->
@@ -14,4 +15,14 @@
     <color name="one_color">#333333</color>
     <!--简约界面item内位置信息字体颜色-->
     <color name="simple_item_loaction">#999999</color>
+
+    <color name="white">#FFFFFF</color>
+    <!--通用button 如提交 完成 发布等选中颜色 -->
+    <color name="com_btn_pressd">#FF3CCF8B</color>
+    <!--为选中颜色-->
+    <color name="com_btn_nor">#52C791</color>
+    <!--自定义通用控件点击颜色-->
+    <color name="item_focus_color">#e7e7e7</color>
+
+
 </resources>

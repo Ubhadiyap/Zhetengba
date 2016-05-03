@@ -24,7 +24,7 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(getLayoutId());
+        setLayout();
         // 注入控件
         ViewUtils.inject(this);
         init(savedInstanceState);
@@ -40,7 +40,7 @@ public abstract class BaseActivity extends FragmentActivity {
     /**
      * 设置布局
      */
-    public abstract int getLayoutId();
+    public abstract void setLayout();
 
     /**
      * 填充数据

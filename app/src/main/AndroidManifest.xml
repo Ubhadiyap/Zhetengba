@@ -16,6 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--忘记密码界面-->
+        <activity android:name=".activity.FrogetpwdAct"
+            android:screenOrientation="portrait"></activity>
+        <!--注册界面-->
+        <activity android:name=".activity.RegistAct"
+            android:screenOrientation="portrait"></activity>
+        <!--活动详情-->
+        <activity android:name=".activity.HuodongAct"
+            android:screenOrientation="portrait"></activity>
+        <!--登录界面-->
+        <activity android:name=".activity.LoginAct"
+            android:screenOrientation="portrait"></activity>
+        <!--档期界面-->
+        <activity android:name=".activity.DangqiAct"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
