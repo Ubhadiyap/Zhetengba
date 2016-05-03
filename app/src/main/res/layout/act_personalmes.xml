@@ -25,60 +25,198 @@
            android:layout_width="40dp"
            android:layout_height="40dp" />
 
-
-
    </RelativeLayout>
 
+
     <RelativeLayout
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="41dp">
+        style="@style/rl_personnal"
+        >
         <TextView
+            style="@style/tv_second"
             android:layout_centerVertical="true"
             android:textColor="#333333"
-            android:textSize="14sp"
             android:text="头像"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+           />
 
         <TextView
+            style="@style/tv_second"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="#333333"
-            android:textSize="14sp"
+            android:textColor="#999999"
             android:text="会说话的tom猫"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            />
 
 
 
     </RelativeLayout>
     <RelativeLayout
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="41dp">
+        style="@style/rl_personnal">
         <TextView
+            style="@style/tv_second"
             android:layout_centerVertical="true"
             android:textColor="#333333"
-            android:textSize="14sp"
             android:text="性别"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+             />
 
         <TextView
+            style="@style/tv_second"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="#333333"
-            android:textSize="14sp"
+            android:textColor="#999999"
             android:text="女"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            />
 
 
 
     </RelativeLayout>
+
+
+    <RelativeLayout
+        style="@style/rl_personnal">
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:textColor="#333333"
+            android:text="手机号码"
+            />
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#999999"
+            android:text="18777777777"
+            />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/rl_personnal">
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:textColor="#333333"
+            android:text="邮箱"
+            />
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#999999"
+            android:text="673132032@qq.com"
+            />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/rl_personnal">
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:textColor="#333333"
+            android:text="公司名称"
+            />
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#999999"
+            android:text="上海博猿"
+            />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/rl_personnal">
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:textColor="#333333"
+            android:text="公司地址"
+            />
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#999999"
+            android:text="汤泉国际"
+            />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/rl_personnal">
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:textColor="#333333"
+            android:text="公司电话"
+            />
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#999999"
+            android:text="26548962"
+            />
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/rl_personnal">
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:textColor="#333333"
+            android:text="职务"
+            />
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#999999"
+            android:text="会计"
+            />
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/rl_personnal">
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:textColor="#333333"
+            android:text="故乡"
+            />
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#999999"
+            android:text="湖北武汉"
+            />
+
+
+
+    </RelativeLayout>
+
+
 
 
 
