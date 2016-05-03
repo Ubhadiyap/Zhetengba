@@ -41,6 +41,9 @@
         <!--关于折腾吧界面-->
         <activity android:name=".activity.AboutztbAct"
             android:screenOrientation="portrait"></activity>
+        <!--分享二维码界面-->
+        <activity android:name=".activity.ShareewmAct"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 
