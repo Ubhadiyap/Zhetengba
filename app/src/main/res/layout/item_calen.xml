@@ -18,20 +18,19 @@
             android:paddingLeft="15dp">
 
             <ImageView
-                android:id="@+id/iv_headphoto"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:id="@+id/iv_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/test_user" />
 
             <TextView
                 android:id="@+id/tv_niName"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:text="甜蜜的小猫"
-                android:textColor="#5fa67d"
-                android:textSize="12sp" />
+                style="@style/MainAct_simple_cale_Text" />
 
             <ImageView
                 android:id="@+id/iv_gender"
@@ -43,7 +42,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal"
             android:paddingLeft="50dp">
 
@@ -64,6 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#fff"
+                        android:textSize="12sp"
                         android:background="@drawable/bg_huatee_blue_circle_yes_stroke"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -79,8 +79,7 @@
 
                         <TextView
                             android:id="@+id/tv_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/MainAct_simple_Text"
                             android:paddingLeft="12dp"
                             android:text="3月6日 15：00—18：30" />
                     </LinearLayout>
@@ -107,16 +106,17 @@
 
                             <ImageView
                                 android:id="@+id/iv_guanzhu"
-                                android:layout_width="12dp"
-                                android:layout_height="12dp"
-                                android:src="@drawable/collect_b" />
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:background="@drawable/collect_b" />
 
                             <TextView
                                 android:id="@+id/tv_guanzhu_num"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="12dp"
-                                android:paddingRight="30dp"
+                                style="@style/MainAct_simple_Text"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="60dp"
                                 android:text="关注  57" />
 
                         </LinearLayout>
@@ -126,39 +126,26 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:paddingLeft="30dp"
+                            android:paddingLeft="60dp"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:id="@+id/iv_xiangying"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:src="@drawable/finger" />
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:background="@drawable/bottom_picchange_finger" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="12dp"
-                                android:text="响应" />
+                                android:paddingLeft="10dp"
+                                android:text="约TA" />
 
-                            <TextView
-                                android:id="@+id/tv_xiangying_num"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="12dp"
-                                android:text="5"
-                                android:textColor="#d44" />
 
-                            <ImageView
-                                android:layout_width="10dp"
-                                android:layout_height="12dp"
-                                android:src="@drawable/xxl" />
 
-                            <TextView
-                                android:id="@+id/tv_tatl_num"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="15" />
+
+
+
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.MainActivity">
 
 
@@ -25,56 +26,59 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
+            android:background="@drawable/layer_list_top"
             android:orientation="horizontal">
 
-            <RadioButton
+
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
+                android:gravity="center"
                 android:id="@+id/rb_cal"
                 style="@style/MainAct_Bottom_RadioButton_Text"
                 android:layout_weight="1"
-                android:drawablePadding="5dp"
-                android:drawableTop="@drawable/menu_ticket"
+                android:clickable="true"
+                app:drawableTop="@drawable/bottom_picchange_calen"
+                 app:myDrawableSize="29dp"
                 android:text="档期" />
 
-            <RadioButton
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
                 android:layout_weight="1"
                 android:id="@+id/rb_mes"
                 style="@style/MainAct_Bottom_RadioButton_Text"
-                android:drawableTop="@drawable/menu_chat"
-                android:background="@drawable/bottom_picchange_calen"
+                app:drawableTop="@drawable/bottom_picchange_mess"
                 android:text="消息" />
 
-            <RadioButton
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
                 android:layout_weight="1"
                 android:id="@+id/rb_pl"
                 style="@style/MainAct_Bottom_RadioButton_Text" />
 
-            <RadioButton
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
                 android:layout_weight="1"
                 android:id="@+id/rb_cir"
                 style="@style/MainAct_Bottom_RadioButton_Text"
-                android:drawableTop="@drawable/menu_loop"
+                app:drawableTop="@drawable/bottom_picchange_circle"
                 android:text="圈子" />
 
-            <RadioButton
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
                 android:layout_weight="1"
                 android:id="@+id/rb_my"
                 style="@style/MainAct_Bottom_RadioButton_Text"
-                android:drawableTop="@drawable/menu_me"
+                app:drawableTop="@drawable/bottom_picchange_my"
                 android:text="我的" />
 
 
         </RadioGroup>
         <FrameLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_gravity="bottom">
             <ImageView
                 android:id="@+id/iv_plane"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/plane"
-                android:layout_gravity="bottom"/>
+                android:layout_gravity="center"/>
         </FrameLayout>
 
     </FrameLayout>

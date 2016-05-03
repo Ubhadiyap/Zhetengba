@@ -3,6 +3,6 @@
     <!-- 边框颜色值，宽度 -->
     <stroke android:color="#fff"  />
 <!--边框圆角-->
-    <corners android:radius="10dp" />
-    <solid android:color="#45ba73" ></solid>
+    <corners android:radius="5dp" />
+    <solid android:color="@color/main_color" ></solid>
 </shape>

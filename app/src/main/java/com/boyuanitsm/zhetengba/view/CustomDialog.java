@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 
 /**
- * 简约条目点击弹出“活动详情”对话框
+ * 简约界面条目点击弹出“活动详情”对话框
  * Created by xiaoke on 2016/4/28.
  */
 public class CustomDialog extends Dialog {
@@ -126,7 +126,7 @@ public class CustomDialog extends Dialog {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final CustomDialog dialog = new CustomDialog(context, R.style.Dialog);
-            View layout = inflater.inflate(R.layout.act_fragment_activity_dialog, null);
+            View layout = inflater.inflate(R.layout.act_frag_act_dialog, null);
             dialog.addContentView(layout,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT));
 
             // set the confirm button

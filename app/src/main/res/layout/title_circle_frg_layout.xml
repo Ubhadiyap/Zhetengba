@@ -14,38 +14,17 @@
         android:background="@drawable/bg_circle_stroke_yes_white">
 
         <TextView
-            android:id="@+id/tv_simple"
+            android:id="@+id/tv_chanel"
             style="@style/MainAct_Title_TextView"
-            android:text="@string/title_simple"
+            android:text="@string/title_chanel"
             android:textColor="#52c791"
             android:background="@drawable/bg_left_white_circle_yes_stroke"/>
 
         <TextView
             style="@style/MainAct_Title_TextView"
-            android:id="@+id/tv_calendar"
+            android:id="@+id/tv_circle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/title_calen"/>
+            android:text="@string/title_circle"/>
     </LinearLayout>
-<LinearLayout
-    android:id="@+id/ll_friend"
-    android:orientation="horizontal"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentRight="true"
-    android:layout_width="80dp"
-    android:layout_height="match_parent"
-    android:gravity="center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_friend"
-        android:textSize="14sp"
-        android:textColor="#fff"/>
-    <ImageView
-        android:layout_marginStart="7dp"
-        android:layout_marginLeft="7dp"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:background="@drawable/arrow_down"/>
-</LinearLayout>
 </RelativeLayout>

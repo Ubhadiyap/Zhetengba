@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/bg_color">
+        <com.boyuanitsm.zhetengba.view.HorizontalListView
+            android:id="@+id/lv_chanel"
+            android:layout_weight="1"
+            android:background="@color/bg_color"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+        </com.boyuanitsm.zhetengba.view.HorizontalListView>
+        <ImageView
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_gravity="center"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/add"
+            />
+    </LinearLayout>
+
+</LinearLayout>
