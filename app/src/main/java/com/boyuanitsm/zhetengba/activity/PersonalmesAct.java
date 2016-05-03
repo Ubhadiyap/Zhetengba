@@ -18,6 +18,7 @@ public class PersonalmesAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        setTopTitle("个人资料");
 
     }
 }

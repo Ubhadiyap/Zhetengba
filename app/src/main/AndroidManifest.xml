@@ -32,6 +32,9 @@
         <!--档期界面-->
         <activity android:name=".activity.DangqiAct"
             android:screenOrientation="portrait"></activity>
+        <!--个人资料界面-->
+        <activity android:name=".activity.PersonalmesAct"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
