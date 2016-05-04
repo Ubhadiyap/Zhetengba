@@ -10,20 +10,20 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
+import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 
 /**
- * 子界面-圈子界面
- * Created by xiaoke on 2016/5/2.
+ * 频道里
+ * viewpager适配的fragment
+ * Created by xiaoke on 2016/5/3.
  */
-public class CirFrg extends Fragment {
-    @Nullable
+public class ChaChildFrg extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.cir_frg, null);
-        ListView lv_cir = (ListView) view.findViewById(R.id.lv_cir);
-        CircleAdapter adapter=new CircleAdapter(getContext());
-        lv_cir.setAdapter(adapter);
-        return view;
+       View view= inflater.inflate(R.layout.frag_chanel_child01,null);
+        ListView lv_ch01 = (ListView) view.findViewById(R.id.lv_ch01);
+        ChanAdapter adapter=new ChanAdapter(getContext());
+        lv_ch01.setAdapter(adapter);
+        return view ;
     }
 }

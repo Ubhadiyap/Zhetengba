@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
     <ListView
-        android:id="@+id/lv_calen"
+        android:id="@+id/lv_ch01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="档期activity"
-        android:background="@drawable/layer_list_bottom"/>
-
+        android:background="@drawable/layer_list_bottom">
+    </ListView>
 </LinearLayout>

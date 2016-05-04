@@ -6,7 +6,7 @@
         <attr name="border_color" format="color" />
     </declare-styleable>
 
-
+<!--自定义radiobutton-->
     <declare-styleable name="MyRadioButton">
 
         <attr name="myDrawableSize" format="dimension"/>

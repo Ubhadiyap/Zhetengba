@@ -13,7 +13,7 @@
     android:id="@+id/text_list_item"
     android:text="你好"
     android:textSize="14sp"
-    android:textColor="@color/main_color"
+    android:textColor="@color/two_color"
     android:layout_width="wrap_content"
     android:layout_height="match_parent" />
 </RelativeLayout>

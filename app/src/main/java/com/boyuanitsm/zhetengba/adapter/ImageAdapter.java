@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.boyuanitsm.zhetengba.R;
 
 /**
+ * 首页图片轮播适配器
  * Created by xiaoke on 2016/4/26.
  */
 public class ImageAdapter extends PagerAdapter {

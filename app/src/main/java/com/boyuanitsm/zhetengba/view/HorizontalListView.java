@@ -15,7 +15,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /***
- * 自定义横向listview，展示频道消息
+ * 未用到，但是自定义控件，好东西不要删
+ * 自定义横向listview，展示频道标签
  */
 public class HorizontalListView extends AdapterView<ListAdapter> {
 
