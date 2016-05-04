@@ -91,7 +91,6 @@ public abstract class BaseFragment extends Fragment {
         startActivity(intent);
     }
 
-
 //    /**
 //     * 设置顶部标题
 //     *

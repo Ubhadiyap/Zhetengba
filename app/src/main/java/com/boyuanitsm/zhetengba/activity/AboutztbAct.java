@@ -6,19 +6,19 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
- * 个人资料界面
+ * 关于折腾吧界面
  * Created by bitch-1 on 2016/5/3.
  */
-public class PersonalmesAct extends BaseActivity {
+public class AboutztbAct extends BaseActivity {
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_personalmes);
+        setContentView(R.layout.act_aboutztb);
 
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("个人资料");
+        setTopTitle("关于折腾吧");
 
     }
 }

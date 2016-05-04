@@ -28,13 +28,6 @@ public abstract class BaseActivity extends FragmentActivity {
         // 注入控件
         ViewUtils.inject(this);
         init(savedInstanceState);
-
-
-        //初始化布局
-
-        //初始化控件
-        //初始化监听
-        //初始化数据
     }
 
     /**

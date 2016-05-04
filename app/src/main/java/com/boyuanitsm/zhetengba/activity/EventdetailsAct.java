@@ -6,19 +6,18 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
- * 个人资料界面
- * Created by bitch-1 on 2016/5/3.
+ * Created by bitch-1 on 2016/4/28.
  */
-public class PersonalmesAct extends BaseActivity {
+public class EventdetailsAct extends BaseActivity {
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_personalmes);
+        setContentView(R.layout.act_eventdetails);
 
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("个人资料");
+        setTopTitle("活动详情");
 
     }
 }

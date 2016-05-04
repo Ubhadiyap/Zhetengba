@@ -3,12 +3,4 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <!--导航栏标题：简约-->
-    <string name="title_simple">简约</string>
-    <!--导航栏标题：档期-->
-    <string name="title_calen">档期</string>
-    <!--导航栏标题：好友-->
-    <string name="title_friend">好友</string>
-    <string name="title_chanel">频道</string>
-    <string name="title_circle">圈子</string>
 </resources>
