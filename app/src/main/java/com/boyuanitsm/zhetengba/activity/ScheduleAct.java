@@ -13,13 +13,13 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  * 档期界面
  * Created by bitch-1 on 2016/4/29.
  */
-public class DangqiAct extends BaseActivity {
+public class ScheduleAct extends BaseActivity {
     private TextView tv_xlws,tv_bwln,tv_wlzj,tv_xdys;//闲来无事，百无聊赖，无聊至极，闲的要死
 
 
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_dangqi);
+        setContentView(R.layout.act_schedule);
 
     }
 

@@ -6,18 +6,19 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
- * Created by bitch-1 on 2016/4/28.
+ * 简约界面
+ * Created by bitch-1 on 2016/5/3.
  */
-public class HuodongAct extends BaseActivity {
+public class ContractedAct extends BaseActivity{
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_huodong);
+        setContentView(R.layout.act_contracted);
 
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("活动详情");
+
 
     }
 }

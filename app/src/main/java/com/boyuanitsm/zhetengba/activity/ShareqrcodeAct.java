@@ -9,10 +9,10 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
  * 分享二维码界面
  * Created by bitch-1 on 2016/5/3.
  */
-public class ShareewmAct extends BaseActivity {
+public class ShareqrcodeAct extends BaseActivity {
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_shareewm);
+        setContentView(R.layout.act_shareqrcode);
 
     }
 

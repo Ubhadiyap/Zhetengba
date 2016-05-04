@@ -24,13 +24,13 @@
         <activity android:name=".activity.RegistAct"
             android:screenOrientation="portrait"></activity>
         <!--活动详情-->
-        <activity android:name=".activity.HuodongAct"
+        <activity android:name=".activity.EventdetailsAct"
             android:screenOrientation="portrait"></activity>
         <!--登录界面-->
         <activity android:name=".activity.LoginAct"
             android:screenOrientation="portrait"></activity>
         <!--档期界面-->
-        <activity android:name=".activity.DangqiAct"
+        <activity android:name=".activity.ScheduleAct"
             android:screenOrientation="portrait"></activity>
         <!--个人资料界面-->
         <activity android:name=".activity.PersonalmesAct"
@@ -42,7 +42,7 @@
         <activity android:name=".activity.AboutztbAct"
             android:screenOrientation="portrait"></activity>
         <!--分享二维码界面-->
-        <activity android:name=".activity.ShareewmAct"
+        <activity android:name=".activity.ShareqrcodeAct"
             android:screenOrientation="portrait"></activity>
 
     </application>
