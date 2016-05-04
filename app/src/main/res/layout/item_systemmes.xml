@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.boyuanitsm.zhetengba.view.CircleImageView
+            android:src="@mipmap/mine_head"
+            android:id="@+id/iv_sysmes"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp" />
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:paddingRight="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/tv_second"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Lake"
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:textSize="12sp"
+                    style="@style/tv_second"
+                    android:text="03:15"
+                    android:textColor="#999999" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textColor="#999999"
+                android:text="拒绝您的邀请 不参加 小吴打牌 活动。"
+               style="@style/tv_second" />
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+    <View
+        android:layout_marginLeft="15dp"
+        android:background="#dcdcde"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+
+
+</LinearLayout>

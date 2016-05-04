@@ -44,6 +44,9 @@
         <!--分享二维码界面-->
         <activity android:name=".activity.ShareqrcodeAct"
             android:screenOrientation="portrait"></activity>
+        <!--系统消息界面-->
+        <activity android:name=".activity.SystemmesAct"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 
