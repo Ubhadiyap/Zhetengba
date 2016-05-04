@@ -31,12 +31,13 @@ public class CalFrg extends Fragment {
         viewHeader_calen = getLayoutInflater(savedInstanceState).inflate(R.layout.item_loop_viewpager_calen, null);
         lv_calen = (ListView) view.findViewById(R.id.lv_calen);
         CalAdapter adapter = new CalAdapter(getActivity());
-        lv_calen.setAdapter(adapter);
         //设置listview头部headview
         lv_calen.addHeaderView(viewHeader_calen);
         vp_loop_calen = (ImageView) view.findViewById(R.id.vp_loop_calen);
         ImageView iv_item_image = (ImageView) view.findViewById(R.id.iv_item_image);
         iv_item_image.setImageResource(R.drawable.test_banner);
+        lv_calen.setAdapter(adapter);
+
         return view;
     }
 

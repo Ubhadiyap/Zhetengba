@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
@@ -29,8 +32,12 @@ public class SimpleFrg extends Fragment{
     private ListView lv_calen;
     private View viewHeader_act;
     private ActAdapter adapter;
-    private final static String tag = "SimpleFragment";
     private ViewPager viewPager;
+    private LinearLayout ll_guanzhu;//关注数量
+    private ImageView iv_simple_guanzhu;//关注图标
+    private TextView tv_guanzhu_num;//关注数量设置
+    private int gznum=0;//默认关注人数0
+    private boolean tag=true;
     private ImageHandler handler = new ImageHandler(new WeakReference<SimpleFrg>(this));
 
     @Override
@@ -40,18 +47,33 @@ public class SimpleFrg extends Fragment{
         lv_act = (ListView) view.findViewById(R.id.lv_act);
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.addHeaderView(viewHeader_act);
-
         adapter = new ActAdapter(getActivity());
         lv_act.setAdapter(adapter);
         //设置listview条目点击事件
         lv_act.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showDialog();
+                ll_guanzhu = (LinearLayout) view.findViewById(R.id.ll_guanzhu);
+                iv_simple_guanzhu = (ImageView) view.findViewById(R.id.iv_simple_guanzhu);
+                tv_guanzhu_num = (TextView) view.findViewById(R.id.tv_guanzhu_num);
+                ll_guanzhu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (tag == true) {
+                            iv_simple_guanzhu.setBackgroundDrawable(v.getResources().getDrawable(R.drawable.collect_b));
+                            ++gznum;
+                            tv_guanzhu_num.setText("" +gznum);
+                            tag = false;
 
+                        } else {
+                            iv_simple_guanzhu.setBackgroundDrawable(v.getResources().getDrawable(R.drawable.collect));
+                            tv_guanzhu_num.setText("" + (--gznum));
+                            tag = true;
+                        }
+                    }
+                });
             }
         });
-        Log.i(tag, "onCreateView()");
         //设置viewpager
         viewPager = (ViewPager) view.findViewById(R.id.vp_loop_act);
         viewPager.setAdapter(new ImageAdapter(getContext()));

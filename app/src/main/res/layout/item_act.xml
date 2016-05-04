@@ -32,7 +32,7 @@
                     android:id="@+id/iv_headphoto"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/test_user" />
+                    android:background="@drawable/test_user" />
 
                 <TextView
                     android:id="@+id/tv_niName"
@@ -139,17 +139,25 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/iv_guanzhu"
+                            android:id="@+id/iv_simple_guanzhu"
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:background="@drawable/collect" />
 
                         <TextView
-                            android:id="@+id/tv_guanzhu_num"
+                            android:id="@+id/tv_guanzhu"
                             style="@style/MainAct_simple_Text"
                             android:paddingLeft="10dp"
+
+                            android:text="关注" />
+                        <TextView
+                            android:paddingLeft="5dp"
+                            android:id="@+id/tv_guanzhu_num"
                             android:paddingRight="75dp"
-                            android:text="关注 57" />
+                            style="@style/MainAct_simple_Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="57"/>
 
                     </LinearLayout>
 
