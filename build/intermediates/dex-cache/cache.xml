@@ -2,39 +2,46 @@
 <items version="2" >
 
     <item
-        jar="D:\ZheTengBa\app\libs\xUtils-2.4.7.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="604adce72a320783de425348e53e7802b20c3fb7">
-        <dex dex="D:\ZheTengBa\app\build\intermediates\pre-dexed\debug\xUtils-2.4.7-72c7c8b7a68b115fb79df337f3c10e0d829946f8.jar" />
-    </item>
-    <item
-        jar="D:\ZheTengBa\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
-        <dex dex="D:\ZheTengBa\app\build\intermediates\pre-dexed\debug\classes-4e6993a384b15989fdb230ade4aff9e5805ac220.jar" />
-    </item>
-    <item
-        jar="D:\ZheTengBa\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
-        <dex dex="D:\ZheTengBa\app\build\intermediates\pre-dexed\debug\classes-d15bb5fb6ebd5d7844ee33a7a8fe32b5ce40be7f.jar" />
-    </item>
-    <item
-        jar="C:\adt-bundle-windows-x86_64-20131030\adt-bundle-windows-x86_64-20131030\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
+        jar="/Users/wangbin/Documents/android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="92e3fc113ec3ee36b64603a38857b95700025633">
-        <dex dex="D:\ZheTengBa\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0-955d1c50b32eb363c646776d0f3dc298acf0885d.jar" />
+        <dex dex="/Users/wangbin/Documents/boyuan/zhetengba/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0-8a1d4eb45ceb05bee4724c5eb54cd2ed40c37a37.jar" />
     </item>
     <item
-        jar="D:\ZheTengBa\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
+        jar="/Users/wangbin/Documents/boyuan/zhetengba/app/libs/xUtils-2.4.7.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="604adce72a320783de425348e53e7802b20c3fb7">
+        <dex dex="/Users/wangbin/Documents/boyuan/zhetengba/app/build/intermediates/pre-dexed/debug/xUtils-2.4.7-998c59f64d8e5cf04fb0e46b42fde127148d1d02.jar" />
+    </item>
+    <item
+        jar="/Users/wangbin/Documents/boyuan/zhetengba/app/libs/togglebuttonlib.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="199d62cbe8defdfaa94469e5f95b7d0fbe5697ac">
+        <dex dex="/Users/wangbin/Documents/boyuan/zhetengba/app/build/intermediates/pre-dexed/debug/togglebuttonlib-8b8a7310b32f7407956b447b86f8c9477282a730.jar" />
+    </item>
+    <item
+        jar="/Users/wangbin/Documents/boyuan/zhetengba/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="D:\ZheTengBa\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0-34d3eaa46105afb1f2c88fe5116c6ae685cab98c.jar" />
+        <dex dex="/Users/wangbin/Documents/boyuan/zhetengba/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-13b202d9d7ad3629a733615391263f1c71b10102.jar" />
+    </item>
+    <item
+        jar="/Users/wangbin/Documents/boyuan/zhetengba/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="/Users/wangbin/Documents/boyuan/zhetengba/app/build/intermediates/pre-dexed/debug/classes-26ba38db59493f236ab24cb1196d5ae014b8d91c.jar" />
+    </item>
+    <item
+        jar="/Users/wangbin/Documents/boyuan/zhetengba/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="/Users/wangbin/Documents/boyuan/zhetengba/app/build/intermediates/pre-dexed/debug/classes-be2a434de63c91d604a6cc2c64210ab96d8109da.jar" />
     </item>
 
 </items>
