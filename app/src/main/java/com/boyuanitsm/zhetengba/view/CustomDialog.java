@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -127,7 +127,7 @@ public class CustomDialog extends Dialog {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final CustomDialog dialog = new CustomDialog(context, R.style.Dialog);
             View layout = inflater.inflate(R.layout.act_frag_act_dialog, null);
-            dialog.addContentView(layout,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT));
+            dialog.addContentView(layout, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT));
 
             // set the confirm button
             if (positiveButtonText != null) {

@@ -25,7 +25,7 @@
     <style name="MainAct_Bottom_RadioButton_Text">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textSize">9sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@drawable/bottom_color_change_text</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
@@ -37,13 +37,13 @@
     <style name="Dialog" parent="android:style/Theme.Dialog">
 
         <item name="android:windowFrame">@null</item><!-- 边框 -->
-        <item name="android:background">@drawable/bg_circle_stroke</item>
+        <item name="android:background">@drawable/bg_circle_dialog_stroke</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:backgroundDimAmount">0.3</item>
     </style>
     <!--简约界面item:关注/参加字体样式-->
     <style name="MainAct_simple_Text">
