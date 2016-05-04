@@ -12,6 +12,50 @@
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
     </style>
+    <!--简约/档期-顶部导航栏样式-->
+    <style name="MainAct_Title_TextView">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--简约/档期-底部导航栏字体样式-->
+    <style name="MainAct_Bottom_RadioButton_Text">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@drawable/bottom_color_change_text</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="com.boyuanitsm.zhetengba:myDrawableSize">29dp</item>
+    </style>
+
+    <!--活动详情对话框样式-->
+    <style name="Dialog" parent="android:style/Theme.Dialog">
+
+        <item name="android:windowFrame">@null</item><!-- 边框 -->
+        <item name="android:background">@drawable/bg_circle_dialog_stroke</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+    </style>
+    <!--简约界面item:关注/参加字体样式-->
+    <style name="MainAct_simple_Text">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/simple_item_loaction</item>
+    </style>
+    <style name="MainAct_simple_cale_Text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/main_color</item>
+    </style>
 
 
 
@@ -55,4 +99,19 @@
 
 
 
+<!--频道：赞、评论、分享图片样式-->
+    <style name="Chanel_Small_Image">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">20dp</item>
+    </style>
+    <!--频道:赞、评论、分享文字样式-->
+    <style name="Chanel_Small_Text">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/simple_item_loaction</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
 </resources>

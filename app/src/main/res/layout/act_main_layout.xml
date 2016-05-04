@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.MainActivity">
+
+
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingBottom="50dp"></FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@drawable/background"
+        android:layout_gravity="bottom">
+
+
+        <RadioGroup
+            android:id="@+id/rg_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
+                android:gravity="center"
+                android:id="@+id/rb_cal"
+                style="@style/MainAct_Bottom_RadioButton_Text"
+                android:layout_weight="1"
+                android:clickable="true"
+                app:drawableTop="@drawable/bottom_picchange_calen"
+                 app:myDrawableSize="29dp"
+                android:text="档期" />
+
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
+                android:layout_weight="1"
+                android:id="@+id/rb_mes"
+                style="@style/MainAct_Bottom_RadioButton_Text"
+                app:drawableTop="@drawable/bottom_picchange_mess"
+                android:text="消息" />
+
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
+                android:layout_weight="1"
+                android:id="@+id/rb_pl"
+                style="@style/MainAct_Bottom_RadioButton_Text" />
+
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
+                android:layout_weight="1"
+                android:id="@+id/rb_cir"
+                style="@style/MainAct_Bottom_RadioButton_Text"
+                app:drawableTop="@drawable/bottom_picchange_circle"
+                android:text="圈子" />
+
+            <com.boyuanitsm.zhetengba.view.MyRadioButton
+                android:layout_weight="1"
+                android:id="@+id/rb_my"
+                style="@style/MainAct_Bottom_RadioButton_Text"
+                app:drawableTop="@drawable/bottom_picchange_my"
+                android:text="我的" />
+
+
+        </RadioGroup>
+        <FrameLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_gravity="bottom">
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_plane"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="11dp"
+                android:src="@drawable/plane"/>
+            </LinearLayout>
+        </FrameLayout>
+
+    </FrameLayout>
+</FrameLayout>

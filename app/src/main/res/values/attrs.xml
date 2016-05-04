@@ -6,6 +6,17 @@
         <attr name="border_color" format="color" />
     </declare-styleable>
 
+<!--自定义radiobutton-->
+    <declare-styleable name="MyRadioButton">
+
+        <attr name="myDrawableSize" format="dimension"/>
+        <attr name="drawableTop" format="reference"/>
+        <attr name="drawableLeft" format="reference"/>
+        <attr name="drawableRight" format="reference"/>
+        <attr name="drawableBottom" format="reference"/>
+
+    </declare-styleable>
+
     <!--自定义CommonView-->
 
     <declare-styleable name="CommonView">
@@ -38,6 +49,7 @@
         <attr name="spotColor" format="reference|color">
         </attr>
     </declare-styleable>
+
 
 
 

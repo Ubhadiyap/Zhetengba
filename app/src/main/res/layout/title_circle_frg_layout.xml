@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/main_color">
+
+    <LinearLayout
+        android:id="@+id/ll_title_border"
+        android:layout_width="137dp"
+        android:layout_height="27dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_circle_stroke_yes_white">
+
+        <TextView
+            android:id="@+id/tv_chanel"
+            style="@style/MainAct_Title_TextView"
+            android:text="@string/title_chanel"
+            android:textColor="#52c791"
+            android:background="@drawable/bg_left_white_circle_yes_stroke"/>
+
+        <TextView
+            style="@style/MainAct_Title_TextView"
+            android:id="@+id/tv_circle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/title_circle"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_marginLeft="59dp"
+       android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp">
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/quan"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/quan"/>
+            <ImageView
+                android:id="@+id/newmes"
+                android:layout_marginLeft="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/newmes"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
