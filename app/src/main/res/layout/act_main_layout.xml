@@ -31,11 +31,13 @@
 
 
             <com.boyuanitsm.zhetengba.view.MyRadioButton
+
                 android:gravity="center"
                 android:id="@+id/rb_cal"
                 style="@style/MainAct_Bottom_RadioButton_Text"
                 android:layout_weight="1"
                 android:clickable="true"
+
                 app:drawableTop="@drawable/bottom_picchange_calen"
                  app:myDrawableSize="29dp"
                 android:text="档期" />
@@ -48,7 +50,7 @@
                 android:text="消息" />
 
             <com.boyuanitsm.zhetengba.view.MyRadioButton
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:id="@+id/rb_pl"
                 style="@style/MainAct_Bottom_RadioButton_Text" />
 

@@ -26,4 +26,9 @@
 
 <!--dialog-窗体背景-->
     <color name="dialog_act">#cfcfcf</color>
+    <!--发布，圆形-->
+    <color name="plan_red">#FB8BA8</color>
+    <color name="plan_green">#5BDEBD</color>
+    <!--透明度设置-->
+    <color name="translucent_background">#50000000</color>
 </resources>

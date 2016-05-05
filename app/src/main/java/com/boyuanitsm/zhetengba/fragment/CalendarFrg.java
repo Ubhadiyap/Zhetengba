@@ -117,6 +117,7 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
     }
 
     /**
+     * 待解决：对话框布局有出入
      * 选择对话框，选择好友/全部
      */
     private void selectPop() {

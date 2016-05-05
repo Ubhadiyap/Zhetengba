@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,6 +39,7 @@ public class SimpleFrg extends Fragment{
     private TextView tv_guanzhu_num;//关注数量设置
     private int gznum=0;//默认关注人数0
     private boolean tag=true;
+    private boolean image_record_out,isComment;
     private ImageHandler handler = new ImageHandler(new WeakReference<SimpleFrg>(this));
 
     @Override
@@ -48,17 +50,72 @@ public class SimpleFrg extends Fragment{
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.addHeaderView(viewHeader_act);
         adapter = new ActAdapter(getActivity());
-        lv_act.setAdapter(adapter);
+        lv_act.setAdapter(adapter);/*
+        updateZan(lv_act,1);*/
         //设置listview条目点击事件
         lv_act.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 ll_guanzhu = (LinearLayout) view.findViewById(R.id.ll_guanzhu);
                 iv_simple_guanzhu = (ImageView) view.findViewById(R.id.iv_simple_guanzhu);
                 tv_guanzhu_num = (TextView) view.findViewById(R.id.tv_guanzhu_num);
-                ll_guanzhu.setOnClickListener(new View.OnClickListener() {
+                showDialog();
+                View.OnTouchListener listener=new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                switch (v.getId()) {
+                                    case R.id.iv_simple_guanzhu:
+                                        image_record_out = false;
+                                        iv_simple_guanzhu.setAlpha(0.5f);
+                                        break;
+                                }
+                                break;
+                            case MotionEvent.ACTION_MOVE:
+                                switch (v.getId()) {//手指一旦离开点赞的控件，就把点击事件取消
+                                    case R.id.iv_simple_guanzhu:
+                                        int x = (int) event.getX();
+                                        int y = (int) event.getY();
+                                        if (x < 0 || y < 0 || x > iv_simple_guanzhu.getWidth() || y > iv_simple_guanzhu.getHeight()) {
+                                            image_record_out = true;
+                                        }
+                                        break;
+                                }
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                switch (v.getId()) {
+                                    case R.id.iv_simple_guanzhu://点赞
+                                        iv_simple_guanzhu.setAlpha(1.0f);
+                                if (!image_record_out) {
+                                    //这里开始啦
+                                    // 得到你点击的item的position；然后请求你的网络接口，你会问这个网络接口是啥子，这么说：写后台那个人给你写的网络接口。
+                                    // commentAttention这个就是我调用网络接口的方法，我这里就直接强转了。
+                                    // commentAttention方法就在InformationActivity类里面
+                                    /*((InformationActivity) context).commentAttention(position);*/
+                                    updateZan(position);
+                                }
+
+                                        break;
+                                }
+                                break;
+                            case MotionEvent.ACTION_CANCEL:
+                                switch (v.getId()) {
+                                    case R.id.iv_simple_guanzhu:
+                                        iv_simple_guanzhu.setAlpha(1.0f);
+                                        break;
+                                }
+                        }
+                        return true;
+                    }
+                };
+                iv_simple_guanzhu.setOnTouchListener(listener);
+                /*ll_guanzhu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        switch (v.getId()){
+
+                        }
                         if (tag == true) {
                             iv_simple_guanzhu.setBackgroundDrawable(v.getResources().getDrawable(R.drawable.collect_b));
                             ++gznum;
@@ -71,7 +128,7 @@ public class SimpleFrg extends Fragment{
                             tag = true;
                         }
                     }
-                });
+                });*/
             }
         });
         //设置viewpager
@@ -135,6 +192,35 @@ public class SimpleFrg extends Fragment{
         builder.create().show();
 
 
+    }
+
+    /***
+     *
+     * 待解决：点击图片没有切换
+     * 设置点赞图片内部更新
+     */
+    //实现单个item刷新  参数就是adapter里面传过来的你点击的哪一个ListView的position
+    private void updateZan(int position) {
+        //得到你屏幕上第一个显示的item
+        int firstVisiblePosition = lv_act.getFirstVisiblePosition();
+        //得到你屏幕上最后一个显示的item
+        int lastVisiblePosition = lv_act.getLastVisiblePosition();
+        if (position >= firstVisiblePosition && position <= lastVisiblePosition) {
+            //得到你点击的item的view
+            View view = lv_act.getChildAt(position - firstVisiblePosition);
+            if (view.getTag() instanceof ActAdapter.Holder) {
+                //拿到view的Tag,强转成CommentAdapter的ViewHolder
+                ActAdapter.Holder holder = (ActAdapter.Holder) view.getTag();
+                if (!isComment) {// 这里我用了一个变量来控制，点第一次时，点赞成功，点赞控件显示蓝色的图标，
+                    // 点击第二次时，取消点赞，点赞控件显示灰色的图标。
+                    isComment = true;
+                    holder.iv_simple_guanzhu.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.collect_b));
+                } else {
+                    isComment = false;
+                    holder.iv_simple_guanzhu.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.collect));
+                }
+            }
+        }
     }
 
     private static class ImageHandler extends android.os.Handler {
