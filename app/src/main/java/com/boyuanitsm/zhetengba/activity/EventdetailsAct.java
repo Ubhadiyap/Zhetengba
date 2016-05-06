@@ -6,6 +6,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
+ *
  * Created by bitch-1 on 2016/4/28.
  */
 public class EventdetailsAct extends BaseActivity {

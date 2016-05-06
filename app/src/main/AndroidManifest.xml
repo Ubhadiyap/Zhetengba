@@ -61,6 +61,9 @@
         <activity
             android:name=".activity.SystemmesAct"
             android:screenOrientation="portrait"></activity>
+        <!--圈子管理界面-->
+        <activity android:name=".activity.CircleglAct"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 
