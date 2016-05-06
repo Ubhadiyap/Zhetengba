@@ -34,5 +34,6 @@ public class LoginAct extends BaseActivity {
             }
         });
 
-    }
+  }
+
 }
