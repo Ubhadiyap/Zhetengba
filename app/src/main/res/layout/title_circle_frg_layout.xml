@@ -40,12 +40,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/quan"
+                android:id="@+id/iv_quan"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/quan"/>
             <ImageView
-                android:id="@+id/newmes"
+                android:id="@+id/iv_newmes"
                 android:layout_marginLeft="15dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
