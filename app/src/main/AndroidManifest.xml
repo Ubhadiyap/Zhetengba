@@ -66,13 +66,13 @@
         <activity android:name=".activity.CircleglAct"
             android:screenOrientation="portrait"></activity>
 
-        <!--&lt;!&ndash;圈子：圈子消息界面&ndash;&gt;-->
-        <!--<activity android:name=".activity.CirMess"-->
-            <!--android:screenOrientation="portrait"></activity>-->
-        <!--&lt;!&ndash;圈子：我的发布界面&ndash;&gt;-->
-        <!--<activity android:name=".activity.MyPlane"-->
-            <!--android:screenOrientation="portrait">-->
-        <!--</activity>-->
+        <!--圈子：圈子消息界面-->
+        <activity android:name=".activity.CirMess"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子：我的发布界面-->
+        <activity android:name=".activity.MyPlane"
+            android:screenOrientation="portrait">
+        </activity>
 
     </application>
 
