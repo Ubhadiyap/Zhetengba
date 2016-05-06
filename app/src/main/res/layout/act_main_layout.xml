@@ -52,6 +52,7 @@
             <com.boyuanitsm.zhetengba.view.MyRadioButton
                 android:layout_weight="1.5"
                 android:id="@+id/rb_pl"
+                android:clickable="false"
                 style="@style/MainAct_Bottom_RadioButton_Text" />
 
             <com.boyuanitsm.zhetengba.view.MyRadioButton

@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.nfc.Tag;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.PersonalmesAct;
 import com.boyuanitsm.zhetengba.fragment.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.SimpleFrg;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
@@ -28,23 +30,28 @@ import org.w3c.dom.ProcessingInstruction;
 public class ActAdapter extends BaseAdapter{
 /*    private List<Person> persons;*/
     private Context context;
-    private LinearLayout ll_person;//个人信息id
-    private TextView tv_hdtheme;//活动主题
-    private TextView tv_loaction;//活动位置
-    private TextView tv_date;//活动日期
-    private LinearLayout ll_guanzhu;//关注数量
-    private ImageView iv_simple_guanzhu;//关注图标
-    private TextView tv_guanzhu_num;//关注数量设置
-    private LinearLayout ll_join;//参加人数
-    private ImageView iv_join;//参加头像
-    private TextView tv_join_num;//参加数量
-    private TextView tv_join_tal_num;//活动总人数设置
-    private ImageView iv_actdetial;//活动标签
-    private TextView tv_text_jion;//参加，取消参加
-    private TextView tv_text_guanzhu;//关注文本
-    private int gznum=0;//默认关注人数0
+//    private LinearLayout ll_person;//个人信息id
+//    private TextView tv_hdtheme;//活动主题
+//    private TextView tv_loaction;//活动位置
+//    private TextView tv_date;//活动日期
+//    private LinearLayout ll_guanzhu;//关注数量
+//    private ImageView iv_simple_guanzhu;//关注图标
+//    private TextView tv_guanzhu_num;//关注数量设置
+//    private LinearLayout ll_join;//参加人数
+//    private ImageView iv_join;//参加头像
+//    private TextView tv_join_num;//参加数量
+//    private TextView tv_join_tal_num;//活动总人数设置
+//    private ImageView iv_actdetial;//活动标签
+//    private TextView tv_text_jion;//参加，取消参加
+//    private TextView tv_text_guanzhu;//关注文本
+//    private int gznum=0;//默认关注人数0
     private boolean image_record_out;
     private IUpdateZan iUpdateZan;
+    public interface IUpdateZan{
+        void registGuanZhu(int position);
+        void registJoin(int position);
+
+    }
 
     public ActAdapter(Context context ,IUpdateZan updateZan) {
         this.context=context;
@@ -209,6 +216,7 @@ public class ActAdapter extends BaseAdapter{
                 return true;
             }
         });
+        //展示活动详情
         View.OnClickListener listener=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,22 +227,23 @@ public class ActAdapter extends BaseAdapter{
         viewHolder.tv_loaction.setOnClickListener(listener);
         viewHolder.iv_actdetial.setOnClickListener(listener);
         viewHolder.tv_date.setOnClickListener(listener);
+        //展示个人资料
+        View.OnClickListener listener1=new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setClass(context, PersonalmesAct.class);
+                context.startActivity(intent);
+            }
+        };
+        viewHolder.iv_headphoto.setOnClickListener(listener1);
+        viewHolder.tv_niName.setOnClickListener(listener1);
           /*init(view);*/
          /* initData();*/
         return convertView;
     }
-    public interface IUpdateZan{
-        void registGuanZhu(int position);
-        void registJoin(int position);
-
-    }
-    /***
-     * 填充控件数据
-     */
-    private void initData() {
 
 
-    }
     /***
      * 设置条目点击显示活动详情dialog
      *
@@ -258,59 +267,6 @@ public class ActAdapter extends BaseAdapter{
 
 
     }
-
-//    /***
-//     * 初始化条目控件
-//     * @param view
-//     */
-//   private void init(View view) {
-//        ll_person = (LinearLayout) view.findViewById(R.id.ll_person);
-//        tv_hdtheme = (TextView) view.findViewById(R.id.tv_hdtheme);
-//        tv_loaction= (TextView) view.findViewById(R.id.tv_loaction);
-//        tv_date= (TextView)view.findViewById(R.id.tv_date);
-//        ll_guanzhu= (LinearLayout)view.findViewById(R.id.ll_guanzhu);
-//       iv_simple_guanzhu= (ImageView)view.findViewById(R.id.iv_simple_guanzhu);
-//        tv_guanzhu_num= (TextView)view.findViewById(R.id.tv_guanzhu_num);
-//        ll_join= (LinearLayout)view.findViewById(R.id.ll_join);
-//        tv_loaction= (TextView)view.findViewById(R.id.tv_loaction);
-//        iv_join = (ImageView) view.findViewById(R.id.iv_join);
-//        tv_join_num= (TextView)view.findViewById(R.id.tv_join_num);
-//        tv_join_tal_num= (TextView)view.findViewById(R.id.tv_join_tal_num);
-//        tv_text_jion = (TextView)view.findViewById(R.id.tv_text_jion);
-//
-//   }
-
-
-   /* @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.ll_person:
-               //展示个人页面
-                break;
-            case R.id.tv_hdtheme:
-                //显示活动主题dialog
-                break;
-            case  R.id.ll_theme_location:
-                //显示活动主题dialog
-                break;
-            case  R.id.tv_date:
-                //显示活动主题dialog
-                break;
-         *//*   case R.id.ll_guanzhu:
-                //关注活动，关注图标变色，关注数目tv_guanzhu_num++；
-                changeIconText(v,tag);
-                tag=false;
-                break;*//*
-            case R.id.ll_join:
-                //参加活动，参加活动图标变色，活动数目tv_join_num++，颜色变红；tv_join_tal总数不变。
-                break;
-            case R.id.iv_actdetial:
-                //显示活动主题dialog
-                break;
-
-        }
-        
-    }*/
 
    public static class Holder {
        public ImageView iv_headphoto;//头像
