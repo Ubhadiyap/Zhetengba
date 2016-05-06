@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -88,39 +89,39 @@ public class CustomDialog extends Dialog {
             this.contentView = v;
             return this;
         }
-
-        /**
-         * Set the positive button resource and it's listener
-         */
-        public Builder setPositiveButton(int positiveButtonText,
-                                         OnClickListener listener) {
-            this.positiveButtonText = (String) context
-                    .getText(positiveButtonText);
-            this.positiveButtonClickListener = listener;
-            return this;
-        }
-
-        public Builder setPositiveButton(String positiveButtonText,
-                                         OnClickListener listener) {
-            this.positiveButtonText = positiveButtonText;
-            this.positiveButtonClickListener = listener;
-            return this;
-        }
-
-        public Builder setNegativeButton(int negativeButtonText,
-                                         OnClickListener listener) {
-            this.negativeButtonText = (String) context
-                    .getText(negativeButtonText);
-            this.negativeButtonClickListener = listener;
-            return this;
-        }
-
-        public Builder setNegativeButton(String negativeButtonText,
-                                         OnClickListener listener) {
-            this.negativeButtonText = negativeButtonText;
-            this.negativeButtonClickListener = listener;
-            return this;
-        }
+//
+//        /**
+//         * Set the positive button resource and it's listener
+//         */
+//        public Builder setPositiveButton(int positiveButtonText,
+//                                         OnClickListener listener) {
+//            this.positiveButtonText = (String) context
+//                    .getText(positiveButtonText);
+//            this.positiveButtonClickListener = listener;
+//            return this;
+//        }
+//
+//        public Builder setPositiveButton(String positiveButtonText,
+//                                         OnClickListener listener) {
+//            this.positiveButtonText = positiveButtonText;
+//            this.positiveButtonClickListener = listener;
+//            return this;
+//        }
+//
+//        public Builder setNegativeButton(int negativeButtonText,
+//                                         OnClickListener listener) {
+//            this.negativeButtonText = (String) context
+//                    .getText(negativeButtonText);
+//            this.negativeButtonClickListener = listener;
+//            return this;
+//        }
+//
+//        public Builder setNegativeButton(String negativeButtonText,
+//                                         OnClickListener listener) {
+//            this.negativeButtonText = negativeButtonText;
+//            this.negativeButtonClickListener = listener;
+//            return this;
+//        }
 
         public CustomDialog create() {
             LayoutInflater inflater = (LayoutInflater) context
@@ -128,49 +129,14 @@ public class CustomDialog extends Dialog {
             final CustomDialog dialog = new CustomDialog(context, R.style.Dialog);
             View layout = inflater.inflate(R.layout.act_frag_act_dialog, null);
             dialog.addContentView(layout, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT));
-
-            // set the confirm button
-            if (positiveButtonText != null) {
-                ((Button) layout.findViewById(R.id.bt_act_dialog_one))
-                        .setText(positiveButtonText);
-                if (positiveButtonClickListener != null) {
-                    ((Button) layout.findViewById(R.id.bt_act_dialog_one))
-                            .setOnClickListener(new View.OnClickListener() {
-                                public void onClick(View v) {
-                                    positiveButtonClickListener.onClick(dialog,
-                                            DialogInterface.BUTTON_POSITIVE);
-                                }
-                            });
-                }
-            } else {
-                // if no confirm button just set the visibility to GONE
-                layout.findViewById(R.id.bt_act_dialog_one).setVisibility(
-                        View.GONE);
-            }
-            // set the cancel button
-            if (negativeButtonText != null) {
-                ((Button) layout.findViewById(R.id.bt_act_dialog_two))
-                        .setText(negativeButtonText);
-                if (negativeButtonClickListener != null) {
-                    ((Button) layout.findViewById(R.id.bt_act_dialog_two))
-                            .setOnClickListener(new View.OnClickListener() {
-                                public void onClick(View v) {
-                                    negativeButtonClickListener.onClick(dialog,
-                                            DialogInterface.BUTTON_NEGATIVE);
-                                }
-                            });
-                }
-            } else {
-                // if no confirm button just set the visibility to GONE
-                layout.findViewById(R.id.bt_act_dialog_two).setVisibility(
-                        View.GONE);
-            }
-            // set the content message
-            if (message != null) {
-                ((TextView) layout.findViewById(R.id.act_dialog_message)).setText(message);
-            } else if (contentView != null) {
-            }
             dialog.setContentView(layout);
+            ImageView iv_cancel = (ImageView) layout.findViewById(R.id.iv_cancel);
+            iv_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
             return dialog;
         }
     }

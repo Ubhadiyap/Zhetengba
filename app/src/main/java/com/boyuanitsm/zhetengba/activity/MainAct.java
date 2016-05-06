@@ -6,16 +6,21 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.fragment.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.CircleFrg;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
+import com.boyuanitsm.zhetengba.utils.ZtbUtils;
+import com.boyuanitsm.zhetengba.view.PlaneDialog;
 
 /***
  * 设置首页信息
@@ -25,6 +30,7 @@ public class MainAct extends FragmentActivity {
     private CalendarFrg calendarFrg;
     private CircleFrg circleFrg;
     private MessFrg messFrg;
+    private  PlaneDialog planeDialog;
     private final static int[] icons = {R.drawable.menu_ticket_b, R.drawable.menu_chat_b, R.drawable.menu_loop_b, R.drawable.menu_me_b};
 
     @Override
@@ -42,13 +48,12 @@ public class MainAct extends FragmentActivity {
         RadioGroup rg_button = (RadioGroup) findViewById(R.id.rg_button);
         RadioButton rb_cal = (RadioButton) findViewById(R.id.rb_cal);
         ImageView iv_plane = (ImageView) findViewById(R.id.iv_plane);
+        planeDialog=new PlaneDialog(this);
         rb_cal.setChecked(true);
         iv_plane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getApplicationContext(), PubAct.class);
-                startActivity(intent);
+                planeDialog.show();
             }
         });
         rg_button.setOnCheckedChangeListener(new OnRadiGrroupCheckedChangeListener());
@@ -113,11 +118,6 @@ public class MainAct extends FragmentActivity {
                     } else {
                         transaction.show(messFrg);
                     }
-                    break;
-                case R.id.rb_pl://点击显示：发布界面
-                    Intent intent = new Intent();
-                    intent.setClass(getApplicationContext(), PubAct.class);
-                    startActivity(intent);
                     break;
                 case R.id.rb_cir://点击显示：圈子界面
                     if (circleFrg == null) {

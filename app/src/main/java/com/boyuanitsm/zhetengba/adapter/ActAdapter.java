@@ -1,6 +1,8 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.nfc.Tag;
 import android.view.MotionEvent;
@@ -12,6 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.fragment.CalendarFrg;
+import com.boyuanitsm.zhetengba.fragment.SimpleFrg;
+import com.boyuanitsm.zhetengba.view.CustomDialog;
+
+import org.w3c.dom.ProcessingInstruction;
 
 /**
  * 活动listview适配器.
@@ -33,11 +40,15 @@ public class ActAdapter extends BaseAdapter{
     private TextView tv_join_num;//参加数量
     private TextView tv_join_tal_num;//活动总人数设置
     private ImageView iv_actdetial;//活动标签
+    private TextView tv_text_jion;//参加，取消参加
+    private TextView tv_text_guanzhu;//关注文本
     private int gznum=0;//默认关注人数0
     private boolean image_record_out;
+    private IUpdateZan iUpdateZan;
 
-    public ActAdapter(Context context) {
+    public ActAdapter(Context context ,IUpdateZan updateZan) {
         this.context=context;
+        this.iUpdateZan=updateZan;
     }
 
     @Override
@@ -57,7 +68,7 @@ public class ActAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final Holder viewHolder;
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (Holder) convertView.getTag();
@@ -80,6 +91,8 @@ public class ActAdapter extends BaseAdapter{
             viewHolder.tv_join_tal_num= (TextView)convertView.findViewById(R.id.tv_join_tal_num);
             viewHolder.iv_gender= (ImageView) convertView.findViewById(R.id.iv_gender);
             viewHolder.iv_actdetial = (ImageView) convertView.findViewById(R.id.iv_actdetial);
+            viewHolder.tv_text_jion = (TextView)convertView.findViewById(R.id.tv_text_jion);
+            viewHolder.tv_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
             convertView.setTag(viewHolder);
 
         }
@@ -90,19 +103,20 @@ public class ActAdapter extends BaseAdapter{
         viewHolder.tv_join_num.setText(0+"");
         viewHolder.tv_join_tal_num.setText(15+"");
         viewHolder.tv_date.setText("3月6日 15：00—18：30");
+        viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
         viewHolder.iv_headphoto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_user));
         viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));
         viewHolder.iv_actdetial.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_01));
         viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
         viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));//默认图标
-        //设置图标动态效果
-        /*viewHolder.iv_simple_guanzhu.setOnTouchListener(new View.OnTouchListener() {
+        //设置关注图标动态效果
+        viewHolder.ll_guanzhu.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         switch (v.getId()) {
-                            case R.id.iv_simple_guanzhu:
+                            case R.id.ll_guanzhu:
                                 image_record_out = false;
                                 viewHolder.iv_simple_guanzhu.setAlpha(0.5f);
                                 break;
@@ -110,10 +124,10 @@ public class ActAdapter extends BaseAdapter{
                         break;
                     case MotionEvent.ACTION_MOVE:
                         switch (v.getId()) {//手指一旦离开点赞的控件，就把点击事件取消
-                            case R.id.iv_simple_guanzhu:
+                            case R.id.ll_guanzhu:
                                 int x = (int) event.getX();
                                 int y = (int) event.getY();
-                                if (x < 0 || y < 0 || x > viewHolder.iv_simple_guanzhu.getWidth() || y > viewHolder.iv_simple_guanzhu.getHeight()) {
+                                if (x < 0 || y < 0 || x > viewHolder.ll_guanzhu.getWidth() || y > viewHolder.ll_guanzhu.getHeight()) {
                                     image_record_out = true;
                                 }
                                 break;
@@ -121,33 +135,99 @@ public class ActAdapter extends BaseAdapter{
                         break;
                     case MotionEvent.ACTION_UP:
                         switch (v.getId()) {
-                            case R.id.iv_simple_guanzhu://点赞
+                            case R.id.ll_guanzhu://点赞
                                 viewHolder.iv_simple_guanzhu.setAlpha(1.0f);
-                                *//*if (!image_record_out) {
+                               /* *//**//*if (!image_record_out) {
                                     //这里开始啦
                                     // 得到你点击的item的position；然后请求你的网络接口，你会问这个网络接口是啥子，这么说：写后台那个人给你写的网络接口。
                                     // commentAttention这个就是我调用网络接口的方法，我这里就直接强转了。
                                     // commentAttention方法就在InformationActivity类里面
                                     ((InformationActivity) context).commentAttention(position);
-                                }*//*
+                                }*//**//**/
+                                /*((CalendarFrg)context).updateZan(position);*/
+                                iUpdateZan.registGuanZhu(position + 1);
                                 break;
                         }
                         break;
                     case MotionEvent.ACTION_CANCEL:
                         switch (v.getId()) {
-                            case R.id.iv_simple_guanzhu:
+                            case R.id.ll_guanzhu:
                                 viewHolder.iv_simple_guanzhu.setAlpha(1.0f);
                                 break;
                         }
                 }
                 return true;
             }
-        });*/
+        });
+        //设置参加图标动态效果
+        viewHolder.ll_join.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        switch (v.getId()) {
+                            case R.id.ll_join:
+                                image_record_out = false;
+                                viewHolder.iv_join.setAlpha(0.5f);
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        switch (v.getId()) {//手指一旦离开点赞的控件，就把点击事件取消
+                            case R.id.ll_join:
+                                int x = (int) event.getX();
+                                int y = (int) event.getY();
+                                if (x < 0 || y < 0 || x > viewHolder.ll_join.getWidth() || y > viewHolder.ll_join.getHeight()) {
+                                    image_record_out = true;
+                                }
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        switch (v.getId()) {
+                            case R.id.ll_join://点赞
+                                viewHolder.iv_join.setAlpha(1.0f);
+                               /* *//**//*if (!image_record_out) {
+                                    //这里开始啦
+                                    // 得到你点击的item的position；然后请求你的网络接口，你会问这个网络接口是啥子，这么说：写后台那个人给你写的网络接口。
+                                    // commentAttention这个就是我调用网络接口的方法，我这里就直接强转了。
+                                    // commentAttention方法就在InformationActivity类里面
+                                    ((InformationActivity) context).commentAttention(position);
+                                }*//**//**/
+                                /*((CalendarFrg)context).updateZan(position);*/
+                                iUpdateZan.registJoin(position + 1);
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        switch (v.getId()) {
+                            case R.id.ll_join:
+                                viewHolder.iv_join.setAlpha(1.0f);
+                                break;
+                        }
+                }
+                return true;
+            }
+        });
+        View.OnClickListener listener=new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        };
+        viewHolder.tv_hdtheme.setOnClickListener(listener);
+        viewHolder.tv_loaction.setOnClickListener(listener);
+        viewHolder.iv_actdetial.setOnClickListener(listener);
+        viewHolder.tv_date.setOnClickListener(listener);
           /*init(view);*/
          /* initData();*/
         return convertView;
     }
+    public interface IUpdateZan{
+        void registGuanZhu(int position);
+        void registJoin(int position);
 
+    }
     /***
      * 填充控件数据
      */
@@ -155,26 +235,50 @@ public class ActAdapter extends BaseAdapter{
 
 
     }
-
     /***
-     * 初始化条目控件
-     * @param view
+     * 设置条目点击显示活动详情dialog
+     *
+     * @param
      */
-   private void init(View view) {
-        ll_person = (LinearLayout) view.findViewById(R.id.ll_person);
-        tv_hdtheme = (TextView) view.findViewById(R.id.tv_hdtheme);
-        tv_loaction= (TextView) view.findViewById(R.id.tv_loaction);
-        tv_date= (TextView)view.findViewById(R.id.tv_date);
-        ll_guanzhu= (LinearLayout)view.findViewById(R.id.ll_guanzhu);
-       iv_simple_guanzhu= (ImageView)view.findViewById(R.id.iv_simple_guanzhu);
-        tv_guanzhu_num= (TextView)view.findViewById(R.id.tv_guanzhu_num);
-        ll_join= (LinearLayout)view.findViewById(R.id.ll_join);
-        tv_loaction= (TextView)view.findViewById(R.id.tv_loaction);
-        iv_join = (ImageView) view.findViewById(R.id.iv_join);
-        tv_join_num= (TextView)view.findViewById(R.id.tv_join_num);
-        tv_join_tal_num= (TextView)view.findViewById(R.id.tv_join_tal_num);
+    private void showDialog() {
+        CustomDialog.Builder builder = new CustomDialog.Builder(context);
+//        builder.setPositiveButton("你们两个是同事", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//            }
+//        });
+//        builder.setNegativeButton("共参加过2次活动", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//            }
+//        });
+        builder.create().show();
+
 
     }
+
+//    /***
+//     * 初始化条目控件
+//     * @param view
+//     */
+//   private void init(View view) {
+//        ll_person = (LinearLayout) view.findViewById(R.id.ll_person);
+//        tv_hdtheme = (TextView) view.findViewById(R.id.tv_hdtheme);
+//        tv_loaction= (TextView) view.findViewById(R.id.tv_loaction);
+//        tv_date= (TextView)view.findViewById(R.id.tv_date);
+//        ll_guanzhu= (LinearLayout)view.findViewById(R.id.ll_guanzhu);
+//       iv_simple_guanzhu= (ImageView)view.findViewById(R.id.iv_simple_guanzhu);
+//        tv_guanzhu_num= (TextView)view.findViewById(R.id.tv_guanzhu_num);
+//        ll_join= (LinearLayout)view.findViewById(R.id.ll_join);
+//        tv_loaction= (TextView)view.findViewById(R.id.tv_loaction);
+//        iv_join = (ImageView) view.findViewById(R.id.iv_join);
+//        tv_join_num= (TextView)view.findViewById(R.id.tv_join_num);
+//        tv_join_tal_num= (TextView)view.findViewById(R.id.tv_join_tal_num);
+//        tv_text_jion = (TextView)view.findViewById(R.id.tv_text_jion);
+//
+//   }
 
 
    /* @Override
@@ -208,26 +312,6 @@ public class ActAdapter extends BaseAdapter{
         
     }*/
 
-    /***
-     * 修改背景，数目
-     * @param v
-     * @param tag
-     */
-    private void changeIconText(View v, boolean tag) {
-        if (tag){
-            iv_simple_guanzhu.setBackgroundDrawable(v.getResources().getDrawable(R.drawable.collect_b));
-            tv_guanzhu_num.setText("关注" + (gznum++));
-                    tag=false;
-
-        }else {
-            iv_simple_guanzhu.setBackgroundDrawable(v.getResources().getDrawable(R.drawable.collect));
-            tv_guanzhu_num.setText("参加" + (gznum--));
-            tag=true;
-        }
-
-
-    }
-
    public static class Holder {
        public ImageView iv_headphoto;//头像
        public TextView tv_niName;//昵称
@@ -237,6 +321,7 @@ public class ActAdapter extends BaseAdapter{
        public TextView tv_date;//活动日期
        public LinearLayout ll_guanzhu;//关注数量
        public ImageView iv_simple_guanzhu;//关注图标
+       public TextView tv_text_guanzhu;//关注文本
        public TextView tv_guanzhu_num;//关注数量设置
        public LinearLayout ll_join;//参加人数
        public ImageView iv_join;//参加头像
@@ -244,7 +329,11 @@ public class ActAdapter extends BaseAdapter{
        public TextView tv_join_tal_num;//活动总人数设置
        public ImageView iv_actdetial;//活动标签
        public ImageView iv_gender;//性别
+       public TextView tv_text_jion;//参加/取消参加
        public int gznum=0;//默认关注人数0
+       public int jionum=0;//默认参加人数0；
 
     }
+
+
 }

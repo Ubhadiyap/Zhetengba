@@ -19,7 +19,7 @@ import com.boyuanitsm.zhetengba.R;
  */
 public class CalendarFrg extends Fragment implements View.OnClickListener {
     private FragmentManager childFragmentManager;//frg嵌套，拿到子管理器
-    private SimpleFrg simpleFrg;
+    public SimpleFrg simpleFrg;
     private CalFrg calFrg;
     private TextView tv_simple, tv_calendar;//拿到
     private boolean tag = true;

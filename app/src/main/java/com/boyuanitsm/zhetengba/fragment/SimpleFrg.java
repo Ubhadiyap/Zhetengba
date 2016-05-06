@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -27,7 +28,7 @@ import java.lang.ref.WeakReference;
  * 简约界面
  * Created by xiaoke on 2016/4/24.
  */
-public class SimpleFrg extends Fragment{
+public class SimpleFrg extends Fragment implements ActAdapter.IUpdateZan{
     private ListView lv_act;
     private View view;
     private ListView lv_calen;
@@ -38,8 +39,9 @@ public class SimpleFrg extends Fragment{
     private ImageView iv_simple_guanzhu;//关注图标
     private TextView tv_guanzhu_num;//关注数量设置
     private int gznum=0;//默认关注人数0
+    private int jionum=0;//默认参加人数0；
     private boolean tag=true;
-    private boolean image_record_out,isComment;
+    private boolean isComment,isComment2;
     private ImageHandler handler = new ImageHandler(new WeakReference<SimpleFrg>(this));
 
     @Override
@@ -49,89 +51,8 @@ public class SimpleFrg extends Fragment{
         lv_act = (ListView) view.findViewById(R.id.lv_act);
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.addHeaderView(viewHeader_act);
-        adapter = new ActAdapter(getActivity());
-        lv_act.setAdapter(adapter);/*
-        updateZan(lv_act,1);*/
-        //设置listview条目点击事件
-        lv_act.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                ll_guanzhu = (LinearLayout) view.findViewById(R.id.ll_guanzhu);
-                iv_simple_guanzhu = (ImageView) view.findViewById(R.id.iv_simple_guanzhu);
-                tv_guanzhu_num = (TextView) view.findViewById(R.id.tv_guanzhu_num);
-                showDialog();
-                View.OnTouchListener listener=new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_DOWN:
-                                switch (v.getId()) {
-                                    case R.id.iv_simple_guanzhu:
-                                        image_record_out = false;
-                                        iv_simple_guanzhu.setAlpha(0.5f);
-                                        break;
-                                }
-                                break;
-                            case MotionEvent.ACTION_MOVE:
-                                switch (v.getId()) {//手指一旦离开点赞的控件，就把点击事件取消
-                                    case R.id.iv_simple_guanzhu:
-                                        int x = (int) event.getX();
-                                        int y = (int) event.getY();
-                                        if (x < 0 || y < 0 || x > iv_simple_guanzhu.getWidth() || y > iv_simple_guanzhu.getHeight()) {
-                                            image_record_out = true;
-                                        }
-                                        break;
-                                }
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                switch (v.getId()) {
-                                    case R.id.iv_simple_guanzhu://点赞
-                                        iv_simple_guanzhu.setAlpha(1.0f);
-                                if (!image_record_out) {
-                                    //这里开始啦
-                                    // 得到你点击的item的position；然后请求你的网络接口，你会问这个网络接口是啥子，这么说：写后台那个人给你写的网络接口。
-                                    // commentAttention这个就是我调用网络接口的方法，我这里就直接强转了。
-                                    // commentAttention方法就在InformationActivity类里面
-                                    /*((InformationActivity) context).commentAttention(position);*/
-                                    updateZan(position);
-                                }
-
-                                        break;
-                                }
-                                break;
-                            case MotionEvent.ACTION_CANCEL:
-                                switch (v.getId()) {
-                                    case R.id.iv_simple_guanzhu:
-                                        iv_simple_guanzhu.setAlpha(1.0f);
-                                        break;
-                                }
-                        }
-                        return true;
-                    }
-                };
-                iv_simple_guanzhu.setOnTouchListener(listener);
-                /*ll_guanzhu.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        switch (v.getId()){
-
-                        }
-                        if (tag == true) {
-                            iv_simple_guanzhu.setBackgroundDrawable(v.getResources().getDrawable(R.drawable.collect_b));
-                            ++gznum;
-                            tv_guanzhu_num.setText("" +gznum);
-                            tag = false;
-
-                        } else {
-                            iv_simple_guanzhu.setBackgroundDrawable(v.getResources().getDrawable(R.drawable.collect));
-                            tv_guanzhu_num.setText("" + (--gznum));
-                            tag = true;
-                        }
-                    }
-                });*/
-            }
-        });
-        //设置viewpager
+        adapter = new ActAdapter(getActivity(),this);
+        lv_act.setAdapter(adapter);
         viewPager = (ViewPager) view.findViewById(R.id.vp_loop_act);
         viewPager.setAdapter(new ImageAdapter(getContext()));
         viewPager.setOnPageChangeListener(new PagerChangeListener());
@@ -140,6 +61,73 @@ public class SimpleFrg extends Fragment{
         handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
         return view;
     }
+   // /实现单个item刷新  参数就是adapter里面传过来的你点击的哪一个ListView的position
+    @Override
+    public void registGuanZhu(int position) {
+        //得到你屏幕上第一个显示的item
+        int firstVisiblePosition = lv_act.getFirstVisiblePosition();
+        //得到你屏幕上最后一个显示的item
+        int lastVisiblePosition = lv_act.getLastVisiblePosition();
+        if (position >= firstVisiblePosition && position <= lastVisiblePosition) {
+            //得到你点击的item的view
+            View view = lv_act.getChildAt(position - firstVisiblePosition);
+            if (view.getTag() instanceof ActAdapter.Holder) {
+                //拿到view的Tag,强转成CommentAdapter的ViewHolder
+                ActAdapter.Holder holder = (ActAdapter.Holder) view.getTag();
+                if (!isComment2) {// 这里我用了一个变量来控制，点第一次时，点赞成功，点赞控件显示蓝色的图标，
+                    // 点击第二次时，取消点赞，点赞控件显示灰色的图标。
+                    isComment2 = true;
+                    holder.iv_simple_guanzhu.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.collect_b));
+                    gznum++;
+                    holder.tv_guanzhu_num.setText(gznum+"");
+                    holder.tv_text_guanzhu.setText("已关注");
+                } else {
+                    isComment2 = false;
+                    holder.iv_simple_guanzhu.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.collect));
+                    gznum--;
+                    holder.tv_guanzhu_num.setText(gznum+"");
+                    holder.tv_text_guanzhu.setText("关注");
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void registJoin(int position) {
+
+        //得到你屏幕上第一个显示的item
+        int firstVisiblePosition = lv_act.getFirstVisiblePosition();
+        //得到你屏幕上最后一个显示的item
+        int lastVisiblePosition = lv_act.getLastVisiblePosition();
+        if (position >= firstVisiblePosition && position <= lastVisiblePosition) {
+            //得到你点击的item的view
+            View view = lv_act.getChildAt(position - firstVisiblePosition);
+            if (view.getTag() instanceof ActAdapter.Holder) {
+                //拿到view的Tag,强转成CommentAdapter的ViewHolder
+                ActAdapter.Holder holder = (ActAdapter.Holder) view.getTag();
+                if (!isComment) {// 这里我用了一个变量来控制，点第一次时，点赞成功，点赞控件显示蓝色的图标，
+                    // 点击第二次时，取消点赞，点赞控件显示灰色的图标。
+                    isComment = true;
+                    holder.iv_join.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.cancel));
+                    holder.tv_text_jion.setText("取消参加");
+                    jionum++;
+                    holder.tv_join_num.setText(jionum+"");
+                    holder.tv_join_num.setTextColor(Color.RED);
+                } else {
+                    isComment = false;
+                    holder.iv_join.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.add));
+                    holder.tv_text_jion.setText("参加");
+                    jionum--;
+                    holder.tv_join_num.setText(jionum+"");
+                    holder.tv_join_num.setTextColor(Color.parseColor("#999999"));
+                }
+            }
+        }
+
+
+    }
+
     /***
      * viewpager监听事件
      */
@@ -177,50 +165,9 @@ public class SimpleFrg extends Fragment{
      */
     private void showDialog() {
         CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-        builder.setPositiveButton("你们两个是同事", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.setNegativeButton("共参加过2次活动", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
         builder.create().show();
 
 
-    }
-
-    /***
-     *
-     * 待解决：点击图片没有切换
-     * 设置点赞图片内部更新
-     */
-    //实现单个item刷新  参数就是adapter里面传过来的你点击的哪一个ListView的position
-    private void updateZan(int position) {
-        //得到你屏幕上第一个显示的item
-        int firstVisiblePosition = lv_act.getFirstVisiblePosition();
-        //得到你屏幕上最后一个显示的item
-        int lastVisiblePosition = lv_act.getLastVisiblePosition();
-        if (position >= firstVisiblePosition && position <= lastVisiblePosition) {
-            //得到你点击的item的view
-            View view = lv_act.getChildAt(position - firstVisiblePosition);
-            if (view.getTag() instanceof ActAdapter.Holder) {
-                //拿到view的Tag,强转成CommentAdapter的ViewHolder
-                ActAdapter.Holder holder = (ActAdapter.Holder) view.getTag();
-                if (!isComment) {// 这里我用了一个变量来控制，点第一次时，点赞成功，点赞控件显示蓝色的图标，
-                    // 点击第二次时，取消点赞，点赞控件显示灰色的图标。
-                    isComment = true;
-                    holder.iv_simple_guanzhu.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.collect_b));
-                } else {
-                    isComment = false;
-                    holder.iv_simple_guanzhu.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.collect));
-                }
-            }
-        }
     }
 
     private static class ImageHandler extends android.os.Handler {
