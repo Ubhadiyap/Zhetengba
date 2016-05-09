@@ -82,7 +82,7 @@
             android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <com.boyuanitsm.zhetengba.view.CircleImageView
+            <GridView
                 android:id="@+id/iv_ch_image"
                 android:layout_width="250dp"
                 android:layout_height="125dp"
