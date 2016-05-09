@@ -21,7 +21,6 @@
                 android:layout_width="116dp"
                 android:layout_height="116dp"
                 android:src="@mipmap/logo" />
-
             <TextView
                 style="@style/tv_second"
                 android:layout_marginTop="31dp"

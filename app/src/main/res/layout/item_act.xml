@@ -55,16 +55,23 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_hdtheme"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="55dp"
-            android:text="下午一起去苏浙汇吃饭"
-            android:textColor="@color/one_color"
-            android:textSize="14sp" />
+            android:layout_height="match_parent"
+            android:paddingLeft="55dp">
+
+            <TextView
+                android:id="@+id/tv_hdtheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+
+                android:text="下午一起去苏浙汇吃饭"
+                android:textColor="@color/one_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,7 +81,7 @@
             android:paddingLeft="50dp">
 
             <LinearLayout
-                android:layout_width="326dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
@@ -122,96 +129,102 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
-                    <LinearLayout
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/act_layer_right">
 
-
-                    <LinearLayout
-                        android:id="@+id/ll_guanzhu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/iv_simple_guanzhu"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:background="@drawable/collect" />
-
-                        <TextView
-                            android:id="@+id/tv_guanzhu"
-                            style="@style/MainAct_simple_Text"
-                            android:paddingLeft="10dp"
-
-                            android:text="关注" />
-                        <TextView
-                            android:paddingLeft="5dp"
-                            android:id="@+id/tv_guanzhu_num"
-                            style="@style/MainAct_simple_Text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="57"/>
-                    </LinearLayout>
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="196dp"
-                        android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:id="@+id/ll_join"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="30dp">
-
-
-                        <ImageView
-                            android:id="@+id/iv_join"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:background="@drawable/add" />
-
-                        <TextView
-                            android:id="@+id/tv_text_jion"
-                            style="@style/MainAct_simple_Text"
-                            android:paddingLeft="10dp"
-                            android:text="参加" />
-
-                        <TextView
-                            android:id="@+id/tv_join_num"
-                            style="@style/MainAct_simple_Text"
-                            android:paddingLeft="12dp"
-                            android:text="15" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="/" />
-
-                        <TextView
-                            android:id="@+id/tv_join_tal_num"
-                            style="@style/MainAct_simple_Text"
-                            android:text="15" />
-                    </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/act_layer_right">
+
+
+                <LinearLayout
+                    android:paddingLeft="50dp"
+                    android:id="@+id/ll_guanzhu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_simple_guanzhu"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/collect" />
+
+                    <TextView
+                        android:id="@+id/tv_guanzhu"
+                        style="@style/MainAct_simple_Text"
+                        android:paddingLeft="10dp"
+
+                        android:text="关注" />
+
+                    <TextView
+                        android:id="@+id/tv_guanzhu_num"
+                        style="@style/MainAct_simple_Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:text="57" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/ll_join"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="30dp">
+
+
+                    <ImageView
+                        android:id="@+id/iv_join"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/add" />
+
+                    <TextView
+                        android:id="@+id/tv_text_jion"
+                        style="@style/MainAct_simple_Text"
+                        android:paddingLeft="10dp"
+                        android:text="参加" />
+
+                    <TextView
+                        android:id="@+id/tv_join_num"
+                        style="@style/MainAct_simple_Text"
+                        android:paddingLeft="12dp"
+                        android:text="15" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="/" />
+
+                    <TextView
+                        android:id="@+id/tv_join_tal_num"
+                        style="@style/MainAct_simple_Text"
+                        android:text="15" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <ImageView

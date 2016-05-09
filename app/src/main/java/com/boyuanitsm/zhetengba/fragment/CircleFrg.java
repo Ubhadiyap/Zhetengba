@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,9 +8,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.CirMess;
 
 /**
  * 圈子界面
@@ -23,6 +27,8 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
     private boolean tag = true;
     private TextView tv_chanel;
     private TextView tv_circle;
+    private ImageView iv_quan;
+    private ImageView iv_newmes;
 
 
     @Override
@@ -30,11 +36,15 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
         view = inflater.inflate(R.layout.circle_frg, null);
          tv_chanel = (TextView) view.findViewById(R.id.tv_chanel);
          tv_circle = (TextView) view.findViewById(R.id.tv_circle);
+        iv_quan = (ImageView) view.findViewById(R.id.iv_quan);
+        iv_newmes = (ImageView) view.findViewById(R.id.iv_newmes);
         childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         defaultChildShow(fragmentTransaction);
         tv_chanel.setOnClickListener(this);
         tv_circle.setOnClickListener(this);
+        iv_quan.setOnClickListener(this);
+        iv_newmes.setOnClickListener(this);
         return view;
     }
 
@@ -71,9 +81,9 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
-        hideChildFragment(fragmentTransaction);
         switch (v.getId()){
             case R.id.tv_chanel:
+                hideChildFragment(fragmentTransaction);
                 fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left,R.anim.slide_out_to_right);
                 if (chanelFrg == null) {
                     chanelFrg = new ChanelFrg();
@@ -83,8 +93,10 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
                 }
                 tag = true;
                 textColorChange(tag);
+                fragmentTransaction.commit();
                 break;
             case R.id.tv_circle:
+                hideChildFragment(fragmentTransaction);
                 fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right,R.anim.slide_out_to_left);
                 if (cirFrg==null){
                     cirFrg=new CirFrg();
@@ -92,11 +104,20 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
                 }else {
                     fragmentTransaction.show(cirFrg);
                 }
-                tag=false;
+                tag = false;
                 textColorChange(tag);
+                fragmentTransaction.commit();
+                break;
+            case R.id.iv_quan:
+                Toast.makeText(getContext(),"点击圈",0).show();
+                break;
+            case R.id.iv_newmes:
+                Intent intent=new Intent();
+                intent.setClass(getContext(), CirMess.class);
+                startActivity(intent);
                 break;
         }
-        fragmentTransaction.commit();
+
 
     }
     /***

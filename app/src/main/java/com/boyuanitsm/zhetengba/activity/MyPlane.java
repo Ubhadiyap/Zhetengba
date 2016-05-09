@@ -6,18 +6,18 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
- * 活动详情
+ * 圈子--我的发布界面
+ * Created by xiaoke on 2016/5/6.
  */
-public class EventdetailsAct extends BaseActivity {
+public class MyPlane extends BaseActivity {
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_eventdetails);
+        setContentView(R.layout.act_my_plane);
 
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("活动详情");
-
+        setTopTitle("我的发布");
     }
 }
