@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,11 +13,7 @@ import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.NineGridlayout;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * 圈子列表适配器
@@ -28,7 +23,7 @@ public class CircleAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList;
 
-    public CircleAdapter(Context context,List<List<ImageInfo>> dateList) {
+    public CircleAdapter(Context context, List<List<ImageInfo>> dateList) {
         this.context = context;
         this.dateList=dateList;
 
@@ -117,7 +112,7 @@ public class CircleAdapter extends BaseAdapter {
         layoutparams.width = imageWidth;
         viewHolder.iv_oneimage.setLayoutParams(layoutparams);
         viewHolder.iv_oneimage.setClickable(true);
-        viewHolder.iv_oneimage.setScaleType(android.widget.ImageView.ScaleType.FIT_XY);
+        viewHolder.iv_oneimage.setScaleType(ImageView.ScaleType.FIT_XY);
         viewHolder.iv_oneimage.setImageUrl(image.getUrl());
 
     }

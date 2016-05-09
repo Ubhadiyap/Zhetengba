@@ -1,17 +1,10 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.nfc.Tag;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,11 +13,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.PersonalmesAct;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
-import com.boyuanitsm.zhetengba.fragment.CalendarFrg;
-import com.boyuanitsm.zhetengba.fragment.SimpleFrg;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
-
-import org.w3c.dom.ProcessingInstruction;
 
 import java.util.List;
 
@@ -37,13 +26,13 @@ public class ActAdapter extends BaseAdapter{
     private Context context;
     private boolean image_record_out;
 
-    public ActAdapter(Context context ) {
+    public ActAdapter(Context context) {
         this.context=context;
     }
 
     private List<SimpleInfo> infos ;
 
-    public ActAdapter(Context context,List<SimpleInfo> infos ) {
+    public ActAdapter(Context context, List<SimpleInfo> infos) {
         this.infos = infos ;
         this.context = context;
     }

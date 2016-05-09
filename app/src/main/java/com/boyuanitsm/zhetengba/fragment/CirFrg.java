@@ -21,8 +21,8 @@ import java.util.List;
  * 子界面-圈子界面
  * Created by xiaoke on 2016/5/2.
  */
-public class CirFrg extends Fragment{
-    private int[] icons = {R.drawable.test_banner,R.drawable.test_chanel,R.drawable.test_chanel,R.drawable.test_chanel};
+public class CirFrg extends Fragment {
+    private int[] icons = {R.drawable.test_banner, R.drawable.test_chanel, R.drawable.test_chanel, R.drawable.test_chanel};
     private List<List<ImageInfo>> datalist=new ArrayList<>();
     private String[][] images=new String[][]{{
             "http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1402/12/c1/31189058_1392186616852.jpg","1624","914"}
