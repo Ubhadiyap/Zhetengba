@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.CirMess;
+import com.boyuanitsm.zhetengba.activity.CirMessAct;
 
 /**
  * 圈子界面
@@ -113,7 +113,7 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
                 break;
             case R.id.iv_newmes:
                 Intent intent=new Intent();
-                intent.setClass(getContext(), CirMess.class);
+                intent.setClass(getContext(), CirMessAct.class);
                 startActivity(intent);
                 break;
         }

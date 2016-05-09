@@ -25,7 +25,7 @@ public class MainAct extends FragmentActivity {
     private CalendarFrg calendarFrg;
     private CircleFrg circleFrg;
     private MessFrg messFrg;
-    private  PlaneDialog planeDialog;
+    private PlaneDialog planeDialog;
     private final static int[] icons = {R.drawable.menu_ticket_b, R.drawable.menu_chat_b, R.drawable.menu_loop_b, R.drawable.menu_me_b};
     private MineFrg mineFrg;
 

@@ -62,6 +62,11 @@
             android:name=".activity.SystemmesAct"
             android:screenOrientation="portrait"></activity>
 
+        <!--圈子：圈子管理界面-->
+        <activity android:name=".activity.CirMessAct"
+            android:screenOrientation="portrait"></activity>
+
+
         <!--圈子管理界面-->
         <activity android:name=".activity.CircleglAct"
             android:screenOrientation="portrait"></activity>
@@ -70,7 +75,7 @@
         <activity android:name=".activity.CirMess"
             android:screenOrientation="portrait"></activity>
         <!--圈子：我的发布界面-->
-        <activity android:name=".activity.MyPlane"
+        <activity android:name=".activity.MyPlaneAct"
             android:screenOrientation="portrait">
         </activity>
         <!--注册信息界面-->

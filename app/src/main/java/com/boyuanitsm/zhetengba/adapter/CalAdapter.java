@@ -17,16 +17,8 @@ import com.boyuanitsm.zhetengba.R;
  */
 public class CalAdapter extends BaseAdapter {
     private Context context;
-    private IUpdateYh iUpdateYh;
-    private boolean image_record_out1,image_record_out2;
-    public interface IUpdateYh{
-        void registCalGuanZhu(int position);
-        void registCalYh(int position);
-
-    }
-    public   CalAdapter(Context context,IUpdateYh iUpdateYh1){
+    public   CalAdapter(Context context){
         this.context=context;
-        this.iUpdateYh=iUpdateYh1;
     }
     @Override
     public int getCount() {
@@ -75,107 +67,6 @@ public class CalAdapter extends BaseAdapter {
         calHolder.tv_gzcal_num.setText("0");
         calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
         calHolder.tv_cal_yh.setText("约Ta");
-        //设置图标动态效果
-        calHolder.ll_cal_guanzhu.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        switch (v.getId()) {
-                            case R.id.ll_cal_guanzhu:
-                                image_record_out1 = false;
-                                calHolder.iv_cal_guanzhu.setAlpha(0.5f);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()) {//手指一旦离开点赞的控件，就把点击事件取消
-                            case R.id.ll_cal_guanzhu:
-                                int x = (int) event.getX();
-                                int y = (int) event.getY();
-                                if (x < 0 || y < 0 || x > calHolder.iv_cal_guanzhu.getWidth() || y >calHolder.iv_cal_guanzhu.getHeight()) {
-                                    image_record_out1 = true;
-                                }
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        switch (v.getId()) {
-                            case R.id.ll_cal_guanzhu://点赞
-                                calHolder.iv_cal_guanzhu.setAlpha(1.0f);
-                               /* *//**//*if (!image_record_out) {
-                                    //这里开始啦
-                                    // 得到你点击的item的position；然后请求你的网络接口，你会问这个网络接口是啥子，这么说：写后台那个人给你写的网络接口。
-                                    // commentAttention这个就是我调用网络接口的方法，我这里就直接强转了。
-                                    // commentAttention方法就在InformationActivity类里面
-                                    ((InformationActivity) context).commentAttention(position);
-                                }*//**//**/
-                                /*((CalendarFrg)context).updateZan(position);*/
-                                iUpdateYh.registCalGuanZhu(position+1);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                        switch (v.getId()) {
-                            case R.id.ll_cal_guanzhu:
-                                calHolder.iv_cal_guanzhu.setAlpha(1.0f);
-                                break;
-                        }
-                }
-                return true;
-            }
-        });
-        //设置约会图标动态效果
-        calHolder.ll_yh.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        switch (v.getId()) {
-                            case R.id.ll_yh:
-                                image_record_out2 = false;
-                                calHolder.iv_cal_yh.setAlpha(0.5f);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()) {//手指一旦离开点赞的控件，就把点击事件取消
-                            case R.id.ll_yh:
-                                int x = (int) event.getX();
-                                int y = (int) event.getY();
-                                if (x < 0 || y < 0 || x > calHolder.iv_cal_yh.getWidth() || y >calHolder.iv_cal_yh.getHeight()) {
-                                    image_record_out1 = true;
-                                }
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        switch (v.getId()) {
-                            case R.id.ll_yh://点赞
-                                calHolder.iv_cal_yh.setAlpha(1.0f);
-                               /* *//**//*if (!image_record_out) {
-                                    //这里开始啦
-                                    // 得到你点击的item的position；然后请求你的网络接口，你会问这个网络接口是啥子，这么说：写后台那个人给你写的网络接口。
-                                    // commentAttention这个就是我调用网络接口的方法，我这里就直接强转了。
-                                    // commentAttention方法就在InformationActivity类里面
-                                    ((InformationActivity) context).commentAttention(position);
-                                }*//**//**/
-                                /*((CalendarFrg)context).updateZan(position);*/
-                                iUpdateYh.registCalYh(position+1);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                        switch (v.getId()) {
-                            case R.id.ll_yh:
-                                calHolder.iv_cal_yh.setAlpha(1.0f);
-                                break;
-                        }
-                }
-                return true;
-            }
-        });
-
         return convertView;
     }
     public static class CalHolder {

@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.fragment;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,9 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.ImageAdapter;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
 import java.lang.ref.WeakReference;
 
@@ -28,31 +31,33 @@ import java.lang.ref.WeakReference;
  * 简约界面
  * Created by xiaoke on 2016/4/24.
  */
-public class SimpleFrg extends Fragment implements ActAdapter.IUpdateZan{
-    private ListView lv_act;
+public class SimpleFrg extends Fragment {
+    private PullToRefreshListView lv_act;
     private View view;
     private ListView lv_calen;
     private View viewHeader_act;
     private ActAdapter adapter;
     private ViewPager viewPager;
-    private LinearLayout ll_guanzhu;//关注数量
-    private ImageView iv_simple_guanzhu;//关注图标
-    private TextView tv_guanzhu_num;//关注数量设置
-    private int gznum=0;//默认关注人数0
-    private int jionum=0;//默认参加人数0；
-    private boolean tag=true;
-    private boolean isComment,isComment2;
     private ImageHandler handler = new ImageHandler(new WeakReference<SimpleFrg>(this));
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.act_frag, container, false);
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
-        lv_act = (ListView) view.findViewById(R.id.lv_act);
+        lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         //设置简约listview的headerview：item_viewpager_act.xml
-        lv_act.addHeaderView(viewHeader_act);
-        adapter = new ActAdapter(getActivity(),this);
-        lv_act.setAdapter(adapter);
+        lv_act.setPullRefreshEnabled(true);//下拉刷新
+        lv_act.setScrollLoadEnabled(true);//滑动加载
+        lv_act.setPullLoadEnabled(false);//上拉刷新
+        lv_act.setHasMoreData(true);//是否有更多数据
+        lv_act.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
+        lv_act.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
+        lv_act.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+        lv_act.getRefreshableView().setDivider(null);
+        //刷新初始化
+        lv_act.getRefreshableView().addHeaderView(viewHeader_act);
+        adapter = new ActAdapter(getActivity());
+        lv_act.getRefreshableView().setAdapter(adapter);
         viewPager = (ViewPager) view.findViewById(R.id.vp_loop_act);
         viewPager.setAdapter(new ImageAdapter(getContext()));
         viewPager.setOnPageChangeListener(new PagerChangeListener());
@@ -60,72 +65,6 @@ public class SimpleFrg extends Fragment implements ActAdapter.IUpdateZan{
         //开始轮播效果
         handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
         return view;
-    }
-   // /实现单个item刷新  参数就是adapter里面传过来的你点击的哪一个ListView的position
-    @Override
-    public void registGuanZhu(int position) {
-        //得到你屏幕上第一个显示的item
-        int firstVisiblePosition = lv_act.getFirstVisiblePosition();
-        //得到你屏幕上最后一个显示的item
-        int lastVisiblePosition = lv_act.getLastVisiblePosition();
-        if (position >= firstVisiblePosition && position <= lastVisiblePosition) {
-            //得到你点击的item的view
-            View view = lv_act.getChildAt(position - firstVisiblePosition);
-            if (view.getTag() instanceof ActAdapter.Holder) {
-                //拿到view的Tag,强转成CommentAdapter的ViewHolder
-                ActAdapter.Holder holder = (ActAdapter.Holder) view.getTag();
-                if (!isComment2) {// 这里我用了一个变量来控制，点第一次时，点赞成功，点赞控件显示蓝色的图标，
-                    // 点击第二次时，取消点赞，点赞控件显示灰色的图标。
-                    isComment2 = true;
-                    holder.iv_simple_guanzhu.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.collect_b));
-                    gznum++;
-                    holder.tv_guanzhu_num.setText(gznum+"");
-                    holder.tv_text_guanzhu.setText("已关注");
-                } else {
-                    isComment2 = false;
-                    holder.iv_simple_guanzhu.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.collect));
-                    gznum--;
-                    holder.tv_guanzhu_num.setText(gznum+"");
-                    holder.tv_text_guanzhu.setText("关注");
-                }
-            }
-        }
-
-    }
-
-    @Override
-    public void registJoin(int position) {
-
-        //得到你屏幕上第一个显示的item
-        int firstVisiblePosition = lv_act.getFirstVisiblePosition();
-        //得到你屏幕上最后一个显示的item
-        int lastVisiblePosition = lv_act.getLastVisiblePosition();
-        if (position >= firstVisiblePosition && position <= lastVisiblePosition) {
-            //得到你点击的item的view
-            View view = lv_act.getChildAt(position - firstVisiblePosition);
-            if (view.getTag() instanceof ActAdapter.Holder) {
-                //拿到view的Tag,强转成CommentAdapter的ViewHolder
-                ActAdapter.Holder holder = (ActAdapter.Holder) view.getTag();
-                if (!isComment) {// 这里我用了一个变量来控制，点第一次时，点赞成功，点赞控件显示蓝色的图标，
-                    // 点击第二次时，取消点赞，点赞控件显示灰色的图标。
-                    isComment = true;
-                    holder.iv_join.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.cancel));
-                    holder.tv_text_jion.setText("取消参加");
-                    jionum++;
-                    holder.tv_join_num.setText(jionum+"");
-                    holder.tv_join_num.setTextColor(Color.RED);
-                } else {
-                    isComment = false;
-                    holder.iv_join.setBackgroundDrawable(view.getResources().getDrawable(R.drawable.add));
-                    holder.tv_text_jion.setText("参加");
-                    jionum--;
-                    holder.tv_join_num.setText(jionum+"");
-                    holder.tv_join_num.setTextColor(Color.parseColor("#999999"));
-                }
-            }
-        }
-
-
     }
 
     /***
@@ -158,17 +97,6 @@ public class SimpleFrg extends Fragment implements ActAdapter.IUpdateZan{
         }
     }
 
-    /***
-     * 设置条目点击显示活动详情dialog
-     *
-     * @param
-     */
-    private void showDialog() {
-        CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
-        builder.create().show();
-
-
-    }
 
     private static class ImageHandler extends android.os.Handler {
         /**

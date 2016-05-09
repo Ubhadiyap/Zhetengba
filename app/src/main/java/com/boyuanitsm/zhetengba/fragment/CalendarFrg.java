@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.boyuanitsm.zhetengba.R;
 
 /**
@@ -27,15 +28,14 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
     private PopupWindow mPopupWindow;
     private LinearLayout ll_friend;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      View view=  inflater.inflate(R.layout.frag_calendar,null);
+        View view = inflater.inflate(R.layout.frag_calendar, null);
         tv_simple = (TextView) view.findViewById(R.id.tv_simple);
         tv_calendar = (TextView) view.findViewById(R.id.tv_calendar);
         linearLayout = (LinearLayout) view.findViewById(R.id.ll_title_border);
         ll_friend = (LinearLayout) view.findViewById(R.id.ll_friend);
-        childFragmentManager=getChildFragmentManager();
+        childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         defaultChildShow(fragmentTransaction);
         tv_simple.setOnClickListener(this);
@@ -65,6 +65,7 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
 
     /***
      * 隐藏子页面
+     *
      * @param fragmentTransaction
      */
     private void hideChildFragment(FragmentTransaction fragmentTransaction) {
@@ -83,7 +84,7 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.tv_simple:
                 hideChildFragment(fragmentTransaction);
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left,R.anim.slide_out_to_right);
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 if (simpleFrg == null) {
                     simpleFrg = new SimpleFrg();
                     fragmentTransaction.add(R.id.fl_calendar, simpleFrg);
@@ -96,7 +97,7 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
             case R.id.tv_calendar:
                 hideChildFragment(fragmentTransaction);
                 //动画进出
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right,R.anim.slide_out_to_left);
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 if (calFrg == null) {
                     calFrg = new CalFrg();
 
@@ -151,6 +152,7 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
 
     /***
      * 设置导航选中后颜色
+     *
      * @param tag
      */
     private void textColorChange(boolean tag) {

@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 
 /**
  * 频道里
@@ -26,4 +27,8 @@ public class ChaChildFrg extends Fragment {
         lv_ch01.setAdapter(adapter);
         return view ;
     }
+//    public void setData(List<ChanelInfo> info){
+//
+//        adapter.notifyDateCshange();
+//    }
 }
