@@ -149,17 +149,23 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"></View>
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_marginRight="25dp"
         android:layout_marginTop="15dp"
         android:gravity="right"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <CheckBox
-        android:paddingLeft="5dp"
-        android:textColor="#cdcdcd"
-        android:text="用户协议"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_gravity="center_vertical"
+        android:button="@null"
+        android:background="@drawable/check_box"
+        android:layout_width="10dp"
+        android:layout_height="10dp" />
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:textColor="#999999"
+            android:text="用户协议"
+            style="@style/tv_second"/>
     </LinearLayout>
 
 

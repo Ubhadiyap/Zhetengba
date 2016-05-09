@@ -73,6 +73,9 @@
         <activity android:name=".activity.MyPlane"
             android:screenOrientation="portrait">
         </activity>
+        <!--注册信息界面-->
+        <activity android:name=".activity.RegInfoAct"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

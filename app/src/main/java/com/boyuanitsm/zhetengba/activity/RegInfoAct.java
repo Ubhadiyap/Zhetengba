@@ -6,19 +6,19 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
- *活动详情界面
- * Created by bitch-1 on 2016/4/28.
+ * 注册信息界面面
+ * Created by bitch-1 on 2016/5/9.
  */
-public class EventdetailsAct extends BaseActivity {
+public class RegInfoAct extends BaseActivity {
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_eventdetails);
+        setContentView(R.layout.act_reginfo);
 
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("活动详情");
+        setTopTitle("注册信息");
 
     }
 }
