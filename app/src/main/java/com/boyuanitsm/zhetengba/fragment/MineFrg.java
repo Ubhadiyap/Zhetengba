@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.MyColleitionAct;
 import com.boyuanitsm.zhetengba.activity.PersonalmesAct;
 import com.boyuanitsm.zhetengba.activity.SettingAct;
 import com.boyuanitsm.zhetengba.activity.ShareqrcodeAct;
@@ -81,7 +82,7 @@ public class MineFrg extends BaseFragment{
         });
         rvMonthSelect.setAdapter(monthSelectAdp);
     }
-    @OnClick({R.id.iv_shareCode,R.id.iv_setting,R.id.iv_headIcon})
+    @OnClick({R.id.iv_shareCode,R.id.iv_setting,R.id.iv_headIcon,R.id.iv_collection})
     public void todo(View view){
         switch (view.getId()){
             case R.id.iv_shareCode://二维码
@@ -92,6 +93,9 @@ public class MineFrg extends BaseFragment{
                 break;
             case R.id.iv_headIcon://头像
                 openActivity(PersonalmesAct.class);
+                break;
+            case R.id.iv_collection://我的收藏
+                openActivity(MyColleitionAct.class);
                 break;
         }
     }
