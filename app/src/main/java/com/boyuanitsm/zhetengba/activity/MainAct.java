@@ -1,25 +1,19 @@
 package com.boyuanitsm.zhetengba.activity;
 
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Display;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.fragment.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.CircleFrg;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
-import com.boyuanitsm.zhetengba.utils.ZtbUtils;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
 
 /***
@@ -30,7 +24,7 @@ public class MainAct extends FragmentActivity {
     private CalendarFrg calendarFrg;
     private CircleFrg circleFrg;
     private MessFrg messFrg;
-    private  PlaneDialog planeDialog;
+    private PlaneDialog planeDialog;
     private final static int[] icons = {R.drawable.menu_ticket_b, R.drawable.menu_chat_b, R.drawable.menu_loop_b, R.drawable.menu_me_b};
 
     @Override
