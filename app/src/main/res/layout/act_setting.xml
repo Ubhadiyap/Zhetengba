@@ -16,12 +16,12 @@
             style="@style/tv_second"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="接收新消息"
+            android:text="添加我时需要验证"
             android:textColor="#333333"
              />
 
         <com.boyuanitsm.zhetengba.widget.ToggleButton
-            android:id="@+id/tb_msg"
+            android:id="@+id/tb_verification"
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
@@ -40,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.boyuanitsm.zhetengba.view.CommonView
+            android:id="@+id/cv_about"
             app:desTextColor="#333333"
             app:desTextSize="14sp"
             app:isShowCategoryImage="false"
@@ -48,6 +49,7 @@
             android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>
 
         <com.boyuanitsm.zhetengba.view.CommonView
+            android:id="@+id/cv_feedback"
             app:desTextColor="#333333"
             app:desTextSize="14sp"
             app:isShowCategoryImage="false"
@@ -64,18 +66,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.boyuanitsm.zhetengba.view.CommonView
+            android:id="@+id/cv_checkUpdate"
             app:desTextColor="#333333"
             app:desTextSize="14sp"
             app:isShowCategoryImage="false"
-            app:desText="关于折腾吧"
+            app:desText="检查更新"
             android:layout_width="match_parent"
             android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>
 
         <com.boyuanitsm.zhetengba.view.CommonView
+            android:id="@+id/cv_clearCache"
             app:desTextColor="#333333"
             app:desTextSize="14sp"
             app:isShowCategoryImage="false"
-            app:desText="反馈"
+            app:desText="清理缓存"
             android:layout_width="match_parent"
             android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>
 
@@ -89,8 +93,9 @@
         android:layout_width="match_parent"
         android:layout_height="41dp">
         <TextView
+            android:id="@+id/tv_signOut"
             android:textColor="#333333"
-            android:text="退出当前状态"
+            android:text="退出当前账号"
             style="@style/tv_second"
              />
 
