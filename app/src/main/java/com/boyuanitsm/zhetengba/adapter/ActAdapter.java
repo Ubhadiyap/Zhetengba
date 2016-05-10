@@ -169,8 +169,13 @@ public class ActAdapter extends BaseAdapter{
 
 
     }
+//
+//    public interface IUpdateZan {
+//       void registGuanZhu();
+//       void registJoin();
+//    }
 
-   public static class Holder {
+    public static class Holder {
        public ImageView iv_headphoto;//头像
        public TextView tv_niName;//昵称
        public LinearLayout ll_person;//个人信息id
