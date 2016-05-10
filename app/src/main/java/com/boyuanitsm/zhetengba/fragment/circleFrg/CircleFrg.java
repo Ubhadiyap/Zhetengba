@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.CirMessAct;
+import com.boyuanitsm.zhetengba.activity.GlcircleAct;
 
 /**
  * 圈子界面
@@ -80,6 +81,7 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        Intent intent=new Intent();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         switch (v.getId()){
             case R.id.tv_chanel:
@@ -109,10 +111,12 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
                 fragmentTransaction.commit();
                 break;
             case R.id.iv_quan:
-                Toast.makeText(getContext(),"点击圈",0).show();
+                //跳转至圈子管理
+                intent.setClass(getContext(),GlcircleAct.class);
+                startActivity(intent);
                 break;
             case R.id.iv_newmes:
-                Intent intent=new Intent();
+                //跳转至，圈子消息
                 intent.setClass(getContext(), CirMessAct.class);
                 startActivity(intent);
                 break;
