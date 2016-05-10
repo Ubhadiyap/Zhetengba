@@ -77,6 +77,12 @@
         <!--注册信息界面-->
         <activity android:name=".activity.RegInfoAct"
             android:screenOrientation="portrait"></activity>
+        <!--建立圈子界面-->
+        <activity android:name=".activity.CreatCirAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子发布界面-->
+        <activity android:name=".activity.CirclefbAct"
+            android:screenOrientation="portrait"></activity>
 
         <!--反馈-->
         <activity android:name=".activity.FeedbackAct"
