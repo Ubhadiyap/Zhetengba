@@ -70,10 +70,6 @@
         <!--圈子管理界面-->
         <activity android:name=".activity.CircleglAct"
             android:screenOrientation="portrait"></activity>
-
-        <!--圈子：圈子消息界面-->
-        <activity android:name=".activity.CirMess"
-            android:screenOrientation="portrait"></activity>
         <!--圈子：我的发布界面-->
         <activity android:name=".activity.MyPlaneAct"
             android:screenOrientation="portrait">
@@ -94,8 +90,16 @@
         <!--我的收藏-->
         <activity android:name=".activity.MyColleitionAct"
             android:screenOrientation="portrait"></activity>
+
         <!--管理圈子界面-->
         <activity android:name=".activity.GlcircleAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--简约界面-->
+        <activity android:name=".activity.ContractedAct"
+            android:screenOrientation="portrait"></activity>
+        <!--位置信息-->
+        <activity android:name=".activity.LocationAct"
             android:screenOrientation="portrait"></activity>
     </application>
 

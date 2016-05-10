@@ -28,15 +28,20 @@
 
             </HorizontalScrollView>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_add"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_gravity="center"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@drawable/add"
+                />
+        </LinearLayout>
 
-        <ImageView
-            android:layout_marginRight="25dp"
-            android:layout_marginLeft="25dp"
-            android:layout_gravity="center"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:background="@drawable/add"
-            />
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"

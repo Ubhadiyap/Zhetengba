@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.fragment;
+package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

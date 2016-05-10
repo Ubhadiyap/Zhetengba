@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
+import com.boyuanitsm.zhetengba.adapter.CircleMessAdatper;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
@@ -32,17 +34,8 @@ public class CirMessAct extends BaseActivity {
                 openActivity(MyPlaneAct.class);
             }
         });
-//        CircleAdapter adapter=new CircleAdapter(getApplicationContext(),datalist);
-//        lv_cir_mess.setAdapter(adapter);
+        CircleMessAdatper adapter=new CircleMessAdatper(getApplicationContext());
+        lv_cir_mess.setAdapter(adapter);
 
-//    }
-//
-//    public List<ImageInfo> getDate() {
-//
-//        for (int i = 0; i < icons.length; i++) {
-//            datalist.add(icons[i]);
-//        }
-//        return datalist;
-//
     }
 }
