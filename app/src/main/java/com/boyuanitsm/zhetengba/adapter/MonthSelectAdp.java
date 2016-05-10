@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 
 import java.util.Calendar;
 
@@ -75,7 +74,6 @@ public class MonthSelectAdp extends RecyclerView.Adapter<MonthSelectAdp.ViewHold
                 viewHolder.m.setTextColor(context.getResources().getColor(R.color.selected_color));
             }
             j++;
-            MyLogUtils.info("j=" + j);
         }
         if (mOnItemClickListener!=null){
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
