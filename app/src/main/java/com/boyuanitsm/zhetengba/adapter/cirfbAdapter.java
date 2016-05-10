@@ -43,7 +43,7 @@ public class cirfbAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view=View.inflate(context, R.layout.cir_item,null);
-       ck_xx= (CheckBox) view.findViewById(R.id.ck_xx);
+        ck_xx= (CheckBox) view.findViewById(R.id.ck_xx);
         ck_xx.setText(TITLES[position]);
         ck_xx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

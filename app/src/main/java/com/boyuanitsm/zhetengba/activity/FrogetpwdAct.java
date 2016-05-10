@@ -20,4 +20,6 @@ public class FrogetpwdAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("忘记密码");
     }
+
+
 }
