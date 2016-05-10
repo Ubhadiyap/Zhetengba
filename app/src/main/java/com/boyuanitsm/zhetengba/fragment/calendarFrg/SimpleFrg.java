@@ -1,28 +1,20 @@
-package com.boyuanitsm.zhetengba.fragment;
+package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.ImageAdapter;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
-import com.boyuanitsm.zhetengba.view.CustomDialog;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
 import java.lang.ref.WeakReference;

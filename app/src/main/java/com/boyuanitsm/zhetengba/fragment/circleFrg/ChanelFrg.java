@@ -1,28 +1,22 @@
-package com.boyuanitsm.zhetengba.fragment;
+package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChaPagerAdapter;
-import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
-import com.boyuanitsm.zhetengba.adapter.HorizontalListViewAdapter;
-import com.boyuanitsm.zhetengba.view.HorizontalListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 频道界面
@@ -31,20 +25,21 @@ import java.util.List;
 public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListener {
     private View view;//当前view
     private ViewPager vp_chan;//viewpager
+    private LinearLayout ll_add;//添加textview；
     private HorizontalScrollView scrollView;//scrollView
     private LinearLayout titleLayout;//频道，头部标签布局
     private int mTitleMargin;//头部标签之间空隙；
     private ChaPagerAdapter chaPagerAdapter;//viewpager适配器
-    private ArrayList<Fragment> fragmentList;//viewpager嵌套fragment，将fragment装入fragmentlist集合内
+    private ArrayList<ChaChildFrg> fragmentList;//viewpager嵌套fragment，将fragment装入fragmentlist集合内
     private ArrayList<TextView> textViewList;//承载标签的TextView集合
     private ArrayList<String> titleList;//标签集合
     private ArrayList<Integer> moveToList;//设置textview宽高集合
+    private ArrayList<String> contentList;
     private ChaChildFrg chaChildFrg;//子fragment01
-    private ChaChild02Frg chaChild02Frg;//子fragment02
-    private ChaChild03Frg chaChild03Frg;//子fragment03
     private int currentPos;//当前位置
-    private String[] strList = new String[]{"足球", "篮球", "篮球"};//标签
-    private int[] idList = new int[]{0, 1, 2};//与标签对应id
+    private int j=0;
+    private String[] strList = new String[]{"足球", "篮球", "篮球","旅游","活动"};//标签
+    private int[] idList = new int[]{0, 1, 2,3,4};//与标签对应id
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +48,13 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
         scrollView = (HorizontalScrollView) view.findViewById(R.id.hslv_chanel);
         titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
         vp_chan = (ViewPager) view.findViewById(R.id.vp_chan);
+         ll_add = (LinearLayout) view.findViewById(R.id.ll_add);
+        ll_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"添加一个标签,frg动态添加",j).show();
+            }
+        });
         //设置间隙
         mTitleMargin = dip2px(getContext(), 10);
         //填充数据
@@ -73,20 +75,16 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
         //设置fragmentlist
-        chaChildFrg=new ChaChildFrg();
-         chaChild02Frg = new ChaChild02Frg();
-        chaChild03Frg= new ChaChild03Frg();
-        fragmentList.add(chaChildFrg);
-        fragmentList.add(chaChild02Frg);
-        fragmentList.add(chaChild03Frg);
         //填充titleList,titleLayout布局
         for (int i = 0; i < strList.length; i++) {
+            ChaChildFrg testFm = new ChaChildFrg().newInstance(contentList, i);
+            fragmentList.add(testFm);
             titleList.add(strList[i]);
             addTitleLayout(titleList.get(i), idList[i]);
         }
         //设置viewpager适配数据
-        chaPagerAdapter = new ChaPagerAdapter(getChildFragmentManager());
-        chaPagerAdapter.setData(fragmentList);
+        chaPagerAdapter = new ChaPagerAdapter(getChildFragmentManager(),fragmentList);
+        chaPagerAdapter.setFragments(fragmentList);
         vp_chan.setAdapter(chaPagerAdapter);
         vp_chan.setOffscreenPageLimit(9);//一共加载9页，如果此处不指定，默认只加载相邻页，提前加载增加用户体验
         textViewList.get(0).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
