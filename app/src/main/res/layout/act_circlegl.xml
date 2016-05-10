@@ -9,7 +9,7 @@
         <ImageView
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/iv_jia"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/serch_gl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView
@@ -18,7 +18,7 @@
             android:layout_marginLeft="15dp"
             android:id="@+id/iv_jia"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>

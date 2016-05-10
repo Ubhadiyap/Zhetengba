@@ -6,20 +6,17 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
- * 忘记密码界面
- * Created by bitch-1 on 2016/4/28.
+ * 位置信息
+ * Created by xiaoke on 2016/5/10.
  */
-public class FrogetpwdAct extends BaseActivity {
+public class LocationAct extends BaseActivity {
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_frogetpwd);
-
+    setContentView(R.layout.act_location);
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("忘记密码");
+        setTopTitle("位置信息");
     }
-
-
 }

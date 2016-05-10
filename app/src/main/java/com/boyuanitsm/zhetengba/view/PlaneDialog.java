@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.ContractedAct;
 import com.boyuanitsm.zhetengba.activity.ScheduleAct;
 
 /**
@@ -45,7 +46,9 @@ public class PlaneDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 //进入活动界面
-
+                Intent intent=new Intent();
+                intent.setClass(context, ContractedAct.class);
+                context.startActivity(intent);
             }
         });
         tv_plan_calen.setOnClickListener(new View.OnClickListener() {

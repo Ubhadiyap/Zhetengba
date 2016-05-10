@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.fragment;
+package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 /**
  * 简约/档期界面
@@ -136,14 +137,14 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
         tv_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "点击了好友", 1).show();
+                MyToastUtils.showShortToast(getContext(), "点击了好友");
                 mPopupWindow.dismiss();
             }
         });
         tv_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "点击了全部", 1).show();
+                MyToastUtils.showShortToast(getContext(), "点击了全部");
                 mPopupWindow.dismiss();
             }
         });

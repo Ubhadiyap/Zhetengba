@@ -11,8 +11,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.fragment.CalendarFrg;
-import com.boyuanitsm.zhetengba.fragment.CircleFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;

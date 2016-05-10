@@ -4,9 +4,9 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentTransaction;
+
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChaChildFrg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +17,27 @@ import java.util.List;
  * Created by xiaoke on 2016/5/3.
  */
 public class ChaPagerAdapter extends FragmentPagerAdapter {
-    private List<Fragment> fragmentList;
+    private List<ChaChildFrg> fragmentList;
+    private FragmentManager fm;
     private Context context;
-    public ChaPagerAdapter(FragmentManager fm) {
+    public ChaPagerAdapter(FragmentManager fm, ArrayList<ChaChildFrg> fragmentList) {
         super(fm);
+        this.fm=fm;
+        this.fragmentList=fragmentList;
     }
 
-    public void setData(ArrayList<Fragment> fragmentList){
-        this.fragmentList = fragmentList;
+    public void setFragments(ArrayList<ChaChildFrg> fragments) {
+        if(this.fragmentList != null){
+            FragmentTransaction ft = fm.beginTransaction();
+            for(Fragment f:this.fragmentList){
+                ft.remove(f);
+            }
+            ft.commit();
+            ft=null;
+            fm.executePendingTransactions();
+        }
+        this.fragmentList = fragments;
+        notifyDataSetChanged();
     }
 
     @Override

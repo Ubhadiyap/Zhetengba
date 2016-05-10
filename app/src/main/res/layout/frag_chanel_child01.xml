@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--频道子frg布局文件-->
-    <ListView
+    <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
         android:id="@+id/lv_ch01"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/layer_list_bottom">
-    </ListView>
+    </com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
 </LinearLayout>

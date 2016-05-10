@@ -13,6 +13,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  * Created by Administrator on 2016/5/9.
  */
 public class MyColleitionAct extends BaseActivity{
+    
     @ViewInject(R.id.lv_myCollection)
     private ListView lvMyCollection;
     private ActAdapter adapter;
