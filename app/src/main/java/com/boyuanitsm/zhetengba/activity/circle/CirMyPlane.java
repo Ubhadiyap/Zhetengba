@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.os.Bundle;
 
@@ -9,7 +9,7 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
  * 圈子--我的发布界面
  * Created by xiaoke on 2016/5/6.
  */
-public class MyPlane extends BaseActivity {
+public class CirMyPlane extends BaseActivity {
     @Override
     public void setLayout() {
         setContentView(R.layout.act_my_plane);

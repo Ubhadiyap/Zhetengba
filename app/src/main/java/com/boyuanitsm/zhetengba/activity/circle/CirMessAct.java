@@ -1,10 +1,11 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.MyPlaneAct;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.CircleMessAdatper;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
