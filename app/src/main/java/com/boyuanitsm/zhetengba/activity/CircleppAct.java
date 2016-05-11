@@ -26,7 +26,7 @@ public class CircleppAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("管理圈子");
+        setTopTitle("圈子成员");
         plv.setPullRefreshEnabled(true);//下拉刷新
         plv.setScrollLoadEnabled(true);//滑动加载
         plv.setPullLoadEnabled(false);//上拉刷新
