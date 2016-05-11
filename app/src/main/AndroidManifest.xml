@@ -111,7 +111,7 @@
             android:screenOrientation="portrait"></activity>
         <!--管理圈子-->
         <activity
-            android:name=".activity.circle.CirGLAct"
+            android:name=".activity.circle.GLCirAct"
             android:screenOrientation="portrait"></activity>
     </application>
 
