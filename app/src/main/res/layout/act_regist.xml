@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
     <include layout="@layout/title_act_layout"></include>
 
@@ -10,16 +11,15 @@
     android:layout_width="match_parent"
     android:layout_height="65dp">
     <TextView
+        android:gravity="center_vertical"
         android:textColor="#333333"
         android:textSize="16sp"
         android:text="手机号"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
     <EditText
-        android:paddingLeft="30dp"
+        android:id="@+id/et_phone"
         android:textColorHint="#cdcdcd"
-        android:paddingBottom="15dp"
-        android:gravity="bottom"
         android:textSize="14sp"
         android:textColor="#333333"
        android:layout_marginLeft="10dp"
@@ -28,7 +28,6 @@
         android:layout_height="65dp"
         android:inputType="number"
         android:maxLength="11"
-        android:singleLine="true"
         />
 </LinearLayout>
     <View
@@ -52,13 +51,10 @@
 
 
         <EditText
-            android:paddingLeft="30dp"
-            android:textColor="#333333"
+            android:inputType="number"
             android:textSize="14sp"
             android:layout_marginLeft="10dp"
-            android:paddingBottom="15dp"
-            android:gravity="bottom"
-            android:id="@+id/forgetpwd_code"
+            android:id="@+id/et_yzm"
             android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_weight="1"
@@ -68,14 +64,13 @@
 
         <TextView
             android:background="@drawable/yzm_btn"
-            android:padding="5dp"
-            android:id="@+id/code_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_code"
+            android:layout_width="85dp"
             android:layout_height="30dp"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="发送验证码"
             android:textColor="@color/com_btn_nor"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
     <View
         android:layout_marginLeft="15dp"
@@ -89,21 +84,21 @@
         android:layout_width="match_parent"
         android:layout_height="65dp">
         <TextView
+            android:gravity="center_vertical"
             android:textColor="#333333"
             android:textSize="16sp"
             android:text="设置密码"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
         <EditText
+            android:id="@+id/et_pwd"
+            android:inputType="textPassword"
             android:maxLength="24"
-            android:paddingLeft="30dp"
             android:textColorHint="#cdcdcd"
-            android:paddingBottom="15dp"
-            android:gravity="bottom"
             android:textSize="14sp"
             android:textColor="#333333"
             android:layout_marginLeft="10dp"
-            android:hint="4-24位字母或数字"
+            android:hint="   4-24位字母或数字"
             android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="65dp"
@@ -122,21 +117,21 @@
         android:layout_width="match_parent"
         android:layout_height="65dp">
         <TextView
+            android:gravity="center_vertical"
             android:textColor="#333333"
             android:textSize="16sp"
             android:text="确认密码"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
         <EditText
+            android:id="@+id/et_cpwd"
+            android:inputType="textPassword"
             android:maxLength="24"
-            android:paddingLeft="30dp"
             android:textColorHint="#cdcdcd"
-            android:paddingBottom="15dp"
-            android:gravity="bottom"
             android:textSize="14sp"
             android:textColor="#333333"
             android:layout_marginLeft="10dp"
-            android:hint="4-24位字母或数字"
+            android:hint="   4-24位字母或数字"
             android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="65dp"
@@ -170,6 +165,7 @@
 
 
     <TextView
+        android:id="@+id/tv_zc"
         style="@style/com_dybtn"
         android:layout_marginTop="15dp"
         android:text="注册"

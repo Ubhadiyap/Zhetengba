@@ -6,10 +6,11 @@
     android:background="@mipmap/bg_main">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="264dp">
+        android:layout_height="240dp">
         <ImageView
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
             android:src="@mipmap/logo"
             android:layout_width="wrap_content"
@@ -20,7 +21,7 @@
 
     <LinearLayout
         android:layout_marginRight="15dp"
-        android:background="@drawable/dyj_editor"
+        android:background="@drawable/dyj_touming"
         android:layout_marginLeft="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -32,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:id="@+id/etphone"
             android:background="@null"
             android:layout_marginLeft="10dp"
             android:maxLength="11"
@@ -50,7 +52,7 @@
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/dyj_editor"
+        android:background="@drawable/dyj_touming"
         android:layout_marginLeft="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -62,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:id="@+id/etpwd"
             android:background="@null"
             android:layout_marginLeft="10dp"
             android:textColorHint="#cdcdcd"
@@ -76,6 +79,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_login"
         style="@style/com_dybtn"
         android:layout_marginTop="15dp"
         android:text="登录"

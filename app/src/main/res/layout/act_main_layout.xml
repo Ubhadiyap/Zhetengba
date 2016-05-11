@@ -31,7 +31,6 @@
 
 
             <com.boyuanitsm.zhetengba.view.MyRadioButton
-
                 android:gravity="center"
                 android:id="@+id/rb_cal"
                 style="@style/MainAct_Bottom_RadioButton_Text"
@@ -72,6 +71,7 @@
 
         </RadioGroup>
         <FrameLayout
+            android:visibility="gone"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="62dp"

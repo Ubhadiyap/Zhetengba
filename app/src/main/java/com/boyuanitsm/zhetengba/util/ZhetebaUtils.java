@@ -84,7 +84,7 @@ public class ZhetebaUtils {
      * @return
      */
     public static boolean checkPwd(String pwd){
-        String reg="^[0-9A-Za-z]{6,20}$";
+        String reg="^[0-9A-Za-z]{4,24}$";
         return startCheck(reg,pwd);
     }
 

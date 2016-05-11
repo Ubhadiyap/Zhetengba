@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
     <LinearLayout
         android:orientation="horizontal"
@@ -9,34 +10,42 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
         <com.boyuanitsm.zhetengba.view.CircleImageView
+            android:id="@+id/iv_hand"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/channhend"
             android:layout_width="50dp"
             android:layout_height="50dp" />
 
-        <LinearLayout
-            android:layout_marginLeft="10dp"
+        <RelativeLayout
             android:layout_weight="1"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_hand"
+            android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_name"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:text="Lake"
              style="@style/tv_second"/>
-            
-            <com.boyuanitsm.zhetengba.view.MyGridView
-                android:id="@+id/gv_bq"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </com.boyuanitsm.zhetengba.view.MyGridView>
 
-        </LinearLayout>
+            <com.boyuanitsm.zhetengba.view.MyGridView
+                android:gravity="center_horizontal"
+                android:layout_below="@id/tv_name"
+                android:horizontalSpacing="10sp"
+                android:numColumns="4"
+                android:id="@+id/gv_bq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
 
         <LinearLayout
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
             android:gravity="center_horizontal"
             android:layout_gravity="center_vertical"
             android:orientation="vertical"
@@ -59,5 +68,10 @@
         </LinearLayout>
 
     </LinearLayout>
+    <View
+        android:layout_marginLeft="15dp"
+        android:background="#dcdcde"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
 
 </LinearLayout>
