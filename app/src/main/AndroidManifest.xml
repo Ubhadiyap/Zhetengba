@@ -96,10 +96,10 @@
             android:name=".activity.MyColleitionAct"
             android:screenOrientation="portrait"></activity>
 
-        <!--管理圈子界面-->
-        <activity
-            android:name=".activity.circle.GlcircleAct"
+        <!--圈子成员界面-->
+        <activity android:name=".activity.CircleppAct"
             android:screenOrientation="portrait"></activity>
+        <!--管理圈子界面-->
 
         <!--简约界面-->
         <activity
@@ -112,6 +112,14 @@
         <!--管理圈子-->
         <activity
             android:name=".activity.circle.GLCirAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--圈子资料界面-->
+        <activity android:name=".activity.CirmationAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--扫一扫界面-->
+        <activity android:name=".activity.ScanAct"
             android:screenOrientation="portrait"></activity>
     </application>
 

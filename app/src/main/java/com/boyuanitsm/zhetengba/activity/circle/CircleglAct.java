@@ -18,7 +18,6 @@ public class CircleglAct extends BaseActivity {
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circlegl);
-
     }
 
     @Override

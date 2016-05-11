@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/bg_color"
+    android:layout_height="match_parent">
+    <include layout="@layout/title_act_layout"></include>
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:text="圈子公告"
+       style="@style/tv_second" />
+    
+   <TextView
+       android:textColor="#999999"
+       android:textSize="12sp"
+       android:layout_marginTop="15dp"
+       android:padding="10dp"
+       android:gravity="top"
+       android:text="由于做自媒体的原因，由于做自媒体的原因，由于做自媒体的原因，由于做自媒体的原因，由于做自媒体的原因，由于做自媒体的原因，"
+       android:background="@drawable/white_hui_edito"
+       android:layout_marginRight="15dp"
+       android:layout_marginLeft="15dp"
+       android:layout_width="match_parent"
+       android:layout_height="140dp" />
+
+    <com.boyuanitsm.zhetengba.view.CommonView
+        android:id="@+id/com_ewm"
+        app:desTextColor="#333333"
+        app:desTextSize="14sp"
+        android:layout_marginTop="15dp"
+        app:isShowCategoryImage="false"
+        app:desText="圈子二维码"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>
+
+    <com.boyuanitsm.zhetengba.view.CommonView
+        android:id="@+id/com_jb"
+        app:desTextColor="#333333"
+        app:desTextSize="14sp"
+        android:layout_marginTop="15dp"
+        app:isShowCategoryImage="false"
+        app:desText="举报该群"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>
+
+   <TextView
+       android:id="@+id/tv_tc"
+       android:background="@drawable/red_but_select"
+       android:layout_marginTop="15dp"
+       android:text="退出该群"
+      style="@style/com_button"/>
+</LinearLayout>

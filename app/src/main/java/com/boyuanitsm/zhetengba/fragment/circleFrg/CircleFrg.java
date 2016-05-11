@@ -2,18 +2,16 @@ package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
-import com.boyuanitsm.zhetengba.activity.circle.GlcircleAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 
 /**
@@ -117,7 +115,7 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
                 break;
             case R.id.iv_quan:
                 //跳转至圈子管理
-                intent.setClass(mActivity,GlcircleAct.class);
+                intent.setClass(mActivity,CircleglAct.class);
                 startActivity(intent);
                 break;
             case R.id.iv_newmes:
