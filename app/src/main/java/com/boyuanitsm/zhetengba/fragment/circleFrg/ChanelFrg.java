@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChaPagerAdapter;
+import com.boyuanitsm.zhetengba.base.BaseFragment;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  * 频道界面
  * Created by xiaoke on 2016/5/2.
  */
-public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListener {
+public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeListener {
     private View view;//当前view
     private ViewPager vp_chan;//viewpager
     private LinearLayout ll_add;//添加textview；
@@ -37,31 +38,36 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
     private ArrayList<String> contentList;
     private ChaChildFrg chaChildFrg;//子fragment01
     private int currentPos;//当前位置
-    private int j=0;
-    private String[] strList = new String[]{"足球", "篮球", "篮球","旅游","活动"};//标签
-    private int[] idList = new int[]{0, 1, 2,3,4};//与标签对应id
+    private int j = 0;
+    private String[] strList = new String[]{"足球", "篮球", "篮球", "旅游", "活动"};//标签
+    private int[] idList = new int[]{0, 1, 2, 3, 4};//与标签对应id
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.chanel_frg, null);
+        return view;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
         //初始化控件
         scrollView = (HorizontalScrollView) view.findViewById(R.id.hslv_chanel);
         titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
         vp_chan = (ViewPager) view.findViewById(R.id.vp_chan);
-         ll_add = (LinearLayout) view.findViewById(R.id.ll_add);
+        ll_add = (LinearLayout) view.findViewById(R.id.ll_add);
         ll_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"添加一个标签,frg动态添加",j).show();
+                Toast.makeText(mActivity, "添加一个标签,frg动态添加", j).show();
             }
         });
         //设置间隙
-        mTitleMargin = dip2px(getContext(), 10);
+        mTitleMargin = dip2px(mActivity, 10);
         //填充数据
         initData();
         //设置viewPager滑动监听
         vp_chan.setOnPageChangeListener(this);
-        return view;
     }
 
 
@@ -83,7 +89,7 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
             addTitleLayout(titleList.get(i), idList[i]);
         }
         //设置viewpager适配数据
-        chaPagerAdapter = new ChaPagerAdapter(getChildFragmentManager(),fragmentList);
+        chaPagerAdapter = new ChaPagerAdapter(getChildFragmentManager(), fragmentList);
         chaPagerAdapter.setFragments(fragmentList);
         vp_chan.setAdapter(chaPagerAdapter);
         vp_chan.setOffscreenPageLimit(9);//一共加载9页，如果此处不指定，默认只加载相邻页，提前加载增加用户体验
@@ -94,13 +100,14 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
 
     /***
      * 填充titleLayout
+     *
      * @param title
      * @param position
      */
 
     private void addTitleLayout(String title, int position) {
         //塞入条目
-        final TextView textView = (TextView) getActivity().getLayoutInflater().inflate(R.layout.chanel_child_title, null);
+        final TextView textView = (TextView) mActivity.getLayoutInflater().inflate(R.layout.chanel_child_title, null);
         //设置title
         textView.setText(title);
         //设置position Tag
@@ -110,25 +117,26 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
         //LinearLayout管理器布局
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         //设置左右间隙
-        params.leftMargin = dip2px(getContext(), mTitleMargin);
-        params.rightMargin = dip2px(getContext(), mTitleMargin);
+        params.leftMargin = dip2px(mActivity, mTitleMargin);
+        params.rightMargin = dip2px(mActivity, mTitleMargin);
         //将textView添加至params
         titleLayout.addView(textView, params);
         //把textView加入集合
         textViewList.add(textView);
         //设置宽高
         int width;
-        if(position==0){
+        if (position == 0) {
             width = 0;
             moveToList.add(width);
-        }else{
+        } else {
             int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
             int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-            textViewList.get(position-1).measure(w, h);
-            width = textViewList.get(position-1).getMeasuredWidth() + mTitleMargin*4;
-            moveToList.add(width+moveToList.get(moveToList.size()-1));
+            textViewList.get(position - 1).measure(w, h);
+            width = textViewList.get(position - 1).getMeasuredWidth() + mTitleMargin * 4;
+            moveToList.add(width + moveToList.get(moveToList.size() - 1));
         }
     }
+
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
@@ -139,6 +147,7 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
 
     /***
      * 滑动监听
+     *
      * @param position
      * @param positionOffset
      * @param positionOffsetPixels
@@ -154,7 +163,7 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
         textViewList.get(currentPos).setTextColor(Color.parseColor("#666666"));
         textViewList.get(position).setTextColor(Color.parseColor("#52C791"));
         currentPos = position;
-        scrollView.scrollTo((int)moveToList.get(position), 0);
+        scrollView.scrollTo((int) moveToList.get(position), 0);
     }
 
     @Override
@@ -162,11 +171,11 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
 
     }
 
-    class posOnClickListener implements View.OnClickListener{
+    class posOnClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
-            if((int)view.getTag()==currentPos){
+            if ((int) view.getTag() == currentPos) {
                 return;
             }
             textViewList.get(currentPos).setTextColor(Color.parseColor("#666666"));
@@ -174,6 +183,6 @@ public class ChanelFrg extends Fragment implements ViewPager.OnPageChangeListene
             textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));
             vp_chan.setCurrentItem(currentPos);
         }
-        }
+    }
 
 }

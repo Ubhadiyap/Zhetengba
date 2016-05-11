@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.ImageAdapter;
+import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
@@ -23,7 +24,7 @@ import java.lang.ref.WeakReference;
  * 简约界面
  * Created by xiaoke on 2016/4/24.
  */
-public class SimpleFrg extends Fragment {
+public class SimpleFrg extends BaseFragment {
     private PullToRefreshListView lv_act;
     private View view;
     private ListView lv_calen;
@@ -32,9 +33,15 @@ public class SimpleFrg extends Fragment {
     private ViewPager viewPager;
     private ImageHandler handler = new ImageHandler(new WeakReference<SimpleFrg>(this));
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.act_frag, container, false);
+    public View initView(LayoutInflater inflater) {
+       view = inflater.inflate(R.layout.act_frag, null, false);
+        return view;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         //设置简约listview的headerview：item_viewpager_act.xml
@@ -48,15 +55,14 @@ public class SimpleFrg extends Fragment {
         lv_act.getRefreshableView().setDivider(null);
         //刷新初始化
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
-        adapter = new ActAdapter(getActivity());
+        adapter = new ActAdapter(mActivity);
         lv_act.getRefreshableView().setAdapter(adapter);
         viewPager = (ViewPager) view.findViewById(R.id.vp_loop_act);
-        viewPager.setAdapter(new ImageAdapter(getContext()));
+        viewPager.setAdapter(new ImageAdapter(mActivity));
         viewPager.setOnPageChangeListener(new PagerChangeListener());
         viewPager.setCurrentItem(Integer.MAX_VALUE / 2);//默认在中间，使用户看不到边界
         //开始轮播效果
         handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
-        return view;
     }
 
     /***

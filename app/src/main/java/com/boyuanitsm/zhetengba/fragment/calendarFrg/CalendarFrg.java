@@ -13,13 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 /**
  * 简约/档期界面
  * Created by xiaoke on 2016/4/24.
  */
-public class CalendarFrg extends Fragment implements View.OnClickListener {
+public class CalendarFrg extends BaseFragment implements View.OnClickListener {
     private FragmentManager childFragmentManager;//frg嵌套，拿到子管理器
     public SimpleFrg simpleFrg;
     private CalFrg calFrg;
@@ -30,8 +31,13 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
     private LinearLayout ll_friend;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_calendar, null);
+    public View initView(LayoutInflater inflater) {
+        view = inflater.inflate(R.layout.frag_calendar, null);
+        return view;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
         tv_simple = (TextView) view.findViewById(R.id.tv_simple);
         tv_calendar = (TextView) view.findViewById(R.id.tv_calendar);
         linearLayout = (LinearLayout) view.findViewById(R.id.ll_title_border);
@@ -42,7 +48,6 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
         tv_simple.setOnClickListener(this);
         tv_calendar.setOnClickListener(this);
         ll_friend.setOnClickListener(this);
-        return view;
     }
 
 
@@ -124,12 +129,12 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
      */
     private void selectPop() {
         mPopupWindow = new PopupWindow(200, 200);
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.act_select_friend, null);
+        View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend, null);
         TextView tv_friend = (TextView) v.findViewById(R.id.tv_friend);
         TextView tv_all = (TextView) v.findViewById(R.id.tv_all);
 
 
-        mPopupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_circle_stroke));
+        mPopupWindow.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_circle_stroke));
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setFocusable(true);
         mPopupWindow.setContentView(v);
@@ -158,17 +163,17 @@ public class CalendarFrg extends Fragment implements View.OnClickListener {
      */
     private void textColorChange(boolean tag) {
         if (tag == true) {
-            tv_simple.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_left_white_circle_yes_stroke));
-            tv_simple.setTextColor(getActivity().getResources().getColor(R.color.main_color));
-            tv_calendar.setTextColor(getActivity().getResources().getColor(R.color.dq_color));
-            tv_calendar.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_right_white_stroke_calendar2));
+            tv_simple.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_left_white_circle_yes_stroke));
+            tv_simple.setTextColor(mActivity.getResources().getColor(R.color.main_color));
+            tv_calendar.setTextColor(mActivity.getResources().getColor(R.color.dq_color));
+            tv_calendar.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_right_white_stroke_calendar2));
 
 
         } else {
-            tv_calendar.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_right_white_stroke_calendar));
-            tv_simple.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_left_white_circle_yes_stroke2));
-            tv_simple.setTextColor(getActivity().getResources().getColor(R.color.dq_color));
-            tv_calendar.setTextColor(getActivity().getResources().getColor(R.color.main_color));
+            tv_calendar.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_right_white_stroke_calendar));
+            tv_simple.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_left_white_circle_yes_stroke2));
+            tv_simple.setTextColor(mActivity.getResources().getColor(R.color.dq_color));
+            tv_calendar.setTextColor(mActivity.getResources().getColor(R.color.main_color));
 
         }
     }
