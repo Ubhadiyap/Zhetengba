@@ -22,20 +22,25 @@ import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
  * 档期界面
  * Created by xiaoke on 2016/4/24.
  */
-public class CalFrg extends Fragment {
+public class CalFrg extends BaseFragment {
     private View view;
     private View viewHeader_calen;
     private PullToRefreshListView lv_calen;
     private ImageView vp_loop_calen;
-    private int calgznum=0;
+    private int calgznum = 0;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.calendar_frag, null);
+        return view;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
         //塞入item_loop_viewpager_calen，到viewpager   :view1
         viewHeader_calen = getLayoutInflater(savedInstanceState).inflate(R.layout.item_loop_viewpager_calen, null);
         lv_calen = (PullToRefreshListView) view.findViewById(R.id.lv_calen);
-        CalAdapter adapter = new CalAdapter(getActivity());
-
+        CalAdapter adapter = new CalAdapter(mActivity);
         lv_calen.setPullRefreshEnabled(true);//下拉刷新
         lv_calen.setScrollLoadEnabled(true);//滑动加载
         lv_calen.setPullLoadEnabled(false);//上拉刷新
@@ -50,7 +55,6 @@ public class CalFrg extends Fragment {
         ImageView iv_item_image = (ImageView) view.findViewById(R.id.iv_item_image);
         iv_item_image.setImageResource(R.drawable.test_banner);
         lv_calen.getRefreshableView().setAdapter(adapter);
-        return view;
     }
 
 }

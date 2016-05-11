@@ -7,17 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.base.BaseFragment;
 
 /**
  * Created by xiaoke on 2016/4/29.
  */
-public class MessFrg extends Fragment {
+public class MessFrg extends BaseFragment {
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.mess_frag,null);
+    public View initView(LayoutInflater inflater) {
+        view =inflater.inflate(R.layout.mess_frag,null);
         return view;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
+
     }
 
 }
