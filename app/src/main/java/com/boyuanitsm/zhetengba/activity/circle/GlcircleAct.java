@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

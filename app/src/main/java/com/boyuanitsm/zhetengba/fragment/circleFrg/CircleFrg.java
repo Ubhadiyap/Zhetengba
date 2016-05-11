@@ -10,11 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.CirMessAct;
-import com.boyuanitsm.zhetengba.activity.GlcircleAct;
+import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
+import com.boyuanitsm.zhetengba.activity.circle.GlcircleAct;
 
 /**
  * 圈子界面

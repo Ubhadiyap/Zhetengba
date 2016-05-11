@@ -30,7 +30,7 @@
 
         <!--活动详情-->
         <activity
-            android:name=".activity.EventdetailsAct"
+            android:name=".activity.circle.EventdetailsAct"
             android:screenOrientation="portrait">
         </activity>
         <!--登录界面-->
@@ -63,12 +63,12 @@
             android:screenOrientation="portrait"></activity>
 
         <!--圈子：圈子管理界面-->
-        <activity android:name=".activity.CirMessAct"
+        <activity android:name=".activity.circle.CirMessAct"
             android:screenOrientation="portrait"></activity>
 
 
         <!--圈子管理界面-->
-        <activity android:name=".activity.CircleglAct"
+        <activity android:name=".activity.circle.CircleglAct"
             android:screenOrientation="portrait"></activity>
         <!--圈子：我的发布界面-->
         <activity android:name=".activity.MyPlaneAct"
@@ -78,10 +78,10 @@
         <activity android:name=".activity.RegInfoAct"
             android:screenOrientation="portrait"></activity>
         <!--建立圈子界面-->
-        <activity android:name=".activity.CreatCirAct"
+        <activity android:name=".activity.circle.CreatCirAct"
             android:screenOrientation="portrait"></activity>
         <!--圈子发布界面-->
-        <activity android:name=".activity.CirclefbAct"
+        <activity android:name=".activity.circle.CirclefbAct"
             android:screenOrientation="portrait"></activity>
 
         <!--反馈-->
@@ -92,7 +92,7 @@
             android:screenOrientation="portrait"></activity>
 
         <!--管理圈子界面-->
-        <activity android:name=".activity.GlcircleAct"
+        <activity android:name=".activity.circle.GlcircleAct"
             android:screenOrientation="portrait"></activity>
 
         <!--简约界面-->
