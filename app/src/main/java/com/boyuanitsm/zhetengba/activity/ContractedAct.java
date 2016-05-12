@@ -12,6 +12,9 @@ import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 简约界面
  * Created by bitch-1 on 2016/5/3.
@@ -24,6 +27,8 @@ public class ContractedAct extends BaseActivity implements View.OnClickListener{
     private LinearLayout ll_select_tab;
     private ImageView iv_arrow;
     private boolean flag=true;
+    private String[] tabstr={"美食","旅行","K歌","电影","运动","棋牌","演出","亲子","逛街","读书","美容","其他"};
+    private List<String> tabList=new ArrayList<>();
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -38,11 +43,23 @@ public class ContractedAct extends BaseActivity implements View.OnClickListener{
         gv_tab = (GridView) findViewById(R.id.gv_tab);
         ll_select_tab = (LinearLayout) findViewById(R.id.ll_select_tab);
         iv_arrow = (ImageView) findViewById(R.id.iv_arrow);
-        GvTbAdapter adapter=new GvTbAdapter(getApplicationContext());
+        tabList=getTab();
+        //设置标签的，适配器
+        GvTbAdapter adapter=new GvTbAdapter(getApplicationContext(),tabList);
         gv_tab.setAdapter(adapter);
         tv_select_location.setOnClickListener(this);
         ll_theme_content.setOnClickListener(this);
         ll_select_tab.setOnClickListener(this);
+    }
+
+    /***
+     * 标签集合初始化
+     */
+    private List<String> getTab() {
+        for(int i=0;i<tabstr.length;i++){
+            tabList.add(tabstr[i]);
+        }
+        return tabList;
     }
 
     @Override
