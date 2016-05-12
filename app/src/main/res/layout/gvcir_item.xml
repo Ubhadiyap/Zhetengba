@@ -3,16 +3,19 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        android:gravity="center"
-        android:background="@drawable/label"
         android:layout_width="wrap_content"
-        android:layout_height="20dp">
+        android:layout_height="wrap_content">
+
         <TextView
+            android:gravity="center"
+            android:layout_height="20dp"
             android:id="@+id/tv_bq"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="0dp"
             android:textSize="12sp"
             android:text="hah"
-            style="@style/tv_second" />
+            style="@style/com_button" />
     </LinearLayout>
 </LinearLayout>
