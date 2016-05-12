@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.ShareDialog;
 
@@ -44,6 +46,7 @@ public class ChanAdapter extends BaseAdapter {
            convertView= View.inflate(context,R.layout.item_chanle,null);
             viewHolder=new CaViewHolder();
             viewHolder.ll_share= (LinearLayout) convertView.findViewById(R.id.ll_share);
+            viewHolder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             convertView.setTag(viewHolder);
         }
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
@@ -53,9 +56,19 @@ public class ChanAdapter extends BaseAdapter {
                 dialog.show();
             }
         });
+        viewHolder.ll_answer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setClass(context,ChanelTextAct.class);
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
     class CaViewHolder{
         private LinearLayout ll_share;
+        private LinearLayout ll_answer;
+
     }
 }

@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color">
+    <include layout="@layout/title_act_layout"></include>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_marginTop="15dp"
         android:orientation="vertical"
@@ -79,9 +88,113 @@
                 android:layout_height="125dp"
                 android:background="@drawable/test_chanel"/>
         </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@drawable/act_layer_top_bottom">
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_width="60dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:text="评论50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <LinearLayout
 
+                android:gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:text="赞20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.leaf.library.widget.MyListView
+                android:id="@+id/my_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layer_list_bottom">
+            </com.leaf.library.widget.MyListView>
+        </LinearLayout>
+<LinearLayout
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@drawable/layer_list_top_white">
+    <LinearLayout
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/act_layer_right">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/comment"/>
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:text="转发"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/act_layer_right">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/comment"/>
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:text="评论"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="20dp">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/zan"/>
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:text="赞"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
+</LinearLayout>
+
     </LinearLayout>
-    
+    </ScrollView>
+
 </LinearLayout>

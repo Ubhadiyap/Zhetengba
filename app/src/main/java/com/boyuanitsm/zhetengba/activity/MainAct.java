@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
@@ -20,7 +21,7 @@ import com.boyuanitsm.zhetengba.view.PlaneDialog;
 /***
  * 设置首页信息
  */
-public class MainAct extends FragmentActivity {
+public class MainAct extends BaseActivity {
     private FragmentManager fragmentManager;
     private CalendarFrg calendarFrg;
     private CircleFrg circleFrg;
@@ -30,10 +31,12 @@ public class MainAct extends FragmentActivity {
     private MineFrg mineFrg;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+    public void setLayout() {
         setContentView(R.layout.act_main_layout);
+    }
+
+    @Override
+    public void init(Bundle savedInstanceState) {
         //获取frg的管理器
         fragmentManager = getSupportFragmentManager();
         //获取事物
