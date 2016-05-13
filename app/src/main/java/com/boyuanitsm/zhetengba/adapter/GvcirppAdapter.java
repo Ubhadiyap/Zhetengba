@@ -4,28 +4,29 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.view.MyGridView;
 
 /**
  * Created by bitch-1 on 2016/5/10.
  */
-public class GlcirAdapter extends BaseAdapter{
+public class GvcirppAdapter extends BaseAdapter {
     private Context context;
+    private final String TITLE[]={"小鲜肉","吃货","摄影控"};
 
-    public GlcirAdapter(Context context) {
+    public GvcirppAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return TITLE.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return TITLE[position];
     }
 
     @Override
@@ -35,9 +36,10 @@ public class GlcirAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view=View.inflate(context, R.layout.item_glcir,null);
-        MyGridView gv_bq= (MyGridView) view.findViewById(R.id.gv_bq);
-        gv_bq.setAdapter(new GvglcAdapter(context));
+        View view=View.inflate(context, R.layout.gvcir_item,null);
+        TextView tv_bq= (TextView) view.findViewById(R.id.tv_bq);
+        tv_bq.setText(TITLE[position]);
+
         return view;
     }
 }

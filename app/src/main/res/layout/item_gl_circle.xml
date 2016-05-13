@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@drawable/layer_list_bottom">
+    <LinearLayout
+        android:padding="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.boyuanitsm.zhetengba.view.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/test_user"/>
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_cir_niName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Lake"/>
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/female"/>
+            </LinearLayout>
+            <LinearLayout
+                android:paddingLeft="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <GridView
+                    android:numColumns="4"
+                    android:id="@+id/gv_cir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></GridView>
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/del"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

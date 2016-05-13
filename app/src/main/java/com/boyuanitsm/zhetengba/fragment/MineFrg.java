@@ -48,7 +48,7 @@ public class MineFrg extends BaseFragment{
     @Override
     public void initData(Bundle savedInstanceState) {
 
-        myDatas = new ArrayList<String>(Arrays.asList("吃货", "不正经", "逗比", "乐观主义", "爱好摄影"));
+        myDatas = new ArrayList<String>(Arrays.asList("吃货", "不正经", "逗比", "乐观主义", "爱好摄影","hahhah","g"));
         TimeAxisListAdp timeAxisListAdp = new TimeAxisListAdp(getActivity());
         lvTimeAxis.setDivider(null);
         lvTimeAxis.setAdapter(timeAxisListAdp);

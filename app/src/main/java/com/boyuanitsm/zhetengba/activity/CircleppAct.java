@@ -1,21 +1,21 @@
-package com.boyuanitsm.zhetengba.activity.circle;
+package com.boyuanitsm.zhetengba.activity;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.adapter.GlcirAdapter;
+import com.boyuanitsm.zhetengba.adapter.CirpplistAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
- * 管理圈子界面
+ * 圈子成员界面
  * Created by bitch-1 on 2016/5/9.
  */
-public class GlcircleAct extends BaseActivity {
+public class CircleppAct extends BaseActivity {
     @ViewInject(R.id.plv)
     private PullToRefreshListView plv;
     @Override
@@ -26,7 +26,7 @@ public class GlcircleAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("管理圈子");
+        setTopTitle("圈子成员");
         plv.setPullRefreshEnabled(true);//下拉刷新
         plv.setScrollLoadEnabled(true);//滑动加载
         plv.setPullLoadEnabled(false);//上拉刷新
@@ -35,7 +35,7 @@ public class GlcircleAct extends BaseActivity {
         plv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         plv.setLastUpdatedLabel(ZhetebaUtils.getCurrentTime());
         plv.getRefreshableView().setDivider(null);
-        plv.getRefreshableView().setAdapter(new GlcirAdapter(getApplicationContext()));
+        plv.getRefreshableView().setAdapter(new CirpplistAdapter(getApplicationContext()));
 
     }
 }

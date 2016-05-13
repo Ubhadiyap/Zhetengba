@@ -58,7 +58,7 @@ public class CirFrg extends Fragment {
         datalist=new ArrayList<>();
         //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
         ArrayList<ImageInfo> singleList=new ArrayList<>();
-        singleList.add(new ImageInfo(images[0][0],Integer.parseInt(images[8][1]),Integer.parseInt(images[8][2])));
+        singleList.add(new ImageInfo(images[8][0],Integer.parseInt(images[8][1]),Integer.parseInt(images[8][2])));
         datalist.add(singleList);
         //从一到9生成9条朋友圈内容，分别是1~9张图片
         for(int i=0;i<9;i++){

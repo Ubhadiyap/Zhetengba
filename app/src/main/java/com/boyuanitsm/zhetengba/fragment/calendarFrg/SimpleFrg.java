@@ -1,43 +1,116 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Message;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
-import com.boyuanitsm.zhetengba.adapter.ImageAdapter;
+import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 简约界面
  * Created by xiaoke on 2016/4/24.
  */
-public class SimpleFrg extends Fragment {
+public class SimpleFrg extends BaseFragment {
     private PullToRefreshListView lv_act;
     private View view;
     private ListView lv_calen;
     private View viewHeader_act;
     private ActAdapter adapter;
-    private ViewPager viewPager;
-    private ImageHandler handler = new ImageHandler(new WeakReference<SimpleFrg>(this));
+    private LoopViewPager viewPager;
+    private MyPageAdapter pageAdapter;
+    private LinearLayout ll_point;
+    private List<View> views = new ArrayList<View>();
+    private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.act_frag, container, false);
+    public View initView(LayoutInflater inflater) {
+       view = inflater.inflate(R.layout.act_frag, null, false);
+        return view;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
+        //刷新初始化
+        initPullRefresh();
         //设置简约listview的headerview：item_viewpager_act.xml
+        lv_act.getRefreshableView().addHeaderView(viewHeader_act);
+        //设置简约listview的条目
+        adapter = new ActAdapter(mActivity);
+        lv_act.getRefreshableView().setAdapter(adapter);
+        viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
+        ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
+        //设置viewpager适配/轮播效果
+        initMyPageAdapter();
+        viewPager.setAuto(true);
+        //设置监听
+        viewPager.setOnPageChangeListener(getListener());
+    }
+
+    /***
+     * viewpager监听
+     * @return
+     */
+    @NonNull
+    private ViewPager.OnPageChangeListener getListener() {
+        return new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                if (views.size() != 0 && views.get(position) != null) {
+
+                    for (int i = 0; i < views.size(); i++) {
+                        if (i == position) {
+                            views.get(i).setBackgroundResource(R.drawable.point_focus);
+                        } else {
+                            views.get(i).setBackgroundResource(R.drawable.point_normal);
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+
+            }
+        };
+    }
+
+    /***
+     * 初始化刷新
+     */
+
+    private void initPullRefresh() {
         lv_act.setPullRefreshEnabled(true);//下拉刷新
         lv_act.setScrollLoadEnabled(true);//滑动加载
         lv_act.setPullLoadEnabled(false);//上拉刷新
@@ -46,108 +119,100 @@ public class SimpleFrg extends Fragment {
         lv_act.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv_act.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
         lv_act.getRefreshableView().setDivider(null);
-        //刷新初始化
-        lv_act.getRefreshableView().addHeaderView(viewHeader_act);
-        adapter = new ActAdapter(getActivity());
-        lv_act.getRefreshableView().setAdapter(adapter);
-        viewPager = (ViewPager) view.findViewById(R.id.vp_loop_act);
-        viewPager.setAdapter(new ImageAdapter(getContext()));
-        viewPager.setOnPageChangeListener(new PagerChangeListener());
-        viewPager.setCurrentItem(Integer.MAX_VALUE / 2);//默认在中间，使用户看不到边界
-        //开始轮播效果
-        handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
-        return view;
     }
 
     /***
-     * viewpager监听事件
+     * 初始化viewpager适配器
      */
-    private class PagerChangeListener implements ViewPager.OnPageChangeListener {
 
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            handler.sendMessage(Message.obtain(handler, ImageHandler.MSG_PAGE_CHANGED, position, 0));
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            switch (state) {
-                case ViewPager.SCROLL_STATE_DRAGGING:
-                    handler.sendEmptyMessage(ImageHandler.MSG_KEEP_SILENT);
-                    break;
-                case ViewPager.SCROLL_STATE_IDLE:
-                    handler.sendEmptyMessageDelayed(ImageHandler.MSG_UPDATE_IMAGE, ImageHandler.MSG_DELAY);
-                    break;
-                default:
-                    break;
+    private void initMyPageAdapter() {
+        initPoint();
+        if (pageAdapter == null) {
+            pageAdapter = new MyPageAdapter();
+            if (viewPager != null) {
+                viewPager.setAdapter(pageAdapter);
             }
+
+        } else {
+            pageAdapter.notifyDataSetChanged();
         }
     }
 
+    /***
+     * 初始化点
+     */
+    private void initPoint() {
+        views.clear();
+        ll_point.removeAllViews();
+        for (int i = 0; i < 3; i++) {
+            View view = new View(mActivity);
+            paramsL.setMargins(ZhetebaUtils.dip2px(mActivity, 5), 0, 0, 0);
+            view.setLayoutParams(paramsL);
+            if (i == 0) {
+                view.setBackgroundResource(R.drawable.point_focus);
+            } else {
+                view.setBackgroundResource(R.drawable.point_normal);
+            }
 
-    private static class ImageHandler extends android.os.Handler {
-        /**
-         * 请求更新显示的View。
-         */
-        protected static final int MSG_UPDATE_IMAGE = 1;
-        /**
-         * 请求暂停轮播。
-         */
-        protected static final int MSG_KEEP_SILENT = 2;
-        /**
-         * 请求恢复轮播。
-         */
-        protected static final int MSG_BREAK_SILENT = 3;
-        /**
-         * 记录最新的页号，当用户手动滑动时需要记录新页号，否则会使轮播的页面出错。
-         * 例如当前如果在第一页，本来准备播放的是第二页，而这时候用户滑动到了末页，
-         * 则应该播放的是第一页，如果继续按照原来的第二页播放，则逻辑上有问题。
-         */
-        protected static final int MSG_PAGE_CHANGED = 4;
+            views.add(view);
+            ll_point.addView(view);
+        }
+    }
 
-        //轮播间隔时间
-        protected static final long MSG_DELAY = 3000;
-        private int currentItem = 0;
-        private WeakReference<SimpleFrg> weakReference;
+    /***
+     * viewpageradapter
+     */
+    private class MyPageAdapter extends PagerAdapter {
+        // 图片缓存 默认 等
+        private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.mipmap.zanwutupian)
+                .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+                .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-        protected ImageHandler(WeakReference<SimpleFrg> wk) {
-            weakReference = wk;
+        @Override
+        public int getCount() {
+            return 3;
         }
 
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            SimpleFrg simpleFrg = weakReference.get();
-            if (simpleFrg == null) {
-                return;
-            }
-            if (simpleFrg.handler.hasMessages(MSG_UPDATE_IMAGE)) {
-                simpleFrg.handler.removeMessages(MSG_UPDATE_IMAGE);
-            }
-            switch (msg.what) {
-                case MSG_UPDATE_IMAGE:
-                    currentItem++;
-                    simpleFrg.viewPager.setCurrentItem(currentItem);
-                    break;
-                case MSG_KEEP_SILENT:
-                    //只要不发送消息就暂停了
-                    break;
-                case MSG_BREAK_SILENT:
-                    simpleFrg.handler.sendEmptyMessageDelayed(MSG_UPDATE_IMAGE, MSG_DELAY);
-                    break;
-                case MSG_PAGE_CHANGED:
-                    //记录当前的页号，避免播放的时候页面显示不正确。
-                    currentItem = msg.arg1;
-                    break;
-                default:
-                    break;
-
-            }
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            ((ViewPager) container).removeView((View) object);
         }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, final int position) {
+
+            View view = View.inflate(mActivity, R.layout.item_loop_viewpager_act, null);
+
+            ImageView iv_iamge = (ImageView) view.findViewById(R.id.iv_item_image);
+            //加载图片地址
+            iv_iamge.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.test_banner));
+//            ImageLoader.getInstance().displayImage(
+//                    UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerPic()), iv_iamge,
+//                    optionsImag);
+
+//            iv_iamge.setBackgroundResource(newsPictures[position]);
+
+            ((ViewPager) container).addView(view);
+
+            iv_iamge.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            return view;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object obj) {
+            return view == obj;
+        }
+
     }
+
+
 }

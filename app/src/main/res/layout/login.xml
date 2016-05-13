@@ -32,16 +32,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:id="@+id/etPhone"
             android:background="@null"
             android:layout_marginLeft="10dp"
             android:maxLength="11"
             android:inputType="number"
             android:textColorHint="#cdcdcd"
-            android:layout_gravity="center_vertical"
             android:textSize="16sp"
             android:hint="请输入手机号码"
             android:layout_weight="1"
             android:layout_width="0dp"
+            android:singleLine="true"
+            android:paddingRight="20dp"
+            android:textColor="#333333"
+            android:gravity="center_vertical"
             android:layout_height="match_parent" />
 
 
@@ -62,20 +66,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:id="@+id/etPwd"
             android:background="@null"
             android:layout_marginLeft="10dp"
             android:textColorHint="#cdcdcd"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
-            android:hint="请输入手机号码"
+            android:hint="请输入密码"
+            android:singleLine="true"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:textColor="#333333"
+            android:paddingRight="20dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"
+            />
 
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tvLogin"
         style="@style/com_dybtn"
         android:layout_marginTop="15dp"
         android:text="登录"

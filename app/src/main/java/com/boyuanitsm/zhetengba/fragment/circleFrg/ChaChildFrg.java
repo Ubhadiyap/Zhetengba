@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
+import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
@@ -21,15 +22,20 @@ import java.util.List;
  * viewpager适配的fragment
  * Created by xiaoke on 2016/5/3.
  */
-public class ChaChildFrg extends Fragment {
+public class ChaChildFrg extends BaseFragment {
     private List<String> list = new ArrayList<String>();
     private int flag;
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       View view= inflater.inflate(R.layout.frag_chanel_child01,null);
-        initView(view);
 
-        return view ;
+    @Override
+    public View initView(LayoutInflater inflater) {
+         view= inflater.inflate(R.layout.frag_chanel_child01,null);
+
+        return view;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
+        initView(view);
     }
 
     private void initView(View view) {
@@ -43,7 +49,7 @@ public class ChaChildFrg extends Fragment {
         lv_ch01.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv_ch01.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
         lv_ch01.getRefreshableView().setDivider(null);
-        ChanAdapter adapter=new ChanAdapter(getContext());
+        ChanAdapter adapter=new ChanAdapter(mActivity);
         lv_ch01.getRefreshableView().setAdapter(adapter);
 
     }

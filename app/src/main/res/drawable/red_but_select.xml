@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--红色退出按钮 如圈子资料界面退出样式-->
+    <item android:drawable="@drawable/red_but_pressd" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/red_but_nor" android:state_pressed="false"></item>
+    <item android:drawable="@drawable/red_but_nor"></item>
+</selector>

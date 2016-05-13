@@ -2,24 +2,23 @@ package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
-import com.boyuanitsm.zhetengba.activity.circle.GlcircleAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
+import com.boyuanitsm.zhetengba.base.BaseFragment;
 
 /**
  * 圈子界面
  * Created by xiaoke on 2016/5/2.
  */
-public class CircleFrg extends Fragment implements View.OnClickListener{
+public class CircleFrg extends BaseFragment implements View.OnClickListener{
     private View view;
     private FragmentManager childFragmentManager;
     private ChanelFrg chanelFrg;
@@ -31,11 +30,17 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
     private ImageView iv_newmes;
 
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.circle_frg, null);
-         tv_chanel = (TextView) view.findViewById(R.id.tv_chanel);
-         tv_circle = (TextView) view.findViewById(R.id.tv_circle);
+        return view;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
+        tv_chanel = (TextView) view.findViewById(R.id.tv_chanel);
+        tv_circle = (TextView) view.findViewById(R.id.tv_circle);
         iv_quan = (ImageView) view.findViewById(R.id.iv_quan);
         iv_newmes = (ImageView) view.findViewById(R.id.iv_newmes);
         childFragmentManager = getChildFragmentManager();
@@ -45,7 +50,6 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
         tv_circle.setOnClickListener(this);
         iv_quan.setOnClickListener(this);
         iv_newmes.setOnClickListener(this);
-        return view;
     }
 
     /***
@@ -111,12 +115,12 @@ public class CircleFrg extends Fragment implements View.OnClickListener{
                 break;
             case R.id.iv_quan:
                 //跳转至圈子管理
-                intent.setClass(getContext(),GlcircleAct.class);
+                intent.setClass(mActivity,CircleglAct.class);
                 startActivity(intent);
                 break;
             case R.id.iv_newmes:
                 //跳转至，圈子消息
-                intent.setClass(getContext(), CirMessAct.class);
+                intent.setClass(mActivity, CirMessAct.class);
                 startActivity(intent);
                 break;
         }

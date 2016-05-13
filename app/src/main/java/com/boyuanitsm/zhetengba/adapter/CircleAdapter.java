@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.CirFriendAct;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -32,7 +34,7 @@ public class CircleAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return dateList.size();
+        return 5;
     }
 
     @Override
@@ -75,6 +77,14 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.iv_oneimage.setVisibility(View.GONE);
            viewHolder.ivCImage.setImagesData(itemList);
         }
+        viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setClass(context, CirFriendAct.class);
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--立即加入圈子按钮-->
+    <item android:drawable="@drawable/but_jaru_pressd" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/but_jaru_nor" android:state_pressed="false"></item>
+    <item android:drawable="@drawable/but_jaru_nor"></item>
+</selector>
