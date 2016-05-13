@@ -1,9 +1,11 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.os.Bundle;
 import android.view.View;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mine.AboutztbAct;
+import com.boyuanitsm.zhetengba.activity.mine.FeedbackAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.widget.ToggleButton;
 import com.lidroid.xutils.view.annotation.ViewInject;

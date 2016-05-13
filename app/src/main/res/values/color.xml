@@ -33,4 +33,22 @@
     <color name="translucent_background">#50000000</color>
     <!-- 月份选中时的颜色-->
     <color name="selected_color">#e7e700</color>
+    <!--线的颜色-->
+    <color name="view_color">#dcdcde</color>
+    <!--标签颜色-->
+    <!--红-->
+    <color name="red_label">#F39CA9</color>
+    <!--深黄-->
+    <color name="yellow_label">#FEB196</color>
+    <!--浅黄-->
+    <color name="light_yellow_label">#FEC184</color>
+    <!--绿-->
+    <color name="green_label">#70CF94</color>
+    <!--浅蓝-->
+    <color name="light_blue_label">#71BEEA</color>
+    <!--深蓝-->
+    <color name="deep_blue_label">#78A4C1</color>
+    <!--紫-->
+    <color name="purple_label">#BF92FC</color>
+
 </resources>

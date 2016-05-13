@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -26,6 +27,12 @@ public class CircleglAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子管理");
         lv_circlegl.setAdapter(new CircleglAdapter(CircleglAct.this));
+        lv_circlegl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openActivity(CirxqAct.class);
+            }
+        });
 
     }
     @OnClick({R.id.iv_jia,R.id.iv_serch})

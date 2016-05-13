@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

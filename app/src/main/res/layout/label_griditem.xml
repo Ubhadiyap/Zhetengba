@@ -10,7 +10,7 @@
         android:background="@drawable/label"
         android:textColor="@color/white"
         android:textSize="12sp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="8dp"
         android:gravity="center"
         android:text="吃货"/>
 </LinearLayout>

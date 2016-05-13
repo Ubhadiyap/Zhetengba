@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;

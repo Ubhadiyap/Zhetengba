@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;

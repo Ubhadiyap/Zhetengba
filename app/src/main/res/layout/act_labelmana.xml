@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
     <include layout="@layout/title_act_layout"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@color/white"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:paddingRight="15dp"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/tvlabel"
             android:layout_width="wrap_content"
@@ -18,13 +21,41 @@
             android:textSize="16sp"
             android:textColor="#666666"
             android:layout_marginTop="15dp"/>
-        <com.boyuanitsm.zhetengba.view.FlowLayout
-            android:id="@+id/fl_myLabel"
+        <GridView
+            android:id="@+id/gv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tvlabel"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            ></com.boyuanitsm.zhetengba.view.FlowLayout>
-    </RelativeLayout>
+            android:numColumns="5"
+            android:columnWidth="40dp"
+            android:visibility="gone"></GridView>
+        <com.boyuanitsm.zhetengba.view.flowlayout.LabelFlowLayout
+            android:id="@+id/lfv_myLabel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            zhy:max_select="-1"></com.boyuanitsm.zhetengba.view.flowlayout.LabelFlowLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="全部标签"
+            android:textSize="16sp"
+            android:textColor="#666666"
+            android:layout_marginTop="15dp"/>
+        <com.boyuanitsm.zhetengba.view.flowlayout.LabelFlowLayout
+            android:id="@+id/lfv_label"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            zhy:max_select="-1"></com.boyuanitsm.zhetengba.view.flowlayout.LabelFlowLayout>
+    </LinearLayout>
 </LinearLayout>

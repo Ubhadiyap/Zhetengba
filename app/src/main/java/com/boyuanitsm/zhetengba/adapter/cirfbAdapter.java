@@ -10,9 +10,10 @@ import android.widget.CompoundButton;
 import com.boyuanitsm.zhetengba.R;
 
 /**
+ *圈子发布界面标签适配器
  * Created by bitch-1 on 2016/5/9.
  */
-public class cirfbAdapter extends BaseAdapter {
+public class CirfbAdapter extends BaseAdapter {
     private CheckBox ck_xx;
 
     private final String TITLES[] = {"摄影圈", "聚餐圈", "吃饭圈", "桑拿圈", "足球圈",
@@ -21,7 +22,7 @@ public class cirfbAdapter extends BaseAdapter {
 
     private Context context;
 
-    public cirfbAdapter(Context context) {
+    public CirfbAdapter(Context context) {
         this.context = context;
     }
 
