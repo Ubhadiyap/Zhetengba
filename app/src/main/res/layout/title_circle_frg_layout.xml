@@ -12,20 +12,29 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:background="@drawable/bg_circle_stroke_yes_white">
-
-        <TextView
-            android:id="@+id/tv_chanel"
+    <RadioGroup
+        android:id="@+id/rg_cir"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RadioButton
+            android:id="@+id/rb_chanel"
             style="@style/MainAct_Title_TextView"
             android:text="@string/title_chanel"
-            android:textColor="#52c791"
-            android:background="@drawable/bg_left_white_circle_yes_stroke"/>
-
-        <TextView
+            android:clickable="true"
+            android:checked="true"
+            android:background="@drawable/title_picchange_calen"
+            />
+        <RadioButton
             style="@style/MainAct_Title_TextView"
-            android:id="@+id/tv_circle"
+            android:id="@+id/rb_circle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/title_circle"/>
+            android:text="@string/title_circle"
+            android:clickable="true"
+            android:background="@drawable/title_picchange_cal"/>
+    </RadioGroup>
+
     </LinearLayout>
     <RelativeLayout
         android:layout_marginLeft="59dp"
