@@ -66,11 +66,11 @@
 
         <!--忘记密码界面-->
         <activity
-            android:name=".activity.FrogetpwdAct"
+            android:name=".activity.mine.FrogetpwdAct"
             android:screenOrientation="portrait"></activity>
         <!--注册界面-->
         <activity
-            android:name=".activity.RegistAct"
+            android:name=".activity.mine.RegistAct"
             android:screenOrientation="portrait"></activity>
         <!--注册信息-->
         <activity
@@ -78,7 +78,7 @@
             android:screenOrientation="portrait"></activity>
         <!--登录界面-->
         <activity
-            android:name=".activity.LoginAct"
+            android:name=".activity.mine.LoginAct"
             android:screenOrientation="portrait"></activity>
         <!--档期界面-->
         <activity
@@ -86,19 +86,19 @@
             android:screenOrientation="portrait"></activity>
         <!--个人资料界面-->
         <activity
-            android:name=".activity.PersonalmesAct"
+            android:name=".activity.mine.PersonalmesAct"
             android:screenOrientation="portrait"></activity>
         <!--设置界面-->
         <activity
-            android:name=".activity.SettingAct"
+            android:name=".activity.mine.SettingAct"
             android:screenOrientation="portrait"></activity>
         <!--关于折腾吧界面-->
         <activity
-            android:name=".activity.AboutztbAct"
+            android:name=".activity.mine.AboutztbAct"
             android:screenOrientation="portrait"></activity>
         <!--分享二维码界面-->
         <activity
-            android:name=".activity.ShareqrcodeAct"
+            android:name=".activity.mine.ShareqrcodeAct"
             android:screenOrientation="portrait"></activity>
         <!--系统消息界面-->
         <activity
@@ -249,12 +249,13 @@
             android:screenOrientation="portrait"></activity>
 
         <!--反馈-->
-        <activity
-            android:name=".activity.FeedbackAct"
+        <activity android:name=".activity.mine.FeedbackAct"
             android:screenOrientation="portrait"></activity>
         <!--我的收藏-->
-        <activity
-            android:name=".activity.MyColleitionAct"
+        <activity android:name=".activity.mine.MyColleitionAct"
+            android:screenOrientation="portrait"></activity>
+        <!--标签管理-->
+        <activity android:name=".activity.mine.LabelManaAct"
             android:screenOrientation="portrait"></activity>
 
         <!--圈子成员界面-->
