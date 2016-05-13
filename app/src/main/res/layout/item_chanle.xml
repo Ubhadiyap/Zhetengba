@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="@drawable/layer_list_bottom">
 <LinearLayout
     android:layout_marginTop="20dp"
     android:layout_marginLeft="15dp"
@@ -97,6 +97,7 @@
                 android:text="(240)" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_answer"
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="wrap_content"
@@ -113,6 +114,7 @@
                 android:text="(240)" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_share"
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="wrap_content"

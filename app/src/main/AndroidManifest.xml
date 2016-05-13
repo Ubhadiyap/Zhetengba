@@ -73,10 +73,8 @@
             android:name=".activity.RegistAct"
             android:screenOrientation="portrait"></activity>
         <!--注册信息-->
-
-        <!--活动详情-->
         <activity
-            android:name=".activity.EventdetailsAct"
+            android:name=".activity.RegInfoAct"
             android:screenOrientation="portrait"></activity>
         <!--登录界面-->
         <activity
@@ -107,19 +105,7 @@
             android:name=".activity.SystemmesAct"
             android:screenOrientation="portrait"></activity>
 
-        <!--圈子管理界面-->
-        <activity
-            android:name=".activity.CircleglAct"
-            android:screenOrientation="portrait"></activity>
 
-        <!--圈子：圈子消息界面-->
-        <activity
-            android:name=".activity.CirMess"
-            android:screenOrientation="portrait"></activity>
-        <!--圈子：我的发布界面-->
-        <activity
-            android:name=".activity.MyPlane"
-            android:screenOrientation="portrait"></activity>
 
 
         <!-- 聊天相关-->
@@ -238,7 +224,76 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+        <!--圈子：圈子消息界面-->
+        <activity
+            android:name=".activity.circle.CirMessAct"
+            android:screenOrientation="portrait"></activity>
 
+
+        <!--圈子管理界面-->
+        <activity
+            android:name=".activity.circle.CircleglAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子：我的发布界面-->
+        <activity
+            android:name=".activity.MyPlaneAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--建立圈子界面-->
+        <activity
+            android:name=".activity.circle.CreatCirAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子发布界面-->
+        <activity
+            android:name=".activity.circle.CirclefbAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--反馈-->
+        <activity
+            android:name=".activity.FeedbackAct"
+            android:screenOrientation="portrait"></activity>
+        <!--我的收藏-->
+        <activity
+            android:name=".activity.MyColleitionAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--圈子成员界面-->
+        <activity android:name=".activity.CircleppAct"
+            android:screenOrientation="portrait"></activity>
+        <!--管理圈子界面-->
+
+        <!--简约界面-->
+        <activity
+            android:name=".activity.ContractedAct"
+            android:screenOrientation="portrait"></activity>
+        <!--位置信息-->
+        <activity
+            android:name=".activity.LocationAct"
+            android:screenOrientation="portrait"></activity>
+        <!--管理圈子-->
+        <activity
+            android:name=".activity.circle.GLCirAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--圈子资料界面-->
+        <activity android:name=".activity.CirmationAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--扫一扫界面-->
+        <activity android:name=".activity.ScanAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--圈子详情界面-->
+        <activity android:name=".activity.circle.CirxqAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--频道正文界面-->
+        <activity android:name=".activity.circle.ChanelTextAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈友主页-->
+        <activity android:name=".activity.circle.CirFriendAct"
+
+            android:screenOrientation="portrait"></activity>
     </application>
 
 

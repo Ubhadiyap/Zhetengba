@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+    <include layout="@layout/title_act_layout"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_circle_stroke">
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/mag_glass" />
+
+        <EditText
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="14sp"
+            android:background="@null"
+            android:textColorHint="#999999"
+            android:hint="输入您的位置信息"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+<LinearLayout
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@drawable/location"/>
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:text="位置信息"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <TextView
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:textColor="#999999"
+        android:textSize="14sp"
+        android:text="虹口区曲阳路389弄"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

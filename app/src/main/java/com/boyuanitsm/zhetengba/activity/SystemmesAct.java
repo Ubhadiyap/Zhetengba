@@ -11,6 +11,7 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
+ * 系统消息界面
  * Created by bitch-1 on 2016/5/4.
  */
 public class SystemmesAct extends BaseActivity {

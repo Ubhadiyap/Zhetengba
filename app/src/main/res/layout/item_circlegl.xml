@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginLeft="10dp"
         android:orientation="horizontal">
 
@@ -15,8 +15,7 @@
             android:id="@+id/iv_sysmes"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_gravity="center_vertical"
             android:src="@mipmap/mine_head" />
 
         <LinearLayout
@@ -33,14 +32,14 @@
                 android:orientation="vertical">
                 <TextView
                     style="@style/tv_second"
-                    android:text="Lake"
+                    android:text="武汉人在上海"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
                 <TextView
                     style="@style/tv_second"
                     android:layout_marginTop="10dp"
-                    android:text="拒绝您的邀请 不参加 小吴打牌 活动。"
+                    android:text="公告：今天下午大家来我家吃饭"
                     android:textColor="#999999" />
 
             </LinearLayout>

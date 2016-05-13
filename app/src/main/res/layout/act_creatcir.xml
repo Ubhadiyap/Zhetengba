@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/title_act_layout"></include>
+
+    <LinearLayout
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="33dp">
+        <TextView
+            android:paddingTop="2dp"
+            android:layout_height="match_parent"
+            android:textColor="#666666"
+            android:textSize="16sp"
+            android:text="名称:"
+            style="@style/tv_second" />
+        <EditText
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/white_hui_edito"
+            android:layout_width="match_parent"
+            android:layout_height="33dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
+        <TextView
+            android:paddingTop="2dp"
+            android:layout_height="match_parent"
+            android:textColor="#666666"
+            android:textSize="16sp"
+            android:text="公告:"
+            style="@style/tv_second" />
+        <EditText
+            android:paddingTop="10dp"
+            android:gravity="top"
+            android:maxLines="8"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/white_hui_edito"
+            android:layout_width="match_parent"
+            android:layout_height="110dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:paddingRight="15dp"
+        android:layout_marginTop="15dp"
+        android:gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/white"
+            android:background="@drawable/bag_red_xyj"
+            android:gravity="center"
+            android:layout_height="26dp"
+            android:layout_width="81dp"
+            android:text="邀请好友"
+            style="@style/tv_second" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:text="建立圈子"
+        style="@style/com_button"/>
+
+
+
+</LinearLayout>

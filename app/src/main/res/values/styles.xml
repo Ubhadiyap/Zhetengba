@@ -131,4 +131,24 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
+    <!--简约界面：字体样式-->
+    <style name="simple_text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#999999</item>
+    </style>
+    <!--简约界面：布局样式-->
+    <style name="simple_linear">
+        <item name="android:layout_height">33dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <!--简约界面：字体样式2-->
+    <style name="simple_text2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>
