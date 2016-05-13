@@ -1,1 +1,2 @@
-include ':app'
+include ':app',':EaseUI'
+project(':EaseUI').projectDir = new File('../easeui')
