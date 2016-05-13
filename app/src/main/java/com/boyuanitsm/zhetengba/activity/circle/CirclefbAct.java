@@ -3,7 +3,7 @@ package com.boyuanitsm.zhetengba.activity.circle;
 import android.os.Bundle;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.adapter.cirfbAdapter;
+import com.boyuanitsm.zhetengba.adapter.CirfbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -28,7 +28,7 @@ public class CirclefbAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("Alic");
-        gv_qzfb.setAdapter(new cirfbAdapter(getApplicationContext()));
+        gv_qzfb.setAdapter(new CirfbAdapter(getApplicationContext()));
 
     }
 }
