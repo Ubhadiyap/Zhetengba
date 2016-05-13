@@ -128,7 +128,8 @@
                 android:id="@+id/my_lv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/layer_list_bottom">
+                android:dividerHeight="1px"
+                android:divider="@color/bg_color">
             </com.leaf.library.widget.MyListView>
         </LinearLayout>
 <LinearLayout
