@@ -9,10 +9,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.MyColleitionAct;
-import com.boyuanitsm.zhetengba.activity.PersonalmesAct;
-import com.boyuanitsm.zhetengba.activity.SettingAct;
-import com.boyuanitsm.zhetengba.activity.ShareqrcodeAct;
+import com.boyuanitsm.zhetengba.activity.mine.LabelManaAct;
+import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
+import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
+import com.boyuanitsm.zhetengba.activity.mine.SettingAct;
+import com.boyuanitsm.zhetengba.activity.mine.ShareqrcodeAct;
 import com.boyuanitsm.zhetengba.adapter.MonthSelectAdp;
 import com.boyuanitsm.zhetengba.adapter.RecycleviewAdp;
 import com.boyuanitsm.zhetengba.adapter.TimeAxisListAdp;
@@ -64,7 +65,7 @@ public class MineFrg extends BaseFragment{
         recycleviewAdp.setOnItemClickListener(new RecycleviewAdp.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(),"点击了...",Toast.LENGTH_SHORT).show();
+                openActivity(LabelManaAct.class);
             }
         });
         rvLabel.setAdapter(recycleviewAdp);

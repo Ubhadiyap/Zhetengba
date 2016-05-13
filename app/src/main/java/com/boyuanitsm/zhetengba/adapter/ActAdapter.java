@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.PersonalmesAct;
+import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
 

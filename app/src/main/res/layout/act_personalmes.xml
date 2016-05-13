@@ -35,12 +35,21 @@
                     android:textColor="#333333"
                     android:textSize="14sp" />
 
-                <com.boyuanitsm.zhetengba.view.CircleImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/test_user" />
+                    android:layout_centerVertical="true">
+                    <com.boyuanitsm.zhetengba.view.CircleImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/test_user" />
+
+                    <ImageView
+                        style="@style/image_right"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -51,72 +60,44 @@
                 android:background="@color/bg_color"></View>
 
 
-            <RelativeLayout style="@style/rl_personnal">
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_centerVertical="true"
-                    android:text="头像"
-                    android:textColor="#333333" />
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="会说话的tom猫"
-                    android:textColor="#999999" />
-
-
-            </RelativeLayout>
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:isShowCategoryImage="false"
+                app:desText="昵称"
+                app:desTextSize="15sp"
+                app:notesText=""
+                app:notesTextColor="#999999"
+                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:background="#dcdcde"></View>
+               style="@style/view_line"/>
 
-            <RelativeLayout style="@style/rl_personnal">
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:isShowCategoryImage="false"
+                app:desText="性别"
+                app:desTextSize="15sp"
+                app:notesText=""
+                app:notesTextColor="#999999"
+                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_centerVertical="true"
-                    android:text="性别"
-                    android:textColor="#333333" />
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="女"
-                    android:textColor="#999999" />
-
-
-            </RelativeLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:background="#dcdcde"></View>
+               style="@style/view_line"/>
 
 
-            <RelativeLayout style="@style/rl_personnal">
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:isShowCategoryImage="false"
+                app:desText="手机号码"
+                app:desTextSize="15sp"
+                app:notesText=""
+                app:notesTextColor="#999999"
+                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_centerVertical="true"
-                    android:text="手机号码"
-                    android:textColor="#333333" />
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="18777777777"
-                    android:textColor="#999999" />
-
-
-            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -127,139 +108,85 @@
             android:orientation="vertical">
 
 
-            <RelativeLayout style="@style/rl_personnal">
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_centerVertical="true"
-                    android:text="邮箱"
-                    android:textColor="#333333" />
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="673132032@qq.com"
-                    android:textColor="#999999" />
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:isShowCategoryImage="false"
+                app:desText="邮箱"
+                app:desTextSize="15sp"
+                app:notesText=""
+                app:notesTextColor="#999999"
+                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
 
-            </RelativeLayout>
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:isShowCategoryImage="false"
+                app:desText="公司名称"
+                app:desTextSize="15sp"
+                app:notesText=""
+                app:notesTextColor="#999999"
+                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-            <RelativeLayout style="@style/rl_personnal">
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_centerVertical="true"
-                    android:text="公司名称"
-                    android:textColor="#333333" />
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="上海博猿"
-                    android:textColor="#999999" />
-
-
-            </RelativeLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:background="#dcdcde"></View>
+               style="@style/view_line"/>
 
 
-            <RelativeLayout style="@style/rl_personnal">
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:isShowCategoryImage="false"
+                app:desText="公司地址"
+                app:desTextSize="15sp"
+                app:notesText=""
+                app:notesTextColor="#999999"
+                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_centerVertical="true"
-                    android:text="公司地址"
-                    android:textColor="#333333" />
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="汤泉国际"
-                    android:textColor="#999999" />
-
-
-            </RelativeLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:background="#dcdcde"></View>
+               style="@style/view_line"/>
 
 
-            <RelativeLayout style="@style/rl_personnal">
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:isShowCategoryImage="false"
+                app:desText="公司电话"
+                app:desTextSize="15sp"
+                app:notesText=""
+                app:notesTextColor="#999999"
+                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_centerVertical="true"
-                    android:text="公司电话"
-                    android:textColor="#333333" />
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="26548962"
-                    android:textColor="#999999" />
-
-
-            </RelativeLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:background="#dcdcde"></View>
+                style="@style/view_line"/>
 
-            <RelativeLayout style="@style/rl_personnal">
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:isShowCategoryImage="false"
+                app:desText="职务"
+                app:desTextSize="15sp"
+                app:notesText=""
+                app:notesTextColor="#999999"
+                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_centerVertical="true"
-                    android:text="职务"
-                    android:textColor="#333333" />
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="会计"
-                    android:textColor="#999999" />
-
-
-            </RelativeLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:background="#dcdcde"></View>
+               style="@style/view_line"/>
 
-            <RelativeLayout style="@style/rl_personnal">
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:isShowCategoryImage="false"
+                app:desText="故乡"
+                app:desTextSize="15sp"
+                app:notesText=""
+                app:notesTextColor="#999999"
+                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_centerVertical="true"
-                    android:text="故乡"
-                    android:textColor="#333333" />
-
-                <TextView
-                    style="@style/tv_second"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="湖北武汉"
-                    android:textColor="#999999" />
-
-
-            </RelativeLayout>
 
         </LinearLayout>
 
