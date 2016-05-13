@@ -121,6 +121,10 @@
         <!--扫一扫界面-->
         <activity android:name=".activity.ScanAct"
             android:screenOrientation="portrait"></activity>
+
+        <!--圈子详情界面-->
+        <activity android:name=".activity.circle.CirxqAct"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
