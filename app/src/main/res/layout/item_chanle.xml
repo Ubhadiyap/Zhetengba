@@ -97,6 +97,7 @@
                 android:text="(240)" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_answer"
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="wrap_content"

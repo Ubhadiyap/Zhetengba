@@ -3,9 +3,31 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_loop_act"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"/>
+        android:layout_height="150dp">
 
+        <com.boyuanitsm.zhetengba.view.loopview.LoopViewPager
+            android:id="@+id/vp_loop_act"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/white"
+            android:divider="@null"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none" />
+
+        <LinearLayout
+            android:id="@+id/ll_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
+
+
+    </RelativeLayout>
 </LinearLayout>

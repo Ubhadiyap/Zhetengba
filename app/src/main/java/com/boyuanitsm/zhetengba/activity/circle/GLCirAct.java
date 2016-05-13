@@ -13,10 +13,10 @@ import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
 /**
- * 圈子管理
+ * 管理圈子
  * Created by xiaoke on 2016/5/11.
  */
-public class CirGLAct extends BaseActivity {
+public class GLCirAct extends BaseActivity {
     private ListView gl_cir_lv;
     @Override
     public void setLayout() {

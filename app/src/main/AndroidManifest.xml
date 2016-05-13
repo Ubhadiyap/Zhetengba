@@ -111,7 +111,7 @@
             android:screenOrientation="portrait"></activity>
         <!--管理圈子-->
         <activity
-            android:name=".activity.circle.CirGLAct"
+            android:name=".activity.circle.GLCirAct"
             android:screenOrientation="portrait"></activity>
 
         <!--圈子资料界面-->
@@ -124,6 +124,14 @@
 
         <!--圈子详情界面-->
         <activity android:name=".activity.circle.CirxqAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--频道正文界面-->
+        <activity android:name=".activity.circle.ChanelTextAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈友主页-->
+        <activity android:name=".activity.circle.CirFriendAct"
+
             android:screenOrientation="portrait"></activity>
     </application>
 
