@@ -18,13 +18,12 @@ import com.boyuanitsm.zhetengba.view.CustomDialog;
 import java.util.List;
 
 /**
- * 活动listview适配器.
+ * 首页简约：listview适配器.
  * 设置条目点击
  * Created by xiaoke on 2016/4/25.
  */
 public class ActAdapter extends BaseAdapter{
     private Context context;
-    private boolean image_record_out;
 
     public ActAdapter(Context context) {
         this.context=context;
@@ -120,6 +119,7 @@ public class ActAdapter extends BaseAdapter{
         View.OnClickListener listener=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //判断返回活动是否为null；
                 showDialog();
             }
         };
@@ -169,11 +169,7 @@ public class ActAdapter extends BaseAdapter{
 
 
     }
-//
-//    public interface IUpdateZan {
-//       void registGuanZhu();
-//       void registJoin();
-//    }
+
 
     public static class Holder {
        public ImageView iv_headphoto;//头像
