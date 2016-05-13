@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -18,13 +19,13 @@ import com.hyphenate.util.NetUtils;
 /**
  * Created by xiaoke on 2016/4/29.
  */
-public class MessFrg extends EaseConversationListFragment implements View.OnClickListener{
+public class MessFrg extends EaseConversationListFragment implements View.OnClickListener {
     private TextView errorText;
 
     @Override
     protected void initView() {
         super.initView();
-        View errorView = (LinearLayout) View.inflate(getActivity(),R.layout.em_chat_neterror_item, null);
+        View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.em_chat_neterror_item, null);
         errorItemContainer.addView(errorView);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
 
@@ -34,7 +35,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rlAdd://新增
 
                 break;
@@ -53,10 +54,11 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    Toast.makeText(getContext(),"档期消息",Toast.LENGTH_SHORT).show();
-                }else {
-                    EMConversation conversation = conversationListView.getItem(position-1);
+                if (position == 0) {
+                    Intent dqIntent = new Intent(getContext(), DqMesAct.class);
+                    getContext().startActivity(dqIntent);
+                } else {
+                    EMConversation conversation = conversationListView.getItem(position - 1);
                     String username = conversation.getUserName();
                     if (username.equals(EMClient.getInstance().getCurrentUser()))
                         Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, Toast.LENGTH_SHORT).show();
@@ -87,7 +89,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
     @Override
     protected void onConnectionDisconnected() {
         super.onConnectionDisconnected();
-        if (NetUtils.hasNetwork(getActivity())){
+        if (NetUtils.hasNetwork(getActivity())) {
             errorText.setText(R.string.can_not_connect_chat_server_connection);
         } else {
             errorText.setText(R.string.the_current_network);

@@ -5,4 +5,12 @@
     android:background="@color/bg_color"
     >
 
+    <include layout="@layout/title_act_layout"></include>
+
+    <FrameLayout
+        android:id="@+id/frameContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
+
 </LinearLayout>

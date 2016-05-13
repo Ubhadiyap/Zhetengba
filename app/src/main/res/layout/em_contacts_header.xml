@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp">
+
+
+    <com.boyuanitsm.zhetengba.view.CommonView
+        android:id="@+id/cvNewF"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        app:statusImage="@mipmap/new_f"
+        app:statusImage_height="40dp"
+        app:statusImage_width="40dp"
+        app:desText="新的好友"
+
+        ></com.boyuanitsm.zhetengba.view.CommonView>
+
+        <TextView
+            android:id="@+id/tvUnReadMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="25dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/em_unread_count_bg"
+            android:layout_marginLeft="120dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:visibility="gone"
+
+            />
+    </RelativeLayout>
+
+    <View
+        style="@style/view_line"
+
+        ></View>
+    <com.boyuanitsm.zhetengba.view.CommonView
+        android:id="@+id/cvMyQl"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        app:statusImage="@drawable/qun"
+        app:statusImage_height="40dp"
+        app:statusImage_width="40dp"
+        app:desText="我的群聊"
+
+        ></com.boyuanitsm.zhetengba.view.CommonView>
+    <View
+        style="@style/view_line"
+
+        ></View>
+</LinearLayout>
