@@ -1,9 +1,12 @@
 package com.boyuanitsm.zhetengba.fragment;
 
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +14,7 @@ import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
@@ -21,6 +25,7 @@ import com.hyphenate.util.NetUtils;
  */
 public class MessFrg extends EaseConversationListFragment implements View.OnClickListener {
     private TextView errorText;
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void initView() {
@@ -31,13 +36,14 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
 
         rlAdd.setOnClickListener(this);
         rlContract.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlAdd://新增
-
+                addPop();
                 break;
             case R.id.rlContract://联系人
 
@@ -94,6 +100,39 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         } else {
             errorText.setText(R.string.the_current_network);
         }
+    }
+    /**
+     * 待解决：对话框布局有出入
+     * 选择对话框，选择好友/全部
+     */
+    private void addPop() {
+        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow = new PopupWindow(layoutParams.width, layoutParams.height);
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.act_pop_mess, null);
+        LinearLayout ll_sao = (LinearLayout) v.findViewById(R.id.ll_sao);
+        LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qun);
+
+
+        mPopupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_stroke));
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setContentView(v);
+        mPopupWindow.showAsDropDown(rlAdd, -150, 10);
+        ll_sao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyToastUtils.showShortToast(getContext(), "点击了扫一扫");
+                mPopupWindow.dismiss();
+            }
+        });
+        ll_qun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyToastUtils.showShortToast(getContext(), "点击了群聊");
+                mPopupWindow.dismiss();
+            }
+        });
+
     }
 
 }

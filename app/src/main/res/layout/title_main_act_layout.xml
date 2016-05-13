@@ -12,20 +12,29 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:background="@drawable/bg_circle_stroke_yes_white">
+<RadioGroup
+    android:id="@+id/rg_simple"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RadioButton
+        android:id="@+id/rb_simple"
+        style="@style/MainAct_Title_TextView"
+        android:text="@string/title_simple"
+        android:clickable="true"
+        android:checked="true"
+        android:background="@drawable/title_picchange_calen"/>
 
-        <TextView
-            android:id="@+id/tv_simple"
-            style="@style/MainAct_Title_TextView"
-            android:text="@string/title_simple"
-            android:textColor="#52c791"
-            android:background="@drawable/bg_left_white_circle_yes_stroke"/>
+    <RadioButton
+        style="@style/MainAct_Title_TextView"
+        android:id="@+id/rb_calendar"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/title_calen"
+        android:background="@drawable/title_picchange_cal"/>
+</RadioGroup>
 
-        <TextView
-            style="@style/MainAct_Title_TextView"
-            android:id="@+id/tv_calendar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/title_calen"/>
     </LinearLayout>
 <LinearLayout
     android:id="@+id/ll_friend"

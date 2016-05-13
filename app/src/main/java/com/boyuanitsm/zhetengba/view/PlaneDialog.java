@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,7 +23,7 @@ import com.boyuanitsm.zhetengba.activity.ScheduleAct;
  */
 public class PlaneDialog extends Dialog {
     private Context context;
-
+    private LayoutAnimationController lac;
     public PlaneDialog(Context context, int themeResId) {
         super(context, themeResId);
         this.context = context;
@@ -39,6 +43,16 @@ public class PlaneDialog extends Dialog {
     public void init() {
         setContentView(R.layout.act_plan_layout);
         getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT/*Constant.height*/);
+
+//diaolog动画
+//        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF,
+//                0f, Animation.RELATIVE_TO_SELF, 6f, Animation.RELATIVE_TO_SELF, 0);
+//        animation.setInterpolator(new DecelerateInterpolator());
+//        animation.setDuration(350);
+//        animation.setStartOffset(150);
+
+//        lac = new LayoutAnimationController(animation, 0.12f);
+//        lac.setInterpolator(new DecelerateInterpolator());
         TextView tv_plan_act = (TextView) findViewById(R.id.tv_plan_act);
         TextView tv_plan_calen = (TextView) findViewById(R.id.tv_plan_calen);
         LinearLayout ll_cancel = (LinearLayout) findViewById(R.id.ll_cancel);
