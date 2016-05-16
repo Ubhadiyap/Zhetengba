@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
@@ -50,7 +51,6 @@ public class MainAct extends BaseActivity {
     private CalendarFrg calendarFrg;
     private CircleFrg circleFrg;
     private MessFrg messFrg;
-    private MineFrg mineFrg;
     private  PlaneDialog planeDialog;
     private MyRadioButton rb_mes;
 //    // 未读消息textview
@@ -64,6 +64,8 @@ public class MainAct extends BaseActivity {
     public boolean isConflict = false;
     // 账号被移除
     private boolean isCurrentAccountRemoved = false;
+    private MineFrg mineFrg;
+
     /**
      * 检查当前用户是否被删除
      */
@@ -102,6 +104,7 @@ public class MainAct extends BaseActivity {
             return;
         }
         setContentView(R.layout.act_main_layout);
+        AppManager.getAppManager().addActivity(this);
 
         rb_mes= (MyRadioButton) findViewById(R.id.rb_mes);
         unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
@@ -209,10 +212,10 @@ public class MainAct extends BaseActivity {
                     break;
                 case R.id.rb_my://点击显示：我的界面
                     currentTabIndex=3;
-                    if ( mineFrg== null) {
+                    if (mineFrg==null) {
                         mineFrg = new MineFrg();
-                        transaction.add(R.id.fl_main, mineFrg);
-                    } else {
+                        transaction.add(R.id.fl_main,mineFrg);
+                    }else{
                         transaction.show(mineFrg);
                     }
                     break;

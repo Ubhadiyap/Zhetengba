@@ -86,12 +86,15 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llExit"
         android:gravity="center"
-        android:background="@color/white"
+        android:background="@drawable/item_back"
         android:layout_marginTop="15dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="41dp">
+        android:layout_height="41dp"
+
+        >
         <TextView
             android:id="@+id/tv_signOut"
             android:textColor="#333333"

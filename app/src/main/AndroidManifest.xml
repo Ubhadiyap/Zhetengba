@@ -57,10 +57,9 @@
         <!--注册界面主入口-->
         <activity
             android:name=".activity.MainAct"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            android:theme="@style/horizontal_slide"
-            >
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide">
 
         </activity>
 
@@ -104,6 +103,22 @@
         <activity
             android:name=".activity.SystemmesAct"
             android:screenOrientation="portrait"></activity>
+        <!--反馈-->
+        <activity
+            android:name=".activity.mine.FeedbackAct"
+            android:screenOrientation="portrait"></activity>
+        <!--我的收藏-->
+        <activity
+            android:name=".activity.mine.MyColleitionAct"
+            android:screenOrientation="portrait"></activity>
+        <!--标签管理-->
+        <activity
+            android:name=".activity.mine.LabelManaAct"
+            android:screenOrientation="portrait"></activity>
+        <!--编辑界面-->
+        <activity
+            android:name=".activity.mine.EditAct"
+            android:screenOrientation="portrait"></activity>
 
 <!--档期消息-->
         <activity android:name=".activity.mess.DqMesAct"
@@ -122,43 +137,45 @@
             android:screenOrientation="portrait"
             ></activity>
 
+
         <!-- 聊天相关-->
-        <activity android:name=".chat.act.ChatActivity"
+        <activity
+            android:name=".chat.act.ChatActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustResize"
-            ></activity>
+            android:windowSoftInputMode="adjustResize"></activity>
 
-        <activity android:name=".chat.act.ContextMenuActivity"
+        <activity
+            android:name=".chat.act.ContextMenuActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyle"></activity>
-        <activity android:name=".chat.act.EditActivity"
+        <activity
+            android:name=".chat.act.EditActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateVisible"
-            ></activity>
-        <activity android:name=".chat.act.ExitGroupDialog"
+            android:windowSoftInputMode="stateVisible"></activity>
+        <activity
+            android:name=".chat.act.ExitGroupDialog"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyleBottom"
-            ></activity>
-        <activity android:name=".chat.act.ForwardMessageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"
-            ></activity>
-        <activity android:name=".chat.act.GroupDetailsActivity"
+            android:theme="@style/MyDialogStyleBottom"></activity>
+        <activity
+            android:name=".chat.act.ForwardMessageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            ></activity>
-        <activity android:name=".chat.act.GroupPickContactsActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".chat.act.GroupDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"></activity>
+        <activity
+            android:name=".chat.act.GroupPickContactsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"
-            ></activity>
-        <activity android:name=".chat.act.PickContactNoCheckboxActivity"
-            android:screenOrientation="portrait"
-            ></activity>
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".chat.act.PickContactNoCheckboxActivity"
+            android:screenOrientation="portrait"></activity>
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".chat.receiver.StartServiceReceiver">
@@ -262,18 +279,10 @@
             android:name=".activity.circle.CirclefbAct"
             android:screenOrientation="portrait"></activity>
 
-        <!--反馈-->
-        <activity android:name=".activity.mine.FeedbackAct"
-            android:screenOrientation="portrait"></activity>
-        <!--我的收藏-->
-        <activity android:name=".activity.mine.MyColleitionAct"
-            android:screenOrientation="portrait"></activity>
-        <!--标签管理-->
-        <activity android:name=".activity.mine.LabelManaAct"
-            android:screenOrientation="portrait"></activity>
 
         <!--圈子成员界面-->
-        <activity android:name=".activity.CircleppAct"
+        <activity
+            android:name=".activity.circle.CircleppAct"
             android:screenOrientation="portrait"></activity>
         <!--管理圈子界面-->
 
@@ -291,23 +300,38 @@
             android:screenOrientation="portrait"></activity>
 
         <!--圈子资料界面-->
-        <activity android:name=".activity.CirmationAct"
+        <activity
+            android:name=".activity.circle.CirmationAct"
             android:screenOrientation="portrait"></activity>
 
         <!--扫一扫界面-->
-        <activity android:name=".activity.ScanAct"
+        <activity
+            android:name=".activity.ScanAct"
             android:screenOrientation="portrait"></activity>
 
         <!--圈子详情界面-->
-        <activity android:name=".activity.circle.CirxqAct"
+        <activity
+            android:name=".activity.circle.CirxqAct"
             android:screenOrientation="portrait"></activity>
 
         <!--频道正文界面-->
-        <activity android:name=".activity.circle.ChanelTextAct"
+        <activity
+            android:name=".activity.circle.ChanelTextAct"
             android:screenOrientation="portrait"></activity>
         <!--圈友主页-->
-        <activity android:name=".activity.circle.CirFriendAct"
+        <activity
+            android:name=".activity.circle.CirFriendAct"
 
+            android:screenOrientation="portrait"></activity>
+
+
+        <!--裁减图片-->
+        <activity
+            android:name=".view.crop.square.CropImageActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--裁剪头像页面-->
+        <activity
+            android:name=".activity.mine.ClipActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 
