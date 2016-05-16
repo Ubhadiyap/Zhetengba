@@ -56,7 +56,7 @@ public class RecycleviewAdp extends RecyclerView.Adapter<RecycleviewAdp.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
 
-        if (i==4){
+        if (i==3){
             viewHolder.mTxt.setText("更多...");
             //如果设置了回调，则设置点击事件
             if (mOnItemClickListener!=null){
@@ -76,6 +76,6 @@ public class RecycleviewAdp extends RecyclerView.Adapter<RecycleviewAdp.ViewHold
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 4;
     }
 }

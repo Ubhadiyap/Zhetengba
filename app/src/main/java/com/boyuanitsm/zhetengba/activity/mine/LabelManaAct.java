@@ -51,17 +51,22 @@ public class LabelManaAct extends BaseActivity {
         labelList.add("仗义");
         labelList.add("反差萌");
         labelList.add("努力奋斗中");
+        setRight("完成", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         LabelFlowview();
         recyclerView();
     }
 
     private void recyclerView() {
-//        adapter = new GridAdapter(this,labelList);
-//        gv.setAdapter(adapter);
-//        lfvLabel.setAdapter(new LabelAdapter<List<String>>(labelList) {
-//
+        adapter = new GridAdapter(this,labelList);
+        gv.setAdapter(adapter);
+//        lflMyLabel.setAdapter(new LabelAdapter(labelList) {
 //            @Override
-//            public View getView(FlowLayout parent, int position, List<String> list) {
+//            public View getView(FlowLayout parent, int position, Object o) {
 //                return null;
 //            }
 //        });
@@ -104,7 +109,7 @@ public class LabelManaAct extends BaseActivity {
                 }else{
                     isFirstClick = false;
                     MyLogUtils.info("取消选择...");
-                    adapter.removLabel(pos);
+//                    adapter.removLabel(pos);
                 }
 //                adapter.addLabel(allLabelNum[position]);
 //                MyLogUtils.info("xxxxxxxx"+allLabelNum[position]+"list的size"+labelList.size());

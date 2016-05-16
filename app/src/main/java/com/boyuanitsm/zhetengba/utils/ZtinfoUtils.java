@@ -36,6 +36,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 工具类
@@ -655,10 +657,6 @@ public class ZtinfoUtils {
         return false;
     }
 
-
-
-
-
     /**
      * 提供精确的加法运算。
      * @param v1 被加数
@@ -708,4 +706,38 @@ public class ZtinfoUtils {
         return packageNames.contains(packageName);
     }
 
+    /**
+     * 判断输入是否是中文
+     * @param input
+     * @return
+     */
+    public static boolean isInputChinese(String input){
+        Pattern pattern = Pattern.compile("^[\u4e00-\u9fa5]*$");
+        Matcher matcher = pattern.matcher(input);
+        return  matcher.matches();//true全部为汉字，否则是false
+    }
+    /**
+     * 验证手机号是否正确
+     * @param mobiles
+     * @return
+     */
+    public static boolean isMobileNO(String mobiles){
+        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        Matcher m = p.matcher(mobiles);
+        return m.matches();
+    }
+
+    /**
+     * 判断邮箱是否合法
+     * @param email
+     * @return
+     */
+    public static boolean isEmail(String email){
+        if (null==email || "".equals(email))
+            return false;
+        //Pattern p = Pattern.compile("\\w+@(\\w+.)+[a-z]{2,3}"); //简单匹配
+        Pattern p =  Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");//复杂匹配
+        Matcher m = p.matcher(email);
+        return m.matches();
+    }
 }

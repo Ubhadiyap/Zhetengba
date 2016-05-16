@@ -51,4 +51,8 @@
     <!--紫-->
     <color name="purple_label">#BF92FC</color>
 
+
+    <color name="actionsheet_gray">#8F8F8F</color>
+    <!--灰色字-->
+    <color name="tv_gray">#999a9a</color>
 </resources>

@@ -104,7 +104,18 @@
         <activity
             android:name=".activity.SystemmesAct"
             android:screenOrientation="portrait"></activity>
-
+        <!--反馈-->
+        <activity android:name=".activity.mine.FeedbackAct"
+            android:screenOrientation="portrait"></activity>
+        <!--我的收藏-->
+        <activity android:name=".activity.mine.MyColleitionAct"
+            android:screenOrientation="portrait"></activity>
+        <!--标签管理-->
+        <activity android:name=".activity.mine.LabelManaAct"
+            android:screenOrientation="portrait"></activity>
+        <!--编辑界面-->
+        <activity android:name=".activity.mine.EditAct"
+            android:screenOrientation="portrait"></activity>
 
 
 
@@ -248,15 +259,7 @@
             android:name=".activity.circle.CirclefbAct"
             android:screenOrientation="portrait"></activity>
 
-        <!--反馈-->
-        <activity android:name=".activity.mine.FeedbackAct"
-            android:screenOrientation="portrait"></activity>
-        <!--我的收藏-->
-        <activity android:name=".activity.mine.MyColleitionAct"
-            android:screenOrientation="portrait"></activity>
-        <!--标签管理-->
-        <activity android:name=".activity.mine.LabelManaAct"
-            android:screenOrientation="portrait"></activity>
+
 
         <!--圈子成员界面-->
         <activity android:name=".activity.CircleppAct"
@@ -294,6 +297,14 @@
         <!--圈友主页-->
         <activity android:name=".activity.circle.CirFriendAct"
 
+            android:screenOrientation="portrait"></activity>
+
+
+        <!--裁减图片-->
+        <activity android:name=".view.crop.square.CropImageActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--裁剪头像页面-->
+        <activity android:name=".activity.mine.ClipActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

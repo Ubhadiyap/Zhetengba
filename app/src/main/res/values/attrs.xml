@@ -61,4 +61,10 @@
         </attr>
     </declare-styleable>
 
+
+    <!-- 截取图片 -->
+    <declare-styleable name="ClipImageLayout">
+        <attr name="clip_image" format="reference"></attr>
+        <attr name="clip_hor" format="integer"></attr>
+    </declare-styleable>
 </resources>
