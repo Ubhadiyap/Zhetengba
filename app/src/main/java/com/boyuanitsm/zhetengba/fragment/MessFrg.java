@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.AddFriendsAct;
+import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -46,7 +48,8 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                 addPop();
                 break;
             case R.id.rlContract://联系人
-
+                Intent intent = new Intent(getContext(), ContractsAct.class);
+                getActivity().startActivity(intent);
                 break;
         }
     }
@@ -101,17 +104,18 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             errorText.setText(R.string.the_current_network);
         }
     }
+
     /**
      * 待解决：对话框布局有出入
      * 选择对话框，选择好友/全部
      */
     private void addPop() {
-        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopupWindow = new PopupWindow(layoutParams.width, layoutParams.height);
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.act_pop_mess, null);
         LinearLayout ll_sao = (LinearLayout) v.findViewById(R.id.ll_sao);
         LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qun);
-
+        LinearLayout ll_add_friend = (LinearLayout) v.findViewById(R.id.ll_add_friend);
 
         mPopupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_stroke));
         mPopupWindow.setOutsideTouchable(true);
@@ -130,6 +134,12 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             public void onClick(View v) {
                 MyToastUtils.showShortToast(getContext(), "点击了群聊");
                 mPopupWindow.dismiss();
+            }
+        });
+        ll_add_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getContext(), AddFriendsAct.class));
             }
         });
 

@@ -11,6 +11,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.NewFriendsMsgActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
+import com.boyuanitsm.zhetengba.chat.act.MyGroupAct;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
@@ -177,7 +178,7 @@ public class ContractsFrg extends EaseContactListFragment {
                     break;
                 case R.id.cvMyQl:
                     // 我的群聊
-//                    startActivity(new Intent(getActivity(), GroupsActivity.class));
+                    startActivity(new Intent(getActivity(), MyGroupAct.class));
                     break;
 
                 default:

@@ -114,6 +114,13 @@
             ></activity>
 <activity android:name=".activity.mess.NewFriendsMsgActivity"
     android:screenOrientation="portrait"></activity>
+        <activity android:name=".chat.act.MyGroupAct"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            ></activity>
+        <activity android:name=".activity.mess.AddFriendsAct"
+            android:screenOrientation="portrait"
+            ></activity>
 
         <!-- 聊天相关-->
         <activity android:name=".chat.act.ChatActivity"

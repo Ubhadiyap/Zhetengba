@@ -12,7 +12,7 @@
         android:paddingRight="15dp"
         android:layout_marginTop="15dp"
         >
-        <com.hyphenate.easeui.widget.CircleImageView
+        <com.boyuanitsm.zhetengba.view.CircleImageView
             android:id="@+id/civhead"
             android:layout_width="45dp"
             android:layout_height="45dp"

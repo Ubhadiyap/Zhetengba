@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.hyphenate.easeui.widget.CircleImageView;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 
 /**
  * 档期消息适配器
