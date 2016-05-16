@@ -50,5 +50,7 @@
     <color name="deep_blue_label">#78A4C1</color>
     <!--紫-->
     <color name="purple_label">#BF92FC</color>
+    <!--指示器颜色-->
+    <color name="background_tab_pressed">#52c791</color>
 
 </resources>

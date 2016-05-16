@@ -33,10 +33,10 @@
              style="@style/tv_second"/>
 
             <com.boyuanitsm.zhetengba.view.MyGridView
+                android:gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/tv_name"
-                android:columnWidth="50dp"
-                android:numColumns="1"
+                android:numColumns="3"
                 android:id="@+id/gv_bq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

@@ -295,6 +295,11 @@
         <activity android:name=".activity.circle.CirFriendAct"
 
             android:screenOrientation="portrait"></activity>
+
+        <!--消息里面个人主页界面-->
+        <activity android:name=".activity.PerpageAct"
+
+            android:screenOrientation="portrait"></activity>
     </application>
 
 
