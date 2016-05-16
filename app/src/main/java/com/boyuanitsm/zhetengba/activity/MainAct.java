@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
@@ -27,6 +28,7 @@ import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.db.UserDao;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
@@ -62,6 +64,8 @@ public class MainAct extends BaseActivity {
     public boolean isConflict = false;
     // 账号被移除
     private boolean isCurrentAccountRemoved = false;
+    private MineFrg mineFrg;
+
     /**
      * 检查当前用户是否被删除
      */
@@ -100,6 +104,7 @@ public class MainAct extends BaseActivity {
             return;
         }
         setContentView(R.layout.act_main_layout);
+        AppManager.getAppManager().addActivity(this);
 
         rb_mes= (MyRadioButton) findViewById(R.id.rb_mes);
         unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
@@ -162,6 +167,9 @@ public class MainAct extends BaseActivity {
         if (circleFrg != null) {
             transaction.hide(circleFrg);
         }
+        if (mineFrg!=null){
+            transaction.hide(mineFrg);
+        }
 
     }
 
@@ -204,6 +212,12 @@ public class MainAct extends BaseActivity {
                     break;
                 case R.id.rb_my://点击显示：我的界面
                     currentTabIndex=3;
+                    if (mineFrg==null) {
+                        mineFrg = new MineFrg();
+                        transaction.add(R.id.fl_main,mineFrg);
+                    }else{
+                        transaction.show(mineFrg);
+                    }
                     break;
             }
             transaction.commit();

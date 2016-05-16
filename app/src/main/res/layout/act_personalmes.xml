@@ -7,191 +7,195 @@
     android:orientation="vertical">
 
     <include layout="@layout/title_act_layout"></include>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/rl_headIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="头像"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <com.boyuanitsm.zhetengba.view.CircleImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/test_user" />
+
+                        <ImageView
+                            style="@style/image_right"
+                            android:layout_gravity="center_vertical" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <View style="@style/view_line" />
+
+
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_userName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="头像"
-                    android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:layout_height="41dp"
+                    app:desText="昵称"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-                <LinearLayout
+                <View style="@style/view_line" />
+
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_sex"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true">
-                    <com.boyuanitsm.zhetengba.view.CircleImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/test_user" />
+                    android:layout_height="41dp"
+                    app:desText="性别"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-                    <ImageView
-                        style="@style/image_right"
-                        android:layout_gravity="center_vertical"/>
-                </LinearLayout>
 
-            </RelativeLayout>
+                <View style="@style/view_line" />
 
-            <View
+
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_phoneNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    app:desText="手机号码"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:background="@color/bg_color"></View>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:orientation="vertical">
 
 
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                app:isShowCategoryImage="false"
-                app:desText="昵称"
-                app:desTextSize="15sp"
-                app:notesText=""
-                app:notesTextColor="#999999"
-                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    app:desText="邮箱"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-            <View
-               style="@style/view_line"/>
+                <View style="@style/view_line" />
 
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                app:isShowCategoryImage="false"
-                app:desText="性别"
-                app:desTextSize="15sp"
-                app:notesText=""
-                app:notesTextColor="#999999"
-                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
-
-
-            <View
-               style="@style/view_line"/>
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_companyName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    app:desText="公司名称"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
 
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                app:isShowCategoryImage="false"
-                app:desText="手机号码"
-                app:desTextSize="15sp"
-                app:notesText=""
-                app:notesTextColor="#999999"
-                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
+                <View style="@style/view_line" />
+
+
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_companyAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    app:desText="公司地址"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
+
+
+                <View style="@style/view_line" />
+
+
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_companyTel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    app:desText="公司电话"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
+
+
+                <View style="@style/view_line" />
+
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_business"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    app:desText="职务"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
+
+
+                <View style="@style/view_line" />
+
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_homeTown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    app:desText="故乡"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                app:isShowCategoryImage="false"
-                app:desText="邮箱"
-                app:desTextSize="15sp"
-                app:notesText=""
-                app:notesTextColor="#999999"
-                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
-
-
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                app:isShowCategoryImage="false"
-                app:desText="公司名称"
-                app:desTextSize="15sp"
-                app:notesText=""
-                app:notesTextColor="#999999"
-                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
-
-
-            <View
-               style="@style/view_line"/>
-
-
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                app:isShowCategoryImage="false"
-                app:desText="公司地址"
-                app:desTextSize="15sp"
-                app:notesText=""
-                app:notesTextColor="#999999"
-                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
-
-
-            <View
-               style="@style/view_line"/>
-
-
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                app:isShowCategoryImage="false"
-                app:desText="公司电话"
-                app:desTextSize="15sp"
-                app:notesText=""
-                app:notesTextColor="#999999"
-                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
-
-
-            <View
-                style="@style/view_line"/>
-
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                app:isShowCategoryImage="false"
-                app:desText="职务"
-                app:desTextSize="15sp"
-                app:notesText=""
-                app:notesTextColor="#999999"
-                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
-
-
-            <View
-               style="@style/view_line"/>
-
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                app:isShowCategoryImage="false"
-                app:desText="故乡"
-                app:desTextSize="15sp"
-                app:notesText=""
-                app:notesTextColor="#999999"
-                app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
 
 </LinearLayout>

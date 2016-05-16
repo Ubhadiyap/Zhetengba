@@ -31,7 +31,6 @@
 
 
             <com.boyuanitsm.zhetengba.view.MyRadioButton
-
                 android:id="@+id/rb_cal"
                 style="@style/MainAct_Bottom_RadioButton_Text"
                 android:layout_weight="1"

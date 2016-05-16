@@ -62,6 +62,7 @@
     </declare-styleable>
 
 
+
     <declare-styleable name="PagerSlidingTabStrip">
         <attr name="pstsIndicatorColor" format="color" />
         <attr name="pstsUnderlineColor" format="color" />
@@ -76,5 +77,14 @@
         <attr name="pstsTextAllCaps" format="boolean" />
         <attr name="selectedTabTextColor" format="color" />
     </declare-styleable>
+
+
+    <!-- 截取图片 -->
+    <declare-styleable name="ClipImageLayout">
+        <attr name="clip_image" format="reference"></attr>
+        <attr name="clip_hor" format="integer"></attr>
+    </declare-styleable>
+
+
 
 </resources>

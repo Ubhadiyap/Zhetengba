@@ -1,10 +1,11 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.ScanAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.lidroid.xutils.view.annotation.ViewInject;

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="15dp"
+        >
+        <com.boyuanitsm.zhetengba.view.CircleImageView
+            android:id="@+id/civhead"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ease_default_avatar"
+            />
+
+        <TextView
+            style="@style/tv_second"
+            android:text="张学友"
+            android:textColor="@color/two_color"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/civhead"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tvTime"
+            style="@style/tv_second"
+            android:textColor="#999999"
+            android:layout_alignParentRight="true"
+            android:text="4月27日 15:30"
+            android:layout_marginTop="5dp"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        style="@style/tv_second"
+        android:textColor="#333333"
+        android:text="已接受您的邀请"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="5dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/llInvitation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="55dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/tvAccept"
+           style="@style/com_button"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="接受"
+            />
+
+        <TextView
+            android:id="@+id/tvRefuse"
+            style="@style/com_button"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="拒绝"
+            />
+
+    </LinearLayout>
+
+    <View
+        style="@style/view_line"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        ></View>
+</LinearLayout>

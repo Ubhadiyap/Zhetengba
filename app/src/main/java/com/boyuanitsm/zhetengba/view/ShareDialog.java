@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,8 +36,10 @@ public class ShareDialog extends Dialog {
     }
 
     private void init() {
-
-        setContentView(R.layout.dialog_share);
+        LayoutInflater inflater =getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_share, null);
+        view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slid_bottom_to_top));
+        setContentView(view);
         getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT/*Constant.height*/);
 //        TextView tv_plan_act = (TextView) findViewById(R.id.tv_plan_act);
 //        TextView tv_plan_calen = (TextView) findViewById(R.id.tv_plan_calen);
