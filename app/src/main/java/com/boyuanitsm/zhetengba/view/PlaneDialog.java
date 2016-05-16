@@ -4,9 +4,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LayoutAnimationController;
@@ -19,12 +21,15 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ContractedAct;
 import com.boyuanitsm.zhetengba.activity.ScheduleAct;
 
+import java.util.jar.Attributes;
+
 /**
  * 主界面点击发布，弹出半透明对话框
  * Created by xiaoke on 2016/4/28.
  */
 public class PlaneDialog extends Dialog {
     private Context context;
+    private View view;
     private LayoutAnimationController lac;
     public PlaneDialog(Context context, int themeResId) {
         super(context, themeResId);
@@ -43,10 +48,10 @@ public class PlaneDialog extends Dialog {
     }
 
     public void init() {
-        LayoutInflater inflater =getLayoutInflater();
-        View view = inflater.inflate(R.layout.act_plan_layout, null);
-        view.setAnimation(AnimationUtils.loadAnimation(context,R.anim.slid_bottom_to_top));
-        setContentView(view);
+//        LayoutInflater inflater =getLayoutInflater();
+//        view = inflater.inflate(R.layout.act_plan_layout, null);
+//        view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.my_self_dialog_in));
+        setContentView(R.layout.act_plan_layout);
         getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
 //diaolog动画
@@ -55,7 +60,6 @@ public class PlaneDialog extends Dialog {
 //        animation.setInterpolator(new DecelerateInterpolator());
 //        animation.setDuration(350);
 //        animation.setStartOffset(150);
-
 //        lac = new LayoutAnimationController(animation, 0.12f);
 //        lac.setInterpolator(new DecelerateInterpolator());
         TextView tv_plan_act = (TextView) findViewById(R.id.tv_plan_act);
@@ -68,14 +72,17 @@ public class PlaneDialog extends Dialog {
                 Intent intent=new Intent();
                 intent.setClass(context, ContractedAct.class);
                 context.startActivity(intent);
+                dismiss();
             }
         });
         tv_plan_calen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
-                intent.setClass(context,ScheduleAct.class);
+                intent.setClass(context, ScheduleAct.class);
                 context.startActivity(intent);
+                dismiss();
+
             }
         });
         ll_cancel.setOnClickListener(new View.OnClickListener() {

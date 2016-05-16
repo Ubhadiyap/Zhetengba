@@ -116,6 +116,7 @@ public class MainAct extends BaseActivity {
         RadioButton rb_cal = (RadioButton) findViewById(R.id.rb_cal);
         ImageView iv_plane = (ImageView) findViewById(R.id.iv_plane);
         planeDialog=new PlaneDialog(this);
+        planeDialog.getWindow().setWindowAnimations(R.style.ActionSheetDialogAnimation);
         rb_cal.setChecked(true);
         iv_plane.setOnClickListener(new View.OnClickListener() {
             @Override

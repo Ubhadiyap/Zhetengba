@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.bean;
 import com.boyuanitsm.zhetengba.utils.LUtils;
 
 /**
+ * 圈子：九宫格图片展示，Image封装
  * Created by xiaoke on 2016/5/9.
  */
 public class ImageInfo {

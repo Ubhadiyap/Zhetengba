@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="150dp"
     android:paddingBottom="15dp"
     android:background="@color/bg_color">
     <LinearLayout
         android:orientation="horizontal"
-        android:padding="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -24,7 +26,6 @@
     <LinearLayout
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:paddingBottom="5dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -54,36 +55,48 @@
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#999999"
+            android:textColor="#333333"
             android:textSize="14sp"
-            android:text="回复“我”：明天一起嗨"/>
+            android:text="请求加入足球圈组"/>
     </LinearLayout>
 
     </LinearLayout>
     <LinearLayout
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingLeft="55dp"
+        android:paddingLeft="75dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="备注：“你好，我是哈哈版的成员”"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.boyuanitsm.zhetengba.view.CircleImageView
-                android:background="@drawable/test_user"
-                android:layout_width="23dp"
-                android:layout_height="23dp" />
-            <TextView
-                android:layout_marginLeft="8dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="8dp"
-                android:background="@drawable/stroker_radio"
-                android:layout_width="220dp"
-                android:layout_height="42dp"
-                android:textColor="#666666"
-                android:textSize="12sp"
-                android:text="明天我们一起去吃烧烤吧"/>
+
+        <Button
+            style="@style/cir_button"
+            android:background="@drawable/bg_circle_stroke_green"
+            android:text="同意"/>
+            <Button
+                android:layout_marginLeft="15dp"
+                style="@style/cir_button"
+                android:background="@drawable/bg_circle_stroke_yellow"
+                android:text="忽略"/>
+            <Button
+                android:layout_marginLeft="15dp"
+                style="@style/cir_button"
+                android:background="@drawable/bg_circle_stroke_red2"
+                android:text="拒绝"/>
+
         </LinearLayout>
 
     </LinearLayout>

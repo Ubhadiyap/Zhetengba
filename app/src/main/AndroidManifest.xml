@@ -302,6 +302,9 @@
         <activity android:name=".activity.circle.CirFriendAct"
 
             android:screenOrientation="portrait"></activity>
+        <!--活动详情-->
+        <activity android:name=".activity.circle.EventdetailsAct"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 
