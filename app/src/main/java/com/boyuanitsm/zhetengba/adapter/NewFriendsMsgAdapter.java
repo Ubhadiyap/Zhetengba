@@ -17,8 +17,9 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage.InviteMesageStatus;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.easeui.widget.CircleImageView;
+//import com.hyphenate.easeui.widget.CircleImageView;
 
 import java.util.List;
 
