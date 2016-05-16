@@ -105,8 +105,15 @@
             android:name=".activity.SystemmesAct"
             android:screenOrientation="portrait"></activity>
 
-
-
+<!--档期消息-->
+        <activity android:name=".activity.mess.DqMesAct"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".activity.mess.ContractsAct"
+            android:screenOrientation="portrait"
+            ></activity>
+<activity android:name=".activity.mess.NewFriendsMsgActivity"
+    android:screenOrientation="portrait"></activity>
 
         <!-- 聊天相关-->
         <activity android:name=".chat.act.ChatActivity"
