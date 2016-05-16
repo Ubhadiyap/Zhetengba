@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
@@ -36,6 +37,8 @@ public class MineFrg extends BaseFragment{
     private RecyclerView rvLabel;
     @ViewInject(R.id.rv_monthSelect)
     private RecyclerView rvMonthSelect;
+    @ViewInject(R.id.tv_noLabel)
+    private TextView tvNoLabel;
     private List<String> myDatas;
     private RecycleviewAdp recycleviewAdp;
     private MonthSelectAdp monthSelectAdp;
@@ -48,7 +51,15 @@ public class MineFrg extends BaseFragment{
     @Override
     public void initData(Bundle savedInstanceState) {
 
-        myDatas = new ArrayList<String>(Arrays.asList("吃货", "不正经", "逗比", "乐观主义", "爱好摄影","hahhah","g"));
+        myDatas = new ArrayList<String>(Arrays.asList("吃货", "不正经", "逗比", "乐观主义", "爱好摄影", "hahhah", "g"));
+//        myDatas = new ArrayList<String>();
+        if (myDatas!=null&&myDatas.size()!=0){
+            rvLabel.setVisibility(View.VISIBLE);
+            tvNoLabel.setVisibility(View.GONE);
+        }else{
+            tvNoLabel.setVisibility(View.VISIBLE);
+            rvLabel.setVisibility(View.GONE);
+        }
         TimeAxisListAdp timeAxisListAdp = new TimeAxisListAdp(getActivity());
         lvTimeAxis.setDivider(null);
         lvTimeAxis.setAdapter(timeAxisListAdp);
@@ -83,7 +94,7 @@ public class MineFrg extends BaseFragment{
         });
         rvMonthSelect.setAdapter(monthSelectAdp);
     }
-    @OnClick({R.id.iv_shareCode,R.id.iv_setting,R.id.iv_headIcon,R.id.iv_collection})
+    @OnClick({R.id.iv_shareCode,R.id.iv_setting,R.id.iv_headIcon,R.id.iv_collection,R.id.tv_noLabel})
     public void todo(View view){
         switch (view.getId()){
             case R.id.iv_shareCode://二维码
@@ -97,6 +108,9 @@ public class MineFrg extends BaseFragment{
                 break;
             case R.id.iv_collection://我的收藏
                 openActivity(MyColleitionAct.class);
+                break;
+            case R.id.tv_noLabel://没有标签时显示添加标签
+                openActivity(LabelManaAct.class);
                 break;
         }
     }
