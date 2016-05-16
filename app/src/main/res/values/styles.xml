@@ -12,6 +12,10 @@
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
     </style>
+    <style name="dialogAnimation" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/slid_bottom_to_top</item>
+        <item name="android:windowExitAnimation">@null</item>
+    </style>
     <!--简约/档期-顶部导航栏样式-->
     <style name="MainAct_Title_TextView">
         <item name="android:layout_height">match_parent</item>

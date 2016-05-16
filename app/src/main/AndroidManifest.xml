@@ -259,7 +259,7 @@
             android:screenOrientation="portrait"></activity>
 
         <!--圈子成员界面-->
-        <activity android:name=".activity.CircleppAct"
+        <activity android:name=".activity.circle.CircleppAct"
             android:screenOrientation="portrait"></activity>
         <!--管理圈子界面-->
 
@@ -277,7 +277,7 @@
             android:screenOrientation="portrait"></activity>
 
         <!--圈子资料界面-->
-        <activity android:name=".activity.CirmationAct"
+        <activity android:name=".activity.circle.CirmationAct"
             android:screenOrientation="portrait"></activity>
 
         <!--扫一扫界面-->
