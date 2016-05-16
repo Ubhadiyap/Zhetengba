@@ -1,16 +1,15 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
@@ -20,15 +19,16 @@ import com.boyuanitsm.zhetengba.utils.MyToastUtils;
  * 简约/档期界面
  * Created by xiaoke on 2016/4/24.
  */
-public class CalendarFrg extends BaseFragment implements View.OnClickListener {
+public class CalendarFrg extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private FragmentManager childFragmentManager;//frg嵌套，拿到子管理器
     public SimpleFrg simpleFrg;
     private CalFrg calFrg;
-    private TextView tv_simple, tv_calendar;//拿到
+    private RadioButton rb_simple, rb_calendar;//拿到
     private boolean tag = true;
     private LinearLayout linearLayout;
     private PopupWindow mPopupWindow;
     private LinearLayout ll_friend;
+    private RadioGroup rg_simple;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -38,15 +38,15 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        tv_simple = (TextView) view.findViewById(R.id.tv_simple);
-        tv_calendar = (TextView) view.findViewById(R.id.tv_calendar);
+        rb_simple = (RadioButton) view.findViewById(R.id.rb_simple);
+        rb_calendar = (RadioButton) view.findViewById(R.id.rb_calendar);
         linearLayout = (LinearLayout) view.findViewById(R.id.ll_title_border);
         ll_friend = (LinearLayout) view.findViewById(R.id.ll_friend);
         childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         defaultChildShow(fragmentTransaction);
-        tv_simple.setOnClickListener(this);
-        tv_calendar.setOnClickListener(this);
+        rg_simple= (RadioGroup) view.findViewById(R.id.rg_simple);
+        rg_simple.setOnCheckedChangeListener(this);
         ll_friend.setOnClickListener(this);
     }
 
@@ -64,8 +64,6 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener {
         } else {
             fragmentTransaction.show(simpleFrg);
         }
-        tag = true;
-        textColorChange(tag);
         fragmentTransaction.commit();
     }
 
@@ -85,41 +83,12 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
 
         switch (v.getId()) {
-            case R.id.tv_simple:
-                hideChildFragment(fragmentTransaction);
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-                if (simpleFrg == null) {
-                    simpleFrg = new SimpleFrg();
-                    fragmentTransaction.add(R.id.fl_calendar, simpleFrg);
-                } else {
-                    fragmentTransaction.show(simpleFrg);
-                }
-                tag = true;
-                textColorChange(tag);
-                break;
-            case R.id.tv_calendar:
-                hideChildFragment(fragmentTransaction);
-                //动画进出
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-                if (calFrg == null) {
-                    calFrg = new CalFrg();
-
-                    fragmentTransaction.add(R.id.fl_calendar, calFrg);
-                } else {
-                    fragmentTransaction.show(calFrg);
-                }
-                tag = false;
-                textColorChange(tag);
-
-                break;
             case R.id.ll_friend:
                 selectPop();
                 break;
         }
-        fragmentTransaction.commit();
 
     }
 
@@ -156,25 +125,32 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener {
 
     }
 
-    /***
-     * 设置导航选中后颜色
-     *
-     * @param tag
-     */
-    private void textColorChange(boolean tag) {
-        if (tag == true) {
-            tv_simple.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_left_white_circle_yes_stroke));
-            tv_simple.setTextColor(mActivity.getResources().getColor(R.color.main_color));
-            tv_calendar.setTextColor(mActivity.getResources().getColor(R.color.dq_color));
-            tv_calendar.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_right_white_stroke_calendar2));
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
+        hideChildFragment(fragmentTransaction);
+        switch (rg_simple.getCheckedRadioButtonId()){
+            case R.id.rb_simple:
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+                if (simpleFrg == null) {
+                    simpleFrg = new SimpleFrg();
+                    fragmentTransaction.add(R.id.fl_calendar, simpleFrg);
+                } else {
+                    fragmentTransaction.show(simpleFrg);
+                }
+                break;
+            case R.id.rb_calendar:
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                if (calFrg == null) {
+                    calFrg = new CalFrg();
 
-
-        } else {
-            tv_calendar.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_right_white_stroke_calendar));
-            tv_simple.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_left_white_circle_yes_stroke2));
-            tv_simple.setTextColor(mActivity.getResources().getColor(R.color.dq_color));
-            tv_calendar.setTextColor(mActivity.getResources().getColor(R.color.main_color));
+                    fragmentTransaction.add(R.id.fl_calendar, calFrg);
+                } else {
+                    fragmentTransaction.show(calFrg);
+                }
+                break;
 
         }
+        fragmentTransaction.commit();
     }
 }

@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="15dp"
-    android:background="@drawable/layer_list_bottom">
+    android:paddingBottom="15dp">
     <LinearLayout
         android:orientation="horizontal"
         android:padding="15dp"

@@ -6,6 +6,7 @@
     android:background="@color/bg_color">
     <include layout="@layout/title_act_layout"></include>
     <ScrollView
+        android:id="@+id/sl_chanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <LinearLayout
@@ -129,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dividerHeight="1px"
-                android:divider="@color/bg_color">
+                android:divider="#e1e1e1">
             </com.leaf.library.widget.MyListView>
         </LinearLayout>
 <LinearLayout
