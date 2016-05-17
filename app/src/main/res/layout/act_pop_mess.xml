@@ -31,7 +31,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_qun"
+        android:id="@+id/ll_qunavatar"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:layout_width="match_parent"

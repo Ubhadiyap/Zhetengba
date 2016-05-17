@@ -66,7 +66,7 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
         //设置间隙
         mTitleMargin = dip2px(mActivity, 10);
         //填充数据
-        initData();
+        initDate();
         //设置viewPager滑动监听
         vp_chan.setOnPageChangeListener(this);
     }
@@ -75,7 +75,7 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
     /***
      * 填充数据
      */
-    private void initData() {
+    private void initDate() {
         //初始化
         fragmentList = new ArrayList<>();
         titleList = new ArrayList<>();

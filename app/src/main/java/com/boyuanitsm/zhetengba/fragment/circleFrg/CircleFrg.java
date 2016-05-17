@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
     private ImageView iv_quan;
     private ImageView iv_newmes;
     private RadioGroup rg_cir;
+    private LinearLayout ll_quan;
+    private LinearLayout ll_newmes;
 
 
 
@@ -46,13 +49,15 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
         rb_circle = (RadioButton) view.findViewById(R.id.rb_circle);
         iv_quan = (ImageView) view.findViewById(R.id.iv_quan);
         iv_newmes = (ImageView) view.findViewById(R.id.iv_newmes);
+        ll_quan = (LinearLayout) view.findViewById(R.id.ll_quan);
+        ll_newmes = (LinearLayout) view.findViewById(R.id.ll_newmes);
         rg_cir = (RadioGroup) view.findViewById(R.id.rg_cir);
         childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         defaultChildShow(fragmentTransaction);
         rg_cir.setOnCheckedChangeListener(this);
-        iv_quan.setOnClickListener(this);
-        iv_newmes.setOnClickListener(this);
+        ll_newmes.setOnClickListener(this);
+        ll_quan.setOnClickListener(this);
     }
 
     /***
@@ -88,14 +93,14 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
     public void onClick(View v) {
         Intent intent=new Intent();
         switch (v.getId()){
-            case R.id.iv_quan:
+            case R.id.ll_quan:
                 //跳转至圈子管理
-                intent.setClass(mActivity,CircleglAct.class);
+                intent.setClass(mActivity, CircleglAct.class);
                 startActivity(intent);
                 break;
-            case R.id.iv_newmes:
-                //跳转至，圈子消息
-                intent.setClass(mActivity, CirMessAct.class);
+            case R.id.ll_newmes:
+                //跳转至圈子管理
+                intent.setClass(mActivity, CircleglAct.class);
                 startActivity(intent);
                 break;
         }
