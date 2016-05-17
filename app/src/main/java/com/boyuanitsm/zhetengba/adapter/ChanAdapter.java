@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
@@ -59,6 +60,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             viewHolder.iv_ch_image= (NineGridlayout) convertView.findViewById(R.id.iv_ch_image);
             viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
@@ -81,8 +83,8 @@ public class ChanAdapter extends BaseAdapter {
                 dialog.show();
             }
         });
-        //频道正文
-        viewHolder.ll_answer.setOnClickListener(new View.OnClickListener() {
+        //点击活动详情跳转频道正文
+        viewHolder.tv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
@@ -90,6 +92,7 @@ public class ChanAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
+
         return convertView;
     }
     class CaViewHolder{
@@ -97,6 +100,7 @@ public class ChanAdapter extends BaseAdapter {
         private LinearLayout ll_answer;
         private CustomImageView iv_oneimage;
         private NineGridlayout iv_ch_image;
+        private TextView tv_content;
 
     }
     private void handlerOneImage(CaViewHolder viewHolder, ImageInfo image) {
