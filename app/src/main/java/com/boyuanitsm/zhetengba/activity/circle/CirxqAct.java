@@ -16,6 +16,7 @@ import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyListview;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,6 +109,16 @@ public class CirxqAct extends BaseActivity {
             }
             datalist.add(itemList);
         }
+    }
+
+    @OnClick({R.id.tv_qzzl})
+    public void OnClick(View v){
+        switch (v.getId()){
+            case R.id.tv_qzzl://圈子资料
+                openActivity(CirmationAct.class);
+                break;
+        }
+
     }
 
 

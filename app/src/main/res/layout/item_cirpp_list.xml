@@ -16,12 +16,12 @@
             android:layout_width="50dp"
             android:layout_height="50dp" />
 
-        <RelativeLayout
+        <LinearLayout
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_hand"
             android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -32,16 +32,20 @@
                 android:text="Lake"
              style="@style/tv_second"/>
 
-            <com.boyuanitsm.zhetengba.view.MyGridView
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/tv_name"
-                android:numColumns="3"
-                android:id="@+id/gv_bq"
+            <!--<com.boyuanitsm.zhetengba.view.MyGridView-->
+                <!--android:gravity="center"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_below="@id/tv_name"-->
+                <!--android:numColumns="3"-->
+                <!--android:id="@+id/gv_bq"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"/>-->
+            <com.boyuanitsm.zhetengba.view.HorizontalListView
+                android:id="@+id/hlv_cirpp"
+                android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </RelativeLayout>
+                android:layout_height="20dp"></com.boyuanitsm.zhetengba.view.HorizontalListView>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_centerVertical="true"

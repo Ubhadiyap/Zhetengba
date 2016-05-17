@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 
 /**
+ * 圈子成员item里面水平listview适配器
  * Created by bitch-1 on 2016/5/10.
  */
 public class GvcirppAdapter extends BaseAdapter {

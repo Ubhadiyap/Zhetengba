@@ -9,14 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.circle.CircleppAct;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
 import com.boyuanitsm.zhetengba.adapter.PpagevpAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -68,14 +66,15 @@ public class PerpageAct extends BaseActivity {
         frgList.add(new PpagecalFrg());
         frgList.add(new PpagedtFrg());
         hlv_perpage.setAdapter(new HlvppAdapter(getApplicationContext()));//她的圈子下面水平view适配器
-        hlv_perpage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==4){
-                    openActivity(CircleppAct.class);
-                }
-            }
-        });
+
+//        hlv_perpage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if(position==4){
+//                    openActivity(CircleppAct.class);
+//                }
+//            }
+//        });
         frgList.add(new PpagecalFrg());//档期frg
         frgList.add(new PpagedtFrg());//圈子动态frg
         vpS.setAdapter(new PpagevpAdapter(getSupportFragmentManager(), frgList));
