@@ -338,6 +338,12 @@
         <activity android:name=".activity.PerpageAct"
 
             android:screenOrientation="portrait"></activity>
+        <!--添加图片选择界面-->
+        <activity android:name=".activity.photo.PicSelectActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--移除图片选择界面-->
+        <activity android:name=".activity.photo.ImageBrowserActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 

@@ -8,10 +8,10 @@
     <LinearLayout
         android:orientation="vertical"
         android:background="@color/white"
-       android:paddingLeft="10dp"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="wrap_content">
         <EditText
+            android:layout_marginLeft="15dp"
             android:paddingTop="10dp"
             android:background="@null"
             android:textColor="#333333"
@@ -23,8 +23,11 @@
             android:layout_height="240dp" />
 
         <com.leaf.library.widget.MyGridView
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/my_gv"
-            android:layout_width="match_parent"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:columnWidth="70dp"
             android:layout_marginTop="10dp"
@@ -34,8 +37,6 @@
             android:gravity="center"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             />
 
     </LinearLayout>
