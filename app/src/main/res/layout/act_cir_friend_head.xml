@@ -84,13 +84,17 @@
                 android:gravity="center"
                 android:background="@drawable/bg_circle_stroke_red2">
                 <ImageView
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
                     android:background="@drawable/more_add"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp" />
+                    android:layout_width="15dp"
+                    android:layout_height="15dp" />
                 <TextView
                     android:text="加为好友"
                     android:textColor="#fff"
                     android:textSize="12sp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="7dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -104,22 +108,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <GridView
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:id="@+id/cir_fri_gv"
             android:numColumns="4"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"></GridView>
         <TextView
             android:text="共同的圈子:"
             android:textSize="14sp"
             android:textColor="@color/main_color"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <GridView
             android:gravity="center"
-            android:numColumns="4"
+            android:numColumns="3"
             android:id="@+id/cir_fri_com"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

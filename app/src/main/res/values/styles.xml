@@ -59,6 +59,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>
     </style>
     <!--简约界面item:关注/参加字体样式-->
     <style name="MainAct_simple_Text">
@@ -178,7 +179,13 @@
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:background">@color/view_color</item>
     </style>
-
+    <!--圈子消息button-->
+    <style name="cir_button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
     <!-- 自定义仿IOS的ActionSheet底部Dialog的样式 ，有模糊效果 -->
     <style name="ActionSheetDialogStyle" parent="@android:style/Theme.Dialog">
 

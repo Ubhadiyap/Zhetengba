@@ -17,13 +17,16 @@ import android.widget.ListView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.BannerInfo;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +45,7 @@ public class SimpleFrg extends BaseFragment {
     private LinearLayout ll_point;
     private List<View> views = new ArrayList<View>();
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
-
+    private List<BannerInfo> bannerInfoList ;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -172,8 +175,10 @@ public class SimpleFrg extends BaseFragment {
 
         @Override
         public int getCount() {
+    //            return  bannerInfoList==null?0:bannerInfoList.size();
             return 3;
         }
+
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
@@ -191,10 +196,10 @@ public class SimpleFrg extends BaseFragment {
 //            ImageLoader.getInstance().displayImage(
 //                    UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerPic()), iv_iamge,
 //                    optionsImag);
+//            ImageLoader.getInstance().displayImage(UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerLink()),iv_iamge,optionsImag);
+//UrlManager,网络地址管理类
 
-//            iv_iamge.setBackgroundResource(newsPictures[position]);
-
-            ((ViewPager) container).addView(view);
+                    ((ViewPager) container).addView(view);
 
             iv_iamge.setOnClickListener(new View.OnClickListener() {
 

@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color">
     <include layout="@layout/title_act_layout"></include>
-    <ListView
+    <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
         android:id="@+id/lv_cir_mess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#e1e1e1"
-        android:dividerHeight="1px"></ListView>
+        android:dividerHeight="1px"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
 
 </LinearLayout>

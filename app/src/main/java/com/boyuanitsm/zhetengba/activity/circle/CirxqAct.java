@@ -5,7 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
@@ -30,6 +32,8 @@ public class CirxqAct extends BaseActivity {
     private MyListview lv_cir;
     @ViewInject(R.id.cir_sv)
     private ScrollView cir_sv;
+    @ViewInject(R.id.cir_fb)
+    private TextView cir_fb;
     private List<Integer>list;
 
     private CirxqAdapter adapter;
@@ -37,15 +41,15 @@ public class CirxqAct extends BaseActivity {
 
     private List<List<ImageInfo>> datalist=new ArrayList<>();
     private String[][] images=new String[][]{{
-            "http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1402/12/c1/31189058_1392186616852.jpg","1624","914"}
-            ,{"file:///android_asset/img2.jpg","250","250"}
-            ,{"file:///android_asset/img3.jpg","250","250"}
-            ,{"file:///android_asset/img4.jpg","250","250"}
-            ,{"file:///android_asset/img5.jpg","250","250"}
-            ,{"file:///android_asset/img6.jpg","250","250"}
-            ,{"file:///android_asset/img7.jpg","250","250"}
-            ,{"file:///android_asset/img8.jpg","250","250"}
-            ,{"http://img3.douban.com/view/photo/raw/public/p1708880537.jpg","1280","800"}
+            ConstantValue.IMAGEURL,"1624","914"}
+            ,{ConstantValue.IMAGEURL,"1624","914"}
+            ,{ConstantValue.IMAGEURL,"1624","914"}
+            ,{ConstantValue.IMAGEURL,"1624","914"}
+            ,{ConstantValue.IMAGEURL,"250","250"}
+            ,{ConstantValue.IMAGEURL,"250","250"}
+            ,{ConstantValue.IMAGEURL,"250","250"}
+            ,{ConstantValue.IMAGEURL,"250","250"}
+            ,{ConstantValue.IMAGEURL,"1280","800"}
     };
 
     @Override
@@ -65,6 +69,12 @@ public class CirxqAct extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         rv_label.setLayoutManager(linearLayoutManager);
+        cir_fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity(CirclefbAct.class);
+            }
+        });
         adapter=new CirxqAdapter(getApplicationContext(),list);
         rv_label.setAdapter(adapter);
         adapter.setOnItemClickListener(new CirxqAdapter.OnItemClickListener() {

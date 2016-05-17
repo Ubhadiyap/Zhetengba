@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="@drawable/layer_list_bottom">
+    android:background="#fff">
     <LinearLayout
         android:padding="15dp"
         android:orientation="horizontal"
