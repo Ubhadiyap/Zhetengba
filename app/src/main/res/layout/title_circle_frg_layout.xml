@@ -48,17 +48,29 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/iv_quan"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/quan"/>
-            <ImageView
-                android:id="@+id/iv_newmes"
-                android:layout_marginLeft="15dp"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/newmes"/>
+            <LinearLayout
+                android:id="@+id/ll_quan"
+                android:gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="40dp">
+                <ImageView
+                    android:id="@+id/iv_quan"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/quan"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_newmes"
+                android:gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/iv_newmes"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/newmes"/>
+            </LinearLayout>
+
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
