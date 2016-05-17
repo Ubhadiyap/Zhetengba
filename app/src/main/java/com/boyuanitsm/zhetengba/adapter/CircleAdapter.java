@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CirFriendAct;
+import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -62,6 +63,7 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_Name);
             viewHolder.ivCImage = (NineGridlayout) convertView.findViewById(R.id.iv_ch_image);
            viewHolder.iv_oneimage= (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
@@ -77,11 +79,25 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.iv_oneimage.setVisibility(View.GONE);
            viewHolder.ivCImage.setImagesData(itemList);
         }
+        //点击进入用户圈子主页
         viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
                 intent.setClass(context, CirFriendAct.class);
+                //需要开启新task,否则会报错
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+        //点击户外圈进入圈子主页
+        viewHolder.tv_cir_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setClass(context, CirxqAct.class);
+                //需要开启新task,否则会报错
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
@@ -96,6 +112,7 @@ public class CircleAdapter extends BaseAdapter {
        public TextView tvTime;
        public NineGridlayout ivCImage;
        public CustomImageView iv_oneimage;
+       public TextView tv_cir_name;
 
     }
     private void handlerOneImage(ViewHolder viewHolder, ImageInfo image) {

@@ -3,6 +3,8 @@ package com.boyuanitsm.zhetengba.activity.circle;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CirpplistAdapter;
@@ -18,6 +20,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class CircleppAct extends BaseActivity {
     @ViewInject(R.id.plv)
     private PullToRefreshListView plv;
+    private TextView tv_gl_member;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_glcircle);
@@ -27,6 +30,13 @@ public class CircleppAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子成员");
+       tv_gl_member= (TextView) findViewById(R.id.tv_gl_member);
+        tv_gl_member.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity(GLCirAct.class);
+            }
+        });
         plv.setPullRefreshEnabled(true);//下拉刷新
         plv.setScrollLoadEnabled(true);//滑动加载
         plv.setPullLoadEnabled(false);//上拉刷新

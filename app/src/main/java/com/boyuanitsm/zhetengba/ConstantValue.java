@@ -14,6 +14,8 @@ public class ConstantValue {
 
     /*编码格式*/
     public static final String ENCODING="UTF-8";
+    /*测试图片地址*/
+    public static final String IMAGEURL="http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1402/12/c1/31189058_1392186616852.jpg";
 
     /**
      * 数据库版本

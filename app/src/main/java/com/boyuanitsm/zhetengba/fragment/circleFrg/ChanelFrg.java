@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mine.LabelManaAct;
 import com.boyuanitsm.zhetengba.adapter.ChaPagerAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 
@@ -59,7 +60,7 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
         ll_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mActivity, "添加一个标签,frg动态添加", j).show();
+                openActivity(LabelManaAct.class);
             }
         });
         //设置间隙

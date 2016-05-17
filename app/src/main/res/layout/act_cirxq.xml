@@ -11,6 +11,7 @@
 
     <include layout="@layout/title_act_layout"></include>
         <TextView
+            android:id="@+id/cir_fb"
             android:gravity="center_vertical"
             android:layout_marginRight="15dp"
             android:layout_alignParentRight="true"
@@ -165,6 +166,8 @@
 
         <com.boyuanitsm.zhetengba.view.MyListview
             android:id="@+id/lv_cirxq"
+            android:divider="#e1e1e1"
+            android:dividerHeight="1px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.MyListview>
     </LinearLayout>
