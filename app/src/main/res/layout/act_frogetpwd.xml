@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+   android:background="@color/white"
     android:layout_height="match_parent">
     <include layout="@layout/title_act_layout"></include>
 
     <EditText
-        android:textColorHint="#333333"
+        android:textColorHint="#cdcdcd"
         android:paddingBottom="15dp"
         android:gravity="bottom"
         android:textSize="16sp"
@@ -33,7 +34,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:textColorHint="#333333"
+            android:textColorHint="#cdcdcd"
             android:paddingBottom="15dp"
             android:gravity="bottom"
             android:id="@+id/forgetpwd_code"
@@ -64,7 +65,7 @@
         android:layout_height="1dp"></View>
 
     <EditText
-        android:textColorHint="#333333"
+        android:textColorHint="#cdcdcd"
         android:paddingBottom="15dp"
         android:gravity="bottom"
         android:textSize="16sp"
@@ -85,7 +86,7 @@
         android:layout_height="1dp"></View>
 
     <EditText
-        android:textColorHint="#333333"
+        android:textColorHint="#cdcdcd"
         android:paddingBottom="15dp"
         android:gravity="bottom"
         android:textSize="16sp"

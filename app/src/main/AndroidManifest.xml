@@ -336,6 +336,10 @@
         <!--活动详情-->
         <activity android:name=".activity.circle.EventdetailsAct"
             android:screenOrientation="portrait"></activity>
+
+        <!--消息里面个人主页界面-->
+        <activity android:name=".activity.PerpageAct"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 
