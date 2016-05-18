@@ -72,6 +72,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tv_qzzl"
                     style="@style/tv_second"
                     android:layout_height="15dp"
                     android:layout_marginLeft="10dp"

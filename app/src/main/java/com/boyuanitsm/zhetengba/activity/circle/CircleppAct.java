@@ -30,7 +30,7 @@ public class CircleppAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子成员");
-       tv_gl_member= (TextView) findViewById(R.id.tv_gl_member);
+        tv_gl_member= (TextView) findViewById(R.id.tv_gl_member);
         tv_gl_member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

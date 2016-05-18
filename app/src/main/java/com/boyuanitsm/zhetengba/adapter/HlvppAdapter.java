@@ -1,12 +1,15 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.CircleppAct;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 
 import java.util.List;
@@ -43,9 +46,17 @@ public class HlvppAdapter extends BaseAdapter {
         View view=View.inflate(context, R.layout.item_hlvpp,null);
         CircleImageView cir_pagehand= (CircleImageView) view.findViewById(R.id.cir_pagehand);
         TextView tv_more= (TextView) view.findViewById(R.id.tv_more);
+        LinearLayout ll_quanzi= (LinearLayout) view.findViewById(R.id.ll_quanzi);
         if(position==4){
             cir_pagehand.setImageResource(R.mipmap.cirxq_more);
             tv_more.setText("更多");
+            ll_quanzi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, CircleppAct.class);
+                    context.startActivity(intent);
+                }
+            });
         }
         return view;
     }
