@@ -46,7 +46,7 @@ public class CirMessAct extends BaseActivity {
         lv_cir_mess.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         lv_cir_mess.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv_cir_mess.setLastUpdatedLabel(ZhetebaUtils.getCurrentTime());
-        lv_cir_mess.getRefreshableView().setDivider(null);
+        lv_cir_mess.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
         CircleMessAdatper adapter=new CircleMessAdatper(getApplicationContext());
         lv_cir_mess.getRefreshableView().setAdapter(adapter);
 

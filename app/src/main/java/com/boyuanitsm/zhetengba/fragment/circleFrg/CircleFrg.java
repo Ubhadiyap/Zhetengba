@@ -99,8 +99,8 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
                 startActivity(intent);
                 break;
             case R.id.ll_newmes:
-                //跳转至圈子管理
-                intent.setClass(mActivity, CircleglAct.class);
+                //跳转至圈子消息
+                intent.setClass(mActivity, CirMessAct.class);
                 startActivity(intent);
                 break;
         }

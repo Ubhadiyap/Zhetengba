@@ -284,8 +284,9 @@
         <activity
             android:name=".activity.circle.CircleppAct"
             android:screenOrientation="portrait"></activity>
-        <!--管理圈子界面-->
-
+        <!--评论界面-->
+        <activity android:name=".activity.circle.CommentAct"
+            android:screenOrientation="portrait"></activity>
         <!--简约界面-->
         <activity
             android:name=".activity.ContractedAct"

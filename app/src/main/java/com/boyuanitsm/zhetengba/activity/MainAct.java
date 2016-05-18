@@ -105,7 +105,6 @@ public class MainAct extends BaseActivity {
         }
         setContentView(R.layout.act_main_layout);
         AppManager.getAppManager().addActivity(this);
-
         rb_mes= (MyRadioButton) findViewById(R.id.rb_mes);
         unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
         //获取frg的管理器
