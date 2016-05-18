@@ -14,12 +14,12 @@
             android:layout_height="50dp"
             android:background="@drawable/test_user"/>
         <LinearLayout
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -40,15 +40,19 @@
             </LinearLayout>
             <LinearLayout
                 android:paddingLeft="8dp"
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <GridView
-                    android:numColumns="4"
-                    android:id="@+id/gv_cir"
+                <!--<GridView-->
+                    <!--android:numColumns="4"-->
+                    <!--android:id="@+id/gv_cir"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"></GridView>-->
+                <com.boyuanitsm.zhetengba.view.HorizontalListView
+                    android:id="@+id/hlv_glcir"
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></GridView>
+                    android:layout_height="20dp"></com.boyuanitsm.zhetengba.view.HorizontalListView>
             </LinearLayout>
 
         </LinearLayout>
