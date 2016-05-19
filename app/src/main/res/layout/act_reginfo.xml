@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color"
     android:orientation="vertical">
 
     <include layout="@layout/title_act_layout"></include>
@@ -95,27 +96,40 @@
                     android:textSize="16sp" />
 
                 <RadioGroup
+                    android:layout_gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:button="@null"
+                        android:drawableLeft="@drawable/rb_select"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/male"
+                        android:drawableRight="@mipmap/bmale"
                         android:text="男"
-                        android:textSize="13sp" />
+                        android:textColor="#cdcdcd"
+                        android:textSize="14sp"
+                        />
 
                     <RadioButton
+                        android:textColor="#cdcdcd"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/rb_select"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
                         android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/female"
+                        android:drawableRight="@mipmap/gfemale"
                         android:text="女"
-                        android:textSize="13sp" />
+                        android:textSize="14sp"
+                        />
+
+
+
 
 
                 </RadioGroup>

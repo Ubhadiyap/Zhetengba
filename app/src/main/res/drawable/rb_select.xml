@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--注册 radiobutton 样式-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:state_checked="true" android:drawable="@mipmap/sel_b"></item>
+        <item android:state_checked="false" android:drawable="@mipmap/sel"></item>
+        <item android:drawable="@mipmap/sel"></item>
+</selector>

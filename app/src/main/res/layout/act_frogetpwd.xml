@@ -6,6 +6,7 @@
     <include layout="@layout/title_act_layout"></include>
 
     <EditText
+        android:id="@+id/et_phone"
         android:textColorHint="#cdcdcd"
         android:paddingBottom="15dp"
         android:gravity="bottom"
@@ -37,7 +38,7 @@
             android:textColorHint="#cdcdcd"
             android:paddingBottom="15dp"
             android:gravity="bottom"
-            android:id="@+id/forgetpwd_code"
+            android:id="@+id/et_yzm"
             android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_weight="1"
@@ -65,6 +66,7 @@
         android:layout_height="1dp"></View>
 
     <EditText
+        android:id="@+id/et_pwd"
         android:textColorHint="#cdcdcd"
         android:paddingBottom="15dp"
         android:gravity="bottom"
@@ -75,8 +77,8 @@
         android:background="@null"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:inputType="number"
-        android:maxLength="11"
+        android:inputType="textPassword"
+        android:maxLength="24"
         android:singleLine="true"
         />
     <View
@@ -86,6 +88,7 @@
         android:layout_height="1dp"></View>
 
     <EditText
+        android:id="@+id/et_cpwd"
         android:textColorHint="#cdcdcd"
         android:paddingBottom="15dp"
         android:gravity="bottom"
@@ -108,6 +111,7 @@
 
 
     <TextView
+        android:id="@+id/tv_frogettj"
         style="@style/com_button"
         android:layout_marginTop="30dp"
         android:text="提交"

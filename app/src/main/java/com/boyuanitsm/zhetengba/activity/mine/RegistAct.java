@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.RegInfoAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -82,7 +83,8 @@ public class RegistAct extends BaseActivity {
 
             case R.id.tv_zc://注册
                 if(isValidate()){
-                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
+//                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
+                    openActivity(RegInfoAct.class);
                 }
 
                 break;

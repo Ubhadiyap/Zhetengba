@@ -74,7 +74,7 @@ public class LoginAct extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tvLogin})
+    @OnClick({R.id.tvLogin,R.id.tv_regist,R.id.tv_forget_pw})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLogin://登录
