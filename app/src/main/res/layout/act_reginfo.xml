@@ -103,12 +103,14 @@
                     android:orientation="horizontal">
 
                     <RadioButton
-                        android:button="@null"
-                        android:drawableLeft="@drawable/rb_select"
+                        android:checked="true"
+                        android:id="@+id/boy_rd"
+                        android:button="@drawable/rb_select"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:drawablePadding="5dp"
+                        android:paddingLeft="5dp"
                         android:drawableRight="@mipmap/bmale"
                         android:text="男"
                         android:textColor="#cdcdcd"
@@ -116,9 +118,9 @@
                         />
 
                     <RadioButton
+                        android:paddingLeft="5dp"
                         android:textColor="#cdcdcd"
-                        android:button="@null"
-                        android:drawableLeft="@drawable/rb_select"
+                        android:button="@drawable/rb_select"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
@@ -127,10 +129,6 @@
                         android:text="女"
                         android:textSize="14sp"
                         />
-
-
-
-
 
                 </RadioGroup>
 
@@ -153,7 +151,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <TextView
                     style="@style/tv_second"
                     android:text="兴趣"
