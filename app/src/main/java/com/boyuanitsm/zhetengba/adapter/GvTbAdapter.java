@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -62,7 +63,7 @@ public class GvTbAdapter extends BaseAdapter{
             public void onClick(View v) {
                 if (!flag){
                     tabHolder.tv_tab.setTextColor(Color.parseColor("#ffffff"));
-                    tabHolder.tv_tab.setBackgroundColor(Color.parseColor("#52c791"));
+                    tabHolder.tv_tab.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green));
                     map.put(position, tabHolder.tv_tab.getText().toString() + "");
                     act.setMap(map);
                     flag=true;
