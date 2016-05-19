@@ -23,11 +23,11 @@ public class AddFriendsAct extends BaseActivity {
         setTopTitle("添加好友");
     }
 
-    @OnClick({R.id.rlPhone,R.id.ivWx,R.id.ivQQ})
-    public void onClick(View v){
-        switch (v.getId()){
+    @OnClick({R.id.rlPhone, R.id.ivWx, R.id.ivQQ})
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.rlPhone://手机联系人
-
+                openActivity(PhoneAct.class);
                 break;
             case R.id.ivWx:
 

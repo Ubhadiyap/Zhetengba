@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.boyuanitsm.zhetengba">
 
-
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -120,20 +120,34 @@
             android:name=".activity.mine.EditAct"
             android:screenOrientation="portrait"></activity>
 
-<!--档期消息-->
-        <activity android:name=".activity.mess.DqMesAct"
+        <!--档期消息-->
+        <activity
+            android:name=".activity.mess.DqMesAct"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.mess.ContractsAct"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.mess.NewFriendsMsgActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--我的群组-->
+        <activity
+            android:name=".chat.act.MyGroupAct"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <!--添加好友-->
+        <activity
+            android:name=".activity.mess.AddFriendsAct"
+            android:screenOrientation="portrait"></activity>
+        <!--扫描二维码-->
+        <activity
+            android:name=".activity.mess.ScanQrcodeAct"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".activity.mess.PhoneAct"
             android:screenOrientation="portrait"
             ></activity>
-        <activity android:name=".activity.mess.ContractsAct"
-            android:screenOrientation="portrait"
-            ></activity>
-<activity android:name=".activity.mess.NewFriendsMsgActivity"
-    android:screenOrientation="portrait"></activity>
-        <activity android:name=".chat.act.MyGroupAct"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            ></activity>
-        <activity android:name=".activity.mess.AddFriendsAct"
+        <activity android:name=".activity.mess.CreateGroupAct"
             android:screenOrientation="portrait"
             ></activity>
 

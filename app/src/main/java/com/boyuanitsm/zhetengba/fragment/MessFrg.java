@@ -14,9 +14,10 @@ import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.AddFriendsAct;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
+import com.boyuanitsm.zhetengba.activity.mess.CreateGroupAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
+import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
@@ -63,7 +64,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
+                if (position == 0) {//档期消息
                     Intent dqIntent = new Intent(getContext(), DqMesAct.class);
                     getContext().startActivity(dqIntent);
                 } else {
@@ -125,14 +126,14 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         ll_sao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyToastUtils.showShortToast(getContext(), "点击了扫一扫");
+                getActivity().startActivity(new Intent(getContext(), ScanQrcodeAct.class));
                 mPopupWindow.dismiss();
             }
         });
         ll_qun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyToastUtils.showShortToast(getContext(), "点击了群聊");
+                getActivity().startActivity(new Intent(getContext(), CreateGroupAct.class));
                 mPopupWindow.dismiss();
             }
         });
@@ -140,6 +141,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getContext(), AddFriendsAct.class));
+                mPopupWindow.dismiss();
             }
         });
 

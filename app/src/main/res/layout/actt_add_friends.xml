@@ -8,43 +8,22 @@
     <include layout="@layout/title_act_layout"></include>
 
 
-    <RelativeLayout
+    <com.boyuanitsm.zhetengba.widget.ClearEditText
+        android:id="@+id/cetSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       android:padding="15dp"
-        >
-
-        <EditText
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:id="@+id/query"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/em_seabar_input"
-            android:drawableLeft="@drawable/em_search_bar_icon_normal"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="@string/search"
-            android:textSize="16sp"
-            android:layout_marginLeft="4dp"
-            android:singleLine="true"
-            />
-
-        <ImageButton
-            android:id="@+id/search_clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="3dp"
-            android:background="@android:color/transparent"
-            android:padding="6dp"
-            android:src="@drawable/ease_search_clear"
-            android:visibility="invisible" />
-
-    </RelativeLayout>
+        android:layout_height="45dp"
+        android:background="@drawable/em_seabar_input"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/em_search_bar_icon_normal"
+        android:drawablePadding="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="16sp"
+        android:hint="搜索"
+        />
 
     <View
        style="@style/view_line"
