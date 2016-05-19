@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layer_list_bottom">
+    android:background="#FFF">
 <LinearLayout
     android:layout_marginTop="20dp"
     android:layout_marginLeft="15dp"
@@ -81,12 +81,59 @@
         <LinearLayout
             android:layout_marginTop="15dp"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="260dp"
             android:layout_height="wrap_content">
-            <com.boyuanitsm.zhetengba.view.NineGridlayout
+            <com.boyuanitsm.zhetengba.view.MyGridView
                 android:id="@+id/iv_ch_image"
+                android:paddingBottom="3dp"
+                android:horizontalSpacing="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:id="@+id/ll_two"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginBottom="3dp"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                        android:id="@+id/iv_two_one"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"
+                        android:layout_width="83dp"
+                        android:layout_height="83dp" />
+                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/iv_two_two"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"
+                        android:layout_width="83dp"
+                        android:layout_height="83dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                        android:id="@+id/iv_two_three"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"
+                        android:layout_width="83dp"
+                        android:layout_height="83dp" />
+                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/iv_two_four"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"
+                        android:layout_width="83dp"
+                        android:layout_height="83dp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
             <com.boyuanitsm.zhetengba.view.CustomImageView
                 android:id="@+id/iv_oneimage"
                 android:layout_width="match_parent"
@@ -117,6 +164,7 @@
                 android:text="(240)" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_comment"
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="wrap_content"
@@ -133,6 +181,7 @@
                 android:text="(240)" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_share"
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="wrap_content"

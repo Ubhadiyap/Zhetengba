@@ -8,6 +8,6 @@
         android:id="@+id/lv_act"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/layer_list_bottom"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
+        android:background="@color/bg_color"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
 
 </LinearLayout>

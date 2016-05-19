@@ -61,6 +61,13 @@ public class NineGridlayout extends ViewGroup {
         for (int i = 0; i < childrenCount; i++) {
             CustomImageView childrenView = (CustomImageView) getChildAt(i);
             childrenView.setImageUrl(((ImageInfo) listData.get(i)).getUrl());
+//            childrenView.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    PicShowDialog picShowDialog = new PicShowDialog(getContext(), listData);
+//                    picShowDialog.show();
+//                }
+//            });
             int[] position = findPosition(i);
             int left = (singleWidth + gap) * position[1];
             int top = (singleHeight + gap) * position[0];

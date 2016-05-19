@@ -31,6 +31,7 @@ import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
+import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.hyphenate.EMContactListener;
@@ -127,7 +128,6 @@ public class MainAct extends BaseActivity {
             }
         });
         rg_button.setOnCheckedChangeListener(new OnRadiGrroupCheckedChangeListener());
-
         inviteMessgeDao = new InviteMessgeDao(this);
         userDao = new UserDao(this);
         //注册local广播接收者，用于接收demohelper中发出的群组联系人的变动通知

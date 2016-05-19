@@ -121,7 +121,8 @@ public class SimpleFrg extends BaseFragment {
         lv_act.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         lv_act.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv_act.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_act.getRefreshableView().setDivider(null);
+        lv_act.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
+        lv_act.getRefreshableView().setDividerHeight(1);
     }
 
     /***
@@ -193,11 +194,11 @@ public class SimpleFrg extends BaseFragment {
             ImageView iv_iamge = (ImageView) view.findViewById(R.id.iv_item_image);
             //加载图片地址
             iv_iamge.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.test_banner));
-//            ImageLoader.getInstance().displayImage(
-//                    UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerPic()), iv_iamge,
-//                    optionsImag);
-//            ImageLoader.getInstance().displayImage(UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerLink()),iv_iamge,optionsImag);
-//UrlManager,网络地址管理类
+            //            ImageLoader.getInstance().displayImage(
+            //                    UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerPic()), iv_iamge,
+            //                    optionsImag);
+            //            ImageLoader.getInstance().displayImage(UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerLink()),iv_iamge,optionsImag);
+            //UrlManager,网络地址管理类
 
                     ((ViewPager) container).addView(view);
 

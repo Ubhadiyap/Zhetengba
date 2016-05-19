@@ -28,13 +28,13 @@ public class CirFrg extends Fragment {
     private String[][] images=new String[][]{{
             ConstantValue.IMAGEURL,"1624","914"}
             ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"1280","800"}
+            ,{ConstantValue.IMAGEURL2,"1624","914"}
+            ,{ConstantValue.IMAGEURL3,"1624","914"}
+            ,{ConstantValue.IMAGEURL4,"250","250"}
+            ,{ConstantValue.IMAGEURL5,"250","250"}
+            ,{ConstantValue.IMAGEURL4,"250","250"}
+            ,{ConstantValue.IMAGEURL3,"250","250"}
+            ,{ConstantValue.IMAGEURL5,"1280","800"}
     };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +49,8 @@ public class CirFrg extends Fragment {
         lv_cir.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         lv_cir.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_cir.getRefreshableView().setDivider(null);
+        lv_cir.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
+        lv_cir.getRefreshableView().setDividerHeight(1);
         lv_cir.getRefreshableView().setAdapter(adapter);
         return view;
     }

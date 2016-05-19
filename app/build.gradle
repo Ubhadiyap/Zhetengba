@@ -50,5 +50,4 @@ android {
 dependencies {
     compile project(':EaseUI')
     compile fileTree(dir: 'libs', include: '*.jar', exclude: 'android-support-multidex.jar')
-    compile 'com.commit451:PhotoView:1.2.4'
 }

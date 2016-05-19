@@ -1,7 +1,10 @@
 package com.boyuanitsm.zhetengba.activity;
 
+import android.graphics.Color;
+import android.graphics.CornerPathEffect;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,9 +14,11 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.view.MyGridView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 简约界面
@@ -22,12 +27,13 @@ import java.util.List;
 public class ContractedAct extends BaseActivity implements View.OnClickListener{
     private TextView tv_select_location;
     private LinearLayout ll_theme_content;
-    private GridView gv_tab;
+    private MyGridView gv_tab;
     private LinearLayout ll_view;
     private LinearLayout ll_select_tab;
     private ImageView iv_arrow;
+    private Map<Integer,String> map;
     private boolean flag=true;
-    private String[] tabstr={"美食","旅行","K歌","电影","运动","棋牌","演出","亲子","逛街","读书","美容","其他"};
+
     private List<String> tabList=new ArrayList<>();
     @Override
     public void setLayout() {
@@ -40,26 +46,20 @@ public class ContractedAct extends BaseActivity implements View.OnClickListener{
         tv_select_location = (TextView) findViewById(R.id.tv_select);
          ll_theme_content = (LinearLayout) findViewById(R.id.ll_theme_content);
         ll_view = (LinearLayout) findViewById(R.id.ll_view);
-        gv_tab = (GridView) findViewById(R.id.gv_tab);
+        gv_tab = (MyGridView) findViewById(R.id.gv_tab);
         ll_select_tab = (LinearLayout) findViewById(R.id.ll_select_tab);
         iv_arrow = (ImageView) findViewById(R.id.iv_arrow);
-        tabList=getTab();
         //设置标签的，适配器
-        GvTbAdapter adapter=new GvTbAdapter(getApplicationContext(),tabList);
+        GvTbAdapter adapter=new GvTbAdapter(this,this);
         gv_tab.setAdapter(adapter);
         tv_select_location.setOnClickListener(this);
         ll_theme_content.setOnClickListener(this);
         ll_select_tab.setOnClickListener(this);
+
     }
 
-    /***
-     * 标签集合初始化
-     */
-    private List<String> getTab() {
-        for(int i=0;i<tabstr.length;i++){
-            tabList.add(tabstr[i]);
-        }
-        return tabList;
+    public void setMap(Map<Integer, String> map) {
+        this.map = map;
     }
 
     @Override
@@ -74,7 +74,9 @@ public class ContractedAct extends BaseActivity implements View.OnClickListener{
             case R.id.ll_select_tab:
                 if (flag){
                     ll_view.setVisibility(View.VISIBLE);
+                    gv_tab.setClickable(true);
                     iv_arrow.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.arrow_down2));
+
                     flag=false;
                 }else {
                     ll_view.setVisibility(View.INVISIBLE);

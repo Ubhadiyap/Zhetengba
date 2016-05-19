@@ -238,13 +238,13 @@
             android:layout_marginRight="9dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <GridView
+        <com.boyuanitsm.zhetengba.view.MyGridView
             android:id="@+id/gv_tab"
             android:numColumns="6"
             android:horizontalSpacing="9dp"
             android:verticalSpacing="13dp"
             android:layout_width="match_parent"
-            android:layout_height="82dp"></GridView>
+            android:layout_height="82dp"></com.boyuanitsm.zhetengba.view.MyGridView>
         </LinearLayout>
 
     </LinearLayout>
@@ -348,7 +348,7 @@
             android:layout_height="41dp"
 
             android:layout_marginRight="0dp"
-            android:background="@drawable/layer_list_bottom">
+           >
             <TextView
                 style="@style/simple_text2"
                 android:text="仅好友可见"

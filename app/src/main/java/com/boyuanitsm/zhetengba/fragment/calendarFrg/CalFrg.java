@@ -64,7 +64,8 @@ public class CalFrg extends BaseFragment {
         lv_calen.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         lv_calen.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv_calen.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_calen.getRefreshableView().setDivider(null);
+        lv_calen.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
+        lv_calen.getRefreshableView().setDividerHeight(1);
         //设置listview头部headview
         lv_calen.getRefreshableView().addHeaderView(viewHeader_calen);
         vp_loop_calen = (LoopViewPager) view.findViewById(R.id.vp_loop_act);

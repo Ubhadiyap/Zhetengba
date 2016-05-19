@@ -8,15 +8,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.CirFriendAct;
+import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.activity.circle.CommentAct;
-import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
-import com.boyuanitsm.zhetengba.view.NineGridlayout;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.boyuanitsm.zhetengba.view.ShareDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -26,10 +27,9 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.List;
 
 /**
- * 圈子：圈子朋友主页
- * Created by xiaoke on 2016/5/12.
+ * Created by xiaoke on 2016/5/19.
  */
-public class CirListViewAdapter extends BaseAdapter {
+public class MyPlaneAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList;
 
@@ -40,13 +40,16 @@ public class CirListViewAdapter extends BaseAdapter {
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-    public CirListViewAdapter(Context context,List<List<ImageInfo>> dateList){
-        this.context=context;
+    public MyPlaneAdapter(Context context, List<List<ImageInfo>> dateList) {
+        this.context = context;
         this.dateList=dateList;
+
     }
+
+
     @Override
     public int getCount() {
-        return dateList.size();
+        return 5;
     }
 
     @Override
@@ -62,23 +65,26 @@ public class CirListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-      final   List<ImageInfo> itemList = dateList.get(position);
+        final List<ImageInfo> itemList = dateList.get(position);
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_circle, null);
-            viewHolder.iv_ch_head = (ImageView)convertView.findViewById(R.id.iv_ch_head);
+            viewHolder.ivChHead = (ImageView) convertView.findViewById(R.id.iv_ch_head);
+            viewHolder.tvChNiName = (TextView) convertView.findViewById(R.id.tv_ch_niName);
+            viewHolder.ivChGendar = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
+            viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_Name);
+            viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
+            viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
             viewHolder.iv_oneimage= (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
             viewHolder.ll_two= (LinearLayout) convertView.findViewById(R.id.ll_two);
             viewHolder.iv_two_one= (CustomImageView) convertView.findViewById(R.id.iv_two_one);
             viewHolder.iv_two_two= (CustomImageView) convertView.findViewById(R.id.iv_two_two);
             viewHolder.iv_two_three= (CustomImageView) convertView.findViewById(R.id.iv_two_three);
             viewHolder.iv_two_four= (CustomImageView) convertView.findViewById(R.id.iv_two_four);
-            //分享，评论
-            viewHolder.ll_share= (LinearLayout) convertView.findViewById(R.id.ll_share);
-            viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
@@ -150,16 +156,28 @@ public class CirListViewAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setAdapter(adapter);
 
         }
-        //进入个人资料主页界面
-        viewHolder.iv_ch_head.setOnClickListener(new View.OnClickListener() {
+        //点击用户头像，进入用户圈子主页
+        viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,PersonalmesAct.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent=new Intent();
+                intent.setClass(context, CirFriendAct.class);
+                //需要开启新task,否则会报错
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
-
+        //点击户外圈进入圈子主页
+        viewHolder.tv_cir_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setClass(context, CirxqAct.class);
+                //需要开启新task,否则会报错
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
         //分享对话框
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +186,6 @@ public class CirListViewAdapter extends BaseAdapter {
                 dialog.show();
             }
         });
-
         //评论
         viewHolder.ll_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,18 +196,22 @@ public class CirListViewAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-
-
         return convertView;
     }
-    class ViewHolder{
-        private LinearLayout ll_share;
-        private LinearLayout ll_comment;
-        private ImageView iv_ch_head;
-        private CustomImageView iv_oneimage;
-        private MyGridView iv_ch_image;
+
+
+    class ViewHolder {
+        public ImageView ivChHead;
+        public TextView tvChNiName;
+        public ImageView ivChGendar;
+        public TextView tvTime;
+        public MyGridView iv_ch_image;
+        public CustomImageView iv_oneimage;
+        public TextView tv_cir_name;
         private LinearLayout ll_two;
         private CustomImageView iv_two_one,iv_two_two,iv_two_three,iv_two_four;
+        private LinearLayout ll_share;
+        private LinearLayout ll_comment;
 
     }
     private void handlerOneImage(ViewHolder viewHolder, ImageInfo image) {

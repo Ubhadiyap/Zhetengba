@@ -91,7 +91,7 @@ public class CirxqAct extends BaseActivity {
 
         //listview设置适配器
         cir_sv.smoothScrollTo(0, 0);
-        lv_cir.setAdapter(new CircleAdapter(getApplicationContext(),datalist));}
+        lv_cir.setAdapter(new CircleAdapter(CirxqAct.this,datalist));}
 
 
 

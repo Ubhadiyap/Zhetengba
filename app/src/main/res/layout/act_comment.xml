@@ -3,18 +3,21 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="@color/bg_color">
     <include layout="@layout/title_act_coment_layout"></include>
     <FrameLayout
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
         <LinearLayout
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <EditText
                 android:hint="写评论..."
+                android:textSize="12sp"
+                android:textColorHint="#cdcdcd"
                 android:gravity="top"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -49,6 +52,7 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:gravity="center"
         android:background="#f9f9f9">
         <LinearLayout
             style="@style/Comemt_ll">
@@ -79,6 +83,7 @@
                 android:background="@drawable/xl"/>
         </LinearLayout>
         <LinearLayout
+
             style="@style/Comemt_ll">
             <ImageView
                 style="@style/Comemt_iamge"

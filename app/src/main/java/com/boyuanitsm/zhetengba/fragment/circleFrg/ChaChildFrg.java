@@ -30,14 +30,14 @@ public class ChaChildFrg extends BaseFragment {
     private List<List<ImageInfo>> datalist=new ArrayList<>();
     private String[][] images=new String[][]{{
             ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"1280","800"}
+            ,{ConstantValue.IMAGEURL2,"1624","914"}
+            ,{ConstantValue.IMAGEURL3,"1624","914"}
+            ,{ConstantValue.IMAGEURL4,"1624","914"}
+            ,{ConstantValue.IMAGEURL5,"250","250"}
+            ,{ConstantValue.IMAGEURL2,"250","250"}
+            ,{ConstantValue.IMAGEURL3,"250","250"}
+            ,{ConstantValue.IMAGEURL4,"250","250"}
+            ,{ConstantValue.IMAGEURL5,"1280","800"}
     };
 
     @Override
@@ -62,7 +62,8 @@ public class ChaChildFrg extends BaseFragment {
         lv_ch01.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         lv_ch01.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv_ch01.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_ch01.getRefreshableView().setDivider(null);
+        lv_ch01.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
+        lv_ch01.getRefreshableView().setDividerHeight(1);
         initDate();
         ChanAdapter adapter=new ChanAdapter(mActivity,datalist);
         lv_ch01.getRefreshableView().setAdapter(adapter);
