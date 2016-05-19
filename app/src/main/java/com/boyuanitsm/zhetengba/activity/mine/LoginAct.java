@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
@@ -74,11 +75,11 @@ public class LoginAct extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tvLogin})
+    @OnClick({R.id.tvLogin, R.id.tv_regist, R.id.tv_forget_pw})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLogin://登录
-              login();
+                login();
                 break;
             case R.id.tv_regist:
                 openActivity(RegistAct.class);
@@ -87,6 +88,26 @@ public class LoginAct extends BaseActivity {
                 openActivity(FrogetpwdAct.class);
                 break;
         }
+    }
+
+    /**
+     * @return
+     */
+    private boolean isValidate() {
+        currentUsername = usernameEditText.getText().toString().trim();
+        currentPassword = passwordEditText.getText().toString().trim();
+        if (TextUtils.isEmpty(currentUsername)) {
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
+            usernameEditText.requestFocus();
+            return false;
+        }
+        if (TextUtils.isEmpty(currentPassword)) {
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入密码");
+            passwordEditText.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
 

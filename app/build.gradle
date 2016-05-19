@@ -49,5 +49,6 @@ android {
 
 dependencies {
     compile project(':EaseUI')
-    compile fileTree(dir: 'libs', include: '*.jar', exclude: 'android-support-multidex.jar')
+    compile fileTree(dir: 'libs', exclude: 'android-support-multidex.jar', include: '*.jar')
+    compile files('libs/core.jar')
 }
