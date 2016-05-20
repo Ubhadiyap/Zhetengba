@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
         <TextView
             android:gravity="center"
-            android:layout_height="15dp"
+            android:layout_height="20dp"
             android:id="@+id/tv_bq"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
