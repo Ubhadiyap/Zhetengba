@@ -350,13 +350,19 @@
             android:screenOrientation="portrait"></activity>
 
         <!--消息里面个人主页界面-->
-        <activity android:name=".activity.PerpageAct"
+        <activity android:name=".activity.mess.PerpageAct"
             android:screenOrientation="portrait"></activity>
         <!--添加图片选择界面-->
         <activity android:name=".activity.photo.PicSelectActivity"
             android:screenOrientation="portrait"></activity>
         <!--移除图片选择界面-->
         <activity android:name=".activity.photo.ImageBrowserActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--加好友验证界面-->
+        <activity android:name=".activity.mess.MessVerifyAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子搜索界面-->
+        <activity android:name=".activity.circle.SerchCirAct"
             android:screenOrientation="portrait"></activity>
     </application>
 

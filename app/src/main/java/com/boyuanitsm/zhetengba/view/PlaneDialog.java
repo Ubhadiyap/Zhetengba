@@ -48,20 +48,8 @@ public class PlaneDialog extends Dialog {
     }
 
     public void init() {
-//        LayoutInflater inflater =getLayoutInflater();
-//        view = inflater.inflate(R.layout.act_plan_layout, null);
-//        view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.my_self_dialog_in));
         setContentView(R.layout.act_plan_layout);
         getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-
-//diaolog动画
-//        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF,
-//                0f, Animation.RELATIVE_TO_SELF, 6f, Animation.RELATIVE_TO_SELF, 0);
-//        animation.setInterpolator(new DecelerateInterpolator());
-//        animation.setDuration(350);
-//        animation.setStartOffset(150);
-//        lac = new LayoutAnimationController(animation, 0.12f);
-//        lac.setInterpolator(new DecelerateInterpolator());
         TextView tv_plan_act = (TextView) findViewById(R.id.tv_plan_act);
         TextView tv_plan_calen = (TextView) findViewById(R.id.tv_plan_calen);
         LinearLayout ll_cancel = (LinearLayout) findViewById(R.id.ll_cancel);

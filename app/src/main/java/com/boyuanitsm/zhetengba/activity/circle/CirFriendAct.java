@@ -1,13 +1,16 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.adapter.CirFriGvAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirFriGvSecAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirListViewAdapter;
@@ -27,6 +30,7 @@ public class CirFriendAct extends BaseActivity {
     private GridView cir_fri_gv;
     private GridView cir_fri_com;
     private PullToRefreshListView cir_fri_plv;
+    private LinearLayout ll_add_friend;
     private List<List<ImageInfo>> datalist=new ArrayList<>();
     private String[][] images=new String[][]{{
             ConstantValue.IMAGEURL,"1624","914"}
@@ -56,12 +60,22 @@ public class CirFriendAct extends BaseActivity {
         cir_fri_plv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         cir_fri_plv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         cir_fri_plv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        cir_fri_plv.getRefreshableView().setDivider(null);
+        cir_fri_plv.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
+        cir_fri_plv.getRefreshableView().setDividerHeight(1);
         cir_fri_plv.getRefreshableView().addHeaderView(v);
         cir_fri_gv = (GridView) v.findViewById(R.id.cir_fri_gv);
         cir_fri_com = (GridView)v.findViewById(R.id.cir_fri_com);
-        CirFriGvAdapter adapter=new CirFriGvAdapter(getApplicationContext());
-        CirFriGvSecAdapter adapter1=new CirFriGvSecAdapter(getApplicationContext());
+        ll_add_friend = (LinearLayout) v.findViewById(R.id.ll_add_friend);
+        ll_add_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //传入用户名
+                Intent intent=new Intent(CirFriendAct.this, MessVerifyAct.class);
+                startActivity(intent);
+            }
+        });
+        CirFriGvAdapter adapter=new CirFriGvAdapter(this);
+        CirFriGvSecAdapter adapter1=new CirFriGvSecAdapter(this);
         cir_fri_gv.setAdapter(adapter);
         cir_fri_com.setAdapter(adapter1);
         initData();

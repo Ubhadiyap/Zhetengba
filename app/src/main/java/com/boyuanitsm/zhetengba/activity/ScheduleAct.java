@@ -3,9 +3,11 @@ package com.boyuanitsm.zhetengba.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -15,6 +17,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  */
 public class ScheduleAct extends BaseActivity {
     private TextView tv_xlws,tv_bwln,tv_wlzj,tv_xdys;//闲来无事，百无聊赖，无聊至极，闲的要死
+    private LinearLayout ll_hu_can,ll_hu_no_can;
 
 
     @Override
@@ -27,6 +30,7 @@ public class ScheduleAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("档期");
         assignView();
+        setcheckitem(0);
     }
 
     private void assignView() {
@@ -34,6 +38,8 @@ public class ScheduleAct extends BaseActivity {
         tv_bwln= (TextView) findViewById(R.id.tv_bwln);
         tv_wlzj= (TextView) findViewById(R.id.tv_wuzj);
         tv_xdys= (TextView) findViewById(R.id.tv_xdys);
+        ll_hu_can = (LinearLayout) findViewById(R.id.ll_hu_can);
+        ll_hu_no_can = (LinearLayout) findViewById(R.id.ll_hu_no_can);
     }
 
     @OnClick({R.id.tv_xlwu,R.id.tv_bwln,R.id.tv_wuzj,R.id.tv_xdys})
@@ -59,6 +65,14 @@ public class ScheduleAct extends BaseActivity {
             case R.id.tv_xdys:
                 setAllTabNor();
                 setcheckitem(3);
+                break;
+            case R.id.ll_hu_can:
+                //                MyToastUtils.showShortToast(ContractedAct.this, "指定谁看");
+                openActivity(ContractsAct.class);
+                break;
+            case R.id.ll_hu_no_can:
+                //                MyToastUtils.showShortToast(ContractedAct.this, "谁不能看");
+                openActivity(ContractsAct.class);
                 break;
 
 

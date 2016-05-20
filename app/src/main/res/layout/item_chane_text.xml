@@ -39,25 +39,26 @@
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:background="@drawable/zan"/>
-                    <TextView
-                        android:text="20"
-                        android:gravity="center"
-                        android:textSize="12sp"
-                        android:textColor="#666666"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp" />
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:gravity="center"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="15dp"-->
+                        <!--android:layout_height="15dp"-->
+                        <!--android:background="@drawable/zan"/>-->
+                    <!--<TextView-->
+                        <!--android:text="20"-->
+                        <!--android:gravity="center"-->
+                        <!--android:textSize="12sp"-->
+                        <!--android:textColor="#666666"-->
+                        <!--android:layout_width="20dp"-->
+                        <!--android:layout_height="20dp" />-->
+                <!--</LinearLayout>-->
             </LinearLayout>
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView

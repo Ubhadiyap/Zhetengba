@@ -4,8 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:layout_marginBottom="10dp"
     android:background="@color/bg_color">
     <include layout="@layout/title_act_layout"></include>
     <ScrollView
@@ -41,6 +39,8 @@
                  android:textColorHint="#999999"
                  android:textSize="12sp"
                  android:hint="输入主题"
+                android:maxLength="16"
+
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
                  android:singleLine="true"
@@ -51,27 +51,16 @@
              style="@style/simple_linear"
              android:orientation="horizontal"
              android:background="@drawable/bg_circle_stroke_gray">
-             <TextView
-                 style="@style/simple_text"
+             <EditText
                  android:layout_marginLeft="15dp"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="地点"/>
-             <RelativeLayout
-
-                 android:gravity="center_vertical"
-                 android:layout_marginRight="15dp"
+                 android:singleLine="true"
+                 android:background="@null"
                  android:layout_width="match_parent"
-                 android:layout_height="match_parent">
-                 <TextView
-                     android:id="@+id/tv_select"
-                     android:layout_alignParentRight="true"
-                     android:textSize="12sp"
-                     android:textColor="#52c791"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="选择地点"/>
-             </RelativeLayout>
+                 android:layout_height="match_parent"
+                 android:textColor="#333333"
+                 android:textSize="12sp"
+                 android:hint="地点"
+                 android:textColorHint="#999999"/>
 
          </LinearLayout>
          <LinearLayout
@@ -128,6 +117,7 @@
                      android:textSize="12sp"
                      android:hint="结束时间"
                      android:textColorHint="#999999"
+                     android:numeric="integer"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"/>
              </LinearLayout>
@@ -137,7 +127,6 @@
             style="@style/simple_linear"
             android:orientation="horizontal">
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
                 <TextView
@@ -156,13 +145,13 @@
                     android:layout_height="match_parent" />
             </LinearLayout>
            <LinearLayout
+               android:layout_weight="1"
                android:layout_width="60dp"
                android:layout_height="match_parent">
 
            </LinearLayout>
             <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_circle_stroke_gray">
                 <EditText
@@ -172,8 +161,6 @@
                     android:background="@null"
                     android:textSize="14sp"
                     android:textColor="#52c791"
-                    android:hint="20"
-                    android:textColorHint="#52c791"
                     android:layout_width="wrap_content"
                     android:numeric="integer"
                     android:singleLine="true"
@@ -190,6 +177,7 @@
         </LinearLayout>
      </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_sel_tab"
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -249,6 +237,7 @@
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_act"
         android:layout_width="match_parent"
         android:layout_height="41dp"
         android:layout_marginTop="15dp"
@@ -287,6 +276,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/act_layer_top_bottom">
         <LinearLayout
+            android:id="@+id/ll_hu_can"
             style="@style/simple_linear"
             android:layout_width="match_parent"
             android:layout_height="41dp"
@@ -315,6 +305,7 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_hu_no_can"
             style="@style/simple_linear"
             android:layout_width="match_parent"
             android:layout_height="41dp"

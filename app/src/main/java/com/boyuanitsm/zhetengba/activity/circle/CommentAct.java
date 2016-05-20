@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -18,5 +19,11 @@ public class CommentAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("评论");
+        setRight("完成", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
