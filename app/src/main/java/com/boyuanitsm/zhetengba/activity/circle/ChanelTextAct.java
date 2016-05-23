@@ -17,6 +17,8 @@ import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.leaf.library.widget.MyListView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -28,7 +30,9 @@ import java.util.List;
  * 频道正文
  * Created by xiaoke on 2016/5/11.
  */
-public class ChanelTextAct extends BaseActivity {
+public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
+    @ViewInject(R.id.ll_answer)//评论
+    private LinearLayout ll_answer;
     private MyListView my_lv;
     private ScrollView sl_chanel;
     private LinearLayout ll_two;
@@ -61,6 +65,14 @@ public class ChanelTextAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("频道正文");
+        assignView();
+        initDate();
+        ChaTextAdapter adapter = new ChaTextAdapter(this);
+        my_lv.setAdapter(adapter);
+        sl_chanel.smoothScrollTo(0, 0);
+    }
+
+    private void assignView() {
         my_lv = (MyListView) findViewById(R.id.my_lv);
         sl_chanel = (ScrollView) findViewById(R.id.sl_chanel);
         iv_ch_image = (MyGridView) findViewById(R.id.iv_ch_image);
@@ -70,10 +82,6 @@ public class ChanelTextAct extends BaseActivity {
         iv_two_two = (CustomImageView) findViewById(R.id.iv_two_two);
         iv_two_three = (CustomImageView) findViewById(R.id.iv_two_three);
         iv_two_four = (CustomImageView) findViewById(R.id.iv_two_four);
-        initDate();
-        ChaTextAdapter adapter = new ChaTextAdapter(this);
-        my_lv.setAdapter(adapter);
-        sl_chanel.smoothScrollTo(0, 0);
     }
 
     private void initDate() {
@@ -156,38 +164,14 @@ public class ChanelTextAct extends BaseActivity {
 
         }
     }
+    @OnClick({R.id.ll_answer})
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_answer:
+                openActivity(CommentAct.class);
+                break;
+        }
+    }
 
-//    /***
-//     *
-//     *
-//     * @param image
-//     */
-//    private void handlerOneImage(ImageInfo image) {
-//        int totalWidth;
-//        int imageWidth;
-//        int imageHeight;
-//        ScreenTools screentools = ScreenTools.instance(getApplicationContext());
-//        totalWidth = screentools.getScreenWidth() - screentools.dip2px(80);
-//        imageWidth = screentools.dip2px(image.getWidth());
-//        imageHeight = screentools.dip2px(image.getHeight());
-//        if (image.getWidth() <= image.getHeight()) {
-//            if (imageHeight > totalWidth) {
-//                imageHeight = totalWidth;
-//                imageWidth = (imageHeight * image.getWidth()) / image.getHeight();
-//            }
-//        } else {
-//            if (imageWidth > totalWidth) {
-//                imageWidth = totalWidth;
-//                imageHeight = (imageWidth * image.getHeight()) / image.getWidth();
-//            }
-//        }
-//        ViewGroup.LayoutParams layoutparams = ng_one_image.getLayoutParams();
-//        layoutparams.height = imageHeight;
-//        layoutparams.width = imageWidth;
-//        ng_one_image.setLayoutParams(layoutparams);
-//        ng_one_image.setClickable(true);
-//        ng_one_image.setScaleType(ImageView.ScaleType.FIT_XY);
-//        ng_one_image.setImageUrl(image.getUrl());
-//
-//    }
 }

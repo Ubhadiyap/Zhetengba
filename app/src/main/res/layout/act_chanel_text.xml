@@ -150,8 +150,9 @@
             <LinearLayout
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
-                android:layout_width="60dp"
-                android:layout_height="match_parent">
+                android:layout_width="62dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layer_list_bottom_yell">
                 <TextView
                     android:layout_gravity="center_vertical"
                     android:text="评论50"
@@ -185,7 +186,8 @@
                 android:divider="#e1e1e1">
             </com.leaf.library.widget.MyListView>
         </LinearLayout>
-<LinearLayout
+<!--<LinearLayout-->
+    android:id="@+id/ll_answer"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="45dp"
@@ -209,25 +211,25 @@
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content" />-->
     <!--</LinearLayout>-->
-    <LinearLayout
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:orientation="horizontal"
-        android:background="@drawable/act_layer_right">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/comment"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:text="评论"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:gravity="center"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:background="@drawable/act_layer_right">-->
+        <!--<ImageView-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:background="@drawable/comment"/>-->
+        <!--<TextView-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:text="评论"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="#666666"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
     <!--<LinearLayout-->
         <!--android:gravity="center"-->
         <!--android:layout_weight="1"-->
@@ -246,7 +248,7 @@
             <!--android:layout_height="wrap_content" />-->
     <!--</LinearLayout>-->
 
-</LinearLayout>
+<!--</LinearLayout>-->
 
     </LinearLayout>
     </ScrollView>

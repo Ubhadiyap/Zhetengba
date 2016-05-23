@@ -10,6 +10,7 @@ import com.boyuanitsm.zhetengba.R;
 import java.util.List;
 
 /**
+ * 圈子消息，同意，拒绝，回复，赞几种类型
  * Created by xiaoke on 2016/5/9.
  */
 public class CircleMessAdatper extends BaseAdapter {
@@ -28,7 +29,7 @@ public class CircleMessAdatper extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 1;
     }
 
     @Override
