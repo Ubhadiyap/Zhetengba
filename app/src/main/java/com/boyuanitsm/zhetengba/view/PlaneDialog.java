@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.publish.ContractedAct;
+import com.boyuanitsm.zhetengba.activity.ContractedAct;
 import com.boyuanitsm.zhetengba.activity.publish.ScheduleAct;
 
 /**
@@ -50,6 +50,7 @@ public class PlaneDialog extends Dialog {
                 //进入活动界面
                 Intent intent=new Intent();
                 intent.setClass(context, ContractedAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 dismiss();
             }
@@ -59,6 +60,7 @@ public class PlaneDialog extends Dialog {
             public void onClick(View v) {
                 Intent intent=new Intent();
                 intent.setClass(context, ScheduleAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 dismiss();
 

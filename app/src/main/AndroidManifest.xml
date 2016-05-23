@@ -302,8 +302,7 @@
         <activity android:name=".activity.circle.CommentAct"
             android:screenOrientation="portrait"></activity>
         <!--简约界面-->
-        <activity
-            android:name=".activity.publish.ContractedAct"
+        <activity android:name=".activity.ContractedAct"
             android:screenOrientation="portrait"></activity>
         <!--位置信息-->
         <!--<activity-->
