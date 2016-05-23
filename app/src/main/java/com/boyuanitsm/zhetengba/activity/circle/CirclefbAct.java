@@ -44,7 +44,7 @@ public class CirclefbAct extends BaseActivity {
         setTopTitle("Alic");
         gv_qzfb.setAdapter(new CirfbAdapter(getApplicationContext()));
 
-        adapter = new GvPhotoAdapter(selecteds, 8, CirclefbAct.this);
+        adapter = new GvPhotoAdapter(selecteds, 9, CirclefbAct.this);
         gvPhoto.setAdapter(adapter);
 
     }
