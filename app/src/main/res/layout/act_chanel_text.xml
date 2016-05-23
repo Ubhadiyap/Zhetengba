@@ -82,13 +82,59 @@
         <LinearLayout
             android:layout_marginTop="15dp"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="260dp"
             android:layout_height="wrap_content">
-            <com.boyuanitsm.zhetengba.view.NineGridlayout
-                android:id="@+id/ng_chanel"
+            <com.boyuanitsm.zhetengba.view.MyGridView
+                android:id="@+id/iv_ch_image"
+                android:paddingBottom="3dp"
+                android:horizontalSpacing="3dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/test_chanel"/>
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:id="@+id/ll_two"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginBottom="3dp"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                        android:id="@+id/iv_two_one"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"
+                        android:layout_width="83dp"
+                        android:layout_height="83dp" />
+                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/iv_two_two"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"
+                        android:layout_width="83dp"
+                        android:layout_height="83dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                        android:id="@+id/iv_two_three"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"
+                        android:layout_width="83dp"
+                        android:layout_height="83dp" />
+                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/iv_two_four"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"
+                        android:layout_width="83dp"
+                        android:layout_height="83dp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
             <com.boyuanitsm.zhetengba.view.CustomImageView
                 android:id="@+id/ng_one_image"
                 android:layout_width="match_parent"
@@ -104,11 +150,13 @@
             <LinearLayout
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
-                android:layout_width="60dp"
-                android:layout_height="match_parent">
+                android:layout_width="62dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layer_list_bottom_yell">
                 <TextView
                     android:layout_gravity="center_vertical"
                     android:text="评论50"
+                    android:textColor="#333333"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -116,16 +164,16 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
-            <LinearLayout
+            <!--<LinearLayout-->
 
-                android:gravity="center"
-                android:layout_width="50dp"
-                android:layout_height="match_parent">
-                <TextView
-                    android:text="赞20"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                <!--android:gravity="center"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="match_parent">-->
+                <!--<TextView-->
+                    <!--android:text="赞20"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
+            <!--</LinearLayout>-->
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -138,68 +186,69 @@
                 android:divider="#e1e1e1">
             </com.leaf.library.widget.MyListView>
         </LinearLayout>
-<LinearLayout
+<!--<LinearLayout-->
+    android:id="@+id/ll_answer"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="45dp"
     android:background="@drawable/layer_list_top_white">
-    <LinearLayout
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:orientation="horizontal"
-        android:background="@drawable/act_layer_right">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/comment"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:text="转发"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:orientation="horizontal"
-        android:background="@drawable/act_layer_right">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/comment"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:text="评论"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="20dp">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/zan"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:text="赞"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:gravity="center"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:background="@drawable/act_layer_right">-->
+        <!--<ImageView-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:background="@drawable/comment"/>-->
+        <!--<TextView-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="#666666"-->
+            <!--android:text="转发"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+        <!--android:gravity="center"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:background="@drawable/act_layer_right">-->
+        <!--<ImageView-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:background="@drawable/comment"/>-->
+        <!--<TextView-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:text="评论"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="#666666"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+        <!--android:gravity="center"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="20dp">-->
+        <!--<ImageView-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:background="@drawable/zan"/>-->
+        <!--<TextView-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:text="赞"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="#666666"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
 
-</LinearLayout>
+<!--</LinearLayout>-->
 
     </LinearLayout>
     </ScrollView>

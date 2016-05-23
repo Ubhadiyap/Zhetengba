@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="会说话的Tom"
+                    android:text="甜蜜的小猫"
                     android:textColor="#666666"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
@@ -75,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <LinearLayout
+                android:id="@+id/ll_add_friend"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"

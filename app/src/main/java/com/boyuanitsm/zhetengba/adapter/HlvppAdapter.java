@@ -54,6 +54,7 @@ public class HlvppAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(context, CircleppAct.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
             });

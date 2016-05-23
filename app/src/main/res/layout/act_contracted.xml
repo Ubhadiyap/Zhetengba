@@ -58,30 +58,15 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/bg_circle_stroke_gray"
                     android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/simple_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:text="地点" />
-
-                    <RelativeLayout
-
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="15dp"
-                        android:gravity="center_vertical">
-
-                        <TextView
+                        <EditText
+                            android:paddingLeft="15dp"
                             android:id="@+id/tv_select"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:text="选择地点"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="地点"
                             android:textColor="#52c791"
                             android:textSize="12sp" />
-                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -230,7 +215,6 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="center"
-                            android:hint="20"
                             android:numeric="integer"
                             android:singleLine="true"
                             android:textColor="#52c791"
@@ -258,6 +242,7 @@
                 android:paddingLeft="15dp">
 
                 <LinearLayout
+                    android:id="@+id/ll_tab"
                     android:layout_width="match_parent"
                     android:layout_height="41dp"
                     android:orientation="horizontal">
@@ -318,6 +303,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_theme"
                 android:layout_width="match_parent"
                 android:layout_height="41dp"
                 android:layout_marginTop="15dp"
@@ -363,6 +349,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/ll_hu_can"
                     style="@style/simple_linear"
                     android:layout_width="match_parent"
                     android:layout_height="41dp"
@@ -395,6 +382,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_hu_no_can"
                     style="@style/simple_linear"
                     android:layout_width="match_parent"
                     android:layout_height="41dp"

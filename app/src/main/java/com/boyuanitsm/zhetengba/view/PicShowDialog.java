@@ -39,7 +39,7 @@ public class PicShowDialog extends Dialog {
     private List<PhotoView> list;
     private List<ImageInfo> imageInfos;
     private PhotoView pv;
-    private ViewPager vp;
+    private MyViewPager vp;
     private List<View> views = new ArrayList<View>();
     private LayoutAnimationController lac;
     private LinearLayout ll_point;
@@ -71,7 +71,7 @@ public class PicShowDialog extends Dialog {
         setContentView(R.layout.act_dialog_pic);
         getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //        getWindow().setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        vp = (ViewPager) findViewById(R.id.vp);
+        vp = (MyViewPager) findViewById(R.id.vp);
         ll_point = (LinearLayout) findViewById(R.id.ll_point);
 //        init();
         initMyPageAdapter();
