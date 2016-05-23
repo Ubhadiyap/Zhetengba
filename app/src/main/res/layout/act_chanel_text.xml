@@ -155,6 +155,7 @@
                 <TextView
                     android:layout_gravity="center_vertical"
                     android:text="评论50"
+                    android:textColor="#333333"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

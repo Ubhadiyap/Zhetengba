@@ -4,24 +4,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.ContractedAct;
-import com.boyuanitsm.zhetengba.activity.ScheduleAct;
-
-import java.util.jar.Attributes;
+import com.boyuanitsm.zhetengba.activity.publish.ContractedAct;
+import com.boyuanitsm.zhetengba.activity.publish.ScheduleAct;
 
 /**
  * 主界面点击发布，弹出半透明对话框

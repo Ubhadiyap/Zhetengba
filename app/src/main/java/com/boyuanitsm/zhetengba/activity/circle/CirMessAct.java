@@ -4,11 +4,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.MyPlaneAct;
-import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
+import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
 import com.boyuanitsm.zhetengba.adapter.CircleMessAdatper;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;

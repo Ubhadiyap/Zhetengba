@@ -3,8 +3,6 @@ package com.boyuanitsm.zhetengba.activity.circle;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -14,10 +12,9 @@ import com.boyuanitsm.zhetengba.adapter.ChaTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.PicGdAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
-import com.boyuanitsm.zhetengba.utils.ScreenTools;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
-import com.boyuanitsm.zhetengba.view.NineGridlayout;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.leaf.library.widget.MyListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -98,7 +95,9 @@ public class ChanelTextAct extends BaseActivity {
             iv_ch_image.setVisibility(View.GONE);
             ng_one_image.setVisibility(View.VISIBLE);
 
-            handlerOneImage(singleList.get(0));
+
+            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), ng_one_image);
+
             ng_one_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -158,37 +157,37 @@ public class ChanelTextAct extends BaseActivity {
         }
     }
 
-    /***
-     * 根据图片宽高自动设置布局
-     *
-     * @param image
-     */
-    private void handlerOneImage(ImageInfo image) {
-        int totalWidth;
-        int imageWidth;
-        int imageHeight;
-        ScreenTools screentools = ScreenTools.instance(getApplicationContext());
-        totalWidth = screentools.getScreenWidth() - screentools.dip2px(80);
-        imageWidth = screentools.dip2px(image.getWidth());
-        imageHeight = screentools.dip2px(image.getHeight());
-        if (image.getWidth() <= image.getHeight()) {
-            if (imageHeight > totalWidth) {
-                imageHeight = totalWidth;
-                imageWidth = (imageHeight * image.getWidth()) / image.getHeight();
-            }
-        } else {
-            if (imageWidth > totalWidth) {
-                imageWidth = totalWidth;
-                imageHeight = (imageWidth * image.getHeight()) / image.getWidth();
-            }
-        }
-        ViewGroup.LayoutParams layoutparams = ng_one_image.getLayoutParams();
-        layoutparams.height = imageHeight;
-        layoutparams.width = imageWidth;
-        ng_one_image.setLayoutParams(layoutparams);
-        ng_one_image.setClickable(true);
-        ng_one_image.setScaleType(ImageView.ScaleType.FIT_XY);
-        ng_one_image.setImageUrl(image.getUrl());
-
-    }
+//    /***
+//     *
+//     *
+//     * @param image
+//     */
+//    private void handlerOneImage(ImageInfo image) {
+//        int totalWidth;
+//        int imageWidth;
+//        int imageHeight;
+//        ScreenTools screentools = ScreenTools.instance(getApplicationContext());
+//        totalWidth = screentools.getScreenWidth() - screentools.dip2px(80);
+//        imageWidth = screentools.dip2px(image.getWidth());
+//        imageHeight = screentools.dip2px(image.getHeight());
+//        if (image.getWidth() <= image.getHeight()) {
+//            if (imageHeight > totalWidth) {
+//                imageHeight = totalWidth;
+//                imageWidth = (imageHeight * image.getWidth()) / image.getHeight();
+//            }
+//        } else {
+//            if (imageWidth > totalWidth) {
+//                imageWidth = totalWidth;
+//                imageHeight = (imageWidth * image.getHeight()) / image.getWidth();
+//            }
+//        }
+//        ViewGroup.LayoutParams layoutparams = ng_one_image.getLayoutParams();
+//        layoutparams.height = imageHeight;
+//        layoutparams.width = imageWidth;
+//        ng_one_image.setLayoutParams(layoutparams);
+//        ng_one_image.setClickable(true);
+//        ng_one_image.setScaleType(ImageView.ScaleType.FIT_XY);
+//        ng_one_image.setImageUrl(image.getUrl());
+//
+//    }
 }

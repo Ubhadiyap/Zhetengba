@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.os.Bundle;
 
@@ -6,7 +6,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
- * 位置信息
+ * 位置信息，不需要
  * Created by xiaoke on 2016/5/10.
  */
 public class LocationAct extends BaseActivity {

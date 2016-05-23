@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.publish;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.view.CommonView;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 /**
@@ -16,8 +17,8 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  * Created by bitch-1 on 2016/4/29.
  */
 public class ScheduleAct extends BaseActivity {
-    private TextView tv_xlws,tv_bwln,tv_wlzj,tv_xdys;//闲来无事，百无聊赖，无聊至极，闲的要死
-    private LinearLayout ll_hu_can,ll_hu_no_can;
+    private TextView tv_xlws, tv_bwln, tv_wlzj, tv_xdys;//闲来无事，百无聊赖，无聊至极，闲的要死
+    private CommonView ll_hu_can, ll_hu_no_can;
 
 
     @Override
@@ -31,20 +32,34 @@ public class ScheduleAct extends BaseActivity {
         setTopTitle("档期");
         assignView();
         setcheckitem(0);
+        ll_hu_can.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                MyToastUtils.showShortToast(ContractedAct.this, "指定谁看");
+                openActivity(ContractsAct.class);
+            }
+        });
+        ll_hu_no_can.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //                MyToastUtils.showShortToast(ContractedAct.this, "谁不能看");
+                openActivity(ContractsAct.class);
+            }
+        });
     }
 
     private void assignView() {
-        tv_xlws= (TextView) findViewById(R.id.tv_xlwu);
-        tv_bwln= (TextView) findViewById(R.id.tv_bwln);
-        tv_wlzj= (TextView) findViewById(R.id.tv_wuzj);
-        tv_xdys= (TextView) findViewById(R.id.tv_xdys);
-        ll_hu_can = (LinearLayout) findViewById(R.id.ll_hu_can);
-        ll_hu_no_can = (LinearLayout) findViewById(R.id.ll_hu_no_can);
+        tv_xlws = (TextView) findViewById(R.id.tv_xlwu);
+        tv_bwln = (TextView) findViewById(R.id.tv_bwln);
+        tv_wlzj = (TextView) findViewById(R.id.tv_wuzj);
+        tv_xdys = (TextView) findViewById(R.id.tv_xdys);
+        ll_hu_can = (CommonView) findViewById(R.id.ll_hu_can);
+        ll_hu_no_can = (CommonView) findViewById(R.id.ll_hu_no_can);
     }
 
-    @OnClick({R.id.tv_xlwu,R.id.tv_bwln,R.id.tv_wuzj,R.id.tv_xdys})
-    public void onClick(View v){
-        switch (v.getId()){
+    @OnClick({R.id.tv_xlwu, R.id.tv_bwln, R.id.tv_wuzj, R.id.tv_xdys})
+    public void onClick(View v) {
+        switch (v.getId()) {
 
             case R.id.tv_xlwu:
                 setAllTabNor();
@@ -67,15 +82,11 @@ public class ScheduleAct extends BaseActivity {
                 setcheckitem(3);
                 break;
             case R.id.ll_hu_can:
-                //                MyToastUtils.showShortToast(ContractedAct.this, "指定谁看");
-                openActivity(ContractsAct.class);
+
                 break;
             case R.id.ll_hu_no_can:
-                //                MyToastUtils.showShortToast(ContractedAct.this, "谁不能看");
-                openActivity(ContractsAct.class);
+
                 break;
-
-
 
 
         }
@@ -86,7 +97,7 @@ public class ScheduleAct extends BaseActivity {
     /**
      * 四个状态全部切换成普通样式
      */
-    private void setAllTabNor(){
+    private void setAllTabNor() {
         tv_xlws.setTextColor(Color.parseColor("#666666"));
         tv_xlws.setBackgroundResource(R.drawable.rdbt_xl_nocheck);
         tv_bwln.setTextColor(Color.parseColor("#666666"));
@@ -102,10 +113,11 @@ public class ScheduleAct extends BaseActivity {
 
     /**
      * 当点击四个状态时候选中样式
+     *
      * @param position
      */
-    private void setcheckitem(int position){
-        switch (position){
+    private void setcheckitem(int position) {
+        switch (position) {
             case 0://闲来无聊被选中
                 tv_xlws.setTextColor(Color.parseColor("#FFFFFF"));
                 tv_xlws.setBackgroundResource(R.drawable.rdbt_xl_check);
@@ -126,16 +138,10 @@ public class ScheduleAct extends BaseActivity {
                 break;
 
 
-
-
-
         }
 
 
     }
-
-
-
 
 
 }

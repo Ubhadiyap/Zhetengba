@@ -1,40 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff">
     <include layout="@layout/title_act_coment_layout"></include>
-    <!--<FrameLayout-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:background="@color/white">-->
+    <ScrollView android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+    <LinearLayout
+            android:orientation="vertical"
+        android:layout_width="match_parent"
 
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <!--输入文本-->
             <EditText
                 android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:paddingTop="5dp"
-                android:layout_weight="1"
                 android:lineSpacingExtra="9dp"
                 android:hint="写评论..."
-                android:textSize="12sp"
+                android:textSize="14sp"
+                android:minLines="10"
                 android:textColorHint="#cdcdcd"
                 android:gravity="top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@null"/>
 
+
         <LinearLayout
-            android:layout_above="@+id/ll_emoj"
+
+            android:id="@+id/ll_zhuanfa"
             android:paddingLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:paddingRight="15dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+           android:paddingBottom="20dp"
             android:background="#fff">
             <CheckBox
+                android:id="@+id/cb_zhuanfa"
                 android:gravity="center"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
@@ -48,8 +65,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-    <!--</FrameLayout>-->
+        </RelativeLayout>
     <LinearLayout
+
         android:id="@+id/ll_emoj"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -60,14 +78,16 @@
             style="@style/Comemt_ll">
             <ImageView
                 style="@style/Comemt_iamge"
-                android:background="@drawable/pic"/>
+                android:background="@drawable/pic1"/>
         </LinearLayout>
         <LinearLayout
             style="@style/Comemt_ll">
             <TextView
+                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textSize="20sp"
+                android:textColor="#7c7c7c"
                 android:text="@string/at"/>
         </LinearLayout>
         <LinearLayout
@@ -76,20 +96,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
+                android:textColor="#7c7c7c"
                 android:text="#"/>
         </LinearLayout>
         <LinearLayout
             style="@style/Comemt_ll">
             <ImageView
                 style="@style/Comemt_iamge"
-                android:background="@drawable/xl"/>
+                android:background="@drawable/xl1"/>
         </LinearLayout>
         <LinearLayout
 
             style="@style/Comemt_ll">
             <ImageView
                 style="@style/Comemt_iamge"
-                android:background="@drawable/add3"/>
+                android:background="@drawable/add32"/>
         </LinearLayout>
     </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

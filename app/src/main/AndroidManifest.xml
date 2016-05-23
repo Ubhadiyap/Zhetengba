@@ -73,7 +73,7 @@
             android:screenOrientation="portrait"></activity>
         <!--注册信息-->
         <activity
-            android:name=".activity.RegInfoAct"
+            android:name=".activity.mine.RegInfoAct"
             android:screenOrientation="portrait"></activity>
         <!--登录界面-->
         <activity
@@ -81,7 +81,7 @@
             android:screenOrientation="portrait"></activity>
         <!--档期界面-->
         <activity
-            android:name=".activity.ScheduleAct"
+            android:name=".activity.publish.ScheduleAct"
             android:screenOrientation="portrait"></activity>
         <!--个人资料界面-->
         <activity
@@ -281,7 +281,7 @@
             android:screenOrientation="portrait"></activity>
         <!--圈子：我的发布界面-->
         <activity
-            android:name=".activity.MyPlaneAct"
+            android:name=".activity.publish.MyPlaneAct"
             android:screenOrientation="portrait"></activity>
 
         <!--建立圈子界面-->
@@ -303,12 +303,12 @@
             android:screenOrientation="portrait"></activity>
         <!--简约界面-->
         <activity
-            android:name=".activity.ContractedAct"
+            android:name=".activity.publish.ContractedAct"
             android:screenOrientation="portrait"></activity>
         <!--位置信息-->
-        <activity
-            android:name=".activity.LocationAct"
-            android:screenOrientation="portrait"></activity>
+        <!--<activity-->
+            <!--android:name=".activity.LocationAct"-->
+            <!--android:screenOrientation="portrait"></activity>-->
         <!--管理圈子-->
         <activity
             android:name=".activity.circle.GLCirAct"

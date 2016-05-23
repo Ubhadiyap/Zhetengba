@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.os.Bundle;
 import android.widget.RadioButton;
