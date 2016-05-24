@@ -1,7 +1,5 @@
 package com.boyuanitsm.zhetengba.activity.mess;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -25,9 +23,9 @@ import com.boyuanitsm.zhetengba.adapter.PpagevpAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
+import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -192,24 +190,12 @@ public class PerpageAct extends BaseActivity {
         ll_schy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(PerpageAct.this);
-                builder.setTitle("确定删除好友？");
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                new MyAlertDialog(PerpageAct.this).builder().setTitle("提示").setMsg("确定删除该好友").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MyToastUtils.showShortToast(PerpageAct.this, "删除好友成功");
-                        dialog.dismiss();
+                    public void onClick(View v) {
+
                     }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MyToastUtils.showShortToast(PerpageAct.this, "取消");
-                        dialog.dismiss();
-                    }
-                });
-                popupWindow.dismiss();
-                builder.create().show();
+                }).setNegativeButton("取消",null).show();
 
             }
         });
