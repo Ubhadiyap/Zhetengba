@@ -13,6 +13,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
@@ -55,15 +56,7 @@ public class ChaChildFrg extends BaseFragment {
     private void initView(View view) {
         PullToRefreshListView lv_ch01 = (PullToRefreshListView) view.findViewById(R.id.lv_ch01);
         //传入参数，标签对应集合
-        lv_ch01.setPullRefreshEnabled(true);//下拉刷新
-        lv_ch01.setScrollLoadEnabled(true);//滑动加载
-        lv_ch01.setPullLoadEnabled(false);//上拉刷新
-        lv_ch01.setHasMoreData(true);//是否有更多数据
-        lv_ch01.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
-        lv_ch01.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-        lv_ch01.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_ch01.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
-        lv_ch01.getRefreshableView().setDividerHeight(1);
+        LayoutHelperUtil.freshInit(lv_ch01);
         initDate();
         ChanAdapter adapter=new ChanAdapter(mActivity,datalist);
         lv_ch01.getRefreshableView().setAdapter(adapter);
