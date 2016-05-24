@@ -52,6 +52,7 @@
             </RelativeLayout>
 
             <com.boyuanitsm.zhetengba.view.CircleImageView
+                android:id="@+id/cv_photo"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_gravity="center_horizontal"

@@ -1,6 +1,8 @@
 package com.boyuanitsm.zhetengba.adapter;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
 
 import java.util.List;
@@ -135,6 +138,7 @@ public class ActAdapter extends BaseAdapter{
             public void onClick(View v) {
                 Intent intent=new Intent();
                 intent.setClass(context, PerpageAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         };
@@ -148,25 +152,25 @@ public class ActAdapter extends BaseAdapter{
 
     /***
      * 设置条目点击显示活动详情dialog
-     *
+     *1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
      * @param
      */
     private void showDialog() {
         CustomDialog.Builder builder = new CustomDialog.Builder(context);
-//        builder.setPositiveButton("你们两个是同事", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//            }
-//        });
-//        builder.setNegativeButton("共参加过2次活动", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//            }
-//        });
+        builder.setMessage("没有活动详情");
+        builder.setPositiveButton("你们两个是同事", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MyToastUtils.showShortToast(context,"点击了第一个button");
+            }
+        });
+        builder.setNegativeButton("共参加过2次活动", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MyToastUtils.showShortToast(context,"点击了第二个button");
+            }
+        });
         builder.create().show();
-
 
     }
 

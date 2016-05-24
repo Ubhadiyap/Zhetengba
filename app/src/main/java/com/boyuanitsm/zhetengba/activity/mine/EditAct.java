@@ -69,6 +69,8 @@ public class EditAct extends BaseActivity{
                     case 7:
 
                         break;
+                    case 8:
+                        break;
                 }
                 finish();
             }
@@ -107,6 +109,9 @@ public class EditAct extends BaseActivity{
                 setTopTitle("职务");
                 cetEditInfo.setHint("请输入职务");
                 break;
+            case 8:
+                setTopTitle("修改备注");
+                cetEditInfo.setHint("请输入备注");
         }
     }
 }

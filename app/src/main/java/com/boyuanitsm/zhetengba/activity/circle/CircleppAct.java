@@ -54,12 +54,12 @@ public class CircleppAct extends BaseActivity {
                 Log.i("hah","gaga");
                 if(flag){
                     flag=false;
-                    tv_gl_member.setText("完成");
-                    setTopTitle("管理圈子");
+                    tv_gl_member.setText("取消");
+//                    setTopTitle("圈子成员");
                     plv.getRefreshableView().setAdapter(new CirpplistAdapter(getApplicationContext(), true));
                 }
                 else {tv_gl_member.setText("管理成员"); flag=true;
-                    setTopTitle("圈子成员");
+//                    setTopTitle("圈子成员");
                       plv.getRefreshableView().setAdapter(new CirpplistAdapter(getApplicationContext(), false));}
                 break;
         }

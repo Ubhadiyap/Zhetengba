@@ -42,6 +42,8 @@
                 android:textSize="12sp" />
 
             <LinearLayout
+                android:id="@+id/ll_button"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -68,6 +70,23 @@
                     android:background="@drawable/bg_circle_stroke_green"
                     android:padding="5dp"
                     android:text="共参加过2次活动"
+                    android:textColor="#fff"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/bt_act_dialog_three"
+                    android:layout_width="90dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/bg_circle_stroke_green"
+                    android:text="加为好友"
                     android:textColor="#fff"
                     android:textSize="13sp" />
             </LinearLayout>
