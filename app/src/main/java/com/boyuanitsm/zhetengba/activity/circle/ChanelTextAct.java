@@ -1,14 +1,20 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChaTextAdapter;
+import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
 import com.boyuanitsm.zhetengba.adapter.PicGdAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -23,6 +29,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +39,8 @@ import java.util.List;
  * Created by xiaoke on 2016/5/11.
  */
 public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
-    @ViewInject(R.id.ll_answer)//评论
-    private LinearLayout ll_answer;
+    @ViewInject(R.id.et_comment)//评论编辑框
+    private EditText et_comment;
     private MyListView my_lv;
     private ScrollView sl_chanel;
     private LinearLayout ll_two;
@@ -70,6 +78,23 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         ChaTextAdapter adapter = new ChaTextAdapter(this);
         my_lv.setAdapter(adapter);
         sl_chanel.smoothScrollTo(0, 0);
+
+        my_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                ll_answer.setVisibility(View.VISIBLE);
+//                et_comment.setFocusable(true);
+//                et_comment.setFocusableInTouchMode(true);
+//                et_comment.requestFocus();
+//                et_comment.requestFocusFromTouch();
+//              view= (View) parent.getItemAtPosition(0);
+//             TextView user_name= (TextView) view.findViewById(R.id.tv_user_name);
+//               String  str_nam = user_name.getText().toString();
+//                et_comment.setText("回复"+str_nam+"：");
+
+
+            }
+        });
     }
 
     private void assignView() {
@@ -164,13 +189,11 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
         }
     }
-    @OnClick({R.id.ll_answer})
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.ll_answer:
-                openActivity(CommentAct.class);
-                break;
+
         }
     }
 

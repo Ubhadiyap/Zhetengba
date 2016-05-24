@@ -12,6 +12,7 @@ import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
@@ -42,15 +43,7 @@ public class CirFrg extends Fragment {
         PullToRefreshListView lv_cir = (PullToRefreshListView) view.findViewById(R.id.lv_cir);
         initData();
         CircleAdapter adapter=new CircleAdapter(getContext(),datalist);
-        lv_cir.setPullRefreshEnabled(true);//下拉刷新
-        lv_cir.setScrollLoadEnabled(true);//滑动加载
-        lv_cir.setPullLoadEnabled(false);//上拉刷新
-        lv_cir.setHasMoreData(true);//是否有更多数据
-        lv_cir.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
-        lv_cir.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-        lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_cir.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
-        lv_cir.getRefreshableView().setDividerHeight(1);
+        LayoutHelperUtil.freshInit(lv_cir);
         lv_cir.getRefreshableView().setAdapter(adapter);
         return view;
     }
