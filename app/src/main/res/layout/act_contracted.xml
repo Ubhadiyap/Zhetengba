@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="10dp"
-
     android:background="@color/bg_color"
     android:orientation="vertical">
 
     <include layout="@layout/title_act_layout"></include>
 
     <ScrollView
+        android:fillViewport="true"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -175,7 +175,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="141dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
@@ -197,13 +197,13 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="60dp"
+                        android:layout_width="82dp"
                         android:layout_height="match_parent">
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="140dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/bg_circle_stroke_gray">
@@ -214,6 +214,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@null"
+                            android:maxLength="3"
                             android:gravity="center"
                             android:numeric="integer"
                             android:singleLine="true"

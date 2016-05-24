@@ -39,8 +39,8 @@ import java.util.List;
  * Created by xiaoke on 2016/5/11.
  */
 public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
-    @ViewInject(R.id.et_comment)//评论编辑框
-    private EditText et_comment;
+    @ViewInject(R.id.ll_comment)//评论
+    private LinearLayout ll_comment;
     private MyListView my_lv;
     private ScrollView sl_chanel;
     private LinearLayout ll_two;
@@ -190,10 +190,13 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         }
     }
 
+    @OnClick({R.id.ll_comment})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
+            case R.id.ll_comment:
+                openActivity(CommentAct.class);
+                break;
         }
     }
 

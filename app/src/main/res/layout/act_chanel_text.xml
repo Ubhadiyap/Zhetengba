@@ -82,6 +82,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginRight="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="65dp"
@@ -90,7 +91,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="下午一起畅谈诗歌和远方"
+                        android:text="下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方"
                         android:textColor="#333333"
                         android:textSize="16sp" />
 
@@ -208,33 +209,41 @@
     </ScrollView>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_comment"
+        android:gravity="center"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/bg_color">
-        <EditText
-            android:id="@+id/et_comment"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="1"
-            android:hint="评论内容 "
-            android:textColor="#666666"
-            android:maxLines="3"
-            android:textSize="12sp"
-            android:background="@drawable/act_layer_top_bottom"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+        android:background="@color/main_color">
+        <!--<EditText-->
+            <!--android:id="@+id/et_comment"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:layout_marginTop="2dp"-->
+            <!--android:layout_marginBottom="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:hint="评论内容 "-->
+            <!--android:textColor="#666666"-->
+            <!--android:maxLines="3"-->
+            <!--android:textSize="12sp"-->
+            <!--android:background="@drawable/act_layer_top_bottom"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent" />-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/comment"/>
         <Button
+            android:layout_marginLeft="5dp"
             android:gravity="center"
             android:text="评论"
-            android:textColor="#666666"
-            android:textSize="12sp"
-            android:layout_width="60dp"
-            android:layout_height="match_parent" />
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:background="@null"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

@@ -19,6 +19,7 @@ public class SerchCirAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        setTopTitle("圈子搜索");
         ListView lv_cir_serch = (ListView) findViewById(R.id.lv_cir_serch);
             lv_cir_serch.setAdapter(new CircleglAdapter(this));
     }

@@ -51,7 +51,7 @@ public class CirFriendAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("圈友主页");//塞入返回的昵称
+        setTopTitle("会说话的Tom猫");//塞入返回的昵称
         cir_fri_plv = (PullToRefreshListView) findViewById(R.id.cir_fri_plv);
         View v=getLayoutInflater().inflate(R.layout.act_cir_friend_head,null);
         LayoutHelperUtil.freshInit(cir_fri_plv);//初始化刷新
@@ -71,6 +71,9 @@ public class CirFriendAct extends BaseActivity {
         CirFriGvSecAdapter adapter1=new CirFriGvSecAdapter(this);
         cir_fri_gv.setAdapter(adapter);
         cir_fri_com.setAdapter(adapter1);
+        //去除gridview点击阴影
+        cir_fri_gv.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        cir_fri_com.setSelector(new ColorDrawable(Color.TRANSPARENT));
         initData();
         CirListViewAdapter lvadapter=new CirListViewAdapter(this,datalist);
         cir_fri_plv.getRefreshableView().setAdapter(lvadapter);

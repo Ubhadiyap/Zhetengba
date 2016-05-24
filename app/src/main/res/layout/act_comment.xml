@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:background="#fff">
     <include layout="@layout/title_act_coment_layout"></include>
-    <ScrollView android:layout_width="match_parent"
-        android:fillViewport="true"
-        android:layout_height="match_parent">
+    <!--<ScrollView android:layout_width="match_parent"-->
+        <!--android:fillViewport="true"-->
+        <!--android:layout_height="match_parent">-->
     <LinearLayout
             android:orientation="vertical"
         android:layout_width="match_parent"
@@ -38,81 +38,81 @@
                 android:background="@null"/>
 
 
-        <LinearLayout
+        <!--<LinearLayout-->
 
-            android:id="@+id/ll_zhuanfa"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           android:paddingBottom="20dp"
-            android:background="#fff">
-            <CheckBox
-                android:id="@+id/cb_zhuanfa"
-                android:gravity="center"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:button="@null"
-                android:background="@drawable/comment_check"/>
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:text="同时转发"
-                android:textSize="14sp"
-                android:textColor="#333333"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            <!--android:id="@+id/ll_zhuanfa"-->
+            <!--android:paddingLeft="15dp"-->
+            <!--android:paddingRight="15dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+           <!--android:paddingBottom="20dp"-->
+            <!--android:background="#fff">-->
+            <!--<CheckBox-->
+                <!--android:id="@+id/cb_zhuanfa"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_width="18dp"-->
+                <!--android:layout_height="18dp"-->
+                <!--android:button="@null"-->
+                <!--android:background="@drawable/comment_check"/>-->
+            <!--<TextView-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:text="同时转发"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textColor="#333333"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+        <!--</LinearLayout>-->
         </RelativeLayout>
-    <LinearLayout
+    <!--<LinearLayout-->
 
-        android:id="@+id/ll_emoj"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center"
-        android:background="#f9f9f9">
-        <LinearLayout
-            style="@style/Comemt_ll">
-            <ImageView
-                style="@style/Comemt_iamge"
-                android:background="@drawable/pic1"/>
-        </LinearLayout>
-        <LinearLayout
-            style="@style/Comemt_ll">
-            <TextView
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="20sp"
-                android:textColor="#7c7c7c"
-                android:text="@string/at"/>
-        </LinearLayout>
-        <LinearLayout
-            style="@style/Comemt_ll">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#7c7c7c"
-                android:text="#"/>
-        </LinearLayout>
-        <LinearLayout
-            style="@style/Comemt_ll">
-            <ImageView
-                style="@style/Comemt_iamge"
-                android:background="@drawable/xl1"/>
-        </LinearLayout>
-        <LinearLayout
+        <!--android:id="@+id/ll_emoj"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:gravity="center"-->
+        <!--android:background="#f9f9f9">-->
+        <!--<LinearLayout-->
+            <!--style="@style/Comemt_ll">-->
+            <!--<ImageView-->
+                <!--style="@style/Comemt_iamge"-->
+                <!--android:background="@drawable/pic1"/>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--style="@style/Comemt_ll">-->
+            <!--<TextView-->
+                <!--android:gravity="center"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textSize="20sp"-->
+                <!--android:textColor="#7c7c7c"-->
+                <!--android:text="@string/at"/>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--style="@style/Comemt_ll">-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="20sp"-->
+                <!--android:textColor="#7c7c7c"-->
+                <!--android:text="#"/>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--style="@style/Comemt_ll">-->
+            <!--<ImageView-->
+                <!--style="@style/Comemt_iamge"-->
+                <!--android:background="@drawable/xl1"/>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
 
-            style="@style/Comemt_ll">
-            <ImageView
-                style="@style/Comemt_iamge"
-                android:background="@drawable/add32"/>
-        </LinearLayout>
+            <!--style="@style/Comemt_ll">-->
+            <!--<ImageView-->
+                <!--style="@style/Comemt_iamge"-->
+                <!--android:background="@drawable/add32"/>-->
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
     </LinearLayout>
-    </LinearLayout>
-    </ScrollView>
+    <!--</ScrollView>-->
 </LinearLayout>

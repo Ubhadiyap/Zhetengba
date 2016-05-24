@@ -444,7 +444,9 @@
         <!--圈子搜索界面-->
         <activity android:name=".activity.circle.SerchCirAct"
             android:screenOrientation="portrait"></activity>
-
+        <!--圈子二维码界面-->
+        <activity android:name=".activity.circle.CircleEr"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 

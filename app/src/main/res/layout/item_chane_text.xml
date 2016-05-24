@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:background="#fcfcfc">
     <LinearLayout
@@ -76,8 +76,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp">
                 <TextView
+                    android:id="@+id/tv_comment_text"
                     android:layout_marginLeft="10dp"
-                    android:text="翔完全废了，球商绝对是硬伤"
+                    android:layout_marginRight="15dp"
+                    android:text="翔完全废了，球商绝对是硬伤翔完全废了，球商绝对是硬伤翔完全废了，球商绝对是硬伤翔完全废了，球商绝对是硬伤翔完全废了，球商绝对是硬伤翔完全废了，球商绝对是硬伤"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_width="wrap_content"

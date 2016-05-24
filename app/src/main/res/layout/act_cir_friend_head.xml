@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/layer_list_bottom">
+    android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -91,13 +91,14 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp" />
                 <TextView
+                    android:gravity="center"
                     android:text="加为好友"
                     android:textColor="#fff"
                     android:textSize="12sp"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="7dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
         </LinearLayout>
@@ -113,6 +114,7 @@
             android:gravity="center"
             android:id="@+id/cir_fri_gv"
             android:numColumns="4"
+            android:horizontalSpacing="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></GridView>
         <TextView
@@ -120,16 +122,17 @@
             android:textSize="14sp"
             android:textColor="@color/main_color"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <GridView
             android:gravity="center"
             android:numColumns="3"
+            android:horizontalSpacing="14dp"
             android:id="@+id/cir_fri_com"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"></GridView>
+            android:layout_marginBottom="19dp"></GridView>
     </LinearLayout>
 </LinearLayout>
 </LinearLayout>

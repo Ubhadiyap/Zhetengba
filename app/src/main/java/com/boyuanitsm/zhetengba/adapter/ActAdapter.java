@@ -158,13 +158,13 @@ public class ActAdapter extends BaseAdapter{
     private void showDialog() {
         CustomDialog.Builder builder = new CustomDialog.Builder(context);
         builder.setMessage("没有活动详情");
-        builder.setPositiveButton("你们两个是同事", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                MyToastUtils.showShortToast(context,"点击了第一个button");
-            }
-        });
-        builder.setNegativeButton("共参加过2次活动", new DialogInterface.OnClickListener() {
+//        builder.setPositiveButton("加为好友", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                MyToastUtils.showShortToast(context,"点击了第一个button");
+//            }
+//        });
+        builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MyToastUtils.showShortToast(context,"点击了第二个button");
