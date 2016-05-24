@@ -38,7 +38,7 @@ public class CirmationAct extends BaseActivity {
     public void OnClick(View v){
         switch (v.getId()){
             case R.id.com_ewm://圈子二维码
-                openActivity(ScanQrcodeAct.class);
+                openActivity(CircleEr.class);
                 break;
             case R.id.com_jb://圈子举报
 
