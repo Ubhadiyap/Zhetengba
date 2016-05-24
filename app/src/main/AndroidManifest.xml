@@ -311,7 +311,6 @@
             android:name=".activity.circle.CirclefbAct"
             android:screenOrientation="portrait"></activity>
 
-
         <!--圈子成员界面-->
         <activity
             android:name=".activity.circle.CircleppAct"
