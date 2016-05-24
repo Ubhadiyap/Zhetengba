@@ -35,7 +35,7 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
 
-       main{jniLibs.srcDirs = ['src/jniLibs'];}
+//       main{jniLibs.srcDirs = ['src/jniLibs'];}
 
     }
     buildTypes {

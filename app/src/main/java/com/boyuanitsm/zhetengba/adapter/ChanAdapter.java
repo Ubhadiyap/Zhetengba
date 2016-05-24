@@ -180,16 +180,10 @@ public class ChanAdapter extends BaseAdapter {
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//<<<<<<< HEAD
-//                ShareDialog dialog = new ShareDialog(context);
-//                dialog.show();
-//=======
+
                 Intent intent=new Intent(context, ShareDialogAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-////                ShareDialog dialog=new ShareDialog(context);
-////                dialog.show();
-//>>>>>>> 6d8064d35012d24ecc491935010f22edeb6c187d
             }
         });
 
