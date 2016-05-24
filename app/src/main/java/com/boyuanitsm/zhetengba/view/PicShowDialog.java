@@ -9,13 +9,17 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.LayoutAnimationController;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.ImageBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
+import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.photoView.PhotoView;
 import com.boyuanitsm.zhetengba.view.photoView.PhotoViewAttacher;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -35,9 +39,13 @@ public class PicShowDialog extends Dialog {
     private List<PhotoView> list;
     private List<ImageInfo> imageInfos;
     private PhotoView pv;
-    private ViewPager vp;
+    private MyViewPager vp;
+    private List<View> views = new ArrayList<View>();
     private LayoutAnimationController lac;
+    private LinearLayout ll_point;
+    private ViewPagerAdapter pageAdapter;
     private int position;
+    private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(10, 10);
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -61,34 +69,102 @@ public class PicShowDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_dialog_pic);
-        getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, ScreenTools.instance(getContext()).getScreenHeight());
-        vp = (ViewPager) findViewById(R.id.vp);
-        init();
-        vp.setAdapter(new ViewPagerAdapter());
+        getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        getWindow().setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        vp = (MyViewPager) findViewById(R.id.vp);
+        ll_point = (LinearLayout) findViewById(R.id.ll_point);
+//        init();
+        initMyPageAdapter();
+//        vp.setAdapter(new ViewPagerAdapter());
         vp.setCurrentItem(position);
+        vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (views.size() != 0 && views.get(position) != null) {
+
+                    for (int i = 0; i < views.size(); i++) {
+                        if (i == position) {
+                            views.get(i).setBackgroundResource(R.drawable.point_focus2);
+                        } else {
+                            views.get(i).setBackgroundResource(R.drawable.point_normal2);
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
     }
 
-    public void init() {
-        list = new ArrayList<PhotoView>();
-        for (int i = 0; i < imageInfos.size(); i++) {
-            PhotoView photoView = new PhotoView(context);
-            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-                @Override
-                public void onPhotoTap(View view, float x, float y) {
-                    dismiss();
-                }
-            });
-            photoView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismiss();
-                }
-            });
-            list.add(photoView);
+//    public void init() {
+//        list = new ArrayList<PhotoView>();
+//        for (int i = 0; i < imageInfos.size(); i++) {
+//            PhotoView photoView = new PhotoView(context);
+//            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+//                @Override
+//                public void onPhotoTap(View view, float x, float y) {
+//                    dismiss();
+//                }
+//            });
+//            photoView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    dismiss();
+//                }
+//            });
+//            list.add(photoView);
+//        }
+//        for (int i = 0; i < imageInfos.size(); i++) {
+//            ImageLoader.getInstance().displayImage(imageInfos.get(i).getUrl(), list.get(i), optionsImag);
+//        }
+//
+//    }
+    /***
+     * 初始化viewpager适配器
+     */
+
+    private void initMyPageAdapter() {
+        initPoint();
+        if (pageAdapter == null) {
+            pageAdapter = new ViewPagerAdapter();
+            if (vp != null) {
+                vp.setAdapter(pageAdapter);
+            }
+
+        } else {
+            pageAdapter.notifyDataSetChanged();
         }
-        for (int i = 0; i < imageInfos.size(); i++) {
-            ImageLoader.getInstance().displayImage(imageInfos.get(i).getUrl(), list.get(i), optionsImag);
+    }
+
+    private void initPoint() {
+        views.clear();
+        ll_point.removeAllViews();
+        if (imageInfos.size()==1){
+            ll_point.setVisibility(View.GONE);
+        }else {
+            for (int i = 0; i < imageInfos.size(); i++) {
+                View view = new View(context);
+                paramsL.setMargins(ZhetebaUtils.dip2px(context, 5), ZhetebaUtils.dip2px(context, 2), 0, ZhetebaUtils.dip2px(context, 5));
+                view.setLayoutParams(paramsL);
+                if (i == position) {
+                    view.setBackgroundResource(R.drawable.point_focus2);
+                } else {
+                    view.setBackgroundResource(R.drawable.point_normal2);
+                }
+
+                views.add(view);
+                ll_point.addView(view);
+            }
         }
 
     }
@@ -98,7 +174,7 @@ public class PicShowDialog extends Dialog {
 
         @Override
         public int getCount() {
-            return list.size();
+            return imageInfos.size();
         }
 
         @Override
@@ -108,8 +184,17 @@ public class PicShowDialog extends Dialog {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            ((ViewPager) container).addView(list.get(position));
-            return list.get(position);
+            View view =View.inflate(context, R.layout.item_pic_show, null);
+            PhotoView photoView = (PhotoView) view.findViewById(R.id.pic_pv);
+            ImageLoader.getInstance().displayImage(imageInfos.get(position).getUrl(),photoView,optionsImag);
+            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+                @Override
+                public void onPhotoTap(View view, float x, float y) {
+                    dismiss();
+                }
+            });
+                    ((ViewPager) container).addView(view);
+            return view;
         }
 
         @Override

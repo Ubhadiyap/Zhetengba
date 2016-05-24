@@ -93,4 +93,10 @@
     <color name="viewfinder_frame">#ff000000</color>
     <color name="viewfinder_laser">#ffff0000</color>
     <color name="viewfinder_mask">#60000000</color>
+
+  <!--时间选着器里面颜色样式直接copy过来的-->
+    <color name="blue_nor">#17a4e6</color>
+    <color name="blue_pressd">#0097D3</color>
+    <color name="gray">#CACACA</color>
+    <color name="tv_blue_pressd">#8DDBFF</color>
 </resources>

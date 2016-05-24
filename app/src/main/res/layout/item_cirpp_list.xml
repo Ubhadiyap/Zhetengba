@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:orientation="horizontal"
-        android:paddingRight="23dp"
         android:paddingLeft="15dp"
         android:layout_width="match_parent"
         android:layout_height="80dp">
@@ -48,6 +47,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_renshu"
+            android:layout_marginRight="23dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:gravity="center_horizontal"
@@ -71,10 +72,24 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_shanchu"
+            android:visibility="gone"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/del"/>
+        </LinearLayout>
+
+
     </LinearLayout>
     <View
         android:layout_marginLeft="15dp"
-        android:background="#dcdcde"
+        android:background="#e1e1e1"
         android:layout_width="match_parent"
         android:layout_height="1dp"></View>
 

@@ -1,5 +1,7 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +65,7 @@ public class LabelManaAct extends BaseActivity {
 
     private void recyclerView() {
         adapter = new GridAdapter(this,labelList);
+        gv.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gv.setAdapter(adapter);
 //        lflMyLabel.setAdapter(new LabelAdapter(labelList) {
 //            @Override

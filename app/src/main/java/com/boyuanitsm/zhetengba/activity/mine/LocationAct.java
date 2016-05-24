@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.os.Bundle;
 
@@ -6,19 +6,17 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
- * 注册信息界面面
- * Created by bitch-1 on 2016/5/9.
+ * 位置信息，不需要
+ * Created by xiaoke on 2016/5/10.
  */
-public class RegInfoAct extends BaseActivity {
+public class LocationAct extends BaseActivity {
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_reginfo);
-
+    setContentView(R.layout.act_location);
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("注册信息");
-
+        setTopTitle("位置信息");
     }
 }

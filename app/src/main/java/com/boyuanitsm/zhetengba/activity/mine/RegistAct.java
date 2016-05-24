@@ -82,7 +82,8 @@ public class RegistAct extends BaseActivity {
 
             case R.id.tv_zc://注册
                 if(isValidate()){
-                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
+//                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
+                    openActivity(RegInfoAct.class);
                 }
 
                 break;

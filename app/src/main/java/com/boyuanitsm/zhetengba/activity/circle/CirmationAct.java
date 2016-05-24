@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.ScanAct;
+import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -38,7 +38,7 @@ public class CirmationAct extends BaseActivity {
     public void OnClick(View v){
         switch (v.getId()){
             case R.id.com_ewm://圈子二维码
-                openActivity(ScanAct.class);
+                openActivity(CircleEr.class);
                 break;
             case R.id.com_jb://圈子举报
 

@@ -2,14 +2,12 @@ package com.boyuanitsm.zhetengba.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 
@@ -26,7 +24,6 @@ public class ShareDialog extends Dialog {
 
     public ShareDialog(Context context) {
         this(context, R.style.Plane_Dialog);
-
     }
 
     @Override
@@ -34,7 +31,6 @@ public class ShareDialog extends Dialog {
         super.onCreate(savedInstanceState);
         init();
     }
-
     private void init() {
         LayoutInflater inflater =getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_share, null);

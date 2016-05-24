@@ -55,10 +55,11 @@ public class GvTbAdapter extends BaseAdapter{
             tabHolder=new TabHolder();
             convertView=View.inflate(context, R.layout.item_grid_tab,null);
             tabHolder.tv_tab= (TextView) convertView.findViewById(R.id.tv_tab);
+           tabHolder.ll_gv_tab= (LinearLayout) convertView.findViewById(R.id.ll_gv_tab);
             convertView.setTag(tabHolder);
         }
         tabHolder.tv_tab.setText(TABSTR[position]);
-        tabHolder.tv_tab.setOnClickListener(new View.OnClickListener() {
+        tabHolder.ll_gv_tab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!flag){
@@ -82,5 +83,6 @@ public class GvTbAdapter extends BaseAdapter{
         }
     class TabHolder{
         private TextView tv_tab;
+        private LinearLayout ll_gv_tab;
     }
 }

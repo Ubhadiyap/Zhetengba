@@ -1,5 +1,8 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.mess;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -15,11 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mine.EditAct;
+import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
 import com.boyuanitsm.zhetengba.adapter.PpagevpAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -48,6 +55,8 @@ public class PerpageAct extends BaseActivity {
     private View view_dangqi;
     @ViewInject(R.id.view_dongtai)
     private View view_dongtai;
+    @ViewInject(R.id.cv_photo)//头像
+    private CircleImageView cv_photo;
 
 
 //    @ViewInject(R.id.tab_selcet)
@@ -137,7 +146,7 @@ public class PerpageAct extends BaseActivity {
         view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
     }
 
-    @OnClick({R.id.rl_dangqi,R.id.rl_dongtai,R.id.iv_set})
+    @OnClick({R.id.rl_dangqi,R.id.rl_dongtai,R.id.iv_set,R.id.cv_photo})
     public void OnClick(View v){
         switch (v.getId()){
             case R.id.rl_dangqi://档期
@@ -151,6 +160,9 @@ public class PerpageAct extends BaseActivity {
             case R.id.iv_set://右上角设置图标
                 View view = findViewById(R.id.iv_set);
                 showPopupWindow(view);
+                break;
+            case R.id.cv_photo://个人资料
+                openActivity(PersonalmesAct.class);
                 break;
         }
 
@@ -180,7 +192,24 @@ public class PerpageAct extends BaseActivity {
         ll_schy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(PerpageAct.this);
+                builder.setTitle("确定删除好友？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MyToastUtils.showShortToast(PerpageAct.this, "删除好友成功");
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MyToastUtils.showShortToast(PerpageAct.this, "取消");
+                        dialog.dismiss();
+                    }
+                });
                 popupWindow.dismiss();
+                builder.create().show();
 
             }
         });
@@ -188,6 +217,10 @@ public class PerpageAct extends BaseActivity {
         ll_xiugai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), EditAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(EditAct.USER_TYPE, 8);
+                startActivity(intent);
                 popupWindow.dismiss();
 
             }

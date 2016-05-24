@@ -1,393 +1,470 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:layout_marginBottom="10dp"
-    android:background="@color/bg_color">
+
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
     <include layout="@layout/title_act_layout"></include>
+
     <ScrollView
-        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-     <LinearLayout
-         android:layout_marginTop="15dp"
-         android:orientation="vertical"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:background="@drawable/act_layer_top_bottom"
-         android:paddingBottom="15dp">
-         <LinearLayout
-             android:layout_marginTop="15dp"
-             android:orientation="horizontal"
-             style="@style/simple_linear"
-             android:background="@drawable/bg_circle_stroke_gray">
-             <TextView
-                 android:gravity="center"
-                 android:textColor="#ff0000"
-                 android:layout_width="15dp"
-                 android:textSize="12sp"
-                 android:layout_height="match_parent"
-                 android:text="*"/>
-             <EditText
-                 android:id="@+id/et_theme"
-                 android:textColorHint="#999999"
-                 android:textSize="12sp"
-                 android:hint="输入主题"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:singleLine="true"
-                 android:background="@null"/>
-         </LinearLayout>
-         <LinearLayout
-             android:layout_marginTop="15dp"
-             style="@style/simple_linear"
-             android:orientation="horizontal"
-             android:background="@drawable/bg_circle_stroke_gray">
-             <TextView
-                 style="@style/simple_text"
-                 android:layout_marginLeft="15dp"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="地点"/>
-             <RelativeLayout
-
-                 android:gravity="center_vertical"
-                 android:layout_marginRight="15dp"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent">
-                 <TextView
-                     android:id="@+id/tv_select"
-                     android:layout_alignParentRight="true"
-                     android:textSize="12sp"
-                     android:textColor="#52c791"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="选择地点"/>
-             </RelativeLayout>
-
-         </LinearLayout>
-         <LinearLayout
-             android:layout_marginTop="15dp"
-                style="@style/simple_linear">
-             <LinearLayout
-                 android:id="@+id/ll_start_time"
-                 android:layout_weight="2"
-                 android:gravity="center_vertical"
-                 android:layout_width="wrap_content"
-                 android:layout_height="match_parent"
-                 android:background="@drawable/bg_circle_stroke_gray">
-                 <TextView
-                     android:gravity="center"
-                     android:textColor="#ff0000"
-                     android:layout_width="15dp"
-                     android:textSize="12sp"
-                     android:layout_height="match_parent"
-                     android:text="*"/>
-                 <EditText
-                     android:textSize="12sp"
-                     android:background="@null"
-                     android:textColorHint="#999999"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:hint="开始时间"/>
-             </LinearLayout>
-             <LinearLayout
-                 android:layout_weight="1"
-                 android:layout_width="60dp"
-                 android:gravity="center"
-                 android:layout_height="match_parent">
-                 <ImageView
-                     android:layout_width="22dp"
-                     android:layout_height="22dp"
-                     android:background="@drawable/date"/>
-             </LinearLayout>
-             <LinearLayout
-                 android:id="@+id/ll_end_time"
-                 android:layout_weight="2"
-                 android:gravity="center_vertical"
-                 android:layout_width="wrap_content"
-                 android:layout_height="match_parent"
-                 android:background="@drawable/bg_circle_stroke_gray">
-                 <TextView
-                     android:gravity="center"
-                     android:textColor="#ff0000"
-                     android:layout_width="15dp"
-                     android:textSize="12sp"
-                     android:layout_height="match_parent"
-                     android:text="*"/>
-                 <EditText
-                     android:background="@null"
-                     android:textSize="12sp"
-                     android:hint="结束时间"
-                     android:textColorHint="#999999"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"/>
-             </LinearLayout>
-         </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            style="@style/simple_linear"
-            android:orientation="horizontal">
             <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/act_layer_top_bottom"
+                android:orientation="vertical"
+                android:paddingBottom="15dp">
+
+                <LinearLayout
+                    style="@style/simple_linear"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_circle_stroke_gray"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="*"
+                        android:textColor="#ff0000"
+                        android:textSize="12sp" />
+
+                    <EditText
+                        android:id="@+id/et_theme"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:hint="输入主题"
+                        android:singleLine="true"
+                        android:textColorHint="#999999"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/simple_linear"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_circle_stroke_gray"
+                    android:orientation="horizontal">
+                        <EditText
+                            android:paddingLeft="15dp"
+                            android:id="@+id/tv_select"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="地点"
+                            android:textColor="#52c791"
+                            android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/simple_linear"
+                    android:layout_marginTop="15dp">
+
+                    <LinearLayout
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@drawable/bg_circle_stroke_gray"
+                        android:gravity="center_vertical">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:layout_width="15dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="*"
+                                android:textColor="#ff0000"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/et_start"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:background="@null"
+                                android:hint="开始时间"
+                                android:textColor="#333333"
+                                android:textColorHint="#999999"
+                                android:textCursorDrawable="@color/white"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_start_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"></LinearLayout>
+
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:background="@drawable/date" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@drawable/bg_circle_stroke_gray"
+                        android:gravity="center_vertical">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:layout_width="15dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="*"
+                                android:textColor="#ff0000"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/et_end"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:background="@null"
+                                android:hint="结束时间"
+                                android:textColor="#333333"
+                                android:textColorHint="#999999"
+                                android:textCursorDrawable="@color/white"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_end_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"></LinearLayout>
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/simple_linear"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="15dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="*"
+                            android:textColor="#ff0000"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="邀约人数"
+                            android:textColor="#333333"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_circle_stroke_gray">
+
+                        <EditText
+                            android:id="@+id/et_pp_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:numeric="integer"
+                            android:singleLine="true"
+                            android:textColor="#52c791"
+                            android:textColorHint="#52c791"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center"
+                            android:text="人"
+                            android:textColor="#999999"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/act_layer_top_bottom"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="41dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="*"
+                        android:textColor="#ff0000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        style="@style/simple_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="选择标签" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+
+                        android:id="@+id/ll_select_tab"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="15dp">
+
+                        <ImageView
+                            android:id="@+id/iv_arrow"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/arrow_right" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="9dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.boyuanitsm.zhetengba.view.MyGridView
+                        android:id="@+id/gv_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="82dp"
+                        android:horizontalSpacing="9dp"
+                        android:numColumns="6"
+                        android:verticalSpacing="13dp"></com.boyuanitsm.zhetengba.view.MyGridView>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_theme"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/act_layer_top_bottom"
+                android:paddingLeft="15dp">
+
                 <TextView
-                    android:gravity="center"
-                    android:textColor="#ff0000"
-                    android:layout_width="15dp"
-                    android:textSize="12sp"
+                    style="@style/simple_text2"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="*"/>
+                    android:text="活动详情" />
+
                 <TextView
-                    android:textSize="14sp"
-                    android:textColor="#333333"
-                    android:gravity="center"
-                    android:text="邀约人数"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-           <LinearLayout
-               android:layout_width="60dp"
-               android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="（选填）" />
 
-           </LinearLayout>
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_circle_stroke_gray">
-                <EditText
-                    android:id="@+id/et_pp_num"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:textSize="14sp"
-                    android:textColor="#52c791"
-                    android:hint="20"
-                    android:textColorHint="#52c791"
-                    android:layout_width="wrap_content"
-                    android:numeric="integer"
-                    android:singleLine="true"
-                    android:layout_height="match_parent" />
                 <TextView
-                    android:gravity="center"
-                    android:text="人"
-                    android:textColor="#999999"
-                    android:textSize="14sp"
-                    android:layout_marginRight="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-        </LinearLayout>
-     </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:orientation="vertical"
-        android:background="@drawable/act_layer_top_bottom">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="41dp">
-            <TextView
-                android:gravity="center"
-                android:textColor="#ff0000"
-                android:layout_width="15dp"
-                android:textSize="12sp"
-                android:layout_height="match_parent"
-                android:text="*"/>
-            <TextView
-                style="@style/simple_text2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="选择标签"/>
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
-            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-                android:id="@+id/ll_select_tab"
-                android:paddingLeft="15dp"
-                android:layout_width="40dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:id="@+id/iv_arrow"
-                    android:layout_gravity="center"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:background="@drawable/arrow_right"/>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/ll_view"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:layout_marginRight="9dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <com.boyuanitsm.zhetengba.view.MyGridView
-            android:id="@+id/gv_tab"
-            android:numColumns="6"
-            android:horizontalSpacing="9dp"
-            android:verticalSpacing="13dp"
-            android:layout_width="match_parent"
-            android:layout_height="82dp"></com.boyuanitsm.zhetengba.view.MyGridView>
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_theme_content"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="15dp">
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="41dp"
-        android:layout_marginTop="15dp"
-        android:paddingLeft="15dp"
-        android:background="@drawable/act_layer_top_bottom">
-        <TextView
-            style="@style/simple_text2"
-            android:text="活动详情"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-        <TextView
-            android:text="（选填）"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-        <LinearLayout
-            android:id="@+id/ll_theme_content"
-            android:paddingLeft="15dp"
-            android:layout_width="40dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:background="@drawable/arrow_right"/>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="15dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/act_layer_top_bottom">
-        <LinearLayout
-            style="@style/simple_linear"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_marginRight="0dp"
-            android:background="@drawable/act_layer_top_bottom">
-            <TextView
-                style="@style/simple_text2"
-                android:text="指定谁看"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/arrow_right" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_who_can"
-                android:paddingLeft="15dp"
-                android:layout_width="40dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:background="@drawable/arrow_right"/>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            style="@style/simple_linear"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/act_layer_top_bottom"
+                android:orientation="vertical">
 
-            android:layout_marginRight="0dp"
-            android:background="@drawable/layer_list_bottom">
-            <TextView
-                style="@style/simple_text2"
-                android:text="不让谁看"
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"/>
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                <LinearLayout
+                    android:id="@+id/ll_hu_can"
+                    style="@style/simple_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="41dp"
+                    android:layout_marginRight="0dp"
+                    android:background="@drawable/act_layer_top_bottom">
+
+                    <TextView
+                        style="@style/simple_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="指定谁看" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_who_can"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="15dp">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/arrow_right" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_hu_no_can"
+                    style="@style/simple_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="41dp"
+
+                    android:layout_marginRight="0dp"
+                    android:background="@drawable/layer_list_bottom">
+
+                    <TextView
+                        style="@style/simple_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="不让谁看" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_who_nocan"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="15dp">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/arrow_right" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/simple_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="41dp"
+
+                    android:layout_marginRight="0dp">
+
+                    <TextView
+                        style="@style/simple_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="仅好友可见" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <com.boyuanitsm.zhetengba.widget.ToggleButton
+                        android:id="@+id/tb_friend"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        app:borderWidth="1px"
+                        app:offBorderColor="#e7e7e7"
+                        app:offColor="#f5f5f5"
+                        app:onColor="#4dd963"
+                        app:spotColor="#fff" />
+
+                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/ll_who_nocan"
-                android:paddingLeft="15dp"
-                android:layout_width="40dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:background="@drawable/arrow_right"/>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            style="@style/simple_linear"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-
-            android:layout_marginRight="0dp"
-           >
-            <TextView
-                style="@style/simple_text2"
-                android:text="仅好友可见"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <com.boyuanitsm.zhetengba.widget.ToggleButton
-                android:id="@+id/tb_friend"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                app:borderWidth="1px"
-                app:offBorderColor="#e7e7e7"
-                app:offColor="#f5f5f5"
-                app:onColor="#4dd963"
-                app:spotColor="#fff" />
+                android:layout_marginTop="15dp">
 
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/bt_plane"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:text="发布"
-            style="@style/com_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp" />
-    </LinearLayout>
+                <Button
+                    android:id="@+id/bt_plane"
+                    style="@style/com_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="发布"
+                    android:textColor="#fff"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

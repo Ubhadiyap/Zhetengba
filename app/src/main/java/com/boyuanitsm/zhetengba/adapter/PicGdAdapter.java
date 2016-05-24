@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.List;
 
 /**
+ * 通用朋友圈，多张图片展示GridView适配器
  * Created by xiaoke on 2016/5/18.
  */
 public class PicGdAdapter extends BaseAdapter {
@@ -31,6 +32,10 @@ public class PicGdAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
+    public PicGdAdapter(Context context,List<ImageInfo> list){
+        this.context=context;
+        this.list=list;
+    }
     public  PicGdAdapter(Context context,List<ImageInfo> list,int position){
         this.context=context;
         this.list=list;

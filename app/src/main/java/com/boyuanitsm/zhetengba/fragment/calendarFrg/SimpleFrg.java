@@ -19,6 +19,7 @@ import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.BannerInfo;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
@@ -45,11 +46,11 @@ public class SimpleFrg extends BaseFragment {
     private LinearLayout ll_point;
     private List<View> views = new ArrayList<View>();
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
-    private List<BannerInfo> bannerInfoList ;
+    private List<BannerInfo> bannerInfoList;
 
     @Override
     public View initView(LayoutInflater inflater) {
-       view = inflater.inflate(R.layout.act_frag, null, false);
+        view = inflater.inflate(R.layout.act_frag, null, false);
         return view;
     }
 
@@ -58,7 +59,7 @@ public class SimpleFrg extends BaseFragment {
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         //刷新初始化
-        initPullRefresh();
+        LayoutHelperUtil.freshInit(lv_act);
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
         //设置简约listview的条目
@@ -75,6 +76,7 @@ public class SimpleFrg extends BaseFragment {
 
     /***
      * viewpager监听
+     *
      * @return
      */
     @NonNull
@@ -107,22 +109,6 @@ public class SimpleFrg extends BaseFragment {
 
             }
         };
-    }
-
-    /***
-     * 初始化刷新
-     */
-
-    private void initPullRefresh() {
-        lv_act.setPullRefreshEnabled(true);//下拉刷新
-        lv_act.setScrollLoadEnabled(true);//滑动加载
-        lv_act.setPullLoadEnabled(false);//上拉刷新
-        lv_act.setHasMoreData(true);//是否有更多数据
-        lv_act.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
-        lv_act.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-        lv_act.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_act.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
-        lv_act.getRefreshableView().setDividerHeight(1);
     }
 
     /***
@@ -176,10 +162,9 @@ public class SimpleFrg extends BaseFragment {
 
         @Override
         public int getCount() {
-    //            return  bannerInfoList==null?0:bannerInfoList.size();
+            //            return  bannerInfoList==null?0:bannerInfoList.size();
             return 3;
         }
-
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
@@ -190,7 +175,6 @@ public class SimpleFrg extends BaseFragment {
         public Object instantiateItem(ViewGroup container, final int position) {
 
             View view = View.inflate(mActivity, R.layout.item_loop_viewpager_act, null);
-
             ImageView iv_iamge = (ImageView) view.findViewById(R.id.iv_item_image);
             //加载图片地址
             iv_iamge.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.test_banner));
@@ -200,7 +184,7 @@ public class SimpleFrg extends BaseFragment {
             //            ImageLoader.getInstance().displayImage(UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerLink()),iv_iamge,optionsImag);
             //UrlManager,网络地址管理类
 
-                    ((ViewPager) container).addView(view);
+            ((ViewPager) container).addView(view);
 
             iv_iamge.setOnClickListener(new View.OnClickListener() {
 
@@ -209,7 +193,6 @@ public class SimpleFrg extends BaseFragment {
 
                 }
             });
-
             return view;
         }
 

@@ -102,7 +102,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                >
+                android:background="@drawable/act_layer_right">
                     <ImageView
                         android:id="@+id/iv_cal_guanzhu"
                         android:layout_width="18dp"
