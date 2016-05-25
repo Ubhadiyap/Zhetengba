@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
-import com.boyuanitsm.zhetengba.activity.circle.CirFriendAct;
 import com.boyuanitsm.zhetengba.activity.circle.CommentAct;
+import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -171,7 +171,7 @@ public class ChanAdapter extends BaseAdapter {
         viewHolder.ll_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, CirFriendAct.class);
+                Intent intent = new Intent(context, PerpageAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -192,7 +192,7 @@ public class ChanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(context, CommentAct.class);
+                intent.setClass(context, ChanelTextAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

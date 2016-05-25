@@ -24,6 +24,7 @@
             android:layout_weight="1">
             <!--输入文本-->
             <EditText
+                android:id="@+id/et_comment"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"
@@ -35,6 +36,8 @@
                 android:gravity="top"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:background="@null"/>
 
 

@@ -9,6 +9,7 @@ import com.boyuanitsm.zhetengba.adapter.CircleglAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
+ * 搜索圈子界面
  * Created by xiaoke on 2016/5/20.
  */
 public class SerchCirAct extends BaseActivity {

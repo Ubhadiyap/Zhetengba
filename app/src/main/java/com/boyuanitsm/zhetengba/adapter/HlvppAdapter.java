@@ -9,10 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.circle.CirFriendAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
-import com.boyuanitsm.zhetengba.activity.circle.CircleppAct;
-import com.boyuanitsm.zhetengba.activity.circle.GLCirAct;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 
 import java.util.List;
@@ -62,14 +59,14 @@ public class HlvppAdapter extends BaseAdapter {
                 }
             });
         }else {
-            ll_quanzi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(context, CirFriendAct.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                }
-            });
+//            ll_quanzi.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent=new Intent(context, CirFriendAct.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(intent);
+//                }
+//            });
 
         }
         return view;
