@@ -156,17 +156,17 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setAdapter(adapter);
 
         }
-        //点击用户头像，进入用户圈子主页
-        viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.setClass(context, PerpageAct.class);
-                //需要开启新task,否则会报错
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
+//        //点击用户头像，进入用户圈子主页
+//        viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent=new Intent();
+//                intent.setClass(context, PerpageAct.class);
+//                //需要开启新task,否则会报错
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+//            }
+//        });
         //点击户外圈进入圈子主页
         viewHolder.tv_cir_name.setOnClickListener(new View.OnClickListener() {
             @Override

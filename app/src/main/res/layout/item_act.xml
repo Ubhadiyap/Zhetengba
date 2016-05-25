@@ -53,9 +53,16 @@
                     android:layout_marginStart="10dp"
                     android:src="@drawable/female" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_show"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_show2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="55dp">
@@ -74,9 +81,10 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_show3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
             android:orientation="horizontal"
             android:paddingLeft="50dp">
 
@@ -88,8 +96,9 @@
 
                 <LinearLayout
                     android:id="@+id/ll_theme_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -106,6 +115,10 @@
                         android:text="汤全国际"
                         android:textColor="@color/simple_item_loaction"
                         android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/tv_show2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -9,6 +9,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.MyPlaneAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
@@ -42,15 +43,8 @@ public class MyPlaneAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("我的发布");
         lv_my_plane= (PullToRefreshListView) findViewById(R.id.lv_my_plane);
-        lv_my_plane.setPullRefreshEnabled(true);//下拉刷新
-        lv_my_plane.setScrollLoadEnabled(true);//滑动加载
-        lv_my_plane.setPullLoadEnabled(false);//上拉刷新
-        lv_my_plane.setHasMoreData(true);//是否有更多数据
-        lv_my_plane.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
-        lv_my_plane.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-        lv_my_plane.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_my_plane.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
-        lv_my_plane.getRefreshableView().setDividerHeight(1);
+        //初始化下拉刷新
+        LayoutHelperUtil.freshInit(lv_my_plane);
         initData();
         MyPlaneAdapter adapter=new MyPlaneAdapter(MyPlaneAct.this,datalist);
        lv_my_plane.getRefreshableView().setAdapter(adapter);

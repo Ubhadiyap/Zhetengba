@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -81,6 +82,9 @@ public class ActAdapter extends BaseAdapter{
             viewHolder.iv_actdetial = (ImageView) convertView.findViewById(R.id.iv_actdetial);
             viewHolder.tv_text_jion = (TextView)convertView.findViewById(R.id.tv_text_jion);
             viewHolder.tv_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
+            viewHolder.ll_show= (LinearLayout) convertView.findViewById(R.id.ll_show);
+            viewHolder.ll_show2= (LinearLayout) convertView.findViewById(R.id.ll_show2);
+            viewHolder.ll_show3= (LinearLayout) convertView.findViewById(R.id.ll_show3);
             convertView.setTag(viewHolder);
 
         }
@@ -96,7 +100,29 @@ public class ActAdapter extends BaseAdapter{
         viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));
         viewHolder.iv_actdetial.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_01));
            viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
+            viewHolder.ll_show.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog();
+                }
+            });
         viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));//默认图标
+        viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//点击关注
+                viewHolder.tv_text_guanzhu.setText("已关注");
+                viewHolder.tv_guanzhu_num.setText(1+"");
+            }
+        });
+        viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));
+                viewHolder.tv_text_jion.setText("取消参加");
+                viewHolder.tv_join_num.setText("1");
+            }
+        });
 
 //        viewHolder.tv_guanzhu_num.setText(infos.get(position).getAttentionNum() + "");
 //
@@ -130,6 +156,9 @@ public class ActAdapter extends BaseAdapter{
         viewHolder.tv_loaction.setOnClickListener(listener);
         viewHolder.iv_actdetial.setOnClickListener(listener);
         viewHolder.tv_date.setOnClickListener(listener);
+        viewHolder.ll_show.setOnClickListener(listener);
+        viewHolder.ll_show2.setOnClickListener(listener);
+        viewHolder.ll_show3.setOnClickListener(listener);
 
 
         //展示个人资料
@@ -195,7 +224,7 @@ public class ActAdapter extends BaseAdapter{
        public TextView tv_text_jion;//参加/取消参加
        public int gznum=0;//默认关注人数0
        public int jionum=0;//默认参加人数0；
-
+        public LinearLayout ll_show,ll_show2,ll_show3;
     }
 
 
