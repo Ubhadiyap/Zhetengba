@@ -52,6 +52,7 @@
                     android:gravity="top"
                     android:hint="请输入你想说的话"
                     android:paddingTop="15dp"
+                    android:maxLength="140"
                     android:textColor="#333333"
                     android:textColorHint="#cdcdcd"
                     android:textSize="14sp" />

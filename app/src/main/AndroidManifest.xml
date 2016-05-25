@@ -317,7 +317,8 @@
             android:screenOrientation="portrait"></activity>
         <!--评论界面-->
         <activity android:name=".activity.circle.CommentAct"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"></activity>
         <!--简约界面-->
         <activity android:name=".activity.ContractedAct"
             android:screenOrientation="portrait"></activity>
@@ -346,12 +347,6 @@
         <activity
             android:name=".activity.circle.ChanelTextAct"
             android:screenOrientation="portrait"></activity>
-        <!--圈友主页-->
-        <activity
-            android:name=".activity.circle.CirFriendAct"
-
-            android:screenOrientation="portrait"></activity>
-
 
         <!--裁减图片-->
         <activity
@@ -444,7 +439,12 @@
         <!--圈子搜索界面-->
         <activity android:name=".activity.circle.SerchCirAct"
             android:screenOrientation="portrait"></activity>
-
+        <!--圈子二维码界面-->
+        <activity android:name=".activity.circle.CircleEr"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子正文-->
+        <activity android:name=".activity.circle.CircleTextAct"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 

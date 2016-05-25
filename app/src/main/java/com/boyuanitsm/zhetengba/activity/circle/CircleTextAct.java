@@ -1,20 +1,15 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChaTextAdapter;
-import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
 import com.boyuanitsm.zhetengba.adapter.PicGdAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -29,8 +24,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,13 +31,13 @@ import java.util.List;
  * 频道正文
  * Created by xiaoke on 2016/5/11.
  */
-public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
-    @ViewInject(R.id.ll_comment)//评论
-    private LinearLayout ll_comment;
+public class CircleTextAct extends BaseActivity implements View.OnClickListener{
+    @ViewInject(R.id.ll_cir_comment)//评论
+    private LinearLayout ll_cir_comment;
     private MyListView my_lv;
     private ScrollView sl_chanel;
     private LinearLayout ll_two;
-    private CustomImageView ng_one_image, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
+    private CustomImageView iv_oneimage, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
     private List<ArrayList<ImageInfo>> dataList = new ArrayList<>();
     private String[][] images = new String[][]{{
@@ -67,12 +60,12 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_chanel_text);
+        setContentView(R.layout.act_circle_text);
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("频道正文");
+        setTopTitle("圈子正文");
         assignView();
         initDate();
         ChaTextAdapter adapter = new ChaTextAdapter(this);
@@ -101,7 +94,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         my_lv = (MyListView) findViewById(R.id.my_lv);
         sl_chanel = (ScrollView) findViewById(R.id.sl_chanel);
         iv_ch_image = (MyGridView) findViewById(R.id.iv_ch_image);
-        ng_one_image = (CustomImageView) findViewById(R.id.ng_one_image);
+        iv_oneimage = (CustomImageView) findViewById(R.id.iv_oneimage);
         ll_two = (LinearLayout) findViewById(R.id.ll_two);
         iv_two_one = (CustomImageView) findViewById(R.id.iv_two_one);
         iv_two_two = (CustomImageView) findViewById(R.id.iv_two_two);
@@ -121,26 +114,26 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         dataList.add(singleList);
         if (singleList.isEmpty() || singleList.isEmpty()) {
             ll_two.setVisibility(View.GONE);
-            ng_one_image.setVisibility(View.GONE);
+            iv_oneimage.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.GONE);
         } else if (singleList.size() == 1) {
             ll_two.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.GONE);
-            ng_one_image.setVisibility(View.VISIBLE);
+            iv_oneimage.setVisibility(View.VISIBLE);
 
 
-            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), ng_one_image);
+            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), iv_oneimage);
 
-            ng_one_image.setOnClickListener(new View.OnClickListener() {
+            iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(ChanelTextAct.this, singleList, 0);
+                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 0);
                     dialog.show();
                 }
             });
         } else if (singleList.size() == 4) {
             iv_ch_image.setVisibility(View.GONE);
-            ng_one_image.setVisibility(View.GONE);
+            iv_oneimage.setVisibility(View.GONE);
             ll_two.setVisibility(View.VISIBLE);
 //            viewHolder.iv_two_four.setImageUrl(itemList.get(3).getUrl());
             ImageLoader.getInstance().displayImage(singleList.get(0).getUrl(), iv_two_one, optionsImag);
@@ -150,7 +143,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             iv_two_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(ChanelTextAct.this, singleList, 0);
+                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 0);
                     dialog.show();
                 }
             });
@@ -158,7 +151,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             iv_two_two.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(ChanelTextAct.this, singleList, 1);
+                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 1);
                     dialog.show();
                 }
             });
@@ -166,7 +159,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             iv_two_three.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(ChanelTextAct.this, singleList, 2);
+                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 2);
                     dialog.show();
                 }
             });
@@ -174,33 +167,33 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             iv_two_four.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(ChanelTextAct.this, singleList, 3);
+                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 3);
                     dialog.show();
                 }
             });
 
         } else {
-            ng_one_image.setVisibility(View.GONE);
+            iv_oneimage.setVisibility(View.GONE);
             ll_two.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.VISIBLE);
             iv_ch_image.setNumColumns(3);
-            PicGdAdapter adapter = new PicGdAdapter(ChanelTextAct.this, singleList);
+            PicGdAdapter adapter = new PicGdAdapter(CircleTextAct.this, singleList);
             iv_ch_image.setAdapter(adapter);
 
         }
     }
 
-    @OnClick({R.id.ll_comment,R.id.iv_chanel_comment,R.id.bt_chanel_comment})
+    @OnClick({R.id.ll_cir_comment,R.id.iv_cir_comment,R.id.bt_cir_comment})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.ll_comment:
-                openActivity(CommentAct.class);//打开评论列表
-                break;
-            case R.id.iv_chanel_comment:
+            case R.id.ll_cir_comment:
                 openActivity(CommentAct.class);
                 break;
-            case R.id.bt_chanel_comment:
+            case R.id.iv_cir_comment:
+                openActivity(CommentAct.class);
+                break;
+            case R.id.bt_cir_comment:
                 openActivity(CommentAct.class);
                 break;
         }

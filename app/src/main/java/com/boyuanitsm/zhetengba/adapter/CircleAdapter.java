@@ -12,9 +12,10 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
-import com.boyuanitsm.zhetengba.activity.circle.CirFriendAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.activity.circle.CommentAct;
+import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -162,7 +163,7 @@ public class CircleAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
-                intent.setClass(context, CirFriendAct.class);
+                intent.setClass(context, PerpageAct.class);
                 //需要开启新task,否则会报错
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -194,7 +195,7 @@ public class CircleAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
-                intent.setClass(context, CommentAct.class);
+                intent.setClass(context, CircleTextAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

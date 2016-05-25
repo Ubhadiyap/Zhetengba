@@ -9,6 +9,7 @@ import com.boyuanitsm.zhetengba.adapter.CircleglAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 /**
+ * 搜索圈子界面
  * Created by xiaoke on 2016/5/20.
  */
 public class SerchCirAct extends BaseActivity {
@@ -19,6 +20,7 @@ public class SerchCirAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        setTopTitle("圈子搜索");
         ListView lv_cir_serch = (ListView) findViewById(R.id.lv_cir_serch);
             lv_cir_serch.setAdapter(new CircleglAdapter(this));
     }

@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="15dp"
+    android:gravity="center"
+    android:background="@drawable/bg_circle_stroke_red2">
     <TextView
         android:gravity="center"
-        android:background="@drawable/bg_circle_stroke_red2"
         android:layout_width="wrap_content"
-        android:layout_height="15dp"
+        android:layout_height="match_parent"
         android:paddingRight="7dp"
         android:paddingLeft="7dp"
         android:textSize="10sp"
         android:textColor="#fff"
-        android:text="美食"/>
+        android:text="摄影控"/>
 </LinearLayout>

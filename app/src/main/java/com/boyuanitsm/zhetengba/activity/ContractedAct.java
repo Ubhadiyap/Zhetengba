@@ -1,11 +1,14 @@
 package com.boyuanitsm.zhetengba.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +38,8 @@ import java.util.Map;
 public class ContractedAct extends BaseActivity {
     @ViewInject(R.id.tv_select)
     private TextView tv_select_location;
+    @ViewInject(R.id.et_theme)
+    private EditText et_theme;//主题名称
     @ViewInject(R.id.ll_theme_content)
     private LinearLayout ll_theme_content;
     @ViewInject(R.id.gv_tab)
@@ -86,7 +91,7 @@ public class ContractedAct extends BaseActivity {
         this.map = map;
     }
 
-    @OnClick({R.id.tv_select,R.id.ll_theme_content,R.id.ll_select_tab,R.id.ll_start_time,R.id.ll_end_time,R.id.ll_theme,R.id.ll_hu_can,R.id.ll_hu_no_can,R.id.ll_tab})
+    @OnClick({R.id.tv_select,R.id.ll_theme_content,R.id.ll_select_tab,R.id.ll_start_time,R.id.ll_end_time,R.id.ll_theme,R.id.ll_hu_can,R.id.ll_hu_no_can,R.id.ll_tab,R.id.ll_hide})
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_select://选择地点
@@ -150,13 +155,16 @@ public class ContractedAct extends BaseActivity {
             case R.id.ll_theme:
                 openActivity(EventdetailsAct.class);
                 break;
-
+            case R.id.ll_hide:
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(ContractedAct.this.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(et_theme.getWindowToken(), 0);
+                break;
 
 
 
         }
     }
-
 
     /**
      * 获取年
