@@ -68,7 +68,7 @@
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:hint="地点"
-                            android:textColor="#52c791"
+                            android:singleLine="true"
                             android:textSize="12sp" />
 
                 </LinearLayout>
