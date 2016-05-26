@@ -1,12 +1,10 @@
 package com.boyuanitsm.zhetengba.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -112,7 +110,7 @@ public class ContractedAct extends BaseActivity {
                 }
                 break;
             case R.id.ll_start_time://开始时间
-                TimeDialog startDialog = new TimeDialog(ContractedAct.this, TimeDialog.Type.YEAR_MONTH_DAY);
+                TimeDialog startDialog = new TimeDialog(ContractedAct.this, TimeDialog.Type.ALL);
                 startDialog.setRange(getCurrentYear() - 50, getCurrentYear());
                 startDialog.builder();
                 startDialog.show();

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical">
-    <com.boyuanitsm.zhetengba.view.MyScrollView
+    <ScrollView
+        android:id="@+id/msv_scroll"
         android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -164,12 +165,12 @@
                 <!--app:pstsUnderlineHeight="2dp"-->
                 <!--app:selectedTabTextColor="#52c791"></com.boyuanitsm.zhetengba.view.PagerSlidingTabStrip>-->
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vpS"
+            <FrameLayout
+                android:id="@+id/fra_main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
+                android:layout_height="wrap_content"></FrameLayout>
         </LinearLayout>
     </LinearLayout>
-    </com.boyuanitsm.zhetengba.view.MyScrollView>
+    </ScrollView>
 </LinearLayout>
 
