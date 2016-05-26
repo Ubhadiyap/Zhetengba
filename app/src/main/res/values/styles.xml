@@ -183,7 +183,7 @@
     <style name="cir_button">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#fff</item>
-        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">30dp</item>
     </style>
     <!-- 自定义仿IOS的ActionSheet底部Dialog的样式 ，有模糊效果 -->

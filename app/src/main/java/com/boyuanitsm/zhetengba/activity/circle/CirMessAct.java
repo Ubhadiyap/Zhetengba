@@ -9,10 +9,14 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
 import com.boyuanitsm.zhetengba.adapter.CircleMessAdatper;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 圈子--圈子消息
@@ -23,6 +27,8 @@ public class CirMessAct extends BaseActivity {
     private PullToRefreshListView lv_cir_mess;
 //    private int[] icons = {R.drawable.test_01};
 //    private List<ImageInfo> datalist=new ArrayList<>();
+    private List<CircleInfo> list=new ArrayList<CircleInfo>();
+    private CircleInfo info;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_mess);
@@ -41,7 +47,14 @@ public class CirMessAct extends BaseActivity {
         });
         //初始化刷新列表
         LayoutHelperUtil.freshInit(lv_cir_mess);
-        CircleMessAdatper adapter=new CircleMessAdatper(CirMessAct.this);
+        lv_cir_mess.getRefreshableView().setDivider(null);
+        for (int i=1;i<=3;i++){
+            info=new CircleInfo();
+            info.setType(i);
+            info.setState(i);
+            list.add(info);
+        }
+        CircleMessAdatper adapter=new CircleMessAdatper(CirMessAct.this,list);
         lv_cir_mess.getRefreshableView().setAdapter(adapter);
     }
 }

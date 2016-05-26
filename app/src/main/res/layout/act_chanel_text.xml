@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
+    android:background="#f4f4f4"
     android:orientation="vertical">
 
     <include layout="@layout/title_act_layout"></include>
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/act_layer_top_bottom"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingBottom="15dp">
 
@@ -172,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginTop="13dp"
-                android:background="@drawable/act_layer_top_bottom">
+                android:background="@color/white">
 
                 <LinearLayout
                     android:layout_width="62dp"
@@ -235,7 +235,7 @@
             android:id="@+id/iv_chanel_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/comment"/>
+            android:background="@drawable/cm"/>
         <Button
             android:id="@+id/bt_chanel_comment"
             android:layout_marginLeft="5dp"

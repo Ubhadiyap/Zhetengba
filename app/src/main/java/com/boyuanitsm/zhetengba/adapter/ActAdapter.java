@@ -42,7 +42,7 @@ public class ActAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return 6;
+        return 2;
     }
 
     @Override
@@ -152,13 +152,13 @@ public class ActAdapter extends BaseAdapter{
                 showDialog();
             }
         };
-        viewHolder.tv_hdtheme.setOnClickListener(listener);
-        viewHolder.tv_loaction.setOnClickListener(listener);
+//        viewHolder.tv_hdtheme.setOnClickListener(listener);
+//        viewHolder.tv_loaction.setOnClickListener(listener);
         viewHolder.iv_actdetial.setOnClickListener(listener);
-        viewHolder.tv_date.setOnClickListener(listener);
-        viewHolder.ll_show.setOnClickListener(listener);
-        viewHolder.ll_show2.setOnClickListener(listener);
-        viewHolder.ll_show3.setOnClickListener(listener);
+//        viewHolder.tv_date.setOnClickListener(listener);
+//        viewHolder.ll_show.setOnClickListener(listener);
+//        viewHolder.ll_show2.setOnClickListener(listener);
+//        viewHolder.ll_show3.setOnClickListener(listener);
 
 
         //展示个人资料

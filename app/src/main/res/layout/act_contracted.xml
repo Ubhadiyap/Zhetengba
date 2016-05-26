@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/act_layer_top_bottom"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingBottom="15dp">
 
@@ -311,7 +311,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="41dp"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/act_layer_top_bottom"
+                android:background="@color/white"
                 android:paddingLeft="15dp">
 
                 <TextView
@@ -349,7 +349,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/act_layer_top_bottom"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -358,7 +358,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="41dp"
                     android:layout_marginRight="0dp"
-                    android:background="@drawable/act_layer_top_bottom">
+                    android:background="@color/white">
 
                     <TextView
                         style="@style/simple_text2"
@@ -384,6 +384,8 @@
                             android:background="@drawable/arrow_right" />
                     </LinearLayout>
                 </LinearLayout>
+                <View
+                    style="@style/view_line"></View>
 
                 <LinearLayout
                     android:id="@+id/ll_hu_no_can"
@@ -392,13 +394,14 @@
                     android:layout_height="41dp"
 
                     android:layout_marginRight="0dp"
-                    android:background="@drawable/layer_list_bottom">
+                    android:background="@color/white">
 
                     <TextView
                         style="@style/simple_text2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="不让谁看" />
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -417,7 +420,10 @@
                             android:layout_gravity="center"
                             android:background="@drawable/arrow_right" />
                     </LinearLayout>
+
                 </LinearLayout>
+                <View
+                    style="@style/view_line"></View>
 
                 <LinearLayout
                     style="@style/simple_linear"

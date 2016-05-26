@@ -8,15 +8,19 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelManaAct;
 import com.boyuanitsm.zhetengba.adapter.ChaPagerAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.util.ArrayList;
 
@@ -24,7 +28,7 @@ import java.util.ArrayList;
  * 频道界面
  * Created by xiaoke on 2016/5/2.
  */
-public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeListener {
+public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeListener,View.OnClickListener{
     private View view;//当前view
     private ViewPager vp_chan;//viewpager
     private LinearLayout ll_add;//添加textview；
@@ -42,7 +46,8 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
     private int j = 0;
     private String[] strList = new String[]{"足球", "篮球", "篮球", "旅游", "活动"};//标签
     private int[] idList = new int[]{0, 1, 2, 3, 4};//与标签对应id
-
+@ViewInject(R.id.bt_plan)//发布按钮
+private Button bt_plan;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -116,7 +121,7 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
         //点击监听
         textView.setOnClickListener(new posOnClickListener());
         //LinearLayout管理器布局
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         //设置左右间隙
         params.leftMargin = dip2px(mActivity, mTitleMargin);
         params.rightMargin = dip2px(mActivity, mTitleMargin);
@@ -170,6 +175,15 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+    @OnClick({R.id.bt_plan})
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bt_plan:
+                openActivity(CirclefbAct.class);
+                break;
+        }
     }
 
     class posOnClickListener implements View.OnClickListener {

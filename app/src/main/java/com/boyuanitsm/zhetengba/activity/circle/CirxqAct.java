@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
+import com.boyuanitsm.zhetengba.adapter.CirclexqListAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -91,7 +92,7 @@ public class CirxqAct extends BaseActivity {
 
         //listview设置适配器
         cir_sv.smoothScrollTo(0, 0);
-        lv_cir.setAdapter(new CircleAdapter(CirxqAct.this,datalist));}
+        lv_cir.setAdapter(new CirclexqListAdapter(CirxqAct.this,datalist));}
 
 
 

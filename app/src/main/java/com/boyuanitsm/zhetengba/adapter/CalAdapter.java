@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 
 /**
  * 档期 listview适配器
@@ -22,7 +24,7 @@ public class CalAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return 4;
+        return 2;
     }
 
     @Override
@@ -57,6 +59,7 @@ public class CalAdapter extends BaseAdapter {
             calHolder.tv_cal_yh=(TextView)convertView.findViewById(R.id.tv_cal_yh);
             calHolder.ll_guanzhu=(LinearLayout)convertView.findViewById(R.id.ll_guanzhu);
             calHolder.ll_yue=(LinearLayout)convertView.findViewById(R.id.ll_yue);
+            calHolder.ll_name = (LinearLayout) convertView.findViewById(R.id.ll_name);
             convertView.setTag(calHolder);
         }
         calHolder.iv_icon.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_user));
@@ -82,6 +85,15 @@ public class CalAdapter extends BaseAdapter {
                 calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
             }
         });
+        //点击头像昵称进入个人主页
+        calHolder.ll_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PerpageAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
 
         return convertView;
     }
@@ -101,5 +113,6 @@ public class CalAdapter extends BaseAdapter {
         public int cal_gznum=0;//默认关注人数0
         public LinearLayout ll_guanzhu;//关注
         public LinearLayout ll_yue;//约TA
+        private LinearLayout ll_name;//个人昵称
     }
 }

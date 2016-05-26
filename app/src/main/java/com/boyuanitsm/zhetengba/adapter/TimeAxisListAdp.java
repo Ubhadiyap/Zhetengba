@@ -23,7 +23,7 @@ public class TimeAxisListAdp extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 14;
     }
 
     @Override
@@ -42,18 +42,18 @@ public class TimeAxisListAdp extends BaseAdapter {
         if (convertView==null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.timeaxis_listitem, null);
-            imageView = (ImageView) convertView.findViewById(R.id.image_1);
-            viewHolder.ivImage = imageView;
+//            imageView = (ImageView) convertView.findViewById(R.id.image_1);
+//            viewHolder.ivImage = imageView;
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if (position==1){
-            imageView.setVisibility(View.GONE);
-        }
+//        if (position==1){
+////            imageView.setVisibility(View.GONE);
+//        }
         return convertView;
     }
     class ViewHolder{
-        ImageView ivImage;
+//        ImageView ivImage;
     }
 }
