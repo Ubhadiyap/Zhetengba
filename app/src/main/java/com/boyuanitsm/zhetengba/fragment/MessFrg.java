@@ -126,6 +126,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         ll_sao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //扫一扫
                 getActivity().startActivity(new Intent(getContext(), ScanQrcodeAct.class));
                 mPopupWindow.dismiss();
             }
@@ -133,6 +134,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         ll_qun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //创建群组
                 getActivity().startActivity(new Intent(getContext(), CreateGroupAct.class));
                 mPopupWindow.dismiss();
             }
@@ -140,6 +142,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         ll_add_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //添加好友
                 getActivity().startActivity(new Intent(getContext(), AddFriendsAct.class));
                 mPopupWindow.dismiss();
             }

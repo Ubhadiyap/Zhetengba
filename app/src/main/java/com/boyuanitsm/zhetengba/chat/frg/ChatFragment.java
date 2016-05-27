@@ -24,12 +24,14 @@ import com.boyuanitsm.zhetengba.chat.act.ForwardMessageActivity;
 import com.boyuanitsm.zhetengba.chat.act.GroupDetailsActivity;
 import com.boyuanitsm.zhetengba.chat.domain.EmojiconExampleGroupData;
 import com.boyuanitsm.zhetengba.chat.domain.RobotUser;
+import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.ui.EaseChatFragment.EaseChatFragmentListener;
+import com.hyphenate.easeui.widget.EaseChatInputMenu;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.easeui.widget.emojicon.EaseEmojiconMenu;
@@ -47,23 +49,24 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
     private static final int ITEM_FILE = 12;
     private static final int ITEM_VOICE_CALL = 13;
     private static final int ITEM_VIDEO_CALL = 14;
-    
+
     private static final int REQUEST_CODE_SELECT_VIDEO = 11;
     private static final int REQUEST_CODE_SELECT_FILE = 12;
     private static final int REQUEST_CODE_GROUP_DETAIL = 13;
     private static final int REQUEST_CODE_CONTEXT_MENU = 14;
-    
+
     private static final int MESSAGE_TYPE_SENT_VOICE_CALL = 1;
     private static final int MESSAGE_TYPE_RECV_VOICE_CALL = 2;
-    private static final int MESSAGE_TYPE_SENT_VIDEO_CALL = 3; 
+    private static final int MESSAGE_TYPE_SENT_VIDEO_CALL = 3;
     private static final int MESSAGE_TYPE_RECV_VIDEO_CALL = 4;
-    
-    
+
+    public static final String FIRE_ON="fire_on";
+    public static final String FIRE_CLOSE="fire_close";
     /**
      * 是否为环信小助手
      */
     private boolean isRobot;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -73,8 +76,8 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
     protected void setUpView() {
         setChatFragmentListener(this);
         if (chatType == Constant.CHATTYPE_SINGLE) {
-            Map<String,RobotUser> robotMap = DemoHelper.getInstance().getRobotList();
-            if(robotMap!=null && robotMap.containsKey(toChatUsername)){
+            Map<String, RobotUser> robotMap = DemoHelper.getInstance().getRobotList();
+            if (robotMap != null && robotMap.containsKey(toChatUsername)) {
                 isRobot = true;
             }
         }
@@ -91,9 +94,20 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
                 getActivity().finish();
             }
         });
-        ((EaseEmojiconMenu)inputMenu.getEmojiconMenu()).addEmojiconGroup(EmojiconExampleGroupData.getData());
+        ((EaseEmojiconMenu) inputMenu.getEmojiconMenu()).addEmojiconGroup(EmojiconExampleGroupData.getData());
+
+        inputMenu.setSwitchIsOn(SpUtils.getIsReadDestory(getContext()));//设置阅后即焚烧
+        inputMenu.setSetSwitch(new EaseChatInputMenu.SetSwitch() {
+            @Override
+            public void getIsSwitch(boolean isSwitch) {
+                SpUtils.setRead(getContext(), isSwitch);
+            }
+        });
+
+
+
     }
-    
+
     @Override
     protected void registerExtendMenuItem() {
         //demo这里不覆盖基类已经注册的item,item点击listener沿用基类的
@@ -106,73 +120,79 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
 //            inputMenu.registerExtendMenuItem(R.string.attach_video_call, R.drawable.em_chat_video_call_selector, ITEM_VIDEO_CALL, extendMenuItemClickListener);
 //        }
     }
-    
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CONTEXT_MENU) {
             switch (resultCode) {
-            case ContextMenuActivity.RESULT_CODE_COPY: // 复制消息
-                clipboard.setText(((EMTextMessageBody) contextMenuMessage.getBody()).getMessage());
-                break;
-            case ContextMenuActivity.RESULT_CODE_DELETE: // 删除消息
-                conversation.removeMessage(contextMenuMessage.getMsgId());
-                messageList.refresh();
-                break;
+                case ContextMenuActivity.RESULT_CODE_COPY: // 复制消息
+                    clipboard.setText(((EMTextMessageBody) contextMenuMessage.getBody()).getMessage());
+                    break;
+                case ContextMenuActivity.RESULT_CODE_DELETE: // 删除消息
+                    conversation.removeMessage(contextMenuMessage.getMsgId());
+                    messageList.refresh();
+                    break;
 
-            case ContextMenuActivity.RESULT_CODE_FORWARD: // 转发消息
-                Intent intent = new Intent(getActivity(), ForwardMessageActivity.class);
-                intent.putExtra("forward_msg_id", contextMenuMessage.getMsgId());
-                startActivity(intent);
-                
-                break;
+                case ContextMenuActivity.RESULT_CODE_FORWARD: // 转发消息
+                    Intent intent = new Intent(getActivity(), ForwardMessageActivity.class);
+                    intent.putExtra("forward_msg_id", contextMenuMessage.getMsgId());
+                    startActivity(intent);
 
-            default:
-                break;
+                    break;
+
+                default:
+                    break;
             }
         }
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
-            case REQUEST_CODE_SELECT_VIDEO: //发送选中的视频
-                if (data != null) {
-                    int duration = data.getIntExtra("dur", 0);
-                    String videoPath = data.getStringExtra("path");
-                    File file = new File(PathUtil.getInstance().getImagePath(), "thvideo" + System.currentTimeMillis());
-                    try {
-                        FileOutputStream fos = new FileOutputStream(file);
-                        Bitmap ThumbBitmap = ThumbnailUtils.createVideoThumbnail(videoPath, 3);
-                        ThumbBitmap.compress(CompressFormat.JPEG, 100, fos);
-                        fos.close();
-                        sendVideoMessage(videoPath, file.getAbsolutePath(), duration);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                case REQUEST_CODE_SELECT_VIDEO: //发送选中的视频
+                    if (data != null) {
+                        int duration = data.getIntExtra("dur", 0);
+                        String videoPath = data.getStringExtra("path");
+                        File file = new File(PathUtil.getInstance().getImagePath(), "thvideo" + System.currentTimeMillis());
+                        try {
+                            FileOutputStream fos = new FileOutputStream(file);
+                            Bitmap ThumbBitmap = ThumbnailUtils.createVideoThumbnail(videoPath, 3);
+                            ThumbBitmap.compress(CompressFormat.JPEG, 100, fos);
+                            fos.close();
+                            sendVideoMessage(videoPath, file.getAbsolutePath(), duration);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                break;
-            case REQUEST_CODE_SELECT_FILE: //发送选中的文件
-                if (data != null) {
-                    Uri uri = data.getData();
-                    if (uri != null) {
-                        sendFileByUri(uri);
+                    break;
+                case REQUEST_CODE_SELECT_FILE: //发送选中的文件
+                    if (data != null) {
+                        Uri uri = data.getData();
+                        if (uri != null) {
+                            sendFileByUri(uri);
+                        }
                     }
-                }
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         }
-        
+
     }
-    
+
     @Override
     public void onSetMessageAttributes(EMMessage message) {
-        if(isRobot){
+        if (isRobot) {
             //设置消息扩展属性
             message.setAttribute("em_robot_message", isRobot);
         }
+        // 通过扩展字段标识为阅后即焚消息（参数可以自定义，但要求与ios保持一致）
+        if (SpUtils.getIsReadDestory(getContext()))
+            message.setAttribute("fire", FIRE_ON);
+        else
+            message.setAttribute("fire",FIRE_CLOSE);
+
     }
-    
+
     @Override
     public EaseCustomChatRowProvider onSetCustomChatRowProvider() {
         //设置自定义listview item提供者
@@ -199,6 +219,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
 
     /**
      * 点击头像
+     *
      * @param username
      */
     @Override
@@ -208,7 +229,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
 //        intent.putExtra("username", username);
 //        startActivity(intent);
     }
-    
+
     @Override
     public boolean onMessageBubbleClick(EMMessage message) {
         //消息框点击事件，demo这里不做覆盖，如需覆盖，return true
@@ -218,35 +239,35 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
     @Override
     public void onMessageBubbleLongClick(EMMessage message) {
         //消息框长按
-        startActivityForResult((new Intent(getActivity(), ContextMenuActivity.class)).putExtra("message",message),
+        startActivityForResult((new Intent(getActivity(), ContextMenuActivity.class)).putExtra("message", message),
                 REQUEST_CODE_CONTEXT_MENU);
     }
 
     @Override
     public boolean onExtendMenuItemClick(int itemId, View view) {
         switch (itemId) {
-        case ITEM_VIDEO: //视频
+            case ITEM_VIDEO: //视频
 //            Intent intent = new Intent(getActivity(), ImageGridActivity.class);
 //            startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
-            break;
-        case ITEM_FILE: //一般文件
-            //demo这里是通过系统api选择文件，实际app中最好是做成qq那种选择发送文件
-            selectFileFromLocal();
-            break;
-        case ITEM_VOICE_CALL: //音频通话
+                break;
+            case ITEM_FILE: //一般文件
+                //demo这里是通过系统api选择文件，实际app中最好是做成qq那种选择发送文件
+                selectFileFromLocal();
+                break;
+            case ITEM_VOICE_CALL: //音频通话
 //            startVoiceCall();
-            break;
-        case ITEM_VIDEO_CALL: //视频通话
+                break;
+            case ITEM_VIDEO_CALL: //视频通话
 //            startVideoCall();
-            break;
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
         //不覆盖已有的点击事件
         return false;
     }
-    
+
     /**
      * 选择文件
      */
@@ -262,7 +283,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
         }
         startActivityForResult(intent, REQUEST_CODE_SELECT_FILE);
     }
-    
+
     /**
      * 拨打语音电话
      */
@@ -276,7 +297,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
 //            inputMenu.hideExtendMenuContainer();
 //        }
 //    }
-    
+
     /**
      * 拨打视频电话
      */
@@ -290,10 +311,9 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
 //            inputMenu.hideExtendMenuContainer();
 //        }
 //    }
-    
+
     /**
-     * chat row provider 
-     *
+     * chat row provider
      */
     private final class CustomChatRowProvider implements EaseCustomChatRowProvider {
         @Override
@@ -304,11 +324,11 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
 
         @Override
         public int getCustomChatRowType(EMMessage message) {
-            if(message.getType() == EMMessage.Type.TXT){
+            if (message.getType() == EMMessage.Type.TXT) {
                 //语音通话类型
-                if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)){
+                if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)) {
                     return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE_CALL : MESSAGE_TYPE_SENT_VOICE_CALL;
-                }else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false)){
+                } else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false)) {
                     //视频通话
                     return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VIDEO_CALL : MESSAGE_TYPE_SENT_VIDEO_CALL;
                 }
@@ -318,10 +338,10 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
 
         @Override
         public EaseChatRow getCustomChatRow(EMMessage message, int position, BaseAdapter adapter) {
-            if(message.getType() == EMMessage.Type.TXT){
+            if (message.getType() == EMMessage.Type.TXT) {
                 // 语音通话,  视频通话
                 if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false) ||
-                    message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false)){
+                        message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false)) {
 //                    return new ChatRowVoiceCall(getActivity(), message, position, adapter);
                 }
             }
@@ -329,5 +349,5 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
         }
 
     }
-    
+
 }
