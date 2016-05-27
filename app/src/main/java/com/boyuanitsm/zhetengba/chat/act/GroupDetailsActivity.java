@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -62,6 +63,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 
 	private EaseExpandGridView userGridview;
+	private TextView tvTitle;
 	private String groupId;
 	private ProgressBar loadingPB;
 	private Button exitBtn;
@@ -105,6 +107,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		instance = this;
 		st = getResources().getString(R.string.people);
 		clearAllHistory = (RelativeLayout) findViewById(R.id.clear_all_history);
+		tvTitle= (TextView) findViewById(R.id.tvTitle);
 		userGridview = (EaseExpandGridView) findViewById(R.id.gridview);
 		loadingPB = (ProgressBar) findViewById(R.id.progressBar);
 		exitBtn = (Button) findViewById(R.id.btn_exit_grp);
@@ -112,14 +115,14 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		blacklistLayout = (RelativeLayout) findViewById(R.id.rl_blacklist);
 		changeGroupNameLayout = (RelativeLayout) findViewById(R.id.rl_change_group_name);
 		idLayout = (RelativeLayout) findViewById(R.id.rl_group_id);
-		idLayout.setVisibility(View.VISIBLE);
+//		idLayout.setVisibility(View.VISIBLE);
 		idText = (TextView) findViewById(R.id.tv_group_id_value);
 
 		rl_switch_block_groupmsg = (RelativeLayout) findViewById(R.id.rl_switch_block_groupmsg);
 		switchButton = (EaseSwitchButton) findViewById(R.id.switch_btn);
 		searchLayout = (RelativeLayout) findViewById(R.id.rl_search);
 
-
+		tvTitle.setText("对话管理");
 		idText.setText(groupId);
 		if (group.getOwner() == null || "".equals(group.getOwner())
 				|| !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
@@ -137,7 +140,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		groupChangeListener = new GroupChangeListener();
 		EMClient.getInstance().groupManager().addGroupChangeListener(groupChangeListener);
 
-		((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() + "(" + group.getAffiliationsCount() + st);
+		((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
+
+//		+ "(" + group.getAffiliationsCount() + st
 
 		List<String> members = new ArrayList<String>();
 		members.addAll(group.getMembers());
@@ -224,8 +229,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 								EMClient.getInstance().groupManager().changeGroupName(groupId, returnData);
 								runOnUiThread(new Runnable() {
 									public void run() {
-										((TextView) findViewById(R.id.group_name)).setText(returnData + "(" + group.getAffiliationsCount()
-												+ st);
+										((TextView) findViewById(R.id.group_name)).setText(returnData );
 										progressDialog.dismiss();
 										Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
 									}
@@ -405,8 +409,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					runOnUiThread(new Runnable() {
 						public void run() {
 						    refreshMembers();
-							((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() + "(" + group.getAffiliationsCount()
-									+ st);
+							((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() );
 							progressDialog.dismiss();
 						}
 					});
@@ -552,7 +555,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			if (convertView == null) {
 			    holder = new ViewHolder();
 				convertView = LayoutInflater.from(getContext()).inflate(res, null);
-				holder.imageView = (ImageView) convertView.findViewById(R.id.iv_avatar);
+				holder.imageView = (CircleImageView) convertView.findViewById(R.id.iv_avatar);
 				holder.textView = (TextView) convertView.findViewById(R.id.tv_name);
 				holder.badgeDeleteView = (ImageView) convertView.findViewById(R.id.badge_delete);
 				convertView.setTag(holder);
@@ -564,7 +567,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			if (position == getCount() - 1) {
 			    holder.textView.setText("");
 				// 设置成删除按钮
-			    holder.imageView.setImageResource(R.drawable.em_smiley_minus_btn);
+			    holder.imageView.setImageResource(R.mipmap.group_jian);
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_minus_btn, 0, 0);
 				// 如果不是创建者或者没有相应权限，不提供加减人按钮
 				if (!group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
@@ -591,7 +594,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				}
 			} else if (position == getCount() - 2) { // 添加群组成员按钮
 			    holder.textView.setText("");
-			    holder.imageView.setImageResource(R.drawable.em_smiley_add_btn);
+			    holder.imageView.setImageResource(R.mipmap.group_add);
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_add_btn, 0, 0);
 				// 如果不是创建者或者没有相应权限
 				if (!group.isAllowInvites() && !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
@@ -685,8 +688,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 										public void run() {
 											deleteDialog.dismiss();
 											refreshMembers();
-											((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() + "("
-													+ group.getAffiliationsCount() + st);
+											((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() );
 										}
 									});
 								} catch (final Exception e) {
@@ -742,8 +744,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					
 					runOnUiThread(new Runnable() {
 						public void run() {
-							((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() + "(" + group.getAffiliationsCount()
-									+ ")");
+							((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
 							loadingPB.setVisibility(View.INVISIBLE);
 							refreshMembers();
 							if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
@@ -795,7 +796,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 	
 	private static class ViewHolder{
-	    ImageView imageView;
+	    CircleImageView imageView;
 	    TextView textView;
 	    ImageView badgeDeleteView;
 	}
