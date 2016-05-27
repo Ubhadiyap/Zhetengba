@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelManaAct;
+import com.boyuanitsm.zhetengba.activity.mine.LabelManger;
 import com.boyuanitsm.zhetengba.adapter.ChaPagerAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -33,7 +34,8 @@ import java.util.ArrayList;
 public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeListener,View.OnClickListener{
     private View view;//当前view
     private ViewPager vp_chan;//viewpager
-    private RelativeLayout ll_add;//添加textview；
+    @ViewInject(R.id.ll_add)//添加textview；
+    private RelativeLayout ll_add;
     private HorizontalScrollView scrollView;//scrollView
     private LinearLayout titleLayout;//频道，头部标签布局
     private int mTitleMargin;//头部标签之间空隙；
@@ -63,13 +65,6 @@ private Button bt_plan;
         scrollView = (HorizontalScrollView) view.findViewById(R.id.hslv_chanel);
         titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
         vp_chan = (ViewPager) view.findViewById(R.id.vp_chan);
-        ll_add = (RelativeLayout) view.findViewById(R.id.ll_add);
-        ll_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity(LabelManaAct.class);
-            }
-        });
         //设置间隙
         mTitleMargin = dip2px(mActivity, 10);
         //填充数据
@@ -180,13 +175,17 @@ private Button bt_plan;
     public void onPageScrollStateChanged(int state) {
 
     }
-    @OnClick({R.id.bt_plan})
+    @OnClick({R.id.bt_plan,R.id.ll_add})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_plan:
                 openActivity(CirclefbAct.class);
                 break;
+            case R.id.ll_add:
+                openActivity(LabelManger.class);
+                break;
+//            openActivity(LabelManaAct.class);
         }
     }
 

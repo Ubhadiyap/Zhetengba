@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+<TextView
+    android:id="@+id/tv_label2"
+    android:gravity="center"
+    android:background="@drawable/bg_circle_stroke_green_boder"
+    android:textColor="#666666"
+    android:text="小鲜肉"
+    android:layout_width="77dp"
+    android:layout_height="20dp" />
+</LinearLayout>
