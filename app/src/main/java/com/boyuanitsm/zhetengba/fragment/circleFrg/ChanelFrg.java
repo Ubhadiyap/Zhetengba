@@ -5,12 +5,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +33,7 @@ import java.util.ArrayList;
 public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeListener,View.OnClickListener{
     private View view;//当前view
     private ViewPager vp_chan;//viewpager
-    private LinearLayout ll_add;//添加textview；
+    private RelativeLayout ll_add;//添加textview；
     private HorizontalScrollView scrollView;//scrollView
     private LinearLayout titleLayout;//频道，头部标签布局
     private int mTitleMargin;//头部标签之间空隙；
@@ -44,8 +46,8 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
     private ChaChildFrg chaChildFrg;//子fragment01
     private int currentPos;//当前位置
     private int j = 0;
-    private String[] strList = new String[]{"足球", "篮球", "篮球", "旅游", "活动"};//标签
-    private int[] idList = new int[]{0, 1, 2, 3, 4};//与标签对应id
+    private String[] strList = new String[]{"足球", "摄影", "聚餐", "旅行"};//标签, "动漫","咖啡"
+    private int[] idList = new int[]{0, 1, 2, 3,};//与标签对应id
 @ViewInject(R.id.bt_plan)//发布按钮
 private Button bt_plan;
 
@@ -61,7 +63,7 @@ private Button bt_plan;
         scrollView = (HorizontalScrollView) view.findViewById(R.id.hslv_chanel);
         titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
         vp_chan = (ViewPager) view.findViewById(R.id.vp_chan);
-        ll_add = (LinearLayout) view.findViewById(R.id.ll_add);
+        ll_add = (RelativeLayout) view.findViewById(R.id.ll_add);
         ll_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,12 +118,14 @@ private Button bt_plan;
         final TextView textView = (TextView) mActivity.getLayoutInflater().inflate(R.layout.chanel_child_title, null);
         //设置title
         textView.setText(title);
+        textView.setTextSize(14);
+        textView.setTextColor(Color.parseColor("#999999"));
         //设置position Tag
         textView.setTag(position);
         //点击监听
         textView.setOnClickListener(new posOnClickListener());
         //LinearLayout管理器布局
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //设置左右间隙
         params.leftMargin = dip2px(mActivity, mTitleMargin);
         params.rightMargin = dip2px(mActivity, mTitleMargin);
@@ -166,7 +170,7 @@ private Button bt_plan;
     @Override
     public void onPageSelected(int position) {
         //当前位置textview 文字选中变色
-        textViewList.get(currentPos).setTextColor(Color.parseColor("#666666"));
+        textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
         textViewList.get(position).setTextColor(Color.parseColor("#52C791"));
         currentPos = position;
         scrollView.scrollTo((int) moveToList.get(position), 0);
@@ -193,7 +197,7 @@ private Button bt_plan;
             if ((int) view.getTag() == currentPos) {
                 return;
             }
-            textViewList.get(currentPos).setTextColor(Color.parseColor("#666666"));
+            textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
             currentPos = (int) view.getTag();
             textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));
             vp_chan.setCurrentItem(currentPos);

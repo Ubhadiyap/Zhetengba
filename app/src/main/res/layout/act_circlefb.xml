@@ -11,19 +11,19 @@
 
         <include layout="@layout/title_act_layout"></include>
 
-        <RelativeLayout
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true">
-            <TextView
-                style="@style/tv_second"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="25dp"
-                android:gravity="center_vertical"
-                android:text="发布"
-                android:textColor="#b6e4cd" />
-        </RelativeLayout>
+        <!--<RelativeLayout-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentRight="true">-->
+            <!--<TextView-->
+                <!--style="@style/tv_second"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginRight="25dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="发布"-->
+                <!--android:textColor="#ffffff" />-->
+        <!--</RelativeLayout>-->
 
 
     </RelativeLayout>
@@ -79,10 +79,10 @@
                 android:id="@+id/gv_qzfb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:numColumns="4"
-                android:paddingLeft="25dp"
-                android:paddingRight="15dp"
+                android:paddingLeft="19dp"
+                android:paddingRight="19dp"
                 android:verticalSpacing="15dp"></com.boyuanitsm.zhetengba.view.MyGridView>
 
         </LinearLayout>

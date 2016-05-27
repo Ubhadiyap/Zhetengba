@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,6 +22,10 @@ public class CirfbAdapter extends BaseAdapter {
     };
 
     private Context context;
+    private int clickTemp = -1;//标识选择的Item
+    public void setSeclection(int position) {
+        clickTemp = position;
+    }
 
     public CirfbAdapter(Context context) {
         this.context = context;
@@ -46,12 +51,25 @@ public class CirfbAdapter extends BaseAdapter {
         View view=View.inflate(context, R.layout.cir_item,null);
         ck_xx= (CheckBox) view.findViewById(R.id.ck_xx);
         ck_xx.setText(TITLES[position]);
-        ck_xx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//        ck_xx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//            }
+//        });
+        //设置点击颜色变换
+        if (clickTemp == position) {
+            ck_xx.setChecked(true);
+//            ck_xx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                }
+//            });
+        } else {
+            ck_xx.setChecked(false);
 
-            }
-        });
+    }
 
         return view;
     }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:text="测试"
-    android:textColor="#666666"
+    android:textColor="#999999"
     android:textSize="14sp">
 
 </TextView>

@@ -1,8 +1,11 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.photo.PicSelectActivity;
@@ -42,8 +45,22 @@ public class CirclefbAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("Alic");
-        gv_qzfb.setAdapter(new CirfbAdapter(getApplicationContext()));
+        setRight("发布", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        final CirfbAdapter adapter1=new CirfbAdapter(CirclefbAct.this);
+        gv_qzfb.setAdapter(adapter1);
+//        gv_qzfb.setSelector(new ColorDrawable(Color.TRANSPARENT));
+//        gv_qzfb.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                adapter1.setSeclection(position);
+//                adapter1.notifyDataSetChanged();
+//            }
+//        });
         adapter = new GvPhotoAdapter(selecteds, 9, CirclefbAct.this);
         gvPhoto.setAdapter(adapter);
 
