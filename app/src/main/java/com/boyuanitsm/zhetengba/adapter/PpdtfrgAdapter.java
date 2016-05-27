@@ -8,14 +8,16 @@ import android.widget.BaseAdapter;
 import com.boyuanitsm.zhetengba.R;
 
 /**
- * 圈友主页，界面共同圈子gridview适配器
- * Created by xiaoke on 2016/5/12.
+ * 消息里面个人主页圈子动态frg
+ * Created by bitch-1 on 2016/5/24.
  */
-public class CirFriGvSecAdapter extends BaseAdapter {
+public class PpdtfrgAdapter extends BaseAdapter {
     private Context context;
-    public CirFriGvSecAdapter(Context context){
-        this.context=context;
+
+    public PpdtfrgAdapter(Context context) {
+        this.context = context;
     }
+
     @Override
     public int getCount() {
         return 3;
@@ -23,16 +25,17 @@ public class CirFriGvSecAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return position;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return View.inflate(context, R.layout.item_grid_cir_sec,null);
+        View view=View.inflate(context, R.layout.item_circle,null);
+        return view;
     }
 }

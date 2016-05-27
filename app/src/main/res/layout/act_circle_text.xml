@@ -82,86 +82,90 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_marginLeft="65dp"
-                    android:orientation="vertical">
+                    android:layout_marginRight="15dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
 
-                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方下午一起畅谈诗歌和远方"
-                        android:textColor="#333333"
-                        android:textSize="16sp" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_weight="1"
+                            android:textColor="#333333"
+                            android:textSize="16sp"
+                            android:text="最美好的结局就是，你成为了我的责任，而我成为了你的守护，如此相守一生，相伴到老。"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/tv_cir_name"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textColor="#fff"
+                            android:text="户外圈"
+                            android:background="@drawable/bg_circle_stroke_red"
+                            android:layout_width="60dp"
+                            android:layout_height="18dp" />
 
+                    </LinearLayout>
                     <LinearLayout
-                        android:layout_width="260dp"
-                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:orientation="vertical">
-
+                        android:orientation="vertical"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content">
                         <com.boyuanitsm.zhetengba.view.MyGridView
                             android:id="@+id/iv_ch_image"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:paddingBottom="3dp"
                             android:horizontalSpacing="3dp"
-                            android:paddingBottom="3dp" />
-
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
                         <LinearLayout
                             android:id="@+id/ll_two"
+                            android:orientation="vertical"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
+                            android:layout_height="wrap_content">
                             <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
                                 android:layout_marginBottom="3dp"
-                                android:orientation="horizontal">
-
+                                android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
                                 <com.boyuanitsm.zhetengba.view.CustomImageView
                                     android:id="@+id/iv_two_one"
-                                    android:layout_width="83dp"
-                                    android:layout_height="83dp"
                                     android:layout_weight="1"
-                                    android:scaleType="fitXY" />
-
+                                    android:scaleType="fitXY"
+                                    android:layout_width="83dp"
+                                    android:layout_height="83dp" />
                                 <com.boyuanitsm.zhetengba.view.CustomImageView
-                                    android:id="@+id/iv_two_two"
-                                    android:layout_width="83dp"
-                                    android:layout_height="83dp"
                                     android:layout_marginLeft="3dp"
+                                    android:id="@+id/iv_two_two"
                                     android:layout_weight="1"
-                                    android:scaleType="fitXY" />
+                                    android:scaleType="fitXY"
+                                    android:layout_width="83dp"
+                                    android:layout_height="83dp" />
                             </LinearLayout>
-
                             <LinearLayout
+                                android:orientation="horizontal"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
+                                android:layout_height="wrap_content">
                                 <com.boyuanitsm.zhetengba.view.CustomImageView
                                     android:id="@+id/iv_two_three"
-                                    android:layout_width="83dp"
-                                    android:layout_height="83dp"
                                     android:layout_weight="1"
-                                    android:scaleType="fitXY" />
-
+                                    android:scaleType="fitXY"
+                                    android:layout_width="83dp"
+                                    android:layout_height="83dp" />
                                 <com.boyuanitsm.zhetengba.view.CustomImageView
-                                    android:id="@+id/iv_two_four"
-                                    android:layout_width="83dp"
-                                    android:layout_height="83dp"
                                     android:layout_marginLeft="3dp"
+                                    android:id="@+id/iv_two_four"
                                     android:layout_weight="1"
-                                    android:scaleType="fitXY" />
+                                    android:scaleType="fitXY"
+                                    android:layout_width="83dp"
+                                    android:layout_height="83dp" />
                             </LinearLayout>
-
-
                         </LinearLayout>
-
                         <com.boyuanitsm.zhetengba.view.CustomImageView
-                            android:id="@+id/ng_one_image"
+                            android:id="@+id/iv_oneimage"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -209,7 +213,7 @@
     </ScrollView>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/ll_comment"
+        android:id="@+id/ll_cir_comment"
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
@@ -232,12 +236,12 @@
             <!--android:layout_width="0dp"-->
             <!--android:layout_height="match_parent" />-->
         <ImageView
-            android:id="@+id/iv_chanel_comment"
+            android:id="@+id/iv_cir_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/comment"/>
         <Button
-            android:id="@+id/bt_chanel_comment"
+            android:id="@+id/bt_cir_comment"
             android:layout_marginLeft="5dp"
             android:gravity="center"
             android:text="评论"

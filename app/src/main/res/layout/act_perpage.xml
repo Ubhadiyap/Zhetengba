@@ -5,14 +5,16 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical">
-    <!--<com.boyuanitsm.zhetengba.view.MyScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+    <ScrollView
+        android:id="@+id/msv_scroll"
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,7 +90,6 @@
                 android:textSize="14sp" />
 
             <com.boyuanitsm.zhetengba.view.HorizontalListView
-
                 android:id="@+id/hlv_perpage"
                 android:layout_width="275dp"
                 android:layout_height="85dp"></com.boyuanitsm.zhetengba.view.HorizontalListView>
@@ -164,12 +165,12 @@
                 <!--app:pstsUnderlineHeight="2dp"-->
                 <!--app:selectedTabTextColor="#52c791"></com.boyuanitsm.zhetengba.view.PagerSlidingTabStrip>-->
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vpS"
+            <FrameLayout
+                android:id="@+id/fra_main"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+                android:layout_height="wrap_content"></FrameLayout>
         </LinearLayout>
     </LinearLayout>
-    <!--</com.boyuanitsm.zhetengba.view.MyScrollView>-->
-<!--</LinearLayout>-->
+    </ScrollView>
+</LinearLayout>
 

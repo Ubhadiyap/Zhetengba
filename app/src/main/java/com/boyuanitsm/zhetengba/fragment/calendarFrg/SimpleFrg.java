@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,7 +22,10 @@ import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.BannerInfo;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CustomDialog;
+import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -65,6 +70,12 @@ public class SimpleFrg extends BaseFragment {
         //设置简约listview的条目
         adapter = new ActAdapter(mActivity);
         lv_act.getRefreshableView().setAdapter(adapter);
+        lv_act.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               showDialog();
+            }
+        });
         viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
         ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
         //设置viewpager适配/轮播效果
@@ -202,6 +213,23 @@ public class SimpleFrg extends BaseFragment {
         }
 
     }
+    private void showDialog() {
+        CustomDialog.Builder builder = new CustomDialog.Builder(mActivity);
+        builder.setMessage("没有活动详情");
+//        builder.setPositiveButton("加为好友", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                MyToastUtils.showShortToast(context,"点击了第一个button");
+//            }
+//        });
+        builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+            }
+        });
+        builder.create().show();
 
+    }
 
 }

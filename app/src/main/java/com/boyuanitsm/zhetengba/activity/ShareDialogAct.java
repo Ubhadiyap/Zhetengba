@@ -3,9 +3,8 @@ package com.boyuanitsm.zhetengba.activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.boyuanitsm.zhetengba.R;
@@ -30,11 +29,18 @@ public class ShareDialogAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        Display defaultDisplay = getWindowManager().getDefaultDisplay();
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.width = (int) (defaultDisplay.getWidth() * 1.0);
-        getWindow().setGravity(Gravity.BOTTOM);
+//        Display defaultDisplay = getWindowManager().getDefaultDisplay();
+//        WindowManager.LayoutParams params = getWindow().getAttributes();
+//        params.width = (int) (defaultDisplay.getWidth() * 1.0);
+//        params.height=(int)(defaultDisplay.getHeight()*1.0);
+//        getWindow().setGravity(Gravity.BOTTOM);
 
+        Window window = getWindow();
+        WindowManager.LayoutParams layoutParams = window.getAttributes();
+        //设置窗口的大小及透明度
+        layoutParams.width = WindowManager.LayoutParams.FILL_PARENT;
+        layoutParams.height = layoutParams.FILL_PARENT;
+        window.setAttributes(layoutParams);
     }
 
     @OnClick({R.id.ll_qqshare,R.id.ll_weiboshare,R.id.ll_weixinshare,R.id.ll_cancel_share})

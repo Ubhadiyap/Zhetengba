@@ -1,48 +1,46 @@
 package com.boyuanitsm.zhetengba.activity.mess;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
-import com.boyuanitsm.zhetengba.adapter.PpagevpAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
+import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 消息里面的个人主页界面
  * Created by bitch-1 on 2016/5/16.
  */
 public class PerpageAct extends BaseActivity {
+    private static final String TAG = "PerpageAct";
     @ViewInject(R.id.hlv_perpage)
     private HorizontalListView hlv_perpage;//水平listview
-    @ViewInject(R.id.vpS)
-    private ViewPager vpS;//档期，圈子动态
+//    @ViewInject(R.id.vpS)
+//    private ViewPager vpS;//档期，圈子动态
     @ViewInject(R.id.rl_dangqi)
     private RelativeLayout rl_dangqi;
     @ViewInject(R.id.rl_dongtai)
@@ -57,12 +55,20 @@ public class PerpageAct extends BaseActivity {
     private View view_dongtai;
     @ViewInject(R.id.cv_photo)//头像
     private CircleImageView cv_photo;
+    @ViewInject(R.id.msv_scroll)//
+    private ScrollView msv_scroll;
+
+    @ViewInject(R.id.fra_main)
+    private FrameLayout fra_main;
 
 
 //    @ViewInject(R.id.tab_selcet)
 //    private PagerSlidingTabStrip tab_selcet;
 
-    private List<Fragment> frgList;
+
+    private FragmentManager manager;
+    private Fragment ppagecalFrg,ppagedtFrg;//档期frg 圈子动态frg
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_perpage);
@@ -71,49 +77,17 @@ public class PerpageAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        frgList=new ArrayList<Fragment>();
-        frgList.add(new PpagecalFrg());
-        frgList.add(new PpagedtFrg());
+
+        manager=getSupportFragmentManager();
         hlv_perpage.setAdapter(new HlvppAdapter(getApplicationContext()));//她的圈子下面水平view适配器
-
-//        hlv_perpage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if(position==4){
-//                    openActivity(CircleppAct.class);
-//                }
-//            }
-//        });
-        frgList.add(new PpagecalFrg());//档期frg
-        frgList.add(new PpagedtFrg());//圈子动态frg
-        vpS.setAdapter(new PpagevpAdapter(getSupportFragmentManager(), frgList));
+        msv_scroll.smoothScrollTo(0, 0);
         setSelect(0);
-//        tab_selcet.setViewPager(vpS);
-
-        vpS.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                resetTabBtn();
-                int currentItem = vpS.getCurrentItem();
-                setTab(currentItem);
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
 
     }
 
     /**
-     * 选中 vierpage item
+     * 选中 选中btn颜色
+     *
      * @param i
      */
     private void setTab(int i) {
@@ -129,16 +103,10 @@ public class PerpageAct extends BaseActivity {
         }
     }
 
-    /**
-     * 显示viewpage 的item
-     *
-     * @param i
-     */
-    private void setSelect(int i) {
-        vpS.setCurrentItem(i);
-        setTab(i);
-    }
 
+    /**
+     * 初识化btn颜色
+     */
     private void resetTabBtn() {
         tv_dangqi.setTextColor(Color.parseColor("#cdcdcd"));
         tv_dongtai.setTextColor(Color.parseColor("#cdcdcd"));
@@ -146,14 +114,16 @@ public class PerpageAct extends BaseActivity {
         view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
     }
 
-    @OnClick({R.id.rl_dangqi,R.id.rl_dongtai,R.id.iv_set,R.id.cv_photo})
-    public void OnClick(View v){
-        switch (v.getId()){
+    @OnClick({R.id.rl_dangqi, R.id.rl_dongtai, R.id.iv_set, R.id.cv_photo})
+    public void OnClick(View v) {
+        switch (v.getId()) {
             case R.id.rl_dangqi://档期
+                resetTabBtn();
                 setSelect(0);
                 break;
 
             case R.id.rl_dongtai://圈子动态
+                resetTabBtn();
                 setSelect(1);
                 break;
 
@@ -163,11 +133,53 @@ public class PerpageAct extends BaseActivity {
                 break;
             case R.id.cv_photo://个人资料
                 openActivity(PersonalmesAct.class);
+
                 break;
+
         }
 
 
     }
+
+    /**
+     * 点击button后选择显示的frg
+     */
+    private void setSelect(int position) {
+        FragmentTransaction transaction=manager.beginTransaction();
+        hideFragments(transaction);
+        switch (position){
+            case 0://档期frg
+                setTab(0);
+                if(ppagecalFrg==null){
+                    ppagecalFrg=new PpagecalFrg();
+                    transaction.add(R.id.fra_main,ppagecalFrg);
+                }else {transaction.show(ppagecalFrg);}
+                break;
+            case 1://圈子动态frg
+                setTab(1);
+                if(ppagedtFrg==null){
+                    ppagedtFrg=new PpagedtFrg();
+                    transaction.add(R.id.fra_main,ppagedtFrg);
+                }else {transaction.show(ppagedtFrg);}
+                break;
+
+
+        }
+        transaction.commit();
+    }
+
+    /**
+     * 影藏所有frg
+     * @param transaction
+     */
+    private void hideFragments(FragmentTransaction transaction) {
+        if(ppagecalFrg!=null){
+            transaction.hide(ppagecalFrg);
+        }
+        if(ppagedtFrg!=null){transaction.hide(ppagedtFrg);}
+    }
+
+
 
     private void showPopupWindow(View parent) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(this).inflate(
@@ -192,24 +204,12 @@ public class PerpageAct extends BaseActivity {
         ll_schy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(PerpageAct.this);
-                builder.setTitle("确定删除好友？");
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                new MyAlertDialog(PerpageAct.this).builder().setTitle("提示").setMsg("确定删除该好友").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MyToastUtils.showShortToast(PerpageAct.this, "删除好友成功");
-                        dialog.dismiss();
+                    public void onClick(View v) {
+
                     }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MyToastUtils.showShortToast(PerpageAct.this, "取消");
-                        dialog.dismiss();
-                    }
-                });
-                popupWindow.dismiss();
-                builder.create().show();
+                }).setNegativeButton("取消", null).show();
 
             }
         });
@@ -217,7 +217,7 @@ public class PerpageAct extends BaseActivity {
         ll_xiugai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(), EditAct.class);
+                Intent intent = new Intent(getApplicationContext(), EditAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(EditAct.USER_TYPE, 8);
                 startActivity(intent);
@@ -225,4 +225,7 @@ public class PerpageAct extends BaseActivity {
 
             }
         });
-}}
+    }
+
+
+}

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ChaTextAdapter extends BaseAdapter {
     private Context context;
-    private String[] str=new String[]{"小明","小红"};
+    private String[] str=new String[]{"小明","小红","小红","小红","小红","小红","小红"};
     public ChaTextAdapter(Context context){
         this.context=context;
     }
