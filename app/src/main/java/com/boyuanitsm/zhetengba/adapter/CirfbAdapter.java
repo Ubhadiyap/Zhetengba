@@ -9,8 +9,7 @@ import android.widget.CheckBox;
 import com.boyuanitsm.zhetengba.R;
 
 /**
- *圈子发布界面标签适配器
- * Created by bitch-1 on 2016/5/9.
+ * 圈子发布适配
  */
 public class CirfbAdapter extends BaseAdapter {
     private CheckBox ck_xx;
