@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
-import com.boyuanitsm.zhetengba.activity.mine.LabelManaAct;
+import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -97,7 +97,7 @@ public class ContractedAct extends BaseActivity {
                 adapter.notifyDataSetChanged();
                 //点击其他，跳转标签管理
                 if (position==11){
-                    openActivity(LabelManaAct.class);
+                    openActivity(LabelMangerAct.class);
                 }
             }
         });

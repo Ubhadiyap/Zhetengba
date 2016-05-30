@@ -13,10 +13,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.mine.LabelManaAct;
+import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.activity.mine.SettingAct;
@@ -25,9 +24,7 @@ import com.boyuanitsm.zhetengba.adapter.MonthSelectAdp;
 import com.boyuanitsm.zhetengba.adapter.RecycleviewAdp;
 import com.boyuanitsm.zhetengba.adapter.TimeAxisListAdp;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.ChaChildFrg;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
-import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.MyViewPager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -116,7 +113,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         recycleviewAdp.setOnItemClickListener(new RecycleviewAdp.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                openActivity(LabelManaAct.class);
+                openActivity(LabelMangerAct.class);
             }
         });
         rvLabel.setAdapter(recycleviewAdp);
@@ -274,7 +271,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
                 openActivity(MyColleitionAct.class);
                 break;
             case R.id.tv_noLabel://没有标签时显示添加标签
-                openActivity(LabelManaAct.class);
+                openActivity(LabelMangerAct.class);
                 break;
         }
     }
