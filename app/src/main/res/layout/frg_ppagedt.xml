@@ -6,6 +6,7 @@
 
     <com.boyuanitsm.zhetengba.view.MyListview
         android:id="@+id/lv_ppcal"
+        android:dividerHeight="1px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></com.boyuanitsm.zhetengba.view.MyListview>
 

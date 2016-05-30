@@ -1,11 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    >
+    android:background="#eee"
+    android:orientation="vertical" >
 
     <include layout="@layout/title_act_layout"></include>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/white"
+        >
+      <TextView
+          android:id="@+id/tvQ"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="群聊时限"
+          android:layout_centerVertical="true"
+          android:layout_marginLeft="15dp"
+          android:textColor="#333333"
+          android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tvQun"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/qun_time_bg"
+            android:layout_toRightOf="@+id/tvQ"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
+            android:text="请选择群聊时限"
+            android:gravity="center"
+            android:textColor="#999999"
+            android:textSize="16sp"
+            />
+
+    </RelativeLayout>
+
+    <com.boyuanitsm.zhetengba.widget.ClearEditText
+        android:id="@+id/cetSearch"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/em_seabar_input"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@drawable/em_search_bar_icon_normal"
+        android:drawablePadding="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="16sp"
+        android:hint="搜索"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000"
+            android:background="@android:color/transparent"
+            android:divider="@null"
+            android:descendantFocusability="afterDescendants"
+            android:fastScrollEnabled="true" />
+
+        <com.hyphenate.easeui.widget.EaseSidebar
+            android:id="@+id/sidebar"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:clickable="true" />
+
+        <TextView
+            android:id="@+id/floating_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/em_show_head_toast_bg"
+            android:gravity="center"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:textColor="@android:color/white"
+            android:textSize="40sp"
+            android:visibility="invisible" />
+    </RelativeLayout>
 
 </LinearLayout>

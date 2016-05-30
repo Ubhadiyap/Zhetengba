@@ -7,6 +7,8 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.hyphenate.chat.EMClient;
 
 /**
@@ -28,6 +30,7 @@ public class SplashAct extends BaseActivity {
 //               openActivity(LoginAct.class);
 //           }
 //       }, 0);
+        SpUtils.setScreenWith(getApplicationContext(), ZhetebaUtils.getScreenWidth(this));
     }
 
     @Override

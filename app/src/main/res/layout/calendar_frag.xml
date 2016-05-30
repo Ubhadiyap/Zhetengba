@@ -3,12 +3,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color">
+    android:background="@color/white">
     <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
         android:id="@+id/lv_calen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="档期activity"
-        android:background="@color/bg_color"/>
+        />
 
 </LinearLayout>

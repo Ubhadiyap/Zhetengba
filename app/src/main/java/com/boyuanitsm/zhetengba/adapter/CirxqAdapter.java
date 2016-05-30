@@ -12,6 +12,7 @@ import com.boyuanitsm.zhetengba.view.CircleImageView;
 import java.util.List;
 
 /**
+ * 圈子详情adapter
  * Created by bitch-1 on 2016/5/12.
  */
 public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> {

@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.activity.circle.CommentAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -85,6 +87,7 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_two_two= (CustomImageView) convertView.findViewById(R.id.iv_two_two);
             viewHolder.iv_two_three= (CustomImageView) convertView.findViewById(R.id.iv_two_three);
             viewHolder.iv_two_four= (CustomImageView) convertView.findViewById(R.id.iv_two_four);
+            viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
@@ -95,7 +98,7 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            handlerOneImage(viewHolder, itemList.get(0));
+            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -108,9 +111,6 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
 //            viewHolder.iv_two_one.setImageUrl(itemList.get(0).getUrl());
-//            viewHolder.iv_two_two.setImageUrl(itemList.get(1).getUrl());
-//            viewHolder.iv_two_three.setImageUrl(itemList.get(2).getUrl());
-//            viewHolder.iv_two_four.setImageUrl(itemList.get(3).getUrl());
             ImageLoader.getInstance().displayImage(itemList.get(0).getUrl(), viewHolder.iv_two_one, optionsImag);
             ImageLoader.getInstance().displayImage(itemList.get(1).getUrl(),viewHolder.iv_two_two,optionsImag);
             ImageLoader.getInstance().displayImage(itemList.get(2).getUrl(),viewHolder.iv_two_three,optionsImag);
@@ -156,44 +156,31 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setAdapter(adapter);
 
         }
-//        //点击用户头像，进入用户圈子主页
-//        viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent();
-//                intent.setClass(context, PerpageAct.class);
-//                //需要开启新task,否则会报错
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-//            }
-//        });
-        //点击户外圈进入圈子主页
-        viewHolder.tv_cir_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.setClass(context, CirxqAct.class);
-                //需要开启新task,否则会报错
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
         //分享对话框
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ShareDialog dialog=new ShareDialog(context);
-//                dialog.show();
                 Intent intent=new Intent(context, ShareDialogAct.class);
                 context.startActivity(intent);
             }
         });
         //评论
-        viewHolder.ll_comment.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
-                intent.setClass(context, CommentAct.class);
+                intent.setClass(context, CircleTextAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        };
+        viewHolder.ll_comment.setOnClickListener(listener);
+       viewHolder.tv_content.setOnClickListener(listener);
+        //进入圈子主页
+        viewHolder.tv_cir_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,CirxqAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -209,39 +196,12 @@ public class MyPlaneAdapter extends BaseAdapter {
         public TextView tvTime;
         public MyGridView iv_ch_image;
         public CustomImageView iv_oneimage;
-        public TextView tv_cir_name;
+        public TextView tv_cir_name,tv_content;
         private LinearLayout ll_two;
         private CustomImageView iv_two_one,iv_two_two,iv_two_three,iv_two_four;
         private LinearLayout ll_share;
         private LinearLayout ll_comment;
 
     }
-    private void handlerOneImage(ViewHolder viewHolder, ImageInfo image) {
-        int totalWidth;
-        int imageWidth;
-        int imageHeight;
-        ScreenTools screentools = ScreenTools.instance(context);
-        totalWidth = screentools.getScreenWidth() - screentools.dip2px(80);
-        imageWidth = screentools.dip2px(image.getWidth());
-        imageHeight = screentools.dip2px(image.getHeight());
-        if (image.getWidth() <= image.getHeight()) {
-            if (imageHeight > totalWidth) {
-                imageHeight = totalWidth;
-                imageWidth = (imageHeight * image.getWidth()) / image.getHeight();
-            }
-        } else {
-            if (imageWidth > totalWidth) {
-                imageWidth = totalWidth;
-                imageHeight = (imageWidth * image.getHeight()) / image.getWidth();
-            }
-        }
-        ViewGroup.LayoutParams layoutparams = viewHolder.iv_oneimage.getLayoutParams();
-        layoutparams.height = imageHeight;
-        layoutparams.width = imageWidth;
-        viewHolder.iv_oneimage.setLayoutParams(layoutparams);
-        viewHolder.iv_oneimage.setClickable(true);
-        viewHolder.iv_oneimage.setScaleType(ImageView.ScaleType.FIT_XY);
-        viewHolder.iv_oneimage.setImageUrl(image.getUrl());
 
-    }
 }

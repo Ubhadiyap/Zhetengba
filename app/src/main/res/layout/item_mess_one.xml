@@ -1,103 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:paddingBottom="15dp"
-    android:background="@color/bg_color">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="15dp"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <com.boyuanitsm.zhetengba.view.CircleImageView
-            android:background="@drawable/test_user"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-    </LinearLayout>
+        android:paddingTop="15dp">
 
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_weight="1"
-            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <com.boyuanitsm.zhetengba.view.CircleImageView
+                android:id="@+id/cv_head2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/test_user2" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Maike"
+                    android:textColor="@color/one_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="4月27日07:15"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
             <TextView
+                android:id="@+id/tv_qingqiu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/one_color"
-                android:text="Maike"/>
-            <TextView
-                android:gravity="center"
-                android:textColor="#999999"
-                android:textSize="12sp"
-                android:text="4月27日07:15"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:text="请求加入足球圈组"
+                android:textColor="#333333"
+                android:textSize="14sp" />
         </LinearLayout>
-        <TextView
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#333333"
-            android:textSize="14sp"
-            android:text="请求加入足球圈组"/>
-    </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingLeft="75dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="备注：“你好，我是哈哈版的成员”"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:paddingBottom="10dp"
+        android:paddingLeft="75dp">
 
-        <Button
-            style="@style/cir_button"
-            android:background="@drawable/bg_circle_stroke_green"
-            android:text="同意"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_beizhu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="备注：“你好，我是哈哈版的成员”" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal">
+
             <Button
-                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_weight="4"
                 style="@style/cir_button"
+                android:background="@drawable/bg_circle_stroke_green"
+                android:text="接受" />
+            <TextView
+                android:layout_weight="3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_weight="4"
+                style="@style/cir_button"
+                android:layout_marginLeft="40dp"
                 android:background="@drawable/bg_circle_stroke_yellow"
-                android:text="忽略"/>
-            <Button
-                android:layout_marginLeft="15dp"
-                style="@style/cir_button"
-                android:background="@drawable/bg_circle_stroke_red2"
-                android:text="拒绝"/>
+                android:text="拒绝" />
+            <!--<Button-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--style="@style/cir_button"-->
+            <!--android:background="@drawable/bg_circle_stroke_red2"-->
+            <!--android:text="拒绝"/>-->
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <View style="@style/view_line"></View>
 </LinearLayout>

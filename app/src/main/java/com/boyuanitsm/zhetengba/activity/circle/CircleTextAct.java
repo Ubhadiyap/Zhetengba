@@ -32,7 +32,7 @@ import java.util.List;
  * Created by xiaoke on 2016/5/11.
  */
 public class CircleTextAct extends BaseActivity implements View.OnClickListener{
-    @ViewInject(R.id.ll_cir_comment)//评论
+//    @ViewInject(R.id.ll_cir_comment)//评论
     private LinearLayout ll_cir_comment;
     private MyListView my_lv;
     private ScrollView sl_chanel;
@@ -183,20 +183,15 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    @OnClick({R.id.ll_cir_comment,R.id.iv_cir_comment,R.id.bt_cir_comment})
+//    @OnClick({R.id.ll_cir_comment})
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.ll_cir_comment:
-                openActivity(CommentAct.class);
-                break;
-            case R.id.iv_cir_comment:
-                openActivity(CommentAct.class);
-                break;
-            case R.id.bt_cir_comment:
-                openActivity(CommentAct.class);
-                break;
-        }
+//        switch (v.getId()){
+//            case R.id.ll_cir_comment:
+//                openActivity(CommentAct.class);
+//                break;
+//
+//        }
     }
 
 }

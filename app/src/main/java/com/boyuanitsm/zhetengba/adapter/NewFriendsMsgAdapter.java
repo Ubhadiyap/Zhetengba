@@ -74,7 +74,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
             holder.agree.setVisibility(View.INVISIBLE);
 
             if(msg.getGroupId() != null){ // 显示群聊提示
-                holder.groupContainer.setVisibility(View.VISIBLE);
+                holder.groupContainer.setVisibility(View.GONE);
                 holder.groupname.setText(msg.getGroupName());
             } else{
                 holder.groupContainer.setVisibility(View.GONE);
@@ -138,14 +138,16 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                 holder.status.setEnabled(false);
             } else if(msg.getStatus() == InviteMesageStatus.GROUPINVITATION_ACCEPTED){
                 String str = msg.getGroupInviter() + str9 + msg.getGroupName();
-                holder.status.setText(str);
+                holder.reason.setText(str);
                 holder.status.setBackgroundDrawable(null);
+                holder.status.setText("");
                 holder.status.setEnabled(false);
             } else if(msg.getStatus() == InviteMesageStatus.GROUPINVITATION_DECLINED){
                 String str = msg.getGroupInviter() + str10 + msg.getGroupName();
-                holder.status.setText(str);
+                holder.reason.setText(str);
                 holder.status.setBackgroundDrawable(null);
                 holder.status.setEnabled(false);
+                holder.status.setText("");
             }
 
             // 设置用户头像

@@ -1,12 +1,15 @@
 package com.boyuanitsm.zhetengba.activity;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
+import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -80,8 +84,23 @@ public class ContractedAct extends BaseActivity {
     setTopTitle("简约");
         et_pp_num.addTextChangedListener(judgeEditNum());
         //设置标签的，适配器
-        GvTbAdapter adapter=new GvTbAdapter(this,this);
+        final GvTbAdapter adapter=new GvTbAdapter(this,this);
+        //默认选中第一个；
+        adapter.setSeclection(0);
+        adapter.notifyDataSetChanged();
         gv_tab.setAdapter(adapter);
+        gv_tab.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setSeclection(position);
+                adapter.notifyDataSetChanged();
+                //点击其他，跳转标签管理
+                if (position==11){
+                    openActivity(LabelMangerAct.class);
+                }
+            }
+        });
 
     }
 
@@ -96,18 +115,10 @@ public class ContractedAct extends BaseActivity {
 //                openActivity(LocationAct.class);
                 break;
             case R.id.ll_tab://选择标签
-                if (flag){
-                    ll_view.setVisibility(View.VISIBLE);
-                    gv_tab.setClickable(true);
-                    iv_arrow.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.arrow_down2));
-
-                    flag=false;
-                }else {
-                    ll_view.setVisibility(View.INVISIBLE);
-                    ll_view.setVisibility(View.GONE);
-                    iv_arrow.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.arrow_right));
-                    flag=true;
-                }
+                selectTab();
+                break;
+            case R.id.ll_select_tab://选择标签
+                selectTab();
                 break;
             case R.id.ll_start_time://开始时间
                 TimeDialog startDialog = new TimeDialog(ContractedAct.this, TimeDialog.Type.ALL);
@@ -153,6 +164,9 @@ public class ContractedAct extends BaseActivity {
             case R.id.ll_theme:
                 openActivity(EventdetailsAct.class);
                 break;
+            case R.id.ll_theme_content:
+                openActivity(EventdetailsAct.class);
+                break;
             case R.id.ll_hide:
                 InputMethodManager imm = (InputMethodManager)
                         getSystemService(ContractedAct.this.INPUT_METHOD_SERVICE);
@@ -161,6 +175,25 @@ public class ContractedAct extends BaseActivity {
 
 
 
+        }
+    }
+
+    /***
+     * 选择标签
+     */
+
+    private void selectTab() {
+        if (flag){
+            ll_view.setVisibility(View.VISIBLE);
+            gv_tab.setClickable(true);
+            iv_arrow.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.arrow_down2));
+
+            flag=false;
+        }else {
+            ll_view.setVisibility(View.INVISIBLE);
+            ll_view.setVisibility(View.GONE);
+            iv_arrow.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.arrow_right));
+            flag=true;
         }
     }
 

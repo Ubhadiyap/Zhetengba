@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/ease_mm_listitem_grey"
+    android:background="@drawable/item_back"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_row_weixin"
-        android:gravity="center_vertical" >
+        >
 
         <RelativeLayout
             android:id="@+id/avatar_container"
@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true" >
 
-            <com.hyphenate.easeui.widget.CircleImageView
+            <com.boyuanitsm.zhetengba.view.CircleImageView
                 android:id="@+id/avatar"
                 android:layout_width="@dimen/height_row_weixin"
                 android:layout_height="@dimen/height_row_weixin"

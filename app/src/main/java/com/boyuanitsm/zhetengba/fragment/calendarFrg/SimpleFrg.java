@@ -12,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.BannerInfo;
@@ -28,6 +30,8 @@ import com.boyuanitsm.zhetengba.view.CustomDialog;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -73,9 +77,10 @@ public class SimpleFrg extends BaseFragment {
         lv_act.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               showDialog();
+                showDialog();
             }
         });
+
         viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
         ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
         //设置viewpager适配/轮播效果
@@ -160,6 +165,7 @@ public class SimpleFrg extends BaseFragment {
         }
     }
 
+
     /***
      * viewpageradapter
      */
@@ -213,6 +219,7 @@ public class SimpleFrg extends BaseFragment {
         }
 
     }
+
     private void showDialog() {
         CustomDialog.Builder builder = new CustomDialog.Builder(mActivity);
         builder.setMessage("没有活动详情");

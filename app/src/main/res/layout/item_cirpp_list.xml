@@ -91,6 +91,6 @@
         android:layout_marginLeft="15dp"
         android:background="#e1e1e1"
         android:layout_width="match_parent"
-        android:layout_height="1dp"></View>
+        android:layout_height="1px"></View>
 
 </LinearLayout>
