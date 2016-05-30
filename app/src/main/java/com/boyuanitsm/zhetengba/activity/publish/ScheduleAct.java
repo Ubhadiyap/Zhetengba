@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
+import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -32,20 +33,6 @@ public class ScheduleAct extends BaseActivity {
         setTopTitle("档期");
         assignView();
         setcheckitem(0);
-        ll_hu_can.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                MyToastUtils.showShortToast(ContractedAct.this, "指定谁看");
-                openActivity(ContractsAct.class);
-            }
-        });
-        ll_hu_no_can.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //                MyToastUtils.showShortToast(ContractedAct.this, "谁不能看");
-                openActivity(ContractsAct.class);
-            }
-        });
     }
 
     private void assignView() {
@@ -57,7 +44,7 @@ public class ScheduleAct extends BaseActivity {
         ll_hu_no_can = (CommonView) findViewById(R.id.ll_hu_no_can);
     }
 
-    @OnClick({R.id.tv_xlwu, R.id.tv_bwln, R.id.tv_wuzj, R.id.tv_xdys})
+    @OnClick({R.id.tv_xlwu, R.id.tv_bwln, R.id.tv_wuzj, R.id.tv_xdys,R.id.ll_hu_can,R.id.ll_hu_no_can})
     public void onClick(View v) {
         switch (v.getId()) {
 
@@ -82,10 +69,10 @@ public class ScheduleAct extends BaseActivity {
                 setcheckitem(3);
                 break;
             case R.id.ll_hu_can:
-
+                openActivity(AssignScanAct.class);
                 break;
             case R.id.ll_hu_no_can:
-
+                openActivity(AssignScanAct.class);
                 break;
 
 

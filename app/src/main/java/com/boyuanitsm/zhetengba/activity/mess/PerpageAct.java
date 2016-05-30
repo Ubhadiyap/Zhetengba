@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,16 +21,21 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
+import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
+import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 消息里面的个人主页界面
@@ -60,14 +66,23 @@ public class PerpageAct extends BaseActivity {
 
     @ViewInject(R.id.fra_main)
     private FrameLayout fra_main;
-
-
+    @ViewInject(R.id.ll_tab)//标签
+    private LinearLayout ll_tab;
+    @ViewInject(R.id.tv_tab1)//第1个标签
+    private TextView tv_tab1;
+    @ViewInject(R.id.tv_tab2)//第2个标签
+    private TextView tv_tab2;
+    @ViewInject(R.id.tv_tab3)//第3个标签
+    private TextView tv_tab3;
+    @ViewInject(R.id.tv_tab4)//第4个标签
+    private TextView tv_tab4;
 //    @ViewInject(R.id.tab_selcet)
 //    private PagerSlidingTabStrip tab_selcet;
 
 
     private FragmentManager manager;
     private Fragment ppagecalFrg,ppagedtFrg;//档期frg 圈子动态frg
+    private String[] str={"摄影控","吃货","小萝莉","更多"};//
 
     @Override
     public void setLayout() {
@@ -77,12 +92,49 @@ public class PerpageAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-
+        iniTab(str);
         manager=getSupportFragmentManager();
         hlv_perpage.setAdapter(new HlvppAdapter(getApplicationContext()));//她的圈子下面水平view适配器
+//        gv_perpage.setAdapter(new GridViewPerAdapter(PerpageAct.this));
         msv_scroll.smoothScrollTo(0, 0);
         setSelect(0);
 
+    }
+
+    private void iniTab(String[] str) {
+        if (str.length==0){
+            ll_tab.setVisibility(View.GONE);
+        }else if (str.length==1){
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.GONE);
+            tv_tab3.setVisibility(View.GONE);
+            tv_tab4.setVisibility(View.GONE);
+        }else if (str.length==2){
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.GONE);
+            tv_tab3.setVisibility(View.GONE);
+            tv_tab4.setVisibility(View.GONE);
+        }else if (str.length==3){
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab3.setVisibility(View.VISIBLE);
+            tv_tab4.setVisibility(View.GONE);
+        }else if (str.length==4){
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab3.setVisibility(View.VISIBLE);
+            tv_tab4.setVisibility(View.VISIBLE);
+            tv_tab4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openActivity(LabelMangerAct.class);
+                }
+            });
+        }
     }
 
     /**
@@ -226,6 +278,4 @@ public class PerpageAct extends BaseActivity {
             }
         });
     }
-
-
 }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
+import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -156,10 +157,10 @@ public class ContractedAct extends BaseActivity {
 
                 break;
             case R.id.ll_hu_can:
-                openActivity(ContractsAct.class);
+                openActivity(AssignScanAct.class);
                 break;
             case R.id.ll_hu_no_can:
-                openActivity(ContractsAct.class);
+                openActivity(AssignScanAct.class);
                 break;
             case R.id.ll_theme:
                 openActivity(EventdetailsAct.class);
