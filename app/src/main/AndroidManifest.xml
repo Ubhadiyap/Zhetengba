@@ -131,7 +131,7 @@
             android:screenOrientation="portrait"></activity>
         <!--标签管理-->
         <activity android:name=".activity.mine.LabelMangerAct"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"></activity>a
         <!--编辑界面-->
         <activity
             android:name=".activity.mine.EditAct"
@@ -452,6 +452,9 @@
             android:screenOrientation="portrait"></activity>
         <!--测试listview-->
         <activity android:name=".activity.TestListView"
+            android:screenOrientation="portrait"></activity>
+        <!--指定谁能看，不能看界面/邀请好友-->
+        <activity android:name=".activity.mine.AssignScanAct"
             android:screenOrientation="portrait"></activity>
     </application>
 

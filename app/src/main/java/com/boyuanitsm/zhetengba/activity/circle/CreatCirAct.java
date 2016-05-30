@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
+import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -39,7 +40,7 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_ask:
-                openActivity(ContractsAct.class);
+                openActivity(AssignScanAct.class);
                 break;
             case R.id.tv_creat://创建圈子，圈子管理增加一条，跳转至圈子管理
                 if (et_cir_name.getText().toString().equals("")){

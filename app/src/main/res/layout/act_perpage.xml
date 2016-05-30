@@ -72,6 +72,41 @@
                     android:textColor="@color/white" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_tab"
+                android:gravity="center"
+
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    style="@style/Tab_Text_Style"
+                    android:id="@+id/tv_tab1"
+                    android:text="摄影控"
+                    />
+                <TextView
+                    style="@style/Tab_Text_Style"
+                    android:id="@+id/tv_tab2"
+
+                    android:text="摄影控"
+                    />
+
+                <TextView
+                    style="@style/Tab_Text_Style"
+                    android:id="@+id/tv_tab3"
+
+                    android:text="摄影控"
+                    />
+
+                <TextView
+                    style="@style/Tab_Text_Style"
+                    android:id="@+id/tv_tab4"
+
+                    android:text="更多"
+                     />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -257,4 +257,17 @@
         <item name="android:windowEnterAnimation">@anim/scale_in</item>
         <item name="android:windowExitAnimation">@anim/scale_out</item>
     </style>
+    <!--标签样式-->
+    <style name="Tab_Text_Style">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@drawable/bg_circle_stroke_red</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
 </resources>

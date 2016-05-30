@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
+import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirclexqListAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
@@ -87,7 +88,7 @@ public class CirxqAct extends BaseActivity {
 //                    MyToastUtils.showShortToast(getApplicationContext(),"hah");
                     openActivity(CircleppAct.class);
                 }else if (position==4){
-                    openActivity(ContractsAct.class);
+                    openActivity(AssignScanAct.class);
                 }
 //                MyToastUtils.showShortToast(getApplicationContext(),"gaga");
             }
