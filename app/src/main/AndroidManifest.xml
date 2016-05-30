@@ -130,11 +130,7 @@
             android:name=".activity.mine.MyColleitionAct"
             android:screenOrientation="portrait"></activity>
         <!--标签管理-->
-        <activity
-            android:name=".activity.mine.LabelManaAct"
-            android:screenOrientation="portrait"></activity>
-        <!--标签管理-->
-        <activity android:name=".activity.mine.LabelManger"
+        <activity android:name=".activity.mine.LabelMangerAct"
             android:screenOrientation="portrait"></activity>
         <!--编辑界面-->
         <activity

@@ -21,16 +21,24 @@ public class LabelGVadapter extends BaseAdapter {
     private Context context;
     List<String> list=new ArrayList<>();
     private int clickTemp=-1;
+    private int backGround=-2;
+    private int flag=0;//0是全部标签点击选择，1是我的标签点击标签后，相应标签背景改变；
     public LabelGVadapter(Context context,List<String> list){
         this.context=context;
         this.list=list;
     }
-    public void setSelection(int position){
+    public void setSelection(int position,int flag){
         this.clickTemp=position;
+        this.flag=flag;
+    }
+    public void setBackGround(int position,int flag){
+        this.backGround=position;
+        this.flag=flag;
     }
     public void update(List<String> list){
         this.list=list;
         notifyDataSetChanged();
+
     }
     @Override
     public int getCount() {
@@ -59,17 +67,24 @@ public class LabelGVadapter extends BaseAdapter {
             convertView.setTag(labelHolder);
         }
         labelHolder.tv_label2.setText(list.get(position));
+
         //设置点击颜色变换
-        if (clickTemp == position) {
+        if (clickTemp == position&&flag==0) {
             labelHolder.tv_label2.setTextColor(Color.parseColor("#ffffff"));
             labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green));
 //            map.put(position, tabHolder.tv_tab.getText().toString() + "");
 //            act.setMap(map);
-        } else {
+        }
+//        else {
+////            labelHolder.tv_label2.setTextColor(Color.parseColor("#333333"));
+////            labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green_boder));
+////            map.remove(position);
+////            act.setMap(map);
+//        }
+        //我的标签背景颜色变化
+        if (backGround==position&&flag==1){
             labelHolder.tv_label2.setTextColor(Color.parseColor("#333333"));
             labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green_boder));
-//            map.remove(position);
-//            act.setMap(map);
         }
         return convertView;
     }

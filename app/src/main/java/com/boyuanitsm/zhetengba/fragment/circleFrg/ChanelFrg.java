@@ -3,23 +3,18 @@ package com.boyuanitsm.zhetengba.fragment.circleFrg;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
-import com.boyuanitsm.zhetengba.activity.mine.LabelManaAct;
-import com.boyuanitsm.zhetengba.activity.mine.LabelManger;
+import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.ChaPagerAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -183,7 +178,7 @@ private Button bt_plan;
                 openActivity(CirclefbAct.class);
                 break;
             case R.id.ll_add:
-                openActivity(LabelManger.class);
+                openActivity(LabelMangerAct.class);
                 break;
 //            openActivity(LabelManaAct.class);
         }
