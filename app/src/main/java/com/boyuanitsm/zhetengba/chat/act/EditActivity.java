@@ -27,12 +27,19 @@ public class EditActivity extends BaseActivity {
 		if(data != null)
 			editText.setText(data);
 		editText.setSelection(editText.length());
+		setRight("保存", new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setResult(RESULT_OK,new Intent().putExtra("data", editText.getText().toString().trim()));
+				finish();
+			}
+		});
 	}
 
 
 	
-	public void save(View view){
-		setResult(RESULT_OK,new Intent().putExtra("data", editText.getText().toString()));
-		finish();
-	}
+//	public void save(View view){
+//		setResult(RESULT_OK,new Intent().putExtra("data", editText.getText().toString()));
+//		finish();
+//	}
 }

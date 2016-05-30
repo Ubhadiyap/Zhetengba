@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
 import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -297,6 +298,16 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	 * @param view
 	 */
 	public void exitGroup(View view) {
+		final MySelfSheetDialog dialog=new MySelfSheetDialog(this);
+		dialog.builder().setTitle("退出后，将不再接收此群聊信息").addSheetItem("退出", MySelfSheetDialog.SheetItemColor.Blue, new MySelfSheetDialog.OnSheetItemClickListener() {
+			@Override
+			public void onClick(int which) {
+				progressDialog.setMessage("正在退出群聊");
+				progressDialog.show();
+				exitGrop();
+
+			}
+		}).show();
 		startActivityForResult(new Intent(this, ExitGroupDialog.class), REQUEST_CODE_EXIT);
 
 	}
@@ -307,8 +318,18 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	 * @param view
 	 */
 	public void exitDeleteGroup(View view) {
-		startActivityForResult(new Intent(this, ExitGroupDialog.class).putExtra("deleteToast", getString(R.string.dissolution_group_hint)),
-				REQUEST_CODE_EXIT_DELETE);
+		final MySelfSheetDialog dialog=new MySelfSheetDialog(this);
+		dialog.builder().setTitle("退出后，此群将被解散").addSheetItem("退出", MySelfSheetDialog.SheetItemColor.Blue, new MySelfSheetDialog.OnSheetItemClickListener() {
+			@Override
+			public void onClick(int which) {
+				progressDialog.setMessage("正在解散群聊...");
+				progressDialog.show();
+				deleteGrop();
+
+			}
+		}).show();
+//		startActivityForResult(new Intent(this, ExitGroupDialog.class).putExtra("deleteToast", getString(R.string.dissolution_group_hint)),
+//				REQUEST_CODE_EXIT_DELETE);
 
 	}
 

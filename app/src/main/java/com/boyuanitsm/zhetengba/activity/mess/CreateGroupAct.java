@@ -17,6 +17,7 @@ import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.widget.DialogChoseDate;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroupManager;
 import com.hyphenate.easeui.adapter.EaseContactAdapter;
@@ -24,6 +25,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.widget.EaseSidebar;
 import com.hyphenate.exceptions.HyphenateException;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,8 +40,12 @@ public class CreateGroupAct extends BaseActivity {
     private ProgressDialog progressDialog;
     @ViewInject(R.id.list)
     private ListView listView;
+    @ViewInject(R.id.tvQun)
+    private TextView tvQun;
     private PickContactAdapter contactAdapter;
     private boolean isSignleChecked = false;
+
+    private ArrayList<String> dayList=new ArrayList<>();
 
 
     @Override
@@ -52,6 +58,10 @@ public class CreateGroupAct extends BaseActivity {
         setTopTitle("邀请好友");
         final String st1 = getResources().getString(R.string.Is_to_create_a_group_chat);
         final String st2 = getResources().getString(R.string.Failed_to_create_groups);
+
+        for(int i=1;i<=30;i++){
+            dayList.add(i+"天");
+        }
         setRight("发送", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +148,25 @@ public class CreateGroupAct extends BaseActivity {
 
             }
         });
+    }
+
+
+    @OnClick({R.id.tvQun})
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.tvQun:
+                DialogChoseDate dialogChooseMonth = new DialogChoseDate(CreateGroupAct.this, dayList).builder(0);
+                dialogChooseMonth.show();
+                dialogChooseMonth.setOnSheetItemClickListener(new DialogChoseDate.SexClickListener() {
+                    @Override
+                    public void getAdress(String adress) {
+                        tvQun.setText(adress);
+
+                    }
+                });
+                dialogChooseMonth.show();
+                break;
+        }
     }
 
     /**
