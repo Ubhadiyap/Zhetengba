@@ -137,13 +137,15 @@ public class ContractsFrg extends EaseContactListFragment {
 
         @Override
         public void onSyncComplete(boolean success) {
-            getActivity().runOnUiThread(new Runnable(){
+            if(getActivity()!=null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
+            }
 
-                @Override
-                public void run() {
-                    refresh();
-                }
-            });
         }
 
     };

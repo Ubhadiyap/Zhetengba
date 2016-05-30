@@ -108,16 +108,28 @@
             android:orientation="horizontal"
             android:paddingBottom="15dp">
 
-            <EditText
-                android:paddingLeft="5dp"
+            <RelativeLayout
+               android:layout_weight="1"
                 android:layout_width="0dp"
+                android:layout_height="30dp">
+
+            <EditText
+                android:id="@+id/cet_start"
+                android:paddingLeft="5dp"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_weight="1"
                 android:background="@drawable/white_hui_edito"
                 android:hint="开始时间"
                 android:textColor="#333333"
                 android:textColorHint="#cdcdcd"
+                android:textCursorDrawable="@color/white"
                 android:textSize="12sp" />
+
+                <View
+                    android:id="@+id/view_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></View>
+            </RelativeLayout>
 
             <ImageView
                 android:src="@mipmap/date"
@@ -125,16 +137,28 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center" />
 
-            <EditText
-                android:paddingLeft="5dp"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
+            <RelativeLayout
                 android:layout_weight="1"
-                android:background="@drawable/white_hui_edito"
-                android:hint="结束时间"
-                android:textColor="#333333"
-                android:textColorHint="#cdcdcd"
-                android:textSize="12sp" />
+                android:layout_width="0dp"
+                android:layout_height="30dp">
+
+                <EditText
+                    android:id="@+id/cet_end"
+                    android:paddingLeft="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@drawable/white_hui_edito"
+                    android:hint="结束时间"
+                    android:textColor="#333333"
+                    android:textColorHint="#cdcdcd"
+                    android:textCursorDrawable="@color/white"
+                    android:textSize="12sp" />
+
+                <View
+                    android:id="@+id/view_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></View>
+            </RelativeLayout>
 
 
         </LinearLayout>

@@ -130,7 +130,7 @@ public class ContractedAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         String time = format.format(date);
                         startDate = time;
                         et_start.setText(time);
@@ -140,7 +140,7 @@ public class ContractedAct extends BaseActivity {
 
 
             case R.id.ll_end_time://结束时间时间
-                TimeDialog endDialog = new TimeDialog(ContractedAct.this, TimeDialog.Type.YEAR_MONTH_DAY);
+                TimeDialog endDialog = new TimeDialog(ContractedAct.this, TimeDialog.Type.ALL);
                 endDialog.setRange(getCurrentYear() - 50, getCurrentYear());
                 endDialog.builder();
                 endDialog.show();
@@ -148,7 +148,7 @@ public class ContractedAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
                         String time = format.format(date);
                         startDate = time;
                         et_end.setText(time);

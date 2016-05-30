@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 
@@ -27,14 +27,18 @@ import java.util.Date;
  */
 @SuppressLint("ViewConstructor")
 public class TimeDialog implements OnClickListener {
+
+
 	public enum Type {
 		ALL, YEAR_MONTH_DAY, HOURS_MINS, MONTH_DAY_HOUR_MIN
 	}// 四种选择模式，年月日时分，年月日，时分，月日时分
 
 	private View rootView; // 总的布局
 	WheelTime wheelTime;
-	private Button btnSubmit;
+	private TextView btnSubmit;
+	private TextView btncancel;
 	private static final String TAG_SUBMIT = "submit";
+	private static final String TAG_CANCEL ="cancel";
 	private OnTimeSelectListener timeSelectListener;
 	private Display display;
 	private Dialog dialog;
@@ -54,9 +58,13 @@ public class TimeDialog implements OnClickListener {
 		rootView = mLayoutInflater.inflate(R.layout.pw_time, null);
 		rootView.setMinimumWidth(display.getWidth());
 		// -----确定按钮
-		btnSubmit = (Button) rootView.findViewById(R.id.btnSubmit);
+		btnSubmit = (TextView) rootView.findViewById(R.id.btnSubmit);
+		//----取消按钮
+		btncancel= (TextView) rootView.findViewById(R.id.btncancel);
 		btnSubmit.setTag(TAG_SUBMIT);
+		btncancel.setTag(TAG_CANCEL);
 		btnSubmit.setOnClickListener(this);
+		btncancel.setOnClickListener(this);
 		// ----时间转轮
 		final View timepickerview = rootView.findViewById(R.id.timepicker);
 		ScreenInfo screenInfo = new ScreenInfo((Activity) context);
@@ -142,6 +150,9 @@ public class TimeDialog implements OnClickListener {
 					e.printStackTrace();
 				}
 			}
+			dialog.dismiss();
+			return;
+		}else {
 			dialog.dismiss();
 			return;
 		}

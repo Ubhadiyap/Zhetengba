@@ -1,18 +1,15 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import com.boyuanitsm.zhetengba.R;
 
 /**
- *圈子发布界面标签适配器
- * Created by bitch-1 on 2016/5/9.
+ * 圈子发布适配
  */
 public class CirfbAdapter extends BaseAdapter {
     private CheckBox ck_xx;
@@ -69,7 +66,7 @@ public class CirfbAdapter extends BaseAdapter {
         } else {
             ck_xx.setChecked(false);
 
-    }
+        }
 
         return view;
     }

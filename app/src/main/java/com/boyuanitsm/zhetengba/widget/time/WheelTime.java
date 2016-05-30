@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.View;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.widget.time.TimeDialog.Type;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,7 +23,7 @@ public class WheelTime {
 	private WheelView wv_mins;
 	public int screenheight;
 	
-	private Type type;
+	private TimeDialog.Type type;
 	private static int START_YEAR = 1950, END_YEAR = 2100;
 
 	public View getView() {
@@ -54,10 +53,10 @@ public class WheelTime {
 	public WheelTime(View view) {
 		super();
 		this.view = view;
-		type = Type.ALL;
+		type = TimeDialog.Type.ALL;
 		setView(view);
 	}
-	public WheelTime(View view, Type type) {
+	public WheelTime(View view,TimeDialog.Type type) {
 		super();
 		this.view = view;
 		this.type = type;
@@ -186,26 +185,25 @@ public class WheelTime {
 		// 根据屏幕密度来指定选择器字体的大小(不同屏幕可能不同)
 		int textSize = 0;
 		switch(type){
-		case ALL:
-			textSize = (screenheight / 100) * 3;
-			break;
-		case YEAR_MONTH_DAY:
-			textSize = (screenheight / 100) * 3;
-			wv_hours.setVisibility(View.GONE);
-			wv_mins.setVisibility(View.GONE);
-			break;
-		case HOURS_MINS:
-			textSize = (screenheight / 100) * 3;
-			wv_year.setVisibility(View.GONE);
-			wv_month.setVisibility(View.GONE);
-			wv_day.setVisibility(View.GONE);
-			break;
-		case MONTH_DAY_HOUR_MIN:
-			textSize = (screenheight / 100) * 3;
-			wv_year.setVisibility(View.GONE);
-			break;
+			case ALL:
+				textSize = (screenheight / 100) * 3;
+				break;
+			case YEAR_MONTH_DAY:
+				textSize = (screenheight / 100) * 3;
+				wv_hours.setVisibility(View.GONE);
+				wv_mins.setVisibility(View.GONE);
+				break;
+			case HOURS_MINS:
+				textSize = (screenheight / 100) * 3;
+				wv_year.setVisibility(View.GONE);
+				wv_month.setVisibility(View.GONE);
+				wv_day.setVisibility(View.GONE);
+				break;
+			case MONTH_DAY_HOUR_MIN:
+				textSize = (screenheight / 100) * 3;
+				wv_year.setVisibility(View.GONE);
+				break;
 		}
-			
 		wv_day.TEXT_SIZE = textSize;
 		wv_month.TEXT_SIZE = textSize;
 		wv_year.TEXT_SIZE = textSize;
