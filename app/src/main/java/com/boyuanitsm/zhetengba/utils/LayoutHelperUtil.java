@@ -57,7 +57,7 @@ public class LayoutHelperUtil {
         listView.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         listView.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         listView.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        listView.getRefreshableView().setDivider(new ColorDrawable(Color.parseColor("#e1e1e1")));
+        listView.getRefreshableView().setDivider(null);
         listView.getRefreshableView().setDividerHeight(1);
     }
 

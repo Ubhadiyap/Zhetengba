@@ -14,7 +14,6 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
-import com.boyuanitsm.zhetengba.activity.circle.CommentAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -29,9 +28,10 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.List;
 
 /**
- * Created by xiaoke on 2016/5/19.
+ * 圈子列表适配器
+ * Created by xiaoke on 2016/5/4.
  */
-public class MyPlaneAdapter extends BaseAdapter {
+public class CirclexqListAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList;
 
@@ -42,9 +42,9 @@ public class MyPlaneAdapter extends BaseAdapter {
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-    public MyPlaneAdapter(Context context, List<List<ImageInfo>> dateList) {
+    public CirclexqListAdapter(Context context, List<List<ImageInfo>> dateList) {
         this.context = context;
-        this.dateList=dateList;
+        this.dateList = dateList;
 
     }
 
@@ -80,13 +80,13 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
-            viewHolder.iv_oneimage= (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
-            viewHolder.ll_two= (LinearLayout) convertView.findViewById(R.id.ll_two);
-            viewHolder.iv_two_one= (CustomImageView) convertView.findViewById(R.id.iv_two_one);
-            viewHolder.iv_two_two= (CustomImageView) convertView.findViewById(R.id.iv_two_two);
-            viewHolder.iv_two_three= (CustomImageView) convertView.findViewById(R.id.iv_two_three);
-            viewHolder.iv_two_four= (CustomImageView) convertView.findViewById(R.id.iv_two_four);
+            viewHolder.ll_two = (LinearLayout) convertView.findViewById(R.id.ll_two);
+            viewHolder.iv_two_one = (CustomImageView) convertView.findViewById(R.id.iv_two_one);
+            viewHolder.iv_two_two = (CustomImageView) convertView.findViewById(R.id.iv_two_two);
+            viewHolder.iv_two_three = (CustomImageView) convertView.findViewById(R.id.iv_two_three);
+            viewHolder.iv_two_four = (CustomImageView) convertView.findViewById(R.id.iv_two_four);
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             convertView.setTag(viewHolder);
         }
@@ -98,7 +98,8 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage);
+//            handlerOneImage(viewHolder, itemList.get(0));
+            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -106,15 +107,16 @@ public class MyPlaneAdapter extends BaseAdapter {
                     dialog.show();
                 }
             });
-        } else if (itemList.size()==4){
+        } else if (itemList.size() == 4) {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
 //            viewHolder.iv_two_one.setImageUrl(itemList.get(0).getUrl());
+
             ImageLoader.getInstance().displayImage(itemList.get(0).getUrl(), viewHolder.iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(1).getUrl(),viewHolder.iv_two_two,optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(2).getUrl(),viewHolder.iv_two_three,optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(3).getUrl(),viewHolder.iv_two_four,optionsImag);
+            ImageLoader.getInstance().displayImage(itemList.get(1).getUrl(), viewHolder.iv_two_two, optionsImag);
+            ImageLoader.getInstance().displayImage(itemList.get(2).getUrl(), viewHolder.iv_two_three, optionsImag);
+            ImageLoader.getInstance().displayImage(itemList.get(3).getUrl(), viewHolder.iv_two_four, optionsImag);
             viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,7 +128,7 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList,1);
+                    PicShowDialog dialog = new PicShowDialog(context, itemList, 1);
                     dialog.show();
                 }
             });
@@ -134,7 +136,7 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList,2);
+                    PicShowDialog dialog = new PicShowDialog(context, itemList, 2);
                     dialog.show();
                 }
             });
@@ -142,45 +144,54 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList,3);
+                    PicShowDialog dialog = new PicShowDialog(context, itemList, 3);
                     dialog.show();
                 }
             });
 
-        }else {
+        } else {
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setNumColumns(3);
-            PicGdAdapter adapter=new PicGdAdapter(context,itemList,position);
+            PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
             viewHolder.iv_ch_image.setAdapter(adapter);
 
         }
+        //点击用户头像，进入用户圈子主页
+        viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, PerpageAct.class);
+                //需要开启新task,否则会报错
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
         //分享对话框
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, ShareDialogAct.class);
+                Intent intent = new Intent(context, ShareDialogAct.class);
                 context.startActivity(intent);
             }
         });
         //评论
-        View.OnClickListener listener=new View.OnClickListener() {
+        viewHolder.ll_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setClass(context, CircleTextAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
-        };
-        viewHolder.ll_comment.setOnClickListener(listener);
-       viewHolder.tv_content.setOnClickListener(listener);
-        //进入圈子主页
-        viewHolder.tv_cir_name.setOnClickListener(new View.OnClickListener() {
+        });
+        viewHolder.tv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,CirxqAct.class);
+                Intent intent = new Intent();
+                intent.setClass(context, CircleTextAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -196,12 +207,12 @@ public class MyPlaneAdapter extends BaseAdapter {
         public TextView tvTime;
         public MyGridView iv_ch_image;
         public CustomImageView iv_oneimage;
-        public TextView tv_cir_name,tv_content;
+        public TextView tv_cir_name;
         private LinearLayout ll_two;
-        private CustomImageView iv_two_one,iv_two_two,iv_two_three,iv_two_four;
+        private CustomImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
         private LinearLayout ll_share;
         private LinearLayout ll_comment;
+        private TextView tv_content;
 
     }
-
 }

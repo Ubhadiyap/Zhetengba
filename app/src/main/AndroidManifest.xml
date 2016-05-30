@@ -451,6 +451,9 @@
         <!--圈子正文-->
         <activity android:name=".activity.circle.CircleTextAct"
             android:screenOrientation="portrait"></activity>
+        <!--测试listview-->
+        <activity android:name=".activity.TestListView"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 

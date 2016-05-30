@@ -114,7 +114,8 @@ public class MyScrollView extends ScrollView {
                     return false;
                 }
         }
-        return super.onInterceptTouchEvent(ev);
+//        return super.onInterceptTouchEvent(ev);
+        return  true;
     }
 
 }

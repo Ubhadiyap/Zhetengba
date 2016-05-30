@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -190,20 +191,20 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    @OnClick({R.id.ll_comment,R.id.iv_chanel_comment,R.id.bt_chanel_comment})
+    @OnClick({R.id.ll_comment,R.id.iv_chanel_comment})
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.ll_comment:
-                openActivity(CommentAct.class);//打开评论列表
-                break;
-            case R.id.iv_chanel_comment:
-                openActivity(CommentAct.class);
-                break;
-            case R.id.bt_chanel_comment:
-                openActivity(CommentAct.class);
-                break;
-        }
+//        switch (v.getId()){
+//            case R.id.ll_comment:
+//                openActivity(CommentAct.class);//打开评论列表
+//                break;
+//            case R.id.iv_chanel_comment:
+//                openActivity(CommentAct.class);
+//                break;
+//            case R.id.bt_chanel_comment:
+//                openActivity(CommentAct.class);
+//                break;
+//        }
     }
 
 }
