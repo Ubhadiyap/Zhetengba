@@ -1,24 +1,38 @@
 package com.boyuanitsm.zhetengba.activity.publish;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.view.CommonView;
+import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 档期界面
  * Created by bitch-1 on 2016/4/29.
  */
 public class ScheduleAct extends BaseActivity {
+    @ViewInject(R.id.cet_start)
+    private EditText cet_start;
+    @ViewInject(R.id.cet_end)
+    private EditText cet_end;
+
+
     private TextView tv_xlws, tv_bwln, tv_wlzj, tv_xdys;//闲来无事，百无聊赖，无聊至极，闲的要死
     private CommonView ll_hu_can, ll_hu_no_can;
+
+    private String startDate;
 
 
     @Override
@@ -57,7 +71,7 @@ public class ScheduleAct extends BaseActivity {
         ll_hu_no_can = (CommonView) findViewById(R.id.ll_hu_no_can);
     }
 
-    @OnClick({R.id.tv_xlwu, R.id.tv_bwln, R.id.tv_wuzj, R.id.tv_xdys})
+    @OnClick({R.id.tv_xlwu, R.id.tv_bwln, R.id.tv_wuzj, R.id.tv_xdys,R.id.view_start,R.id.view_end})
     public void onClick(View v) {
         switch (v.getId()) {
 
@@ -87,6 +101,40 @@ public class ScheduleAct extends BaseActivity {
             case R.id.ll_hu_no_can:
 
                 break;
+
+            case R.id.view_start://开始时间
+                TimeDialog startDialog = new TimeDialog(ScheduleAct.this, TimeDialog.Type.ALL);
+                startDialog.setRange(getCurrentYear() - 50, getCurrentYear());
+                startDialog.builder();
+                startDialog.show();
+                startDialog.setOnTimeSelectListener(new TimeDialog.OnTimeSelectListener() {
+                    @SuppressLint("SimpleDateFormat")
+                    @Override
+                    public void onTimeSelect(Date date) {
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        String time = format.format(date);
+                        startDate = time;
+                        cet_start.setText(time);
+                    }
+                });
+                break;
+            case R.id.view_end://结束时间
+                TimeDialog endDialog = new TimeDialog(ScheduleAct.this, TimeDialog.Type.ALL);
+                endDialog.setRange(getCurrentYear() - 50, getCurrentYear());
+                endDialog.builder();
+                endDialog.show();
+                endDialog.setOnTimeSelectListener(new TimeDialog.OnTimeSelectListener() {
+                    @SuppressLint("SimpleDateFormat")
+                    @Override
+                    public void onTimeSelect(Date date) {
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        String time = format.format(date);
+                        startDate = time;
+                        cet_end.setText(time);
+                    }
+                });
+                break;
+
 
 
         }
@@ -141,6 +189,17 @@ public class ScheduleAct extends BaseActivity {
         }
 
 
+    }
+
+    /**
+     * 获取年
+     *
+     * @return
+     */
+    private int getCurrentYear() {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currDate = sf.format(new Date());
+        return Integer.valueOf(currDate.substring(0, 4));
     }
 
 
