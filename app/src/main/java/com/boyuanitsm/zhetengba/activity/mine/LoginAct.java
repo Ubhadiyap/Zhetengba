@@ -16,8 +16,12 @@ import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.PhoneInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -221,6 +225,21 @@ public class LoginAct extends BaseActivity {
         if (autoLogin) {
             return;
         }
+    }
+
+    private void toLogin(String username,String password){
+        RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<PhoneInfo>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<PhoneInfo> response) {
+                PhoneInfo phoneInfo=response.getData();
+
+            }
+        });
     }
 
 }

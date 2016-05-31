@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/bg_color"
     android:layout_height="match_parent">
-    <CheckBox
+    <TextView
         android:textSize="14sp"
-        android:textColor="@color/cirfb_ck"
+        android:textColor="#666666"
         android:id="@+id/ck_xx"
-        android:background="@drawable/bag_cir_ck"
+        android:background="@drawable/cirfb_uncheck"
         android:gravity="center"
         android:text="haha"
         android:button="@null"

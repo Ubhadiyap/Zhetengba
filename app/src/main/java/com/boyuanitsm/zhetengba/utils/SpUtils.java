@@ -15,6 +15,7 @@ public class SpUtils {
 
     private final static String SCREEN_WITH="screen_with";
 
+    private static final String COOKIE="cookie";
 
 
     public static SharedPreferences getSp(Context context) {
@@ -53,10 +54,29 @@ public class SpUtils {
 
 
     public static void setScreenWith(Context context,int screenWith){
-        getSp(context).edit().putInt(SCREEN_WITH,screenWith).commit();
+        getSp(context).edit().putInt(SCREEN_WITH, screenWith).commit();
     }
 
     public static int getScreenWith(Context context){
-        return getSp(context).getInt(SCREEN_WITH,0);
+        return getSp(context).getInt(SCREEN_WITH, 0);
+    }
+
+
+    /**
+     * 保存cookie
+     * @param context
+     * @param cookie
+     */
+    public static void setCooike(Context context,String cookie){
+        getSp(context).edit().putString(COOKIE, cookie).commit();
+    }
+
+    /**
+     * 获取cookie
+     * @param context
+     * @return
+     */
+    public static String getCookie(Context context){
+        return getSp(context).getString(COOKIE, "");
     }
 }
