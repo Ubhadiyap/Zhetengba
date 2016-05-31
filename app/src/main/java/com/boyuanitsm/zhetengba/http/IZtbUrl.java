@@ -14,7 +14,7 @@ public interface IZtbUrl {
     public static final String LOGIN_URL=BASE_URL+"manager/unLogin/login.do";
 
     /**=======档期 =======*/
-    
+
     //banner轮播图
     public static final String BANNER_URL=BASE_URL+"schedule/login/findActivityBanner.do";
     //活动列表
