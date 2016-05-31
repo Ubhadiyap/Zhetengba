@@ -24,4 +24,6 @@ public class UserManager extends RequestManager{
         params.put("password",password);
         doPost(IZtbUrl.LOGIN_URL,params,callback);
     }
+
+
 }

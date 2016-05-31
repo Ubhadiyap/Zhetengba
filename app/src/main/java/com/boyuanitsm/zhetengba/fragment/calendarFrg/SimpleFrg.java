@@ -22,6 +22,10 @@ import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.BannerInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -80,7 +84,7 @@ public class SimpleFrg extends BaseFragment {
                 showDialog();
             }
         });
-
+//        getBanner();
         viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
         ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
         //设置viewpager适配/轮播效果
@@ -238,5 +242,65 @@ public class SimpleFrg extends BaseFragment {
         builder.create().show();
 
     }
+
+    /***
+     * 获取首页轮播图
+     */
+    private void getBanner() {
+        RequestManager.getScheduleManager().getBanner(new ResultCallback<ResultBean<BannerInfo>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<BannerInfo> response) {
+                BannerInfo bannerInfo = response.getData();
+                MyToastUtils.showShortToast(mActivity, response.getData().toString());
+            }
+        });
+    }
+
+    /***
+     * 获取活动列表
+     *
+     * @param page
+     * @param row
+     */
+    private void getActivityList(String page, String row) {
+        RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<SimpleInfo>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<SimpleInfo> response) {
+                SimpleInfo simpleInfo = response.getData();
+
+            }
+        });
+
+    }
+
+    /**
+     * 获取活动详情
+     *
+     * @param activityId
+     */
+    private void getActivityDetials(String activityId) {
+        RequestManager.getScheduleManager().getActivityDetials(activityId, new ResultCallback() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+    }
+
 
 }

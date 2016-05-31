@@ -34,6 +34,7 @@ public class RequestManager {
     private Gson mGson=new Gson();
     private static UserManager userManager;//用户管理
     private static TalkManager talkManager;//圈子管理
+    private static ScheduleManager scheduleManager;//档期管理
 
     public static UserManager getUserManager(){
         if(userManager==null){
@@ -48,7 +49,12 @@ public class RequestManager {
         }
         return talkManager;
     }
-
+public static  ScheduleManager getScheduleManager(){
+    if(scheduleManager==null){
+        scheduleManager=new ScheduleManager();
+    }
+    return scheduleManager;
+}
 
 
 
