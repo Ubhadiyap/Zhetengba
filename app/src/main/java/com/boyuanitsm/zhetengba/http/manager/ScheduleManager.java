@@ -11,9 +11,15 @@ import java.util.Map;
  * Created by xiaoke on 2016/5/31.
  */
 public class ScheduleManager extends RequestManager {
+
+
+
+//    public void addActivity(ResultCallback callback){
+//        Map<String,String> params=new HashMap<>();
+//    }
     /**
      * getBanner
-     *
+     *获取轮播图片
      * @param callback
      */
     public void getBanner(ResultCallback callback) {
@@ -22,7 +28,7 @@ public class ScheduleManager extends RequestManager {
     }
 
     /***
-     * 列表详情适配器
+     * 活动列表
      * page页数
      * row行数
      */
@@ -32,6 +38,12 @@ public class ScheduleManager extends RequestManager {
         params.put("rows", rows);
         doPost(IZtbUrl.ACTIVITY_LIST, params, callback);
     }
+
+    /**
+     * 活动详情
+     * @param activityId
+     * @param callback
+     */
     public void getActivityDetials(String activityId ,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);

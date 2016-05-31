@@ -84,7 +84,7 @@ public class SimpleFrg extends BaseFragment {
                 showDialog();
             }
         });
-//        getBanner();
+        getBanner();
         viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
         ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
         //设置viewpager适配/轮播效果
@@ -247,15 +247,15 @@ public class SimpleFrg extends BaseFragment {
      * 获取首页轮播图
      */
     private void getBanner() {
-        RequestManager.getScheduleManager().getBanner(new ResultCallback<ResultBean<BannerInfo>>() {
+        RequestManager.getScheduleManager().getBanner(new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<BannerInfo> response) {
-                BannerInfo bannerInfo = response.getData();
+            public void onResponse(ResultBean<String> response) {
+//                BannerInfo bannerInfo = response.getData();
                 MyToastUtils.showShortToast(mActivity, response.getData().toString());
             }
         });

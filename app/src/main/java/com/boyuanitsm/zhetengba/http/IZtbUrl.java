@@ -15,6 +15,8 @@ public interface IZtbUrl {
 
     /**=======档期 =======*/
 
+    //发布活动
+    public static final String ADD_ACTIVITY=BASE_URL+"schedule/login/addActivity.do";
     //banner轮播图
     public static final String BANNER_URL=BASE_URL+"schedule/login/findActivityBanner.do";
     //活动列表

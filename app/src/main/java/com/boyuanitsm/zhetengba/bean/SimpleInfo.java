@@ -27,6 +27,79 @@ public class SimpleInfo {
     public int joinNum;
     //是否已关注
     public boolean isJoin;
+    //
+
+    public String getHeadIconUlr() {
+        return headIconUlr;
+    }
+
+    public void setHeadIconUlr(String headIconUlr) {
+        this.headIconUlr = headIconUlr;
+    }
+
+    public String getNicName() {
+        return nicName;
+    }
+
+    public void setNicName(String nicName) {
+        this.nicName = nicName;
+    }
+
+    public boolean isMale() {
+        return male;
+    }
+
+    public void setMale(boolean male) {
+        this.male = male;
+    }
+
+    public String getThemeName() {
+        return themeName;
+    }
+
+    public void setThemeName(String themeName) {
+        this.themeName = themeName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getStime() {
+        return stime;
+    }
+
+    public void setStime(String stime) {
+        this.stime = stime;
+    }
+
+    public int getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(int totalNum) {
+        this.totalNum = totalNum;
+    }
+
+    public int getJoinNum() {
+        return joinNum;
+    }
+
+    public void setJoinNum(int joinNum) {
+        this.joinNum = joinNum;
+    }
+
+    public boolean isJoin() {
+        return isJoin;
+    }
+
+    public void setIsJoin(boolean isJoin) {
+        this.isJoin = isJoin;
+    }
 
     public int getAttentionNum() {
         return attentionNum;
