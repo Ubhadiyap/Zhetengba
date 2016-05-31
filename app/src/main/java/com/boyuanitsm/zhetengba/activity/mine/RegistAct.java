@@ -229,6 +229,7 @@ public class RegistAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                i=60;
                 tv_code.setEnabled(false);
                 timer = new Timer();
                 myTask = new MyTimerTask();

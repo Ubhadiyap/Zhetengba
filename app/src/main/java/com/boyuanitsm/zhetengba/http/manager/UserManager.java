@@ -52,12 +52,20 @@ public class UserManager extends RequestManager{
     }
 
 
+    /**
+     * 发送验证码
+     * @param phoneNumber
+     * @param isRegister
+     * @param callback
+     */
     public void sendSmsCaptcha(String phoneNumber,String isRegister,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("phoneNumber",phoneNumber);
         params.put("isRegister",isRegister);
         doPost(IZtbUrl.SENDSMSCAPTCHA_URL, params, callback);
     }
+
+//    public void forgetPassword(String){}
 
 
 
