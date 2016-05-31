@@ -16,7 +16,6 @@ import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
-import com.boyuanitsm.zhetengba.bean.PhoneInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
@@ -87,7 +86,8 @@ public class LoginAct extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLogin://登录
-                login();
+                toLogin("13211111111", "111111");
+//                login();
                 break;
             case R.id.tv_regist:
                 openActivity(RegistAct.class);
@@ -228,15 +228,14 @@ public class LoginAct extends BaseActivity {
     }
 
     private void toLogin(String username,String password){
-        RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<PhoneInfo>>() {
+        RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<PhoneInfo> response) {
-                PhoneInfo phoneInfo=response.getData();
+            public void onResponse(ResultBean<String> response) {
 
             }
         });
