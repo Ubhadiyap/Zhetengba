@@ -201,14 +201,14 @@ public class RegistAct extends BaseActivity {
      * @param password
      */
     public void toRegister(String username,String captcha,String password){
-        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback() {
+        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(Object response) {
+            public void onResponse(ResultBean<String> response) {
                 openActivity(RegInfoAct.class);
             }
         });
@@ -221,14 +221,14 @@ public class RegistAct extends BaseActivity {
      * @param isRegister
      */
     public void sendSms(String phoneNumber,String isRegister){
-        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, new ResultCallback<ResultBean>() {
+        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean response) {
+            public void onResponse(ResultBean<String> response) {
                 tv_code.setEnabled(false);
                 timer = new Timer();
                 myTask = new MyTimerTask();

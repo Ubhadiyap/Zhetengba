@@ -129,7 +129,7 @@ public class SettingAct extends BaseActivity {
      * 登出
      */
     private void loginOut(){
-       RequestManager.getUserManager().Loginout(new ResultCallback<ResultBean>() {
+       RequestManager.getUserManager().Loginout(new ResultCallback<ResultBean<String>>() {
            @Override
            public void onError(int status, String errorMsg) {
 

@@ -8,7 +8,7 @@ public interface IZtbUrl {
 
     //基础地址
     public static final String BASE_URL="http://172.16.6.253:8089/zhetengba/";
-    
+
     /**=========登出地址==========**/
     public static final String LOGOUT_URL=BASE_URL+"manager/unLogin/logout.do";
 
