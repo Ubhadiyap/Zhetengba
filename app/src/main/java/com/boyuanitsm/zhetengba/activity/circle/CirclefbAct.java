@@ -1,6 +1,8 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +13,7 @@ import com.boyuanitsm.zhetengba.adapter.CirfbAdapter;
 import com.boyuanitsm.zhetengba.adapter.GvPhotoAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ImageBean;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -51,13 +54,15 @@ public class CirclefbAct extends BaseActivity {
         });
         final CirfbAdapter adapter1=new CirfbAdapter(CirclefbAct.this);
         gv_qzfb.setAdapter(adapter1);
-        gv_qzfb.setSelector(R.color.transparent);
+        gv_qzfb.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gv_qzfb.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
               adapter1.clearSelection(position);
                 //关键是这一句，激情了，它可以让listview改动过的数据重新加载一遍，以达到你想要的效果
                 adapter1.notifyDataSetChanged();
+                String text=adapter1.getItem(position).toString();
+                MyToastUtils.showShortToast(CirclefbAct.this,text);
             }
         });
 //        gv_qzfb.setSelector(new ColorDrawable(Color.TRANSPARENT));
