@@ -26,4 +26,39 @@ public class UserManager extends RequestManager{
     }
 
 
+    /**
+     * 登出
+     * @param callback
+     */
+    public void Loginout(ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        doPost(IZtbUrl.LOGOUT_URL,params,callback);
+    }
+
+
+    /**
+     * 注册
+     * @param username
+     * @param captcha
+     * @param password
+     * @param callback
+     */
+    public void register(String username,String captcha,String password,ResultCallback callback){
+       Map<String,String> params=new HashMap<>();
+        params.put("username",username);
+        params.put("captcha",captcha);
+        params.put("password",password);
+        doPost(IZtbUrl.REGISTER_URL, params, callback);
+    }
+
+
+    public void sendSmsCaptcha(String phoneNumber,String isRegister,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("phoneNumber",phoneNumber);
+        params.put("isRegister",isRegister);
+        doPost(IZtbUrl.SENDSMSCAPTCHA_URL, params, callback);
+    }
+
+
+
 }
