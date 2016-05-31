@@ -224,7 +224,7 @@ public class RegistAct extends BaseActivity {
         RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
             }
 
             @Override

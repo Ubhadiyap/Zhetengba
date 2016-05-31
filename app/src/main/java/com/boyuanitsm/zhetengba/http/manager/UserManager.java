@@ -1,9 +1,15 @@
 package com.boyuanitsm.zhetengba.http.manager;
 
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -65,7 +71,42 @@ public class UserManager extends RequestManager{
         doPost(IZtbUrl.SENDSMSCAPTCHA_URL, params, callback);
     }
 
-//    public void forgetPassword(String){}
+    /**
+     * 忘记密码
+     * @param sms
+     * @param newPassword
+     * @param callback
+     */
+    public void forgetPassword(String sms,String newPassword,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("sms",sms);
+        params.put("newPassword",newPassword);
+        doPost(IZtbUrl.FORGETPASSWORD_URL, params, callback);
+
+    }
+
+    /**
+     * 修改用户资料
+     * @param userInfo
+     * @param callback
+     */
+    public void modifyUserInfo(UserInfo userInfo,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        Gson gson = new Gson();
+        String json = gson.toJson(userInfo);
+        try {
+            JSONObject obj = new JSONObject(json);
+            Iterator<String> it = obj.keys();
+            while (it.hasNext()) {
+                String key = it.next();
+                params.put(key, String.valueOf(obj.get(key)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        doPost(IZtbUrl.MODIFYUSERINFO_URL, params, callback);
+
+    }
 
 
 

@@ -23,7 +23,14 @@ public interface IZtbUrl {
 
     /**=========忘记密码地址==========**/
     public static final String FORGETPASSWORD_URL=BASE_URL+"manager/unLogin/forgetPassword.do";
-
+    /**=========登录地址==========**/
     public static final String LOGIN_URL=BASE_URL+"manager/unLogin/login.do";
+
+    /**=========修改用户头像==========**/
+    public static final String MODIFYUSERICON_URL=BASE_URL+"manager/login/modifyUserIcon.do";
+
+    /**=========修改用户头像==========**/
+    public static final String MODIFYUSERINFO_URL=BASE_URL+"manager/login/modifyUserInfo.do";
+
 
 }
