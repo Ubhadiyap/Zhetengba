@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba;
 
 
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 
 /**
  * 全局常量
@@ -24,8 +25,8 @@ public class ConstantValue {
     /**
      * 数据库版本
      */
-    public final static int VERSION = 2;
-//    public final static Class<?>[] MODELS = {UserEntity.class};
+    public final static int VERSION = 1;
+   public final static Class<?>[] MODELS = {UserInfo.class};
     public final static String DB_NAME = "user.db";
 
 }

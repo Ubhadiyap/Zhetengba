@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -71,19 +74,15 @@ public class RegistAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
                     return;
                 }
-
-                tv_code.setEnabled(false);
-                timer = new Timer();
-                myTask = new MyTimerTask();
-                timer.schedule(myTask, 0, 1000);
-
+                sendSms(phone, "true");
                 break;
 
 
             case R.id.tv_zc://注册
                 if(isValidate()){
 //                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
-                    openActivity(RegInfoAct.class);
+                    toRegister(phone, yzm, pwd);
+
                 }
 
                 break;
@@ -194,4 +193,52 @@ public class RegistAct extends BaseActivity {
         }
 
     };
+
+    /**
+     * 注册
+     * @param username
+     * @param captcha
+     * @param password
+     */
+    public void toRegister(String username,String captcha,String password){
+        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                openActivity(RegInfoAct.class);
+            }
+        });
+
+    }
+
+    /**
+     * 发送验证码接口
+     * @param phoneNumber
+     * @param isRegister
+     */
+    public void sendSms(String phoneNumber,String isRegister){
+        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                i=60;
+                tv_code.setEnabled(false);
+                timer = new Timer();
+                myTask = new MyTimerTask();
+                timer.schedule(myTask, 0, 1000);
+                MyToastUtils.showShortToast(getApplicationContext(),"验证码发送成功");
+
+            }
+        });
+
+
+    }
 }

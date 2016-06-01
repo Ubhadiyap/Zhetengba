@@ -17,8 +17,10 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -86,7 +88,10 @@ public class LoginAct extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLogin://登录
-                toLogin("13211111111", "111111");
+                if(isValidate()){
+
+                toLogin(currentUsername, currentPassword);
+                }
 //                login();
                 break;
             case R.id.tv_regist:
@@ -228,15 +233,17 @@ public class LoginAct extends BaseActivity {
     }
 
     private void toLogin(String username,String password){
-        RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<UserInfo>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
-
+            public void onResponse(ResultBean<UserInfo> response) {
+                UserInfo userInfo=response.getData();
+                UserInfoDao.saveUser(userInfo);
+                openActivity(MainAct.class);
             }
         });
     }
