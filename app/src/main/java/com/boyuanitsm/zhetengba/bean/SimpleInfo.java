@@ -1,119 +1,211 @@
 package com.boyuanitsm.zhetengba.bean;
 
+import java.util.Date;
+
 /**
  * Created by xiaoke on 2016/5/6.
  */
 public class SimpleInfo {
-
-    //关注数量
-    public int attentionNum;
-    //是否关注
-    public boolean isAttention;
-    //头像地址
-    public String headIconUlr;
-    //昵称
-    public String nicName;
-    //性别
-    public boolean male;
+    //id(主键）
+    public String id;
+    //用户id
+    public String userId;
+    //    活动标签
+    public String labelId;
     //主题名称
-    public String themeName;
+    public String activityTheme;
     //地点
-    public String location;
-    //时间
-    public String stime;
-    //总人数
-    public int totalNum;
+    public String activitySite;
+    //活动详情
+    public String activityDetial;
+    //开始时间
+    public Date startTime;
+    //结束时间
+    public Date endTime;
+    //邀约人数
+    public int inviteNumber;
+
+    //可见类型：0全部可见；1好友可见
+    public int activityVisibility;
+    //关注数量
+    public int followNum;
+    //是否有效：0无效；1有效
+    public boolean isVable;
+    //详情icon
+    public String icon;
+    //类型：0活动；1群；
+    public Boolean type;
+
     //已参加人数
-    public int joinNum;
-    //是否已关注
-    public boolean isJoin;
-    //
+    public int memberNum;
+    //创建时间
+    public Date creatTime;
+    //创建人ID
+    public String creatPersonId;
+    //修改人
+    public String modifyPersonId;
+    //修改时间
+    public Date modifyTime;
+    //备注
+    public String remark;
 
-    public String getHeadIconUlr() {
-        return headIconUlr;
+    public String getId() {
+        return id;
     }
 
-    public void setHeadIconUlr(String headIconUlr) {
-        this.headIconUlr = headIconUlr;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getNicName() {
-        return nicName;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setNicName(String nicName) {
-        this.nicName = nicName;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public boolean isMale() {
-        return male;
+    public String getLabelId() {
+        return labelId;
     }
 
-    public void setMale(boolean male) {
-        this.male = male;
+    public void setLabelId(String labelId) {
+        this.labelId = labelId;
     }
 
-    public String getThemeName() {
-        return themeName;
+    public String getActivityTheme() {
+        return activityTheme;
     }
 
-    public void setThemeName(String themeName) {
-        this.themeName = themeName;
+    public void setActivityTheme(String activityTheme) {
+        this.activityTheme = activityTheme;
     }
 
-    public String getLocation() {
-        return location;
+    public String getActivitySite() {
+        return activitySite;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setActivitySite(String activitySite) {
+        this.activitySite = activitySite;
     }
 
-    public String getStime() {
-        return stime;
+    public String getActivityDetial() {
+        return activityDetial;
     }
 
-    public void setStime(String stime) {
-        this.stime = stime;
+    public void setActivityDetial(String activityDetial) {
+        this.activityDetial = activityDetial;
     }
 
-    public int getTotalNum() {
-        return totalNum;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setTotalNum(int totalNum) {
-        this.totalNum = totalNum;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public int getJoinNum() {
-        return joinNum;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setJoinNum(int joinNum) {
-        this.joinNum = joinNum;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    public boolean isJoin() {
-        return isJoin;
+    public int getInviteNumber() {
+        return inviteNumber;
     }
 
-    public void setIsJoin(boolean isJoin) {
-        this.isJoin = isJoin;
+    public void setInviteNumber(int inviteNumber) {
+        this.inviteNumber = inviteNumber;
     }
 
-    public int getAttentionNum() {
-        return attentionNum;
+    public int getActivityVisibility() {
+        return activityVisibility;
     }
 
-    public void setAttentionNum(int attentionNum) {
-        this.attentionNum = attentionNum;
+    public void setActivityVisibility(int activityVisibility) {
+        this.activityVisibility = activityVisibility;
     }
 
-    public boolean isAttention() {
-        return isAttention;
+    public int getFollowNum() {
+        return followNum;
     }
 
-    public void setIsAttention(boolean isAttention) {
-        this.isAttention = isAttention;
+    public void setFollowNum(int followNum) {
+        this.followNum = followNum;
+    }
+
+    public boolean isVable() {
+        return isVable;
+    }
+
+    public void setIsVable(boolean isVable) {
+        this.isVable = isVable;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Boolean getType() {
+        return type;
+    }
+
+    public void setType(Boolean type) {
+        this.type = type;
+    }
+
+    public int getMemberNum() {
+        return memberNum;
+    }
+
+    public void setMemberNum(int memberNum) {
+        this.memberNum = memberNum;
+    }
+
+    public Date getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
+    }
+
+    public String getCreatPersonId() {
+        return creatPersonId;
+    }
+
+    public void setCreatPersonId(String creatPersonId) {
+        this.creatPersonId = creatPersonId;
+    }
+
+    public String getModifyPersonId() {
+        return modifyPersonId;
+    }
+
+    public void setModifyPersonId(String modifyPersonId) {
+        this.modifyPersonId = modifyPersonId;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

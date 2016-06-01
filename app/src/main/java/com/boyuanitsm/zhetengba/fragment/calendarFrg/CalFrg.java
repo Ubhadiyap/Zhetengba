@@ -1,5 +1,8 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -45,6 +48,13 @@ public class CalFrg extends BaseFragment {
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
     private MyPageAdapter pageAdapter;
     private LinearLayout ll_point;
+//    广播接收者更新档期数据
+    private BroadcastReceiver calDateChangeRecevier=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //仿照活动
+        }
+    };
 
     @Override
     public View initView(LayoutInflater inflater) {

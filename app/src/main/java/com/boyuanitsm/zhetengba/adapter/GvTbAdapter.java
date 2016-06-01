@@ -105,4 +105,5 @@ public class GvTbAdapter extends BaseAdapter {
         private TextView tv_tab;
         private LinearLayout ll_gv_tab;
     }
+
 }

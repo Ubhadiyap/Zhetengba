@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,13 @@ import java.util.List;
  */
 public class LabelGvMyadapter extends BaseAdapter {
     private Context context;
-    List<String> list=new ArrayList<>();
-    public LabelGvMyadapter(Context context, List<String> list){
+    List<LabelBannerInfo> list=new ArrayList<>();
+    public LabelGvMyadapter(Context context, List<LabelBannerInfo> list){
         this.context=context;
         this.list=list;
     }
 
-    public void update(List<String> list){
+    public void update(List<LabelBannerInfo> list){
         this.list=list;
         notifyDataSetChanged();
 
@@ -55,7 +56,7 @@ public class LabelGvMyadapter extends BaseAdapter {
             labelHolder.tv_label2=(TextView)convertView.findViewById(R.id.tv_label2);
             convertView.setTag(labelHolder);
         }
-        labelHolder.tv_label2.setText(list.get(position));
+        labelHolder.tv_label2.setText(list.get(position).getDictName());
         labelHolder.tv_label2.setTextColor(Color.parseColor("#ffffff"));
         labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green));
         return convertView;

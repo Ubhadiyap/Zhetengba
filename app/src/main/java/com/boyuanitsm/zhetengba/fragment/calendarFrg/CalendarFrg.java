@@ -1,5 +1,7 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,7 +15,13 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+
+import java.util.List;
 
 /**
  * 简约/档期界面
@@ -29,6 +37,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
     private PopupWindow mPopupWindow;
     private LinearLayout ll_friend;
     private RadioGroup rg_simple;
+    private List<SimpleInfo> list;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -101,8 +110,6 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend, null);
         TextView tv_friend = (TextView) v.findViewById(R.id.tv_friend);
         TextView tv_all = (TextView) v.findViewById(R.id.tv_all);
-
-
         mPopupWindow.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_circle_stroke));
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setFocusable(true);
@@ -112,6 +119,10 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
             @Override
             public void onClick(View v) {
                 MyToastUtils.showShortToast(getContext(), "点击了好友");
+                //发送数据变化广播，通知Simple数据更新
+                Intent intentRecevier = new Intent();
+                intentRecevier.setAction("simpleDateChange");
+                mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
             }
         });
@@ -119,6 +130,10 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
             @Override
             public void onClick(View v) {
                 MyToastUtils.showShortToast(getContext(), "点击了全部");
+                //发送数据变化广播，通知CaleFrg更新数据
+                Intent intentRecevier=new Intent();
+                intentRecevier.setAction("calDateChange");
+                mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
             }
         });
@@ -153,4 +168,5 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         }
         fragmentTransaction.commit();
     }
+
 }

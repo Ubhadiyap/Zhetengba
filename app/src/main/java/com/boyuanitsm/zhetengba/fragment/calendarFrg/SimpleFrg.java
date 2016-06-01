@@ -1,6 +1,10 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +26,7 @@ import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.BannerInfo;
+import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -60,15 +65,27 @@ public class SimpleFrg extends BaseFragment {
     private List<View> views = new ArrayList<View>();
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
     private List<BannerInfo> bannerInfoList;
-
+    private List<SimpleInfo> list;//活动对象集合
+    private BroadcastReceiver simDteChangeRecevier=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+                  getFriendOrAllAcitvity(1,10,0+"");//切换到好友；
+                   adapter.update(list);
+        }
+    };
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.act_frag, null, false);
         return view;
     }
-
     @Override
     public void initData(Bundle savedInstanceState) {
+       list= getActivityList(1 + "", 10 + "");//获取活动实体类
+        //广播接收者，更新数据
+        IntentFilter filter=new IntentFilter();
+        filter.addAction("simpleDateChange");
+        mActivity.registerReceiver(simDteChangeRecevier,filter);
+        //
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         //刷新初始化
@@ -76,7 +93,7 @@ public class SimpleFrg extends BaseFragment {
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
         //设置简约listview的条目
-        adapter = new ActAdapter(mActivity);
+        adapter = new ActAdapter(mActivity,list);
         lv_act.getRefreshableView().setAdapter(adapter);
         lv_act.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -243,44 +260,49 @@ public class SimpleFrg extends BaseFragment {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity.unregisterReceiver(simDteChangeRecevier);//注销广播
+    }
+
     /***
      * 获取首页轮播图
      */
     private void getBanner() {
-        RequestManager.getScheduleManager().getBanner(new ResultCallback<ResultBean<String>>() {
+        RequestManager.getScheduleManager().getBanner(new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
+            public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
 //                BannerInfo bannerInfo = response.getData();
-                MyToastUtils.showShortToast(mActivity, response.getData().toString());
+//                MyToastUtils.showShortToast(mActivity, response.getData());
             }
         });
     }
 
     /***
      * 获取活动列表
-     *
      * @param page
      * @param row
      */
-    private void getActivityList(String page, String row) {
-        RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<SimpleInfo>>() {
+    private List<SimpleInfo>  getActivityList(String page, String row) {
+        RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<List<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<SimpleInfo> response) {
-                SimpleInfo simpleInfo = response.getData();
+            public void onResponse(ResultBean<List<SimpleInfo>> response) {
+                list = response.getData();
 
             }
         });
-
+        return list;
     }
 
     /**
@@ -289,18 +311,36 @@ public class SimpleFrg extends BaseFragment {
      * @param activityId
      */
     private void getActivityDetials(String activityId) {
-        RequestManager.getScheduleManager().getActivityDetials(activityId, new ResultCallback() {
+        RequestManager.getScheduleManager().getActivityDetials(activityId, new ResultCallback<ResultBean<SimpleInfo>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(Object response) {
-
+            public void onResponse(ResultBean<SimpleInfo> response) {
+                SimpleInfo simpleInfo = response.getData();
             }
         });
     }
 
+    /***
+     * 活动信息：好友/全部显示
+     * @param page
+     * @param rows
+     * @param state
+     */
+    private void getFriendOrAllAcitvity(int page,int rows,String state){
+        RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
 
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<SimpleInfo>> response) {
+              list = response.getData();
+            }
+        });
+    }
 }

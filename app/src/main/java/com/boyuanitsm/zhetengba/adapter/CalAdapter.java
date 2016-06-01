@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+
+import java.util.List;
 
 /**
  * 档期 listview适配器
