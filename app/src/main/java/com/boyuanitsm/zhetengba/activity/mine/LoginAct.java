@@ -16,8 +16,13 @@ import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -75,11 +80,19 @@ public class LoginAct extends BaseActivity {
 
     }
 
+
+
+
     @OnClick({R.id.tvLogin, R.id.tv_regist, R.id.tv_forget_pw})
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLogin://登录
-                login();
+                if(isValidate()){
+
+                toLogin(currentUsername, currentPassword);
+                }
+//                login();
                 break;
             case R.id.tv_regist:
                 openActivity(RegistAct.class);
@@ -217,6 +230,22 @@ public class LoginAct extends BaseActivity {
         if (autoLogin) {
             return;
         }
+    }
+
+    private void toLogin(String username,String password){
+        RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<UserInfo>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<UserInfo> response) {
+                UserInfo userInfo=response.getData();
+                UserInfoDao.saveUser(userInfo);
+                openActivity(MainAct.class);
+            }
+        });
     }
 
 }

@@ -31,6 +31,7 @@ import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
+import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.hyphenate.EMContactListener;
@@ -105,7 +106,6 @@ public class MainAct extends BaseActivity {
         }
         setContentView(R.layout.act_main_layout);
         AppManager.getAppManager().addActivity(this);
-
         rb_mes= (MyRadioButton) findViewById(R.id.rb_mes);
         unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
         //获取frg的管理器
@@ -119,6 +119,7 @@ public class MainAct extends BaseActivity {
         RadioButton rb_cal = (RadioButton) findViewById(R.id.rb_cal);
         ImageView iv_plane = (ImageView) findViewById(R.id.iv_plane);
         planeDialog=new PlaneDialog(this);
+        planeDialog.getWindow().setWindowAnimations(R.style.ActionSheetDialogAnimation);
         rb_cal.setChecked(true);
         iv_plane.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +128,6 @@ public class MainAct extends BaseActivity {
             }
         });
         rg_button.setOnCheckedChangeListener(new OnRadiGrroupCheckedChangeListener());
-
         inviteMessgeDao = new InviteMessgeDao(this);
         userDao = new UserDao(this);
         //注册local广播接收者，用于接收demohelper中发出的群组联系人的变动通知

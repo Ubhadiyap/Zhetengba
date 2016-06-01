@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/title_act_layout"></include>
+
+    </RelativeLayout>
+    <com.boyuanitsm.zhetengba.widget.ClearEditText
+        android:id="@+id/cetSearch"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_circle_stroke_gray"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ser_blue"
+        android:drawablePadding="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="14sp"
+        android:hint="输入查找的圈子"
+        />
+    <ListView
+        android:divider="@null"
+        android:id="@+id/lv_cir_serch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+</LinearLayout>

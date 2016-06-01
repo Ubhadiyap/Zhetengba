@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/common_bg"
     android:orientation="vertical">
 
     <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
         android:id="@+id/lv_act"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/layer_list_bottom"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
+        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
 
 </LinearLayout>

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    >
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+   android:background="@color/white"
+    android:layout_height="match_parent">
+
     <include layout="@layout/title_act_layout"></include>
 
     <EditText
-        android:textColorHint="#333333"
+        android:id="@+id/et_phone"
+        android:textColorHint="#cdcdcd"
         android:paddingBottom="15dp"
         android:gravity="bottom"
         android:textSize="16sp"
@@ -25,7 +27,7 @@
         android:layout_marginLeft="15dp"
         android:background="#dcdcde"
         android:layout_width="match_parent"
-        android:layout_height="1dp"></View>
+        android:layout_height="1px"></View>
 
     <LinearLayout
         android:layout_marginRight="15dp"
@@ -35,10 +37,10 @@
         android:orientation="horizontal">
 
         <EditText
-            android:textColorHint="#333333"
+            android:textColorHint="#cdcdcd"
             android:paddingBottom="15dp"
             android:gravity="bottom"
-            android:id="@+id/forgetpwd_code"
+            android:id="@+id/et_yzm"
             android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_weight="1"
@@ -63,10 +65,11 @@
         android:layout_marginLeft="15dp"
         android:background="#dcdcde"
         android:layout_width="match_parent"
-        android:layout_height="1dp"></View>
+        android:layout_height="1px"></View>
 
     <EditText
-        android:textColorHint="#333333"
+        android:id="@+id/et_pwd"
+        android:textColorHint="#cdcdcd"
         android:paddingBottom="15dp"
         android:gravity="bottom"
         android:textSize="16sp"
@@ -76,18 +79,19 @@
         android:background="@null"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:inputType="number"
-        android:maxLength="11"
+        android:inputType="textPassword"
+        android:maxLength="24"
         android:singleLine="true"
         />
     <View
         android:layout_marginLeft="15dp"
         android:background="#dcdcde"
         android:layout_width="match_parent"
-        android:layout_height="1dp"></View>
+        android:layout_height="1px"></View>
 
     <EditText
-        android:textColorHint="#333333"
+        android:id="@+id/et_cpwd"
+        android:textColorHint="#cdcdcd"
         android:paddingBottom="15dp"
         android:gravity="bottom"
         android:textSize="16sp"
@@ -105,10 +109,11 @@
         android:layout_marginLeft="15dp"
         android:background="#dcdcde"
         android:layout_width="match_parent"
-        android:layout_height="1dp"></View>
+        android:layout_height="1px"></View>
 
 
     <TextView
+        android:id="@+id/tv_frogettj"
         style="@style/com_button"
         android:layout_marginTop="30dp"
         android:text="提交"

@@ -1,53 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/bg_color"
-    android:layout_height="match_parent">
-    <include layout="@layout/title_act_layout"></include>
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:background="@color/white"
-       android:paddingLeft="10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp">
-        <EditText
-            android:paddingTop="10dp"
-            android:background="@null"
-            android:textColor="#333333"
-            android:textColorHint="#cdcdcd"
-            android:textSize="14sp"
-            android:hint="请输入你想说的话"
-            android:gravity="top"
-            android:layout_width="match_parent"
-            android:layout_height="240dp" />
+        android:layout_height="44dp">
 
-        <com.leaf.library.widget.MyGridView
-            android:id="@+id/my_gv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnWidth="70dp"
-            android:layout_marginTop="10dp"
-            android:numColumns="4"
-            android:verticalSpacing="2.5dp"
-            android:horizontalSpacing="2.5dp"
-            android:gravity="center"
-            android:scrollbars="none"
-            android:stretchMode="columnWidth"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            />
+        <include layout="@layout/title_act_layout"></include>
 
-    </LinearLayout>
-    <com.boyuanitsm.zhetengba.view.MyGridView
-        android:paddingRight="15dp"
-        android:paddingLeft="25dp"
-        android:layout_marginTop="40dp"
-        android:id="@+id/gv_qzfb"
-        android:verticalSpacing="15dp"
-        android:numColumns="4"
+        <!--<RelativeLayout-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentRight="true">-->
+            <!--<TextView-->
+                <!--style="@style/tv_second"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginRight="25dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="发布"-->
+                <!--android:textColor="#ffffff" />-->
+        <!--</RelativeLayout>-->
+
+
+    </RelativeLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.boyuanitsm.zhetengba.view.MyGridView>
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="请输入你想说的话"
+                    android:paddingTop="15dp"
+                    android:maxLength="140"
+                    android:textColor="#333333"
+                    android:textColorHint="#cdcdcd"
+                    android:textSize="14sp" />
+
+                <com.leaf.library.widget.MyGridView
+                    android:id="@+id/my_gv"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:columnWidth="70dp"
+                    android:gravity="center"
+                    android:horizontalSpacing="2.5dp"
+                    android:numColumns="4"
+                    android:scrollbars="none"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="2.5dp" />
+
+            </LinearLayout>
+
+            <com.boyuanitsm.zhetengba.view.MyGridView
+                android:id="@+id/gv_qzfb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:numColumns="4"
+                android:paddingLeft="19dp"
+                android:paddingRight="19dp"
+                android:verticalSpacing="15dp"></com.boyuanitsm.zhetengba.view.MyGridView>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

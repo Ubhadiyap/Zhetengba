@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg_color"
     android:layout_height="match_parent">
     <include layout="@layout/title_act_layout"></include>
 
@@ -20,8 +20,19 @@
             android:text="名称:"
             style="@style/tv_second" />
         <EditText
+            android:id="@+id/et_cir_name"
+            android:gravity="center_vertical"
             android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
             android:background="@drawable/white_hui_edito"
+            android:maxLength="8"
+            android:hint="少于8个字符"
+            android:textColorHint="#999999"
+            android:paddingLeft="10dp"
+            android:textColor="#666666"
+            android:textSize="14sp"
             android:layout_width="match_parent"
             android:layout_height="33dp" />
 
@@ -42,10 +53,19 @@
             android:text="公告:"
             style="@style/tv_second" />
         <EditText
+            android:hint="选填"
+            android:textColorHint="#999999"
+            android:textColor="#666666"
+            android:textSize="14sp"
             android:paddingTop="10dp"
             android:gravity="top"
             android:maxLines="8"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginStart="15dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginEnd="0dp"
             android:background="@drawable/white_hui_edito"
             android:layout_width="match_parent"
             android:layout_height="110dp" />
@@ -58,6 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/tv_ask"
             android:textColor="@color/white"
             android:background="@drawable/bag_red_xyj"
             android:gravity="center"
@@ -69,8 +90,9 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_creat"
         android:layout_marginTop="15dp"
-        android:text="建立圈子"
+        android:text="建立"
         style="@style/com_button"/>
 
 

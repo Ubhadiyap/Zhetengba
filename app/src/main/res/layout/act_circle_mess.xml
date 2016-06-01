@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_mess"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color">
+    android:background="@color/common_bg">
     <include layout="@layout/title_act_layout"></include>
-    <ListView
+    <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
         android:id="@+id/lv_cir_mess"
+        android:layout_marginTop="48dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="#e1e1e1"
-        android:dividerHeight="1px"></ListView>
-
-</LinearLayout>
+        android:layout_height="match_parent">
+    </com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
+<LinearLayout
+    android:id="@+id/ll_reply"
+    android:visibility="gone"
+   android:layout_gravity="bottom"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <EditText
+        android:id="@+id/et_reply"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_weight="6"
+        android:background="@drawable/bg_circle_stroke_yes_white2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+    <Button
+        android:id="@+id/bt_reply"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:text="回复"
+        android:textColor="#333333"
+        android:background="@drawable/bg_circle_stroke_yes_white2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+    </LinearLayout>
+</FrameLayout>

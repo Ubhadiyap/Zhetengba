@@ -21,6 +21,7 @@ import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.CalAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
@@ -57,14 +58,8 @@ public class CalFrg extends BaseFragment {
         viewHeader_calen = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_calen = (PullToRefreshListView) view.findViewById(R.id.lv_calen);
         CalAdapter adapter = new CalAdapter(mActivity);
-        lv_calen.setPullRefreshEnabled(true);//下拉刷新
-        lv_calen.setScrollLoadEnabled(true);//滑动加载
-        lv_calen.setPullLoadEnabled(false);//上拉刷新
-        lv_calen.setHasMoreData(true);//是否有更多数据
-        lv_calen.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
-        lv_calen.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-        lv_calen.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_calen.getRefreshableView().setDivider(null);
+        //下拉刷新初始化
+        LayoutHelperUtil.freshInit(lv_calen);
         //设置listview头部headview
         lv_calen.getRefreshableView().addHeaderView(viewHeader_calen);
         vp_loop_calen = (LoopViewPager) view.findViewById(R.id.vp_loop_act);

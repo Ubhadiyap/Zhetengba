@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -24,16 +23,23 @@ public class EditActivity extends BaseActivity {
 		String title = getIntent().getStringExtra("title");
 		String data = getIntent().getStringExtra("data");
 		if(title != null)
-			((TextView)findViewById(R.id.tv_title)).setText(title);
+			setTopTitle(title);
 		if(data != null)
 			editText.setText(data);
 		editText.setSelection(editText.length());
+		setRight("保存", new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setResult(RESULT_OK,new Intent().putExtra("data", editText.getText().toString().trim()));
+				finish();
+			}
+		});
 	}
 
 
 	
-	public void save(View view){
-		setResult(RESULT_OK,new Intent().putExtra("data", editText.getText().toString()));
-		finish();
-	}
+//	public void save(View view){
+//		setResult(RESULT_OK,new Intent().putExtra("data", editText.getText().toString()));
+//		finish();
+//	}
 }

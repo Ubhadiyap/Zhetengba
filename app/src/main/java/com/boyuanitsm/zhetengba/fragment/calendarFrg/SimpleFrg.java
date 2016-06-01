@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,20 +11,32 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.BannerInfo;
 import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CustomDialog;
+import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +55,11 @@ public class SimpleFrg extends BaseFragment {
     private LinearLayout ll_point;
     private List<View> views = new ArrayList<View>();
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
-
+    private List<BannerInfo> bannerInfoList;
 
     @Override
     public View initView(LayoutInflater inflater) {
-       view = inflater.inflate(R.layout.act_frag, null, false);
+        view = inflater.inflate(R.layout.act_frag, null, false);
         return view;
     }
 
@@ -55,12 +68,19 @@ public class SimpleFrg extends BaseFragment {
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         //刷新初始化
-        initPullRefresh();
+        LayoutHelperUtil.freshInit(lv_act);
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
         //设置简约listview的条目
         adapter = new ActAdapter(mActivity);
         lv_act.getRefreshableView().setAdapter(adapter);
+        lv_act.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showDialog();
+            }
+        });
+
         viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
         ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
         //设置viewpager适配/轮播效果
@@ -72,6 +92,7 @@ public class SimpleFrg extends BaseFragment {
 
     /***
      * viewpager监听
+     *
      * @return
      */
     @NonNull
@@ -104,21 +125,6 @@ public class SimpleFrg extends BaseFragment {
 
             }
         };
-    }
-
-    /***
-     * 初始化刷新
-     */
-
-    private void initPullRefresh() {
-        lv_act.setPullRefreshEnabled(true);//下拉刷新
-        lv_act.setScrollLoadEnabled(true);//滑动加载
-        lv_act.setPullLoadEnabled(false);//上拉刷新
-        lv_act.setHasMoreData(true);//是否有更多数据
-        lv_act.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
-        lv_act.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-        lv_act.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_act.getRefreshableView().setDivider(null);
     }
 
     /***
@@ -159,6 +165,7 @@ public class SimpleFrg extends BaseFragment {
         }
     }
 
+
     /***
      * viewpageradapter
      */
@@ -172,6 +179,7 @@ public class SimpleFrg extends BaseFragment {
 
         @Override
         public int getCount() {
+            //            return  bannerInfoList==null?0:bannerInfoList.size();
             return 3;
         }
 
@@ -184,15 +192,14 @@ public class SimpleFrg extends BaseFragment {
         public Object instantiateItem(ViewGroup container, final int position) {
 
             View view = View.inflate(mActivity, R.layout.item_loop_viewpager_act, null);
-
             ImageView iv_iamge = (ImageView) view.findViewById(R.id.iv_item_image);
             //加载图片地址
             iv_iamge.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.test_banner));
-//            ImageLoader.getInstance().displayImage(
-//                    UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerPic()), iv_iamge,
-//                    optionsImag);
-
-//            iv_iamge.setBackgroundResource(newsPictures[position]);
+            //            ImageLoader.getInstance().displayImage(
+            //                    UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerPic()), iv_iamge,
+            //                    optionsImag);
+            //            ImageLoader.getInstance().displayImage(UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerLink()),iv_iamge,optionsImag);
+            //UrlManager,网络地址管理类
 
             ((ViewPager) container).addView(view);
 
@@ -203,7 +210,6 @@ public class SimpleFrg extends BaseFragment {
 
                 }
             });
-
             return view;
         }
 
@@ -214,5 +220,23 @@ public class SimpleFrg extends BaseFragment {
 
     }
 
+    private void showDialog() {
+        CustomDialog.Builder builder = new CustomDialog.Builder(mActivity);
+        builder.setMessage("没有活动详情");
+//        builder.setPositiveButton("加为好友", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                MyToastUtils.showShortToast(context,"点击了第一个button");
+//            }
+//        });
+        builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+            }
+        });
+        builder.create().show();
+
+    }
 
 }

@@ -39,7 +39,7 @@ public class CircleglAct extends BaseActivity {
     public void OnClick(View v){
         switch (v.getId()){
             case R.id.iv_serch:
-
+                openActivity(SerchCirAct.class);
                 break;
 
             case R.id.iv_jia:

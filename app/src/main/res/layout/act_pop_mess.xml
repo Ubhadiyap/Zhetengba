@@ -31,16 +31,23 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_qun"
+        android:id="@+id/ll_qunavatar"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/act_layer_bottom_white">
+
+        <!--<ImageView-->
+            <!--android:background="@drawable/qun_ava"-->
+            <!--android:layout_width="22dp"-->
+            <!--android:layout_height="22dp" />-->
+
         <ImageView
-            android:background="@drawable/qun_ava"
+            android:background="@drawable/qun"
             android:layout_width="22dp"
             android:layout_height="22dp" />
+
         <TextView
             style="@style/mess_pop_window_text"
             android:text="建立群聊"

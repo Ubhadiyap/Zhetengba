@@ -1,16 +1,22 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CommonView;
@@ -56,6 +62,9 @@ public class PersonalmesAct extends BaseActivity {
     public static final int PHOTOTAKE = 1;
     public static final int IMAGE_COMPLETE = 2; // 结果
 
+    private MyReceiver myReceiver;
+
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_personalmes);
@@ -64,57 +73,91 @@ public class PersonalmesAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("个人资料");
-    }
+        UserInfo userInfo = UserInfoDao.getUser();
+        if (userInfo != null) {
+            if ((TextUtils.isEmpty(userInfo.getName()))) {
+                cvUserName.setNotesText(userInfo.getName());}
 
-    @OnClick({R.id.rl_headIcon, R.id.cv_userName, R.id.cv_sex, R.id.cv_phoneNum, R.id.cv_email, R.id.cv_companyName, R.id.cv_companyAdd, R.id.cv_companyTel, R.id.cv_business, R.id.cv_homeTown})
-    public void todo(View view) {
-        Intent intent = null;
-        switch (view.getId()) {
-            case R.id.rl_headIcon:
-                headIconDialog();
-                break;
-            case R.id.cv_userName://昵称
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 1);
-                startActivity(intent);
-                break;
-            case R.id.cv_sex://性别
+            if ((TextUtils.isEmpty(userInfo.getSex()))) {
+                    cvSex.setNotesText(userInfo.getSex());
+                }
+            if ((TextUtils.isEmpty(userInfo.getPhone()))) {
+                cvPhoneNum.setNotesText(userInfo.getPhone());
+            }
+            if ((TextUtils.isEmpty(userInfo.getEmail()))) {
+                cvEmail.setNotesText(userInfo.getEmail());
+            }
 
-                break;
-            case R.id.cv_phoneNum://手机号码
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 2);
-                startActivity(intent);
-                break;
-            case R.id.cv_email://邮箱
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 3);
-                startActivity(intent);
-                break;
-            case R.id.cv_companyName://公司名称
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 4);
-                startActivity(intent);
-                break;
-            case R.id.cv_companyAdd://公司地址
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 5);
-                startActivity(intent);
-                break;
-            case R.id.cv_companyTel://公司电话
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 6);
-                startActivity(intent);
-                break;
-            case R.id.cv_business://职务
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 7);
-                startActivity(intent);
-                break;
-            case R.id.cv_homeTown://故乡
-                break;
+            if ((TextUtils.isEmpty(userInfo.getCompanyName()))) {
+                cvCompanyName.setNotesText(userInfo.getCompanyName());
+            }
+
+            if ((TextUtils.isEmpty(userInfo.getCompanyAddr()))) {
+                cvCompanyAdd.setNotesText(userInfo.getCompanyAddr());
+            }
+            if ((TextUtils.isEmpty(userInfo.getCompanyPhone()))) {
+                cvCompanyTel.setNotesText(userInfo.getCompanyPhone());
+            }
+            if ((TextUtils.isEmpty(userInfo.getJob()))) {
+                cvBusiness.setNotesText(userInfo.getJob());
+            }
+            if ((TextUtils.isEmpty(userInfo.getHomeTown()))) {
+                cvHomeTown.setNotesText(userInfo.getHomeTown());
+            }
+
+            }
+
         }
-    }
+
+        @OnClick({R.id.rl_headIcon, R.id.cv_userName, R.id.cv_sex, R.id.cv_phoneNum, R.id.cv_email, R.id.cv_companyName, R.id.cv_companyAdd, R.id.cv_companyTel, R.id.cv_business, R.id.cv_homeTown})
+        public void todo (View view){
+            Intent intent = null;
+            switch (view.getId()) {
+                case R.id.rl_headIcon:
+                    headIconDialog();
+                    break;
+                case R.id.cv_userName://昵称
+                    intent = new Intent(this, EditAct.class);
+                    intent.putExtra(EditAct.USER_TYPE, 1);
+                    startActivity(intent);
+                    break;
+                case R.id.cv_sex://性别
+
+                    break;
+                case R.id.cv_phoneNum://手机号码
+                    intent = new Intent(this, EditAct.class);
+                    intent.putExtra(EditAct.USER_TYPE, 2);
+                    startActivity(intent);
+                    break;
+                case R.id.cv_email://邮箱
+                    intent = new Intent(this, EditAct.class);
+                    intent.putExtra(EditAct.USER_TYPE, 3);
+                    startActivity(intent);
+                    break;
+                case R.id.cv_companyName://公司名称
+                    intent = new Intent(this, EditAct.class);
+                    intent.putExtra(EditAct.USER_TYPE, 4);
+                    startActivity(intent);
+                    break;
+                case R.id.cv_companyAdd://公司地址
+                    intent = new Intent(this, EditAct.class);
+                    intent.putExtra(EditAct.USER_TYPE, 5);
+                    startActivity(intent);
+                    break;
+                case R.id.cv_companyTel://公司电话
+                    intent = new Intent(this, EditAct.class);
+                    intent.putExtra(EditAct.USER_TYPE, 6);
+                    startActivity(intent);
+                    break;
+                case R.id.cv_business://职务
+                    intent = new Intent(this, EditAct.class);
+                    intent.putExtra(EditAct.USER_TYPE, 7);
+                    startActivity(intent);
+                    break;
+                case R.id.cv_homeTown://故乡
+                    break;
+            }
+        }
 
     private void headIconDialog() {
         MySelfSheetDialog dialog = new MySelfSheetDialog(PersonalmesAct.this);
@@ -201,5 +244,64 @@ public class PersonalmesAct extends BaseActivity {
         FileBody fileBody = new FileBody(file);
         filemap.put("file", fileBody);
 
+    }
+
+    public static final String USER_INFO = "com.update.user";
+
+    public class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        UserInfo userInfo=UserInfoDao.getUser();
+            if (userInfo != null) {
+                if ((TextUtils.isEmpty(userInfo.getName()))) {
+                    cvUserName.setNotesText(userInfo.getName());}
+
+                if ((TextUtils.isEmpty(userInfo.getSex()))) {
+                    cvSex.setNotesText(userInfo.getSex());
+                }
+                if ((TextUtils.isEmpty(userInfo.getPhone()))) {
+                    cvPhoneNum.setNotesText(userInfo.getPhone());
+                }
+                if ((TextUtils.isEmpty(userInfo.getEmail()))) {
+                    cvEmail.setNotesText(userInfo.getEmail());
+                }
+
+                if ((TextUtils.isEmpty(userInfo.getCompanyName()))) {
+                    cvCompanyName.setNotesText(userInfo.getCompanyName());
+                }
+
+                if ((TextUtils.isEmpty(userInfo.getCompanyAddr()))) {
+                    cvCompanyAdd.setNotesText(userInfo.getCompanyAddr());
+                }
+                if ((TextUtils.isEmpty(userInfo.getCompanyPhone()))) {
+                    cvCompanyTel.setNotesText(userInfo.getCompanyPhone());
+                }
+                if ((TextUtils.isEmpty(userInfo.getJob()))) {
+                    cvBusiness.setNotesText(userInfo.getJob());
+                }
+                if ((TextUtils.isEmpty(userInfo.getHomeTown()))) {
+                    cvHomeTown.setNotesText(userInfo.getHomeTown());
+                }
+
+            }
+
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (myReceiver==null) {
+            myReceiver = new MyReceiver();
+        }
+        registerReceiver(myReceiver, new IntentFilter(USER_INFO));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (myReceiver!=null){
+            unregisterReceiver(myReceiver);
+        }
     }
 }

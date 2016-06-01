@@ -26,7 +26,7 @@ public class GLCirAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("管理圈子");
-        setRight("取消", new View.OnClickListener() {
+        setRight("完成", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

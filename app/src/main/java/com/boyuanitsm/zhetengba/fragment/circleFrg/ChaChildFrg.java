@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
@@ -25,6 +28,18 @@ import java.util.List;
 public class ChaChildFrg extends BaseFragment {
     private List<String> list = new ArrayList<String>();
     private int flag;
+    private List<List<ImageInfo>> datalist=new ArrayList<>();
+    private String[][] images=new String[][]{{
+            ConstantValue.IMAGEURL,"1624","914"}
+            ,{ConstantValue.IMAGEURL2,"1624","914"}
+            ,{ConstantValue.IMAGEURL3,"1624","914"}
+            ,{ConstantValue.IMAGEURL4,"1624","914"}
+            ,{ConstantValue.IMAGEURL5,"250","250"}
+            ,{ConstantValue.IMAGEURL2,"250","250"}
+            ,{ConstantValue.IMAGEURL3,"250","250"}
+            ,{ConstantValue.IMAGEURL4,"250","250"}
+            ,{ConstantValue.IMAGEURL5,"1280","800"}
+    };
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -41,15 +56,9 @@ public class ChaChildFrg extends BaseFragment {
     private void initView(View view) {
         PullToRefreshListView lv_ch01 = (PullToRefreshListView) view.findViewById(R.id.lv_ch01);
         //传入参数，标签对应集合
-        lv_ch01.setPullRefreshEnabled(true);//下拉刷新
-        lv_ch01.setScrollLoadEnabled(true);//滑动加载
-        lv_ch01.setPullLoadEnabled(false);//上拉刷新
-        lv_ch01.setHasMoreData(true);//是否有更多数据
-        lv_ch01.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
-        lv_ch01.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-        lv_ch01.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_ch01.getRefreshableView().setDivider(null);
-        ChanAdapter adapter=new ChanAdapter(mActivity);
+        LayoutHelperUtil.freshInit(lv_ch01);
+        initDate();
+        ChanAdapter adapter=new ChanAdapter(mActivity,datalist);
         lv_ch01.getRefreshableView().setAdapter(adapter);
 
     }
@@ -75,5 +84,20 @@ public class ChaChildFrg extends BaseFragment {
         testFm.setArguments(bundle);
         return testFm;
 
+    }
+    private void initDate() {
+        datalist=new ArrayList<>();
+        //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
+        ArrayList<ImageInfo> singleList=new ArrayList<>();
+        singleList.add(new ImageInfo(images[8][0],Integer.parseInt(images[8][1]),Integer.parseInt(images[8][2])));
+        datalist.add(singleList);
+        //从一到9生成9条朋友圈内容，分别是1~9张图片
+        for(int i=0;i<9;i++){
+            ArrayList<ImageInfo> itemList=new ArrayList<>();
+            for(int j=0;j<=i;j++){
+                itemList.add(new ImageInfo(images[j][0],Integer.parseInt(images[j][1]),Integer.parseInt(images[j][2])));
+            }
+            datalist.add(itemList);
+        }
     }
 }

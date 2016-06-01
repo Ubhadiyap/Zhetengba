@@ -115,7 +115,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         mPopupWindow = new PopupWindow(layoutParams.width, layoutParams.height);
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.act_pop_mess, null);
         LinearLayout ll_sao = (LinearLayout) v.findViewById(R.id.ll_sao);
-        LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qun);
+        LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qunavatar);
         LinearLayout ll_add_friend = (LinearLayout) v.findViewById(R.id.ll_add_friend);
 
         mPopupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_stroke));
@@ -126,6 +126,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         ll_sao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //扫一扫
                 getActivity().startActivity(new Intent(getContext(), ScanQrcodeAct.class));
                 mPopupWindow.dismiss();
             }
@@ -133,6 +134,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         ll_qun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //创建群组
                 getActivity().startActivity(new Intent(getContext(), CreateGroupAct.class));
                 mPopupWindow.dismiss();
             }
@@ -140,6 +142,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         ll_add_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //添加好友
                 getActivity().startActivity(new Intent(getContext(), AddFriendsAct.class));
                 mPopupWindow.dismiss();
             }

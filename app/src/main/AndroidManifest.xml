@@ -38,6 +38,24 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.boyuanitsm.zhetengbao.permission.MIPUSH_RECEIVE" />
+
+    <!--友盟分享权限-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -73,7 +91,7 @@
             android:screenOrientation="portrait"></activity>
         <!--注册信息-->
         <activity
-            android:name=".activity.RegInfoAct"
+            android:name=".activity.mine.RegInfoAct"
             android:screenOrientation="portrait"></activity>
         <!--登录界面-->
         <activity
@@ -81,7 +99,7 @@
             android:screenOrientation="portrait"></activity>
         <!--档期界面-->
         <activity
-            android:name=".activity.ScheduleAct"
+            android:name=".activity.publish.ScheduleAct"
             android:screenOrientation="portrait"></activity>
         <!--个人资料界面-->
         <activity
@@ -112,9 +130,8 @@
             android:name=".activity.mine.MyColleitionAct"
             android:screenOrientation="portrait"></activity>
         <!--标签管理-->
-        <activity
-            android:name=".activity.mine.LabelManaAct"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.mine.LabelMangerAct"
+            android:screenOrientation="portrait"></activity>a
         <!--编辑界面-->
         <activity
             android:name=".activity.mine.EditAct"
@@ -190,6 +207,12 @@
         <activity
             android:name=".chat.act.PickContactNoCheckboxActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
+            android:screenOrientation="portrait"
+            ></activity>
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".chat.receiver.StartServiceReceiver">
@@ -281,7 +304,7 @@
             android:screenOrientation="portrait"></activity>
         <!--圈子：我的发布界面-->
         <activity
-            android:name=".activity.MyPlaneAct"
+            android:name=".activity.publish.MyPlaneAct"
             android:screenOrientation="portrait"></activity>
 
         <!--建立圈子界面-->
@@ -293,21 +316,21 @@
             android:name=".activity.circle.CirclefbAct"
             android:screenOrientation="portrait"></activity>
 
-
         <!--圈子成员界面-->
         <activity
             android:name=".activity.circle.CircleppAct"
             android:screenOrientation="portrait"></activity>
-        <!--管理圈子界面-->
-
+        <!--评论界面-->
+        <activity android:name=".activity.circle.CommentAct"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"></activity>
         <!--简约界面-->
-        <activity
-            android:name=".activity.ContractedAct"
+        <activity android:name=".activity.ContractedAct"
             android:screenOrientation="portrait"></activity>
         <!--位置信息-->
-        <activity
-            android:name=".activity.LocationAct"
-            android:screenOrientation="portrait"></activity>
+        <!--<activity-->
+            <!--android:name=".activity.LocationAct"-->
+            <!--android:screenOrientation="portrait"></activity>-->
         <!--管理圈子-->
         <activity
             android:name=".activity.circle.GLCirAct"
@@ -319,9 +342,6 @@
             android:screenOrientation="portrait"></activity>
 
         <!--扫一扫界面-->
-        <activity
-            android:name=".activity.ScanAct"
-            android:screenOrientation="portrait"></activity>
 
         <!--圈子详情界面-->
         <activity
@@ -332,12 +352,6 @@
         <activity
             android:name=".activity.circle.ChanelTextAct"
             android:screenOrientation="portrait"></activity>
-        <!--圈友主页-->
-        <activity
-            android:name=".activity.circle.CirFriendAct"
-
-            android:screenOrientation="portrait"></activity>
-
 
         <!--裁减图片-->
         <activity
@@ -346,6 +360,101 @@
         <!--裁剪头像页面-->
         <activity
             android:name=".activity.mine.ClipActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--活动详情-->
+        <activity android:name=".activity.circle.EventdetailsAct"
+            android:screenOrientation="portrait"></activity>
+
+        <!--消息里面个人主页界面-->
+        <activity android:name=".activity.mess.PerpageAct"
+            android:screenOrientation="portrait"></activity>
+        <!--添加图片选择界面-->
+        <activity android:name=".activity.photo.PicSelectActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--移除图片选择界面-->
+        <activity android:name=".activity.photo.ImageBrowserActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <!--dialog形式分享-->
+        <activity
+            android:name=".activity.ShareDialogAct"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionSheetDialogStyle" />
+
+
+        <!--###################友盟分享###############################-->
+        <activity
+            android:name="com.umeng.socialize.editorpage.ShareActivity"
+            android:theme="@style/Theme.UMDefault"
+            android:excludeFromRecents="true"/>
+         <!--新浪微博-->
+        <activity
+            android:name=".activity.wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
+        <!--扣扣和扣扣空间-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!--新浪微博-->
+        <activity
+            android:name=".activity.wxapi.WBShareActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" >
+        </activity>
+        <service
+            android:name="com.sina.weibo.sdk.net.DownloadService"
+            android:exported="false">
+        </service>
+        <!-- ###################添加UmengAppkey###################### -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57429a29e0f55a470e001137" >
+        </meta-data>
+
+        <!--加好友验证界面-->
+        <activity android:name=".activity.mess.MessVerifyAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子搜索界面-->
+        <activity android:name=".activity.circle.SerchCirAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子二维码界面-->
+        <activity android:name=".activity.circle.CircleEr"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子正文-->
+        <activity android:name=".activity.circle.CircleTextAct"
+            android:screenOrientation="portrait"></activity>
+        <!--测试listview-->
+        <activity android:name=".activity.TestListView"
+            android:screenOrientation="portrait"></activity>
+        <!--指定谁能看，不能看界面/邀请好友-->
+        <activity android:name=".activity.mine.AssignScanAct"
             android:screenOrientation="portrait"></activity>
     </application>
 

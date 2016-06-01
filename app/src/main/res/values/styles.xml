@@ -59,6 +59,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>
     </style>
     <!--简约界面item:关注/参加字体样式-->
     <style name="MainAct_simple_Text">
@@ -178,7 +179,13 @@
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:background">@color/view_color</item>
     </style>
-
+    <!--圈子消息button-->
+    <style name="cir_button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
     <!-- 自定义仿IOS的ActionSheet底部Dialog的样式 ，有模糊效果 -->
     <style name="ActionSheetDialogStyle" parent="@android:style/Theme.Dialog">
 
@@ -214,5 +221,53 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
+    </style>
+    <!--评论图片样式-->
+    <style name="Comemt_iamge">
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">20dp</item>
+    </style>
+    <!--评论图片文字样式-->
+    <style name="Comemt_ll">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--朋友圈图片全屏样式-->
+    <style name="Pic_Dialog">
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 背景 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 模糊 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">1</item>
+        <!-- 动画 -->
+        <item name="android:windowAnimationStyle">@style/ShowImageDialogAnimation</item>
+    </style>
+
+    <style name="ShowImageDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/scale_in</item>
+        <item name="android:windowExitAnimation">@anim/scale_out</item>
+    </style>
+    <!--标签样式-->
+    <style name="Tab_Text_Style">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@drawable/bg_circle_stroke_red</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textColor">#ffffff</item>
     </style>
 </resources>

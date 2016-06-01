@@ -10,7 +10,10 @@ import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.boyuanitsm.zhetengba.widget.ToggleButton;
 import com.hyphenate.EMCallBack;
@@ -69,6 +72,7 @@ public class SettingAct extends BaseActivity {
                             @Override
                             public void onClick(View v) {
                                 logout();
+                                loginOut();
                             }
                         }).setNegativeButton("取消", null).show();
 
@@ -120,4 +124,25 @@ public class SettingAct extends BaseActivity {
             }
         });
     }
+
+    /**
+     * 登出
+     */
+    private void loginOut(){
+       RequestManager.getUserManager().Loginout(new ResultCallback<ResultBean<String>>() {
+           @Override
+           public void onError(int status, String errorMsg) {
+
+           }
+
+           @Override
+           public void onResponse(ResultBean response) {
+
+           }
+       });
+
+    }
+
+
+
 }

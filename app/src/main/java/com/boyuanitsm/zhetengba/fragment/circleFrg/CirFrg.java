@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
@@ -25,15 +27,15 @@ public class CirFrg extends Fragment {
     private int[] icons = {R.drawable.test_banner, R.drawable.test_chanel, R.drawable.test_chanel, R.drawable.test_chanel};
     private List<List<ImageInfo>> datalist=new ArrayList<>();
     private String[][] images=new String[][]{{
-            "http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1402/12/c1/31189058_1392186616852.jpg","1624","914"}
-            ,{"file:///android_asset/img2.jpg","250","250"}
-            ,{"file:///android_asset/img3.jpg","250","250"}
-            ,{"file:///android_asset/img4.jpg","250","250"}
-            ,{"file:///android_asset/img5.jpg","250","250"}
-            ,{"file:///android_asset/img6.jpg","250","250"}
-            ,{"file:///android_asset/img7.jpg","250","250"}
-            ,{"file:///android_asset/img8.jpg","250","250"}
-            ,{"http://img3.douban.com/view/photo/raw/public/p1708880537.jpg","1280","800"}
+            ConstantValue.IMAGEURL,"1624","914"}
+            ,{ConstantValue.IMAGEURL,"1624","914"}
+            ,{ConstantValue.IMAGEURL2,"1624","914"}
+            ,{ConstantValue.IMAGEURL3,"1624","914"}
+            ,{ConstantValue.IMAGEURL4,"250","250"}
+            ,{ConstantValue.IMAGEURL5,"250","250"}
+            ,{ConstantValue.IMAGEURL4,"250","250"}
+            ,{ConstantValue.IMAGEURL3,"250","250"}
+            ,{ConstantValue.IMAGEURL5,"1280","800"}
     };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,32 +43,25 @@ public class CirFrg extends Fragment {
         PullToRefreshListView lv_cir = (PullToRefreshListView) view.findViewById(R.id.lv_cir);
         initData();
         CircleAdapter adapter=new CircleAdapter(getContext(),datalist);
-        lv_cir.setPullRefreshEnabled(true);//下拉刷新
-        lv_cir.setScrollLoadEnabled(true);//滑动加载
-        lv_cir.setPullLoadEnabled(false);//上拉刷新
-        lv_cir.setHasMoreData(true);//是否有更多数据
-        lv_cir.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
-        lv_cir.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-        lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_cir.getRefreshableView().setDivider(null);
+        LayoutHelperUtil.freshInit(lv_cir);
         lv_cir.getRefreshableView().setAdapter(adapter);
         return view;
     }
 
 
     private void initData() {
-        datalist=new ArrayList<>();
-        //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
-        ArrayList<ImageInfo> singleList=new ArrayList<>();
-        singleList.add(new ImageInfo(images[8][0],Integer.parseInt(images[8][1]),Integer.parseInt(images[8][2])));
-        datalist.add(singleList);
-        //从一到9生成9条朋友圈内容，分别是1~9张图片
-        for(int i=0;i<9;i++){
-            ArrayList<ImageInfo> itemList=new ArrayList<>();
-            for(int j=0;j<=i;j++){
-                itemList.add(new ImageInfo(images[j][0],Integer.parseInt(images[j][1]),Integer.parseInt(images[j][2])));
-            }
-            datalist.add(itemList);
+    datalist=new ArrayList<>();
+    //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
+    ArrayList<ImageInfo> singleList=new ArrayList<>();
+    singleList.add(new ImageInfo(images[8][0],Integer.parseInt(images[8][1]),Integer.parseInt(images[8][2])));
+    datalist.add(singleList);
+    //从一到9生成9条朋友圈内容，分别是1~9张图片
+    for(int i=0;i<9;i++){
+        ArrayList<ImageInfo> itemList=new ArrayList<>();
+        for(int j=0;j<=i;j++){
+            itemList.add(new ImageInfo(images[j][0],Integer.parseInt(images[j][1]),Integer.parseInt(images[j][2])));
         }
+        datalist.add(itemList);
     }
+}
 }

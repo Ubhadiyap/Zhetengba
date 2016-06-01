@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.view.HorizontalListView;
 
 /**
  * 管理圈子列表适配器
@@ -40,15 +40,17 @@ public class GlCircleAdapter extends BaseAdapter {
         }else {
             cirViewHolder=new CirViewHolder();
             convertView= View.inflate(context, R.layout.item_gl_circle, null);
-            cirViewHolder.gv_cir = (GridView) convertView.findViewById(R.id.gv_cir);
+//            cirViewHolder.gv_cir = (GridView) convertView.findViewById(R.id.gv_cir);
+            cirViewHolder. hlv_glcir= (HorizontalListView) convertView.findViewById(R.id.hlv_glcir);
             convertView.setTag(cirViewHolder);
         }
         GDcirAdapter gDcirAdapter=new GDcirAdapter(context);
-        cirViewHolder.gv_cir.setAdapter(gDcirAdapter);
+//        cirViewHolder.gv_cir.setAdapter(gDcirAdapter);
+         cirViewHolder.hlv_glcir.setAdapter(gDcirAdapter);
 
         return convertView;
     }
     class CirViewHolder{
-        private GridView gv_cir;
+        private HorizontalListView hlv_glcir;
     }
 }

@@ -4,20 +4,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ContractedAct;
-import com.boyuanitsm.zhetengba.activity.ScheduleAct;
+import com.boyuanitsm.zhetengba.activity.publish.ScheduleAct;
 
 /**
  * 主界面点击发布，弹出半透明对话框
@@ -25,6 +20,7 @@ import com.boyuanitsm.zhetengba.activity.ScheduleAct;
  */
 public class PlaneDialog extends Dialog {
     private Context context;
+    private View view;
     private LayoutAnimationController lac;
     public PlaneDialog(Context context, int themeResId) {
         super(context, themeResId);
@@ -43,21 +39,8 @@ public class PlaneDialog extends Dialog {
     }
 
     public void init() {
-        LayoutInflater inflater =getLayoutInflater();
-        View view = inflater.inflate(R.layout.act_plan_layout, null);
-        view.setAnimation(AnimationUtils.loadAnimation(context,R.anim.slid_bottom_to_top));
-        setContentView(view);
+        setContentView(R.layout.act_plan_layout);
         getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-
-//diaolog动画
-//        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF,
-//                0f, Animation.RELATIVE_TO_SELF, 6f, Animation.RELATIVE_TO_SELF, 0);
-//        animation.setInterpolator(new DecelerateInterpolator());
-//        animation.setDuration(350);
-//        animation.setStartOffset(150);
-
-//        lac = new LayoutAnimationController(animation, 0.12f);
-//        lac.setInterpolator(new DecelerateInterpolator());
         TextView tv_plan_act = (TextView) findViewById(R.id.tv_plan_act);
         TextView tv_plan_calen = (TextView) findViewById(R.id.tv_plan_calen);
         LinearLayout ll_cancel = (LinearLayout) findViewById(R.id.ll_cancel);
@@ -67,15 +50,20 @@ public class PlaneDialog extends Dialog {
                 //进入活动界面
                 Intent intent=new Intent();
                 intent.setClass(context, ContractedAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+                dismiss();
             }
         });
         tv_plan_calen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
-                intent.setClass(context,ScheduleAct.class);
+                intent.setClass(context, ScheduleAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+                dismiss();
+
             }
         });
         ll_cancel.setOnClickListener(new View.OnClickListener() {
