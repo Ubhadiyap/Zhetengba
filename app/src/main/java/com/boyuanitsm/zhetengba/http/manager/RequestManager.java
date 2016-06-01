@@ -34,6 +34,7 @@ public class RequestManager {
     private Gson mGson=new Gson();
     private static UserManager userManager;//用户管理
     private static TalkManager talkManager;//圈子管理
+    private static MessManager messManager;//消息接口管理
 
     public static UserManager getUserManager(){
         if(userManager==null){
@@ -47,6 +48,13 @@ public class RequestManager {
             talkManager=new TalkManager();
         }
         return talkManager;
+    }
+
+    public static MessManager getMessManager(){
+        if(messManager==null){
+            messManager=new MessManager();
+        }
+        return messManager;
     }
 
 
