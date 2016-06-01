@@ -31,8 +31,8 @@ public class UserInfoDao extends TemplateDAO<UserInfo, String> {
      * 插入用户
      *
      */
-    public static void saveUser(UserInfo userEntity) {
-        getDao().insert(userEntity);
+    public static void saveUser(UserInfo userInfo) {
+        getDao().insert(userInfo);
     }
 
     /**
@@ -51,22 +51,22 @@ public class UserInfoDao extends TemplateDAO<UserInfo, String> {
     /**
      * 更新用户
      *
-     * @param userEntity
+     * @param userInfo
      */
-    public static void updateUser(UserInfo userEntity) {
+    public static void updateUser(UserInfo userInfo) {
         SQLiteDatabase db=getDao().getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put("name",userEntity.getName());
-        values.put("hometown",userEntity.getHomeTown());
-        values.put("sex",userEntity.getSex());
-        values.put("phone",userEntity.getPhone());
-        values.put("email",userEntity.getEmail());
-        values.put("companyname",userEntity.getCompanyName());
-        values.put("companyaddr",userEntity.getCompanyAddr());
-        values.put("companyphone",userEntity.getCompanyPhone());
-        values.put("job",userEntity.getJob());
-        values.put("icon",userEntity.getIcon());
-        db.update(getDao().getTableName(), values, "username=?", new String[]{userEntity.getUsername()});
+        values.put("name",userInfo.getName());
+        values.put("hometown",userInfo.getHomeTown());
+        values.put("sex",userInfo.getSex());
+        values.put("phone",userInfo.getPhone());
+        values.put("email",userInfo.getEmail());
+        values.put("companyname",userInfo.getCompanyName());
+        values.put("companyaddr",userInfo.getCompanyAddr());
+        values.put("companyphone",userInfo.getCompanyPhone());
+        values.put("job",userInfo.getJob());
+        values.put("icon",userInfo.getIcon());
+        db.update(getDao().getTableName(), values, "username=?", new String[]{userInfo.getUsername()});
     }
 
     /**

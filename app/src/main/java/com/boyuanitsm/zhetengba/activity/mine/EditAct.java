@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -96,14 +97,14 @@ public class EditAct extends BaseActivity{
         if(TYPE==8){
 
         }else {
-            RequestManager.getUserManager().modifyUserInfo(userInfo, new ResultCallback() {
+            RequestManager.getUserManager().modifyUserInfo(userInfo, new ResultCallback<ResultBean<String>>() {
                 @Override
                 public void onError(int status, String errorMsg) {
 
                 }
 
                 @Override
-                public void onResponse(Object response) {
+                public void onResponse(ResultBean<String> response) {
                     UserInfoDao.updateUser(userInfo);
                     sendBroadcast(new Intent(PersonalmesAct.USER_INFO));
                     MyToastUtils.showShortToast(getApplicationContext(), "修改信息成功");
@@ -123,10 +124,10 @@ public class EditAct extends BaseActivity{
         String content = cetEditInfo.getText().toString().trim();
         switch (TYPE){
             case 1:
+                if(userInfo!=null){
                 if(!(TextUtils.isEmpty(content))){
                     userInfo.setName(content);
-                }else userInfo.setName("");
-
+                }else userInfo.setName("");}
                 break;
             case 2:
                 boolean isMobileNO = ZtinfoUtils.isMobileNO(content);
@@ -134,7 +135,7 @@ public class EditAct extends BaseActivity{
                     MyToastUtils.showShortDebugToast(getApplicationContext(),"请输入正确的手机号吗");
                     return;
                 }else {
-                    if(!(TextUtils.isEmpty(content))){
+                    if(!TextUtils.isEmpty(content)){
                         userInfo.setPhone(content);
                     }else {userInfo.setPhone("");}
                 }

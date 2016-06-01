@@ -29,7 +29,7 @@ public interface IZtbUrl {
     /**=========修改用户头像==========**/
     public static final String MODIFYUSERICON_URL=BASE_URL+"manager/login/modifyUserIcon.do";
 
-    /**=========修改用户头像==========**/
+    /**=========修改用户信息==========**/
     public static final String MODIFYUSERINFO_URL=BASE_URL+"manager/login/modifyUserInfo.do";
 
 
