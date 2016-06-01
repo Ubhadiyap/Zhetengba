@@ -3,10 +3,14 @@ package com.boyuanitsm.zhetengba.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.leaf.library.db.annotation.Column;
+import com.leaf.library.db.annotation.Table;
+
 /**
  * 用户实体类登录返回来的
  * Created by gxy on 2015/11/25.
  */
+@Table(name = "user_table")
 public class UserInfo implements Parcelable {
     //{"id":"5ffaf68326f211e69615eca86ba4ba05",
     // "username":"13917702726",
@@ -42,55 +46,77 @@ public class UserInfo implements Parcelable {
     // "petName":null,
     // "homeTown":null,
     // "dictName":null}
-
+    @Column
     private String id;//用户id
+    @Column
     private String username;
+    @Column
     private String name;
-
+    @Column
     private String password;
+    @Column
     private String mobilePhoneKey;
+    @Column
     private String phone;
 
-
+    @Column
     private String bindMobileCount;
+    @Column
     private String email;
+    @Column
     private String qq;
-
+    @Column
     private String wechat;
+    @Column
     private String icon;
+    @Column
     private String token;
-
+    @Column
     private String referralCode;//用户id
+    @Column
     private String myReferralCode;
+    @Column
     private String companyName;
-
+    @Column
     private String companyAddr;
+    @Column
     private String companyPhone;
+    @Column
     private String job;
 
-
+    @Column
     private String userType;
+    @Column
     private String isValid;
+    @Column
     private String createPersonId;
-
+    @Column
     private String createTime;
+    @Column
     private String modifyPersonId;
+    @Column
     private String modifyTime;
 
-
+    @Column
     private String remark;
+    @Column
     private String empno;
+    @Column
     private String dictId;
 
-
+    @Column
     private String accredit;
+    @Column
     private String birthday;
+    @Column
     private String sex;
-
+    @Column
     private String address;
+    @Column
     private String petName;
+    @Column
     private String homeTown;
-
+    @Column
     private String dictName;
 
     public UserInfo() {

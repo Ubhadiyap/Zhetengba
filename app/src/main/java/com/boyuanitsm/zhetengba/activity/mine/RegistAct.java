@@ -224,11 +224,12 @@ public class RegistAct extends BaseActivity {
         RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                i=60;
                 tv_code.setEnabled(false);
                 timer = new Timer();
                 myTask = new MyTimerTask();
