@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.boyuanitsm.zhetengba.bean.UserInfo;
-import com.boyuanitsm.zhetengba.util.ShUtils;
+import com.boyuanitsm.zhetengba.utils.ShUtils;
 import com.leaf.library.db.TemplateDAO;
 
 import java.util.List;

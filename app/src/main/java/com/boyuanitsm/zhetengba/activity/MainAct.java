@@ -31,7 +31,6 @@ import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
-import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.hyphenate.EMContactListener;

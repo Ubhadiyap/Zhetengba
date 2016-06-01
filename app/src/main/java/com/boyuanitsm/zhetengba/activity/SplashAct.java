@@ -7,8 +7,8 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
-import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.hyphenate.chat.EMClient;
 
 /**

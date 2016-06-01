@@ -14,7 +14,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.util.VolleyErrorHelper;
-import com.boyuanitsm.zhetengba.util.GsonUtils;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.google.gson.Gson;
