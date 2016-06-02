@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -118,11 +119,15 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qunavatar);
         LinearLayout ll_add_friend = (LinearLayout) v.findViewById(R.id.ll_add_friend);
 
-        mPopupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_stroke));
+//        mPopupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_stroke));
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setFocusable(true);
         mPopupWindow.setContentView(v);
-        mPopupWindow.showAsDropDown(rlAdd, -150, 10);
+        //获取xoff
+        WindowManager manager = (WindowManager) getActivity().getSystemService(getActivity().WINDOW_SERVICE);
+        int xpos = manager.getDefaultDisplay().getWidth() / 2 - mPopupWindow.getWidth() / 2;
+        //xoff,yoff基于anchor的左下角进行偏移。
+        mPopupWindow.showAsDropDown(rlAdd, xpos, 20);
         ll_sao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -11,6 +11,11 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.LabelGVadapter;
 import com.boyuanitsm.zhetengba.adapter.LabelGvMyadapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -26,11 +31,11 @@ public class LabelMangerAct extends BaseActivity {
     private GridView gv1;
     @ViewInject(R.id.gv2)
     private GridView gv2;
-    private List<String> list=new ArrayList<>();
-    private String[] allLabelNum= {"待解救","努加班","幸福i","外貌协","文艺青","月光族","技术宅","上班族","白领","码农","供房i","静待缘","心如止","失恋g"};
-    private List<String> mylist=new ArrayList<>();
+    private List<LabelBannerInfo> list=new ArrayList<LabelBannerInfo>();
+    private List<LabelBannerInfo> mylist=new ArrayList<>();
     private LabelGVadapter labelGVadapter;
-   private LabelGvMyadapter myadapter;
+    private LabelGvMyadapter myadapter;
+    private String labelids;//接口传入参数
     @Override
     public void setLayout() {
         setContentView(R.layout.act_labelmana2);
@@ -42,18 +47,29 @@ public class LabelMangerAct extends BaseActivity {
         setRight("完成", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyToastUtils.showShortToast(LabelMangerAct.this,"标签添加完成");
+//                MyToastUtils.showShortToast(LabelMangerAct.this, "标签添加完成");
+//                if (mylist==null){
+//                    MyToastUtils.showShortToast(LabelMangerAct.this,"至少选择一个兴趣标签");
+//                }else if (mylist.size()==1){
+//                    labelids=mylist.get(0).getId();
+//                    addInterestLabel(labelids);
+//                }else if (mylist.size()>1){
+//                    labelids=mylist.get(0).getId();
+//                    for (int i=1;i<mylist.size();i++){
+//                        labelids=labelids+","+mylist.get(i).getId();
+//                    }
+//                    addInterestLabel(labelids);
+//                }
+                MyLogUtils.degug("选择的所有标签："+mylist.toString());
+                addInterestLabel(mylist.get(0).getId());
+
             }
         });
 //        添加标签到全部标签
-        for (int i=0;i<allLabelNum.length;i++){
-            list.add(allLabelNum[i]);
-        }
-       labelGVadapter=new LabelGVadapter(LabelMangerAct.this,list);
-            gv2.setAdapter(labelGVadapter);
-        gv2.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        getIntrestLabel("0");
         updata();
-
+//        MyLogUtils.info(list.get(2).getDictName());
+//        MyToastUtils.showShortToast(this,list.get(2).getDictName());
 
     }
 
@@ -61,10 +77,10 @@ public class LabelMangerAct extends BaseActivity {
         gv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = (String) gv2.getItemAtPosition(position);
+                LabelBannerInfo str = (LabelBannerInfo) gv2.getItemAtPosition(position);
                 if (mylist.size()>0){
                     for (int i=0;i<mylist.size();i++){
-                        if (str.equals(mylist.get(i))){
+                        if (str.getDictName().equals(mylist.get(i).getDictName())){
                             MyToastUtils.showShortToast(LabelMangerAct.this,str+"标签已添加");
                             return ;
                         }
@@ -90,7 +106,7 @@ public class LabelMangerAct extends BaseActivity {
         gv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = (String) gv1.getItemAtPosition(position);
+                LabelBannerInfo str = (LabelBannerInfo) gv1.getItemAtPosition(position);
                 labelGVadapter.setBackGround(labelposition(str), 1);
                 labelGVadapter.notifyDataSetChanged();
                 mylist.remove(position);
@@ -100,7 +116,7 @@ public class LabelMangerAct extends BaseActivity {
         });
     }
     //刷新全部标签对应标签背景
-    private int labelposition(String str){
+    private int labelposition(LabelBannerInfo str){
         int position=-1;
         for (int i=0;i<list.size();i++){
             if (str.equals(list.get(i))){
@@ -109,4 +125,48 @@ public class LabelMangerAct extends BaseActivity {
         }
         return position;
     }
+
+    /**
+     * 个人兴趣标签/全部标签
+     * @param dictType
+     * @return
+     */
+    private void getIntrestLabel(String dictType){
+        RequestManager.getScheduleManager().getIntrestLabelList(dictType, new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
+                list = response.getData();
+                labelGVadapter=new LabelGVadapter(LabelMangerAct.this,list);
+                gv2.setAdapter(labelGVadapter);
+                gv2.setSelector(new ColorDrawable(Color.TRANSPARENT));
+                MyLogUtils.info(list.get(5).getDictName());
+            }
+        });
+    }
+
+    /**
+     * 添加个人兴趣标签
+     * @param labelIds
+     */
+    private void addInterestLabel(String labelIds){
+        MyLogUtils.degug("个人兴趣："+labelIds);
+        RequestManager.getScheduleManager().addInterestLabel(labelIds, new ResultCallback() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyLogUtils.degug("错误："+errorMsg);
+            }
+
+            @Override
+            public void onResponse(Object response) {
+                MyLogUtils.degug("成功了");
+                //finish();
+            }
+        });
+    }
+
 }

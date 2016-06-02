@@ -16,7 +16,10 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
 
@@ -29,32 +32,41 @@ import java.util.List;
  */
 public class ActAdapter extends BaseAdapter{
     private Context context;
-
+    private List<SimpleInfo> infos ;
     public ActAdapter(Context context) {
         this.context=context;
     }
 
-    private List<SimpleInfo> infos ;
+
 
     public ActAdapter(Context context, List<SimpleInfo> infos) {
         this.infos = infos ;
         this.context = context;
     }
+    public void update(List<SimpleInfo> list){
+        this.infos=list;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {
-        return 2;
+        if (infos!=null){
+            return infos.size();
+        }else {
+            return 0;
+        }
+
     }
 
     @Override
     public Object getItem(int position) {
 
-        return null;
+        return infos.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -89,18 +101,18 @@ public class ActAdapter extends BaseAdapter{
             convertView.setTag(viewHolder);
 
         }
-        viewHolder.tv_niName.setText("会说话的猫");
-        viewHolder.tv_loaction.setText("汤泉国际");
-        viewHolder.tv_hdtheme.setText("周末一起去旅游吧");
-        viewHolder.tv_guanzhu_num.setText(0+"");
-        viewHolder.tv_join_num.setText(0+"");
-        viewHolder.tv_join_tal_num.setText(15+"");
-        viewHolder.tv_date.setText("3月6日 15：00—18：30");
+//        viewHolder.tv_niName.setText(infos.get(position));字段缺少用户名
+        viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());
+        viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());
+        viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum());
+        viewHolder.tv_join_num.setText(infos.get(position).getMemberNum());
+        viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber());
+        viewHolder.tv_date.setText(infos.get(position).getStartTime().toString() + infos.get(position).getEndTime().toString());
         viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
-        viewHolder.iv_headphoto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_user));
-        viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));
-        viewHolder.iv_actdetial.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_01));
-           viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
+//        viewHolder.iv_headphoto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_user));//用户头像
+//        viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));//用户性别
+        viewHolder.iv_actdetial.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_01));//labelId
+           viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
             viewHolder.ll_show.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -108,6 +120,7 @@ public class ActAdapter extends BaseAdapter{
                 }
             });
         viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));//默认图标
+//        返回状态判定是否关注
         viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,5 +241,39 @@ public class ActAdapter extends BaseAdapter{
         public LinearLayout ll_show,ll_show2,ll_show3;
     }
 
+    /***
+     * 关注活动
+     * @param activityId
+     */
+    private void getActivityCollection(String activityId){
+        RequestManager.getScheduleManager().getActivityCollection(activityId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(context,errorMsg);
+            }
 
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                String state=response.getData();//返回关注后状态
+            }
+        });
+    }
+
+    /**
+     * 参加或响应活动
+     * @param activityId
+     */
+    private void getRespondActivity(String activityId){
+        RequestManager.getScheduleManager().getRespondActivity(activityId, new ResultCallback() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+    }
 }
