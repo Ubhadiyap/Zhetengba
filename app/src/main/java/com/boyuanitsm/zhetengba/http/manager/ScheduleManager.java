@@ -22,7 +22,6 @@ public class ScheduleManager extends RequestManager {
      * @param callback
      */
     public void addActivity(Map<String, String> params, ResultCallback callback) {
-       params = new HashMap<>();
         doPost(IZtbUrl.ADD_ACTIVITY, params, callback);
     }
 
@@ -133,6 +132,16 @@ public class ScheduleManager extends RequestManager {
         doPost(IZtbUrl.ACTIVITY_LABEL_URL,params,callback);
     }
 
+    /**
+     * userId - 用户id 注：userId为空时查询个人兴趣标签；userId不为空时，查询他人兴趣标签（活动、档期列表点击头像查看信息）
+     * 返回:ResponseEntity(集合 List UserInterest) 响应信息
+     * @param
+     * @param callback
+     */
+    public void findMyLabelListMoreByUserId(ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        doPost(IZtbUrl.MY_INTEREST_URL,params,callback);
+    }
     /**
      * 档期轮播图,返回LabelBanner集合
      * @param callback

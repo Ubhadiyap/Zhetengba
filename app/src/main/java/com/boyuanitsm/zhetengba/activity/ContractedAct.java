@@ -84,7 +84,7 @@ public class ContractedAct extends BaseActivity {
     private Map<String,String> newMap=new HashMap<>();
     private List<ActivityLabel> list;
     private  GvTbAdapter adapter;
-    private int select=1;
+    private int select=0;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -96,15 +96,6 @@ public class ContractedAct extends BaseActivity {
         map = new HashMap<>();
         list=new ArrayList<ActivityLabel>();
         getAcitivtyLabel();
-        gv_tab.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ActivityLabel activityLabel = (ActivityLabel) gv_tab.getItemAtPosition(position);
-                newMap.put("labelId", activityLabel.getLabelId());
-                newMap.put("icon", activityLabel.getIcon());
-            }
-        });
         et_pp_num.addTextChangedListener(judgeEditNum());
         tb_friend.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
             @Override
@@ -127,7 +118,7 @@ public class ContractedAct extends BaseActivity {
 
            if (et_theme.getText().toString()!=null&&et_start.getText().toString()!=null&&et_end.getText().toString()!=null&&et_pp_num.getText().toString()!=null) {
                newMap.put("activityTheme",et_theme.getText().toString());
-               newMap.put("createTime",et_start.getText().toString());
+               newMap.put("startTime",et_start.getText().toString());
                newMap.put("endTime",et_end.getText().toString());
                newMap.put("activitySite",tv_select.getText().toString());
                newMap.put("inviteNumber",et_pp_num.getText().toString());
@@ -189,7 +180,7 @@ public class ContractedAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         String time = format.format(date);
 //                        startDate = time;
                         et_end.setText(time);
@@ -335,12 +326,22 @@ public class ContractedAct extends BaseActivity {
 
                 list=response.getData();
                 adapter = new GvTbAdapter(ContractedAct.this, list);
-                //默认选中第一个；
-                adapter.setSeclection(0);
-                adapter.notifyDataSetChanged();
+//                //默认选中第一个；
+//                adapter.setSeclection(0);
+//                adapter.notifyDataSetChanged();
                 //设置标签的，适配器
                 gv_tab.setAdapter(adapter);
-
+                gv_tab.setSelector(new ColorDrawable(Color.TRANSPARENT));
+                gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ActivityLabel activityLabel = list.get(position);
+                        newMap.put("labelId", activityLabel.getId());
+                        newMap.put("icon", activityLabel.getIcon());
+                        adapter.setSeclection(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
     }

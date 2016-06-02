@@ -77,7 +77,8 @@ public interface IZtbUrl {
     public static final String INTREST_LABEL_URL=BASE_URL+"schedule/login/findLabelList.do";
     //添加兴趣标签
     public static final String ADD_INTREST_LABEL=BASE_URL+"schedule/login/addInterestLabel.do";
-
+   //我的兴趣标签列表(MORE)接口
+   public static final String MY_INTEREST_URL=BASE_URL+"schedule/login/findMyLabelListMoreByUserId.do";
 
     //档期banner轮播图
     public static final String BANNER_CAN_URL=BASE_URL+"schedule/login/findScheduleBanner.do";

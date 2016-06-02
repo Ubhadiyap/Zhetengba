@@ -56,6 +56,7 @@ public class SimpleFrg extends BaseFragment {
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
     private List<BannerInfo> bannerInfoList;
     private List<SimpleInfo> list;//活动对象集合
+    private List<SimpleInfo> datas;
     private BroadcastReceiver simDteChangeRecevier=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

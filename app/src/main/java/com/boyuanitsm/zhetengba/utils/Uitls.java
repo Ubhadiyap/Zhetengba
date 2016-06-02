@@ -3,8 +3,6 @@ package com.boyuanitsm.zhetengba.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.boyuanitsm.zhetengba.util.GsonUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
