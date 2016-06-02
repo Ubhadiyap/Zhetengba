@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.TestListView;
+import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,11 @@ import java.util.List;
  */
 public class LabelGVadapter extends BaseAdapter {
     private Context context;
-    List<String> list=new ArrayList<>();
+    List<LabelBannerInfo> list=new ArrayList<>();
     private int clickTemp=-1;
     private int backGround=-2;
     private int flag=0;//0是全部标签点击选择，1是我的标签点击标签后，相应标签背景改变；
-    public LabelGVadapter(Context context,List<String> list){
+    public LabelGVadapter(Context context,List<LabelBannerInfo> list){
         this.context=context;
         this.list=list;
     }
@@ -35,14 +35,15 @@ public class LabelGVadapter extends BaseAdapter {
         this.backGround=position;
         this.flag=flag;
     }
-    public void update(List<String> list){
+    public void update(List<LabelBannerInfo> list){
         this.list=list;
         notifyDataSetChanged();
 
     }
     @Override
     public int getCount() {
-        return list.size();
+        return list==null?0:list.size();
+
     }
 
     @Override
@@ -66,7 +67,7 @@ public class LabelGVadapter extends BaseAdapter {
             labelHolder.tv_label2=(TextView)convertView.findViewById(R.id.tv_label2);
             convertView.setTag(labelHolder);
         }
-        labelHolder.tv_label2.setText(list.get(position));
+        labelHolder.tv_label2.setText(list.get(position).getDictName());
 
         //设置点击颜色变换
         if (clickTemp == position&&flag==0) {

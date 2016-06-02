@@ -15,8 +15,13 @@ import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirclexqListAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyListview;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -41,6 +46,15 @@ public class CirxqAct extends BaseActivity {
     private List<Integer>list;
 
     private CirxqAdapter adapter;
+    private String circleId;//圈子id
+    private CircleEntity circleEntity;//圈子实体
+
+    @ViewInject(R.id.head)
+    private CircleImageView head;//头像
+    @ViewInject(R.id.tv_qz)
+    private TextView name;//圈主名
+    @ViewInject(R.id.notice)
+    private TextView notice;//公告
 
 
     private List<List<ImageInfo>> datalist=new ArrayList<>();
@@ -65,7 +79,9 @@ public class CirxqAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("互联网创业");
+        circleId=getIntent().getStringExtra("circleId");
         initData();
+        getCircleDetail(circleId);
         list = new ArrayList<Integer>(Arrays.asList(R.mipmap.cirxq_l,R.mipmap.cirxq_lb,R.mipmap.cirxq_lbb,R.mipmap.cirxq_l,R.mipmap.cirxq_lb));
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -126,6 +142,21 @@ public class CirxqAct extends BaseActivity {
 
     }
 
+    //获取圈子详情
+    private void getCircleDetail(String circleId){
+        RequestManager.getTalkManager().myCircleDetail(circleId, new ResultCallback<ResultBean<CircleEntity>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<CircleEntity> response) {
+                circleEntity=response.getData();
+
+            }
+        });
+    }
 
 
 }

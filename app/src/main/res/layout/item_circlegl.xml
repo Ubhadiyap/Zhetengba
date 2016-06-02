@@ -31,12 +31,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/name"
                     style="@style/tv_second"
                     android:text="武汉人在上海"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/notice"
                     style="@style/tv_second"
                     android:layout_marginTop="10dp"
                     android:text="公告：今天下午大家来我家吃饭"

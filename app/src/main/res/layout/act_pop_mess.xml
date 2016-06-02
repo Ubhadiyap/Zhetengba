@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="108dp"
-    android:layout_height="115dp"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+>
+<LinearLayout
+    android:layout_marginRight="10dp"
     android:paddingTop="5dp"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
     android:background="@drawable/bg_stroke"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_width="108dp"
+    android:layout_height="115dp">
 
     <LinearLayout
         android:id="@+id/ll_sao"
@@ -73,5 +79,7 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+</LinearLayout>
 
 </LinearLayout>

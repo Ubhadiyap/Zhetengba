@@ -7,7 +7,13 @@ package com.boyuanitsm.zhetengba.http;
 public interface IZtbUrl {
 
     //基础地址
-    public  String BASE_URL="http://172.16.6.253:8089/zhetengba/";
+
+
+    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+    //测试
+//    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
+
+   // public  String BASE_URL="http://172.16.6.253:8089/zhetengba/";
 
     /**=========登出地址==========**/
     public  String LOGOUT_URL=BASE_URL+"manager/unLogin/logout.do";
@@ -35,8 +41,43 @@ public interface IZtbUrl {
     /**=========修改用户信息==========**/
     public  String MODIFYUSERINFO_URL=BASE_URL+"manager/login/modifyUserInfo.do";
 
+
     /**=========收藏列表接口==========**/
     public  String COLLECTIONLIST_URL=BASE_URL+"schedule/login/findCollectionListByUserId.do";
 
+    /*建立圈子*/
+    String CREATE_CIRCLE_URL=BASE_URL+"talk/login/addCircle.do";
+    /*我的圈子列表*/
+    String CIRCLE_LIST_URL=BASE_URL+"talk/login/findCircleList.do";
+    /*我的圈子详情*/
+    String CIRCLE_DETAIL_URL=BASE_URL+"talk/login/findCircleInfo.do";
+    /*我的圈子人员*/
+    String CIRCLE_MEMBER_URL=BASE_URL+"talk/login/findCircleMember.do";
+    /*搜索圈子*/
+    String CIRCLE_SEARCH_URL=BASE_URL+"talk/login/findCircle.do";
 
+
+
+
+
+    /**=======档期 =======*/
+
+    //发布活动
+    public static final String ADD_ACTIVITY=BASE_URL+"schedule/login/addActivity.do";
+    //banner轮播图
+    public static final String BANNER_URL=BASE_URL+"schedule/login/findActivityBanner.do";
+    //活动列表
+    public static final String ACTIVITY_LIST=BASE_URL+"schedule/login/findActivityList.do";
+    //活动详情
+    public static final String ACTIVITY_DETIALS=BANNER_URL+"schedule/login/findActivityDetails.do";
+    //关注活动
+    public static final String ACTIVITY_COLLECTION_URL=BASE_URL+"schedule/login/addActivityCollection.do";
+    //相应（参加）活动
+    public static final String RESPOND_ACTIVITY_URL=BASE_URL+"schedule/login/respondActivity.do";
+    //好友/全部
+    public static final String FRIEND_ALL_URL=BASE_URL+"schedule/login/findActivityAllOrFriends.do";
+    //获取兴趣标签
+    public static final String INTREST_LABEL_URL=BASE_URL+"schedule/login/findLabelList.do";
+    //添加兴趣标签
+    public static final String ADD_INTREST_LABEL=BASE_URL+"schedule/login/addInterestLabel.do";
 }
