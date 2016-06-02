@@ -123,5 +123,34 @@ public class UserManager extends RequestManager{
     }
 
 
+    /**
+     * 反馈接口
+     * @param content
+     * @param callback
+     */
+    public void addFeedBack(String content,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("content",content);
+        doPost(IZtbUrl.ADDFEEDBACK_URL,params,callback);
+    }
+
+
+    /**
+     * 我的兴趣标签列表
+     * @param
+     * @param callback
+     */
+    public void findMyLabelListByUserId(int limitNum ,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("limitNum",limitNum+"");
+        doPost(IZtbUrl.MYLABELLIST_URL,params,callback);
+    }
+
+
+
+
+
+
+
 
 }

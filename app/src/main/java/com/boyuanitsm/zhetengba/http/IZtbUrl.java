@@ -45,6 +45,15 @@ public interface IZtbUrl {
     /**=========收藏列表接口==========**/
     public  String COLLECTIONLIST_URL=BASE_URL+"schedule/login/findCollectionListByUserId.do";
 
+    /**=========反馈接==========**/
+    public  String ADDFEEDBACK_URL=BASE_URL+"schedule/login/addFeedBack.do";
+
+    /**=========获取事件信息（时间轴接口）==========**/
+    public  String HISTORYMESSAGE_URL=BASE_URL+"schedule/login/findHistoryMessageListByUserId.do";
+
+    /**=========我的兴趣标签列表（非全部）==========**/
+    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
+
     /*建立圈子*/
     String CREATE_CIRCLE_URL=BASE_URL+"talk/login/addCircle.do";
     /*我的圈子列表*/
@@ -80,4 +89,6 @@ public interface IZtbUrl {
     public static final String INTREST_LABEL_URL=BASE_URL+"schedule/login/findLabelList.do";
     //添加兴趣标签
     public static final String ADD_INTREST_LABEL=BASE_URL+"schedule/login/addInterestLabel.do";
+
+
 }
