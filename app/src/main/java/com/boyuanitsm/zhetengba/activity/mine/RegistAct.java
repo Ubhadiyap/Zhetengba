@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ public class RegistAct extends BaseActivity {
     private EditText et_yzm;
     @ViewInject(R.id.tv_code)
     private TextView tv_code;
+    @ViewInject(R.id.register_cb)
+    private CheckBox register_cb;
 
 
     private String phone, yzm,pwd,cpwd;//手机号，验证码，确认的密码
@@ -52,6 +55,7 @@ public class RegistAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("注册");
+
 
     }
 
@@ -81,8 +85,7 @@ public class RegistAct extends BaseActivity {
             case R.id.tv_zc://注册
                 if(isValidate()){
 //                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
-                    toRegister(phone, yzm, pwd);
-
+                   toRegister(phone, yzm, pwd);
                 }
 
                 break;
@@ -157,6 +160,11 @@ public class RegistAct extends BaseActivity {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入6-20位字母或数字");
             return false;
         }
+        if (!register_cb.isChecked()) {
+            MyToastUtils.showShortToast(getApplicationContext(), "请勾选条例");
+            return false;
+        }
+
         return true;
     }
 

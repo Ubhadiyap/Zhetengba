@@ -35,6 +35,8 @@ public interface IZtbUrl {
     /**=========修改用户信息==========**/
     public  String MODIFYUSERINFO_URL=BASE_URL+"manager/login/modifyUserInfo.do";
 
+    /**=========收藏列表接口==========**/
+    public  String COLLECTIONLIST_URL=BASE_URL+"schedule/login/findCollectionListByUserId.do";
 
 
 }

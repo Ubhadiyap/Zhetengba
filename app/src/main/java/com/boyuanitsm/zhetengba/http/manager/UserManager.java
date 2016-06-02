@@ -44,9 +44,9 @@ public class UserManager extends RequestManager{
 
     /**
      * 注册
-     * @param username
+     * @param
      * @param captcha
-     * @param password
+     * @param
      * @param callback
      */
     public void register(String username,String captcha,String password,ResultCallback callback){
@@ -105,6 +105,20 @@ public class UserManager extends RequestManager{
             e.printStackTrace();
         }
         doPost(IZtbUrl.MODIFYUSERINFO_URL, params, callback);
+
+    }
+
+    /**
+     *我的frg收藏列表
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void findCollectionListByUserId(int page,int rows,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("page",page+"");
+        params.put("rows",rows+"");
+        doPost(IZtbUrl.COLLECTIONLIST_URL, params, callback);
 
     }
 
