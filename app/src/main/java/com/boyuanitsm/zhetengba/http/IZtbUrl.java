@@ -35,6 +35,18 @@ public interface IZtbUrl {
     /**=========修改用户信息==========**/
     public  String MODIFYUSERINFO_URL=BASE_URL+"manager/login/modifyUserInfo.do";
 
+    /*建立圈子*/
+    String CREATE_CIRCLE_URL=BASE_URL+"talk/login/addCircle.do";
+    /*我的圈子列表*/
+    String CIRCLE_LIST_URL=BASE_URL+"talk/login/findCircleList.do";
+    /*我的圈子详情*/
+    String CIRCLE_DETAIL_URL=BASE_URL+"talk/login/findCircleInfo.do";
+    /*我的圈子人员*/
+    String CIRCLE_MEMBER_URL=BASE_URL+"talk/login/findCircleMember.do";
+    /*搜索圈子*/
+    String CIRCLE_SEARCH_URL=BASE_URL+"talk/login/findCircle.do";
+
+
 
 
 }
