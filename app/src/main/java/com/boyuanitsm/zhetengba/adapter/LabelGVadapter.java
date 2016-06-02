@@ -68,25 +68,27 @@ public class LabelGVadapter extends BaseAdapter {
             convertView.setTag(labelHolder);
         }
         labelHolder.tv_label2.setText(list.get(position).getDictName());
+        labelHolder.tv_label2.setTextColor(Color.parseColor("#ffffff"));
+        labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green));
 
-        //设置点击颜色变换
-        if (clickTemp == position&&flag==0) {
-            labelHolder.tv_label2.setTextColor(Color.parseColor("#ffffff"));
-            labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green));
-//            map.put(position, tabHolder.tv_tab.getText().toString() + "");
-//            act.setMap(map);
-        }
-//        else {
-////            labelHolder.tv_label2.setTextColor(Color.parseColor("#333333"));
-////            labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green_boder));
-////            map.remove(position);
+//        //设置点击颜色变换
+//        if (clickTemp == position&&flag==0) {
+//            labelHolder.tv_label2.setTextColor(Color.parseColor("#ffffff"));
+//            labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green));
+////            map.put(position, tabHolder.tv_tab.getText().toString() + "");
 ////            act.setMap(map);
 //        }
-        //我的标签背景颜色变化
-        if (backGround==position&&flag==1){
-            labelHolder.tv_label2.setTextColor(Color.parseColor("#333333"));
-            labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green_boder));
-        }
+////        else {
+//////            labelHolder.tv_label2.setTextColor(Color.parseColor("#333333"));
+//////            labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green_boder));
+//////            map.remove(position);
+//////            act.setMap(map);
+////        }
+//        //我的标签背景颜色变化
+//        if (backGround==position&&flag==1){
+//            labelHolder.tv_label2.setTextColor(Color.parseColor("#333333"));
+//            labelHolder.tv_label2.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green_boder));
+//        }
         return convertView;
     }
     class LabelHolder{
