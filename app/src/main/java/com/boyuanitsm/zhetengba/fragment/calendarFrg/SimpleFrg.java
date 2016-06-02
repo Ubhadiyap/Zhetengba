@@ -80,11 +80,11 @@ public class SimpleFrg extends BaseFragment {
     }
     @Override
     public void initData(Bundle savedInstanceState) {
-       list= getActivityList(1 + "", 10 + "");//获取活动实体类
+
         //广播接收者，更新数据
         IntentFilter filter=new IntentFilter();
         filter.addAction("simpleDateChange");
-        mActivity.registerReceiver(simDteChangeRecevier,filter);
+        mActivity.registerReceiver(simDteChangeRecevier, filter);
         //
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
@@ -92,9 +92,7 @@ public class SimpleFrg extends BaseFragment {
         LayoutHelperUtil.freshInit(lv_act);
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
-        //设置简约listview的条目
-        adapter = new ActAdapter(mActivity,list);
-        lv_act.getRefreshableView().setAdapter(adapter);
+        getActivityList(1+"",10+"");
         lv_act.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -289,7 +287,7 @@ public class SimpleFrg extends BaseFragment {
      * @param page
      * @param row
      */
-    private List<SimpleInfo>  getActivityList(String page, String row) {
+    private void getActivityList(String page, String row) {
         RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<List<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -299,10 +297,12 @@ public class SimpleFrg extends BaseFragment {
             @Override
             public void onResponse(ResultBean<List<SimpleInfo>> response) {
                 list = response.getData();
-
+                //设置简约listview的条目
+                adapter = new ActAdapter(mActivity,list);
+                lv_act.getRefreshableView().setAdapter(adapter);
             }
         });
-        return list;
+
     }
 
     /**

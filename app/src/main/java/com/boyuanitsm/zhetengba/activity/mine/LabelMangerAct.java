@@ -47,29 +47,24 @@ public class LabelMangerAct extends BaseActivity {
         setRight("完成", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                MyToastUtils.showShortToast(LabelMangerAct.this, "标签添加完成");
-//                if (mylist==null){
-//                    MyToastUtils.showShortToast(LabelMangerAct.this,"至少选择一个兴趣标签");
-//                }else if (mylist.size()==1){
-//                    labelids=mylist.get(0).getId();
-//                    addInterestLabel(labelids);
-//                }else if (mylist.size()>1){
-//                    labelids=mylist.get(0).getId();
-//                    for (int i=1;i<mylist.size();i++){
-//                        labelids=labelids+","+mylist.get(i).getId();
-//                    }
-//                    addInterestLabel(labelids);
-//                }
-                MyLogUtils.degug("选择的所有标签："+mylist.toString());
-                addInterestLabel(mylist.get(0).getId());
+                if (mylist==null){
+                    MyToastUtils.showShortToast(LabelMangerAct.this,"至少选择一个兴趣标签");
+                }else if (mylist.size()==1){
+                    labelids=mylist.get(0).getId();
+                    addInterestLabel(labelids);
+                }else if (mylist.size()>1){
+                    labelids=mylist.get(0).getId();
+                    for (int i=1;i<mylist.size();i++){
+                        labelids=labelids+","+mylist.get(i).getId();
+                    }
+                    addInterestLabel(labelids);
+                }
 
             }
         });
 //        添加标签到全部标签
         getIntrestLabel("0");
         updata();
-//        MyLogUtils.info(list.get(2).getDictName());
-//        MyToastUtils.showShortToast(this,list.get(2).getDictName());
 
     }
 
@@ -81,7 +76,7 @@ public class LabelMangerAct extends BaseActivity {
                 if (mylist.size()>0){
                     for (int i=0;i<mylist.size();i++){
                         if (str.getDictName().equals(mylist.get(i).getDictName())){
-                            MyToastUtils.showShortToast(LabelMangerAct.this,str+"标签已添加");
+                            MyToastUtils.showShortToast(LabelMangerAct.this,str.getDictName()+"标签已添加");
                             return ;
                         }
                     }
@@ -154,17 +149,15 @@ public class LabelMangerAct extends BaseActivity {
      * @param labelIds
      */
     private void addInterestLabel(String labelIds){
-        MyLogUtils.degug("个人兴趣："+labelIds);
-        RequestManager.getScheduleManager().addInterestLabel(labelIds, new ResultCallback() {
+        RequestManager.getScheduleManager().addInterestLabel(labelIds, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyLogUtils.degug("错误："+errorMsg);
+
             }
 
             @Override
-            public void onResponse(Object response) {
-                MyLogUtils.degug("成功了");
-                //finish();
+            public void onResponse(ResultBean<String> response) {
+                finish();
             }
         });
     }

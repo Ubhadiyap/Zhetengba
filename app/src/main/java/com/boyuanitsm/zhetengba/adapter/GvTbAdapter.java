@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ContractedAct;
+import com.boyuanitsm.zhetengba.bean.ActivityLabel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +28,16 @@ public class GvTbAdapter extends BaseAdapter {
     private boolean flag = false;
     private int clickTemp = -1;//标识选择的Item
     private final String[] TABSTR = {"美食", "旅行", "K歌", "电影", "运动", "棋牌", "演出", "亲子", "逛街", "读书", "美容", "其他"};
+    private List<ActivityLabel> list;
 
     public GvTbAdapter(Context context, ContractedAct act) {
         this.context = context;
         this.act = act;
         map = new HashMap<>();
+    }
+    public GvTbAdapter(Context context,List<ActivityLabel> list){
+        this.context=context;
+        this.list=list;
     }
 
     public void setSeclection(int position) {
@@ -40,12 +46,12 @@ public class GvTbAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return TABSTR.length;
+        return list==null?0:list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return TABSTR[position];
+        return list.get(position);
     }
 
     @Override
@@ -65,7 +71,7 @@ public class GvTbAdapter extends BaseAdapter {
             convertView.setTag(tabHolder);
         }
 
-        tabHolder.tv_tab.setText(TABSTR[position]);
+        tabHolder.tv_tab.setText(list.get(position).getLabelName());
 //        tabHolder.tv_tab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -90,13 +96,13 @@ public class GvTbAdapter extends BaseAdapter {
         if (clickTemp == position) {
             tabHolder.tv_tab.setTextColor(Color.parseColor("#ffffff"));
             tabHolder.tv_tab.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green));
-            map.put(position, tabHolder.tv_tab.getText().toString() + "");
-            act.setMap(map);
+//            map.put(position, tabHolder.tv_tab.getText().toString() + "");
+//            act.setMap(map);
         } else {
             tabHolder.tv_tab.setTextColor(Color.parseColor("#333333"));
             tabHolder.tv_tab.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_circle_stroke_green_boder));
-            map.remove(position);
-            act.setMap(map);
+//            map.remove(position);
+//            act.setMap(map);
         }
         return convertView;
     }
