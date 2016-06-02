@@ -50,6 +50,7 @@
                     android:src="@mipmap/xqbg" />
 
                 <com.boyuanitsm.zhetengba.view.CircleImageView
+                    android:id="@+id/head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -93,6 +94,7 @@
                 android:layout_marginTop="25dp">
 
                 <TextView
+                    android:id="@+id/notice"
                     style="@style/tv_second"
                     android:layout_marginLeft="10dp"
                     android:text="公告：早睡早起身体好，吃嘛嘛香"

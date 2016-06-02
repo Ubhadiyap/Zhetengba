@@ -17,9 +17,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
-import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
-import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
@@ -27,10 +25,9 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.util.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
-import com.boyuanitsm.zhetengba.utils.ZtbUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
+import com.boyuanitsm.zhetengba.widget.ToggleButton;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -77,6 +74,8 @@ public class ContractedAct extends BaseActivity {
     private LinearLayout ll_tab;
     @ViewInject(R.id.tv_select)//地点
     private EditText tv_select;
+    @ViewInject(R.id.tb_friend)//按钮
+    private ToggleButton tb_friend;
 
     private Map<Integer, String> map;
     private boolean flag = true;
@@ -85,6 +84,7 @@ public class ContractedAct extends BaseActivity {
     private Map<String,String> newMap=new HashMap<>();
     private List<ActivityLabel> list;
     private  GvTbAdapter adapter;
+    private int select=1;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -106,7 +106,18 @@ public class ContractedAct extends BaseActivity {
             }
         });
         et_pp_num.addTextChangedListener(judgeEditNum());
-
+        tb_friend.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+                if (select==1){
+                    select=0;
+                    return;
+                }else {
+                    select=1;
+                    return ;
+                }
+            }
+        });
     }
 
     /**
@@ -120,7 +131,7 @@ public class ContractedAct extends BaseActivity {
                newMap.put("endTime",et_end.getText().toString());
                newMap.put("activitySite",tv_select.getText().toString());
                newMap.put("inviteNumber",et_pp_num.getText().toString());
-               newMap.put("activityVisibility",1+"");//button状态
+               newMap.put("activityVisibility",select+"");//button状态
 //               simpleInfo.setActivityTheme(et_theme.getText().toString());
 //               simpleInfo.setActivitySite(tv_select.getText().toString());//位置
 //               simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
@@ -205,7 +216,7 @@ public class ContractedAct extends BaseActivity {
                 break;
             case R.id.bt_plane:
                     initData();
-//                    addActivity(simpleInfo);
+                    addActivity(newMap);
 
 
         }

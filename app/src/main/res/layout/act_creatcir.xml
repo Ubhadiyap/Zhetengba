@@ -53,6 +53,7 @@
             android:text="公告:"
             style="@style/tv_second" />
         <EditText
+            android:id="@+id/etNotes"
             android:hint="选填"
             android:textColorHint="#999999"
             android:textColor="#666666"

@@ -1,4 +1,4 @@
-package com.boyuanitsm.zhetengba.util;
+package com.boyuanitsm.zhetengba.utils;
 
 
 import com.google.gson.Gson;
