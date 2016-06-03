@@ -51,10 +51,9 @@ public class MyColleitionAct extends BaseActivity{
         plv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         plv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         plv.setLastUpdatedLabel(ZhetebaUtils.getCurrentTime());
-//        adapter = new ActAdapter(MyColleitionAct.this);
         adapter=new CollectAdapter(MyColleitionAct.this);
         plv.getRefreshableView().setAdapter(adapter);
-       // findgzPortsMsg(page, rows);
+        findgzPortsMsg(page, rows);
         plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -80,14 +79,14 @@ public class MyColleitionAct extends BaseActivity{
      *
      */
     public void findgzPortsMsg(final int page,int rows){
-        RequestManager.getUserManager().findCollectionListByUserId(page, rows, new ResultCallback<ResultBean<DataBean<List<CollectionBean>>>>() {
+        RequestManager.getUserManager().findCollectionListByUserId(page, rows, new ResultCallback<ResultBean<DataBean<CollectionBean>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<DataBean<List<CollectionBean>>> response) {
+            public void onResponse(ResultBean<DataBean<CollectionBean>> response) {
                 List<CollectionBean>list=response.getData().getRows();
 
             }

@@ -123,7 +123,7 @@ public class PersonalmesAct extends BaseActivity {
                     startActivity(intent);
                     break;
                 case R.id.cv_sex://性别
-
+                    openActivity(SelectSexAct.class);
                     break;
                 case R.id.cv_phoneNum://手机号码
                     intent = new Intent(this, EditAct.class);
