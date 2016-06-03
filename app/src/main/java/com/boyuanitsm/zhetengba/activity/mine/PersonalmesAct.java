@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
@@ -73,36 +74,36 @@ public class PersonalmesAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("个人资料");
-        UserInfo userInfo = UserInfoDao.getUser();
-        if (userInfo != null) {
-            if ((TextUtils.isEmpty(userInfo.getName()))) {
-                cvUserName.setNotesText(userInfo.getName());}
+        UserInfo user = UserInfoDao.getUser();
+        if (user != null) {
+            if ((TextUtils.isEmpty(user.getPetName()))) {
+                cvUserName.setNotesText(user.getPetName());}
 
-            if ((TextUtils.isEmpty(userInfo.getSex()))) {
-                    cvSex.setNotesText(userInfo.getSex());
+            if ((TextUtils.isEmpty(user.getSex()))) {
+                    cvSex.setNotesText(user.getSex());
                 }
-            if ((TextUtils.isEmpty(userInfo.getPhone()))) {
-                cvPhoneNum.setNotesText(userInfo.getPhone());
+            if ((TextUtils.isEmpty(user.getPhone()))) {
+                cvPhoneNum.setNotesText(user.getPhone());
             }
-            if ((TextUtils.isEmpty(userInfo.getEmail()))) {
-                cvEmail.setNotesText(userInfo.getEmail());
-            }
-
-            if ((TextUtils.isEmpty(userInfo.getCompanyName()))) {
-                cvCompanyName.setNotesText(userInfo.getCompanyName());
+            if ((TextUtils.isEmpty(user.getEmail()))) {
+                cvEmail.setNotesText(user.getEmail());
             }
 
-            if ((TextUtils.isEmpty(userInfo.getCompanyAddr()))) {
-                cvCompanyAdd.setNotesText(userInfo.getCompanyAddr());
+            if ((TextUtils.isEmpty(user.getCompanyName()))) {
+                cvCompanyName.setNotesText(user.getCompanyName());
             }
-            if ((TextUtils.isEmpty(userInfo.getCompanyPhone()))) {
-                cvCompanyTel.setNotesText(userInfo.getCompanyPhone());
+
+            if ((TextUtils.isEmpty(user.getCompanyAddr()))) {
+                cvCompanyAdd.setNotesText(user.getCompanyAddr());
             }
-            if ((TextUtils.isEmpty(userInfo.getJob()))) {
-                cvBusiness.setNotesText(userInfo.getJob());
+            if ((TextUtils.isEmpty(user.getCompanyPhone()))) {
+                cvCompanyTel.setNotesText(user.getCompanyPhone());
             }
-            if ((TextUtils.isEmpty(userInfo.getHomeTown()))) {
-                cvHomeTown.setNotesText(userInfo.getHomeTown());
+            if ((TextUtils.isEmpty(user.getJob()))) {
+                cvBusiness.setNotesText(user.getJob());
+            }
+            if ((TextUtils.isEmpty(user.getHomeTown()))) {
+                cvHomeTown.setNotesText(user.getHomeTown());
             }
 
             }
@@ -251,36 +252,37 @@ public class PersonalmesAct extends BaseActivity {
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-        UserInfo userInfo=UserInfoDao.getUser();
-            if (userInfo != null) {
-                if ((TextUtils.isEmpty(userInfo.getName()))) {
-                    cvUserName.setNotesText(userInfo.getName());}
+        UserInfo user=UserInfoDao.getUser();
+            MyLogUtils.degug(user.getPetName());
+            if (user != null) {
+                if ((TextUtils.isEmpty(user.getPetName()))) {
+                    cvUserName.setNotesText(user.getPetName());}
 
-                if ((TextUtils.isEmpty(userInfo.getSex()))) {
-                    cvSex.setNotesText(userInfo.getSex());
+                if ((TextUtils.isEmpty(user.getSex()))) {
+                    cvSex.setNotesText(user.getSex());
                 }
-                if ((TextUtils.isEmpty(userInfo.getPhone()))) {
-                    cvPhoneNum.setNotesText(userInfo.getPhone());
+                if ((TextUtils.isEmpty(user.getPhone()))) {
+                    cvPhoneNum.setNotesText(user.getPhone());
                 }
-                if ((TextUtils.isEmpty(userInfo.getEmail()))) {
-                    cvEmail.setNotesText(userInfo.getEmail());
-                }
-
-                if ((TextUtils.isEmpty(userInfo.getCompanyName()))) {
-                    cvCompanyName.setNotesText(userInfo.getCompanyName());
+                if ((TextUtils.isEmpty(user.getEmail()))) {
+                    cvEmail.setNotesText(user.getEmail());
                 }
 
-                if ((TextUtils.isEmpty(userInfo.getCompanyAddr()))) {
-                    cvCompanyAdd.setNotesText(userInfo.getCompanyAddr());
+                if ((TextUtils.isEmpty(user.getCompanyName()))) {
+                    cvCompanyName.setNotesText(user.getCompanyName());
                 }
-                if ((TextUtils.isEmpty(userInfo.getCompanyPhone()))) {
-                    cvCompanyTel.setNotesText(userInfo.getCompanyPhone());
+
+                if ((TextUtils.isEmpty(user.getCompanyAddr()))) {
+                    cvCompanyAdd.setNotesText(user.getCompanyAddr());
                 }
-                if ((TextUtils.isEmpty(userInfo.getJob()))) {
-                    cvBusiness.setNotesText(userInfo.getJob());
+                if ((TextUtils.isEmpty(user.getCompanyPhone()))) {
+                    cvCompanyTel.setNotesText(user.getCompanyPhone());
                 }
-                if ((TextUtils.isEmpty(userInfo.getHomeTown()))) {
-                    cvHomeTown.setNotesText(userInfo.getHomeTown());
+                if ((TextUtils.isEmpty(user.getJob()))) {
+                    cvBusiness.setNotesText(user.getJob());
+                }
+                if ((TextUtils.isEmpty(user.getHomeTown()))) {
+                    cvHomeTown.setNotesText(user.getHomeTown());
                 }
 
             }

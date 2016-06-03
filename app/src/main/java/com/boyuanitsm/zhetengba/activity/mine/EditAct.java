@@ -28,7 +28,7 @@ public class EditAct extends BaseActivity{
     private ClearEditText cetEditInfo;
     private int TYPE;//1 昵称 2 手机号  3邮箱  4公司名称  5公司地址  6公司电话 7职务
     public static String USER_TYPE = "type";
-    private UserInfo userInfo;
+    private UserInfo user;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_edit);
@@ -37,13 +37,13 @@ public class EditAct extends BaseActivity{
     @Override
     public void init(Bundle savedInstanceState) {
         TYPE = getIntent().getIntExtra(USER_TYPE, 0);
-        userInfo= UserInfoDao.getUser();
+        user= UserInfoDao.getUser();
         setTopPos(TYPE);
         setRight("提交", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveUserinfo();
-                saveUser(userInfo);
+                saveUser(user);
 
 
 //                String content = cetEditInfo.getText().toString().trim();
@@ -124,10 +124,10 @@ public class EditAct extends BaseActivity{
         String content = cetEditInfo.getText().toString().trim();
         switch (TYPE){
             case 1:
-                if(userInfo!=null){
+                if(user!=null){
                 if(!(TextUtils.isEmpty(content))){
-                    userInfo.setName(content);
-                }else userInfo.setName("");}
+                    user.setPetName(content);
+                }else user.setPetName("");}
                 break;
             case 2:
                 boolean isMobileNO = ZtinfoUtils.isMobileNO(content);
@@ -136,8 +136,8 @@ public class EditAct extends BaseActivity{
                     return;
                 }else {
                     if(!TextUtils.isEmpty(content)){
-                        userInfo.setPhone(content);
-                    }else {userInfo.setPhone("");}
+                        user.setPhone(content);
+                    }else {user.setPhone("");}
                 }
                 break;
             case 3:
@@ -147,30 +147,30 @@ public class EditAct extends BaseActivity{
                     return;
                 }else {
                     if(!(TextUtils.isEmpty(content))){
-                        userInfo.setEmail(content);
-                    }else {userInfo.setEmail("");}
+                        user.setEmail(content);
+                    }else {user.setEmail("");}
                 }
                 break;
             case 4:
                 if(!(TextUtils.isEmpty(content))){
-                    userInfo.setCompanyName(content);
-                }else userInfo.setCompanyName("");
+                    user.setCompanyName(content);
+                }else user.setCompanyName("");
                 break;
             case 5:
                 if(!(TextUtils.isEmpty(content))){
-                    userInfo.setCompanyAddr(content);
-                }else userInfo.setCompanyAddr("");
+                    user.setCompanyAddr(content);
+                }else user.setCompanyAddr("");
                 break;
             case 6:
                 if(!(TextUtils.isEmpty(content))){
-                userInfo.setCompanyPhone(content);
-            }else userInfo.setCompanyPhone("");
+                    user.setCompanyPhone(content);
+            }else user.setCompanyPhone("");
 
                 break;
             case 7:
                 if(!(TextUtils.isEmpty(content))){
-                    userInfo.setJob(content);
-                }else userInfo.setJob("");
+                    user.setJob(content);
+                }else user.setJob("");
 
                 break;
             case 8:
@@ -184,18 +184,18 @@ public class EditAct extends BaseActivity{
         switch (position){
             case 1:
                 setTopTitle("昵称");
-                if(userInfo!=null){
-                    if(!(TextUtils.isEmpty(userInfo.getName()))){
-                        cetEditInfo.setText(userInfo.getName());
+                if(user!=null){
+                    if(!(TextUtils.isEmpty(user.getName()))){
+                        cetEditInfo.setText(user.getName());
                     }
                 }
                 cetEditInfo.setHint("请输入昵称");
                 break;
             case 2:
                 setTopTitle("手机号码");
-                if(userInfo!=null){
-                    if(!(TextUtils.isEmpty(userInfo.getPhone()))){
-                        cetEditInfo.setText(userInfo.getPhone());
+                if(user!=null){
+                    if(!(TextUtils.isEmpty(user.getPhone()))){
+                        cetEditInfo.setText(user.getPhone());
                     }
                 }
                 cetEditInfo.setHint("请输入手机号码");
@@ -204,45 +204,45 @@ public class EditAct extends BaseActivity{
                 break;
             case 3:
                 setTopTitle("邮箱");
-                if(userInfo!=null){
-                    if(!(TextUtils.isEmpty(userInfo.getEmail()))){
-                        cetEditInfo.setText(userInfo.getEmail());
+                if(user!=null){
+                    if(!(TextUtils.isEmpty(user.getEmail()))){
+                        cetEditInfo.setText(user.getEmail());
                     }
                 }
                 cetEditInfo.setHint("请输入邮箱");
                 break;
             case 4:
                 setTopTitle("公司名称");
-                if(userInfo!=null){
-                    if(!(TextUtils.isEmpty(userInfo.getCompanyName()))){
-                        cetEditInfo.setText(userInfo.getCompanyName());
+                if(user!=null){
+                    if(!(TextUtils.isEmpty(user.getCompanyName()))){
+                        cetEditInfo.setText(user.getCompanyName());
                     }
                 }
                 cetEditInfo.setHint("请输入公司名称");
                 break;
             case 5:
                 setTopTitle("公司地址");
-                if(userInfo!=null){
-                    if(!(TextUtils.isEmpty(userInfo.getCompanyAddr()))){
-                        cetEditInfo.setText(userInfo.getCompanyAddr());
+                if(user!=null){
+                    if(!(TextUtils.isEmpty(user.getCompanyAddr()))){
+                        cetEditInfo.setText(user.getCompanyAddr());
                     }
                 }
                 cetEditInfo.setHint("请输入公司地址");
                 break;
             case 6:
                 setTopTitle("公司电话");
-                if(userInfo!=null){
-                    if(!(TextUtils.isEmpty(userInfo.getCompanyPhone()))){
-                        cetEditInfo.setText(userInfo.getCompanyPhone());
+                if(user!=null){
+                    if(!(TextUtils.isEmpty(user.getCompanyPhone()))){
+                        cetEditInfo.setText(user.getCompanyPhone());
                     }
                 }
                 cetEditInfo.setHint("请输入公司电话");
                 break;
             case 7:
                 setTopTitle("职务");
-                if(userInfo!=null){
-                    if(!(TextUtils.isEmpty(userInfo.getJob()))){
-                        cetEditInfo.setText(userInfo.getJob());
+                if(user!=null){
+                    if(!(TextUtils.isEmpty(user.getJob()))){
+                        cetEditInfo.setText(user.getJob());
                     }
                 }
                 cetEditInfo.setHint("请输入职务");

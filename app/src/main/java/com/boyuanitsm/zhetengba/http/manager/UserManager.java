@@ -96,6 +96,21 @@ public class UserManager extends RequestManager{
         String json = gson.toJson(userInfo);
         try {
             JSONObject obj = new JSONObject(json);
+            if ((obj.toString()).indexOf("createTime") != -1) {
+                obj.remove("createTime");
+            }
+            if ((obj.toString()).indexOf("username") != -1) {
+                obj.remove("username");
+            }
+            if ((obj.toString()).indexOf("modifyTime") != -1) {
+                obj.remove("modifyTime");
+            }
+            if ((obj.toString()).indexOf("password") != -1) {
+                obj.remove("password");
+            }
+            if ((obj.toString()).indexOf("icon") != -1) {
+                obj.remove("icon");
+            }
             Iterator<String> it = obj.keys();
             while (it.hasNext()) {
                 String key = it.next();
