@@ -51,8 +51,11 @@ public interface IZtbUrl {
     /**=========获取事件信息（时间轴接口）==========**/
     public  String HISTORYMESSAGE_URL=BASE_URL+"schedule/login/findHistoryMessageListByUserId.do";
 
-    /**=========我的兴趣标签列表（非全部）==========**/
-    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
+//    /**=========我的兴趣标签列表（非全部）==========**/
+//    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
+
+    /**=========取消收藏接口==========**/
+    public  String REMOVECOLLECTION_URL=BASE_URL+"schedule/login/removeCollection.do";
 
     /*建立圈子*/
     String CREATE_CIRCLE_URL=BASE_URL+"talk/login/addCircle.do";

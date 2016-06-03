@@ -135,17 +135,17 @@ public class UserManager extends RequestManager{
     }
 
 
-    /**
-     * 我的兴趣标签列表
-     * @param
-     * @param callback
-     */
-    public void findMyLabelListByUserId(int limitNum ,ResultCallback callback){
-        Map<String,String> params=new HashMap<>();
-        params.put("limitNum",limitNum+"");
-        doPost(IZtbUrl.MYLABELLIST_URL,params,callback);
-    }
-
+//    /**
+//     * 我的兴趣标签列表
+//     * @param
+//     * @param callback
+//     */
+//    public void findMyLabelListByUserId(int limitNum ,ResultCallback callback){
+//        Map<String,String> params=new HashMap<>();
+//        params.put("limitNum",limitNum+"");
+//        doPost(IZtbUrl.MYLABELLIST_URL,params,callback);
+//    }
+//
 
 
 

@@ -53,7 +53,7 @@ public class MyColleitionAct extends BaseActivity{
         plv.setLastUpdatedLabel(ZhetebaUtils.getCurrentTime());
         adapter = new ActAdapter(MyColleitionAct.this);
         plv.getRefreshableView().setAdapter(adapter);
-        findgzPortsMsg(page, rows);
+       // findgzPortsMsg(page, rows);
         plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
