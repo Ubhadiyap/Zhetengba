@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.http.manager;
 
 import android.text.TextUtils;
 
+import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -43,7 +44,7 @@ public class TalkManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.CIRCLE_LIST_URL,map,callback);
+        doPost(IZtbUrl.CIRCLE_LIST_URL,null,callback);
     }
 
     /**
@@ -57,6 +58,239 @@ public class TalkManager extends RequestManager{
             map.put("circleId", circleId);
         }
         doPost(IZtbUrl.CIRCLE_DETAIL_URL,map,callback);
+    }
+
+    /**
+     * 圈子成员
+     * @param circleId
+     * @param callback
+     */
+    public void myCircleMember(String circleId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleId)) {
+            map.put("circleId", circleId);
+        }
+        doPost(IZtbUrl.CIRCLE_MEMBER_URL,map,callback);
+    }
+
+    /**
+     * 搜索圈子
+     * @param circleName
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void searchCircle(String circleName,int page,int rows,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleName)) {
+            map.put("circleName", circleName);
+        }
+        map.put("page",page+"");
+        map.put("rows",rows+"");
+        doPost(IZtbUrl.CIRCLE_SEARCH_URL,map,callback);
+    }
+
+    /**
+     * 圈主删除人员
+     * @param circleId 圈子id
+     * @param memberIds 圈子成员id
+     * @param callback
+     */
+    public void removeMember(String circleId ,String memberIds ,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleId)){
+            map.put("circleId",circleId);
+        }
+        if(!TextUtils.isEmpty(memberIds)){
+            map.put("memberIds",memberIds);
+        }
+        doPost(IZtbUrl.REMOVE_MEMBER_URL,map,callback);
+    }
+
+    /**
+     * 圈主发布公告
+     * @param circleId
+     * @param notice
+     * @param callback
+     */
+    public void addNotice(String circleId ,String notice ,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleId)){
+            map.put("circleId",circleId);
+        }
+        if(!TextUtils.isEmpty(notice)){
+            map.put("notice",notice);
+        }
+        doPost(IZtbUrl.ADD_NOTICE_URL,map,callback);
+    }
+
+    /**
+     * 圈子成员退出圈
+     * @param circleId
+     * @param callback
+     */
+    public void removeCircle(String circleId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleId)){
+            map.put("circleId",circleId);
+        }
+        doPost(IZtbUrl.REMOVE_CIRCLE_URL,map,callback);
+    }
+
+    /**
+     * 圈子说说发布
+     * @param circleEntity
+     * @param callback
+     */
+    public void addCircleTalk(CircleEntity circleEntity,String circleId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(circleEntity!=null){
+
+        }
+        if(!TextUtils.isEmpty(circleId)){
+            map.put("circleId",circleId );
+        }
+
+        doPost(IZtbUrl.ADD_CIRCLETALK_URL,map,callback);
+    }
+
+    /**
+     * 所有圈子说说列表
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void getAllCircleTalk(int page,int rows,ResultCallback callback ){
+        Map<String,String> map=new HashMap<>();
+        map.put("page",page+"");
+        map.put("rows",rows+"");
+        doPost(IZtbUrl.ALL_CIRCLETALK_URL,map,callback);
+    }
+
+    /**
+     * 获取单个圈子所有说说列表
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void getSingleCircleAllTalks(String circleId,int page,int rows,ResultCallback callback ){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleId)){
+            map.put("circleId",circleId);
+        }
+        map.put("page",page+"");
+        map.put("rows",rows+"");
+        doPost(IZtbUrl.SINGLE_CIRCLETALK_URL,map,callback);
+    }
+
+    /**
+     *  圈子说说点赞
+     * @param circleTalkId
+     * @param callback
+     */
+    public void addCircleLike(String circleTalkId ,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleTalkId)){
+            map.put("circleTalkId",circleTalkId);
+        }
+        doPost(IZtbUrl.CIRCLE_LIKE_URL,map,callback);
+    }
+    /**
+     *  取消圈子说说点赞
+     * @param circleTalkId
+     * @param callback
+     */
+    public void removeCircleLike(String circleTalkId ,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleTalkId)){
+            map.put("circleTalkId",circleTalkId);
+        }
+        doPost(IZtbUrl.CIRCLE_UNLIKE_URL,map,callback);
+    }
+
+    /**
+     * 评论圈子说说
+     * @param circleTalkId
+     * @param fatherCommentId
+     * @param callback
+     */
+    public void commentCircleTalk(String circleTalkId ,String fatherCommentId ,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleTalkId)){
+            map.put("circleTalkId",circleTalkId);
+        }
+        if(!TextUtils.isEmpty(fatherCommentId)){
+            map.put("fatherCommentId",fatherCommentId);
+        }
+        doPost(IZtbUrl.CIRCLE_COMMENT_URL,map,callback);
+    }
+
+    /**
+     * 频道说说列表
+     * @param labelId 频道说说标签ID
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void getChannelTalks(String labelId ,int page,int rows,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(labelId)){
+            map.put("labelId",labelId);
+        }
+        map.put("page",page+"");
+        map.put("rows",rows+"");
+        doPost(IZtbUrl.CHANNELTALK_URL,map,callback);
+    }
+    /**
+     *  频道说说点赞
+     * @param channelTalkId
+     * @param callback
+     */
+    public void addChannelLike(String channelTalkId  ,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(channelTalkId)){
+            map.put("channelTalkId",channelTalkId);
+        }
+        doPost(IZtbUrl.CHANNEL_LIKE_URL,map,callback);
+    }
+    /**
+     *  取消频道说说点赞
+     * @param channelTalkId
+     * @param callback
+     */
+    public void removeChannelLike(String channelTalkId ,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(channelTalkId)){
+            map.put("channelTalkId",channelTalkId);
+        }
+        doPost(IZtbUrl.CHANNEL_UNLIKE_URL,map,callback);
+    }
+    /**
+     * 评论频道说说
+     * @param channelTalkId
+     * @param fatherCommentId
+     * @param callback
+     */
+    public void commentChannelTalk(String channelTalkId  ,String fatherCommentId ,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(channelTalkId )){
+            map.put("channelTalkId",channelTalkId );
+        }
+        if(!TextUtils.isEmpty(fatherCommentId)){
+            map.put("fatherCommentId",fatherCommentId);
+        }
+        doPost(IZtbUrl.CHANNEL_COMMENT_URL,map,callback);
+    }
+
+    /**
+     * 频道说说发布
+     * @param channelTalkEntity
+     * @param callback
+     */
+    public void addChannelTalk(ChannelTalkEntity channelTalkEntity,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+
+        doPost(IZtbUrl.CHANNEL_RELEASE_URL,map,callback);
     }
 
 

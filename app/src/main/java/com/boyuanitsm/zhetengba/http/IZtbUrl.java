@@ -9,9 +9,9 @@ public interface IZtbUrl {
     //基础地址
 
 
-    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
     //测试
-//    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
+    public static final String BASE_URL = "http://172.16.5.211:8080/zhetengba/";
 
    // public  String BASE_URL="http://172.16.6.253:8089/zhetengba/";
 
@@ -51,6 +51,35 @@ public interface IZtbUrl {
     String CIRCLE_MEMBER_URL=BASE_URL+"talk/login/findCircleMember.do";
     /*搜索圈子*/
     String CIRCLE_SEARCH_URL=BASE_URL+"talk/login/findCircle.do";
+    /*圈主删除成员*/
+    String REMOVE_MEMBER_URL=BASE_URL+"talk/login/removeCircleMember.do";
+    /*圈主发布公告*/
+    String ADD_NOTICE_URL=BASE_URL+"talk/login/addCircleNotice.do";
+    /*圈子成员退出圈*/
+    String REMOVE_CIRCLE_URL=BASE_URL+"talk/login/removeCircle.do";
+    /*圈子说说发布*/
+    String ADD_CIRCLETALK_URL=BASE_URL+"talk/login/addCircleTalk.do";
+    /*所有圈子说说列表*/
+    String ALL_CIRCLETALK_URL=BASE_URL+"talk/login/findCircleTalkListByUser.do";
+    /*单个圈子说说列表*/
+    String SINGLE_CIRCLETALK_URL=BASE_URL+"talk/login/findCircleTalkListByCircleId.do";
+    /*圈子说说点赞*/
+    String CIRCLE_LIKE_URL=BASE_URL+"talk/login/addCircleTalkLike.do";
+    /*圈子说说取消点赞*/
+    String CIRCLE_UNLIKE_URL=BASE_URL+"talk/login/removeCircleTalkLike.do";
+    /*圈子说说评论*/
+    String CIRCLE_COMMENT_URL=BASE_URL+"talk/login/addCircleTalkComments.do";
+    /*频道说说列表*/
+    String CHANNELTALK_URL=BASE_URL+"talk/login/findChannelTalkList.do";
+    /*频道说说点赞*/
+    String CHANNEL_LIKE_URL=BASE_URL+"talk/login/addChannelTalkLike.do";
+    /*取消频道说说点赞*/
+    String CHANNEL_UNLIKE_URL=BASE_URL+"talk/login/removeChannelTalkLike.do";
+    /*频道说说评论*/
+    String CHANNEL_COMMENT_URL=BASE_URL+"talk/login/addChannelTalkComments.do";
+    /*频道说说发布*/
+    String CHANNEL_RELEASE_URL=BASE_URL+"talk/login/addChannelTalk.do";
+
 
 
 

@@ -16,6 +16,8 @@ import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -34,6 +36,7 @@ import java.util.List;
 public class CirclexqListAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList;
+    private boolean flag=false;
 
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -83,6 +86,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
             viewHolder.ll_two = (LinearLayout) convertView.findViewById(R.id.ll_two);
+            viewHolder.like = (LinearLayout) convertView.findViewById(R.id.like);
             viewHolder.iv_two_one = (CustomImageView) convertView.findViewById(R.id.iv_two_one);
             viewHolder.iv_two_two = (CustomImageView) convertView.findViewById(R.id.iv_two_two);
             viewHolder.iv_two_three = (CustomImageView) convertView.findViewById(R.id.iv_two_three);
@@ -169,6 +173,19 @@ public class CirclexqListAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
+        //点赞
+        viewHolder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!flag){
+                    flag=true;
+//                    addCircleLike("1");
+                }else {
+                    flag=false;
+//                    removeCircleLike("1");
+                }
+            }
+        });
         //分享对话框
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,9 +227,46 @@ public class CirclexqListAdapter extends BaseAdapter {
         public TextView tv_cir_name;
         private LinearLayout ll_two;
         private CustomImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
+        private LinearLayout like;
         private LinearLayout ll_share;
         private LinearLayout ll_comment;
         private TextView tv_content;
 
     }
+
+    /**
+     * 圈子说说点赞
+     * @param circleTalkId
+     */
+    private void addCircleLike(String circleTalkId ){
+        RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+    }
+    /**
+     * 取消圈子说说点赞
+     * @param circleTalkId
+     */
+    private void removeCircleLike(String circleTalkId ){
+        RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+    }
+
 }

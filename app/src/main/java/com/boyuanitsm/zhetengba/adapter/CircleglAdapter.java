@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,6 +13,7 @@ import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
  */
 public class CircleglAdapter extends BaseAdapter {
     private Context context;
-    private List<CircleEntity> list;
+    private List<CircleEntity> list=new ArrayList<>();
 
     public CircleglAdapter(Context context) {
         this.context = context;
@@ -27,6 +29,10 @@ public class CircleglAdapter extends BaseAdapter {
     public CircleglAdapter(Context context,List<CircleEntity> list) {
         this.context = context;
         this.list=list;
+    }
+    public void notifyChange(List<CircleEntity> list){
+        this.list=list;
+        notifyDataSetChanged();
     }
     @Override
     public int getCount() {
@@ -57,9 +63,15 @@ public class CircleglAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
         if (list!=null&&list.size()>0){
-            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+list.get(position).getAddress(),holder.head);
-            holder.name.setText(list.get(position).getCircleName());
-            holder.notice.setText(list.get(position).getNotice());
+            if(!TextUtils.isEmpty(list.get(position).getAddress())) {
+                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(position).getAddress(), holder.head);
+            }
+            if(!TextUtils.isEmpty(list.get(position).getCircleName())) {
+                holder.name.setText(list.get(position).getCircleName());
+            }
+            if(!TextUtils.isEmpty(list.get(position).getNotice())) {
+                holder.notice.setText(list.get(position).getNotice());
+            }
         }
         return convertView;
     }

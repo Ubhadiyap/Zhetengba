@@ -26,10 +26,10 @@
         android:textSize="14sp"
         android:hint="输入查找的圈子"
         />
-    <ListView
+    <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
         android:divider="@null"
         android:id="@+id/lv_cir_serch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
 
 </LinearLayout>
