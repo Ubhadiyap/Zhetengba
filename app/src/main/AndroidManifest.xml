@@ -101,6 +101,9 @@
         <activity
             android:name=".activity.publish.ScheduleAct"
             android:screenOrientation="portrait"></activity>
+        <!--选择性别界面-->
+       <activity android:name=".activity.mine.SelectSexAct"
+           android:screenOrientation="portrait"></activity>
         <!--个人资料界面-->
         <activity
             android:name=".activity.mine.PersonalmesAct"

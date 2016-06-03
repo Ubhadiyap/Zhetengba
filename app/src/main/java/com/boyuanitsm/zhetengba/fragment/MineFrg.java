@@ -24,6 +24,12 @@ import com.boyuanitsm.zhetengba.adapter.MonthSelectAdp;
 import com.boyuanitsm.zhetengba.adapter.RecycleviewAdp;
 import com.boyuanitsm.zhetengba.adapter.TimeAxisListAdp;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.HistoryMsgBean;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.MyViewPager;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -68,7 +74,8 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        getlable();//获得兴趣标签；
+        findHistory();//获取事件轴
         myDatas = new ArrayList<String>(Arrays.asList("吃货", "不正经", "逗比", "乐观主义", "爱好摄影", "hahhah", "g"));
 //        myDatas = new ArrayList<String>();
         if (myDatas!=null&&myDatas.size()!=0){
@@ -78,6 +85,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
             tvNoLabel.setVisibility(View.VISIBLE);
             rvLabel.setVisibility(View.GONE);
         }
+
         mMouthMargin= ZhetebaUtils.dip2px(mActivity, 5);
         monthList = new ArrayList<>();
         textViewList = new ArrayList<>();
@@ -100,6 +108,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         lvTimeAxis.setOnPageChangeListener(this);
         textViewList.get(0).setTextColor(Color.parseColor("#e7e700"));//默认加载项，标签文字对应变色
         currentPos = 0;
+
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         //设置横向
@@ -132,6 +141,48 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
 //        rvMonthSelect.setAdapter(monthSelectAdp);
     }
 
+    /**
+     * 获取时间轴
+     */
+    private void findHistory() {
+        RequestManager.getScheduleManager().findHistoryMessageListByUserId(new ResultCallback<ResultBean<List<HistoryMsgBean>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<HistoryMsgBean>> response) {
+
+            }
+        });
+    }
+
+    /**
+     *获得个人兴趣标签
+     *
+     */
+    private void getlable() {
+        RequestManager.getScheduleManager().findMyLabelListMoreByUserId(new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(mActivity,errorMsg);
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<UserInterestInfo>> response) {
+
+
+            }
+        });
+    }
+
+    /**
+     * 月份那个
+     * @param month
+     * @param position
+     */
     private void addTitleLayout(String month, int position) {
         //塞入条目
         final TextView textView = (TextView) mActivity.getLayoutInflater().inflate(R.layout.mine_child_title, null);
@@ -275,4 +326,9 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
                 break;
         }
     }
+
+
+
+
+
 }

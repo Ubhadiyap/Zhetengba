@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
+import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +20,13 @@ import java.util.List;
  */
 public class LabelGvMyadapter extends BaseAdapter {
     private Context context;
-    List<LabelBannerInfo> list=new ArrayList<>();
-    public LabelGvMyadapter(Context context, List<LabelBannerInfo> list){
+    List<UserInterestInfo> list=new ArrayList<>();
+    public LabelGvMyadapter(Context context, List<UserInterestInfo> list){
         this.context=context;
         this.list=list;
     }
 
-    public void update(List<LabelBannerInfo> list){
+    public void update(List<UserInterestInfo> list){
         this.list=list;
         notifyDataSetChanged();
 

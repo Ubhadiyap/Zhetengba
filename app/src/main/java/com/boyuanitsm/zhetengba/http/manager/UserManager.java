@@ -44,9 +44,9 @@ public class UserManager extends RequestManager{
 
     /**
      * 注册
-     * @param username
+     * @param
      * @param captcha
-     * @param password
+     * @param
      * @param callback
      */
     public void register(String username,String captcha,String password,ResultCallback callback){
@@ -96,6 +96,21 @@ public class UserManager extends RequestManager{
         String json = gson.toJson(userInfo);
         try {
             JSONObject obj = new JSONObject(json);
+            if ((obj.toString()).indexOf("createTime") != -1) {
+                obj.remove("createTime");
+            }
+            if ((obj.toString()).indexOf("username") != -1) {
+                obj.remove("username");
+            }
+            if ((obj.toString()).indexOf("modifyTime") != -1) {
+                obj.remove("modifyTime");
+            }
+            if ((obj.toString()).indexOf("password") != -1) {
+                obj.remove("password");
+            }
+            if ((obj.toString()).indexOf("icon") != -1) {
+                obj.remove("icon");
+            }
             Iterator<String> it = obj.keys();
             while (it.hasNext()) {
                 String key = it.next();
@@ -107,6 +122,49 @@ public class UserManager extends RequestManager{
         doPost(IZtbUrl.MODIFYUSERINFO_URL, params, callback);
 
     }
+
+    /**
+     *我的frg收藏列表
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void findCollectionListByUserId(int page,int rows,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("page",page+"");
+        params.put("rows",rows+"");
+        doPost(IZtbUrl.COLLECTIONLIST_URL, params, callback);
+
+    }
+
+
+    /**
+     * 反馈接口
+     * @param content
+     * @param callback
+     */
+    public void addFeedBack(String content,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("content",content);
+        doPost(IZtbUrl.ADDFEEDBACK_URL,params,callback);
+    }
+
+
+//    /**
+//     * 我的兴趣标签列表
+//     * @param
+//     * @param callback
+//     */
+//    public void findMyLabelListByUserId(int limitNum ,ResultCallback callback){
+//        Map<String,String> params=new HashMap<>();
+//        params.put("limitNum",limitNum+"");
+//        doPost(IZtbUrl.MYLABELLIST_URL,params,callback);
+//    }
+//
+
+
+
+
 
 
 

@@ -490,4 +490,44 @@ public class UserInfo implements Parcelable {
         dest.writeString(homeTown);
         dest.writeString(dictName);
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "accredit='" + accredit + '\'' +
+                ", id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", mobilePhoneKey='" + mobilePhoneKey + '\'' +
+                ", phone='" + phone + '\'' +
+                ", bindMobileCount='" + bindMobileCount + '\'' +
+                ", email='" + email + '\'' +
+                ", qq='" + qq + '\'' +
+                ", wechat='" + wechat + '\'' +
+                ", icon='" + icon + '\'' +
+                ", token='" + token + '\'' +
+                ", referralCode='" + referralCode + '\'' +
+                ", myReferralCode='" + myReferralCode + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", companyAddr='" + companyAddr + '\'' +
+                ", companyPhone='" + companyPhone + '\'' +
+                ", job='" + job + '\'' +
+                ", userType='" + userType + '\'' +
+                ", isValid='" + isValid + '\'' +
+                ", createPersonId='" + createPersonId + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", modifyPersonId='" + modifyPersonId + '\'' +
+                ", modifyTime='" + modifyTime + '\'' +
+                ", remark='" + remark + '\'' +
+                ", empno='" + empno + '\'' +
+                ", dictId='" + dictId + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", sex='" + sex + '\'' +
+                ", address='" + address + '\'' +
+                ", petName='" + petName + '\'' +
+                ", homeTown='" + homeTown + '\'' +
+                ", dictName='" + dictName + '\'' +
+                '}';
+    }
 }

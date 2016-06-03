@@ -21,6 +21,11 @@ import android.view.Surface;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+
+import org.json.JSONObject;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
@@ -32,7 +37,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -748,5 +755,16 @@ public class ZhetebaUtils {
         //判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
         return packageNames.contains(packageName);
     }
+
+    public static Map<String,String> mapHelper(Map<String,String> map){
+                Map<String,String> newMap=new HashMap<>();
+        for (Map.Entry<String,String> nMap:map.entrySet()){
+            String str= nMap.getKey();
+            newMap.put("str",nMap.getValue());
+        }
+        return newMap;
+
+    }
+
 
 }

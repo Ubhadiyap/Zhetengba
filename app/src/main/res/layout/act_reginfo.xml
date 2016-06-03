@@ -7,6 +7,7 @@
 
     <include layout="@layout/title_act_layout"></include>
     <ScrollView
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,7 +21,8 @@
             android:layout_height="172.5dp"
             android:gravity="center_horizontal">
 
-            <ImageView
+            <com.boyuanitsm.zhetengba.view.CircleImageView
+                android:id="@+id/iv_rgificon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="62.5dp"
@@ -53,6 +55,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/et_pickname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -96,6 +99,7 @@
                     android:textSize="16sp" />
 
                 <RadioGroup
+                    android:id="@+id/rg_sex"
                     android:layout_gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,6 +122,7 @@
                         />
 
                     <RadioButton
+                        android:id="@+id/girl_rd"
                         android:paddingLeft="5dp"
                         android:textColor="#cdcdcd"
                         android:button="@drawable/rb_select"
@@ -142,20 +147,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:orientation="vertical"
-            android:paddingLeft="55dp"
-            android:paddingRight="55dp">
+            android:paddingLeft="55dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:layout_marginTop="25dp"
                     style="@style/tv_second"
                     android:text="兴趣"
                     android:textColor="#333333"
                     android:textSize="16sp" />
+
+                <com.boyuanitsm.zhetengba.view.MyGridView
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/gvxq"
+                    android:numColumns="4"
+                    android:verticalSpacing="15dp"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    ></com.boyuanitsm.zhetengba.view.MyGridView>
 
             </LinearLayout>
 
@@ -163,6 +177,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/wancheng"
             style="@style/com_button"
             android:layout_marginTop="85dp"
             android:text="完成" />

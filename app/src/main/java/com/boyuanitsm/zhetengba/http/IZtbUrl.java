@@ -41,6 +41,22 @@ public interface IZtbUrl {
     /**=========修改用户信息==========**/
     public  String MODIFYUSERINFO_URL=BASE_URL+"manager/login/modifyUserInfo.do";
 
+
+    /**=========收藏列表接口==========**/
+    public  String COLLECTIONLIST_URL=BASE_URL+"schedule/login/findCollectionListByUserId.do";
+
+    /**=========反馈接==========**/
+    public  String ADDFEEDBACK_URL=BASE_URL+"schedule/login/addFeedBack.do";
+
+    /**=========获取事件信息（时间轴接口）==========**/
+    public  String HISTORYMESSAGE_URL=BASE_URL+"schedule/login/findHistoryMessageListByUserId.do";
+
+//    /**=========我的兴趣标签列表（非全部）==========**/
+//    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
+
+    /**=========取消收藏接口==========**/
+    public  String REMOVECOLLECTION_URL=BASE_URL+"schedule/login/removeCollection.do";
+
     /*建立圈子*/
     String CREATE_CIRCLE_URL=BASE_URL+"talk/login/addCircle.do";
     /*我的圈子列表*/
@@ -84,6 +100,7 @@ public interface IZtbUrl {
 
 
 
+
     /**=======档期 =======*/
 
     //发布活动
@@ -96,6 +113,8 @@ public interface IZtbUrl {
     public static final String ACTIVITY_DETIALS=BANNER_URL+"schedule/login/findActivityDetails.do";
     //关注活动
     public static final String ACTIVITY_COLLECTION_URL=BASE_URL+"schedule/login/addActivityCollection.do";
+    //活动标签
+    public static final String ACTIVITY_LABEL_URL=BASE_URL+"schedule/login/findActivityLabel.do";
     //相应（参加）活动
     public static final String RESPOND_ACTIVITY_URL=BASE_URL+"schedule/login/respondActivity.do";
     //好友/全部
@@ -104,4 +123,67 @@ public interface IZtbUrl {
     public static final String INTREST_LABEL_URL=BASE_URL+"schedule/login/findLabelList.do";
     //添加兴趣标签
     public static final String ADD_INTREST_LABEL=BASE_URL+"schedule/login/addInterestLabel.do";
+
+   //我的兴趣标签列表(MORE)接口
+   public static final String MY_INTEREST_URL=BASE_URL+"schedule/login/findMyLabelListMoreByUserId.do";
+
+    //档期banner轮播图
+    public static final String BANNER_CAN_URL=BASE_URL+"schedule/login/findScheduleBanner.do";
+
+
+    //档期列表
+    public static final String SCHEDULE_LIST_URL=BASE_URL+"schedule/login/findScheduleList.do";
+
+
+    //关注档期接口
+    public static final String SCHEDULE_COLLECTION_URL=BASE_URL+"schedule/login/addScheduleCollection.do";
+
+
+    //约Ta接口
+    public static final String ABOUT_URL=BASE_URL+"schedule/login/addAbout.do";
+
+
+    //档期显示全部/好友接口
+    public static  final String SCHEDULE_FRIEND_URL=BASE_URL+"schedule/login/findScheduleAllOrFriends.do";
+
+    //活动指定谁看，通知谁
+    public static final String ACTIVITY_NOTICE_URL=BASE_URL+"schedule/login/sendActivityNotice.do";
+
+
+    //档期指定谁看，通知谁
+    public static final String SHEDULE_NOTICE_URL=BASE_URL+"schedule/login/sendScheduleNotice.do";
+
+
+    //活动不让谁看
+    public static final String ACTIVITY_INVISIBLE_URL=BASE_URL+"schedule/login/addActivityInvisible.do";
+
+
+    //档期不让谁看
+    public static final String SHEDULE_INVISIBLE_URL=BASE_URL+"schedule/login/addScheduleInvisible.do";
+
+
+    //活动仅好友可见
+    public static final String ACTIVITY_FRIEND_URL=BASE_URL+"schedule/login/modifyActivityFriendSee.do";
+
+
+    //档期仅好友可见
+    public static final String SHEDULE_FRIEND_URL=BASE_URL+"schedule/login/modifyScheduleFriendSee.do";
+
+
+    //自己发布的活动 接口
+    public static final String MY_ACTIVITY_URL=BASE_URL+"schedule/login/findMyActivity.do";
+
+
+    //取消活动
+    public static final String REMOVE_ACTIVITY_URL=BASE_URL+"schedule/login/removeActivity.do";
+
+
+    //发布档期接口
+    public static final String ADD_SHEDULE_URL=BASE_URL+"schedule/login/addSchedule.do";
+
+    //发布活动推送
+    public static final String ACTIVITY_MESSAGE_URL=BASE_URL+"schedule/login/pushActivityMessage.do";
+    //发布档期推送
+    public static final String SHEDULE_MESSAGE_URL=BASE_URL+"schedule/login/pushScheduleMessage.do";
+
 }
