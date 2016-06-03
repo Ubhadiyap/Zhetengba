@@ -15,8 +15,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.CalAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.Schedule;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
@@ -41,6 +46,8 @@ public class CalFrg extends BaseFragment {
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
     private MyPageAdapter pageAdapter;
     private LinearLayout ll_point;
+    private List<Schedule> list=new ArrayList<>();
+    private List<Schedule> datas=new ArrayList<>();
 //    广播接收者更新档期数据
     private BroadcastReceiver calDateChangeRecevier=new BroadcastReceiver() {
         @Override
@@ -202,5 +209,38 @@ public class CalFrg extends BaseFragment {
         }
 
     }
+
+//    private void getScheduleList(final int page,int rows){
+//        RequestManager.getScheduleManager().getScheduleList(page, rows, new ResultCallback<ResultBean<List<Schedule>>>() {
+//            @Override
+//            public void onError(int status, String errorMsg) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(ResultBean<List<Schedule>> response) {
+//                lv_calen.onPullUpRefreshComplete();
+//                lv_calen.onPullDownRefreshComplete();
+//                list = response.getData();
+//                if (page == 1) {
+//                    datas.clear();
+//                }
+//                datas.addAll(list);
+//                if (list != null || list.size() > 0) {
+//                    if (adapter == null) {
+//                        //设置简约listview的条目
+//                        adapter = new ActAdapter(mActivity, list);
+//                        lv_act.getRefreshableView().setAdapter(adapter);
+//                    } else {
+//                        adapter.update(datas);
+//                    }
+//                } else {
+//                    lv_act.setHasMoreData(false);
+//                }
+//
+//
+//            }
+//        });
+//    }
 
 }

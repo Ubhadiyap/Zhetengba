@@ -1,6 +1,8 @@
 package com.boyuanitsm.zhetengba.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
+import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
@@ -25,6 +28,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.widget.ToggleButton;
@@ -84,7 +88,9 @@ public class ContractedAct extends BaseActivity {
     private Map<String,String> newMap=new HashMap<>();
     private List<ActivityLabel> list;
     private  GvTbAdapter adapter;
-    private int select=0;
+    private int select=1;//好友可见；0全部可见
+    private SimpleInfo simpleInfo=new SimpleInfo();
+    private String backTheme;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -97,15 +103,18 @@ public class ContractedAct extends BaseActivity {
         list=new ArrayList<ActivityLabel>();
         getAcitivtyLabel();
         et_pp_num.addTextChangedListener(judgeEditNum());
+        tb_friend.toggleIsSwitch(true);
         tb_friend.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
             @Override
             public void onToggle(boolean on) {
-                if (select==1){
-                    select=0;
+                if (select == 1) {
+
+                    select = 0;
                     return;
-                }else {
-                    select=1;
-                    return ;
+                } else {
+
+                    select = 1;
+                    return;
                 }
             }
         });
@@ -117,20 +126,19 @@ public class ContractedAct extends BaseActivity {
     private void initData() {
 
            if (et_theme.getText().toString()!=null&&et_start.getText().toString()!=null&&et_end.getText().toString()!=null&&et_pp_num.getText().toString()!=null) {
-               newMap.put("activityTheme",et_theme.getText().toString());
-               newMap.put("startTime",et_start.getText().toString());
-               newMap.put("endTime",et_end.getText().toString());
-               newMap.put("activitySite",tv_select.getText().toString());
-               newMap.put("inviteNumber",et_pp_num.getText().toString());
-               newMap.put("activityVisibility",select+"");//button状态
-//               simpleInfo.setActivityTheme(et_theme.getText().toString());
-//               simpleInfo.setActivitySite(tv_select.getText().toString());//位置
-//               simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
-//               simpleInfo.setCreatTime(startTime);
-//               simpleInfo.setEndTime(endTime);
-//               simpleInfo.setLabelId(1+"");
-//               simpleInfo.setActivityVisibility(1);//全部可见
-//               simpleInfo.setIcon("");
+//               newMap.put("activityTheme",et_theme.getText().toString());
+//               newMap.put("startTime",et_start.getText().toString());
+//               newMap.put("endTime",et_end.getText().toString());
+//               newMap.put("activitySite",tv_select.getText().toString());
+//               newMap.put("inviteNumber",et_pp_num.getText().toString());
+//               newMap.put("activityVisibility", select + "");//button状态
+               simpleInfo.setActivityTheme(et_theme.getText().toString());
+               simpleInfo.setStartTime(et_start.getText().toString());
+               simpleInfo.setActivitySite(tv_select.getText().toString());//位置
+               simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
+               simpleInfo.setEndTime(et_end.getText().toString());
+               simpleInfo.setActivityVisibility(select);//全部可见
+               simpleInfo.setActivityParticulars(backTheme);
            }else {
                MyToastUtils.showShortToast(ContractedAct.this,"您有未输入的内容");
            }
@@ -189,13 +197,20 @@ public class ContractedAct extends BaseActivity {
 
                 break;
             case R.id.ll_hu_can:
-                openActivity(AssignScanAct.class);
+                if (select==1){
+                    openActivity(AssignScanAct.class);
+                }
                 break;
             case R.id.ll_hu_no_can:
-                openActivity(AssignScanAct.class);
+                if (select==1){
+                    openActivity(AssignScanAct.class);
+                }
+
                 break;
             case R.id.ll_theme:
-                openActivity(EventdetailsAct.class);
+                Intent intent=new Intent();
+                intent.setClass(this, EventdetailsAct.class);
+                startActivityForResult(intent,0);
                 break;
             case R.id.ll_theme_content:
                 openActivity(EventdetailsAct.class);
@@ -207,8 +222,26 @@ public class ContractedAct extends BaseActivity {
                 break;
             case R.id.bt_plane:
                     initData();
-                    addActivity(newMap);
+                    addActivity(simpleInfo);
 
+
+        }
+    }
+
+    /**
+     * 活动详情
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            Bundle bundle = data.getBundleExtra("bundle2");
+            backTheme = bundle.getString("detailsTheme");
+//            newMap.put("activityParticulars",backTheme);
+//            backTheme="活动详情";
 
         }
     }
@@ -296,17 +329,18 @@ public class ContractedAct extends BaseActivity {
 //     *
 //     * @param simpleInfo
 //     */
-    private void addActivity(Map<String,String> map) {
-        RequestManager.getScheduleManager().addActivity(map, new ResultCallback<ResultBean<String>>() {
+    private void addActivity(SimpleInfo simpleInfo) {
+        RequestManager.getScheduleManager().addActivity(simpleInfo, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(ContractedAct.this, "请求出错");
+//                MyToastUtils.showShortToast(ContractedAct.this, "您有未填项，请完善您的信息！");
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 response.getData();
-                MyToastUtils.showShortToast(ContractedAct.this, response.getData().toString());
+                MyToastUtils.showShortToast(ContractedAct.this,"发布活动成功");
+                finish();
             }
         });
     }
@@ -324,7 +358,7 @@ public class ContractedAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<List<ActivityLabel>> response) {
 
-                list=response.getData();
+                list = response.getData();
                 adapter = new GvTbAdapter(ContractedAct.this, list);
 //                //默认选中第一个；
 //                adapter.setSeclection(0);
@@ -336,8 +370,10 @@ public class ContractedAct extends BaseActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         ActivityLabel activityLabel = list.get(position);
-                        newMap.put("labelId", activityLabel.getId());
-                        newMap.put("icon", activityLabel.getIcon());
+//                        newMap.put("labelId", activityLabel.getId());
+                        simpleInfo.setLabelId(activityLabel.getId());
+                        simpleInfo.setIcon(activityLabel.getIcon());
+//                        newMap.put("icon", activityLabel.getIcon());
                         adapter.setSeclection(position);
                         adapter.notifyDataSetChanged();
                     }
@@ -345,5 +381,4 @@ public class ContractedAct extends BaseActivity {
             }
         });
     }
-
 }
