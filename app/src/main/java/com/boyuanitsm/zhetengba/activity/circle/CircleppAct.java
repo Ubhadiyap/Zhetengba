@@ -43,7 +43,7 @@ public class CircleppAct extends BaseActivity {
     private CirpplistAdapter adapter;
     private String circleId;//圈子id
 
-    private boolean flag;
+    private boolean flag=true;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_glcircle);
@@ -57,7 +57,7 @@ public class CircleppAct extends BaseActivity {
         LayoutHelperUtil.freshInit(plv);
         userList=new ArrayList<>();
 
-//        getCircleMembers(circleId);
+        getCircleMembers(circleId);
 //        tv_right=tv_gl_member.getText().toString();
 //        tv_gl_member.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -73,7 +73,7 @@ public class CircleppAct extends BaseActivity {
         plv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         plv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         plv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        plv.getRefreshableView().setAdapter(new CirpplistAdapter(getApplicationContext(),false));
+//        plv.getRefreshableView().setAdapter(new CirpplistAdapter(getApplicationContext(),false));
     }
 
     @OnClick(R.id.tv_gl_member)
@@ -85,11 +85,16 @@ public class CircleppAct extends BaseActivity {
                     flag=false;
                     tv_gl_member.setText("取消");
 //                    setTopTitle("圈子成员");
-                    plv.getRefreshableView().setAdapter(new CirpplistAdapter(getApplicationContext(), true));
+                    adapter.notifyChange(true);
+//                    plv.getRefreshableView().setAdapter(new CirpplistAdapter(getApplicationContext(), true));
                 }
-                else {tv_gl_member.setText("管理成员"); flag=true;
+                else {
+                    tv_gl_member.setText("管理成员");
+                    flag=true;
+                    adapter.notifyChange(false);
 //                    setTopTitle("圈子成员");
-                      plv.getRefreshableView().setAdapter(new CirpplistAdapter(getApplicationContext(), false));}
+//                      plv.getRefreshableView().setAdapter(new CirpplistAdapter(getApplicationContext(), false));
+                }
                 break;
         }
 
@@ -149,7 +154,7 @@ public class CircleppAct extends BaseActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            getCircleMembers("1");
+            getCircleMembers(circleId);
             tv_gl_member.setText("管理成员");
             flag=true;
         }

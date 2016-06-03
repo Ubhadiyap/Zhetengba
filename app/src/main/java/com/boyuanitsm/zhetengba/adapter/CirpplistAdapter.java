@@ -38,6 +38,11 @@ public class CirpplistAdapter extends BaseAdapter{
         this.list=list;
     }
 
+    public void notifyChange(boolean isshanchu){
+        this.isshanchu=isshanchu;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list.size()>0?list.size():1;

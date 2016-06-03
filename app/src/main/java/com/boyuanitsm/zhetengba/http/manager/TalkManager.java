@@ -44,7 +44,7 @@ public class TalkManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.CIRCLE_LIST_URL,null,callback);
+        doPost(IZtbUrl.CIRCLE_LIST_URL,map,callback);
     }
 
     /**

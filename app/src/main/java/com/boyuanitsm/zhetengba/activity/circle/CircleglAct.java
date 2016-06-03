@@ -48,7 +48,7 @@ public class CircleglAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子管理");
         list=new ArrayList<>();
-//        getCircleList(page, rows);
+        getCircleList(page, rows);
         lv_circlegl.setPullRefreshEnabled(true);//下拉刷新
         lv_circlegl.setScrollLoadEnabled(true);//滑动加载
         lv_circlegl.setPullLoadEnabled(false);//上拉刷新
