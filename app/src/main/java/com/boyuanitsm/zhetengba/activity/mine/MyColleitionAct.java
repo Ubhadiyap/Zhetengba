@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.adapter.ActAdapter;
+import com.boyuanitsm.zhetengba.adapter.CollectAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CollectionBean;
 import com.boyuanitsm.zhetengba.bean.DataBean;
@@ -28,7 +28,7 @@ public class MyColleitionAct extends BaseActivity{
     
     @ViewInject(R.id.plv)
     private PullToRefreshListView plv;
-    private ActAdapter adapter;
+    private CollectAdapter adapter;
     private boolean isComment,isComment2;
     private int gznum=0;//默认关注人数0
     private int jionum=0;//默认参加人数0；
@@ -51,7 +51,7 @@ public class MyColleitionAct extends BaseActivity{
         plv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         plv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         plv.setLastUpdatedLabel(ZhetebaUtils.getCurrentTime());
-        adapter = new ActAdapter(MyColleitionAct.this);
+        adapter=new CollectAdapter(MyColleitionAct.this);
         plv.getRefreshableView().setAdapter(adapter);
         findgzPortsMsg(page, rows);
         plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -79,14 +79,14 @@ public class MyColleitionAct extends BaseActivity{
      *
      */
     public void findgzPortsMsg(final int page,int rows){
-        RequestManager.getUserManager().findCollectionListByUserId(page, rows, new ResultCallback<ResultBean<DataBean<List<CollectionBean>>>>() {
+        RequestManager.getUserManager().findCollectionListByUserId(page, rows, new ResultCallback<ResultBean<DataBean<CollectionBean>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<DataBean<List<CollectionBean>>> response) {
+            public void onResponse(ResultBean<DataBean<CollectionBean>> response) {
                 List<CollectionBean>list=response.getData().getRows();
 
             }

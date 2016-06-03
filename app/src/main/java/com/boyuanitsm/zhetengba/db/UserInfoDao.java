@@ -56,14 +56,14 @@ public class UserInfoDao extends TemplateDAO<UserInfo, String> {
     public static void updateUser(UserInfo userInfo) {
         SQLiteDatabase db=getDao().getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put("name",userInfo.getName());
-        values.put("hometown",userInfo.getHomeTown());
+        values.put("pet_name",userInfo.getPetName());
+        values.put("home_town",userInfo.getHomeTown());
         values.put("sex",userInfo.getSex());
         values.put("phone",userInfo.getPhone());
         values.put("email",userInfo.getEmail());
-        values.put("companyname",userInfo.getCompanyName());
-        values.put("companyaddr",userInfo.getCompanyAddr());
-        values.put("companyphone",userInfo.getCompanyPhone());
+        values.put("company_name",userInfo.getCompanyName());
+        values.put("company_addr",userInfo.getCompanyAddr());
+        values.put("company_phone",userInfo.getCompanyPhone());
         values.put("job",userInfo.getJob());
         values.put("icon",userInfo.getIcon());
         db.update(getDao().getTableName(), values, "username=?", new String[]{userInfo.getUsername()});

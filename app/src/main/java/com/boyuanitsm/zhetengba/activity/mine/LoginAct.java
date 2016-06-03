@@ -17,12 +17,13 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
-import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.bean.UserBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -233,16 +234,17 @@ public class LoginAct extends BaseActivity {
     }
 
     private void toLogin(String username,String password){
-        RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<UserInfo>>() {
+        RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<UserBean>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<UserInfo> response) {
-                UserInfo userInfo=response.getData();
-                UserInfoDao.saveUser(userInfo);
+            public void onResponse(ResultBean<UserBean> response) {
+                UserBean userBean=response.getData();
+                UserInfoDao.saveUser(userBean.getUser());
+                MyLogUtils.degug("userInfo"+userBean.getUser());
                 openActivity(MainAct.class);
             }
         });

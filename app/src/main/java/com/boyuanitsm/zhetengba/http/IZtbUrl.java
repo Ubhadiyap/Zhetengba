@@ -45,6 +45,18 @@ public interface IZtbUrl {
     /**=========收藏列表接口==========**/
     public  String COLLECTIONLIST_URL=BASE_URL+"schedule/login/findCollectionListByUserId.do";
 
+    /**=========反馈接==========**/
+    public  String ADDFEEDBACK_URL=BASE_URL+"schedule/login/addFeedBack.do";
+
+    /**=========获取事件信息（时间轴接口）==========**/
+    public  String HISTORYMESSAGE_URL=BASE_URL+"schedule/login/findHistoryMessageListByUserId.do";
+
+//    /**=========我的兴趣标签列表（非全部）==========**/
+//    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
+
+    /**=========取消收藏接口==========**/
+    public  String REMOVECOLLECTION_URL=BASE_URL+"schedule/login/removeCollection.do";
+
     /*建立圈子*/
     String CREATE_CIRCLE_URL=BASE_URL+"talk/login/addCircle.do";
     /*我的圈子列表*/
@@ -82,6 +94,7 @@ public interface IZtbUrl {
     public static final String INTREST_LABEL_URL=BASE_URL+"schedule/login/findLabelList.do";
     //添加兴趣标签
     public static final String ADD_INTREST_LABEL=BASE_URL+"schedule/login/addInterestLabel.do";
+
    //我的兴趣标签列表(MORE)接口
    public static final String MY_INTEREST_URL=BASE_URL+"schedule/login/findMyLabelListMoreByUserId.do";
 
@@ -143,4 +156,5 @@ public interface IZtbUrl {
     public static final String ACTIVITY_MESSAGE_URL=BASE_URL+"schedule/login/pushActivityMessage.do";
     //发布档期推送
     public static final String SHEDULE_MESSAGE_URL=BASE_URL+"schedule/login/pushScheduleMessage.do";
+
 }

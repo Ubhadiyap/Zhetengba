@@ -337,4 +337,26 @@ public class ScheduleManager extends RequestManager {
         params.put("scheduleId",scheduleId);
         doPost(IZtbUrl.SHEDULE_MESSAGE_URL,params,callback);
     }
+
+    /**
+     * 取消收藏接口
+     * @param collectionId
+     * @param callback
+     */
+    public void removeCollection(String collectionId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("collectionId",collectionId);
+        doPost(IZtbUrl.REMOVECOLLECTION_URL,params,callback);
+
+
+    }
+
+    /**
+     * 获取事件（时间轴接口）
+     * @param callback
+     */
+    public void findHistoryMessageListByUserId(ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        doPost(IZtbUrl.HISTORYMESSAGE_URL,params,callback);
+    }
 }
