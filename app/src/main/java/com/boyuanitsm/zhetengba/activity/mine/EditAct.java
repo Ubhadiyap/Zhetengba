@@ -14,6 +14,7 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
@@ -44,6 +45,7 @@ public class EditAct extends BaseActivity{
             public void onClick(View v) {
                 saveUserinfo();
                 saveUser(user);
+                MyLogUtils.degug("gaga"+user);
 
 
 //                String content = cetEditInfo.getText().toString().trim();
@@ -125,7 +127,7 @@ public class EditAct extends BaseActivity{
         switch (TYPE){
             case 1:
                 if(user!=null){
-                if(!(TextUtils.isEmpty(content))){
+                if(!TextUtils.isEmpty(content)){
                     user.setPetName(content);
                 }else user.setPetName("");}
                 break;
@@ -185,8 +187,8 @@ public class EditAct extends BaseActivity{
             case 1:
                 setTopTitle("昵称");
                 if(user!=null){
-                    if(!(TextUtils.isEmpty(user.getName()))){
-                        cetEditInfo.setText(user.getName());
+                    if(!(TextUtils.isEmpty(user.getPetName()))){
+                        cetEditInfo.setText(user.getPetName());
                     }
                 }
                 cetEditInfo.setHint("请输入昵称");

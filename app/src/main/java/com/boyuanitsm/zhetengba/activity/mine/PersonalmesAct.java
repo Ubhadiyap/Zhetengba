@@ -75,34 +75,37 @@ public class PersonalmesAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("个人资料");
         UserInfo user = UserInfoDao.getUser();
+        MyLogUtils.degug("user"+user);
         if (user != null) {
-            if ((TextUtils.isEmpty(user.getPetName()))) {
+            if (!(TextUtils.isEmpty(user.getPetName()))) {
+                MyLogUtils.degug("hah"+user);
+                MyLogUtils.degug(user.getPetName());
                 cvUserName.setNotesText(user.getPetName());}
 
-            if ((TextUtils.isEmpty(user.getSex()))) {
+            if (!(TextUtils.isEmpty(user.getSex()))) {
                     cvSex.setNotesText(user.getSex());
                 }
-            if ((TextUtils.isEmpty(user.getPhone()))) {
+            if (!(TextUtils.isEmpty(user.getPhone()))) {
                 cvPhoneNum.setNotesText(user.getPhone());
             }
-            if ((TextUtils.isEmpty(user.getEmail()))) {
+            if (!(TextUtils.isEmpty(user.getEmail()))) {
                 cvEmail.setNotesText(user.getEmail());
             }
 
-            if ((TextUtils.isEmpty(user.getCompanyName()))) {
+            if (!(TextUtils.isEmpty(user.getCompanyName()))) {
                 cvCompanyName.setNotesText(user.getCompanyName());
             }
 
-            if ((TextUtils.isEmpty(user.getCompanyAddr()))) {
+            if (!(TextUtils.isEmpty(user.getCompanyAddr()))) {
                 cvCompanyAdd.setNotesText(user.getCompanyAddr());
             }
-            if ((TextUtils.isEmpty(user.getCompanyPhone()))) {
+            if (!(TextUtils.isEmpty(user.getCompanyPhone()))) {
                 cvCompanyTel.setNotesText(user.getCompanyPhone());
             }
-            if ((TextUtils.isEmpty(user.getJob()))) {
+            if (!(TextUtils.isEmpty(user.getJob()))) {
                 cvBusiness.setNotesText(user.getJob());
             }
-            if ((TextUtils.isEmpty(user.getHomeTown()))) {
+            if (!(TextUtils.isEmpty(user.getHomeTown()))) {
                 cvHomeTown.setNotesText(user.getHomeTown());
             }
 
@@ -255,33 +258,33 @@ public class PersonalmesAct extends BaseActivity {
         UserInfo user=UserInfoDao.getUser();
             MyLogUtils.degug(user.getPetName());
             if (user != null) {
-                if ((TextUtils.isEmpty(user.getPetName()))) {
+                if (user.getPetName()!=null) {
                     cvUserName.setNotesText(user.getPetName());}
 
-                if ((TextUtils.isEmpty(user.getSex()))) {
+                if (user.getSex()!=null){
                     cvSex.setNotesText(user.getSex());
                 }
-                if ((TextUtils.isEmpty(user.getPhone()))) {
+                if (user.getPhone()!=null) {
                     cvPhoneNum.setNotesText(user.getPhone());
                 }
-                if ((TextUtils.isEmpty(user.getEmail()))) {
+                if (user.getEmail()!=null) {
                     cvEmail.setNotesText(user.getEmail());
                 }
 
-                if ((TextUtils.isEmpty(user.getCompanyName()))) {
+                if (user.getCompanyName()!=null) {
                     cvCompanyName.setNotesText(user.getCompanyName());
                 }
 
-                if ((TextUtils.isEmpty(user.getCompanyAddr()))) {
+                if (user.getCompanyAddr()!=null) {
                     cvCompanyAdd.setNotesText(user.getCompanyAddr());
                 }
-                if ((TextUtils.isEmpty(user.getCompanyPhone()))) {
+                if (user.getCompanyPhone()!=null) {
                     cvCompanyTel.setNotesText(user.getCompanyPhone());
                 }
-                if ((TextUtils.isEmpty(user.getJob()))) {
+                if (user.getJob()!=null) {
                     cvBusiness.setNotesText(user.getJob());
                 }
-                if ((TextUtils.isEmpty(user.getHomeTown()))) {
+                if (user.getHomeTown()!=null) {
                     cvHomeTown.setNotesText(user.getHomeTown());
                 }
 
