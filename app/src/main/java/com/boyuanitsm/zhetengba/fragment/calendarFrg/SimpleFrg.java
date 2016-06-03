@@ -20,20 +20,25 @@ import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
+import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.BannerInfo;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
@@ -54,14 +59,14 @@ public class SimpleFrg extends BaseFragment {
     private LinearLayout ll_point;
     private List<View> views = new ArrayList<View>();
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
-    private List<BannerInfo> bannerInfoList;
+    private List<LabelBannerInfo> bannerInfoList;
     private List<SimpleInfo> list;//活动对象集合
-    private List<SimpleInfo> datas;
+    private List<SimpleInfo> datas=new ArrayList<>();
     private BroadcastReceiver simDteChangeRecevier=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-                  getFriendOrAllAcitvity(1,10,0+"");//切换到好友；
-                   adapter.update(list);
+                  getFriendOrAllAcitvity(1, 10, 0 + "");//切换到好友；
+
         }
     };
     @Override
@@ -76,28 +81,23 @@ public class SimpleFrg extends BaseFragment {
         IntentFilter filter=new IntentFilter();
         filter.addAction("simpleDateChange");
         mActivity.registerReceiver(simDteChangeRecevier, filter);
-        //
+
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         //刷新初始化
         LayoutHelperUtil.freshInit(lv_act);
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
-        getActivityList(1+"",10+"");
+        getActivityList(1, 10);
         lv_act.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showDialog();
             }
         });
+        //首页轮播图片展示
         getBanner();
-        viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
-        ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
-        //设置viewpager适配/轮播效果
-        initMyPageAdapter();
-        viewPager.setAuto(true);
-        //设置监听
-        viewPager.setOnPageChangeListener(getListener());
+
     }
 
     /***
@@ -139,12 +139,13 @@ public class SimpleFrg extends BaseFragment {
 
     /***
      * 初始化viewpager适配器
+     * @param bannerInfoList
      */
 
-    private void initMyPageAdapter() {
+    private void initMyPageAdapter(List<LabelBannerInfo> bannerInfoList) {
         initPoint();
         if (pageAdapter == null) {
-            pageAdapter = new MyPageAdapter();
+            pageAdapter = new MyPageAdapter(mActivity,bannerInfoList);
             if (viewPager != null) {
                 viewPager.setAdapter(pageAdapter);
             }
@@ -176,59 +177,7 @@ public class SimpleFrg extends BaseFragment {
     }
 
 
-    /***
-     * viewpageradapter
-     */
-    private class MyPageAdapter extends PagerAdapter {
-        // 图片缓存 默认 等
-        private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(R.mipmap.zanwutupian)
-                .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
-                .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
-                .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-        @Override
-        public int getCount() {
-            //            return  bannerInfoList==null?0:bannerInfoList.size();
-            return 3;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager) container).removeView((View) object);
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, final int position) {
-
-            View view = View.inflate(mActivity, R.layout.item_loop_viewpager_act, null);
-            ImageView iv_iamge = (ImageView) view.findViewById(R.id.iv_item_image);
-            //加载图片地址
-            iv_iamge.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.test_banner));
-            //            ImageLoader.getInstance().displayImage(
-            //                    UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerPic()), iv_iamge,
-            //                    optionsImag);
-            //            ImageLoader.getInstance().displayImage(UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerLink()),iv_iamge,optionsImag);
-            //UrlManager,网络地址管理类
-
-            ((ViewPager) container).addView(view);
-
-            iv_iamge.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-            return view;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-    }
 
     private void showDialog() {
         CustomDialog.Builder builder = new CustomDialog.Builder(mActivity);
@@ -267,8 +216,15 @@ public class SimpleFrg extends BaseFragment {
 
             @Override
             public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
-//                BannerInfo bannerInfo = response.getData();
-//                MyToastUtils.showShortToast(mActivity, response.getData());
+                bannerInfoList=new ArrayList<LabelBannerInfo>();
+                bannerInfoList = response.getData();
+                viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
+                ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
+                //设置viewpager适配/轮播效果
+                initMyPageAdapter(bannerInfoList);
+                viewPager.setAuto(true);
+                //设置监听
+                viewPager.setOnPageChangeListener(getListener());
             }
         });
     }
@@ -278,19 +234,35 @@ public class SimpleFrg extends BaseFragment {
      * @param page
      * @param row
      */
-    private void getActivityList(String page, String row) {
-        RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+    private void getActivityList(final int page, int row) {
+        RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<List<SimpleInfo>> response) {
-                list = response.getData();
-                //设置简约listview的条目
-                adapter = new ActAdapter(mActivity,list);
-                lv_act.getRefreshableView().setAdapter(adapter);
+            public void onResponse(ResultBean<DataBean<SimpleInfo>> response) {
+                lv_act.onPullUpRefreshComplete();
+                lv_act.onPullDownRefreshComplete();
+                list = response.getData().getRows();
+                if (page == 1) {
+                    datas.clear();
+                }
+                datas.addAll(list);
+                if (list != null || list.size() > 0) {
+                    if (adapter == null) {
+                        //设置简约listview的条目
+                        adapter = new ActAdapter(mActivity, list);
+                        lv_act.getRefreshableView().setAdapter(adapter);
+                    } else {
+                        adapter.update(datas);
+                    }
+                } else {
+                    lv_act.setHasMoreData(false);
+                }
+
+
             }
         });
 
@@ -321,7 +293,7 @@ public class SimpleFrg extends BaseFragment {
      * @param rows
      * @param state
      */
-    private void getFriendOrAllAcitvity(int page,int rows,String state){
+    private void getFriendOrAllAcitvity(final int page,int rows,String state){
         RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, new ResultCallback<ResultBean<List<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -330,8 +302,28 @@ public class SimpleFrg extends BaseFragment {
 
             @Override
             public void onResponse(ResultBean<List<SimpleInfo>> response) {
-              list = response.getData();
+                lv_act.onPullUpRefreshComplete();
+                lv_act.onPullDownRefreshComplete();
+                list = response.getData();
+                if (page == 1) {
+                    datas.clear();
+                }
+                datas.addAll(list);
+                if (list != null || list.size() > 0) {
+                    if (adapter == null) {
+                        //设置简约listview的条目
+                        adapter = new ActAdapter(mActivity, list);
+                        lv_act.getRefreshableView().setAdapter(adapter);
+                    } else {
+                        adapter.update(datas);
+                    }
+                } else {
+                    lv_act.setHasMoreData(false);
+                }
+
+
             }
         });
     }
+
 }
