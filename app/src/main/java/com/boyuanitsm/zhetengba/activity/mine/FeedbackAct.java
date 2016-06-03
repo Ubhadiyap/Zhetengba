@@ -26,7 +26,7 @@ public class FeedbackAct extends BaseActivity {
     private String content;//输入的反馈内容
     @Override
     public void setLayout() {
-        setContentView(R.layout.act_eventdetails);
+        setContentView(R.layout.act_fandetails);
     }
 
     @Override

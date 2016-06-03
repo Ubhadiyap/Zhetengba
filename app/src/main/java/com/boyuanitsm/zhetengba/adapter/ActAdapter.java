@@ -111,12 +111,12 @@ public class ActAdapter extends BaseAdapter{
         viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
         viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());//活动位置
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
-        viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum());//关注人数
+        viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum().toString());//关注人数
         noticNum=infos.get(position).getFollowNum();//获取关注数
         viewHolder.tv_join_num.setText(infos.get(position).getMemberNum());//目前成员数量；
         joinNum=infos.get(position).getMemberNum();//获取参加人数
         viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber());//邀约人数
-        viewHolder.tv_date.setText(infos.get(position).getStartTime().toString() + "-" + infos.get(position).getEndTime().toString());//活动时间；
+        viewHolder.tv_date.setText(infos.get(position).getStartTime()+ "-" + infos.get(position).getEndTime());//活动时间；
 //        viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
         ImageLoader.getInstance().displayImage(infos.get(position).getUserIcon(), viewHolder.iv_headphoto, optionsImag);//用户头像
 //        viewHolder.iv_headphoto.setBackgroundDrawable(infos.get(position).getIcon());
@@ -173,7 +173,8 @@ public class ActAdapter extends BaseAdapter{
                         public void onResponse(ResultBean<String> response) {
                             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//默认图标
                             viewHolder.tv_text_guanzhu.setText("已关注");
-                            viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + 1);
+                            noticNum=noticNum+1;
+                            viewHolder.tv_guanzhu_num.setText(noticNum+"");
                             viewHolder.ll_guanzhu.setClickable(false);
                         }
                     });

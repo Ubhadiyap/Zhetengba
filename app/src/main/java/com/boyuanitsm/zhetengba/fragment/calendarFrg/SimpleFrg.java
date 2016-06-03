@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.BannerInfo;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
@@ -234,17 +235,17 @@ public class SimpleFrg extends BaseFragment {
      * @param row
      */
     private void getActivityList(final int page, int row) {
-        RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+        RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<List<SimpleInfo>> response) {
+            public void onResponse(ResultBean<DataBean<SimpleInfo>> response) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
-                list = response.getData();
+                list = response.getData().getRows();
                 if (page == 1) {
                     datas.clear();
                 }
