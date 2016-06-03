@@ -33,7 +33,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 指定谁能看不能看
+ * 指定谁能看,不能看
  * Created by wangbin on 16/5/19.
  */
 public class AssignScanAct extends BaseActivity {

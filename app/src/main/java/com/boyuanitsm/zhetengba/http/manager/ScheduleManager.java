@@ -4,6 +4,8 @@ import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.hyphenate.util.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +20,12 @@ public class ScheduleManager extends RequestManager {
     /***
      * 发布活动
      *
-     * @param params
+     * @param
      * @param callback
      */
-    public void addActivity(Map<String, String> params, ResultCallback callback) {
+    public void addActivity(SimpleInfo simpleInfo, ResultCallback callback) {
+        Map<String,String> params=new HashMap<>();
+        params= Uitls.obj2Map(simpleInfo);
         doPost(IZtbUrl.ADD_ACTIVITY, params, callback);
     }
 
@@ -41,16 +45,15 @@ public class ScheduleManager extends RequestManager {
      * page页数
      * row行数
      */
-    public void getActivityList(String page, String rows, ResultCallback callback) {
+    public void getActivityList(int page, int rows, ResultCallback callback) {
         Map<String, String> params = new HashMap<>();
-        params.put("page", page);
-        params.put("rows", rows);
+        params.put("page", page+"");
+        params.put("rows", rows+"");
         doPost(IZtbUrl.ACTIVITY_LIST, params, callback);
     }
 
     /**
      * 活动详情
-     *
      * @param activityId
      * @param callback
      */
