@@ -18,7 +18,6 @@ import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserBean;
-import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
@@ -243,9 +242,9 @@ public class LoginAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<UserBean> response) {
-                UserInfo userInfo=response.getData().getUserInfo();
-                UserInfoDao.saveUser(userInfo);
-                MyLogUtils.degug("userInfo"+userInfo);
+                UserBean userBean=response.getData();
+                UserInfoDao.saveUser(userBean.getUser());
+                MyLogUtils.degug("userInfo"+userBean.getUser());
                 openActivity(MainAct.class);
             }
         });

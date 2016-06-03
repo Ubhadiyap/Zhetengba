@@ -7,13 +7,13 @@ import android.os.Parcelable;
  * Created by bitch-1 on 2016/6/3.
  */
 public class UserBean implements Parcelable {
-    private UserInfo userInfo;
+    private UserInfo user;
 
     public UserBean() {
     }
 
     protected UserBean(Parcel in) {
-        userInfo = in.readParcelable(UserInfo.class.getClassLoader());
+        user = in.readParcelable(UserInfo.class.getClassLoader());
     }
 
     public static final Creator<UserBean> CREATOR = new Creator<UserBean>() {
@@ -28,13 +28,14 @@ public class UserBean implements Parcelable {
         }
     };
 
-    public UserInfo getUserInfo() {
-        return userInfo;
+    public UserInfo getUser() {
+        return user;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
+    public void setUser(UserInfo user) {
+        this.user = user;
     }
+
 
     @Override
     public int describeContents() {
@@ -43,6 +44,6 @@ public class UserBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(userInfo, flags);
+        dest.writeParcelable(user, flags);
     }
 }
