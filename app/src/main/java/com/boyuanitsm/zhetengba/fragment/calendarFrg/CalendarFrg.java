@@ -37,6 +37,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
     private PopupWindow mPopupWindow;
     private LinearLayout ll_friend;
     private RadioGroup rg_simple;
+    private TextView tv_friend_all;
     private List<SimpleInfo> list;
 
     @Override
@@ -51,6 +52,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         rb_calendar = (RadioButton) view.findViewById(R.id.rb_calendar);
         linearLayout = (LinearLayout) view.findViewById(R.id.ll_title_border);
         ll_friend = (LinearLayout) view.findViewById(R.id.ll_friend);
+        tv_friend_all = (TextView) view.findViewById(R.id.tv_friend_all);
         childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         defaultChildShow(fragmentTransaction);
@@ -109,7 +111,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         mPopupWindow = new PopupWindow(200, 200);
         View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend, null);
         TextView tv_friend = (TextView) v.findViewById(R.id.tv_friend);
-        TextView tv_all = (TextView) v.findViewById(R.id.tv_all);
+       TextView tv_all = (TextView) v.findViewById(R.id.tv_all);
         mPopupWindow.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_circle_stroke));
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setFocusable(true);
@@ -118,22 +120,24 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         tv_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyToastUtils.showShortToast(getContext(), "点击了好友");
+//                MyToastUtils.showShortToast(getContext(), "点击了好友");
                 //发送数据变化广播，通知Simple数据更新
                 Intent intentRecevier = new Intent();
-                intentRecevier.setAction("simpleDateChange");
+                intentRecevier.setAction("simpleFriendDateChange");
                 mActivity.sendBroadcast(intentRecevier);
+                tv_friend_all.setText("好友");
                 mPopupWindow.dismiss();
             }
         });
         tv_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyToastUtils.showShortToast(getContext(), "点击了全部");
+//                MyToastUtils.showShortToast(getContext(), "点击了全部");
                 //发送数据变化广播，通知CaleFrg更新数据
                 Intent intentRecevier=new Intent();
-                intentRecevier.setAction("calDateChange");
+                intentRecevier.setAction("simpleAllDateChange");
                 mActivity.sendBroadcast(intentRecevier);
+                tv_friend_all.setText("全部");
                 mPopupWindow.dismiss();
             }
         });

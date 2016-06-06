@@ -25,6 +25,7 @@ import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -89,7 +90,7 @@ public class ActAdapter extends BaseAdapter{
         } else {
            convertView= View.inflate(context, R.layout.item_act, null);
             viewHolder = new Holder();
-            viewHolder.iv_headphoto = (ImageView) convertView.findViewById(R.id.iv_headphoto);
+            viewHolder.iv_headphoto = (CircleImageView) convertView.findViewById(R.id.iv_headphoto);
             viewHolder.tv_niName = (TextView) convertView.findViewById(R.id.tv_niName);
             viewHolder.ll_person = (LinearLayout) convertView.findViewById(R.id.ll_person);
             viewHolder.tv_hdtheme = (TextView) convertView.findViewById(R.id.tv_hdtheme);
@@ -103,7 +104,7 @@ public class ActAdapter extends BaseAdapter{
             viewHolder.tv_join_num= (TextView)convertView.findViewById(R.id.tv_join_num);
             viewHolder.tv_join_tal_num= (TextView)convertView.findViewById(R.id.tv_join_tal_num);
             viewHolder.iv_gender= (ImageView) convertView.findViewById(R.id.iv_gender);
-            viewHolder.iv_actdetial = (ImageView) convertView.findViewById(R.id.iv_actdetial);
+            viewHolder.iv_actdetial = (CircleImageView) convertView.findViewById(R.id.iv_actdetial);
             viewHolder.tv_text_jion = (TextView)convertView.findViewById(R.id.tv_text_jion);
             viewHolder.tv_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
             viewHolder.ll_show= (LinearLayout) convertView.findViewById(R.id.ll_show);
@@ -111,6 +112,7 @@ public class ActAdapter extends BaseAdapter{
             viewHolder.ll_show3= (LinearLayout) convertView.findViewById(R.id.ll_show3);
             viewHolder.ll_del =(LinearLayout) convertView.findViewById(R.id.ll_del);
             viewHolder.ll_simple_share=(LinearLayout)convertView.findViewById(R.id.ll_simple_share);
+            viewHolder.ll_theme_location = (LinearLayout)convertView.findViewById(R.id.ll_theme_location);
             convertView.setTag(viewHolder);
 
         }
@@ -120,7 +122,12 @@ public class ActAdapter extends BaseAdapter{
             viewHolder.tv_niName.setText("无用户名");//字段缺少用户名
         }
 
-        viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());//活动位置
+        if (infos.get(position).getActivitySite()!=null){
+            viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());//活动位置
+        }else {
+            viewHolder.ll_theme_location.setVisibility(View.GONE);
+        }
+
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
         if (infos.get(position).getUserId()!="本地用户id"){
             viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
@@ -149,7 +156,7 @@ public class ActAdapter extends BaseAdapter{
         }
 
         viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber()+"");//邀约人数
-        viewHolder.tv_date.setText(ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getStartTime()))+ "-" + ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getEndTime())));//活动时间；
+        viewHolder.tv_date.setText(ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getStartTime()))+ "—" + ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getEndTime())));//活动时间；
 //        viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getUserIcon()), viewHolder.iv_headphoto, optionsImag);//用户头像
 //        viewHolder.iv_headphoto.setBackgroundDrawable(infos.get(position).getIcon());
@@ -239,7 +246,9 @@ public class ActAdapter extends BaseAdapter{
                         public void onResponse(ResultBean<String> response) {
                             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//默认图标
                             viewHolder.tv_text_guanzhu.setText("已关注");
+                            infos.get(position).setFollow(true);
                             noticNum=noticNum+1;
+                            infos.get(position).setFollowNum(noticNum);
                             viewHolder.tv_guanzhu_num.setText(noticNum+"");
                             viewHolder.ll_guanzhu.setClickable(false);
                             MyToastUtils.showShortToast(context,"已关注");
@@ -249,13 +258,13 @@ public class ActAdapter extends BaseAdapter{
                 }
             });
         }
-           //展示活动详情；
-            viewHolder.ll_show.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDialog(position,infos.get(position).getActivityParticulars(),infos.get(position).isColleagues(),infos.get(position).isFriend());
-                }
-            });
+//           //展示活动详情；
+//            viewHolder.ll_show.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    showDialog(position,infos.get(position).getActivityParticulars(),infos.get(position).isColleagues(),infos.get(position).isFriend());
+//                }
+//            });
 
 //        viewHolder.tv_guanzhu_num.setText(infos.get(position).getAttentionNum() + "");
 //
@@ -278,14 +287,14 @@ public class ActAdapter extends BaseAdapter{
 //        });
 
         //展示活动详情
-        View.OnClickListener listener=new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //判断返回活动是否为null；
-                showDialog(position, infos.get(position).getActivityParticulars(), infos.get(position).isColleagues(), infos.get(position).isFriend());
-            }
-        };
-        viewHolder.iv_actdetial.setOnClickListener(listener);
+//        View.OnClickListener listener=new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //判断返回活动是否为null；
+//                showDialog(position, infos.get(position).getActivityParticulars(), infos.get(position).isColleagues(), infos.get(position).isFriend());
+//            }
+//        };
+//        viewHolder.iv_actdetial.setOnClickListener(listener);
 
 
         //展示个人资料
@@ -342,58 +351,8 @@ public class ActAdapter extends BaseAdapter{
     }
 
 
-    /***
-     * 设置条目点击显示活动详情dialog
-     *1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
-     * @param
-     * @param position
-     * @param activityParticulars
-     * @param colleagues
-     * @param friend
-     */
-    private void showDialog(final int position, String activityParticulars, boolean colleagues, boolean friend) {
-        final CustomDialog.Builder builder = new CustomDialog.Builder(context);
-        if (!TextUtils.isEmpty(activityParticulars)){
-            builder.setMessage(activityParticulars);
-        }else {
-            builder.setMessage("没有活动详情");
-        }
-       if (colleagues){
-           builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialog, int which) {
-                   MyToastUtils.showShortToast(context,"点击了第二个button");
-               }
-           });
-       }else if (friend){
-           builder.setNegativeButton("你们两个是好友", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialog, int which) {
-                   MyToastUtils.showShortToast(context,"点击了第二个button");
-               }
-           });
-       }else {
-           builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialog, int which) {
-                    Intent intent=new Intent(context, MessVerifyAct.class);//加为好友
-                   Bundle bundle=new Bundle();
-                   bundle.putString("userId",infos.get(position).getUserId());//好友id
-                   bundle.putString("userName",infos.get(position).getUserNm());//好友名字
-                   intent.setAction("AddFriend");
-                   intent.putExtras(bundle);
-                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                   context.startActivity(intent);
-               }
-           });
-       }
-        builder.create().show();
-
-    }
-
-
     public static class Holder {
-       public ImageView iv_headphoto;//头像
+       public CircleImageView iv_headphoto;//头像
        public TextView tv_niName;//昵称
        public LinearLayout ll_person;//个人信息id
        public TextView tv_hdtheme;//活动主题
@@ -407,9 +366,10 @@ public class ActAdapter extends BaseAdapter{
        public ImageView iv_join;//参加头像
        public TextView tv_join_num;//参加数量
        public TextView tv_join_tal_num;//活动总人数设置
-       public ImageView iv_actdetial;//活动标签
+       public CircleImageView iv_actdetial;//活动标签
        public ImageView iv_gender;//性别
        public TextView tv_text_jion;//参加/取消参加
+        public LinearLayout ll_theme_location;//活动位置Linear
        public LinearLayout ll_show,ll_show2,ll_show3;
         public LinearLayout ll_del,ll_simple_share;
     }
