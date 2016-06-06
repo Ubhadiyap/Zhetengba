@@ -325,11 +325,12 @@ public class SimpleFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                if (list != null || list.size() > 0) {
+                if (datas != null || datas.size() > 0) {
                     if (adapter == null) {
                         //设置简约listview的条目
-                        adapter = new ActAdapter(mActivity, list);
+                        adapter = new ActAdapter(mActivity, datas);
                         lv_act.getRefreshableView().setAdapter(adapter);
+                        adapter.update(datas);
                     } else {
                         adapter.update(datas);
                     }
@@ -385,11 +386,12 @@ public class SimpleFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                if (list != null || list.size() > 0) {
+                if (datas != null || datas.size() > 0) {
                     if (adapter == null) {
                         //设置简约listview的条目
-                        adapter = new ActAdapter(mActivity, list);
+                        adapter = new ActAdapter(mActivity, datas);
                         lv_act.getRefreshableView().setAdapter(adapter);
+                        adapter.update(datas);
                     } else {
                         adapter.update(datas);
                     }
