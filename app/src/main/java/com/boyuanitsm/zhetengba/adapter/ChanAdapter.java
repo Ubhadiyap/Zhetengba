@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,6 +17,7 @@ import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CommentAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -34,6 +36,7 @@ import java.util.List;
 public class ChanAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList;
+    private List<ChannelTalkEntity> list;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -44,6 +47,11 @@ public class ChanAdapter extends BaseAdapter {
     public ChanAdapter(Context context, List<List<ImageInfo>> dateList) {
         this.context = context;
         this.dateList = dateList;
+    }
+    public ChanAdapter(Context context, List<List<ImageInfo>> dateList,List<ChannelTalkEntity> list) {
+        this.context = context;
+        this.dateList = dateList;
+        this.list=list;
     }
 
     @Override
@@ -74,7 +82,9 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
             viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.tv_ch_niName = (TextView) convertView.findViewById(R.id.tv_ch_niName);
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
+            viewHolder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
             viewHolder.ll_two = (LinearLayout) convertView.findViewById(R.id.ll_two);
             viewHolder.iv_two_one = (CustomImageView) convertView.findViewById(R.id.iv_two_one);
             viewHolder.iv_two_two = (CustomImageView) convertView.findViewById(R.id.iv_two_two);
@@ -84,6 +94,9 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_date = (RelativeLayout) convertView.findViewById(R.id.ll_date);
             viewHolder.ll_user = (LinearLayout) convertView.findViewById(R.id.ll_user);
             viewHolder.ll_ch_image = (LinearLayout) convertView.findViewById(R.id.ll_ch_image);
+            viewHolder.znum= (TextView) convertView.findViewById(R.id.znum);
+            viewHolder.cnum= (TextView) convertView.findViewById(R.id.cnum);
+            viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
@@ -155,6 +168,32 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setAdapter(adapter);
 
         }
+        if(list!=null){
+            if(!TextUtils.isEmpty(list.get(position).getCreatePersonId())){
+                viewHolder.tv_ch_niName.setText(list.get(position).getCreatePersonId());
+            }
+            if(!TextUtils.isEmpty(list.get(position).getCreateTiem())){
+                viewHolder.tv_time.setText(list.get(position).getCreateTiem());
+            }
+//            if(!TextUtils.isEmpty(list.get(position).get())){
+//                viewHolder.tv_content.setText(list.get(position).getTalkContent());
+//            }
+            if(!TextUtils.isEmpty(list.get(position).getLikeCounts()+"")){
+                viewHolder.znum.setText(list.get(position).getLikeCounts()+"");
+            }else {
+                viewHolder.znum.setText("0");
+            }
+            if(!TextUtils.isEmpty(list.get(position).getCommentCounts()+"")){
+                viewHolder.cnum.setText(list.get(position).getCommentCounts()+"");
+            }else {
+                viewHolder.cnum.setText("0");
+            }
+            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
+                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
+            }else {
+                viewHolder.snum.setText("0");
+            }
+        }
         //点击活动详情跳转频道正文
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -206,11 +245,16 @@ public class ChanAdapter extends BaseAdapter {
         private LinearLayout ll_answer;
         private CustomImageView iv_oneimage;
         private MyGridView iv_ch_image;
+        private TextView tv_ch_niName;
         private TextView tv_content;
+        private TextView tv_time;
         private LinearLayout ll_two;
         private CustomImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
         private LinearLayout ll_user, ll_content, ll_ch_image;
         private RelativeLayout ll_date;
+        private TextView znum;
+        private TextView cnum;
+        private TextView snum;
 
 
     }

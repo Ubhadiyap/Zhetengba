@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,9 +16,13 @@ import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
@@ -25,6 +30,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +39,10 @@ import java.util.List;
  */
 public class CirclexqListAdapter extends BaseAdapter {
     private Context context;
-    private List<List<ImageInfo>> dateList;
+    private List<List<ImageInfo>> dateList=new ArrayList<>();
+    private boolean flag=false;
+
+    private List<CircleEntity> list;
 
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -42,21 +51,29 @@ public class CirclexqListAdapter extends BaseAdapter {
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-    public CirclexqListAdapter(Context context, List<List<ImageInfo>> dateList) {
+//    public CirclexqListAdapter(Context context, List<List<ImageInfo>> dateList) {
+//        this.context = context;
+//        this.dateList = dateList;
+//    }
+    public CirclexqListAdapter(Context context, List<List<ImageInfo>> dateList,List<CircleEntity> list) {
         this.context = context;
         this.dateList = dateList;
-
+        this.list=list;
+    }
+    public CirclexqListAdapter(Context context,List<CircleEntity> list) {
+        this.context = context;
+        this.list=list;
     }
 
 
     @Override
     public int getCount() {
-        return 5;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return dateList.get(position);
+        return position;
     }
 
     @Override
@@ -68,6 +85,7 @@ public class CirclexqListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         final List<ImageInfo> itemList = dateList.get(position);
+//        final List<ImageInfo> itemList = new ArrayList<>();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -76,18 +94,22 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.ivChHead = (ImageView) convertView.findViewById(R.id.iv_ch_head);
             viewHolder.tvChNiName = (TextView) convertView.findViewById(R.id.tv_ch_niName);
             viewHolder.ivChGendar = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
-            viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_Name);
+            viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
             viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
             viewHolder.ll_two = (LinearLayout) convertView.findViewById(R.id.ll_two);
+            viewHolder.like = (LinearLayout) convertView.findViewById(R.id.like);
             viewHolder.iv_two_one = (CustomImageView) convertView.findViewById(R.id.iv_two_one);
             viewHolder.iv_two_two = (CustomImageView) convertView.findViewById(R.id.iv_two_two);
             viewHolder.iv_two_three = (CustomImageView) convertView.findViewById(R.id.iv_two_three);
             viewHolder.iv_two_four = (CustomImageView) convertView.findViewById(R.id.iv_two_four);
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
+            viewHolder.znum= (TextView) convertView.findViewById(R.id.znum);
+            viewHolder.cnum= (TextView) convertView.findViewById(R.id.cnum);
+            viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
@@ -158,6 +180,36 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setAdapter(adapter);
 
         }
+
+        if(list!=null&&list.size()>0){
+            if(!TextUtils.isEmpty(list.get(position).getUserId())){
+                viewHolder.tvChNiName.setText(list.get(position).getUserId());
+            }
+            if(!TextUtils.isEmpty(list.get(position).getCreateTime()+"")){
+                viewHolder.tvTime.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTime()+"")));
+            }
+            if(!TextUtils.isEmpty(list.get(position).getTalkContent())){
+                viewHolder.tv_content.setText(list.get(position).getTalkContent());
+            }
+            if(!TextUtils.isEmpty(list.get(position).getCircleName())){
+                viewHolder.tv_cir_name.setText(list.get(position).getCircleName());
+            }
+            if(!TextUtils.isEmpty(list.get(position).getLikeCounts()+"")){
+                viewHolder.znum.setText(list.get(position).getLikeCounts()+"");
+            }else {
+                viewHolder.znum.setText("0");
+            }
+            if(!TextUtils.isEmpty(list.get(position).getCommentCounts()+"")){
+                viewHolder.cnum.setText(list.get(position).getCommentCounts()+"");
+            }else {
+                viewHolder.cnum.setText("0");
+            }
+            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
+                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
+            }else {
+                viewHolder.snum.setText("0");
+            }
+        }
         //点击用户头像，进入用户圈子主页
         viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +219,19 @@ public class CirclexqListAdapter extends BaseAdapter {
                 //需要开启新task,否则会报错
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+            }
+        });
+        //点赞
+        viewHolder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!flag){
+                    flag=true;
+//                    addCircleLike("1");
+                }else {
+                    flag=false;
+//                    removeCircleLike("1");
+                }
             }
         });
         //分享对话框
@@ -210,9 +275,49 @@ public class CirclexqListAdapter extends BaseAdapter {
         public TextView tv_cir_name;
         private LinearLayout ll_two;
         private CustomImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
+        private LinearLayout like;
         private LinearLayout ll_share;
         private LinearLayout ll_comment;
         private TextView tv_content;
+        private TextView znum;
+        private TextView cnum;
+        private TextView snum;
 
     }
+
+    /**
+     * 圈子说说点赞
+     * @param circleTalkId
+     */
+    private void addCircleLike(String circleTalkId ){
+        RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+    }
+    /**
+     * 取消圈子说说点赞
+     * @param circleTalkId
+     */
+    private void removeCircleLike(String circleTalkId ){
+        RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+    }
+
 }

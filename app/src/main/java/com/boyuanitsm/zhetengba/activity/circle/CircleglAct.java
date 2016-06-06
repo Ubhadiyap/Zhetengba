@@ -15,9 +15,12 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CircleglAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -54,6 +57,8 @@ public class CircleglAct extends BaseActivity {
         lv_circlegl.getRefreshableView().setDivider(null);//设置分隔线
         lv_circlegl.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         lv_circlegl.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
+        lv_circlegl.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+//        lv_circlegl.getRefreshableView().setAdapter(new CircleglAdapter(this,list));
         lv_circlegl.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -62,8 +67,24 @@ public class CircleglAct extends BaseActivity {
                     intent.putExtra("circleId", list.get(position).getId());
                 }
                 startActivity(intent);
+//                openActivity(CirxqAct.class);
             }
         });
+        lv_circlegl.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                lv_circlegl.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                page=1;
+                getCircleList(page,rows);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                getCircleList(page,rows);
+            }
+        });
+
 
     }
     @OnClick({R.id.iv_jia,R.id.iv_serch})
@@ -81,9 +102,10 @@ public class CircleglAct extends BaseActivity {
         }
     }
 
+    private List<CircleEntity> datas=new ArrayList<>();
     //获取圈子列表
-    private void getCircleList(int page,int rows){
-        RequestManager.getTalkManager().myCircleList(page, rows, new ResultCallback<ResultBean<List<CircleEntity>>>() {
+    private void getCircleList(final int page,int rows){
+        RequestManager.getTalkManager().myCircleList(page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_circlegl.onPullUpRefreshComplete();
@@ -91,12 +113,25 @@ public class CircleglAct extends BaseActivity {
             }
 
             @Override
-            public void onResponse(ResultBean<List<CircleEntity>> response) {
+            public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
                 lv_circlegl.onPullUpRefreshComplete();
                 lv_circlegl.onPullDownRefreshComplete();
-                list= response.getData();
-                adapter=new CircleglAdapter(CircleglAct.this,list);
-                lv_circlegl.getRefreshableView().setAdapter(adapter);
+                list= response.getData().getRows();
+                if(page==1){
+                    datas.clear();
+                }
+                datas.addAll(list);
+                if (list != null || list.size() > 0) {
+                    if(adapter==null) {
+                        adapter=new CircleglAdapter(CircleglAct.this,datas);
+                        lv_circlegl.getRefreshableView().setAdapter(adapter);
+                    }else {
+                        adapter.notifyChange(datas);
+                    }
+                } else {
+                    lv_circlegl.setHasMoreData(false);
+                }
+
             }
         });
     }
@@ -115,6 +150,7 @@ public class CircleglAct extends BaseActivity {
         super.onDestroy();
         if (receiver!=null){
             unregisterReceiver(receiver);
+            receiver=null;
         }
     }
 
@@ -124,6 +160,7 @@ public class CircleglAct extends BaseActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            page=1;
             getCircleList(page,rows);
         }
     }
