@@ -3,9 +3,7 @@ package com.boyuanitsm.zhetengba.http.manager;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
-import com.hyphenate.util.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -347,8 +345,6 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         params.put("collectionId",collectionId);
         doPost(IZtbUrl.REMOVECOLLECTION_URL,params,callback);
-
-
     }
 
     /**
