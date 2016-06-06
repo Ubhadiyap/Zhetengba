@@ -166,6 +166,9 @@ public class PersonalmesAct extends BaseActivity {
                     startActivity(intent);
                     break;
                 case R.id.cv_homeTown://故乡
+                    intent = new Intent(this, EditAct.class);
+                    intent.putExtra(EditAct.USER_TYPE, 9);
+                    startActivity(intent);
                     break;
             }
         }
