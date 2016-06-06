@@ -3,14 +3,12 @@ package com.boyuanitsm.zhetengba.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * Created by bitch-1 on 2016/6/2.
  */
 public class CollectionBean implements Parcelable {
     private  String CollectionId;
-    private  Date CollectionTime;
+    private  String CollectionTime;
     private  String CollectionType;
     private  String getId;
     private  String UserId;
@@ -45,11 +43,11 @@ public class CollectionBean implements Parcelable {
         CollectionId = collectionId;
     }
 
-    public Date getCollectionTime() {
+    public String getCollectionTime() {
         return CollectionTime;
     }
 
-    public void setCollectionTime(Date collectionTime) {
+    public void setCollectionTime(String collectionTime) {
         CollectionTime = collectionTime;
     }
 

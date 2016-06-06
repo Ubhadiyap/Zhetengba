@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +37,10 @@ public class MyColleitionAct extends BaseActivity{
     private int page=1;
     private int rows=10;
 
+    private final String CHANG="change";
+    private List<CollectionBean>list;
+    private CollectionBean collectionBean;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_mycollection);
@@ -44,6 +49,14 @@ public class MyColleitionAct extends BaseActivity{
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("我的收藏");
+        list=new ArrayList<>();
+        collectionBean=new CollectionBean();
+        collectionBean.setCollectionId("1");
+        collectionBean.setCollectionTime("2");
+        collectionBean.setCollectionType("3");
+        collectionBean.setGetId("4");
+        collectionBean.setUserId("5");
+        list.add(collectionBean);
         plv.setPullRefreshEnabled(true);//下拉刷新
         plv.setScrollLoadEnabled(true);//滑动加载
         plv.setPullLoadEnabled(false);//上拉刷新
@@ -51,7 +64,7 @@ public class MyColleitionAct extends BaseActivity{
         plv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         plv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         plv.setLastUpdatedLabel(ZhetebaUtils.getCurrentTime());
-        adapter=new CollectAdapter(MyColleitionAct.this);
+        adapter=new CollectAdapter(MyColleitionAct.this,list);
         plv.getRefreshableView().setAdapter(adapter);
         findgzPortsMsg(page, rows);
         plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {

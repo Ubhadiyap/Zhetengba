@@ -21,12 +21,19 @@ import java.util.List;
 public class CollectAdapter extends BaseAdapter {
     private Context context;
     private List<CollectionBean>list;
+    private int dex;
+    private CollectAdapter collectAdapter;
 
-    public CollectAdapter(Context context) {
+    public CollectAdapter(Context context,List<CollectionBean>list) {
         this.context = context;
         this.list=list;
+        collectAdapter=this;
     }
 
+    public void notify(List<CollectionBean> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {
@@ -49,6 +56,7 @@ public class CollectAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        dex=position;
         View view=View.inflate(context,R.layout.item_collect,null);
         LinearLayout ll_shouc= (LinearLayout) view.findViewById(R.id.ll_shouc);
         ll_shouc.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +82,8 @@ public class CollectAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-
+                list.remove(dex);
+                collectAdapter.notify(list);
             }
         });
     }
