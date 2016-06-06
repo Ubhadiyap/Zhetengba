@@ -113,7 +113,7 @@ public class ZhetebaUtils {
      */
     @SuppressLint("SimpleDateFormat")
     public static String timeToDate(long time) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("MM月dd日HH:mm");
         return format.format(new Date(time));
 
     }

@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -213,7 +214,9 @@ public class ContractedAct extends BaseActivity {
             case R.id.bt_plane:
                 initData();
                 addActivity(simpleInfo);
-
+                Intent intentRecevier=new Intent();
+                intentRecevier.setAction("simpleAllDateChange");
+                this.sendBroadcast(intentRecevier);
 
         }
     }

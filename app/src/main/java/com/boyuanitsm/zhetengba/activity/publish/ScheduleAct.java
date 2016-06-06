@@ -4,20 +4,30 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 档期界面
@@ -28,11 +38,14 @@ public class ScheduleAct extends BaseActivity {
     private EditText cet_start;
     @ViewInject(R.id.cet_end)
     private EditText cet_end;
-
-
+    @ViewInject(R.id.tv_plane)
+    private Button tv_plane;
+    private ImageView iv_button;
+    private int select=1;
     private TextView tv_xlws, tv_bwln, tv_wlzj, tv_xdys;//闲来无事，百无聊赖，无聊至极，闲的要死
     private CommonView ll_hu_can, ll_hu_no_can;
-
+    private List<LabelBannerInfo> listLabel = new ArrayList<>();//档期标签集合；
+    private ScheduleInfo scheduleInfo;
     private String startDate;
 
 
@@ -44,7 +57,9 @@ public class ScheduleAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        scheduleInfo=new ScheduleInfo();
         setTopTitle("档期");
+        getInterestScheduleLabel(1+"");
         assignView();
         setcheckitem(0);
     }
@@ -56,37 +71,62 @@ public class ScheduleAct extends BaseActivity {
         tv_xdys = (TextView) findViewById(R.id.tv_xdys);
         ll_hu_can = (CommonView) findViewById(R.id.ll_hu_can);
         ll_hu_no_can = (CommonView) findViewById(R.id.ll_hu_no_can);
+        iv_button = (ImageView) findViewById(R.id.iv_button);
+
+        iv_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (select == 1) {
+                    iv_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
+                    select = 0;
+                    return;
+                } else {
+                    iv_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+                    select = 1;
+                    return;
+                }
+            }
+        });
     }
 
-    @OnClick({R.id.tv_xlwu, R.id.tv_bwln, R.id.tv_wuzj, R.id.tv_xdys,R.id.view_start,R.id.view_end,R.id.ll_hu_can,R.id.ll_hu_no_can})
+    @OnClick({R.id.tv_xlwu, R.id.tv_bwln, R.id.tv_wuzj, R.id.tv_xdys, R.id.view_start, R.id.view_end, R.id.ll_hu_can, R.id.ll_hu_no_can,R.id.tv_plane})
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.tv_xlwu:
                 setAllTabNor();
                 setcheckitem(0);
-
+                scheduleInfo.setLabelId(listLabel.get(0).getId());
                 break;
 
             case R.id.tv_bwln:
                 setAllTabNor();
                 setcheckitem(1);
+                scheduleInfo.setLabelId(listLabel.get(1).getId());
                 break;
 
             case R.id.tv_wuzj:
                 setAllTabNor();
                 setcheckitem(2);
+                scheduleInfo.setLabelId(listLabel.get(2).getId());
                 break;
 
             case R.id.tv_xdys:
                 setAllTabNor();
                 setcheckitem(3);
+                scheduleInfo.setLabelId(listLabel.get(3).getId());
                 break;
             case R.id.ll_hu_can:
-                openActivity(AssignScanAct.class);
+                if (select==1){
+                    openActivity(AssignScanAct.class);
+                }
+
                 break;
             case R.id.ll_hu_no_can:
-                openActivity(AssignScanAct.class);
+                if (select==1){
+                    openActivity(AssignScanAct.class);
+                }
+
                 break;
 
             case R.id.view_start://开始时间
@@ -121,12 +161,20 @@ public class ScheduleAct extends BaseActivity {
                     }
                 });
                 break;
-
-
+            case R.id.tv_plane:
+                initDate(scheduleInfo);
+                addSchedule(scheduleInfo);
+                break;
 
         }
 
 
+    }
+    //初始化对象数据
+    private void initDate(ScheduleInfo scheduleInfo) {
+        scheduleInfo.setEndTime(cet_end.getText().toString());
+        scheduleInfo.setStartTime(cet_start.getText().toString());
+        scheduleInfo.setScheduleVisibility(select);
     }
 
     /**
@@ -176,6 +224,44 @@ public class ScheduleAct extends BaseActivity {
         }
 
 
+    }
+
+    /**
+     * 获取档期标签
+     * @param dicType
+     */
+    private void getInterestScheduleLabel(String dicType) {
+        RequestManager.getScheduleManager().getIntrestLabelList(dicType, new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
+                listLabel=response.getData();
+                if(listLabel!=null){
+                    tv_xlws.setText(listLabel.get(0).getDictName());
+                    tv_bwln.setText(listLabel.get(1).getDictName());
+                    tv_wlzj.setText(listLabel.get(2).getDictName());
+                    tv_xdys.setText(listLabel.get(3).getDictName());
+                }
+            }
+        });
+    }
+
+    private void addSchedule(ScheduleInfo scheduleInfo){
+        RequestManager.getScheduleManager().addSchedule(scheduleInfo, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(ScheduleAct.this,"发布档期成功");
+            }
+        });
     }
 
     /**

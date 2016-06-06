@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
@@ -65,11 +67,21 @@ public class SimpleFrg extends BaseFragment {
     private List<SimpleInfo> datas=new ArrayList<>();
     private int page=1;
     private int rows=10;
-    private BroadcastReceiver simDteChangeRecevier=new BroadcastReceiver() {
+    private boolean flag=true;
+    private IntentFilter filterFriend,filterAll;
+    private BroadcastReceiver simFriendDteChangeRecevier=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-                  getFriendOrAllAcitvity(1, 10, 0 + "");//切换到好友；
+                  getFriendOrAllAcitvity(page, rows, 0 + "");//切换到好友；
+                  flag=false;
 
+        }
+    };
+    private BroadcastReceiver simAllDteChangeRecevier=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getActivityList(page, rows);
+            flag=true;
         }
     };
     @Override
@@ -80,10 +92,14 @@ public class SimpleFrg extends BaseFragment {
     @Override
     public void initData(Bundle savedInstanceState) {
 
-        //广播接收者，更新数据
-        IntentFilter filter=new IntentFilter();
-        filter.addAction("simpleDateChange");
-        mActivity.registerReceiver(simDteChangeRecevier, filter);
+        //广播接收者，接受好友列表更新数据
+         filterFriend=new IntentFilter();
+        filterFriend.addAction("simpleFriendDateChange");
+        mActivity.registerReceiver(simFriendDteChangeRecevier, filterFriend);//切换到好友；
+        //接受全部更新列表；
+        filterAll=new IntentFilter();
+        filterAll.addAction("simpleAllDateChange");
+        mActivity.registerReceiver(simAllDteChangeRecevier, filterAll);//切换到全部；
 
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
@@ -92,24 +108,38 @@ public class SimpleFrg extends BaseFragment {
         lv_act.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page=1;
-                getActivityList(page,rows);
+                page = 1;
+//                getActivityList(page,rows);
+                if (flag == false) {
+                    getFriendOrAllAcitvity(page, rows, 0 + "");//好友列表获取；
+                } else {
+                   getActivityList(page,rows);//全部列表获取；
+                }
 
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getActivityList(page,rows);
+                if (flag == false) {
+                    getFriendOrAllAcitvity(page, rows, 0 + "");//好友列表获取；
+                } else {
+                    getActivityList(page,rows);//全部列表获取；
+                }
             }
         });
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
-        getActivityList(page, rows);
+        if (flag){
+            getActivityList(page, rows);
+        }else {
+            getFriendOrAllAcitvity(page,rows,0+"");
+        }
         lv_act.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showDialog();
+              SimpleInfo info= datas.get(position-1);
+                showDialog(info);
             }
         });
         //首页轮播图片展示
@@ -196,29 +226,56 @@ public class SimpleFrg extends BaseFragment {
 
 
 
-    private void showDialog() {
-        CustomDialog.Builder builder = new CustomDialog.Builder(mActivity);
-        builder.setMessage("没有活动详情");
-//        builder.setPositiveButton("加为好友", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                MyToastUtils.showShortToast(context,"点击了第一个button");
-//            }
-//        });
-        builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                MyToastUtils.showShortToast(mActivity, "点击了第二个button");
-            }
-        });
+    /***
+     * 设置条目点击显示活动详情dialog
+     *1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
+     * @param
+     * @param info
+     */
+    private void showDialog(final SimpleInfo info) {
+        final CustomDialog.Builder builder = new CustomDialog.Builder(mActivity);
+        if (!TextUtils.isEmpty(info.getActivityParticulars())) {
+            builder.setMessage(info.getActivityParticulars());
+        } else {
+            builder.setMessage("没有活动详情");
+        }
+        if (info.isColleagues()) {
+            builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+                }
+            });
+        } else if (info.isFriend()) {
+            builder.setNegativeButton("你们两个是好友", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+                }
+            });
+        } else {
+            builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(mActivity, MessVerifyAct.class);//加为好友
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userId", info.getUserId());//好友id
+                    bundle.putString("userName", info.getUserNm());//好友名字
+                    intent.setAction("AddFriend");
+                    intent.putExtras(bundle);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mActivity.startActivity(intent);
+                }
+            });
+        }
         builder.create().show();
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mActivity.unregisterReceiver(simDteChangeRecevier);//注销广播
+        mActivity.unregisterReceiver(simFriendDteChangeRecevier);//注销广播
+        mActivity.unregisterReceiver(simAllDteChangeRecevier);
     }
 
     /***
@@ -255,7 +312,8 @@ public class SimpleFrg extends BaseFragment {
         RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                lv_act.onPullUpRefreshComplete();
+                lv_act.onPullDownRefreshComplete();
             }
 
             @Override
@@ -267,11 +325,12 @@ public class SimpleFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                if (list != null || list.size() > 0) {
+                if (datas != null || datas.size() > 0) {
                     if (adapter == null) {
                         //设置简约listview的条目
-                        adapter = new ActAdapter(mActivity, list);
+                        adapter = new ActAdapter(mActivity, datas);
                         lv_act.getRefreshableView().setAdapter(adapter);
+                        adapter.update(datas);
                     } else {
                         adapter.update(datas);
                     }
@@ -327,11 +386,12 @@ public class SimpleFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                if (list != null || list.size() > 0) {
+                if (datas != null || datas.size() > 0) {
                     if (adapter == null) {
                         //设置简约listview的条目
-                        adapter = new ActAdapter(mActivity, list);
+                        adapter = new ActAdapter(mActivity, datas);
                         lv_act.getRefreshableView().setAdapter(adapter);
+                        adapter.update(datas);
                     } else {
                         adapter.update(datas);
                     }

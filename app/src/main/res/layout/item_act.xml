@@ -28,11 +28,10 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
+                <com.boyuanitsm.zhetengba.view.CircleImageView
                     android:id="@+id/iv_headphoto"
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/test_user" />
+                    android:layout_height="30dp"/>
 
                 <TextView
                     android:id="@+id/tv_niName"
@@ -288,13 +287,12 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ImageView
+    <com.boyuanitsm.zhetengba.view.CircleImageView
         android:id="@+id/iv_actdetial"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/test_01" />
+        android:layout_marginTop="25dp"/>
 
 </RelativeLayout>
