@@ -52,6 +52,12 @@ public class Uitls {
 		}
 		return map;
 	}
+
+	/***
+	 *图片完全路径
+	 * @param path
+	 * @return
+	 */
 	public static String imageFullUrl(String path){
 		return IZtbUrl.BASE_URL+path;
 	}

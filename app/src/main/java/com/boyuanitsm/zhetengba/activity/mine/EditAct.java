@@ -27,7 +27,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class EditAct extends BaseActivity{
     @ViewInject(R.id.cet_editInfo)
     private ClearEditText cetEditInfo;
-    private int TYPE;//1 昵称 2 手机号  3邮箱  4公司名称  5公司地址  6公司电话 7职务
+    private int TYPE;//1 昵称 2 手机号  3邮箱  4公司名称  5公司地址  6公司电话 7职务 9故乡
     public static String USER_TYPE = "type";
     private UserInfo user;
     @Override
@@ -177,6 +177,12 @@ public class EditAct extends BaseActivity{
                 break;
             case 8:
                 break;
+            case 9:
+                if(!(TextUtils.isEmpty(content))){
+                    user.setHomeTown(content);
+                }else user.setHomeTown("");
+
+                break;
         }
 
 
@@ -249,9 +255,19 @@ public class EditAct extends BaseActivity{
                 }
                 cetEditInfo.setHint("请输入职务");
                 break;
-            case 8:
+            case 8://从消息里面的个人主页界面穿过来的修改备注
                 setTopTitle("修改备注");
                 cetEditInfo.setHint("请输入备注");
+                break;
+
+            case 9://故乡
+                setTopTitle("故乡");
+                if(user!=null){
+                    if(!TextUtils.isEmpty(user.getHomeTown())){
+                        cetEditInfo.setText(user.getHomeTown());
+                    }
+                }
+                cetEditInfo.setHint("请输入故乡地址");
         }
     }
 }

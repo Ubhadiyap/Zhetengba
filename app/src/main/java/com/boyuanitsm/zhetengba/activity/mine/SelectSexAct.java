@@ -1,11 +1,17 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
@@ -21,8 +27,8 @@ public class SelectSexAct extends BaseActivity {
     private RadioGroup rgSex;
 
     public final static String SEX = "sex";
-    private int sex;//2女 1男
-//    private MyBaseInfoBean baseInfoBean;
+    private String sex;//2女 1男
+    private UserInfo user;
 
     @Override
     public void setLayout() {
@@ -32,31 +38,30 @@ public class SelectSexAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("性别");
-//        baseInfoBean = (MyBaseInfoBean) getIntent().getSerializableExtra("MyBaseInfoBean");
-//        if (!"".equals(baseInfoBean) && baseInfoBean != null) {
-//            sex = baseInfoBean.getSex() == 2 ? 2 : 1;
-//        }
-//        if (sex == 2) {
-//            rgGirl.setChecked(true);
-//        } else {
-//            rgBoy.setChecked(true);
-//        }
-//        rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId) {
-//                    case R.id.rgBoy:
-//                        baseInfoBean.setSex(1);
-//                        changeUserInfo();
-//                        break;
-//                    case R.id.rgGirl:
-//                        baseInfoBean.setSex(2);
-//                        changeUserInfo();
-//                        break;
-//                }
-//
-//            }
-//        });
+        user=getIntent().getParcelableExtra("user");
+        if(user!=null&& !TextUtils.isEmpty(user.getSex())){
+            sex=user.getSex();
+            if(sex.equals("女")){
+                rgGirl.setChecked(true);
+            }else
+                rgBoy.setChecked(true);
+        }
+        rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rgBoy:
+                        user.setSex("男");
+                        changeUserInfo();
+                        break;
+                    case R.id.rgGirl:
+                        user.setSex("女");
+                        changeUserInfo();
+                        break;
+                }
+
+            }
+        });
 
     }
 
@@ -64,25 +69,27 @@ public class SelectSexAct extends BaseActivity {
      * 修改个人资料
      */
     private void changeUserInfo() {
-//        RequestManager.getUserInstance().changeUserBaseInfo(baseInfoBean, new CallBack() {
-//            @Override
-//            public void onSuccess(String result) {
-//                ResultBean resultBean = (ResultBean) GsonUtils.jsonToRb(result, ResultBean.class);
-//                Intent intent = new Intent();
-//                intent.putExtra("Modify", baseInfoBean.getSex());
-//                setResult(MineAct.SEXMODIFY_BAKC, intent);
-//                finish();
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//                MyToastUtils.showShortToast(SelectSexAct.this, error);
-//            }
-//
-//            @Override
-//            public void onEmpty(String result) {
-//
-//            }
-//        });
+        RequestManager.getUserManager().modifyUserInfo(user, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                Intent intent = new Intent();
+                intent.putExtra("Modify", user.getSex());
+                setResult(PersonalmesAct.SEXMODIFY_BAKC, intent);
+                finish();
+
+            }
+        });
+
   }
+
+
 }
+
+
+
+

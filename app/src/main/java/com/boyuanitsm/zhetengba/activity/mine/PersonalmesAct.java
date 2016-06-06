@@ -63,7 +63,11 @@ public class PersonalmesAct extends BaseActivity {
     public static final int PHOTOTAKE = 1;
     public static final int IMAGE_COMPLETE = 2; // 结果
 
+    public static final int SEXMODIFY_GO = 200;//选择性别
+    public static final int SEXMODIFY_BAKC = 201;//性别 resultcode 201
+
     private MyReceiver myReceiver;
+    private UserInfo user;
 
 
     @Override
@@ -74,7 +78,7 @@ public class PersonalmesAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("个人资料");
-        UserInfo user = UserInfoDao.getUser();
+        user = UserInfoDao.getUser();
         MyLogUtils.degug("user"+user);
         if (user != null) {
             if (!(TextUtils.isEmpty(user.getPetName()))) {
@@ -126,7 +130,10 @@ public class PersonalmesAct extends BaseActivity {
                     startActivity(intent);
                     break;
                 case R.id.cv_sex://性别
-                    openActivity(SelectSexAct.class);
+//                    openActivity(SelectSexAct.class);
+                    Intent intent1=new Intent(PersonalmesAct.this,SelectSexAct.class);
+                    intent1.putExtra("user",user);
+                    startActivityForResult(intent1,SEXMODIFY_GO);
                     break;
                 case R.id.cv_phoneNum://手机号码
                     intent = new Intent(this, EditAct.class);
@@ -159,6 +166,9 @@ public class PersonalmesAct extends BaseActivity {
                     startActivity(intent);
                     break;
                 case R.id.cv_homeTown://故乡
+                    intent = new Intent(this, EditAct.class);
+                    intent.putExtra(EditAct.USER_TYPE, 9);
+                    startActivity(intent);
                     break;
             }
         }
@@ -233,6 +243,22 @@ public class PersonalmesAct extends BaseActivity {
 
                 break;
 
+            case SEXMODIFY_GO://修改性别返回
+                if (resultCode == SEXMODIFY_BAKC) {
+                    if (data != null) {
+                        String sex=data.getStringExtra("Modify");
+                        if(sex.equals("女")){
+                            cvSex.setNotesText("女");
+                            user.setSex("女");
+                        }
+                        if(sex.equals("男")){
+                            cvSex.setNotesText("男");
+                            user.setSex("男");
+                        }
+
+                    }
+                }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -261,9 +287,9 @@ public class PersonalmesAct extends BaseActivity {
                 if (user.getPetName()!=null) {
                     cvUserName.setNotesText(user.getPetName());}
 
-                if (user.getSex()!=null){
-                    cvSex.setNotesText(user.getSex());
-                }
+//                if (user.getSex()!=null){
+//                    cvSex.setNotesText(user.getSex());
+//                }
                 if (user.getPhone()!=null) {
                     cvPhoneNum.setNotesText(user.getPhone());
                 }

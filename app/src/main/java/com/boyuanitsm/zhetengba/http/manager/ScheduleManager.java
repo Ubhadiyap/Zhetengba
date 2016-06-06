@@ -1,11 +1,10 @@
 package com.boyuanitsm.zhetengba.http.manager;
 
+import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
-import com.hyphenate.util.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -300,15 +299,17 @@ public class ScheduleManager extends RequestManager {
         doPost(IZtbUrl.REMOVE_ACTIVITY_URL,params,callback);
     }
 
-//    /**
-//     * 发布档期
-//     * schedule - 档期实体 [NOT NULL (标签ID:labelId,开始时间 ：startTime，结束时间：endTime);默认值(可见类型:scheduleVisibility 默认1(1全部可见2好友可见) )]
-//     * @param schedule
-//     * @param callback
-//     */
-//    public void addSchedule(Schedule schedule,ResultCallback callback){
-//
-//    }
+    /**
+     * 发布档期
+     * schedule - 档期实体 [NOT NULL (标签ID:labelId,开始时间 ：startTime，结束时间：endTime);默认值(可见类型:scheduleVisibility 默认1(1全部可见2好友可见) )]
+     * @param schedule
+     * @param callback
+     */
+    public void addSchedule(ScheduleInfo schedule,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params= Uitls.obj2Map(schedule);
+        doPost(IZtbUrl.ADD_SHEDULE_URL, params, callback);
+    }
 
     /**
      * 发布活动推送接口
@@ -347,8 +348,6 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         params.put("collectionId",collectionId);
         doPost(IZtbUrl.REMOVECOLLECTION_URL,params,callback);
-
-
     }
 
     /**
