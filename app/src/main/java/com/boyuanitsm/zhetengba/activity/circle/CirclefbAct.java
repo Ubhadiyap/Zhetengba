@@ -12,7 +12,11 @@ import com.boyuanitsm.zhetengba.activity.photo.PicSelectActivity;
 import com.boyuanitsm.zhetengba.adapter.CirfbAdapter;
 import com.boyuanitsm.zhetengba.adapter.GvPhotoAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageBean;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -121,6 +125,20 @@ public class CirclefbAct extends BaseActivity {
             }
         }
 
+    }
+
+    private void addCircleTalk(CircleEntity circleEntity,String circleId){
+        RequestManager.getTalkManager().addCircleTalk(circleEntity, circleId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+
+            }
+        });
     }
 
 }

@@ -145,7 +145,15 @@ public class TalkManager extends RequestManager{
     public void addCircleTalk(CircleEntity circleEntity,String circleId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         if(circleEntity!=null){
-
+            if(!TextUtils.isEmpty(circleEntity.getUserId())){
+                map.put("userId",circleEntity.getUserId());
+            }
+            if(!TextUtils.isEmpty(circleEntity.getTalkContent())){
+                map.put("talkContent",circleEntity.getTalkContent());
+            }
+            if(!TextUtils.isEmpty(circleEntity.getTalkImage())){
+                map.put("talkImage",circleEntity.getTalkImage());
+            }
         }
         if(!TextUtils.isEmpty(circleId)){
             map.put("circleId",circleId );

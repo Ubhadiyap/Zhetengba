@@ -23,6 +23,8 @@ public class CircleEntity implements Parcelable{
     private String notice;//公告
     private int sharedCounts;//分享数
     private String userId;//用户id
+    private String talkContent;//说说内容
+    private String talkImage;//说说图片
 
     public CircleEntity() {
 
@@ -43,6 +45,8 @@ public class CircleEntity implements Parcelable{
         notice = in.readString();
         sharedCounts = in.readInt();
         userId=in.readString();
+        talkContent=in.readString();
+        talkImage=in.readString();
     }
 
     public static final Creator<CircleEntity> CREATOR = new Creator<CircleEntity>() {
@@ -56,6 +60,22 @@ public class CircleEntity implements Parcelable{
             return new CircleEntity[size];
         }
     };
+
+    public String getTalkContent() {
+        return talkContent;
+    }
+
+    public void setTalkContent(String talkContent) {
+        this.talkContent = talkContent;
+    }
+
+    public String getTalkImage() {
+        return talkImage;
+    }
+
+    public void setTalkImage(String talkImage) {
+        this.talkImage = talkImage;
+    }
 
     public String getCircleOwnerId() {
         return circleOwnerId;
@@ -190,5 +210,7 @@ public class CircleEntity implements Parcelable{
         dest.writeString(notice);
         dest.writeInt(sharedCounts);
         dest.writeString(userId);
+        dest.writeString(talkContent);
+        dest.writeString(talkImage);
     }
 }

@@ -93,9 +93,9 @@ public class CirxqAct extends BaseActivity {
         if(circleId==null){
             circleId="47541c7e294f11e69615eca86ba4ba05";
         }
-        getCircleDetail(circleId);
-        getCircleMembers(circleId);
-//        getThisCircleTalks(circleId,page,rows);
+//        getCircleDetail(circleId);
+//        getCircleMembers(circleId);
+        getThisCircleTalks(circleId, page, rows);
         list = new ArrayList<Integer>(Arrays.asList(R.mipmap.cirxq_l,R.mipmap.cirxq_lb,R.mipmap.cirxq_lbb,R.mipmap.cirxq_l,R.mipmap.cirxq_lb));
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -213,14 +213,14 @@ public class CirxqAct extends BaseActivity {
 
     //获取该圈子所有说说列表
     private void getThisCircleTalks(String circleId,int page,int rows){
-        RequestManager.getTalkManager().getSingleCircleAllTalks(circleId, page, rows, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getTalkManager().getSingleCircleAllTalks(circleId, page, rows, new ResultCallback<ResultBean<List<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
+            public void onResponse(ResultBean<List<CircleEntity>> response) {
 
             }
         });
