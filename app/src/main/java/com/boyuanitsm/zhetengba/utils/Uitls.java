@@ -3,6 +3,8 @@ package com.boyuanitsm.zhetengba.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,6 +51,9 @@ public class Uitls {
 			e.printStackTrace();
 		}
 		return map;
+	}
+	public static String imageFullUrl(String path){
+		return IZtbUrl.BASE_URL+path;
 	}
 
 }

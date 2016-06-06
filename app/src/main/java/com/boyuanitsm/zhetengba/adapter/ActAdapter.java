@@ -1,28 +1,32 @@
 package com.boyuanitsm.zhetengba.adapter;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.TestListView;
+import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
+import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
+import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -105,34 +109,74 @@ public class ActAdapter extends BaseAdapter{
             viewHolder.ll_show= (LinearLayout) convertView.findViewById(R.id.ll_show);
             viewHolder.ll_show2= (LinearLayout) convertView.findViewById(R.id.ll_show2);
             viewHolder.ll_show3= (LinearLayout) convertView.findViewById(R.id.ll_show3);
+            viewHolder.ll_del =(LinearLayout) convertView.findViewById(R.id.ll_del);
+            viewHolder.ll_simple_share=(LinearLayout)convertView.findViewById(R.id.ll_simple_share);
             convertView.setTag(viewHolder);
 
         }
-        viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
+        if (infos.get(position).getUserNm()!=null){
+            viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
+        }else {
+            viewHolder.tv_niName.setText("无用户名");//字段缺少用户名
+        }
+
         viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());//活动位置
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
-        viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum().toString());//关注人数
-        noticNum=infos.get(position).getFollowNum();//获取关注数
-        viewHolder.tv_join_num.setText(infos.get(position).getMemberNum());//目前成员数量；
-        joinNum=infos.get(position).getMemberNum();//获取参加人数
-        viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber());//邀约人数
-        viewHolder.tv_date.setText(infos.get(position).getStartTime()+ "-" + infos.get(position).getEndTime());//活动时间；
+        if (infos.get(position).getUserId()!="本地用户id"){
+            viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
+            viewHolder.ll_join.setVisibility(View.VISIBLE);
+            viewHolder.ll_del.setVisibility(View.GONE);
+            viewHolder.ll_simple_share.setVisibility(View.GONE);
+        }else {
+            viewHolder.ll_guanzhu.setVisibility(View.GONE);
+            viewHolder.ll_join.setVisibility(View.GONE);
+            viewHolder.ll_del.setVisibility(View.VISIBLE);
+            viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
+        }
+        if (infos.get(position).getFollowNum()!=null){
+            viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum().toString());//关注人数
+            noticNum=infos.get(position).getFollowNum();//获取关注数
+        }else {
+            viewHolder.tv_guanzhu_num.setText(0+"");//关注人数
+            noticNum=0;//获取关注数
+        }
+        if (infos.get(position).getMemberNum()!=null){
+            viewHolder.tv_join_num.setText(infos.get(position).getMemberNum());//目前成员数量；
+            joinNum=infos.get(position).getMemberNum();//获取参加人数
+        }else {
+            viewHolder.tv_join_num.setText(0+"");//目前成员数量；
+            joinNum=0;//获取参加人数
+        }
+
+        viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber()+"");//邀约人数
+        viewHolder.tv_date.setText(ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getStartTime()))+ "-" + ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getEndTime())));//活动时间；
 //        viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
-        ImageLoader.getInstance().displayImage(infos.get(position).getUserIcon(), viewHolder.iv_headphoto, optionsImag);//用户头像
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getUserIcon()), viewHolder.iv_headphoto, optionsImag);//用户头像
 //        viewHolder.iv_headphoto.setBackgroundDrawable(infos.get(position).getIcon());
-//        viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));//用户性别
-        ImageLoader.getInstance().displayImage(infos.get(position).getUserSex(),viewHolder.iv_gender,optionsImag);//用户性别
-        ImageLoader.getInstance().displayImage(infos.get(position).getIcon(), viewHolder.iv_actdetial, optionsImag);//详情icon
+        if (infos.get(position).getUserSex()=="男"){
+            viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
+        }else {
+            viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));//用户性别
+        }
+//        ImageLoader.getInstance().displayImage(infos.get(position).getUserSex(),viewHolder.iv_gender,optionsImag);//用户性别
+        if (infos.get(position).getIcon()!=null){
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getIcon()), viewHolder.iv_actdetial, optionsImag);//详情icon
+        }
 //        viewHolder.iv_actdetial.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_01));//labelId详情icon
 //        返回状态判断是否参加，
         if (infos.get(position).isJoin()){
             viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
             viewHolder.tv_text_jion.setText("取消参加");
+            viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
             viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    stateChange(position, viewHolder);
-
+                    new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            stateChange(position, viewHolder);
+                        }
+                    }).setNegativeButton("取消",null).show();
                 }
             });
         }else {
@@ -147,6 +191,28 @@ public class ActAdapter extends BaseAdapter{
             });
         }
 
+        viewHolder.ll_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条活动？").setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //调用删除此活动接口,刷新数据；
+                    }
+                }).setPositiveButton("取消",null).show();
+
+            }
+        });
+        viewHolder.ll_simple_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //开启分享界面
+                Intent intent=new Intent();
+                intent.setClass(context,ShareDialogAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
 
 
           // viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
@@ -176,6 +242,7 @@ public class ActAdapter extends BaseAdapter{
                             noticNum=noticNum+1;
                             viewHolder.tv_guanzhu_num.setText(noticNum+"");
                             viewHolder.ll_guanzhu.setClickable(false);
+                            MyToastUtils.showShortToast(context,"已关注");
                         }
                     });
 
@@ -186,7 +253,7 @@ public class ActAdapter extends BaseAdapter{
             viewHolder.ll_show.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showDialog();
+                    showDialog(position,infos.get(position).getActivityParticulars(),infos.get(position).isColleagues(),infos.get(position).isFriend());
                 }
             });
 
@@ -215,7 +282,7 @@ public class ActAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 //判断返回活动是否为null；
-                showDialog();
+                showDialog(position, infos.get(position).getActivityParticulars(), infos.get(position).isColleagues(), infos.get(position).isFriend());
             }
         };
         viewHolder.iv_actdetial.setOnClickListener(listener);
@@ -247,7 +314,7 @@ public class ActAdapter extends BaseAdapter{
         RequestManager.getScheduleManager().getRespondActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(context, errorMsg);
+
             }
 
             @Override
@@ -256,12 +323,16 @@ public class ActAdapter extends BaseAdapter{
                 if (flag) {
                     viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
                     viewHolder.tv_text_jion.setText("参加");
+                    viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
                     joinNum = joinNum - 1;
                     viewHolder.tv_join_num.setText(joinNum);
+//                    infos.get(position).setJoin(false);;
+//                    notifyDataSetChanged();
                     flag = false;
                 } else {
                     viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
                     viewHolder.tv_text_jion.setText("取消参加");
+                    viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
                     joinNum = joinNum + 1;
                     viewHolder.tv_join_num.setText(joinNum);
                     flag=true;
@@ -275,22 +346,47 @@ public class ActAdapter extends BaseAdapter{
      * 设置条目点击显示活动详情dialog
      *1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
      * @param
+     * @param position
+     * @param activityParticulars
+     * @param colleagues
+     * @param friend
      */
-    private void showDialog() {
-        CustomDialog.Builder builder = new CustomDialog.Builder(context);
-        builder.setMessage("没有活动详情");
-//        builder.setPositiveButton("加为好友", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                MyToastUtils.showShortToast(context,"点击了第一个button");
-//            }
-//        });
-        builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                MyToastUtils.showShortToast(context,"点击了第二个button");
-            }
-        });
+    private void showDialog(final int position, String activityParticulars, boolean colleagues, boolean friend) {
+        final CustomDialog.Builder builder = new CustomDialog.Builder(context);
+        if (!TextUtils.isEmpty(activityParticulars)){
+            builder.setMessage(activityParticulars);
+        }else {
+            builder.setMessage("没有活动详情");
+        }
+       if (colleagues){
+           builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   MyToastUtils.showShortToast(context,"点击了第二个button");
+               }
+           });
+       }else if (friend){
+           builder.setNegativeButton("你们两个是好友", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   MyToastUtils.showShortToast(context,"点击了第二个button");
+               }
+           });
+       }else {
+           builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                    Intent intent=new Intent(context, MessVerifyAct.class);//加为好友
+                   Bundle bundle=new Bundle();
+                   bundle.putString("userId",infos.get(position).getUserId());//好友id
+                   bundle.putString("userName",infos.get(position).getUserNm());//好友名字
+                   intent.setAction("AddFriend");
+                   intent.putExtras(bundle);
+                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                   context.startActivity(intent);
+               }
+           });
+       }
         builder.create().show();
 
     }
@@ -314,7 +410,8 @@ public class ActAdapter extends BaseAdapter{
        public ImageView iv_actdetial;//活动标签
        public ImageView iv_gender;//性别
        public TextView tv_text_jion;//参加/取消参加
-        public LinearLayout ll_show,ll_show2,ll_show3;
+       public LinearLayout ll_show,ll_show2,ll_show3;
+        public LinearLayout ll_del,ll_simple_share;
     }
 
 

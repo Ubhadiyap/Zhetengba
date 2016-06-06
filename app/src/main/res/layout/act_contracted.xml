@@ -444,18 +444,14 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
 
-                    <com.boyuanitsm.zhetengba.widget.ToggleButton
-                        android:id="@+id/tb_friend"
-                        android:layout_width="50dp"
+                    <ImageView
+                        android:id="@+id/iv_friend"
+                        android:layout_width="42dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        app:borderWidth="1px"
-                        app:offBorderColor="#e7e7e7"
-                        app:offColor="#f5f5f5"
-                        app:onColor="#4dd963"
-                        app:spotColor="#fff" />
+                        android:background="@drawable/switch_on"/>
 
                 </LinearLayout>
             </LinearLayout>

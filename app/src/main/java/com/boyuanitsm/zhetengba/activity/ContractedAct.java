@@ -78,19 +78,20 @@ public class ContractedAct extends BaseActivity {
     private LinearLayout ll_tab;
     @ViewInject(R.id.tv_select)//地点
     private EditText tv_select;
-    @ViewInject(R.id.tb_friend)//按钮
-    private ToggleButton tb_friend;
+    @ViewInject(R.id.iv_friend)//按钮
+    private ImageView iv_friend;
 
     private Map<Integer, String> map;
     private boolean flag = true;
     private int MIN_MARK = 1;
     private int MAX_MARK = 120;
-    private Map<String,String> newMap=new HashMap<>();
+    private Map<String, String> newMap = new HashMap<>();
     private List<ActivityLabel> list;
-    private  GvTbAdapter adapter;
-    private int select=1;//好友可见；0全部可见
-    private SimpleInfo simpleInfo=new SimpleInfo();
+    private GvTbAdapter adapter;
+    private int select = 1;//好友可见；0全部可见
+    private SimpleInfo simpleInfo = new SimpleInfo();
     private String backTheme;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -100,19 +101,18 @@ public class ContractedAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("简约");
         map = new HashMap<>();
-        list=new ArrayList<ActivityLabel>();
+        list = new ArrayList<ActivityLabel>();
         getAcitivtyLabel();
         et_pp_num.addTextChangedListener(judgeEditNum());
-        tb_friend.toggleIsSwitch(true);
-        tb_friend.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
+        iv_friend.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onToggle(boolean on) {
+            public void onClick(View v) {
                 if (select == 1) {
-
+                    iv_friend.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
                     select = 0;
                     return;
                 } else {
-
+                    iv_friend.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
                     select = 1;
                     return;
                 }
@@ -125,23 +125,17 @@ public class ContractedAct extends BaseActivity {
      */
     private void initData() {
 
-           if (et_theme.getText().toString()!=null&&et_start.getText().toString()!=null&&et_end.getText().toString()!=null&&et_pp_num.getText().toString()!=null) {
-//               newMap.put("activityTheme",et_theme.getText().toString());
-//               newMap.put("startTime",et_start.getText().toString());
-//               newMap.put("endTime",et_end.getText().toString());
-//               newMap.put("activitySite",tv_select.getText().toString());
-//               newMap.put("inviteNumber",et_pp_num.getText().toString());
-//               newMap.put("activityVisibility", select + "");//button状态
-               simpleInfo.setActivityTheme(et_theme.getText().toString());
-               simpleInfo.setStartTime(et_start.getText().toString());
-               simpleInfo.setActivitySite(tv_select.getText().toString());//位置
-               simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
-               simpleInfo.setEndTime(et_end.getText().toString());
-               simpleInfo.setActivityVisibility(select);//全部可见
-               simpleInfo.setActivityParticulars(backTheme);
-           }else {
-               MyToastUtils.showShortToast(ContractedAct.this,"您有未输入的内容");
-           }
+        if (et_theme.getText().toString() != null && et_start.getText().toString() != null && et_end.getText().toString() != null && et_pp_num.getText().toString() != null) {
+            simpleInfo.setActivityTheme(et_theme.getText().toString());
+            simpleInfo.setStartTime(et_start.getText().toString());
+            simpleInfo.setActivitySite(tv_select.getText().toString());//位置
+            simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
+            simpleInfo.setEndTime(et_end.getText().toString());
+            simpleInfo.setActivityVisibility(select);//全部可见
+            simpleInfo.setActivityParticulars(backTheme);
+        } else {
+            MyToastUtils.showShortToast(ContractedAct.this, "您有未输入的内容");
+        }
 
     }
 
@@ -152,9 +146,6 @@ public class ContractedAct extends BaseActivity {
     @OnClick({R.id.tv_select, R.id.ll_theme_content, R.id.ll_select_tab, R.id.ll_start_time, R.id.ll_end_time, R.id.ll_theme, R.id.ll_hu_can, R.id.ll_hu_no_can, R.id.ll_tab, R.id.ll_hide, R.id.bt_plane})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_select://选择地点
-//                openActivity(LocationAct.class);
-                break;
             case R.id.ll_tab://选择标签
                 selectTab();
                 break;
@@ -170,9 +161,9 @@ public class ContractedAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");;
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        ;
                         String time = format.format(date);
-//                        startDate = time;
                         et_start.setText(time);
                     }
                 });
@@ -190,39 +181,38 @@ public class ContractedAct extends BaseActivity {
                     public void onTimeSelect(Date date) {
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         String time = format.format(date);
-//                        startDate = time;
                         et_end.setText(time);
                     }
                 });
 
                 break;
             case R.id.ll_hu_can:
-                if (select==1){
+                if (select == 1) {
                     openActivity(AssignScanAct.class);
                 }
                 break;
             case R.id.ll_hu_no_can:
-                if (select==1){
+                if (select == 1) {
                     openActivity(AssignScanAct.class);
                 }
 
                 break;
             case R.id.ll_theme:
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setClass(this, EventdetailsAct.class);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
                 break;
             case R.id.ll_theme_content:
                 openActivity(EventdetailsAct.class);
                 break;
-            case R.id.ll_hide:
+            case R.id.ll_hide://点击输入框以外地方，软键盘消失
                 InputMethodManager imm = (InputMethodManager)
                         getSystemService(ContractedAct.this.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(et_theme.getWindowToken(), 0);
                 break;
             case R.id.bt_plane:
-                    initData();
-                    addActivity(simpleInfo);
+                initData();
+                addActivity(simpleInfo);
 
 
         }
@@ -230,6 +220,7 @@ public class ContractedAct extends BaseActivity {
 
     /**
      * 活动详情
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -240,10 +231,64 @@ public class ContractedAct extends BaseActivity {
         if (requestCode == 0) {
             Bundle bundle = data.getBundleExtra("bundle2");
             backTheme = bundle.getString("detailsTheme");
-//            newMap.put("activityParticulars",backTheme);
-//            backTheme="活动详情";
 
         }
+    }
+
+
+    /***
+     * 发布活动
+     *
+     * @param simpleInfo
+     */
+    private void addActivity(SimpleInfo simpleInfo) {
+        RequestManager.getScheduleManager().addActivity(simpleInfo, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                response.getData();
+                MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
+                finish();
+            }
+        });
+    }
+
+    /***
+     * 获取活动标签
+     */
+    private void getAcitivtyLabel() {
+        RequestManager.getScheduleManager().getAllActivityLabel(new ResultCallback<ResultBean<List<ActivityLabel>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<ActivityLabel>> response) {
+
+                list = response.getData();
+                adapter = new GvTbAdapter(ContractedAct.this, list);
+//                //默认选中第一个；
+//                adapter.setSeclection(0);
+//                adapter.notifyDataSetChanged();
+                //设置标签的，适配器
+                gv_tab.setAdapter(adapter);
+                gv_tab.setSelector(new ColorDrawable(Color.TRANSPARENT));
+                gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ActivityLabel activityLabel = list.get(position);
+                        simpleInfo.setLabelId(activityLabel.getId());
+                        simpleInfo.setIcon(activityLabel.getIcon());
+                        adapter.setSeclection(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 
     /***
@@ -323,62 +368,5 @@ public class ContractedAct extends BaseActivity {
                 }
             }
         };
-    }
-//    /***
-//     * 发布活动
-//     *
-//     * @param simpleInfo
-//     */
-    private void addActivity(SimpleInfo simpleInfo) {
-        RequestManager.getScheduleManager().addActivity(simpleInfo, new ResultCallback<ResultBean<String>>() {
-            @Override
-            public void onError(int status, String errorMsg) {
-//                MyToastUtils.showShortToast(ContractedAct.this, "您有未填项，请完善您的信息！");
-            }
-
-            @Override
-            public void onResponse(ResultBean<String> response) {
-                response.getData();
-                MyToastUtils.showShortToast(ContractedAct.this,"发布活动成功");
-                finish();
-            }
-        });
-    }
-
-    /***
-     * 获取活动标签
-     */
-    private void getAcitivtyLabel(){
-        RequestManager.getScheduleManager().getAllActivityLabel(new ResultCallback<ResultBean<List<ActivityLabel>>>() {
-            @Override
-            public void onError(int status, String errorMsg) {
-
-            }
-
-            @Override
-            public void onResponse(ResultBean<List<ActivityLabel>> response) {
-
-                list = response.getData();
-                adapter = new GvTbAdapter(ContractedAct.this, list);
-//                //默认选中第一个；
-//                adapter.setSeclection(0);
-//                adapter.notifyDataSetChanged();
-                //设置标签的，适配器
-                gv_tab.setAdapter(adapter);
-                gv_tab.setSelector(new ColorDrawable(Color.TRANSPARENT));
-                gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ActivityLabel activityLabel = list.get(position);
-//                        newMap.put("labelId", activityLabel.getId());
-                        simpleInfo.setLabelId(activityLabel.getId());
-                        simpleInfo.setIcon(activityLabel.getIcon());
-//                        newMap.put("icon", activityLabel.getIcon());
-                        adapter.setSeclection(position);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
     }
 }

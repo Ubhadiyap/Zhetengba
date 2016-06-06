@@ -5,9 +5,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
 /**
@@ -59,6 +61,7 @@ public class LayoutHelperUtil {
         listView.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
         listView.getRefreshableView().setDivider(null);
         listView.getRefreshableView().setDividerHeight(1);
+
     }
 
 }
