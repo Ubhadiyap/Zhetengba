@@ -15,6 +15,7 @@
         android:background="@color/white"
         android:orientation="vertical">
         <RadioButton
+            android:textColor="#333333"
             android:id="@+id/rgBoy"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -28,6 +29,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="10dp"></View>
         <RadioButton
+            android:textColor="#333333"
             android:id="@+id/rgGirl"
             android:layout_width="match_parent"
             android:layout_height="40dp"
