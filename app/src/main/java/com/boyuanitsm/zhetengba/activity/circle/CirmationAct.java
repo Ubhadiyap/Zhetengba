@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -83,7 +84,8 @@ public class CirmationAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-
+                finish();
+                sendBroadcast(new Intent(CircleglAct.INTENTFLAG));
             }
         });
     }

@@ -1,7 +1,9 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,9 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +25,24 @@ import java.util.List;
  */
 public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> {
     private final LayoutInflater inflater;
-    private List<Integer> list;
-//    private List<UserInfo> list=new ArrayList<>();
+//    private List<Integer> list;
+    private List<UserInfo> list=new ArrayList<>();
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .build();
 
-    public CirxqAdapter(Context context, List<Integer> list) {
-        inflater = LayoutInflater.from(context);
-        this.list = list;
-
-    }
-//    public CirxqAdapter(Context context, List<UserInfo> list) {
+//    public CirxqAdapter(Context context, List<Integer> list) {
 //        inflater = LayoutInflater.from(context);
 //        this.list = list;
 //
 //    }
+    public CirxqAdapter(Context context, List<UserInfo> list) {
+        inflater = LayoutInflater.from(context);
+        this.list = list;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View arg0) {
@@ -79,26 +88,36 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
                         });
                     }
                 } else {
-//                    ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(i).getIcon(), viewHolder.mCir);
-                viewHolder.mCir.setImageResource(list.get(i));
+                    if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                        ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(i).getIcon(), viewHolder.mCir, options);
+                    }
+//                viewHolder.mCir.setImageResource(list.get(i));
                 }
             } else {
                 switch (i) {
                     case 0:
-//                        ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(0).getIcon(), viewHolder.mCir);
-                    viewHolder.mCir.setImageResource(list.get(0));
+                        if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(0).getIcon(), viewHolder.mCir, options);
+                        }
+//                    viewHolder.mCir.setImageResource(list.get(0));
                         break;
                     case 1:
-//                        ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(1).getIcon(), viewHolder.mCir);
-                    viewHolder.mCir.setImageResource(list.get(1));
+                        if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(1).getIcon(), viewHolder.mCir, options);
+                        }
+//                    viewHolder.mCir.setImageResource(list.get(1));
                         break;
                     case 2:
-//                        ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(2).getIcon(), viewHolder.mCir);
-                    viewHolder.mCir.setImageResource(list.get(2));
+                        if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(2).getIcon(), viewHolder.mCir, options);
+                        }
+//                    viewHolder.mCir.setImageResource(list.get(2));
                         break;
                     case 3:
-//                        ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(3).getIcon(), viewHolder.mCir);
-                    viewHolder.mCir.setImageResource(list.get(3));
+                        if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(3).getIcon(), viewHolder.mCir, options);
+                        }
+//                    viewHolder.mCir.setImageResource(list.get(3));
                         break;
                     case 4:
                         viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);

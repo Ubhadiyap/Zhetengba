@@ -22,6 +22,7 @@ public class CircleEntity implements Parcelable{
     private String modifyTime;//修改时间
     private String notice;//公告
     private int sharedCounts;//分享数
+    private String userName;//圈主别名
     private String userId;//用户id
     private String talkContent;//说说内容
     private String talkImage;//说说图片
@@ -44,6 +45,7 @@ public class CircleEntity implements Parcelable{
         modifyTime = in.readString();
         notice = in.readString();
         sharedCounts = in.readInt();
+        userName=in.readString();
         userId=in.readString();
         talkContent=in.readString();
         talkImage=in.readString();
@@ -189,6 +191,14 @@ public class CircleEntity implements Parcelable{
         this.userId = userId;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -209,8 +219,32 @@ public class CircleEntity implements Parcelable{
         dest.writeString(modifyTime);
         dest.writeString(notice);
         dest.writeInt(sharedCounts);
+        dest.writeString(userName);
         dest.writeString(userId);
         dest.writeString(talkContent);
         dest.writeString(talkImage);
+    }
+
+    @Override
+    public String toString() {
+        return "CircleEntity{" +
+                "address='" + address + '\'' +
+                ", circleLogo='" + circleLogo + '\'' +
+                ", circleName='" + circleName + '\'' +
+                ", circleOwnerId='" + circleOwnerId + '\'' +
+                ", circleType='" + circleType + '\'' +
+                ", commentCounts=" + commentCounts +
+                ", createTime='" + createTime + '\'' +
+                ", id='" + id + '\'' +
+                ", likeCounts=" + likeCounts +
+                ", memberCounts=" + memberCounts +
+                ", modifyTime='" + modifyTime + '\'' +
+                ", notice='" + notice + '\'' +
+                ", sharedCounts=" + sharedCounts +
+                ", userName='" + userName + '\'' +
+                ", userId='" + userId + '\'' +
+                ", talkContent='" + talkContent + '\'' +
+                ", talkImage='" + talkImage + '\'' +
+                '}';
     }
 }

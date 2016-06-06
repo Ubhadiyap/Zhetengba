@@ -2,19 +2,28 @@ package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CircleppAct;
+import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +35,12 @@ import java.util.List;
 public class CirpplistAdapter extends BaseAdapter{
     private Context context;
     private boolean isshanchu;
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .build();
     private List<UserInfo> list=new ArrayList<>();
 
     public CirpplistAdapter(Context context,boolean isshanchu) {
@@ -45,7 +60,7 @@ public class CirpplistAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return list.size()>0?list.size():1;
+        return list.size();
     }
 
     @Override
@@ -60,25 +75,53 @@ public class CirpplistAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view=View.inflate(context, R.layout.item_cirpp_list,null);
-        LinearLayout ll_renshu= (LinearLayout) view.findViewById(R.id.ll_renshu);
-        LinearLayout ll_shanchu= (LinearLayout) view.findViewById(R.id.ll_shanchu);
-        if(isshanchu==false){
-            ll_renshu.setVisibility(View.VISIBLE);
-            ll_shanchu.setVisibility(View.GONE);
+        ViewHolder holder=null;
+        if(convertView==null) {
+            holder=new ViewHolder();
+            convertView= View.inflate(context, R.layout.item_cirpp_list, null);
+            holder.hlv_cirpp= (HorizontalListView) convertView.findViewById(R.id.hlv_cirpp);
+            holder.ll_renshu = (LinearLayout) convertView.findViewById(R.id.ll_renshu);
+            holder.ll_shanchu = (LinearLayout) convertView.findViewById(R.id.ll_shanchu);
+            holder.head= (CircleImageView) convertView.findViewById(R.id.iv_hand);
+            holder.name= (TextView) convertView.findViewById(R.id.tv_name);
+            holder.num= (TextView) convertView.findViewById(R.id.num);
+            convertView.setTag(holder);
         }else {
-            ll_renshu.setVisibility(View.GONE);
-            ll_shanchu.setVisibility(View.VISIBLE);
-            ll_shanchu.setOnClickListener(new View.OnClickListener() {
+            holder= (ViewHolder) convertView.getTag();
+        }
+        if(isshanchu==false){
+            holder.ll_renshu.setVisibility(View.VISIBLE);
+            holder.ll_shanchu.setVisibility(View.GONE);
+        }else {
+            holder.ll_renshu.setVisibility(View.GONE);
+            holder.ll_shanchu.setVisibility(View.VISIBLE);
+            holder.ll_shanchu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     removeMember("1","1");
                 }
             });
         }
-        HorizontalListView hlv_cirpp= (HorizontalListView) view.findViewById(R.id.hlv_cirpp);
-        hlv_cirpp.setAdapter(new GvcirppAdapter(context));
-        return view;
+        if(list!=null&&list.size()>0){
+            if (!TextUtils.isEmpty(list.get(position).getIcon())){
+                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+list.get(position).getIcon(),holder.head,options);
+            }
+            if(!TextUtils.isEmpty(list.get(position).getUsername())){
+                holder.name.setText(list.get(position).getUsername());
+            }
+//            if (!TextUtils.isEmpty(list.get(position).g))
+        }
+        holder.hlv_cirpp.setAdapter(new GvcirppAdapter(context));
+        return convertView;
+    }
+
+    class ViewHolder{
+        private HorizontalListView hlv_cirpp;
+        private LinearLayout ll_renshu;
+        private LinearLayout ll_shanchu;
+        private CircleImageView head;
+        private TextView name;
+        private TextView num;
     }
 
     /**
@@ -95,7 +138,8 @@ public class CirpplistAdapter extends BaseAdapter{
 
             @Override
             public void onResponse(ResultBean<String> response) {
-               context.sendBroadcast(new Intent(CircleppAct.MEMBER));
+                context.sendBroadcast(new Intent(CircleppAct.MEMBER));
+                context.sendBroadcast(new Intent(CirxqAct.MEMBERXQ));
             }
         });
     }

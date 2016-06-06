@@ -145,9 +145,6 @@ public class TalkManager extends RequestManager{
     public void addCircleTalk(CircleEntity circleEntity,String circleId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         if(circleEntity!=null){
-            if(!TextUtils.isEmpty(circleEntity.getUserId())){
-                map.put("userId",circleEntity.getUserId());
-            }
             if(!TextUtils.isEmpty(circleEntity.getTalkContent())){
                 map.put("talkContent",circleEntity.getTalkContent());
             }
@@ -297,7 +294,17 @@ public class TalkManager extends RequestManager{
      */
     public void addChannelTalk(ChannelTalkEntity channelTalkEntity,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
-
+        if(channelTalkEntity!=null){
+            if(!TextUtils.isEmpty(channelTalkEntity.getLabelId())){
+                map.put("labelId",channelTalkEntity.getLabelId());
+            }
+            if(!TextUtils.isEmpty(channelTalkEntity.getChannelContent())){
+                map.put("channelContent",channelTalkEntity.getChannelContent());
+            }
+            if(!TextUtils.isEmpty(channelTalkEntity.getChannelImage())){
+                map.put("channelImage",channelTalkEntity.getChannelImage());
+            }
+        }
         doPost(IZtbUrl.CHANNEL_RELEASE_URL,map,callback);
     }
 

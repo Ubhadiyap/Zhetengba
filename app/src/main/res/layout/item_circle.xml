@@ -163,6 +163,7 @@
                 style="@style/Chanel_Small_Text"
                 android:text="赞"/>
             <TextView
+                android:id="@+id/znum"
                 style="@style/Chanel_Small_Text"
                 android:text="(240)" />
         </LinearLayout>
@@ -180,6 +181,7 @@
                 style="@style/Chanel_Small_Text"
                 android:text="评论"/>
             <TextView
+                android:id="@+id/cnum"
                 style="@style/Chanel_Small_Text"
                 android:text="(240)" />
         </LinearLayout>
@@ -196,6 +198,7 @@
                 style="@style/Chanel_Small_Text"
                 android:text="分享"/>
             <TextView
+                android:id="@+id/snum"
                 style="@style/Chanel_Small_Text"
                 android:text="(240)" />
         </LinearLayout>

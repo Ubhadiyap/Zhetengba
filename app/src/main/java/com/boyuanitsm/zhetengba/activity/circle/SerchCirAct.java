@@ -1,11 +1,14 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -44,14 +47,24 @@ public class SerchCirAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子搜索");
-        plv.setPullRefreshEnabled(true);//下拉刷新
-        plv.setScrollLoadEnabled(true);//滑动加载
+        plv.setPullRefreshEnabled(false);//下拉刷新
+        plv.setScrollLoadEnabled(false);//滑动加载
         plv.setPullLoadEnabled(false);//上拉刷新
-        plv.setHasMoreData(true);//是否有更多数据
+        plv.setHasMoreData(false);//是否有更多数据
         plv.getRefreshableView().setDivider(null);//设置分隔线
         plv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         plv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         plv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+        plv.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SerchCirAct.this, CirxqAct.class);
+                if (list.size() > 0) {
+                    intent.putExtra("circleId", list.get(position).getId());
+                }
+                startActivity(intent);
+            }
+        });
         circleName.addTextChangedListener(watcher);
     }
     TextWatcher watcher=new TextWatcher() {
@@ -73,21 +86,23 @@ public class SerchCirAct extends BaseActivity {
 
     //搜索圈子
     private void getCircle(String circleName,int page,int rows){
-        RequestManager.getTalkManager().searchCircle(circleName, page, rows, new ResultCallback<ResultBean<List<CircleEntity>>>() {
-            @Override
-            public void onError(int status, String errorMsg) {
-                plv.onPullUpRefreshComplete();
-                plv.onPullDownRefreshComplete();
-            }
+        if(!TextUtils.isEmpty(circleName)) {
+            RequestManager.getTalkManager().searchCircle(circleName, page, rows, new ResultCallback<ResultBean<List<CircleEntity>>>() {
+                @Override
+                public void onError(int status, String errorMsg) {
+                    plv.onPullUpRefreshComplete();
+                    plv.onPullDownRefreshComplete();
+                }
 
-            @Override
-            public void onResponse(ResultBean<List<CircleEntity>> response) {
-                plv.onPullUpRefreshComplete();
-                plv.onPullDownRefreshComplete();
-                list=response.getData();
-                adapter=new CircleglAdapter(SerchCirAct.this,list);
-                plv.getRefreshableView().setAdapter(adapter);
-            }
-        });
+                @Override
+                public void onResponse(ResultBean<List<CircleEntity>> response) {
+                    plv.onPullUpRefreshComplete();
+                    plv.onPullDownRefreshComplete();
+                    list = response.getData();
+                    adapter = new CircleglAdapter(SerchCirAct.this, list);
+                    plv.getRefreshableView().setAdapter(adapter);
+                }
+            });
+        }
     }
 }

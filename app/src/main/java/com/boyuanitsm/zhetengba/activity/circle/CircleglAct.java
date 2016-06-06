@@ -15,6 +15,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CircleglAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -57,16 +58,16 @@ public class CircleglAct extends BaseActivity {
         lv_circlegl.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         lv_circlegl.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv_circlegl.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-        lv_circlegl.getRefreshableView().setAdapter(new CircleglAdapter(this,list));
+//        lv_circlegl.getRefreshableView().setAdapter(new CircleglAdapter(this,list));
         lv_circlegl.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(CircleglAct.this, CirxqAct.class);
-//                if (list.size() > 0) {
-//                    intent.putExtra("circleId", list.get(position).getId());
-//                }
-//                startActivity(intent);
-                openActivity(CirxqAct.class);
+                Intent intent = new Intent(CircleglAct.this, CirxqAct.class);
+                if (list.size() > 0) {
+                    intent.putExtra("circleId", list.get(position).getId());
+                }
+                startActivity(intent);
+//                openActivity(CirxqAct.class);
             }
         });
         lv_circlegl.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -104,7 +105,7 @@ public class CircleglAct extends BaseActivity {
     private List<CircleEntity> datas=new ArrayList<>();
     //获取圈子列表
     private void getCircleList(final int page,int rows){
-        RequestManager.getTalkManager().myCircleList(page, rows, new ResultCallback<ResultBean<List<CircleEntity>>>() {
+        RequestManager.getTalkManager().myCircleList(page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_circlegl.onPullUpRefreshComplete();
@@ -112,29 +113,24 @@ public class CircleglAct extends BaseActivity {
             }
 
             @Override
-            public void onResponse(ResultBean<List<CircleEntity>> response) {
+            public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
                 lv_circlegl.onPullUpRefreshComplete();
                 lv_circlegl.onPullDownRefreshComplete();
-                list= response.getData();
-                //无分页
-                if(list!=null&&list.size()>0) {
-                    adapter = new CircleglAdapter(CircleglAct.this, list);
-                    lv_circlegl.getRefreshableView().setAdapter(adapter);
+                list= response.getData().getRows();
+                if(page==1){
+                    datas.clear();
                 }
-//                if(page==1){
-//                    datas.clear();
-//                }
-//                datas.addAll(list);
-//                if (list != null || list.size() > 0) {
-//                    if(adapter==null) {
-//                        adapter=new CircleglAdapter(CircleglAct.this,datas);
-//                        lv_circlegl.getRefreshableView().setAdapter(adapter);
-//                    }else {
-//                        adapter.notifyChange(datas);
-//                    }
-//                } else {
-//                    lv_circlegl.setHasMoreData(false);
-//                }
+                datas.addAll(list);
+                if (list != null || list.size() > 0) {
+                    if(adapter==null) {
+                        adapter=new CircleglAdapter(CircleglAct.this,datas);
+                        lv_circlegl.getRefreshableView().setAdapter(adapter);
+                    }else {
+                        adapter.notifyChange(datas);
+                    }
+                } else {
+                    lv_circlegl.setHasMoreData(false);
+                }
 
             }
         });

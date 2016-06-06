@@ -15,6 +15,42 @@ public class ChannelTalkEntity {
     private String	likeCounts;//加赞数
     private int	sharedCounts;//分享数
 
+    private String channelContent;
+    /**
+     * varchar(2000) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '频道图片',
+     */
+    private String channelImage;
+
+
+    /**
+     * varchar(35) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+     */
+    private String remark;
+
+    public String getChannelContent() {
+        return channelContent;
+    }
+
+    public void setChannelContent(String channelContent) {
+        this.channelContent = channelContent;
+    }
+
+    public String getChannelImage() {
+        return channelImage;
+    }
+
+    public void setChannelImage(String channelImage) {
+        this.channelImage = channelImage;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public String getAddress() {
         return address;
     }
