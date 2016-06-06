@@ -35,6 +35,26 @@ public class SimpleInfo {
     private String noticeUserIds;//指定谁看；“aa,bb,cc”
     private String invisibleUserIds;//不让谁看
 
+    private boolean colleagues;//是否同事
+    private boolean friend;//false 是否好友
+
+
+    public boolean isColleagues() {
+        return colleagues;
+    }
+
+    public void setColleagues(boolean colleagues) {
+        this.colleagues = colleagues;
+    }
+
+    public boolean isFriend() {
+        return friend;
+    }
+
+    public void setFriend(boolean friend) {
+        this.friend = friend;
+    }
+
     public String getNoticeUserIds() {
         return noticeUserIds;
     }

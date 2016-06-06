@@ -36,6 +36,7 @@ import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -62,6 +63,8 @@ public class SimpleFrg extends BaseFragment {
     private List<LabelBannerInfo> bannerInfoList;
     private List<SimpleInfo> list;//活动对象集合
     private List<SimpleInfo> datas=new ArrayList<>();
+    private int page=1;
+    private int rows=10;
     private BroadcastReceiver simDteChangeRecevier=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -86,9 +89,23 @@ public class SimpleFrg extends BaseFragment {
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         //刷新初始化
         LayoutHelperUtil.freshInit(lv_act);
+        lv_act.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page=1;
+                getActivityList(page,rows);
+
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                getActivityList(page,rows);
+            }
+        });
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
-        getActivityList(1, 10);
+        getActivityList(page, rows);
         lv_act.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -297,7 +314,8 @@ public class SimpleFrg extends BaseFragment {
         RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, new ResultCallback<ResultBean<List<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                lv_act.onPullUpRefreshComplete();
+                lv_act.onPullDownRefreshComplete();
             }
 
             @Override
