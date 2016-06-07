@@ -126,6 +126,7 @@ public class CollectAdapter extends BaseAdapter {
             if(list.get(position).getInviteNumber()!=null){
                 holder.tv_join_tal_num.setText("/"+list.get(position).getInviteNumber());
             }
+
             //性别
             if(!TextUtils.isEmpty(list.get(position).getUserSex())){
                if(list.get(position).getUserSex()=="男"){
@@ -133,13 +134,16 @@ public class CollectAdapter extends BaseAdapter {
                }else {
                    holder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));//女
                }
+
             }
             //是已经响应了还是没响应
             if(list.get(position).isJoin()){
+                flag=true;
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
                 holder.tv_text_jion.setText("取消参加");
                 holder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
             }else {
+                flag=false;
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
                 holder.tv_text_jion.setText("参加");
                 holder.tv_join_num.setTextColor(Color.parseColor("#999999"));
@@ -152,32 +156,36 @@ public class CollectAdapter extends BaseAdapter {
             holder.ll_shouc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dex = position;
-                    removeCollection(list.get(position).getId());
+                    new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消关注").setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dex = position;
+                            removeCollection(list.get(position).getId());
+                        }
+                    }).setNegativeButton("取消",null).show();
+
                 }
             });
 
             //参加活动
-            final ViewHolder finalHolder = holder;
             holder.ll_join.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    flag=list.get(position).isJoin();
-                    if (flag){
-                        flag=false;
-                        new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                    if(flag){
+                        new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加").setPositiveButton("确认", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                MyToastUtils.showShortToast(context,"hah");
-                                //取消参加活动
+                                //掉取消参加活动的接口还没出来
+                                
+                                MyToastUtils.showShortToast(context,"取消参加活动成功");
                             }
                         }).setNegativeButton("取消",null).show();
                     }else {
-                        flag=true;
-                        stateChange(position, holder);
+                        //参加活动
+                       stateChange(position, holder);
                     }
-
                 }
+
             });
 
         }
@@ -186,7 +194,9 @@ public class CollectAdapter extends BaseAdapter {
 
         }
 
-        class ViewHolder {
+
+
+    class ViewHolder {
                private ImageView iv_headphoto;//用户图像
                private TextView tv_niName;//昵称
                private TextView tv_hdtheme;//活动
@@ -229,7 +239,7 @@ public class CollectAdapter extends BaseAdapter {
      * @param position
      * @param
      */
-    private void stateChange(final int position, final ViewHolder holder) {
+    private void stateChange(final int position,  final ViewHolder holder) {
         RequestManager.getScheduleManager().getRespondActivity(list.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -241,11 +251,15 @@ public class CollectAdapter extends BaseAdapter {
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
                 holder.tv_text_jion.setText("取消参加");
                 holder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
+                flag=true;
+                if(list.get(position).getMemberNum()!=null) {
                     int i = list.get(position).getMemberNum();
                     i = i + 1;
                     holder.tv_join_num.setText(i + "");
                     list.get(position).setJoin(true);
                     list.get(position).setMemberNum(i);
+
+                }
 
 //                } else {
 //                    viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
