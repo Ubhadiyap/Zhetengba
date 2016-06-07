@@ -59,9 +59,10 @@ public class ScheduleAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         scheduleInfo=new ScheduleInfo();
         setTopTitle("档期");
-        getInterestScheduleLabel(1+"");
+        getInterestScheduleLabel(1 + "");
         assignView();
         setcheckitem(0);
+
     }
 
     private void assignView() {
@@ -120,13 +121,11 @@ public class ScheduleAct extends BaseActivity {
                 if (select==1){
                     openActivity(AssignScanAct.class);
                 }
-
                 break;
             case R.id.ll_hu_no_can:
                 if (select==1){
                     openActivity(AssignScanAct.class);
                 }
-
                 break;
 
             case R.id.view_start://开始时间
@@ -246,6 +245,7 @@ public class ScheduleAct extends BaseActivity {
                     tv_wlzj.setText(listLabel.get(2).getDictName());
                     tv_xdys.setText(listLabel.get(3).getDictName());
                 }
+                scheduleInfo.setLabelId(listLabel.get(0).getId());
             }
         });
     }

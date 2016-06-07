@@ -97,7 +97,7 @@ public class LabelMangerAct extends BaseActivity {
                 mylist.remove(position);
                 myadapter.update(mylist);
                 gv1.setAdapter(myadapter);
-                labelBannerInfo=new LabelBannerInfo();
+                labelBannerInfo=new LabelBannerInfo(LabelMangerAct.this);
                 labelBannerInfo.setDictName(str.getDictName());
                 labelBannerInfo.setId(str.getId());
                 list.add(labelBannerInfo);

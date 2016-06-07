@@ -109,7 +109,6 @@ public class SimpleFrg extends BaseFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
-//                getActivityList(page,rows);
                 if (flag == false) {
                     getFriendOrAllAcitvity(page, rows, 0 + "");//好友列表获取；
                 } else {
@@ -142,7 +141,7 @@ public class SimpleFrg extends BaseFragment {
                 showDialog(info);
             }
         });
-        //首页轮播图片展示
+        //首页活动轮播图片展示
         getBanner();
 
     }
@@ -279,7 +278,7 @@ public class SimpleFrg extends BaseFragment {
     }
 
     /***
-     * 获取首页轮播图
+     * 获取活动首页轮播图
      */
     private void getBanner() {
         RequestManager.getScheduleManager().getBanner(new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
@@ -370,7 +369,7 @@ public class SimpleFrg extends BaseFragment {
      * @param state
      */
     private void getFriendOrAllAcitvity(final int page,int rows,String state){
-        RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+        RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
@@ -378,10 +377,10 @@ public class SimpleFrg extends BaseFragment {
             }
 
             @Override
-            public void onResponse(ResultBean<List<SimpleInfo>> response) {
+            public void onResponse(ResultBean<DataBean<SimpleInfo>> response) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
-                list = response.getData();
+                list = response.getData().getRows();
                 if (page == 1) {
                     datas.clear();
                 }

@@ -18,7 +18,7 @@
             android:orientation="horizontal"
             android:paddingLeft="15dp">
 
-            <ImageView
+            <com.boyuanitsm.zhetengba.view.CircleImageView
                 android:id="@+id/iv_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -74,7 +74,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_marginLeft="25dp"
+                            android:layout_marginLeft="5dp"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:src="@drawable/time" />
@@ -82,7 +82,7 @@
                         <TextView
                             android:id="@+id/tv_time_cal"
                             style="@style/MainAct_simple_Text"
-                            android:paddingLeft="12dp"
+                            android:paddingLeft="5dp"
                             android:text="3月10日17：00-20：00" />
                     </LinearLayout>
 
@@ -121,7 +121,6 @@
                         android:id="@+id/tv_cal_text_guanzhu"
                         style="@style/MainAct_simple_Text"
                         android:paddingLeft="10dp"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="关注"/>
@@ -130,8 +129,7 @@
                         android:id="@+id/tv_gzcal_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
-                        android:text="12" />
+                        android:paddingLeft="5dp" />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout

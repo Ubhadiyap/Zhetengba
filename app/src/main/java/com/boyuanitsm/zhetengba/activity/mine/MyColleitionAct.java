@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,13 +29,15 @@ public class MyColleitionAct extends BaseActivity{
     
     @ViewInject(R.id.plv)
     private PullToRefreshListView plv;
-    private CollectAdapter adapter;
     private boolean isComment,isComment2;
     private int gznum=0;//默认关注人数0
     private int jionum=0;//默认参加人数0；
 
     private int page=1;
     private int rows=10;
+    private List<CollectionBean> list;
+    private List<CollectionBean> datas=new ArrayList<>();
+    private CollectAdapter adapter;
 
     @Override
     public void setLayout() {
@@ -51,18 +54,19 @@ public class MyColleitionAct extends BaseActivity{
         plv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         plv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         plv.setLastUpdatedLabel(ZhetebaUtils.getCurrentTime());
-        adapter=new CollectAdapter(MyColleitionAct.this);
-        plv.getRefreshableView().setAdapter(adapter);
         findgzPortsMsg(page, rows);
         plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+                plv.setLastUpdatedLabel(ZhetebaUtils.getCurrentTime());
+                page = 1;
+                findgzPortsMsg(page, rows);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+                page ++;
+                findgzPortsMsg(page, rows);
             }
         });
 
@@ -87,7 +91,26 @@ public class MyColleitionAct extends BaseActivity{
 
             @Override
             public void onResponse(ResultBean<DataBean<CollectionBean>> response) {
-                List<CollectionBean>list=response.getData().getRows();
+               list=response.getData().getRows();
+                if(list.size()>0){
+                    if(page==1){
+                        datas.clear();
+                    }
+                    datas.addAll(list);
+                    if(datas!=null&&datas.size()>0){
+                      if(adapter==null){
+                          adapter=new CollectAdapter(getApplicationContext(),datas);
+                          plv.getRefreshableView().setAdapter(adapter);
+                      }else {
+                          adapter.notify(datas);
+                      }
+                    }else{
+
+                    }
+
+                }else {
+                    plv.setHasMoreData(false);
+                }
 
             }
         });
