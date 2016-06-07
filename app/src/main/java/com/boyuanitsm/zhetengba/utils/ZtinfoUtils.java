@@ -449,7 +449,7 @@ public class ZtinfoUtils {
      *
      * @param context
      */
-    public void hideSoftKeyboard(Context context) {
+    public static void hideSoftKeyboard(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         View view = ((Activity) context).getWindow().getDecorView();
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -461,7 +461,7 @@ public class ZtinfoUtils {
      * @param context
      * @param v
      */
-    public void hideSoftKeyboard(Context context, View v) {
+    public static void hideSoftKeyboard(Context context, View v) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }

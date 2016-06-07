@@ -22,6 +22,9 @@ public class CollectAdapter extends BaseAdapter {
     private Context context;
     private List<CollectionBean>list;
 
+    public CollectAdapter(Context context) {
+        this.context = context;
+    }
     public CollectAdapter(Context context,List<CollectionBean>list) {
         this.context = context;
         this.list=list;

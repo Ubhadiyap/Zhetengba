@@ -19,7 +19,11 @@ import com.boyuanitsm.zhetengba.activity.circle.CommentAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
@@ -37,6 +41,9 @@ public class ChanAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList;
     private List<ChannelTalkEntity> list;
+    private boolean flag=false;//未点赞
+    private String channelId;//说说id
+    int clickPos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -54,14 +61,19 @@ public class ChanAdapter extends BaseAdapter {
         this.list=list;
     }
 
+    public void notifyChange(List<ChannelTalkEntity> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
-        return dateList.size();
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return dateList.get(position);
+        return position;
     }
 
     @Override
@@ -78,6 +90,7 @@ public class ChanAdapter extends BaseAdapter {
         } else {
             convertView = View.inflate(context, R.layout.item_chanle, null);
             viewHolder = new CaViewHolder();
+            viewHolder.ll_like = (LinearLayout) convertView.findViewById(R.id.ll_like);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
@@ -169,15 +182,15 @@ public class ChanAdapter extends BaseAdapter {
 
         }
         if(list!=null){
-            if(!TextUtils.isEmpty(list.get(position).getCreatePersonId())){
-                viewHolder.tv_ch_niName.setText(list.get(position).getCreatePersonId());
-            }
-            if(!TextUtils.isEmpty(list.get(position).getCreateTiem())){
-                viewHolder.tv_time.setText(list.get(position).getCreateTiem());
-            }
-//            if(!TextUtils.isEmpty(list.get(position).get())){
-//                viewHolder.tv_content.setText(list.get(position).getTalkContent());
+//            if(!TextUtils.isEmpty(list.get(position).getCreatePersonId())){
+//                viewHolder.tv_ch_niName.setText(list.get(position).getCreatePersonId());
 //            }
+            if(!TextUtils.isEmpty(list.get(position).getCreateTiem())){
+                viewHolder.tv_time.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTiem())));
+            }
+            if(!TextUtils.isEmpty(list.get(position).getChannelContent())){
+                viewHolder.tv_content.setText(list.get(position).getChannelContent());
+            }
             if(!TextUtils.isEmpty(list.get(position).getLikeCounts()+"")){
                 viewHolder.znum.setText(list.get(position).getLikeCounts()+"");
             }else {
@@ -200,6 +213,8 @@ public class ChanAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, ChanelTextAct.class);
+                intent.putExtra("channelEntity",list.get(position));
+                intent.putExtra("channelId", list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -213,6 +228,19 @@ public class ChanAdapter extends BaseAdapter {
                 Intent intent = new Intent(context, PerpageAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+            }
+        });
+        //点赞
+        viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickPos=position;
+                channelId=list.get(position).getId();
+                if(!flag){
+                    addChannelLike(channelId);
+                }else {
+                    removeChannelLike(channelId);
+                }
             }
         });
         //分享对话框
@@ -232,6 +260,8 @@ public class ChanAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, ChanelTextAct.class);
+                intent.putExtra("channelEntity",list.get(position));
+                intent.putExtra("channelId",list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -241,6 +271,7 @@ public class ChanAdapter extends BaseAdapter {
     }
 
     class CaViewHolder {
+        private LinearLayout ll_like;
         private LinearLayout ll_share;
         private LinearLayout ll_answer;
         private CustomImageView iv_oneimage;
@@ -287,4 +318,47 @@ public class ChanAdapter extends BaseAdapter {
         viewHolder.iv_oneimage.setImageUrl(image.getUrl());
 
     }
+
+    /**
+     * 点赞
+     * @param channelId
+     */
+    private void addChannelLike(String channelId){
+        RequestManager.getTalkManager().addChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                flag=true;
+                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()+1);
+                notifyDataSetChanged();
+            }
+        });
+
+    }
+
+    /**
+     * 取消点赞
+     * @param channelId
+     */
+    private void removeChannelLike(String channelId){
+        RequestManager.getTalkManager().removeChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                flag=false;
+                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()-1);
+                notifyDataSetChanged();
+            }
+        });
+
+    }
+
 }

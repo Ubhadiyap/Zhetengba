@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChaChildFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -76,10 +77,11 @@ public class CirclefbAct extends BaseActivity {
                 switch (type){
                     case 0:
                         if(!TextUtils.isEmpty(content)) {
+                            channelTalkEntity.setLabelId("c32595fc215c11e6ba57eca86ba4ba05");
                             channelTalkEntity.setChannelContent(content);
                             addChannelTalk(channelTalkEntity);
                         }else {
-                            MyToastUtils.showShortToast(CirclefbAct.this,"请输入说说内容");
+                            MyToastUtils.showShortToast(CirclefbAct.this,"请输入频道说说内容");
                         }
                        break;
                     default:
@@ -87,7 +89,7 @@ public class CirclefbAct extends BaseActivity {
                             entity.setTalkContent(content);
                             addCircleTalk(entity, circleId);
                         }else {
-                            MyToastUtils.showShortToast(CirclefbAct.this,"请输入说说内容");
+                            MyToastUtils.showShortToast(CirclefbAct.this,"请输入圈子说说内容");
                         }
                         break;
                 }
@@ -198,6 +200,7 @@ public class CirclefbAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 finish();
+                sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
             }
         });
     }
