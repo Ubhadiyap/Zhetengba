@@ -20,9 +20,11 @@ import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -129,7 +131,9 @@ public class ActAdapter extends BaseAdapter{
         }
 
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
-        if (infos.get(position).getCreatePersonId()!=""){
+        MyLogUtils.info("登陆用户id是：" + UserInfoDao.getUser().getId());
+        MyLogUtils.info("创建人id:"+infos.get(position).getCreatePersonId());
+        if (!UserInfoDao.getUser().getId().equals(infos.get(position).getCreatePersonId())){
             viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
             viewHolder.ll_join.setVisibility(View.VISIBLE);
             viewHolder.ll_del.setVisibility(View.GONE);
@@ -201,8 +205,9 @@ public class ActAdapter extends BaseAdapter{
                     @Override
                     public void onClick(View v) {
                         //调用删除此活动接口,刷新数据；
+                        removeActivity(infos.get(position).getId(),position);
                     }
-                }).setPositiveButton("取消",null).show();
+                }).setNegativeButton("取消",null).show();
 
             }
         });
@@ -232,7 +237,7 @@ public class ActAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
                 // 调用关注接口
-                    RequestManager.getScheduleManager().getScheduleCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+                    RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
                         @Override
                         public void onError(int status, String errorMsg) {
 
@@ -325,6 +330,21 @@ public class ActAdapter extends BaseAdapter{
 
                     flag=true;
                 }
+            }
+        });
+    }
+    private void removeActivity(String id, final int position){
+        RequestManager.getScheduleManager().removeActivity(id, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(context,"删除活动成功！");
+                infos.remove(position);
+                notifyDataSetChanged();
             }
         });
     }

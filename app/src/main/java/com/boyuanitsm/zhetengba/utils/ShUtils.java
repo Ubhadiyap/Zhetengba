@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.MyApplication;
+import com.boyuanitsm.zhetengba.db.DBOpenHelp;
 import com.leaf.library.db.SmartDBHelper;
 
 
@@ -15,6 +16,7 @@ import com.leaf.library.db.SmartDBHelper;
 public class ShUtils {
    
 	private static SmartDBHelper dbHelper;
+	private static DBOpenHelp dbOpenHelp;
 	public static Context getApplicationContext(){
 		return getApplication().getApplicationContext();
 	}
@@ -25,6 +27,12 @@ public class ShUtils {
 					ConstantValue.DB_NAME,null,ConstantValue.VERSION,ConstantValue.MODELS);
 		}
 		return dbHelper;
+	}
+	public static DBOpenHelp getDbOpenHelp(){
+		if (dbOpenHelp==null){
+			dbOpenHelp=new DBOpenHelp(getApplicationContext());
+		}
+		return dbOpenHelp;
 	}
 	
 	public static MyApplication getApplication(){

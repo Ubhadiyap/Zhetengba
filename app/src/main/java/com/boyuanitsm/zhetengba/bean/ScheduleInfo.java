@@ -7,18 +7,109 @@ import java.util.Date;
  * Created by xiaoke on 2016/6/1.
  */
 public class ScheduleInfo {
-    private String	ersonId;//创建人
-    private String time;//创建时间
-    private String	endTime ;//档期结束时间',
-    private Integer	followNum ;//关注数',
-    private Boolean	isValid ;//是否有效.0:无效;1:有效',
+    private String	scheduleId;//档期ID',
+    private String	userId;//用户ID',
     private String	labelId;//标签ID',
+    private String	personId;//创建人
+    private String	startTime;//档期开始时间',
+    private String	endTime ;//档期结束时间',
+    private Integer	 scheduleVisibility;//可见性（默认为1）1全部可见2好友可见',
+    private Integer	 followNum ;//关注数',
+    private Boolean	 isValid ;//是否有效.0:无效;1:有效',
+    private String createTime;//创建时间
+    private String createPersonId;//创建人Id；
+    private String noticeUserIds;//通知指定谁看
+    private String invisibleUserIds;//不让谁看
     private String	modifyPersonId;//修改人',
     private String	modifyTime;//修改时间',
-    private String	scheduleId;//档期ID',
-    private Integer	scheduleVisibility;//可见性（默认为1）1全部可见2好友可见',
-    private String	startTime;//档期开始时间',
-    private String	userId;//用户ID',
+    private String userName;
+    private String userIcon;//用户头像
+    private String userNm;//用户昵称
+    private String userSex;//用户性别
+    private String dictName;//标签名称
+    public String getNoticeUserIds() {
+        return noticeUserIds;
+    }
+
+    public void setNoticeUserIds(String noticeUserIds) {
+        this.noticeUserIds = noticeUserIds;
+    }
+
+    public String getInvisibleUserIds() {
+        return invisibleUserIds;
+    }
+
+    public void setInvisibleUserIds(String invisibleUserIds) {
+        this.invisibleUserIds = invisibleUserIds;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreatePersonId() {
+        return createPersonId;
+    }
+
+    public void setCreatePersonId(String createPersonId) {
+        this.createPersonId = createPersonId;
+    }
+
+
+
+    public String getDictName() {
+        return dictName;
+    }
+
+    public void setDictName(String dictName) {
+        this.dictName = dictName;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    public String getUserNm() {
+        return userNm;
+    }
+
+    public void setUserNm(String userNm) {
+        this.userNm = userNm;
+    }
+
+    public String getUserIcon() {
+        return userIcon;
+    }
+
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
+    }
 
     public String getUserId() {
         return userId;
@@ -29,19 +120,19 @@ public class ScheduleInfo {
     }
 
     public String getErsonId() {
-        return ersonId;
+        return personId;
     }
 
-    public void setErsonId(String ersonId) {
-        this.ersonId = ersonId;
+    public void setErsonId(String personId) {
+        this.personId = personId;
     }
 
     public String getTime() {
-        return time;
+        return createTime;
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.createTime = time;
     }
 
     public String getEndTime() {
