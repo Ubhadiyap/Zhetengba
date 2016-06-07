@@ -1,5 +1,7 @@
 package com.boyuanitsm.zhetengba.bean;
 
+import android.content.Context;
+
 /**
  * 兴趣/档期/活动标签
  * Created by xiaoke on 2016/6/1.
@@ -13,6 +15,19 @@ public class LabelBannerInfo {
     private String icon;//图标
     private String id;//主键id
     private boolean isValid ;
+    private Context context;
+
+    public LabelBannerInfo(String labelid, String dictName, String icon, String dictType, String dictDescribe, String dictCode) {
+        this.id=labelid;
+        this.dictName=dictName;
+        this.icon=icon;
+        this.dictType=dictType;
+        this.dictDescribe=dictDescribe;
+        this.dictCode=dictCode;
+    }
+    public LabelBannerInfo(Context context){
+        this.context=context;
+    }
 
     public String getDictCode() {
         return dictCode;

@@ -143,23 +143,23 @@ public class CustomDialog extends Dialog {
             if (message!=null){
                 act_message.setText(message);
             }
-//            if (positiveButtonText != null) {
-//                ((Button) layout.findViewById(R.id.bt_act_dialog_one))
-//                        .setText(positiveButtonText);
-//                if (positiveButtonClickListener != null) {
-//                    ((Button) layout.findViewById(R.id.bt_act_dialog_one))
-//                            .setOnClickListener(new View.OnClickListener() {
-//                                public void onClick(View v) {
-//                                    positiveButtonClickListener.onClick(dialog,
-//                                            DialogInterface.BUTTON_POSITIVE);
-//                                }
-//                            });
-//                }
-//            } else {
-//                // if no confirm button just set the visibility to GONE
-//                layout.findViewById(R.id.bt_act_dialog_one).setVisibility(
-//                        View.GONE);
-//            }
+            if (positiveButtonText != null) {
+                ((Button) layout.findViewById(R.id.bt_act_dialog_one))
+                        .setText(positiveButtonText);
+                if (positiveButtonClickListener != null) {
+                    ((Button) layout.findViewById(R.id.bt_act_dialog_one))
+                            .setOnClickListener(new View.OnClickListener() {
+                                public void onClick(View v) {
+                                    positiveButtonClickListener.onClick(dialog,
+                                            DialogInterface.BUTTON_POSITIVE);
+                                }
+                            });
+                }
+            } else {
+                // if no confirm button just set the visibility to GONE
+                layout.findViewById(R.id.bt_act_dialog_one).setVisibility(
+                        View.GONE);
+            }
             // set the cancel button
             if (negativeButtonText != null) {
                 ((Button) layout.findViewById(R.id.bt_act_dialog_two))

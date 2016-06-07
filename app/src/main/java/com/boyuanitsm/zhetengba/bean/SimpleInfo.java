@@ -34,10 +34,17 @@ public class SimpleInfo {
     private boolean join;//是否参加；
     private String noticeUserIds;//指定谁看；“aa,bb,cc”
     private String invisibleUserIds;//不让谁看
-
     private boolean colleagues;//是否同事
     private boolean friend;//false 是否好友
+    private int joinCount;//一起参加次数
 
+    public int getJoinCount() {
+        return joinCount;
+    }
+
+    public void setJoinCount(int joinCount) {
+        this.joinCount = joinCount;
+    }
 
     public boolean isColleagues() {
         return colleagues;

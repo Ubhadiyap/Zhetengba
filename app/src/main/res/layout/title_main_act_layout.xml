@@ -58,4 +58,27 @@
         android:layout_height="15dp"
         android:background="@drawable/arrow_down"/>
 </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_friend_two"
+        android:orientation="horizontal"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/tv_friend_all_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_friend"
+            android:textSize="14sp"
+            android:textColor="#fff"/>
+        <ImageView
+            android:layout_marginStart="7dp"
+            android:layout_marginLeft="7dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/arrow_down"/>
+    </LinearLayout>
 </RelativeLayout>
