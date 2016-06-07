@@ -19,10 +19,12 @@ import com.boyuanitsm.zhetengba.activity.circle.CommentAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
@@ -40,6 +42,9 @@ public class CircleAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList;
     private List<CircleEntity> list;
+    private boolean flag=false;
+    ViewHolder viewHolder = null;
+    int clickPos;
 
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -59,6 +64,10 @@ public class CircleAdapter extends BaseAdapter {
         this.list=list;
 
     }
+    public void notifyChange(List<CircleEntity> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
 
 
     @Override
@@ -77,8 +86,8 @@ public class CircleAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+//        ViewHolder viewHolder = null;
         final List<ImageInfo> itemList = dateList.get(position);
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -176,11 +185,11 @@ public class CircleAdapter extends BaseAdapter {
         }
 
         if(list!=null){
-            if(!TextUtils.isEmpty(list.get(position).getUserName())){
-                viewHolder.tvChNiName.setText(list.get(position).getUserName());
-            }
+//            if(!TextUtils.isEmpty(list.get(position).getUserId())){
+//                viewHolder.tvChNiName.setText(list.get(position).getUserId());
+//            }
             if(!TextUtils.isEmpty(list.get(position).getCreateTime())){
-                viewHolder.tvTime.setText(list.get(position).getCreateTime());
+                viewHolder.tvTime.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTime())));
             }
             if(!TextUtils.isEmpty(list.get(position).getTalkContent())){
                 viewHolder.tv_content.setText(list.get(position).getTalkContent());
@@ -230,7 +239,13 @@ public class CircleAdapter extends BaseAdapter {
         viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clickPos=position;
 
+                if (!flag){
+                    addCircleLike(list.get(position).getId());
+                }else {
+                    removeCircleLike(list.get(position).getId());
+                }
             }
         });
         //分享对话框
@@ -249,6 +264,8 @@ public class CircleAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, CircleTextAct.class);
+                intent.putExtra("circleEntity", list.get(position));
+                intent.putExtra("circleId", list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -258,6 +275,8 @@ public class CircleAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, CircleTextAct.class);
+                intent.putExtra("circleEntity",list.get(position));
+                intent.putExtra("circleId",list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -291,15 +310,17 @@ public class CircleAdapter extends BaseAdapter {
      * @param circleTalkId
      */
     private void addCircleLike(String circleTalkId ){
-        RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback() {
+        RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(Object response) {
-
+            public void onResponse(ResultBean<String> response) {
+                flag=true;
+                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()+1);
+                notifyDataSetChanged();
             }
         });
     }
@@ -308,15 +329,17 @@ public class CircleAdapter extends BaseAdapter {
      * @param circleTalkId
      */
     private void removeCircleLike(String circleTalkId ){
-        RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback() {
+        RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(Object response) {
-
+            public void onResponse(ResultBean<String> response) {
+                flag=false;
+                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()-1);
+                notifyDataSetChanged();
             }
         });
     }

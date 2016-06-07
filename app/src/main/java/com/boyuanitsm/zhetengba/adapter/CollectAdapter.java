@@ -45,6 +45,9 @@ public class CollectAdapter extends BaseAdapter {
 
 
 
+    public CollectAdapter(Context context) {
+        this.context = context;
+    }
     public CollectAdapter(Context context,List<CollectionBean>list) {
         this.context = context;
         this.list=list;

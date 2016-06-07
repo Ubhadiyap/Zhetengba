@@ -1,5 +1,9 @@
 package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -7,14 +11,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 
 import java.util.ArrayList;
@@ -41,6 +52,13 @@ public class ChaChildFrg extends BaseFragment {
             ,{ConstantValue.IMAGEURL5,"1280","800"}
     };
 
+    private PullToRefreshListView lv_ch01;
+    private int page=1;
+    private int rows=10;
+    private ChanAdapter adapter;
+    private String lableId;
+    private List<ChannelTalkEntity> channelTalkEntityList;
+
     @Override
     public View initView(LayoutInflater inflater) {
          view= inflater.inflate(R.layout.frag_chanel_child01,null);
@@ -54,12 +72,28 @@ public class ChaChildFrg extends BaseFragment {
     }
 
     private void initView(View view) {
-        PullToRefreshListView lv_ch01 = (PullToRefreshListView) view.findViewById(R.id.lv_ch01);
+        lv_ch01 = (PullToRefreshListView) view.findViewById(R.id.lv_ch01);
         //传入参数，标签对应集合
         LayoutHelperUtil.freshInit(lv_ch01);
         initDate();
-        ChanAdapter adapter=new ChanAdapter(mActivity,datalist);
-        lv_ch01.getRefreshableView().setAdapter(adapter);
+        lableId="c32595fc215c11e6ba57eca86ba4ba05";
+        getChannelTalks(lableId,page,rows);
+//        adapter=new ChanAdapter(mActivity,datalist);
+//        lv_ch01.getRefreshableView().setAdapter(adapter);
+        lv_ch01.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                lv_ch01.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                page=1;
+                getChannelTalks(lableId,page,rows);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                getChannelTalks(lableId,page,rows);
+            }
+        });
 
     }
 //    public void setData(List<ChanelInfo> info){
@@ -98,6 +132,72 @@ public class ChaChildFrg extends BaseFragment {
                 itemList.add(new ImageInfo(images[j][0],Integer.parseInt(images[j][1]),Integer.parseInt(images[j][2])));
             }
             datalist.add(itemList);
+        }
+    }
+
+    private List<ChannelTalkEntity> datas=new ArrayList<>();
+    /**
+     * 获取频道说说列表
+     * @param lableId
+     * @param page
+     * @param rows
+     */
+    private void getChannelTalks(String lableId, final int page,int rows){
+        RequestManager.getTalkManager().getChannelTalks(lableId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                lv_ch01.onPullUpRefreshComplete();
+                lv_ch01.onPullDownRefreshComplete();
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<ChannelTalkEntity>> response) {
+                lv_ch01.onPullUpRefreshComplete();
+                lv_ch01.onPullDownRefreshComplete();
+                channelTalkEntityList=response.getData().getRows();
+                if(page==1){
+                    datas.clear();
+                }
+                datas.addAll(channelTalkEntityList);
+                if (datas != null && datas.size() > 0) {
+                    if(adapter==null) {
+                        adapter=new ChanAdapter(mActivity,datalist,datas);
+                        lv_ch01.getRefreshableView().setAdapter(adapter);
+                    }else {
+                        adapter.notifyChange(datas);
+                    }
+                } else {
+                    lv_ch01.setHasMoreData(false);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk==null){
+            receiverTalk=new MyBroadCastReceiverTalk();
+            getActivity().registerReceiver(receiverTalk, new IntentFilter(CHANNELTALKS));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(receiverTalk!=null){
+            getActivity().unregisterReceiver(receiverTalk);
+            receiverTalk=null;
+        }
+    }
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String CHANNELTALKS="chanleTalk_update";
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            page=1;
+            getChannelTalks(lableId,page, rows);
         }
     }
 }

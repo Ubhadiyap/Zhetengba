@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -16,21 +15,21 @@ import com.boyuanitsm.zhetengba.view.CircleImageView;
 import java.util.List;
 
 /**
- * 频道正文列表adapter
+ * 圈子正文列表adapter
  * Created by xiaoke on 2016/5/12.
  */
-public class ChaTextAdapter extends BaseAdapter {
+public class CircleTextAdapter extends BaseAdapter {
     private Context context;
-    private List<ChannelTalkEntity> list;
+    private List<CircleEntity> list;
 //    private String[] str=new String[]{"小明","小红","小红","小红","小红","小红","小红"};
-    public ChaTextAdapter(Context context){
+    public CircleTextAdapter(Context context){
         this.context=context;
     }
-    public ChaTextAdapter(Context context,List<ChannelTalkEntity> list){
+    public CircleTextAdapter(Context context, List<CircleEntity> list){
         this.context=context;
         this.list=list;
     }
-    public void notifyChange(List<ChannelTalkEntity> list){
+    public void notifyChange(List<CircleEntity> list){
         this.list=list;
     }
     @Override

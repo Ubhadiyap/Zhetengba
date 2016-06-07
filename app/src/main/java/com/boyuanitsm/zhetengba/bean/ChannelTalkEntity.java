@@ -1,10 +1,13 @@
 package com.boyuanitsm.zhetengba.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 频道说说实体
  * Created by gxy on 2016/6/2.
  */
-public class ChannelTalkEntity {
+public class ChannelTalkEntity implements Parcelable{
     private String address;//地址
     private int	commentCounts;//评论数
     private String	createPersonId;//创建人
@@ -12,20 +15,97 @@ public class ChannelTalkEntity {
     private String	id;//主键ID
     private boolean	isValid;//是否有效.0:无效;1:有效
     private String	labelId;//标签ID
-    private String	likeCounts;//加赞数
+    private int	likeCounts;//加赞数
     private int	sharedCounts;//分享数
 
-    private String channelContent;
-    /**
-     * varchar(2000) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '频道图片',
-     */
-    private String channelImage;
+    private String channelContent;//频道说说内容
+    private String channelImage;//频道图片
+    private String remark;//备注
+   //评论
+    private String fatherCommentId;//父评论ID
 
+    private String channelTalkId;//频道ID
 
-    /**
-     * varchar(35) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-     */
-    private String remark;
+    private String commentUserId;//评论用户ID
+
+    private String commentTime;//评论时间
+
+    private String commentContent;//评论内容
+
+    public ChannelTalkEntity() {
+    }
+
+    protected ChannelTalkEntity(Parcel in) {
+        address = in.readString();
+        commentCounts = in.readInt();
+        createPersonId = in.readString();
+        createTiem = in.readString();
+        id = in.readString();
+        isValid = in.readByte() != 0;
+        labelId = in.readString();
+        likeCounts = in.readInt();
+        sharedCounts = in.readInt();
+        channelContent = in.readString();
+        channelImage = in.readString();
+        remark = in.readString();
+        fatherCommentId = in.readString();
+        channelTalkId = in.readString();
+        commentUserId = in.readString();
+        commentTime = in.readString();
+        commentContent = in.readString();
+    }
+
+    public static final Creator<ChannelTalkEntity> CREATOR = new Creator<ChannelTalkEntity>() {
+        @Override
+        public ChannelTalkEntity createFromParcel(Parcel in) {
+            return new ChannelTalkEntity(in);
+        }
+
+        @Override
+        public ChannelTalkEntity[] newArray(int size) {
+            return new ChannelTalkEntity[size];
+        }
+    };
+
+    public String getFatherCommentId() {
+        return fatherCommentId;
+    }
+
+    public void setFatherCommentId(String fatherCommentId) {
+        this.fatherCommentId = fatherCommentId;
+    }
+
+    public String getChannelTalkId() {
+        return channelTalkId;
+    }
+
+    public void setChannelTalkId(String channelTalkId) {
+        this.channelTalkId = channelTalkId;
+    }
+
+    public String getCommentUserId() {
+        return commentUserId;
+    }
+
+    public void setCommentUserId(String commentUserId) {
+        this.commentUserId = commentUserId;
+    }
+
+    public String getCommentTime() {
+        return commentTime;
+    }
+
+    public void setCommentTime(String commentTime) {
+        this.commentTime = commentTime;
+    }
+
+    public String getCommentContent() {
+        return commentContent;
+    }
+
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
+    }
 
     public String getChannelContent() {
         return channelContent;
@@ -107,11 +187,11 @@ public class ChannelTalkEntity {
         this.labelId = labelId;
     }
 
-    public String getLikeCounts() {
+    public int getLikeCounts() {
         return likeCounts;
     }
 
-    public void setLikeCounts(String likeCounts) {
+    public void setLikeCounts(int likeCounts) {
         this.likeCounts = likeCounts;
     }
 
@@ -121,5 +201,31 @@ public class ChannelTalkEntity {
 
     public void setSharedCounts(int sharedCounts) {
         this.sharedCounts = sharedCounts;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(address);
+        dest.writeInt(commentCounts);
+        dest.writeString(createPersonId);
+        dest.writeString(createTiem);
+        dest.writeString(id);
+        dest.writeByte((byte) (isValid ? 1 : 0));
+        dest.writeString(labelId);
+        dest.writeInt(likeCounts);
+        dest.writeInt(sharedCounts);
+        dest.writeString(channelContent);
+        dest.writeString(channelImage);
+        dest.writeString(remark);
+        dest.writeString(fatherCommentId);
+        dest.writeString(channelTalkId);
+        dest.writeString(commentUserId);
+        dest.writeString(commentTime);
+        dest.writeString(commentContent);
     }
 }

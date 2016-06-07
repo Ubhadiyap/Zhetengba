@@ -97,9 +97,6 @@ public class CirxqAct extends BaseActivity {
         userList=new ArrayList<>();
         circleId=getIntent().getStringExtra("circleId");
         initData();
-//        if(circleId==null){
-//            circleId="47541c7e294f11e69615eca86ba4ba05";
-//        }
         getCircleDetail(circleId);
         getCircleMembers(circleId);
         getThisCircleTalks(circleId, page, rows);

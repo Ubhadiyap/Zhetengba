@@ -99,12 +99,13 @@ public class CirFrg extends Fragment {
         }
     }
 
+    private List<CircleEntity> datas=new ArrayList<>();
     /**
      * 获取所有圈子说说
      * @param page
      * @param rows
      */
-    private void getAllCircleTalk(int page,int rows){
+    private void getAllCircleTalk(final int page,int rows){
         RequestManager.getTalkManager().getAllCircleTalk(page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -117,8 +118,20 @@ public class CirFrg extends Fragment {
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
                 circleEntityList=response.getData().getRows();
-                adapter=new CircleAdapter(getContext(),datalist,circleEntityList);
-                lv_cir.getRefreshableView().setAdapter(adapter);
+                if(page==1){
+                    datas.clear();
+                }
+                datas.addAll(circleEntityList);
+                if (datas != null && datas.size() > 0) {
+                    if(adapter==null) {
+                        adapter=new CircleAdapter(getContext(),datalist,circleEntityList);
+                        lv_cir.getRefreshableView().setAdapter(adapter);
+                    }else {
+                        adapter.notifyChange(datas);
+                    }
+                } else {
+                    lv_cir.setHasMoreData(false);
+                }
             }
         });
     }

@@ -121,7 +121,7 @@ public class CircleglAct extends BaseActivity {
                     datas.clear();
                 }
                 datas.addAll(list);
-                if (list != null || list.size() > 0) {
+                if (datas != null && datas.size() > 0) {
                     if(adapter==null) {
                         adapter=new CircleglAdapter(CircleglAct.this,datas);
                         lv_circlegl.getRefreshableView().setAdapter(adapter);
