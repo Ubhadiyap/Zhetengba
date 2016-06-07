@@ -1,6 +1,8 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,8 +12,11 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +24,13 @@ import java.util.List;
  */
 public class CircleglAdapter extends BaseAdapter {
     private Context context;
-    private List<CircleEntity> list;
+    private List<CircleEntity> list=new ArrayList<>();
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .build();
 
     public CircleglAdapter(Context context) {
         this.context = context;
@@ -28,9 +39,13 @@ public class CircleglAdapter extends BaseAdapter {
         this.context = context;
         this.list=list;
     }
+    public void notifyChange(List<CircleEntity> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
-        return list.size()>0?list.size():1;
+        return list.size();
     }
 
     @Override
@@ -57,9 +72,17 @@ public class CircleglAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
         if (list!=null&&list.size()>0){
-            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+list.get(position).getAddress(),holder.head);
-            holder.name.setText(list.get(position).getCircleName());
-            holder.notice.setText(list.get(position).getNotice());
+            if(!TextUtils.isEmpty(list.get(position).getAddress())) {
+                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(position).getAddress(), holder.head,options);
+            }
+            if(!TextUtils.isEmpty(list.get(position).getCircleName())) {
+                holder.name.setText(list.get(position).getCircleName());
+            }
+            if(!TextUtils.isEmpty(list.get(position).getNotice())) {
+                holder.notice.setText("公告："+list.get(position).getNotice());
+            }else {
+                holder.notice.setText("公告：暂无");
+            }
         }
         return convertView;
     }

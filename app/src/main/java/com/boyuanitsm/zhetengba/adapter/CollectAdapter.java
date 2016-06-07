@@ -4,9 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.bean.CollectionBean;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 
 import java.util.List;
 
@@ -16,12 +20,20 @@ import java.util.List;
  */
 public class CollectAdapter extends BaseAdapter {
     private Context context;
-    private List<SimpleInfo> infos;
+    private List<CollectionBean>list;
+    private int dex;
+    private CollectAdapter collectAdapter;
 
-    public CollectAdapter(Context context) {
+    public CollectAdapter(Context context,List<CollectionBean>list) {
         this.context = context;
+        this.list=list;
+        collectAdapter=this;
     }
 
+    public void notify(List<CollectionBean> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {
@@ -44,10 +56,36 @@ public class CollectAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        dex=position;
+        View view=View.inflate(context,R.layout.item_collect,null);
+        LinearLayout ll_shouc= (LinearLayout) view.findViewById(R.id.ll_shouc);
+        ll_shouc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeCollection(list.get(position).getCollectionId());
+            }
+        });
 
-        View view = View.inflate(context, R.layout.item_act, null);
+
         return view;
 
+    }
+
+
+
+    public void removeCollection(String collectionId){
+        RequestManager.getScheduleManager().removeCollection(collectionId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                list.remove(dex);
+                collectAdapter.notify(list);
+            }
+        });
     }
 
 }

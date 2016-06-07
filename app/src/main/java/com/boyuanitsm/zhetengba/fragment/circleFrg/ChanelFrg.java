@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -175,7 +176,9 @@ private Button bt_plan;
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_plan:
-                openActivity(CirclefbAct.class);
+                Intent intent=new Intent(getActivity(),CirclefbAct.class);
+                intent.putExtra(CirclefbAct.TYPE,0);
+                startActivity(intent);
                 break;
             case R.id.ll_add:
                 openActivity(LabelMangerAct.class);

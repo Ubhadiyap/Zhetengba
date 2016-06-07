@@ -1,14 +1,22 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,12 +25,23 @@ import java.util.List;
  */
 public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> {
     private final LayoutInflater inflater;
-    private List<Integer> list;
+//    private List<Integer> list;
+    private List<UserInfo> list=new ArrayList<>();
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .build();
 
-    public CirxqAdapter(Context context, List<Integer> list) {
+//    public CirxqAdapter(Context context, List<Integer> list) {
+//        inflater = LayoutInflater.from(context);
+//        this.list = list;
+//
+//    }
+    public CirxqAdapter(Context context, List<UserInfo> list) {
         inflater = LayoutInflater.from(context);
         this.list = list;
-
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,62 +75,79 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        if (list.size() <= 4) {
-            if (i == list.size()) {
-                viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);
-                if (mOnItemClickListener!=null){
-                    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mOnItemClickListener.onItemClick(viewHolder.itemView,i);
-                        }
-                    });
+        if(list!=null&&list.size()>0) {
+            if (list.size() <= 4) {
+                if (i == list.size()) {
+                    viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);
+                    if (mOnItemClickListener != null) {
+                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mOnItemClickListener.onItemClick(viewHolder.itemView, i);
+                            }
+                        });
+                    }
+                } else {
+                    if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                        ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(i).getIcon(), viewHolder.mCir, options);
+                    }
+//                viewHolder.mCir.setImageResource(list.get(i));
                 }
             } else {
-                viewHolder.mCir.setImageResource(list.get(i));
-            }
-        } else {
-            switch (i){
-                case 0:
-                    viewHolder.mCir.setImageResource(list.get(0));
-                    break;
-                case 1:
-                    viewHolder.mCir.setImageResource(list.get(1));
-                    break;
-                case 2:
-                    viewHolder.mCir.setImageResource(list.get(2));
-                    break;
-                case 3:
-                    viewHolder.mCir.setImageResource(list.get(3));
-                    break;
-                case 4:
-                    viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);
-                    if (mOnItemClickListener!=null){
-                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mOnItemClickListener.onItemClick(viewHolder.itemView,i);
-                            }
-                        });
-                    }
-                    break;
-                case 5:
-                    viewHolder.mCir.setImageResource(R.mipmap.cirxq_more);
-                    if (mOnItemClickListener!=null){
-                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mOnItemClickListener.onItemClick(viewHolder.itemView,i);
-                            }
-                        });
-                    }
-                    break;
-            }
+                switch (i) {
+                    case 0:
+                        if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(0).getIcon(), viewHolder.mCir, options);
+                        }
+//                    viewHolder.mCir.setImageResource(list.get(0));
+                        break;
+                    case 1:
+                        if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(1).getIcon(), viewHolder.mCir, options);
+                        }
+//                    viewHolder.mCir.setImageResource(list.get(1));
+                        break;
+                    case 2:
+                        if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(2).getIcon(), viewHolder.mCir, options);
+                        }
+//                    viewHolder.mCir.setImageResource(list.get(2));
+                        break;
+                    case 3:
+                        if(!TextUtils.isEmpty(list.get(i).getIcon())) {
+                            ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(3).getIcon(), viewHolder.mCir, options);
+                        }
+//                    viewHolder.mCir.setImageResource(list.get(3));
+                        break;
+                    case 4:
+                        viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);
+                        if (mOnItemClickListener != null) {
+                            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mOnItemClickListener.onItemClick(viewHolder.itemView, i);
+                                }
+                            });
+                        }
+                        break;
+                    case 5:
+                        viewHolder.mCir.setImageResource(R.mipmap.cirxq_more);
+                        if (mOnItemClickListener != null) {
+                            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mOnItemClickListener.onItemClick(viewHolder.itemView, i);
+                                }
+                            });
+                        }
+                        break;
+                }
 
 //            if (i == (list.size()-1)) {
 //                viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);
 //            }
 //           viewHolder.mCir.setImageResource(list.get(i));
+            }
         }
 //        if (i==4){
 //            viewHolder.mCir.setText("更多...");

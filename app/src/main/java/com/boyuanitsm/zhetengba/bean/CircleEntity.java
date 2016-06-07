@@ -1,12 +1,14 @@
 package com.boyuanitsm.zhetengba.bean;
 
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 
 /**
- * 圈子
+ * 圈子实体,圈子说说实体
  * Created by gxy on 2016/6/1.
  */
-public class CircleEntity {
+public class CircleEntity implements Parcelable{
     private String address;//地址
     private String circleLogo;//圈子LOGO
     private String circleName;//圈子名称
@@ -20,6 +22,62 @@ public class CircleEntity {
     private String modifyTime;//修改时间
     private String notice;//公告
     private int sharedCounts;//分享数
+    private String userName;//圈主别名
+    private String userId;//用户id
+    private String talkContent;//说说内容
+    private String talkImage;//说说图片
+
+    public CircleEntity() {
+
+    }
+
+    protected CircleEntity(Parcel in) {
+        address = in.readString();
+        circleLogo = in.readString();
+        circleName = in.readString();
+        circleOwnerId = in.readString();
+        circleType = in.readString();
+        commentCounts = in.readInt();
+        createTime = in.readString();
+        id = in.readString();
+        likeCounts = in.readInt();
+        memberCounts = in.readInt();
+        modifyTime = in.readString();
+        notice = in.readString();
+        sharedCounts = in.readInt();
+        userName=in.readString();
+        userId=in.readString();
+        talkContent=in.readString();
+        talkImage=in.readString();
+    }
+
+    public static final Creator<CircleEntity> CREATOR = new Creator<CircleEntity>() {
+        @Override
+        public CircleEntity createFromParcel(Parcel in) {
+            return new CircleEntity(in);
+        }
+
+        @Override
+        public CircleEntity[] newArray(int size) {
+            return new CircleEntity[size];
+        }
+    };
+
+    public String getTalkContent() {
+        return talkContent;
+    }
+
+    public void setTalkContent(String talkContent) {
+        this.talkContent = talkContent;
+    }
+
+    public String getTalkImage() {
+        return talkImage;
+    }
+
+    public void setTalkImage(String talkImage) {
+        this.talkImage = talkImage;
+    }
 
     public String getCircleOwnerId() {
         return circleOwnerId;
@@ -123,5 +181,70 @@ public class CircleEntity {
 
     public void setCircleName(String circleName) {
         this.circleName = circleName;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(address);
+        dest.writeString(circleLogo);
+        dest.writeString(circleName);
+        dest.writeString(circleOwnerId);
+        dest.writeString(circleType);
+        dest.writeInt(commentCounts);
+        dest.writeString(createTime);
+        dest.writeString(id);
+        dest.writeInt(likeCounts);
+        dest.writeInt(memberCounts);
+        dest.writeString(modifyTime);
+        dest.writeString(notice);
+        dest.writeInt(sharedCounts);
+        dest.writeString(userName);
+        dest.writeString(userId);
+        dest.writeString(talkContent);
+        dest.writeString(talkImage);
+    }
+
+    @Override
+    public String toString() {
+        return "CircleEntity{" +
+                "address='" + address + '\'' +
+                ", circleLogo='" + circleLogo + '\'' +
+                ", circleName='" + circleName + '\'' +
+                ", circleOwnerId='" + circleOwnerId + '\'' +
+                ", circleType='" + circleType + '\'' +
+                ", commentCounts=" + commentCounts +
+                ", createTime='" + createTime + '\'' +
+                ", id='" + id + '\'' +
+                ", likeCounts=" + likeCounts +
+                ", memberCounts=" + memberCounts +
+                ", modifyTime='" + modifyTime + '\'' +
+                ", notice='" + notice + '\'' +
+                ", sharedCounts=" + sharedCounts +
+                ", userName='" + userName + '\'' +
+                ", userId='" + userId + '\'' +
+                ", talkContent='" + talkContent + '\'' +
+                ", talkImage='" + talkImage + '\'' +
+                '}';
     }
 }

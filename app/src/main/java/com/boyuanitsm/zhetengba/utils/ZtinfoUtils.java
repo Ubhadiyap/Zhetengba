@@ -49,6 +49,12 @@ public class ZtinfoUtils {
     public static double pi = 3.1415926535897932384626;
 
 
+    //使用String的split 方法
+    public static String[] convertStrToArray(String str){
+        String[] strArray = null;
+        strArray = str.split(","); //拆分字符为"," ,然后把结果交给数组strArray
+        return strArray;
+    }
     /**
      * 获取当前时间
      *

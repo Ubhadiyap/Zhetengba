@@ -12,6 +12,7 @@ import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
@@ -137,6 +138,7 @@ public class SettingAct extends BaseActivity {
 
            @Override
            public void onResponse(ResultBean response) {
+               UserInfoDao.deleteUser();
 
            }
        });
