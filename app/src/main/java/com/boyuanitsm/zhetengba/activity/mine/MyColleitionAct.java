@@ -99,7 +99,7 @@ public class MyColleitionAct extends BaseActivity{
                     datas.addAll(list);
                     if(datas!=null&&datas.size()>0){
                       if(adapter==null){
-                          adapter=new CollectAdapter(getApplicationContext(),datas);
+                          adapter=new CollectAdapter(MyColleitionAct.this,datas);
                           plv.getRefreshableView().setAdapter(adapter);
                       }else {
                           adapter.notify(datas);
