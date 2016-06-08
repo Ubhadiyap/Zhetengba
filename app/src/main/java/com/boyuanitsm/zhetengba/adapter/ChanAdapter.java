@@ -22,7 +22,9 @@ import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -31,6 +33,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,7 +43,7 @@ import java.util.List;
  */
 public class ChanAdapter extends BaseAdapter {
     private Context context;
-    private List<List<ImageInfo>> dateList;
+    private List<List<ImageInfo>> dateList=new ArrayList<>();
     private List<ChannelTalkEntity> list;
     private boolean flag=false;//未点赞
     private String channelId;//说说id
@@ -61,7 +65,8 @@ public class ChanAdapter extends BaseAdapter {
         this.list=list;
     }
 
-    public void notifyChange(List<ChannelTalkEntity> list){
+    public void notifyChange(List<List<ImageInfo>> dateList,List<ChannelTalkEntity> list){
+        this.dateList=dateList;
         this.list=list;
         notifyDataSetChanged();
     }
@@ -112,7 +117,9 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
             convertView.setTag(viewHolder);
         }
+        viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
         if (itemList.isEmpty() || itemList.isEmpty()) {
+            viewHolder.ll_ch_image.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
@@ -234,11 +241,11 @@ public class ChanAdapter extends BaseAdapter {
         viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickPos=position;
-                channelId=list.get(position).getId();
-                if(!flag){
+                clickPos = position;
+                channelId = list.get(position).getId();
+                if (!flag) {
                     addChannelLike(channelId);
-                }else {
+                } else {
                     removeChannelLike(channelId);
                 }
             }
@@ -248,7 +255,7 @@ public class ChanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(context, ShareDialogAct.class);
+                Intent intent = new Intent(context, ShareDialogAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -260,8 +267,8 @@ public class ChanAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, ChanelTextAct.class);
-                intent.putExtra("channelEntity",list.get(position));
-                intent.putExtra("channelId",list.get(position).getId());
+                intent.putExtra("channelEntity", list.get(position));
+                intent.putExtra("channelId", list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -327,13 +334,15 @@ public class ChanAdapter extends BaseAdapter {
         RequestManager.getTalkManager().addChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 flag=true;
-                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()+1);
+                if(!TextUtils.isEmpty(response.getData())) {
+                    list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
+                }
                 notifyDataSetChanged();
             }
         });
@@ -348,13 +357,15 @@ public class ChanAdapter extends BaseAdapter {
         RequestManager.getTalkManager().removeChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 flag=false;
-                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()-1);
+                if(!TextUtils.isEmpty(response.getData())) {
+                    list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
+                }
                 notifyDataSetChanged();
             }
         });

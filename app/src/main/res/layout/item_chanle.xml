@@ -205,6 +205,8 @@
         </LinearLayout>
     </LinearLayout>
     <View
+        android:layout_marginTop="10dp"
         style="@style/view_line"
-        android:layout_marginRight="15dp"></View>
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"></View>
 </LinearLayout>

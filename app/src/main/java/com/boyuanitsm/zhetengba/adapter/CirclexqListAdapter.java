@@ -22,6 +22,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -41,7 +42,7 @@ import java.util.List;
 public class CirclexqListAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList=new ArrayList<>();
-    private boolean flag=false;
+    private boolean flag=false;//是否已经点过赞
 
     private List<CircleEntity> list;
     int clickPos;
@@ -297,13 +298,15 @@ public class CirclexqListAdapter extends BaseAdapter {
         RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 flag=true;
-                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()+1);
+                if(!TextUtils.isEmpty(response.getData())) {
+                    list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
+                }
                 notifyDataSetChanged();
             }
         });
@@ -316,13 +319,15 @@ public class CirclexqListAdapter extends BaseAdapter {
         RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 flag=false;
-                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()-1);
+                if(!TextUtils.isEmpty(response.getData())) {
+                    list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
+                }
                 notifyDataSetChanged();
             }
         });
