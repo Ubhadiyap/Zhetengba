@@ -7,9 +7,9 @@
 
     <include layout="@layout/title_act_layout"/>
     <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
-        android:divider="#e1e1e1"
-        android:dividerHeight="1px"
         android:id="@+id/plv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        ></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
 </LinearLayout>
