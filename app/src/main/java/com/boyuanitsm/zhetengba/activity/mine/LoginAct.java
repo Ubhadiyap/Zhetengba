@@ -23,7 +23,6 @@ import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -43,6 +42,8 @@ public class LoginAct extends BaseActivity {
 
     private String currentUsername;
     private String currentPassword;
+
+    private ProgressDialog pd;
 
     @Override
     public void setLayout() {
@@ -73,6 +74,16 @@ public class LoginAct extends BaseActivity {
 
             }
         });
+        pd = new ProgressDialog(this);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Log.d(TAG, "EMClient.getInstance().onCancel");
+                progressShow = false;
+            }
+        });
+        pd.setMessage(getString(R.string.Is_landing));
     }
 
     @Override
@@ -82,16 +93,13 @@ public class LoginAct extends BaseActivity {
     }
 
 
-
-
     @OnClick({R.id.tvLogin, R.id.tv_regist, R.id.tv_forget_pw})
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLogin://登录
-                if(isValidate()){
-
-                toLogin(currentUsername, currentPassword);
+                if (isValidate()) {
+                    toLogin(currentUsername, currentPassword);
                 }
 //                login();
                 break;
@@ -130,7 +138,7 @@ public class LoginAct extends BaseActivity {
      *
      * @param
      */
-    public void login() {
+    public void login(final UserBean userBean) {
         if (!EaseCommonUtils.isNetWorkConnected(this)) {
             Toast.makeText(this, R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
             return;
@@ -148,18 +156,7 @@ public class LoginAct extends BaseActivity {
         }
 
         progressShow = true;
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.setCanceledOnTouchOutside(false);
-        pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
 
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                Log.d(TAG, "EMClient.getInstance().onCancel");
-                progressShow = false;
-            }
-        });
-        pd.setMessage(getString(R.string.Is_landing));
-        pd.show();
 
         // After logout，the DemoDB may still be accessed due to async callback, so the DemoDB will be re-opened again.
         // close it before login to make sure DemoDB not overlap
@@ -195,6 +192,7 @@ public class LoginAct extends BaseActivity {
                 //异步获取当前用户的昵称和头像(从自己服务器获取，demo使用的一个第三方服务)
                 DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
 
+                UserInfoDao.saveUser(userBean.getUser());
                 // 进入主页面
                 Intent intent = new Intent(LoginAct.this,
                         MainAct.class);
@@ -233,19 +231,21 @@ public class LoginAct extends BaseActivity {
         }
     }
 
-    private void toLogin(String username,String password){
+    private void toLogin(String username, String password) {
+        pd.show();
         RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<UserBean>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                pd.dismiss();
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<UserBean> response) {
-                UserBean userBean=response.getData();
-                UserInfoDao.saveUser(userBean.getUser());
-                MyLogUtils.degug("userInfo"+userBean.getUser());
-                openActivity(MainAct.class);
+                UserBean userBean = response.getData();
+                login(userBean);
+
+
             }
         });
     }
