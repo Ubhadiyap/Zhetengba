@@ -158,6 +158,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/act_layer_right">
             <ImageView
+                android:id="@+id/zimg"
                 style="@style/Chanel_Small_Image"
                 android:background="@drawable/zan"/>
             <TextView

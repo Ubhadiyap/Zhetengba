@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
@@ -61,8 +63,8 @@ public class CirFrg extends Fragment {
         View view=inflater.inflate(R.layout.cir_frg, null);
         getAllCircleTalk(page, rows);
         lv_cir = (PullToRefreshListView) view.findViewById(R.id.lv_cir);
-        initData();
-
+//        initData();
+        datalist=new ArrayList<>();
         LayoutHelperUtil.freshInit(lv_cir);
 
         lv_cir.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -122,12 +124,23 @@ public class CirFrg extends Fragment {
                     datas.clear();
                 }
                 datas.addAll(circleEntityList);
+                for (int j=0;j<datas.size();j++) {
+                    List<ImageInfo> itemList=new ArrayList<>();
+                    //将图片地址转化成数组
+                    if(!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
+                        String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
+                        for (int i = 0; i < urlList.length; i++) {
+                            itemList.add(new ImageInfo(Uitls.imageFullUrl(urlList[i]), 1624, 914));
+                        }
+                    }
+                    datalist.add(itemList);
+                }
                 if (datas != null && datas.size() > 0) {
                     if(adapter==null) {
                         adapter=new CircleAdapter(getContext(),datalist,circleEntityList);
                         lv_cir.getRefreshableView().setAdapter(adapter);
                     }else {
-                        adapter.notifyChange(datas);
+                        adapter.notifyChange(datalist,datas);
                     }
                 } else {
                     lv_cir.setHasMoreData(false);

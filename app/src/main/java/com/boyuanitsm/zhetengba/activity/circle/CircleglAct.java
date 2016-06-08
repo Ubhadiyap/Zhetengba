@@ -49,7 +49,7 @@ public class CircleglAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子管理");
         list=new ArrayList<>();
-        getCircleList(page, rows);
+        getCircleList(null,page, rows);
         lv_circlegl.setPullRefreshEnabled(true);//下拉刷新
         lv_circlegl.setScrollLoadEnabled(true);//滑动加载
         lv_circlegl.setPullLoadEnabled(false);//上拉刷新
@@ -75,13 +75,13 @@ public class CircleglAct extends BaseActivity {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 lv_circlegl.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                 page=1;
-                getCircleList(page,rows);
+                getCircleList(null,page,rows);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getCircleList(page,rows);
+                getCircleList(null,page,rows);
             }
         });
 
@@ -104,8 +104,8 @@ public class CircleglAct extends BaseActivity {
 
     private List<CircleEntity> datas=new ArrayList<>();
     //获取圈子列表
-    private void getCircleList(final int page,int rows){
-        RequestManager.getTalkManager().myCircleList(page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
+    private void getCircleList(String userId,final int page,int rows){
+        RequestManager.getTalkManager().myCircleList(userId,page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_circlegl.onPullUpRefreshComplete();
@@ -161,7 +161,7 @@ public class CircleglAct extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             page=1;
-            getCircleList(page,rows);
+            getCircleList(null,page,rows);
         }
     }
 }

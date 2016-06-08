@@ -97,6 +97,7 @@
                         android:textSize="16sp" />
 
                     <LinearLayout
+                        android:id="@+id/llphoto"
                         android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"

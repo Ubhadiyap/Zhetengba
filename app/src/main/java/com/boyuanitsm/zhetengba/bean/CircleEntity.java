@@ -17,15 +17,35 @@ public class CircleEntity implements Parcelable{
     private int	commentCounts;//评论数
     private String createTime;//创建时间
     private String id;//主键ID
-    private int	likeCounts;//加赞数
+    private int	likedCounts;//加赞数
     private int	memberCounts;//成员数
     private String modifyTime;//修改时间
     private String notice;//公告
     private int sharedCounts;//分享数
-    private String userName;//圈主别名
+    private String userName;//圈主别名 (用户姓名)
     private String userId;//用户id
     private String talkContent;//说说内容
     private String talkImage;//说说图片
+    /**
+     * 用户姓名
+     */
+//    private String userName;
+    /**
+     * 圈子名称
+     */
+//    private String circleName;
+    /**
+     * 用户头像
+     */
+    private String userIcon;
+    /**
+     * 用户性别
+     */
+    private String userSex;
+    /**
+     * 是否已点赞
+     */
+    private int liked;
     //评论
     private String fatherCommentId;
 
@@ -53,7 +73,6 @@ public class CircleEntity implements Parcelable{
 
     }
 
-
     protected CircleEntity(Parcel in) {
         address = in.readString();
         circleLogo = in.readString();
@@ -63,7 +82,7 @@ public class CircleEntity implements Parcelable{
         commentCounts = in.readInt();
         createTime = in.readString();
         id = in.readString();
-        likeCounts = in.readInt();
+        likedCounts = in.readInt();
         memberCounts = in.readInt();
         modifyTime = in.readString();
         notice = in.readString();
@@ -72,6 +91,9 @@ public class CircleEntity implements Parcelable{
         userId = in.readString();
         talkContent = in.readString();
         talkImage = in.readString();
+        userIcon = in.readString();
+        userSex = in.readString();
+        liked = in.readInt();
         fatherCommentId = in.readString();
         circleId = in.readString();
         commentUserId = in.readString();
@@ -161,13 +183,7 @@ public class CircleEntity implements Parcelable{
         this.memberCounts = memberCounts;
     }
 
-    public int getLikeCounts() {
-        return likeCounts;
-    }
 
-    public void setLikeCounts(int likeCounts) {
-        this.likeCounts = likeCounts;
-    }
 
     public String getModifyTime() {
         return modifyTime;
@@ -321,6 +337,38 @@ public class CircleEntity implements Parcelable{
         this.isValid = isValid;
     }
 
+    public String getUserIcon() {
+        return userIcon;
+    }
+
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    public int getLiked() {
+        return liked;
+    }
+
+    public void setLiked(int liked) {
+        this.liked = liked;
+    }
+
+    public int getLikedCounts() {
+        return likedCounts;
+    }
+
+    public void setLikedCounts(int likedCounts) {
+        this.likedCounts = likedCounts;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -336,7 +384,7 @@ public class CircleEntity implements Parcelable{
         dest.writeInt(commentCounts);
         dest.writeString(createTime);
         dest.writeString(id);
-        dest.writeInt(likeCounts);
+        dest.writeInt(likedCounts);
         dest.writeInt(memberCounts);
         dest.writeString(modifyTime);
         dest.writeString(notice);
@@ -345,6 +393,9 @@ public class CircleEntity implements Parcelable{
         dest.writeString(userId);
         dest.writeString(talkContent);
         dest.writeString(talkImage);
+        dest.writeString(userIcon);
+        dest.writeString(userSex);
+        dest.writeInt(liked);
         dest.writeString(fatherCommentId);
         dest.writeString(circleId);
         dest.writeString(commentUserId);
