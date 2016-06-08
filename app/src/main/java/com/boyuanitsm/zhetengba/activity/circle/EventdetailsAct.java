@@ -38,11 +38,6 @@ public class EventdetailsAct extends BaseActivity implements View.OnClickListene
         switch (v.getId()){
             case R.id.tv_ok:
                 str=feedback_et.getText().toString();
-//                Intent intent=this.getIntent();
-//                intent.putExtra("detailsTheme",str);
-//                Bundle bundle=intent.getExtras();
-//                bundle.putString("detailsTheme",str);
-//                this.setResult(Activity.RESULT_OK,intent);
                 Intent intent=new Intent();
                 intent.setClass(EventdetailsAct.this, ContractedAct.class);
                 Bundle bundle2=new Bundle();

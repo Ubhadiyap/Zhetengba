@@ -18,7 +18,7 @@ public class DBOpenHelp extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {//这个方法是数据库第一次创建时调用
-		db.execSQL("CREATE TABLE label(id integer primary key autoincrement,dictName varchar(20),icon varchar(20),dictType varchar(20),dictDescribe varchar(20),dictCode varchar(20))");//执行SQL语句创建表
+		db.execSQL("CREATE TABLE label(id integer primary key autoincrement,interestId varchar(20),dictName varchar(20))");//执行SQL语句创建表
 		
 	}
 

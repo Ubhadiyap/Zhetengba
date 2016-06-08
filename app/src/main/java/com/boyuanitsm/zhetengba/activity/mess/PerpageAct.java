@@ -24,13 +24,29 @@ import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
+import com.boyuanitsm.zhetengba.bean.PersonalMain;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.bean.UserBean;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 消息里面的个人主页界面
@@ -40,7 +56,7 @@ public class PerpageAct extends BaseActivity {
     private static final String TAG = "PerpageAct";
     @ViewInject(R.id.hlv_perpage)
     private HorizontalListView hlv_perpage;//水平listview
-//    @ViewInject(R.id.vpS)
+    //    @ViewInject(R.id.vpS)
 //    private ViewPager vpS;//档期，圈子动态
     @ViewInject(R.id.rl_dangqi)
     private RelativeLayout rl_dangqi;
@@ -71,14 +87,20 @@ public class PerpageAct extends BaseActivity {
     private TextView tv_tab3;
     @ViewInject(R.id.tv_tab4)//第4个标签
     private TextView tv_tab4;
+    @ViewInject(R.id.tv_niName)
+    private TextView tv_niName;//昵称
 //    @ViewInject(R.id.tab_selcet)
 //    private PagerSlidingTabStrip tab_selcet;
 
-
+    private String userId;
     private FragmentManager manager;
-    private Fragment ppagecalFrg,ppagedtFrg;//档期frg 圈子动态frg
-    private String[] str={"摄影控","吃货","小萝莉","更多"};//
-
+    private Fragment ppagecalFrg, ppagedtFrg;//档期frg 圈子动态frg
+    private List<SimpleInfo> activityList = new ArrayList<>();
+    private List<ScheduleInfo> scheduleList = new ArrayList<>();
+    private List<CircleEntity> circleList = new ArrayList<>();
+    private List<UserInfo> userList = new ArrayList<>();
+    private List<UserInterestInfo> userInterestList = new ArrayList<>();
+    private PersonalMain personalMain;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_perpage);
@@ -87,8 +109,12 @@ public class PerpageAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        iniTab(str);
-        manager=getSupportFragmentManager();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        userId = bundle.getString("userId");
+        getPersonalMain(userId);
+        iniTab(userInterestList);
+        manager = getSupportFragmentManager();
         hlv_perpage.setAdapter(new HlvppAdapter(getApplicationContext()));//她的圈子下面水平view适配器
 //        gv_perpage.setAdapter(new GridViewPerAdapter(PerpageAct.this));
         msv_scroll.smoothScrollTo(0, 0);
@@ -96,33 +122,43 @@ public class PerpageAct extends BaseActivity {
 
     }
 
-    private void iniTab(String[] str) {
-        if (str.length==0){
+    private void iniTab(List<UserInterestInfo> str) {
+        if (str.size() == 0) {
             ll_tab.setVisibility(View.GONE);
-        }else if (str.length==1){
+        } else if (str.size() == 1) {
             ll_tab.setVisibility(View.VISIBLE);
             tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
             tv_tab2.setVisibility(View.GONE);
             tv_tab3.setVisibility(View.GONE);
             tv_tab4.setVisibility(View.GONE);
-        }else if (str.length==2){
+        } else if (str.size() == 2) {
             ll_tab.setVisibility(View.VISIBLE);
             tv_tab1.setVisibility(View.VISIBLE);
-            tv_tab2.setVisibility(View.GONE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
             tv_tab3.setVisibility(View.GONE);
             tv_tab4.setVisibility(View.GONE);
-        }else if (str.length==3){
+        } else if (str.size() == 3) {
             ll_tab.setVisibility(View.VISIBLE);
             tv_tab1.setVisibility(View.VISIBLE);
             tv_tab2.setVisibility(View.VISIBLE);
             tv_tab3.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setText(str.get(2).getDictName());
             tv_tab4.setVisibility(View.GONE);
-        }else if (str.length==4){
+        } else if (str.size() == 4) {
             ll_tab.setVisibility(View.VISIBLE);
             tv_tab1.setVisibility(View.VISIBLE);
             tv_tab2.setVisibility(View.VISIBLE);
             tv_tab3.setVisibility(View.VISIBLE);
             tv_tab4.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setText(str.get(2).getDictName());
+            tv_tab4.setText(str.get(3).getDictName());
             tv_tab4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,22 +228,26 @@ public class PerpageAct extends BaseActivity {
      * 点击button后选择显示的frg
      */
     private void setSelect(int position) {
-        FragmentTransaction transaction=manager.beginTransaction();
+        FragmentTransaction transaction = manager.beginTransaction();
         hideFragments(transaction);
-        switch (position){
+        switch (position) {
             case 0://档期frg
                 setTab(0);
-                if(ppagecalFrg==null){
-                    ppagecalFrg=new PpagecalFrg();
-                    transaction.add(R.id.fra_main,ppagecalFrg);
-                }else {transaction.show(ppagecalFrg);}
+                if (ppagecalFrg == null) {
+                    ppagecalFrg = new PpagecalFrg();
+                    transaction.add(R.id.fra_main, ppagecalFrg);
+                } else {
+                    transaction.show(ppagecalFrg);
+                }
                 break;
             case 1://圈子动态frg
                 setTab(1);
-                if(ppagedtFrg==null){
-                    ppagedtFrg=new PpagedtFrg();
-                    transaction.add(R.id.fra_main,ppagedtFrg);
-                }else {transaction.show(ppagedtFrg);}
+                if (ppagedtFrg == null) {
+                    ppagedtFrg = new PpagedtFrg();
+                    transaction.add(R.id.fra_main, ppagedtFrg);
+                } else {
+                    transaction.show(ppagedtFrg);
+                }
                 break;
 
 
@@ -217,15 +257,17 @@ public class PerpageAct extends BaseActivity {
 
     /**
      * 影藏所有frg
+     *
      * @param transaction
      */
     private void hideFragments(FragmentTransaction transaction) {
-        if(ppagecalFrg!=null){
+        if (ppagecalFrg != null) {
             transaction.hide(ppagecalFrg);
         }
-        if(ppagedtFrg!=null){transaction.hide(ppagedtFrg);}
+        if (ppagedtFrg != null) {
+            transaction.hide(ppagedtFrg);
+        }
     }
-
 
 
     private void showPopupWindow(View parent) {
@@ -270,6 +312,42 @@ public class PerpageAct extends BaseActivity {
                 startActivity(intent);
                 popupWindow.dismiss();
 
+            }
+        });
+    }
+
+    /**
+     * 获取数据
+     * @param id
+     */
+    private void getPersonalMain(String id) {
+        RequestManager.getScheduleManager().getPersonalMain(id, new ResultCallback<ResultBean<PersonalMain>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<PersonalMain> response) {
+               personalMain= response.getData();
+//                Map<String, List> map = new HashMap<String, List>();
+//                List<SimpleInfo> simpleInfoList = new ArrayList<SimpleInfo>();
+//                List<ScheduleInfo> scheduleInfoList = new ArrayList<ScheduleInfo>();
+//                List<CircleEntity> circleEntityList = new ArrayList<CircleEntity>();
+//                List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+//                List<UserInterestInfo> userInterestInfoList = new ArrayList<UserInterestInfo>();
+//                map.put("Activity", simpleInfoList);
+//                map.put("Schedule", scheduleInfoList);
+//                map.put("Circle", circleEntityList);
+//                map.put("User", userInfoList);
+//                map.put("UserInterest", userInterestInfoList);
+////                map = response.getData();
+                activityList = personalMain.getSimpleInfoList();
+                scheduleList = personalMain.getScheduleInfoList();
+                circleList =personalMain.getCircleEntityList();
+                userList = personalMain.getUserInfoList();
+                userInterestList =personalMain.getUserInterestInfoList();
+                tv_niName.setText(userList.get(0).getPetName());
             }
         });
     }

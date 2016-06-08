@@ -186,13 +186,11 @@ public class ActAdapter extends BaseAdapter{
                     new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            flag=true;
-                            stateChange(position, viewHolder);
+                            stateCancelChange(position, viewHolder);
                         }
                     }).setNegativeButton("取消",null).show();
                 }else {
-                    flag=false;
-                    stateChange(position, viewHolder);
+                    stateJionChange(position, viewHolder);
                 }
 
             }
@@ -274,6 +272,9 @@ public class ActAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
+                Bundle bundle=new Bundle();
+                bundle.putString("userId",infos.get(position).getUserId());
+                intent.putExtras(bundle);
                 intent.setClass(context, PerpageAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -291,7 +292,7 @@ public class ActAdapter extends BaseAdapter{
     * @param
     */
 
-    private void stateChange(final int position, final Holder viewHolder) {
+    private void stateJionChange(final int position, final Holder viewHolder) {
         RequestManager.getScheduleManager().getRespondActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -300,17 +301,6 @@ public class ActAdapter extends BaseAdapter{
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                if (flag) {
-                    viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
-                    viewHolder.tv_text_jion.setText("参加");
-                    viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
-                     int i= infos.get(position).getMemberNum();
-                        i=i-1;
-                    viewHolder.tv_join_num.setText(i+"");
-                    infos.get(position).setJoin(false);
-                    infos.get(position).setMemberNum(i);
-                    flag = false;
-                } else {
                     viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
                     viewHolder.tv_text_jion.setText("取消参加");
                     viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
@@ -327,12 +317,40 @@ public class ActAdapter extends BaseAdapter{
                         infos.get(position).setMemberNum(i);
                         infos.get(position).setJoin(true);
                     }
-
-                    flag=true;
-                }
             }
         });
     }
+    /**
+     * 取消参加或响应活动接口
+     * @param
+     */
+
+    private void stateCancelChange(final int position, final Holder viewHolder) {
+        RequestManager.getScheduleManager().cancelActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
+                viewHolder.tv_text_jion.setText("参加");
+                viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
+                int i = infos.get(position).getMemberNum();
+                i = i - 1;
+                viewHolder.tv_join_num.setText(i + "");
+                infos.get(position).setJoin(false);
+                infos.get(position).setMemberNum(i);
+            }
+        });
+    }
+
+    /***
+     * 删除活动
+     * @param id
+     * @param position
+     */
     private void removeActivity(String id, final int position){
         RequestManager.getScheduleManager().removeActivity(id, new ResultCallback<ResultBean<String>>() {
             @Override

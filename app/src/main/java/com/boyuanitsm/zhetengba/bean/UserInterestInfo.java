@@ -1,20 +1,33 @@
 package com.boyuanitsm.zhetengba.bean;
 
+import android.content.Context;
+
 /**
  * 个人兴趣标签
  * Created by xiaoke on 2016/6/2.
  */
 public class UserInterestInfo {
 
-    private String	createPersonId;//'创建人',
-    private String	createTiem;//'创建时间',
-    private String	dictName;// 标签名
-    private String	id;//'主键ID',
-    private String	interestId;// '兴趣标签ID',
-    private Boolean	isValid;// '是否有效.0:无效;1:有效',
-    private String	modifyPersonId;// '修改人',
+    private String createPersonId;//'创建人',
+    private String createTiem;//'创建时间',
+    private String dictName;// 标签名
+    private String id;//'主键ID',
+    private String interestId;// '兴趣标签ID',
+    private Boolean isValid;// '是否有效.0:无效;1:有效',
+    private String modifyPersonId;// '修改人',
     private String modifyTime;// COMMENT '修改时间',
-    private String	userId;// '用户ID',
+    private String userId;// '用户ID',
+    private Context context;
+
+    public UserInterestInfo(String id,String interestId, String dictName) {
+        this.interestId = id;
+        this.interestId=interestId;
+        this.dictName = dictName;
+
+    }
+    public UserInterestInfo(Context context){
+        this.context=context;
+    }
 
     public String getCreatePersonId() {
         return createPersonId;

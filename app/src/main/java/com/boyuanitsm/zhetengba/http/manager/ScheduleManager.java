@@ -358,4 +358,26 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         doPost(IZtbUrl.HISTORYMESSAGE_URL,params,callback);
     }
+
+    /**
+     * 取消参加活动
+     * @param activityId
+     * @param callback
+     */
+    public void cancelActivity(String activityId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("activityId",activityId);
+        doPost(IZtbUrl.CANCEL_ACTIVITY_URL,params,callback);
+    }
+
+    /**
+     * 获取个人主页信息
+     * @param userId
+     * @param callback
+     */
+    public void getPersonalMain(String userId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("userId",userId);
+        doPost(IZtbUrl.PERSONAL_HOME_PAGE_URL,params,callback);
+    }
 }

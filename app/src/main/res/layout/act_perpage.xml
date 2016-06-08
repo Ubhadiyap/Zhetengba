@@ -67,6 +67,7 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/tv_niName"
                     style="@style/tv_second"
                     android:text="昵称：Make"
                     android:textColor="@color/white" />
