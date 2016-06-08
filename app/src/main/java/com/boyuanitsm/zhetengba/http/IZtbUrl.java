@@ -11,7 +11,7 @@ public interface IZtbUrl {
 
     public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
     //测试
-//    public static final String BASE_URL = "http://172.16.5.211:8080/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
 
 //    public  String BASE_URL="http://172.16.6.225:8080/zhetengba/";
 
@@ -95,6 +95,10 @@ public interface IZtbUrl {
     String CHANNEL_COMMENT_URL=BASE_URL+"talk/login/addChannelTalkComments.do";
     /*频道说说发布*/
     String CHANNEL_RELEASE_URL=BASE_URL+"talk/login/addChannelTalk.do";
+    /*圈子说说评论列表*/
+    String CIRCLE_COMMENTS_URL=BASE_URL+"talk/login/findCircleTalkCommentsList.do";
+    /*频道说说评论列表*/
+    String CHANNEL_COMMENTS_URL=BASE_URL+"talk/login/findChannelTalkCommentsList.do";
 
 
 

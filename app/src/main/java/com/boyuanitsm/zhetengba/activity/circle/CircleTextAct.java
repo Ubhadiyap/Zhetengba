@@ -1,19 +1,33 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ChaTextAdapter;
+import com.boyuanitsm.zhetengba.adapter.CircleTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.PicGdAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
@@ -58,6 +72,31 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
+    @ViewInject(R.id.et_comment)
+    private EditText etComment;
+    private String circleId;//说说id
+    private CircleEntity entity;//说说实体
+
+    @ViewInject(R.id.iv_ch_head)
+    private CircleImageView head;//头像
+    @ViewInject(R.id.tv_ch_niName)
+    private TextView name;//姓名
+    @ViewInject(R.id.iv_ch_gendar)
+    private ImageView sex;//性别
+    @ViewInject(R.id.tv_time)
+    private TextView time;//时间
+    @ViewInject(R.id.content)
+    private TextView content;//说说内容
+    @ViewInject(R.id.tv_cir_name)
+    private TextView cirType;//圈子类型
+    @ViewInject(R.id.commentNum)
+    private TextView commentNum;//评论数
+
+    private int page=1;
+    private int rows=10;
+    private List<CircleEntity> list;
+    CircleTextAdapter adapter;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_text);
@@ -66,10 +105,16 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子正文");
+        entity=getIntent().getParcelableExtra("circleEntity");
+        circleId=getIntent().getStringExtra("circleId");
+
+        setCircleEntity(entity);
+
+        getCircleCommentsList(circleId, page, rows);
         assignView();
         initDate();
-        ChaTextAdapter adapter = new ChaTextAdapter(this);
-        my_lv.setAdapter(adapter);
+//        adapter = new ChaTextAdapter(this);//评论列表
+//        my_lv.setAdapter(adapter);
         sl_chanel.smoothScrollTo(0, 0);
 
         my_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,6 +135,22 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         });
     }
 
+    private void setCircleEntity(CircleEntity entity){
+        if(entity!=null){
+//            if(!TextUtils.isEmpty(entity.getUserId())){
+//                name.setText(entity.getUserId());
+//            }
+            if(!TextUtils.isEmpty(entity.getCreateTime())){
+                time.setText(ZtinfoUtils.timeToDate(Long.parseLong(entity.getCreateTime())));
+            }
+            if(!TextUtils.isEmpty(entity.getTalkContent())){
+                content.setText(entity.getTalkContent());
+            }
+            if (!TextUtils.isEmpty(entity.getCommentCounts()+"")){
+                commentNum.setText("评论"+entity.getCommentCounts());
+            }
+        }
+    }
     private void assignView() {
         my_lv = (MyListView) findViewById(R.id.my_lv);
         sl_chanel = (ScrollView) findViewById(R.id.sl_chanel);
@@ -183,15 +244,59 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         }
     }
 
-//    @OnClick({R.id.ll_cir_comment})
-    @Override
+    @OnClick({R.id.iv_chanel_comment})
     public void onClick(View v) {
-//        switch (v.getId()){
-//            case R.id.ll_cir_comment:
+        switch (v.getId()){
+            case R.id.iv_chanel_comment:
 //                openActivity(CommentAct.class);
-//                break;
-//
-//        }
+                commentCircleTalk(circleId,null,etComment.getText().toString().trim());
+                break;
+
+        }
+    }
+
+
+    /**
+     * 圈子说说评论
+     * @param circleTalkId
+     * @param fatherCommentId
+     * @param commentContent
+     */
+    private void commentCircleTalk(final String circleTalkId ,String fatherCommentId ,String commentContent){
+        RequestManager.getTalkManager().commentCircleTalk(circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                //重新获取评论列表，刷新评论数目，关闭键盘
+                ZtinfoUtils.hideSoftKeyboard(CircleTextAct.this, etComment);
+                etComment.setText("");
+                getCircleCommentsList(circleTalkId, page, rows);
+//                commentNum.setText("评论"+"");
+            }
+        });
+    }
+    private List<CircleEntity> datas=new ArrayList<>();
+    //获取评论列表
+    private void getCircleCommentsList(String circleTalkId,int page,int rows){
+        RequestManager.getTalkManager().getCircleCommentsList(circleTalkId, page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
+                list=response.getData().getRows();
+                commentNum.setText("评论"+list.size());
+                adapter = new CircleTextAdapter(CircleTextAct.this,list);//评论列表
+                my_lv.setAdapter(adapter);
+                sendBroadcast(new Intent(CirFrg.ALLTALKS));
+            }
+        });
     }
 
 }

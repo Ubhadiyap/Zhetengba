@@ -1,12 +1,15 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -18,8 +21,16 @@ import com.boyuanitsm.zhetengba.adapter.ChaTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
 import com.boyuanitsm.zhetengba.adapter.PicGdAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChaChildFrg;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
@@ -40,8 +51,10 @@ import java.util.List;
  * Created by xiaoke on 2016/5/11.
  */
 public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
-    @ViewInject(R.id.ll_comment)//评论
-    private LinearLayout ll_comment;
+//    @ViewInject(R.id.ll_comment)//评论
+//    private LinearLayout ll_comment;
+    @ViewInject(R.id.et_comment)
+    private EditText etComment;//评论内容
     private MyListView my_lv;
     private ScrollView sl_chanel;
     private LinearLayout ll_two;
@@ -66,6 +79,25 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
+    private String channelId;//频道说说id
+    private ChannelTalkEntity channelTalkEntity;//频道说说实体
+    @ViewInject(R.id.iv_ch_head)
+    private CircleImageView head;//头像
+    @ViewInject(R.id.tv_ch_niName)
+    private TextView name;//姓名
+    @ViewInject(R.id.iv_ch_gendar)
+    private ImageView sex;//性别
+    @ViewInject(R.id.tv_time)
+    private TextView time;//时间
+    @ViewInject(R.id.content)
+    private TextView content;//说说内容
+    @ViewInject(R.id.commentNum)
+    private TextView commentNum;//评论数
+    private int page=1;
+    private int rows=10;
+    private List<ChannelTalkEntity> list;
+
+    ChaTextAdapter adapter;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_chanel_text);
@@ -74,10 +106,14 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("频道正文");
+        channelTalkEntity=getIntent().getParcelableExtra("channelEntity");
+        channelId=getIntent().getStringExtra("channelId");
+        setChannel(channelTalkEntity);
         assignView();
         initDate();
-        ChaTextAdapter adapter = new ChaTextAdapter(this);
-        my_lv.setAdapter(adapter);
+        getCircleCommentsList(channelId, page, rows);
+//        adapter = new ChaTextAdapter(this);
+//        my_lv.setAdapter(adapter);
         sl_chanel.smoothScrollTo(0, 0);
 
         my_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -96,6 +132,23 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
             }
         });
+    }
+
+    private void setChannel(ChannelTalkEntity entity){
+        if(entity!=null){
+//            if(!TextUtils.isEmpty(entity.getCreatePersonId())){
+//                name.setText(entity.getCreatePersonId());
+//            }
+            if(!TextUtils.isEmpty(entity.getCreateTiem())){
+                time.setText(ZtinfoUtils.timeToDate(Long.parseLong(entity.getCreateTiem())));
+            }
+            if(!TextUtils.isEmpty(entity.getChannelContent())){
+                content.setText(entity.getChannelContent());
+            }
+            if(!TextUtils.isEmpty(entity.getCommentCounts()+"")){
+                commentNum.setText("评论"+entity.getCommentCounts());
+            }
+        }
     }
 
     private void assignView() {
@@ -192,19 +245,61 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     }
 
     @OnClick({R.id.ll_comment,R.id.iv_chanel_comment})
-    @Override
     public void onClick(View v) {
-//        switch (v.getId()){
-//            case R.id.ll_comment:
+        switch (v.getId()){
+            case R.id.ll_comment:
 //                openActivity(CommentAct.class);//打开评论列表
-//                break;
-//            case R.id.iv_chanel_comment:
+                break;
+            case R.id.iv_chanel_comment:
 //                openActivity(CommentAct.class);
-//                break;
-//            case R.id.bt_chanel_comment:
-//                openActivity(CommentAct.class);
-//                break;
-//        }
+                commentChannelTalk(channelId,null,etComment.getText().toString().trim());
+                break;
+        }
     }
+
+    /**
+     * 频道说说评论
+     * @param channelTalkId
+     * @param fatherCommentId
+     * @param commentContent
+     */
+    private void commentChannelTalk(final String channelTalkId  ,String fatherCommentId ,String commentContent){
+        RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                //重新获取评论列表，刷新评论数目，关闭键盘
+                ZtinfoUtils.hideSoftKeyboard(ChanelTextAct.this, etComment);
+                etComment.setText("");
+                getCircleCommentsList(channelTalkId, page, rows);
+//                commentNum.setText("评论"+"");
+            }
+        });
+    }
+
+    private List<ChannelTalkEntity> datas=new ArrayList<>();
+    //获取评论列表
+    private void getCircleCommentsList(String channelTalkId,int page,int rows){
+        RequestManager.getTalkManager().getChannelCommentsList(channelTalkId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<ChannelTalkEntity>> response) {
+                list=response.getData().getRows();
+                commentNum.setText("评论"+list.size());
+                adapter = new ChaTextAdapter(ChanelTextAct.this,list);
+                my_lv.setAdapter(adapter);
+                sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
+            }
+        });
+    }
+
 
 }

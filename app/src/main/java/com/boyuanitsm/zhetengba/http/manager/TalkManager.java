@@ -4,6 +4,9 @@ import android.text.TextUtils;
 
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.chat.db.UserDao;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 
@@ -219,10 +222,16 @@ public class TalkManager extends RequestManager{
      * @param fatherCommentId
      * @param callback
      */
-    public void commentCircleTalk(String circleTalkId ,String fatherCommentId ,ResultCallback callback){
+    public void commentCircleTalk(String circleTalkId ,String fatherCommentId ,String commentContent,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         if(!TextUtils.isEmpty(circleTalkId)){
-            map.put("circleTalkId",circleTalkId);
+            map.put("circleId",circleTalkId);
+        }
+        if (!TextUtils.isEmpty(commentContent)){
+            map.put("commentContent",commentContent);
+        }
+        if(!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
+            map.put("commentUserId", UserInfoDao.getUser().getId());
         }
         if(!TextUtils.isEmpty(fatherCommentId)){
             map.put("fatherCommentId",fatherCommentId);
@@ -276,13 +285,19 @@ public class TalkManager extends RequestManager{
      * @param fatherCommentId
      * @param callback
      */
-    public void commentChannelTalk(String channelTalkId  ,String fatherCommentId ,ResultCallback callback){
+    public void commentChannelTalk(String channelTalkId  ,String fatherCommentId ,String commentContent,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         if(!TextUtils.isEmpty(channelTalkId )){
             map.put("channelTalkId",channelTalkId );
         }
         if(!TextUtils.isEmpty(fatherCommentId)){
             map.put("fatherCommentId",fatherCommentId);
+        }
+        if(!TextUtils.isEmpty(commentContent)){
+            map.put("commentContent",commentContent);
+        }
+        if(!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
+            map.put("commentUserId",UserInfoDao.getUser().getId());
         }
         doPost(IZtbUrl.CHANNEL_COMMENT_URL,map,callback);
     }
@@ -306,6 +321,40 @@ public class TalkManager extends RequestManager{
             }
         }
         doPost(IZtbUrl.CHANNEL_RELEASE_URL,map,callback);
+    }
+
+    /**
+     * 圈子说说评论列表
+     * @param circleTalkId
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void getCircleCommentsList(String circleTalkId,int page,int rows,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(circleTalkId)){
+            map.put("circleTalkId",circleTalkId);
+        }
+        map.put("page",page+"");
+        map.put("rows",rows+"");
+        doPost(IZtbUrl.CIRCLE_COMMENTS_URL,map,callback);
+    }
+
+    /**
+     * 频道说说评论列表
+     * @param channelTalkId
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void getChannelCommentsList(String channelTalkId,int page,int rows,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(channelTalkId)){
+            map.put("channelTalkId",channelTalkId);
+        }
+        map.put("page",page+"");
+        map.put("rows",rows+"");
+        doPost(IZtbUrl.CHANNEL_COMMENTS_URL,map,callback);
     }
 
 

@@ -26,10 +26,33 @@ public class CircleEntity implements Parcelable{
     private String userId;//用户id
     private String talkContent;//说说内容
     private String talkImage;//说说图片
+    //评论
+    private String fatherCommentId;
+
+    private String circleId;
+
+    private String commentUserId;
+
+    private String commentTime;
+
+    private String commentContent;
+
+    private String modifyCommentUserId;
+
+    private String modifyCommentTime;
+
+    private String deleteCommentUserId;
+
+    private String deleteCommentTime;
+
+    private String remark;
+
+    private boolean isValid;
 
     public CircleEntity() {
 
     }
+
 
     protected CircleEntity(Parcel in) {
         address = in.readString();
@@ -45,10 +68,21 @@ public class CircleEntity implements Parcelable{
         modifyTime = in.readString();
         notice = in.readString();
         sharedCounts = in.readInt();
-        userName=in.readString();
-        userId=in.readString();
-        talkContent=in.readString();
-        talkImage=in.readString();
+        userName = in.readString();
+        userId = in.readString();
+        talkContent = in.readString();
+        talkImage = in.readString();
+        fatherCommentId = in.readString();
+        circleId = in.readString();
+        commentUserId = in.readString();
+        commentTime = in.readString();
+        commentContent = in.readString();
+        modifyCommentUserId = in.readString();
+        modifyCommentTime = in.readString();
+        deleteCommentUserId = in.readString();
+        deleteCommentTime = in.readString();
+        remark = in.readString();
+        isValid = in.readByte() != 0;
     }
 
     public static final Creator<CircleEntity> CREATOR = new Creator<CircleEntity>() {
@@ -199,6 +233,94 @@ public class CircleEntity implements Parcelable{
         this.userName = userName;
     }
 
+    public String getFatherCommentId() {
+        return fatherCommentId;
+    }
+
+    public void setFatherCommentId(String fatherCommentId) {
+        this.fatherCommentId = fatherCommentId;
+    }
+
+    public String getCircleId() {
+        return circleId;
+    }
+
+    public void setCircleId(String circleId) {
+        this.circleId = circleId;
+    }
+
+    public String getCommentUserId() {
+        return commentUserId;
+    }
+
+    public void setCommentUserId(String commentUserId) {
+        this.commentUserId = commentUserId;
+    }
+
+    public String getCommentTime() {
+        return commentTime;
+    }
+
+    public void setCommentTime(String commentTime) {
+        this.commentTime = commentTime;
+    }
+
+    public String getCommentContent() {
+        return commentContent;
+    }
+
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
+    }
+
+    public String getModifyCommentUserId() {
+        return modifyCommentUserId;
+    }
+
+    public void setModifyCommentUserId(String modifyCommentUserId) {
+        this.modifyCommentUserId = modifyCommentUserId;
+    }
+
+    public String getModifyCommentTime() {
+        return modifyCommentTime;
+    }
+
+    public void setModifyCommentTime(String modifyCommentTime) {
+        this.modifyCommentTime = modifyCommentTime;
+    }
+
+    public String getDeleteCommentUserId() {
+        return deleteCommentUserId;
+    }
+
+    public void setDeleteCommentUserId(String deleteCommentUserId) {
+        this.deleteCommentUserId = deleteCommentUserId;
+    }
+
+    public String getDeleteCommentTime() {
+        return deleteCommentTime;
+    }
+
+    public void setDeleteCommentTime(String deleteCommentTime) {
+        this.deleteCommentTime = deleteCommentTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -223,28 +345,16 @@ public class CircleEntity implements Parcelable{
         dest.writeString(userId);
         dest.writeString(talkContent);
         dest.writeString(talkImage);
-    }
-
-    @Override
-    public String toString() {
-        return "CircleEntity{" +
-                "address='" + address + '\'' +
-                ", circleLogo='" + circleLogo + '\'' +
-                ", circleName='" + circleName + '\'' +
-                ", circleOwnerId='" + circleOwnerId + '\'' +
-                ", circleType='" + circleType + '\'' +
-                ", commentCounts=" + commentCounts +
-                ", createTime='" + createTime + '\'' +
-                ", id='" + id + '\'' +
-                ", likeCounts=" + likeCounts +
-                ", memberCounts=" + memberCounts +
-                ", modifyTime='" + modifyTime + '\'' +
-                ", notice='" + notice + '\'' +
-                ", sharedCounts=" + sharedCounts +
-                ", userName='" + userName + '\'' +
-                ", userId='" + userId + '\'' +
-                ", talkContent='" + talkContent + '\'' +
-                ", talkImage='" + talkImage + '\'' +
-                '}';
+        dest.writeString(fatherCommentId);
+        dest.writeString(circleId);
+        dest.writeString(commentUserId);
+        dest.writeString(commentTime);
+        dest.writeString(commentContent);
+        dest.writeString(modifyCommentUserId);
+        dest.writeString(modifyCommentTime);
+        dest.writeString(deleteCommentUserId);
+        dest.writeString(deleteCommentTime);
+        dest.writeString(remark);
+        dest.writeByte((byte) (isValid ? 1 : 0));
     }
 }

@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -43,7 +44,7 @@ public class CirclexqListAdapter extends BaseAdapter {
     private boolean flag=false;
 
     private List<CircleEntity> list;
-
+    int clickPos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -82,7 +83,7 @@ public class CirclexqListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         final List<ImageInfo> itemList = dateList.get(position);
 //        final List<ImageInfo> itemList = new ArrayList<>();
@@ -182,9 +183,9 @@ public class CirclexqListAdapter extends BaseAdapter {
         }
 
         if(list!=null&&list.size()>0){
-            if(!TextUtils.isEmpty(list.get(position).getUserId())){
-                viewHolder.tvChNiName.setText(list.get(position).getUserId());
-            }
+//            if(!TextUtils.isEmpty(list.get(position).getUserId())){
+//                viewHolder.tvChNiName.setText(list.get(position).getUserId());
+//            }
             if(!TextUtils.isEmpty(list.get(position).getCreateTime()+"")){
                 viewHolder.tvTime.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTime()+"")));
             }
@@ -225,12 +226,11 @@ public class CirclexqListAdapter extends BaseAdapter {
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clickPos=position;
                 if (!flag){
-                    flag=true;
-//                    addCircleLike("1");
+                    addCircleLike(list.get(position).getId());
                 }else {
-                    flag=false;
-//                    removeCircleLike("1");
+                    removeCircleLike(list.get(position).getId());
                 }
             }
         });
@@ -248,6 +248,8 @@ public class CirclexqListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, CircleTextAct.class);
+                intent.putExtra("circleEntity",list.get(position));
+                intent.putExtra("circleId",list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -257,6 +259,8 @@ public class CirclexqListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, CircleTextAct.class);
+                intent.putExtra("circleEntity", list.get(position));
+                intent.putExtra("circleId",list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -290,15 +294,17 @@ public class CirclexqListAdapter extends BaseAdapter {
      * @param circleTalkId
      */
     private void addCircleLike(String circleTalkId ){
-        RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback() {
+        RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(Object response) {
-
+            public void onResponse(ResultBean<String> response) {
+                flag=true;
+                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()+1);
+                notifyDataSetChanged();
             }
         });
     }
@@ -307,15 +313,17 @@ public class CirclexqListAdapter extends BaseAdapter {
      * @param circleTalkId
      */
     private void removeCircleLike(String circleTalkId ){
-        RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback() {
+        RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(Object response) {
-
+            public void onResponse(ResultBean<String> response) {
+                flag=false;
+                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()-1);
+                notifyDataSetChanged();
             }
         });
     }
