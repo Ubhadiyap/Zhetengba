@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public class RequestManager {
 
-    private Gson mGson=new Gson();
+    private Gson mGson = new Gson();
     private static UserManager userManager;//用户管理
     private static TalkManager talkManager;//圈子管理
 
@@ -41,36 +41,33 @@ public class RequestManager {
 
     private static MessManager messManager;//消息接口管理
 
-    public static UserManager getUserManager(){
-        if(userManager==null){
-            userManager=new UserManager();
+    public static UserManager getUserManager() {
+        if (userManager == null) {
+            userManager = new UserManager();
         }
         return userManager;
     }
 
-    public static TalkManager getTalkManager(){
-        if(talkManager==null){
-            talkManager=new TalkManager();
+    public static TalkManager getTalkManager() {
+        if (talkManager == null) {
+            talkManager = new TalkManager();
         }
         return talkManager;
     }
 
-public static  ScheduleManager getScheduleManager(){
-    if(scheduleManager==null){
-        scheduleManager=new ScheduleManager();
+    public static ScheduleManager getScheduleManager() {
+        if (scheduleManager == null) {
+            scheduleManager = new ScheduleManager();
+        }
+        return scheduleManager;
     }
-    return scheduleManager;
-}
 
-    public static MessManager getMessManager(){
-        if(messManager==null){
-            messManager=new MessManager();
+    public static MessManager getMessManager() {
+        if (messManager == null) {
+            messManager = new MessManager();
         }
         return messManager;
     }
-
-
-
 
 
     /* Volley Post请求
@@ -86,19 +83,17 @@ public static  ScheduleManager getScheduleManager(){
                     public void onResponse(String response) {
                         String result = response.toString();
                         MyLogUtils.info(result);
-                        if (callback.mType == String.class)
-                        {
+                        if (callback.mType == String.class) {
                             callback.onResponse(result);
-                        } else
-                        {
+                        } else {
                             try {
-                                JSONObject jsonObject=new JSONObject(result);
+                                JSONObject jsonObject = new JSONObject(result);
                                 int status = jsonObject.getInt("status");
-                                if(status==200){//成功
+                                if (status == 200) {//成功
                                     Object o = mGson.fromJson(result, callback.mType);
                                     callback.onResponse(o);
-                                }else{//失败
-                                    callback.onError(status,jsonObject.getString("message"));
+                                } else {//失败
+                                    callback.onError(status, jsonObject.getString("message"));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -110,7 +105,7 @@ public static  ScheduleManager getScheduleManager(){
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                callback.onError(-1,VolleyErrorHelper.getMessage(error));
+                callback.onError(-1, VolleyErrorHelper.getMessage(error));
             }
         })
 
@@ -151,7 +146,6 @@ public static  ScheduleManager getScheduleManager(){
     }
 
 
-
     /**
      * 上传图片
      *
@@ -160,7 +154,7 @@ public static  ScheduleManager getScheduleManager(){
      * @param fileMaps
      * @param callback
      */
-    public void submitFujian(final String url, final Map<String,FileBody> fileMaps, final ResultCallback callback) {
+    public void submitFujian(final String url, final Map<String, FileBody> fileMaps, final ResultCallback callback) {
         final HttpManager manager = new HttpManager();
         final Map<String, String> par = new HashMap<String, String>();
         MyLogUtils.info("地址：" + url);
@@ -183,13 +177,13 @@ public static  ScheduleManager getScheduleManager(){
                 MyLogUtils.info("上传图片：" + result);
                 if (result != null) {
                     try {
-                        JSONObject jsonObject=new JSONObject(result);
+                        JSONObject jsonObject = new JSONObject(result);
                         int status = jsonObject.getInt("status");
-                        if(status==200){//成功
+                        if (status == 200) {//成功
                             Object o = mGson.fromJson(result, callback.mType);
                             callback.onResponse(o);
-                        }else{//失败
-                            callback.onError(status,jsonObject.getString("message"));
+                        } else {//失败
+                            callback.onError(status, jsonObject.getString("message"));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -203,7 +197,6 @@ public static  ScheduleManager getScheduleManager(){
         }.execute();
 
     }
-
 
 
 }

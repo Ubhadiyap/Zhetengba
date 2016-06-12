@@ -8,21 +8,18 @@ import android.os.Parcelable;
  * Created by bitch-1 on 2016/6/2.
  */
 public class HistoryMsgBean implements Parcelable{
-    private String createtime;
-    private String Id;
-    private String Message;
-    private String MessageType;
-    private String UserId;
-
-    public HistoryMsgBean() {
-    }
+    private String createTime;
+    private String id;
+    private String message;
+    private String messageType;
+    private String userId;
 
     protected HistoryMsgBean(Parcel in) {
-        createtime = in.readString();
-        Id = in.readString();
-        Message = in.readString();
-        MessageType = in.readString();
-        UserId = in.readString();
+        createTime = in.readString();
+        id = in.readString();
+        message = in.readString();
+        messageType = in.readString();
+        userId = in.readString();
     }
 
     public static final Creator<HistoryMsgBean> CREATOR = new Creator<HistoryMsgBean>() {
@@ -37,44 +34,44 @@ public class HistoryMsgBean implements Parcelable{
         }
     };
 
-    public String getCreatetime() {
-        return createtime;
+    public String getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getMessage() {
-        return Message;
+        return message;
     }
 
     public void setMessage(String message) {
-        Message = message;
+        this.message = message;
     }
 
     public String getMessageType() {
-        return MessageType;
+        return messageType;
     }
 
     public void setMessageType(String messageType) {
-        MessageType = messageType;
+        this.messageType = messageType;
     }
 
     public String getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(String userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     @Override
@@ -84,10 +81,10 @@ public class HistoryMsgBean implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(createtime);
-        dest.writeString(Id);
-        dest.writeString(Message);
-        dest.writeString(MessageType);
-        dest.writeString(UserId);
+        dest.writeString(createTime);
+        dest.writeString(id);
+        dest.writeString(message);
+        dest.writeString(messageType);
+        dest.writeString(userId);
     }
 }
