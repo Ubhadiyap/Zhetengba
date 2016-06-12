@@ -106,7 +106,7 @@ public class CalAdapter extends BaseAdapter {
            calHolder.tv_state.setText(list.get(position).getDictName());//标签名称
        }
 
-//        if (list.get(position).)是否关注
+//        if (list.get(position).)//是否关注
         calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));
         calHolder.tv_cal_text_guanzhu.setText("关注");
         if (list.get(position).getFollowNum()!=null){
@@ -117,12 +117,12 @@ public class CalAdapter extends BaseAdapter {
 
         calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
         calHolder.tv_cal_yh.setText("约Ta");
-        calHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));
-            }
-        });
+//        calHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));
+//            }
+//        });
 //        calHolder.tv_cal_text_guanzhu.setText("1");
         calHolder.ll_yue.setOnClickListener(new View.OnClickListener() {
             @Override

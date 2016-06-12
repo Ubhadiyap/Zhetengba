@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -273,7 +274,7 @@ public class ActAdapter extends BaseAdapter{
             public void onClick(View v) {
                 Intent intent=new Intent();
                 Bundle bundle=new Bundle();
-                bundle.putString("userId",infos.get(position).getUserId());
+                bundle.putString("userId", infos.get(position).getUserId());
                 intent.putExtras(bundle);
                 intent.setClass(context, PerpageAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

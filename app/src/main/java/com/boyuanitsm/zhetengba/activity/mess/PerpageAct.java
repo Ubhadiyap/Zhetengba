@@ -1,12 +1,15 @@
 package com.boyuanitsm.zhetengba.activity.mess;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,10 +25,12 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
+import com.boyuanitsm.zhetengba.adapter.CircleglAdapter;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
+import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.PersonalMain;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
@@ -37,12 +42,17 @@ import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,18 +99,28 @@ public class PerpageAct extends BaseActivity {
     private TextView tv_tab4;
     @ViewInject(R.id.tv_niName)
     private TextView tv_niName;//昵称
+    @ViewInject(R.id.ll_add_friend)
+    private LinearLayout ll_add_riend;
 //    @ViewInject(R.id.tab_selcet)
 //    private PagerSlidingTabStrip tab_selcet;
 
     private String userId;
     private FragmentManager manager;
-    private Fragment ppagecalFrg, ppagedtFrg;//档期frg 圈子动态frg
-    private List<SimpleInfo> activityList = new ArrayList<>();
-    private List<ScheduleInfo> scheduleList = new ArrayList<>();
-    private List<CircleEntity> circleList = new ArrayList<>();
-    private List<UserInfo> userList = new ArrayList<>();
-    private List<UserInterestInfo> userInterestList = new ArrayList<>();
+    private Fragment ppagecalFrg=new PpagecalFrg(), ppagedtFrg=new PpagedtFrg();//档期frg 圈子动态frg
+    private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
+    private List<CircleEntity> circleEntity = new ArrayList<>();
+
+    private List<CircleEntity> circleTalkEntity = new ArrayList<>();
+    private List<UserInfo> userEntity = new ArrayList<>();
+    private List<UserInterestInfo> userInterestEntity = new ArrayList<>();
     private PersonalMain personalMain;
+    private String PAGEFRG_KEY="perpage_to_pagecalFrg";
+    // 图片缓存 默认 等
+    private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
     @Override
     public void setLayout() {
         setContentView(R.layout.act_perpage);
@@ -113,15 +133,32 @@ public class PerpageAct extends BaseActivity {
         Bundle bundle = intent.getExtras();
         userId = bundle.getString("userId");
         getPersonalMain(userId);
-        iniTab(userInterestList);
         manager = getSupportFragmentManager();
-        hlv_perpage.setAdapter(new HlvppAdapter(getApplicationContext()));//她的圈子下面水平view适配器
 //        gv_perpage.setAdapter(new GridViewPerAdapter(PerpageAct.this));
         msv_scroll.smoothScrollTo(0, 0);
-        setSelect(0);
+
 
     }
 
+    /**
+     * 用户信息初始化
+     * @param userEntity
+     */
+    private void initUserData(List<UserInfo> userEntity) {
+        if (!TextUtils.isEmpty(userEntity.get(0).getPetName())){
+            tv_niName.setText("昵称："+userEntity.get(0).getPetName());
+        }else {
+            tv_niName.setText("暂无昵称");
+        }
+
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), cv_photo, optionsImag);
+
+    }
+
+    /**
+     * 兴趣标签初始化
+     * @param str
+     */
     private void iniTab(List<UserInterestInfo> str) {
         if (str.size() == 0) {
             ll_tab.setVisibility(View.GONE);
@@ -216,7 +253,6 @@ public class PerpageAct extends BaseActivity {
                 break;
             case R.id.cv_photo://个人资料
                 openActivity(PersonalmesAct.class);
-
                 break;
 
         }
@@ -234,7 +270,6 @@ public class PerpageAct extends BaseActivity {
             case 0://档期frg
                 setTab(0);
                 if (ppagecalFrg == null) {
-                    ppagecalFrg = new PpagecalFrg();
                     transaction.add(R.id.fra_main, ppagecalFrg);
                 } else {
                     transaction.show(ppagecalFrg);
@@ -243,7 +278,6 @@ public class PerpageAct extends BaseActivity {
             case 1://圈子动态frg
                 setTab(1);
                 if (ppagedtFrg == null) {
-                    ppagedtFrg = new PpagedtFrg();
                     transaction.add(R.id.fra_main, ppagedtFrg);
                 } else {
                     transaction.show(ppagedtFrg);
@@ -318,6 +352,7 @@ public class PerpageAct extends BaseActivity {
 
     /**
      * 获取数据
+     *
      * @param id
      */
     private void getPersonalMain(String id) {
@@ -329,26 +364,32 @@ public class PerpageAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<PersonalMain> response) {
-               personalMain= response.getData();
-//                Map<String, List> map = new HashMap<String, List>();
-//                List<SimpleInfo> simpleInfoList = new ArrayList<SimpleInfo>();
-//                List<ScheduleInfo> scheduleInfoList = new ArrayList<ScheduleInfo>();
-//                List<CircleEntity> circleEntityList = new ArrayList<CircleEntity>();
-//                List<UserInfo> userInfoList = new ArrayList<UserInfo>();
-//                List<UserInterestInfo> userInterestInfoList = new ArrayList<UserInterestInfo>();
-//                map.put("Activity", simpleInfoList);
-//                map.put("Schedule", scheduleInfoList);
-//                map.put("Circle", circleEntityList);
-//                map.put("User", userInfoList);
-//                map.put("UserInterest", userInterestInfoList);
-////                map = response.getData();
-                activityList = personalMain.getSimpleInfoList();
-                scheduleList = personalMain.getScheduleInfoList();
-                circleList =personalMain.getCircleEntityList();
-                userList = personalMain.getUserInfoList();
-                userInterestList =personalMain.getUserInterestInfoList();
-                tv_niName.setText(userList.get(0).getPetName());
+                personalMain = response.getData();
+                circleEntity = personalMain.getCircleEntity();
+                scheduleEntity = personalMain.getScheduleEntity();
+                circleTalkEntity = personalMain.getCircleTalkEntity();
+                userEntity = personalMain.getUserEntity();
+                userInterestEntity = personalMain.getUserInterestEntity();
+                initUserData(userEntity);
+                iniTab(userInterestEntity);
+                toPageCalFrg();
+                setSelect(0);
+                hlv_perpage.setAdapter(new HlvppAdapter(PerpageAct.this, circleEntity));//她的圈子下面水平view适配器
             }
         });
     }
+
+    /**
+     * 请求档期数据
+     */
+    private void toPageCalFrg() {
+        Intent intent=new Intent();
+        intent.setAction("dataChange");
+        Bundle bundle=new Bundle();
+        bundle.putParcelable(PAGEFRG_KEY, personalMain);
+        intent.putExtras(bundle);
+        ppagecalFrg.setArguments(bundle);
+//        sendBroadcast(intent);
+    }
+
 }

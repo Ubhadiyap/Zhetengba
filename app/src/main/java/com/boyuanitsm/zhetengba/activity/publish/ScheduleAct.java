@@ -260,6 +260,7 @@ public class ScheduleAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 MyToastUtils.showShortToast(ScheduleAct.this,"发布档期成功");
+                finish();
             }
         });
     }
