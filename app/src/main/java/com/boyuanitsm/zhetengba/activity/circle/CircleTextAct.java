@@ -26,6 +26,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -51,9 +52,11 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private MyListView my_lv;
     private ScrollView sl_chanel;
     private LinearLayout ll_two;
+    @ViewInject(R.id.llphoto)
+    private LinearLayout llphoto;
     private CustomImageView iv_oneimage, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
-    private List<ArrayList<ImageInfo>> dataList = new ArrayList<>();
+    private List<List<ImageInfo>> dataList = new ArrayList<>();
     private String[][] images = new String[][]{{
             ConstantValue.IMAGEURL, "1624", "914"}
             , {ConstantValue.IMAGEURL, "1624", "914"}
@@ -112,7 +115,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
 
         getCircleCommentsList(circleId, page, rows);
         assignView();
-        initDate();
+//        initDate();
 //        adapter = new ChaTextAdapter(this);//评论列表
 //        my_lv.setAdapter(adapter);
         sl_chanel.smoothScrollTo(0, 0);
@@ -137,9 +140,12 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
 
     private void setCircleEntity(CircleEntity entity){
         if(entity!=null){
-//            if(!TextUtils.isEmpty(entity.getUserId())){
-//                name.setText(entity.getUserId());
-//            }
+            if(!TextUtils.isEmpty(entity.getUserName())){
+                name.setText(entity.getUserName());
+            }else {
+                String str=entity.getUserId();
+                name.setText(str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
+            }
             if(!TextUtils.isEmpty(entity.getCreateTime())){
                 time.setText(ZtinfoUtils.timeToDate(Long.parseLong(entity.getCreateTime())));
             }
@@ -163,17 +169,28 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         iv_two_four = (CustomImageView) findViewById(R.id.iv_two_four);
     }
 
-    private void initDate() {
+    private void initDate(CircleEntity circleEntity) {
         dataList = new ArrayList<>();
+        final List<ImageInfo> singleList=new ArrayList<>();
+        //将图片地址转化成数组
+        if(!TextUtils.isEmpty(circleEntity.getTalkImage())) {
+            String[] urlList = ZtinfoUtils.convertStrToArray(circleEntity.getTalkImage());
+            for (int i = 0; i < urlList.length; i++) {
+                singleList.add(new ImageInfo(Uitls.imageFullUrl(urlList[i]), 1624, 914));
+            }
+        }
+        dataList.add(singleList);
         //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
-        final ArrayList<ImageInfo> singleList = new ArrayList<>();
-        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-        dataList.add(singleList);
-        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-        dataList.add(singleList);
-        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-        dataList.add(singleList);
+//        final ArrayList<ImageInfo> singleList = new ArrayList<>();
+//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
+//        dataList.add(singleList);
+//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
+//        dataList.add(singleList);
+//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
+//        dataList.add(singleList);
+        llphoto.setVisibility(View.VISIBLE);
         if (singleList.isEmpty() || singleList.isEmpty()) {
+            llphoto.setVisibility(View.GONE);
             ll_two.setVisibility(View.GONE);
             iv_oneimage.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.GONE);

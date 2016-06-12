@@ -30,6 +30,8 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyListview;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -94,9 +96,9 @@ public class CirxqAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("互联网创业");
-        userList=new ArrayList<>();
         circleId=getIntent().getStringExtra("circleId");
-        initData();
+//        initData();
+        datalist=new ArrayList<>();
         getCircleDetail(circleId);
         getCircleMembers(circleId);
         getThisCircleTalks(circleId, page, rows);
@@ -110,34 +112,14 @@ public class CirxqAct extends BaseActivity {
         cir_fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(CirxqAct.this,CirclefbAct.class);
-                intent.putExtra("isShow",false);
-                intent.putExtra("circleId",circleId);
+                Intent intent = new Intent(CirxqAct.this, CirclefbAct.class);
+                intent.putExtra("isShow", false);
+                intent.putExtra("circleId", circleId);
+                intent.putExtra(CirclefbAct.TYPE,1);
                 startActivity(intent);
             }
         });
-//        adapter=new CirxqAdapter(getApplicationContext(),list);
-//        rv_label.setAdapter(adapter);
-//        adapter.setOnItemClickListener(new CirxqAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                if(userList.size()<=4){
-//                    if(position==userList.size()){
-//                        openActivity(AssignScanAct.class);
-//                    }
-//                }else {
-//                    if (position == 5) {
-////                    MyToastUtils.showShortToast(getApplicationContext(),"hah");
-//                        Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
-//                        intent.putExtra("circleId", circleId);
-//                        startActivity(intent);
-//                    } else if (position == 4) {
-//                        openActivity(AssignScanAct.class);
-//                    }
-//                }
-////                MyToastUtils.showShortToast(getApplicationContext(),"gaga");
-//            }
-//        });
+
 
         //listview设置适配器
         cir_sv.smoothScrollTo(0, 0);
@@ -193,13 +175,15 @@ public class CirxqAct extends BaseActivity {
     //设置实体类
     private void setCircle(CircleEntity entity){
         if(entity!=null){
-            if(!TextUtils.isEmpty(entity.getAddress())){
-                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+entity.getAddress(),head);
+            setTopTitle(entity.getCircleName());
+            if(!TextUtils.isEmpty(entity.getCircleLogo())){
+                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+entity.getCircleLogo(),head);
             }
             if(!TextUtils.isEmpty(entity.getUserName())){
                 name.setText("圈主：" + entity.getUserName());
             }else {
-                name.setText("圈主：");
+                String str=entity.getCircleOwnerId();
+                name.setText("圈主："+str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
             }
             if(!TextUtils.isEmpty(entity.getNotice())){
                 notice.setText("公告："+entity.getNotice());
@@ -210,7 +194,8 @@ public class CirxqAct extends BaseActivity {
     }
 
     //获取圈子人员
-    private void getCircleMembers(String circleId){
+    private void getCircleMembers(final String circleId){
+        userList=new ArrayList<>();
         RequestManager.getTalkManager().myCircleMember(circleId, new ResultCallback<ResultBean<List<UserInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -222,12 +207,31 @@ public class CirxqAct extends BaseActivity {
                 userList=response.getData();
                 adapter=new CirxqAdapter(CirxqAct.this,userList);
                 rv_label.setAdapter(adapter);
+                adapter.setOnItemClickListener(new CirxqAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if (userList.size() <= 4) {
+                            if (position == userList.size()) {
+                                openActivity(AssignScanAct.class);
+                            }
+                        } else {
+                            if (position == 5) {
+                                Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
+                                intent.putExtra("circleId", circleId);
+                                startActivity(intent);
+                            } else if (position == 4) {
+                                openActivity(AssignScanAct.class);
+                            }
+                        }
+                    }
+                });
             }
         });
     }
 
     //获取该圈子所有说说列表
     private void getThisCircleTalks(String circleId,int page,int rows){
+        circleEntityList=new ArrayList<CircleEntity>();
         RequestManager.getTalkManager().getSingleCircleAllTalks(circleId, page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -237,6 +241,17 @@ public class CirxqAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
                 circleEntityList = response.getData().getRows();
+                for (int j=0;j<circleEntityList.size();j++) {
+                    List<ImageInfo> itemList=new ArrayList<>();
+                    //将图片地址转化成数组
+                    if(!TextUtils.isEmpty(circleEntityList.get(j).getTalkImage())) {
+                        String[] urlList = ZtinfoUtils.convertStrToArray(circleEntityList.get(j).getTalkImage());
+                        for (int i = 0; i < urlList.length; i++) {
+                            itemList.add(new ImageInfo(Uitls.imageFullUrl(urlList[i]), 1624, 914));
+                        }
+                    }
+                    datalist.add(itemList);
+                }
                 lv_cir.setAdapter(new CirclexqListAdapter(CirxqAct.this, datalist, circleEntityList));
             }
         });

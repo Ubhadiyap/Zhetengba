@@ -53,7 +53,7 @@ public class CirclefbAct extends BaseActivity {
     private boolean isShow=true;
     private String circleId;
     public static String TYPE="type";
-    private int type;//0 频道说说
+    private int type;//0 频道说说 1圈子说说
     private ChannelTalkEntity channelTalkEntity;
 
     @Override
@@ -67,7 +67,7 @@ public class CirclefbAct extends BaseActivity {
         setTopTitle("Alic");
         isShow=getIntent().getBooleanExtra("isShow", true);
         circleId=getIntent().getStringExtra("circleId");
-        type=getIntent().getIntExtra(TYPE, 0);
+        type=getIntent().getIntExtra(TYPE, 1);
         entity=new CircleEntity();
         channelTalkEntity=new ChannelTalkEntity();
         setRight("发布", new View.OnClickListener() {

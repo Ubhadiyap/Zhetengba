@@ -43,8 +43,13 @@ public class TalkManager extends RequestManager{
      * @param rows
      * @param callback
      */
-    public void myCircleList(int page,int rows,ResultCallback callback){
+    public void myCircleList(String userId,int page,int rows,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(userId)) {
+            map.put("userId", userId);
+        }else {
+            map.put("userId",UserInfoDao.getUser().getId());
+        }
         map.put("page",page+"");
         map.put("rows",rows+"");
         doPost(IZtbUrl.CIRCLE_LIST_URL,map,callback);

@@ -80,6 +80,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/llphoto"
             android:layout_marginTop="15dp"
 
             android:orientation="vertical"
@@ -157,6 +158,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/act_layer_right">
             <ImageView
+                android:id="@+id/zimg"
                 style="@style/Chanel_Small_Image"
                 android:background="@drawable/zan"/>
             <TextView
@@ -205,5 +207,7 @@
     </LinearLayout>
     <View
         style="@style/view_line"
-        android:layout_marginRight="15dp"></View>
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"></View>
 </LinearLayout>

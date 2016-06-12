@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.http.manager;
 
+import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.android.volley.AuthFailureError;
@@ -18,6 +19,7 @@ import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.google.gson.Gson;
+import com.lidroid.xutils.http.client.multipart.content.FileBody;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -150,6 +152,57 @@ public static  ScheduleManager getScheduleManager(){
 
 
 
+    /**
+     * 上传图片
+     *
+     * @param url
+     * @param
+     * @param fileMaps
+     * @param callback
+     */
+    public void submitFujian(final String url, final Map<String,FileBody> fileMaps, final ResultCallback callback) {
+        final HttpManager manager = new HttpManager();
+        final Map<String, String> par = new HashMap<String, String>();
+        MyLogUtils.info("地址：" + url);
+        par.put("type", "img");
+        par.put("uploadLableName", "file");
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                return manager.upLoadFile(url, par, fileMaps);
+            }
+
+            @Override
+            protected void onPreExecute() {
+
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                MyLogUtils.info("上传图片：" + result);
+                if (result != null) {
+                    try {
+                        JSONObject jsonObject=new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if(status==200){//成功
+                            Object o = mGson.fromJson(result, callback.mType);
+                            callback.onResponse(o);
+                        }else{//失败
+                            callback.onError(status,jsonObject.getString("message"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    callback.onError(-1, "亲，网络不给力");
+
+                }
+
+            }
+        }.execute();
+
+    }
 
 
 

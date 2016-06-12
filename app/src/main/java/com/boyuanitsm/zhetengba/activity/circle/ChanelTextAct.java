@@ -29,6 +29,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.ChaChildFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -58,9 +59,11 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private MyListView my_lv;
     private ScrollView sl_chanel;
     private LinearLayout ll_two;
+    @ViewInject(R.id.llphoto)
+    private LinearLayout llphoto;
     private CustomImageView ng_one_image, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
-    private List<ArrayList<ImageInfo>> dataList = new ArrayList<>();
+    private List<List<ImageInfo>> dataList = new ArrayList<>();
     private String[][] images = new String[][]{{
             ConstantValue.IMAGEURL, "1624", "914"}
             , {ConstantValue.IMAGEURL, "1624", "914"}
@@ -110,7 +113,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         channelId=getIntent().getStringExtra("channelId");
         setChannel(channelTalkEntity);
         assignView();
-        initDate();
+//        initDate();
         getCircleCommentsList(channelId, page, rows);
 //        adapter = new ChaTextAdapter(this);
 //        my_lv.setAdapter(adapter);
@@ -136,9 +139,12 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
     private void setChannel(ChannelTalkEntity entity){
         if(entity!=null){
-//            if(!TextUtils.isEmpty(entity.getCreatePersonId())){
-//                name.setText(entity.getCreatePersonId());
-//            }
+            if(!TextUtils.isEmpty(entity.getUserName())){
+                name.setText(entity.getUserName());
+            }else {
+                String str=entity.getCreatePersonId();
+                name.setText(str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
+            }
             if(!TextUtils.isEmpty(entity.getCreateTiem())){
                 time.setText(ZtinfoUtils.timeToDate(Long.parseLong(entity.getCreateTiem())));
             }
@@ -147,6 +153,9 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             }
             if(!TextUtils.isEmpty(entity.getCommentCounts()+"")){
                 commentNum.setText("评论"+entity.getCommentCounts());
+            }
+            if(!TextUtils.isEmpty(entity.getChannelImage())){
+                initDate(entity);
             }
         }
     }
@@ -163,17 +172,28 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         iv_two_four = (CustomImageView) findViewById(R.id.iv_two_four);
     }
 
-    private void initDate() {
+    private void initDate(ChannelTalkEntity channelTalkEntity) {
         dataList = new ArrayList<>();
+        final List<ImageInfo> singleList=new ArrayList<>();
+            //将图片地址转化成数组
+        if(!TextUtils.isEmpty(channelTalkEntity.getChannelImage())) {
+            String[] urlList = ZtinfoUtils.convertStrToArray(channelTalkEntity.getChannelImage());
+            for (int i = 0; i < urlList.length; i++) {
+                singleList.add(new ImageInfo(Uitls.imageFullUrl(urlList[i]), 1624, 914));
+            }
+        }
+        dataList.add(singleList);
         //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
-        final ArrayList<ImageInfo> singleList = new ArrayList<>();
-        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-        dataList.add(singleList);
-        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-        dataList.add(singleList);
-        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-        dataList.add(singleList);
+//        final ArrayList<ImageInfo> singleList = new ArrayList<>();
+//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
+//        dataList.add(singleList);
+//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
+//        dataList.add(singleList);
+//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
+//        dataList.add(singleList);
+        llphoto.setVisibility(View.VISIBLE);
         if (singleList.isEmpty() || singleList.isEmpty()) {
+            llphoto.setVisibility(View.GONE);
             ll_two.setVisibility(View.GONE);
             ng_one_image.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.GONE);
