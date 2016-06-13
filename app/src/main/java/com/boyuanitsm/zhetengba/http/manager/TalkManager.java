@@ -9,8 +9,10 @@ import com.boyuanitsm.zhetengba.chat.db.UserDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.lidroid.xutils.http.client.multipart.content.FileBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -360,6 +362,15 @@ public class TalkManager extends RequestManager{
         map.put("page",page+"");
         map.put("rows",rows+"");
         doPost(IZtbUrl.CHANNEL_COMMENTS_URL,map,callback);
+    }
+
+    /**
+     * 上传图片
+     * @param fileMaps
+     * @param callback
+     */
+    public void upLoadImg(Map<String, List<FileBody>> fileMaps, ResultCallback callback){
+        submitMore(IZtbUrl.MODIFYUSERICON_URL,fileMaps,callback);
     }
 
 

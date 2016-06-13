@@ -24,10 +24,14 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
+import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 圈子发布界面
@@ -40,6 +44,7 @@ public class CirclefbAct extends BaseActivity {
     @ViewInject(R.id.etContent)
     private EditText etContent;
     private String content;
+    private StringBuilder imgStr;//图片地址
 
     @ViewInject(R.id.my_gv)
     private com.leaf.library.widget.MyGridView gvPhoto;//添加图片gridview
@@ -79,6 +84,8 @@ public class CirclefbAct extends BaseActivity {
                         if(!TextUtils.isEmpty(content)) {
                             channelTalkEntity.setLabelId("c32595fc215c11e6ba57eca86ba4ba05");
                             channelTalkEntity.setChannelContent(content);
+//                            upLoadImg(selecteds);
+//                            channelTalkEntity.setChannelImage();
                             addChannelTalk(channelTalkEntity);
                         }else {
                             MyToastUtils.showShortToast(CirclefbAct.this,"请输入频道说说内容");
@@ -190,6 +197,7 @@ public class CirclefbAct extends BaseActivity {
         });
     }
 
+    //发布频道说说
     private void addChannelTalk(ChannelTalkEntity channelTalkEntity){
         RequestManager.getTalkManager().addChannelTalk(channelTalkEntity, new ResultCallback<ResultBean<String>>() {
             @Override
@@ -201,6 +209,31 @@ public class CirclefbAct extends BaseActivity {
             public void onResponse(ResultBean<String> response) {
                 finish();
                 sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
+            }
+        });
+    }
+
+    //上传图片
+    private void upLoadImg(List<ImageBean> selecteds){
+        Map<String, List<FileBody>> fileMaps=new HashMap<String,List<FileBody>>();
+        List<FileBody> lists=new ArrayList<FileBody>();
+        for(int i=0;i<selecteds.size();i++) {
+            FileBody fb = new FileBody(new File(selecteds.get(i).getPath()));
+            lists.add(fb);
+        }
+        fileMaps.put("myfiles",lists);
+        RequestManager.getTalkManager().upLoadImg(fileMaps, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+//                imgStr=new StringBuilder();
+//                imgStr.append(response.getData()+",");
+//                channelTalkEntity.setChannelImage(imgStr.toString());
+//                addChannelTalk(channelTalkEntity);
             }
         });
     }

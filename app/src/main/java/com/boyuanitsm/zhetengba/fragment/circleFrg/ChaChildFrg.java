@@ -158,6 +158,14 @@ public class ChaChildFrg extends BaseFragment {
                 lv_ch01.onPullUpRefreshComplete();
                 lv_ch01.onPullDownRefreshComplete();
                 channelTalkEntityList=response.getData().getRows();
+                if (channelTalkEntityList.size() == 0) {
+                    if (page == 1) {
+
+                    } else {
+                        lv_ch01.setHasMoreData(false);
+                    }
+                    return;
+                }
                 if(page==1){
                     datas.clear();
                 }
@@ -173,15 +181,11 @@ public class ChaChildFrg extends BaseFragment {
                     }
                     datalist.add(itemList);
                 }
-                if (datas != null && datas.size() > 0) {
-                    if(adapter==null) {
-                        adapter=new ChanAdapter(mActivity,datalist,datas);
-                        lv_ch01.getRefreshableView().setAdapter(adapter);
-                    }else {
-                        adapter.notifyChange(datalist,datas);
-                    }
-                } else {
-                    lv_ch01.setHasMoreData(false);
+                if(adapter==null) {
+                    adapter=new ChanAdapter(mActivity,datalist,datas);
+                    lv_ch01.getRefreshableView().setAdapter(adapter);
+                }else {
+                    adapter.notifyChange(datalist,datas);
                 }
             }
         });

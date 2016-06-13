@@ -48,7 +48,6 @@ public class CircleglAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子管理");
-        list=new ArrayList<>();
         getCircleList(null,page, rows);
         lv_circlegl.setPullRefreshEnabled(true);//下拉刷新
         lv_circlegl.setScrollLoadEnabled(true);//滑动加载
@@ -63,9 +62,7 @@ public class CircleglAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CircleglAct.this, CirxqAct.class);
-                if (list.size() > 0) {
-                    intent.putExtra("circleId", list.get(position).getId());
-                }
+                intent.putExtra("circleId", datas.get(position).getId());
                 startActivity(intent);
 //                openActivity(CirxqAct.class);
             }
@@ -117,19 +114,23 @@ public class CircleglAct extends BaseActivity {
                 lv_circlegl.onPullUpRefreshComplete();
                 lv_circlegl.onPullDownRefreshComplete();
                 list= response.getData().getRows();
+                if (list.size() == 0) {
+                    if (page == 1) {
+
+                    } else {
+                        lv_circlegl.setHasMoreData(false);
+                    }
+                    return;
+                }
                 if(page==1){
                     datas.clear();
                 }
                 datas.addAll(list);
-                if (datas != null && datas.size() > 0) {
-                    if(adapter==null) {
-                        adapter=new CircleglAdapter(CircleglAct.this,datas);
-                        lv_circlegl.getRefreshableView().setAdapter(adapter);
-                    }else {
-                        adapter.notifyChange(datas);
-                    }
-                } else {
-                    lv_circlegl.setHasMoreData(false);
+                if(adapter==null) {
+                    adapter=new CircleglAdapter(CircleglAct.this,datas);
+                    lv_circlegl.getRefreshableView().setAdapter(adapter);
+                }else {
+                    adapter.notifyChange(datas);
                 }
 
             }
