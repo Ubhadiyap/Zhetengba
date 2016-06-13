@@ -49,7 +49,7 @@ public interface IZtbUrl {
     public  String ADDFEEDBACK_URL=BASE_URL+"schedule/login/addFeedBack.do";
 
     /**=========获取事件信息（时间轴接口）==========**/
-    public  String HISTORYMESSAGE_URL=BASE_URL+"schedule/login/findHistoryMessageListByUserId.do";
+    public  String HISTORYMESSAGE_URL=BASE_URL+"schedule/login/findHistoryMessageListByMonth.do";
 
 //    /**=========我的兴趣标签列表（非全部）==========**/
 //    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
