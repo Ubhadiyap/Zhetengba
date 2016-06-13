@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ import java.util.List;
 public class RecycleviewAdp extends RecyclerView.Adapter<RecycleviewAdp.ViewHolder> {
 
     private final LayoutInflater inflater;
-    private List<String> list;
+    private List<UserInterestInfo> list;
 
-    public RecycleviewAdp(Context context,List<String> list) {
+    public RecycleviewAdp(Context context,List<UserInterestInfo> list) {
         inflater = LayoutInflater.from(context);
         this.list = list;
     }
@@ -56,6 +57,7 @@ public class RecycleviewAdp extends RecyclerView.Adapter<RecycleviewAdp.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
        if(list.size()>=4){
+           viewHolder.mTxt.setText(list.get(i).getDictName());
            if (i==3){
                viewHolder.mTxt.setText("更多...");
                //如果设置了回调，则设置点击事件
@@ -70,7 +72,7 @@ public class RecycleviewAdp extends RecyclerView.Adapter<RecycleviewAdp.ViewHold
            }
        }
         else{
-            viewHolder.mTxt.setText(list.get(i));
+            viewHolder.mTxt.setText(list.get(i).getDictName());
         }
 
     }

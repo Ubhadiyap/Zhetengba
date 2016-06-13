@@ -2,16 +2,16 @@ package com.boyuanitsm.zhetengba.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -22,9 +22,7 @@ import com.boyuanitsm.zhetengba.activity.mine.SettingAct;
 import com.boyuanitsm.zhetengba.activity.mine.ShareqrcodeAct;
 import com.boyuanitsm.zhetengba.adapter.MonthSelectAdp;
 import com.boyuanitsm.zhetengba.adapter.RecycleviewAdp;
-import com.boyuanitsm.zhetengba.adapter.TimeAxisListAdp;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
-import com.boyuanitsm.zhetengba.bean.HistoryMsgBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -35,9 +33,9 @@ import com.boyuanitsm.zhetengba.view.MyViewPager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,7 +46,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     @ViewInject(R.id.lv_timeAxis)
     private MyViewPager lvTimeAxis;//viewPager对象
     @ViewInject(R.id.rv_label)
-    private RecyclerView rvLabel;
+    private RecyclerView rvLabel;//兴趣标签
 //    @ViewInject(R.id.rv_monthSelect)
 //    private RecyclerView rvMonthSelect;
     @ViewInject(R.id.tv_noLabel)
@@ -57,15 +55,15 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     private LinearLayout titleLayout;
     @ViewInject(R.id.hslv_chanel)
     private HorizontalScrollView hslv_chanel;
-    private List<String> myDatas;
     private List<Integer> monthList;//设置时间集合
     private List<TextView> textViewList;//设置时间textview集合
     private ArrayList<Integer> moveToList;//设置textview宽高集合
     private RecycleviewAdp recycleviewAdp;
     private MonthSelectAdp monthSelectAdp;
-    private TimeAxisListAdp timeAxisListAdp;
     private int currentPos;//当前位置
     private int mMouthMargin;//设置月份间隙
+
+    private List<String> timeList=new ArrayList<>();//存储时间
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -74,89 +72,45 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        getlable();//获得兴趣标签；
-        findHistory();//获取事件轴
-        myDatas = new ArrayList<String>(Arrays.asList("吃货", "不正经", "逗比", "乐观主义", "爱好摄影", "hahhah", "g"));
-//        myDatas = new ArrayList<String>();
-        if (myDatas!=null&&myDatas.size()!=0){
-            rvLabel.setVisibility(View.VISIBLE);
-            tvNoLabel.setVisibility(View.GONE);
-        }else{
-            tvNoLabel.setVisibility(View.VISIBLE);
-            rvLabel.setVisibility(View.GONE);
-        }
-
-        mMouthMargin= ZhetebaUtils.dip2px(mActivity, 5);
-        monthList = new ArrayList<>();
-        textViewList = new ArrayList<>();
-        moveToList=new ArrayList<>();
-        monthList= getCurrenMonth();
-        //填充titleList,titleLayout布局
-        for (int i = 0; i < monthList.size(); i++) {
-
-//            titleList.add(strList[i]);后台返回时间集合
-            addTitleLayout(monthList.get(i).toString(),i);
-        }
-
-        //viewpager里listview条目适配器
-         timeAxisListAdp = new TimeAxisListAdp(getActivity());
-//        lvTimeAxis.setDivider(null);
-//        lvTimeAxis.setAdapter(timeAxisListAdp);
-        //设置viewpager标签适配器
-        lvTimeAxis.setAdapter(new MyPagerAdapter());
-        lvTimeAxis.setOffscreenPageLimit(7);//设置默认加载页数
-        lvTimeAxis.setOnPageChangeListener(this);
-        textViewList.get(0).setTextColor(Color.parseColor("#e7e700"));//默认加载项，标签文字对应变色
-        currentPos = 0;
-
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         //设置横向
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rvLabel.setLayoutManager(linearLayoutManager);
 
-        //标签recyclerview
-        //设置适配器
-        recycleviewAdp = new RecycleviewAdp(getContext(), myDatas);
-        //点击更多跳转标签管理页面
-        recycleviewAdp.setOnItemClickListener(new RecycleviewAdp.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                openActivity(LabelMangerAct.class);
-            }
-        });
-        rvLabel.setAdapter(recycleviewAdp);
+        getlable();//获得兴趣标签；
 
-        //月份RecyclerView
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-//        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        rvMonthSelect.setLayoutManager(layoutManager);
-//        monthSelectAdp = new MonthSelectAdp(getContext());
-//        monthSelectAdp.setOnItemClickListener(new MonthSelectAdp.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                Toast.makeText(getContext(),"选择了月份...",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        rvMonthSelect.setAdapter(monthSelectAdp);
+//        findHistory();//获取事件轴
+
+
+        mMouthMargin= ZhetebaUtils.dip2px(mActivity, 5);
+        monthList = new ArrayList<>();
+        textViewList = new ArrayList<>();
+        moveToList=new ArrayList<>();
+        monthList= getCurrenMonth();
+
+        //填充titleList,titleLayout布局
+        for (int i = 0; i < monthList.size(); i++) {
+            if((monthList.get(i)+"").length()==1){
+                timeList.add("20160"+monthList.get(i));
+            }else{
+                timeList.add("2016"+monthList.get(i));
+            }
+
+            addTitleLayout(monthList.get(i).toString(),i);
+        }
+
+        //设置viewpager标签适配器
+        lvTimeAxis.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
+        lvTimeAxis.setOnPageChangeListener(this);
+
+        currentPos = getCurrentMonth()-1;
+        textViewList.get(currentPos).setTextColor(Color.parseColor("#e7e700"));//默认加载项，标签文字对应变色
+        lvTimeAxis.setCurrentItem(currentPos);
+
     }
 
-    /**
-     * 获取时间轴
-     */
-    private void findHistory() {
-        RequestManager.getScheduleManager().findHistoryMessageListByUserId(new ResultCallback<ResultBean<List<HistoryMsgBean>>>() {
-            @Override
-            public void onError(int status, String errorMsg) {
 
-            }
-
-            @Override
-            public void onResponse(ResultBean<List<HistoryMsgBean>> response) {
-
-            }
-        });
-    }
 
     /**
      *获得个人兴趣标签
@@ -167,12 +121,30 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
             @Override
             public void onError(int status, String errorMsg) {
                 MyToastUtils.showShortToast(mActivity,errorMsg);
-
             }
 
             @Override
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
+                List<UserInterestInfo> interestList=response.getData();
+                if (interestList!=null&&interestList.size()>0){
+                    rvLabel.setVisibility(View.VISIBLE);
+                    tvNoLabel.setVisibility(View.GONE);
 
+                    //标签recyclerview
+                    //设置适配器
+                    recycleviewAdp = new RecycleviewAdp(getContext(),interestList);
+                    //点击更多跳转标签管理页面
+                    recycleviewAdp.setOnItemClickListener(new RecycleviewAdp.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            openActivity(LabelMangerAct.class);
+                        }
+                    });
+                    rvLabel.setAdapter(recycleviewAdp);
+                }else{
+                    tvNoLabel.setVisibility(View.VISIBLE);
+                    rvLabel.setVisibility(View.GONE);
+                }
 
             }
         });
@@ -223,14 +195,10 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
      * @return
      */
     private List<Integer> getCurrenMonth(){
-        Calendar calendar=Calendar.getInstance();
-        int month = calendar.get(Calendar.MONTH)+1;
-
+        int month = getCurrentMonth() ;
             for (int i=1;i<=month;i++){
                 monthList.add(i);
             }
-
-
         return monthList;
     }
 
@@ -259,31 +227,24 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     /***
      * viewPager适配器
      */
+    private class MyPagerAdapter extends FragmentStatePagerAdapter{
 
-    private class MyPagerAdapter extends PagerAdapter{
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            TimeFrg timeFrg=new TimeFrg();
+            Bundle bundle=new Bundle();
+            bundle.putString(TimeFrg.INPUT_TIME,timeList.get(i));
+            timeFrg.setArguments(bundle);
+            return timeFrg;
+        }
 
         @Override
         public int getCount() {
-            return monthList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object o) {
-            return view==o;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-           view= View.inflate(mActivity, R.layout.item_mine_lv, null);
-            ListView lv_mine_list = (ListView) view.findViewById(R.id.lv_mine_list);
-            lv_mine_list.setAdapter(timeAxisListAdp);
-            ((ViewPager)container).addView(view);
-            return view;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager) container).removeView((View) object);
+            return timeList.size();
         }
     }
 
@@ -328,6 +289,10 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     }
 
 
+    public  Integer getCurrentMonth() {
+        SimpleDateFormat format = new SimpleDateFormat("MM");
+        return Integer.valueOf(format.format(new Date()));
+    }
 
 
 

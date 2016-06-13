@@ -120,6 +120,14 @@ public class CirFrg extends Fragment {
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
                 circleEntityList=response.getData().getRows();
+                if (circleEntityList.size() == 0) {
+                    if (page == 1) {
+
+                    } else {
+                        lv_cir.setHasMoreData(false);
+                    }
+                    return;
+                }
                 if(page==1){
                     datas.clear();
                 }
@@ -135,15 +143,11 @@ public class CirFrg extends Fragment {
                     }
                     datalist.add(itemList);
                 }
-                if (datas != null && datas.size() > 0) {
-                    if(adapter==null) {
-                        adapter=new CircleAdapter(getContext(),datalist,circleEntityList);
-                        lv_cir.getRefreshableView().setAdapter(adapter);
-                    }else {
-                        adapter.notifyChange(datalist,datas);
-                    }
-                } else {
-                    lv_cir.setHasMoreData(false);
+                if(adapter==null) {
+                    adapter=new CircleAdapter(getContext(),datalist,datas);
+                    lv_cir.getRefreshableView().setAdapter(adapter);
+                }else {
+                    adapter.notifyChange(datalist,datas);
                 }
             }
         });

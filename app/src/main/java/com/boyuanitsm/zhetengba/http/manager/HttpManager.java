@@ -17,6 +17,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,5 +81,54 @@ public class HttpManager {
         }
         return null;
     }
+
+    /**
+     * 文件上传 post
+     *
+     * @param uri
+     * @param params
+     * @param fileMaps
+     * @return
+     */
+    public String upListFile(String uri, Map<String, String> params,
+                             Map<String, List<FileBody>> fileMaps) {
+        post = new HttpPost(uri);
+
+        post.setHeaders(headers);
+        try {
+            MultipartEntity mpEntity = new MultipartEntity();
+            if (params != null && params.size() > 0) {
+                for (Map.Entry<String, String> item : params.entrySet()) {
+                    StringBody par = new StringBody(item.getValue());
+                    mpEntity.addPart(item.getKey(), par);
+                }
+
+            }
+
+            if (fileMaps != null && fileMaps.size() > 0) {
+                for (Map.Entry<String, List<FileBody>> entry : fileMaps.entrySet()) {
+                    List<FileBody> lists= entry.getValue();
+                    for(int i=0;i<lists.size();i++){
+                        mpEntity.addPart(entry.getKey(), lists.get(i));
+                    }
+
+                }
+            }
+            post.setEntity(mpEntity);// 设置需要传递的数据
+            HttpResponse response = client.execute(post);
+            if (response.getStatusLine().getStatusCode() == 200) {
+                return EntityUtils.toString(response.getEntity(),
+                        ConstantValue.ENCODING);
+            } else {
+                MyLogUtils.error("访问失败--状态码："
+                        + response.getStatusLine().getStatusCode());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MyLogUtils.error("访问异常：" + e.getMessage());
+        }
+        return null;
+    }
+
 
 }

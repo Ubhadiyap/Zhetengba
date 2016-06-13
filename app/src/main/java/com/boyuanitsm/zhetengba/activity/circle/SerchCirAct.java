@@ -15,6 +15,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CircleglAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -87,7 +88,7 @@ public class SerchCirAct extends BaseActivity {
     private void getCircle(String circleName,int page,int rows){
         if(!TextUtils.isEmpty(circleName)) {
             list=new ArrayList<>();
-            RequestManager.getTalkManager().searchCircle(circleName, page, rows, new ResultCallback<ResultBean<List<CircleEntity>>>() {
+            RequestManager.getTalkManager().searchCircle(circleName, page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
                 @Override
                 public void onError(int status, String errorMsg) {
                     plv.onPullUpRefreshComplete();
@@ -95,10 +96,10 @@ public class SerchCirAct extends BaseActivity {
                 }
 
                 @Override
-                public void onResponse(ResultBean<List<CircleEntity>> response) {
+                public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
                     plv.onPullUpRefreshComplete();
                     plv.onPullDownRefreshComplete();
-                    list = response.getData();
+                    list = response.getData().getRows();
                     if(list!=null&&list.size()>0) {
                         adapter = new CircleglAdapter(SerchCirAct.this, list);
                         plv.getRefreshableView().setAdapter(adapter);

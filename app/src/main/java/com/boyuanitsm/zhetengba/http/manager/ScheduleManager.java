@@ -365,9 +365,10 @@ public class ScheduleManager extends RequestManager {
      * 获取事件（时间轴接口）
      * @param callback
      */
-    public void findHistoryMessageListByUserId(ResultCallback callback){
+    public void findHistoryMessageListByYM(String yearMonth,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
-        doPost(IZtbUrl.HISTORYMESSAGE_URL,params,callback);
+        params.put("yearMonth",yearMonth);
+        doPost(IZtbUrl.HISTORYMESSAGE_URL, params,callback);
     }
 
     /**

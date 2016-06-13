@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> {
     private final LayoutInflater inflater;
+    private Context context;
 //    private List<Integer> list;
     private List<UserInfo> list=new ArrayList<>();
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -40,6 +41,7 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
 //
 //    }
     public CirxqAdapter(Context context, List<UserInfo> list) {
+        this.context=context;
         inflater = LayoutInflater.from(context);
         this.list = list;
     }
@@ -68,6 +70,7 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = inflater.inflate(R.layout.item_gl_cirxq, viewGroup, false);
+
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.mCir = (CircleImageView) view.findViewById(R.id.civ_hand);
         return viewHolder;
