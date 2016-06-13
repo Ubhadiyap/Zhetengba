@@ -46,12 +46,9 @@ public class PpagecalFrg extends BaseFragment {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-//        intentFilter = new IntentFilter();
-//        intentFilter.addAction("dataChange");
         Bundle bundle = this.getArguments();
         personalMain = bundle.getParcelable(PAGEFRG_KEY);
         scheduleEntity = personalMain.getScheduleEntity();
-//            mActivity.registerReceiver(broadcastReceiver, intentFilter);
         lv_ppcal.setAdapter(new PpfrgAdapter(mActivity, scheduleEntity));
         int lvHeight = ListViewUtil.MeasureListView(lv_ppcal);
         MyLogUtils.degug("lvheight=======" + lvHeight);

@@ -29,8 +29,6 @@ public class EventdetailsAct extends BaseActivity implements View.OnClickListene
     public void init(Bundle savedInstanceState) {
         setTopTitle("活动详情");
 
-
-
     }
     @OnClick({R.id.tv_ok})
     @Override

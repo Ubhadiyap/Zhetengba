@@ -55,10 +55,6 @@ public class ActAdapter extends BaseAdapter{
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-    public ActAdapter(Context context) {
-        this.context=context;
-    }
-
     public ActAdapter(Context context, List<SimpleInfo> infos) {
         this.infos = infos ;
         this.context = context;
@@ -119,12 +115,13 @@ public class ActAdapter extends BaseAdapter{
             convertView.setTag(viewHolder);
 
         }
-        if (infos.get(position).getUserNm()!=null){
-            viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
+        if (infos.get(position).getUserNm()!=null&&infos.get(position).isFriend()){
+            viewHolder.tv_niName.setText(infos.get(position).getRemark());//字段缺少用户名
+        }else if (infos.get(position).getUserNm()==null){
+            viewHolder.tv_niName.setText("暂无用户名");//字段缺少用户名
         }else {
-            viewHolder.tv_niName.setText("无用户名");//字段缺少用户名
+            viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
         }
-
         if (infos.get(position).getActivitySite()!=null){
             viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());//活动位置
         }else {
@@ -132,8 +129,6 @@ public class ActAdapter extends BaseAdapter{
         }
 
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
-        MyLogUtils.info("登陆用户id是：" + UserInfoDao.getUser().getId());
-        MyLogUtils.info("创建人id:"+infos.get(position).getCreatePersonId());
         if (!UserInfoDao.getUser().getId().equals(infos.get(position).getCreatePersonId())){
             viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
             viewHolder.ll_join.setVisibility(View.VISIBLE);
@@ -180,6 +175,7 @@ public class ActAdapter extends BaseAdapter{
             viewHolder.tv_text_jion.setText("参加");
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
         }
+//        if (infos.get(position).)
         viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -275,6 +271,7 @@ public class ActAdapter extends BaseAdapter{
                 Intent intent=new Intent();
                 Bundle bundle=new Bundle();
                 bundle.putString("userId", infos.get(position).getUserId());
+                bundle.putBoolean("friend",infos.get(position).isFriend());
                 intent.putExtras(bundle);
                 intent.setClass(context, PerpageAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

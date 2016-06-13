@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -38,6 +40,7 @@ import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.bean.UserBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -101,6 +104,12 @@ public class PerpageAct extends BaseActivity {
     private TextView tv_niName;//昵称
     @ViewInject(R.id.ll_add_friend)
     private LinearLayout ll_add_riend;
+    @ViewInject(R.id.ll_add_friend_one)
+    private LinearLayout ll_add_friend_one;
+    @ViewInject(R.id.iv_set)
+    private ImageView iv_set;
+    @ViewInject(R.id.bt_message)
+    private Button bt_message;
 //    @ViewInject(R.id.tab_selcet)
 //    private PagerSlidingTabStrip tab_selcet;
 
@@ -109,12 +118,13 @@ public class PerpageAct extends BaseActivity {
     private Fragment ppagecalFrg=new PpagecalFrg(), ppagedtFrg=new PpagedtFrg();//档期frg 圈子动态frg
     private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
     private List<CircleEntity> circleEntity = new ArrayList<>();
-
     private List<CircleEntity> circleTalkEntity = new ArrayList<>();
     private List<UserInfo> userEntity = new ArrayList<>();
     private List<UserInterestInfo> userInterestEntity = new ArrayList<>();
     private PersonalMain personalMain;
     private String PAGEFRG_KEY="perpage_to_pagecalFrg";
+        private Boolean flag;
+    private int state=1,state1=1;//1,增加
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -124,7 +134,6 @@ public class PerpageAct extends BaseActivity {
     @Override
     public void setLayout() {
         setContentView(R.layout.act_perpage);
-
     }
 
     @Override
@@ -132,7 +141,25 @@ public class PerpageAct extends BaseActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         userId = bundle.getString("userId");
+        flag=bundle.getBoolean("friend");
+        if (UserInfoDao.getUser().getId().equals(userId)){
+            ll_add_friend_one.setVisibility(View.GONE);//加为好友
+            ll_add_riend.setVisibility(View.VISIBLE);//档期frg
+            iv_set.setVisibility(View.GONE);
+            bt_message.setVisibility(View.GONE);
+        }else  if (flag){
+            ll_add_friend_one.setVisibility(View.GONE);
+            ll_add_riend.setVisibility(View.VISIBLE);
+            iv_set.setVisibility(View.VISIBLE);
+            bt_message.setVisibility(View.VISIBLE);
+        }else{
+            bt_message.setVisibility(View.GONE);
+            iv_set.setVisibility(View.GONE);
+            ll_add_riend.setVisibility(View.GONE);
+            ll_add_friend_one.setVisibility(View.VISIBLE);
+        }
         getPersonalMain(userId);
+
         manager = getSupportFragmentManager();
 //        gv_perpage.setAdapter(new GridViewPerAdapter(PerpageAct.this));
         msv_scroll.smoothScrollTo(0, 0);
@@ -146,7 +173,7 @@ public class PerpageAct extends BaseActivity {
      */
     private void initUserData(List<UserInfo> userEntity) {
         if (!TextUtils.isEmpty(userEntity.get(0).getPetName())){
-            tv_niName.setText("昵称："+userEntity.get(0).getPetName());
+            tv_niName.setText("昵称：" + userEntity.get(0).getPetName());
         }else {
             tv_niName.setText("暂无昵称");
         }
@@ -234,7 +261,7 @@ public class PerpageAct extends BaseActivity {
         view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
     }
 
-    @OnClick({R.id.rl_dangqi, R.id.rl_dongtai, R.id.iv_set, R.id.cv_photo})
+    @OnClick({R.id.rl_dangqi, R.id.rl_dongtai, R.id.iv_set, R.id.cv_photo,R.id.bt_friend})
     public void OnClick(View v) {
         switch (v.getId()) {
             case R.id.rl_dangqi://档期
@@ -254,7 +281,14 @@ public class PerpageAct extends BaseActivity {
             case R.id.cv_photo://个人资料
                 openActivity(PersonalmesAct.class);
                 break;
-
+            case R.id.bt_friend://加为好友
+                Intent intent=new Intent(this,MessVerifyAct.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("userName",userEntity.get(0).getPetName());
+                bundle.putString("userId",userEntity.get(0).getId());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
         }
 
 
@@ -269,17 +303,21 @@ public class PerpageAct extends BaseActivity {
         switch (position) {
             case 0://档期frg
                 setTab(0);
-                if (ppagecalFrg == null) {
-                    transaction.add(R.id.fra_main, ppagecalFrg);
-                } else {
+                    if (state==1) {
+                        transaction.add(R.id.fra_main, ppagecalFrg);
+                        transaction.show(ppagecalFrg);
+                        state=2;
+                } else if (state==2){
                     transaction.show(ppagecalFrg);
                 }
                 break;
             case 1://圈子动态frg
                 setTab(1);
-                if (ppagedtFrg == null) {
+                if (state1==1) {
                     transaction.add(R.id.fra_main, ppagedtFrg);
-                } else {
+                    transaction.show(ppagedtFrg);
+                    state1=2;
+                } else if (state1==2){
                     transaction.show(ppagedtFrg);
                 }
                 break;
@@ -384,12 +422,11 @@ public class PerpageAct extends BaseActivity {
      */
     private void toPageCalFrg() {
         Intent intent=new Intent();
-        intent.setAction("dataChange");
         Bundle bundle=new Bundle();
         bundle.putParcelable(PAGEFRG_KEY, personalMain);
         intent.putExtras(bundle);
         ppagecalFrg.setArguments(bundle);
-//        sendBroadcast(intent);
+        ppagedtFrg.setArguments(bundle);
     }
 
 }

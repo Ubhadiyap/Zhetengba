@@ -30,7 +30,6 @@ public class PpagedtFrg extends BaseFragment {
     @ViewInject(R.id.lv_ppcal)
     private MyListview lv_ppcal;
     private View view;
-    private List<CircleEntity> circleEntityList = new ArrayList<>();
     private List<CircleEntity> circleTalkEntity=new ArrayList<>();
     private PersonalMain personalMain;
     private String PAGEFRG_KEY="perpage_to_pagecalFrg";
@@ -45,7 +44,6 @@ public class PpagedtFrg extends BaseFragment {
     public void initData(Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
         personalMain = bundle.getParcelable(PAGEFRG_KEY);
-        circleEntityList = personalMain.getCircleEntity();
         circleTalkEntity=personalMain.getCircleTalkEntity();
             lv_ppcal.setAdapter(new PpdtfrgAdapter(mActivity,circleTalkEntity));
             int lvHeight = ListViewUtil.MeasureListView(lv_ppcal);

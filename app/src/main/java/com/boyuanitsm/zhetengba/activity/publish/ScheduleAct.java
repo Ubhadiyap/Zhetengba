@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.activity.publish;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -260,6 +261,9 @@ public class ScheduleAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 MyToastUtils.showShortToast(ScheduleAct.this,"发布档期成功");
+                Intent intentRecevier=new Intent();
+                intentRecevier.setAction("calendAllDateChange");
+                sendBroadcast(intentRecevier);
                 finish();
             }
         });

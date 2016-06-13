@@ -74,8 +74,8 @@ public class PpdtfrgAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
-        final List<ImageInfo> itemList = dateList.get(position);
+            final  String[] str=ZtinfoUtils.convertStrToArray(circleTalkEntityList.get(position).getTalkImage());
+//        final List<ImageInfo> itemList = dateList.get(position);
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -102,72 +102,73 @@ public class PpdtfrgAdapter extends BaseAdapter {
             viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
             convertView.setTag(viewHolder);
         }
-        if (itemList.isEmpty() || itemList.isEmpty()) {
+        if (str==null) {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
-        } else if (itemList.size() == 1) {
+        } else if (str.length== 1) {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
 //            handlerOneImage(viewHolder, itemList.get(0));
-            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
-            viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
-                    dialog.show();
-                }
-            });
-        } else if (itemList.size() == 4) {
+//            展示图片，暂时注掉
+//            LayoutHelperUtil.handlerOneImage(context, str[0], viewHolder.iv_oneimage);
+//            viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, str, 0);
+//                    dialog.show();
+//                }
+//            });
+        } else if (str.length == 4) {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
 //            viewHolder.iv_two_one.setImageUrl(itemList.get(0).getUrl());
 
-            ImageLoader.getInstance().displayImage(itemList.get(0).getUrl(), viewHolder.iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(1).getUrl(), viewHolder.iv_two_two, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(2).getUrl(), viewHolder.iv_two_three, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(3).getUrl(), viewHolder.iv_two_four, optionsImag);
-            viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
-                    dialog.show();
-                }
-            });
+            ImageLoader.getInstance().displayImage(str[0], viewHolder.iv_two_one, optionsImag);
+            ImageLoader.getInstance().displayImage(str[1], viewHolder.iv_two_two, optionsImag);
+            ImageLoader.getInstance().displayImage(str[2], viewHolder.iv_two_three, optionsImag);
+            ImageLoader.getInstance().displayImage(str[3], viewHolder.iv_two_four, optionsImag);
+//            viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
+//                    dialog.show();
+//                }
+//            });
 
-            viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 1);
-                    dialog.show();
-                }
-            });
-
-            viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 2);
-                    dialog.show();
-                }
-            });
-
-            viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 3);
-                    dialog.show();
-                }
-            });
+//            viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 1);
+//                    dialog.show();
+//                }
+//            });
+//
+//            viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 2);
+//                    dialog.show();
+//                }
+//            });
+//
+//            viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 3);
+//                    dialog.show();
+//                }
+//            });
 
         } else {
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setNumColumns(3);
-            PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
-            viewHolder.iv_ch_image.setAdapter(adapter);
+//            PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
+//            viewHolder.iv_ch_image.setAdapter(adapter);
 
         }
 
@@ -184,8 +185,8 @@ public class PpdtfrgAdapter extends BaseAdapter {
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCircleName())){
                 viewHolder.tv_cir_name.setText(circleTalkEntityList.get(position).getCircleName());
             }
-            if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getLikeCounts()+"")){
-                viewHolder.znum.setText(circleTalkEntityList.get(position).getLikeCounts()+"");
+            if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getLikedCounts()+"")){
+                viewHolder.znum.setText(circleTalkEntityList.get(position).getLikedCounts()+"");
             }else {
                 viewHolder.znum.setText("0");
             }
@@ -315,7 +316,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
             @Override
             public void onResponse(ResultBean<String> response) {
                 flag=true;
-                circleTalkEntityList.get(clickPos).setLikeCounts(circleTalkEntityList.get(clickPos).getLikeCounts()+1);
+                circleTalkEntityList.get(clickPos).setLikedCounts(circleTalkEntityList.get(clickPos).getLikedCounts()+1);
                 notifyDataSetChanged();
             }
         });
@@ -334,7 +335,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
             @Override
             public void onResponse(ResultBean<String> response) {
                 flag=false;
-                circleTalkEntityList.get(clickPos).setLikeCounts(circleTalkEntityList.get(clickPos).getLikeCounts()-1);
+                circleTalkEntityList.get(clickPos).setLikedCounts(circleTalkEntityList.get(clickPos).getLikedCounts()-1);
                 notifyDataSetChanged();
             }
         });

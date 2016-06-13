@@ -1,219 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    android:orientation="vertical">
+    android:background="@color/bg_color">
 
     <ScrollView
         android:id="@+id/msv_scroll"
-        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/gbg"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="44dp">
-
-                <RelativeLayout
-                    android:id="@+id/rl_back"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:onClick="goback">
-
-                    <ImageView
-                        android:layout_width="11dp"
-                        android:layout_height="19dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/top_back" />
-
-                </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/iv_set"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
-                    android:src="@mipmap/set" />
-
-            </RelativeLayout>
-
-            <com.boyuanitsm.zhetengba.view.CircleImageView
-                android:id="@+id/cv_photo"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_gravity="center_horizontal" />
-
+            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:gravity="center">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_niName"
-                    style="@style/tv_second"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_tab"
-                android:gravity="center"
-
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:visibility="gone"
-                    style="@style/Tab_Text_Style"
-                    android:id="@+id/tv_tab1"
-                    />
-                <TextView
-                    android:visibility="gone"
-                    style="@style/Tab_Text_Style"
-                    android:id="@+id/tv_tab2"
-                    />
-
-                <TextView
-                    android:visibility="gone"
-                    style="@style/Tab_Text_Style"
-                    android:id="@+id/tv_tab3"
-                    />
-
-                <TextView
-                    android:visibility="gone"
-                    style="@style/Tab_Text_Style"
-                    android:id="@+id/tv_tab4"
-                     />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingTop="15dp">
-
-            <TextView
-                style="@style/tv_second"
-                android:text="她的圈子"
-                android:textColor="#333333"
-                android:textSize="14sp" />
-
-            <com.boyuanitsm.zhetengba.view.HorizontalListView
-                android:id="@+id/hlv_perpage"
-                android:layout_width="275dp"
-                android:layout_height="85dp"></com.boyuanitsm.zhetengba.view.HorizontalListView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_add_friend"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="44dp">
-                <RelativeLayout
-                    android:id="@+id/rl_dangqi"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/tv_dangqi"
-                        android:layout_centerInParent="true"
-                        android:textColor="#999999"
-                        android:text="档期"
-                        style="@style/tv_second"/>
-
-                    <View
-                        android:id="@+id/view_dangqi"
-                        android:layout_alignParentBottom="true"
-                        android:background="#cdcdcd"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"></View>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rl_dongtai"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/tv_dongtai"
-                        android:layout_centerInParent="true"
-                        android:textColor="#999999"
-                        android:text="圈子动态"
-                        style="@style/tv_second"/>
-
-                    <View
-                        android:id="@+id/view_dongtai"
-                        android:layout_alignParentBottom="true"
-                        android:background="#cdcdcd"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"></View>
-
-                </RelativeLayout>
-
-
-            </LinearLayout>
-
-            <!--<com.boyuanitsm.zhetengba.view.PagerSlidingTabStrip-->
-                <!--android:id="@+id/tab_selcet"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="44dp"-->
-                <!--android:background="@android:color/white"-->
-                <!--app:pstsDividerColor="@android:color/transparent"-->
-                <!--app:pstsIndicatorColor="#52c791"-->
-                <!--app:pstsIndicatorHeight="2dp"-->
-                <!--app:pstsShouldExpand="true"-->
-                <!--app:pstsTabBackground="@android:color/transparent"-->
-                <!--app:pstsUnderlineHeight="2dp"-->
-                <!--app:selectedTabTextColor="#52c791"></com.boyuanitsm.zhetengba.view.PagerSlidingTabStrip>-->
-
-            <FrameLayout
-                android:id="@+id/fra_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <Button
-                    android:layout_gravity="bottom"
-                    android:id="@+id/bt_message"
-                    android:background="@color/main_color"
-                    android:textColor="#fff"
-                    android:text="发送消息"
-                    android:textSize="14sp"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"/>
-            </FrameLayout>
-        </LinearLayout>
-    </LinearLayout>
-    </ScrollView>
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/gbg"
+                    android:orientation="vertical">
 
-</LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="10dp">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_back"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:onClick="goback">
+
+                            <ImageView
+                                android:layout_width="11dp"
+                                android:layout_height="19dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:src="@mipmap/top_back" />
+
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_set"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="25dp"
+                            android:src="@mipmap/set" />
+
+                    </RelativeLayout>
+
+                    <com.boyuanitsm.zhetengba.view.CircleImageView
+                        android:id="@+id/cv_photo"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_gravity="center_horizontal" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_niName"
+                            style="@style/tv_second"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_tab"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_tab1"
+                            style="@style/Tab_Text_Style"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_tab2"
+                            style="@style/Tab_Text_Style"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_tab3"
+                            style="@style/Tab_Text_Style"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_tab4"
+                            style="@style/Tab_Text_Style"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/tv_second"
+                        android:text="她的圈子"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <com.boyuanitsm.zhetengba.view.HorizontalListView
+                        android:id="@+id/hlv_perpage"
+                        android:layout_width="275dp"
+                        android:layout_height="85dp"></com.boyuanitsm.zhetengba.view.HorizontalListView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_add_friend_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/bt_friend"
+                        style="@style/com_button"
+                        android:layout_width="107dp"
+                        android:layout_height="31dp"
+                        android:background="@drawable/com_btn_nor_yel"
+                        android:gravity="center"
+                        android:text="加为好友"
+                        android:textColor="#fff"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_add_friend"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_dangqi"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_dangqi"
+                                style="@style/tv_second"
+                                android:layout_centerInParent="true"
+                                android:text="档期"
+                                android:textColor="#999999" />
+
+                            <View
+                                android:id="@+id/view_dangqi"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_alignParentBottom="true"
+                                android:background="#cdcdcd"></View>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_dongtai"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_dongtai"
+                                style="@style/tv_second"
+                                android:layout_centerInParent="true"
+                                android:text="圈子动态"
+                                android:textColor="#999999" />
+
+                            <View
+                                android:id="@+id/view_dongtai"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_alignParentBottom="true"
+                                android:background="#cdcdcd"></View>
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <!--<com.boyuanitsm.zhetengba.view.PagerSlidingTabStrip-->
+                    <!--android:id="@+id/tab_selcet"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="44dp"-->
+                    <!--android:background="@android:color/white"-->
+                    <!--app:pstsDividerColor="@android:color/transparent"-->
+                    <!--app:pstsIndicatorColor="#52c791"-->
+                    <!--app:pstsIndicatorHeight="2dp"-->
+                    <!--app:pstsShouldExpand="true"-->
+                    <!--app:pstsTabBackground="@android:color/transparent"-->
+                    <!--app:pstsUnderlineHeight="2dp"-->
+                    <!--app:selectedTabTextColor="#52c791"></com.boyuanitsm.zhetengba.view.PagerSlidingTabStrip>-->
+
+                    <FrameLayout
+                        android:id="@+id/fra_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+    </ScrollView>
+    <Button
+        android:visibility="gone"
+        android:id="@+id/bt_message"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_color"
+        android:text="发送消息"
+        android:textColor="#fff"
+        android:textSize="14sp" />
+</RelativeLayout>
 

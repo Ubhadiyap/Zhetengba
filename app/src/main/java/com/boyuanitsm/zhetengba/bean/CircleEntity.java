@@ -68,25 +68,6 @@ public class CircleEntity implements Parcelable{
     private String remark;
 
     private boolean isValid;
-  private String userIcon;//          "userIcon": "userIcon/628ee75195524e79ac66aa5546d3c279.png",
-  private String userSex;//          "userSex": null,
-
-    public String getUserIcon() {
-        return userIcon;
-    }
-
-    public void setUserIcon(String userIcon) {
-        this.userIcon = userIcon;
-    }
-
-    public String getUserSex() {
-        return userSex;
-    }
-
-    public void setUserSex(String userSex) {
-        this.userSex = userSex;
-    }
-
     public CircleEntity() {
 
     }

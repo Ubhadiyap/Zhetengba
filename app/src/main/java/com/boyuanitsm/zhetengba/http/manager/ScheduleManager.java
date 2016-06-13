@@ -300,6 +300,17 @@ public class ScheduleManager extends RequestManager {
     }
 
     /**
+     * 取消档期接口 （只能取消自己发布的活动）
+     * 返回：ResponseEntity 响应状态
+     * @param schuldelId
+     * @param callback
+     */
+    public void removeSchuldel(String schuldelId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("scheduleId",schuldelId);
+        doPost(IZtbUrl.REMOVE_SHEDULE_URL,params,callback);
+    }
+    /**
      * 发布档期
      * schedule - 档期实体 [NOT NULL (标签ID:labelId,开始时间 ：startTime，结束时间：endTime);默认值(可见类型:scheduleVisibility 默认1(1全部可见2好友可见) )]
      * @param schedule
@@ -379,5 +390,8 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         params.put("userId",userId);
         doPost(IZtbUrl.PERSONAL_HOME_PAGE_URL,params,callback);
+    }
+    public void addFriend(){
+
     }
 }

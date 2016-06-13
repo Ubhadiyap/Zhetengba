@@ -180,7 +180,8 @@ public interface IZtbUrl {
 
     //取消活动
     public static final String REMOVE_ACTIVITY_URL=BASE_URL+"schedule/login/removeActivity.do";
-
+    //取消档期
+    public  static  final String REMOVE_SHEDULE_URL=BASE_URL+"schedule/login/removeSchedule.do";
 
     //发布档期接口
     public static final String ADD_SHEDULE_URL=BASE_URL+"schedule/login/addSchedule.do";
@@ -193,4 +194,6 @@ public interface IZtbUrl {
     public static final  String CANCEL_ACTIVITY_URL=BASE_URL+"schedule/login/quitActivity.do";
     //个人主页接口
     public static  final  String PERSONAL_HOME_PAGE_URL=BASE_URL+"schedule/login/findPersonalByUserId.do";
+    //添加好友接口
+    public static final String ADD_FRIEND_URL="message/login/addFriendFromContact.do";
 }
