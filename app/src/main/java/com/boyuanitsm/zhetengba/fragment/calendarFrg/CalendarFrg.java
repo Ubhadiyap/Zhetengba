@@ -118,6 +118,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend, null);
         TextView tv_friend = (TextView) v.findViewById(R.id.tv_friend);
         TextView tv_all = (TextView) v.findViewById(R.id.tv_all);
+        TextView tv_me= (TextView) v.findViewById(R.id.tv_me);
         mPopupWindow.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_circle_stroke));
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setFocusable(true);
@@ -153,6 +154,22 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                     intentRecevier.setAction("calendAllDateChange");
                     mActivity.sendBroadcast(intentRecevier);
                     tv_friend_all_two.setText("全部");
+                }
+                mActivity.sendBroadcast(intentRecevier);
+                mPopupWindow.dismiss();
+            }
+        });
+        tv_me.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentRecevier = new Intent();
+                if (rb_simple.isChecked()) {
+                    intentRecevier.setAction("simpleMyDateChange");
+                    tv_friend_all.setText("我的");
+                } else if (rb_calendar.isChecked()) {
+                    intentRecevier.setAction("calendMyDateChange");
+                    mActivity.sendBroadcast(intentRecevier);
+                    tv_friend_all_two.setText("我的");
                 }
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();

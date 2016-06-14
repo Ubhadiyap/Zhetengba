@@ -1,12 +1,13 @@
 package com.boyuanitsm.zhetengba.bean;
 
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * 档期
  * Created by xiaoke on 2016/6/1.
  */
-public class ScheduleInfo {
+public class ScheduleInfo implements Parcelable {
     private String	scheduleId;//档期ID',
     private String	userId;//用户ID',
     private String	labelId;//标签ID',
@@ -27,6 +28,7 @@ public class ScheduleInfo {
     private String userNm;//用户昵称
     private String userSex;//用户性别
     private String dictName;//标签名称
+
     public String getNoticeUserIds() {
         return noticeUserIds;
     }
@@ -206,4 +208,72 @@ public class ScheduleInfo {
     public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.scheduleId);
+        dest.writeString(this.userId);
+        dest.writeString(this.labelId);
+        dest.writeString(this.personId);
+        dest.writeString(this.startTime);
+        dest.writeString(this.endTime);
+        dest.writeValue(this.scheduleVisibility);
+        dest.writeValue(this.followNum);
+        dest.writeValue(this.isValid);
+        dest.writeString(this.createTime);
+        dest.writeString(this.createPersonId);
+        dest.writeString(this.noticeUserIds);
+        dest.writeString(this.invisibleUserIds);
+        dest.writeString(this.modifyPersonId);
+        dest.writeString(this.modifyTime);
+        dest.writeString(this.userName);
+        dest.writeString(this.userIcon);
+        dest.writeString(this.userNm);
+        dest.writeString(this.userSex);
+        dest.writeString(this.dictName);
+    }
+
+    public ScheduleInfo() {
+    }
+
+    protected ScheduleInfo(Parcel in) {
+        this.scheduleId = in.readString();
+        this.userId = in.readString();
+        this.labelId = in.readString();
+        this.personId = in.readString();
+        this.startTime = in.readString();
+        this.endTime = in.readString();
+        this.scheduleVisibility = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.followNum = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.isValid = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.createTime = in.readString();
+        this.createPersonId = in.readString();
+        this.noticeUserIds = in.readString();
+        this.invisibleUserIds = in.readString();
+        this.modifyPersonId = in.readString();
+        this.modifyTime = in.readString();
+        this.userName = in.readString();
+        this.userIcon = in.readString();
+        this.userNm = in.readString();
+        this.userSex = in.readString();
+        this.dictName = in.readString();
+    }
+
+    public static final Creator<ScheduleInfo> CREATOR = new Creator<ScheduleInfo>() {
+        @Override
+        public ScheduleInfo createFromParcel(Parcel source) {
+            return new ScheduleInfo(source);
+        }
+
+        @Override
+        public ScheduleInfo[] newArray(int size) {
+            return new ScheduleInfo[size];
+        }
+    };
 }

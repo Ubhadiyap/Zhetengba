@@ -17,14 +17,14 @@ public class LabelBannerInfo {
     private boolean isValid ;
     private Context context;
 
-    public LabelBannerInfo(String labelid, String dictName, String icon, String dictType, String dictDescribe, String dictCode) {
-        this.id=labelid;
-        this.dictName=dictName;
-        this.icon=icon;
-        this.dictType=dictType;
-        this.dictDescribe=dictDescribe;
-        this.dictCode=dictCode;
-    }
+//    public LabelBannerInfo(String labelid, String dictName, String icon, String dictType, String dictDescribe, String dictCode) {
+//        this.id=labelid;
+//        this.dictName=dictName;
+//        this.icon=icon;
+//        this.dictType=dictType;
+//        this.dictDescribe=dictDescribe;
+//        this.dictCode=dictCode;
+//    }
     public LabelBannerInfo(Context context){
         this.context=context;
     }

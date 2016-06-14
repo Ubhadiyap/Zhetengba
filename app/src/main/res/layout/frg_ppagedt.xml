@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="40dp">
 
     <com.boyuanitsm.zhetengba.view.MyListview
         android:id="@+id/lv_ppcal"
         android:dividerHeight="1px"
+        android:divider="@null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></com.boyuanitsm.zhetengba.view.MyListview>
 

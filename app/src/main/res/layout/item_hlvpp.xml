@@ -13,7 +13,6 @@
         android:layout_height="wrap_content">
         <com.boyuanitsm.zhetengba.view.CircleImageView
             android:id="@+id/cir_pagehand"
-            android:src="@mipmap/channhend"
             android:layout_width="40dp"
             android:layout_height="40dp" />
 
@@ -22,7 +21,6 @@
             android:layout_marginTop="10dp"
             android:textColor="#999999"
             android:textSize="12sp"
-            android:text="闺蜜圈"
             style="@style/tv_second" />
 
 
