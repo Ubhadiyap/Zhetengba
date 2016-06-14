@@ -37,6 +37,7 @@ import java.util.List;
 public class CirpplistAdapter extends BaseAdapter{
     private Context context;
     private boolean isshanchu;
+    private String circleId;//圈子id
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
@@ -53,6 +54,12 @@ public class CirpplistAdapter extends BaseAdapter{
         this.context = context;
         this.isshanchu=isshanchu;
         this.list=list;
+    }
+    public CirpplistAdapter(Context context,boolean isshanchu,List<MemberEntity> list,String circleId) {
+        this.context = context;
+        this.isshanchu=isshanchu;
+        this.list=list;
+        this.circleId=circleId;
     }
 
     public void notifyChange(boolean isshanchu){
@@ -81,7 +88,7 @@ public class CirpplistAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder=null;
         if(convertView==null) {
             holder=new ViewHolder();
@@ -105,7 +112,7 @@ public class CirpplistAdapter extends BaseAdapter{
             holder.ll_shanchu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    removeMember("1","1");
+                    removeMember(circleId,list.get(position).getId());
                 }
             });
         }

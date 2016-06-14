@@ -16,6 +16,7 @@ import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
@@ -25,6 +26,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
@@ -79,8 +81,7 @@ public class ChaChildFrg extends BaseFragment {
         LayoutHelperUtil.freshInit(lv_ch01);
 //        initDate();
         datalist=new ArrayList<>();
-        lableId="c32595fc215c11e6ba57eca86ba4ba05";
-        getChannelTalks(lableId,page,rows);
+//        getChannelTalks(lableId,page,rows);
 //        adapter=new ChanAdapter(mActivity,datalist);
 //        lv_ch01.getRefreshableView().setAdapter(adapter);
         lv_ch01.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -146,6 +147,7 @@ public class ChaChildFrg extends BaseFragment {
      * @param rows
      */
     private void getChannelTalks(String lableId, final int page,int rows){
+        channelTalkEntityList=new ArrayList<>();
         RequestManager.getTalkManager().getChannelTalks(lableId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -164,7 +166,6 @@ public class ChaChildFrg extends BaseFragment {
                     } else {
                         lv_ch01.setHasMoreData(false);
                     }
-                    return;
                 }
                 if(page==1){
                     datas.clear();
@@ -196,7 +197,7 @@ public class ChaChildFrg extends BaseFragment {
         super.onStart();
         if (receiverTalk==null){
             receiverTalk=new MyBroadCastReceiverTalk();
-            getActivity().registerReceiver(receiverTalk, new IntentFilter(CHANNELTALKS));
+            mActivity.registerReceiver(receiverTalk, new IntentFilter(CHANNELTALKS));
         }
     }
 
@@ -204,7 +205,7 @@ public class ChaChildFrg extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         if(receiverTalk!=null){
-            getActivity().unregisterReceiver(receiverTalk);
+            mActivity.unregisterReceiver(receiverTalk);
             receiverTalk=null;
         }
     }
@@ -214,8 +215,15 @@ public class ChaChildFrg extends BaseFragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            page=1;
-            getChannelTalks(lableId,page, rows);
+            int rFlag = intent.getIntExtra("flag",0);
+            if(rFlag==flag){
+                page=1;
+                lableId=((MainAct)getActivity()).getLabelId();
+                MyLogUtils.degug("=======label"+lableId);
+                getChannelTalks(lableId,page, rows);
+            }
+
         }
     }
+
 }

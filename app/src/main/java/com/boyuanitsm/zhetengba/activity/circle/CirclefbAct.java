@@ -60,6 +60,8 @@ public class CirclefbAct extends BaseActivity {
     public static String TYPE="type";
     private int type;//0 频道说说 1圈子说说
     private ChannelTalkEntity channelTalkEntity;
+    private String labelId;//频道标签id
+    private int flag;
 
     @Override
     public void setLayout() {
@@ -72,7 +74,9 @@ public class CirclefbAct extends BaseActivity {
         setTopTitle("Alic");
         isShow=getIntent().getBooleanExtra("isShow", true);
         circleId=getIntent().getStringExtra("circleId");
+        labelId=getIntent().getStringExtra("labelId");
         type=getIntent().getIntExtra(TYPE, 1);
+        flag=getIntent().getIntExtra("flag",0);
         entity=new CircleEntity();
         channelTalkEntity=new ChannelTalkEntity();
         setRight("发布", new View.OnClickListener() {
@@ -82,7 +86,7 @@ public class CirclefbAct extends BaseActivity {
                 switch (type){
                     case 0:
                         if(!TextUtils.isEmpty(content)) {
-                            channelTalkEntity.setLabelId("c32595fc215c11e6ba57eca86ba4ba05");
+                            channelTalkEntity.setLabelId(labelId);
                             channelTalkEntity.setChannelContent(content);
 //                            upLoadImg(selecteds);
 //                            channelTalkEntity.setChannelImage();
@@ -208,7 +212,9 @@ public class CirclefbAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 finish();
-                sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
+                Intent intent=new Intent(ChaChildFrg.CHANNELTALKS);
+                intent.putExtra("flag",flag);
+                sendBroadcast(intent);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -152,6 +154,7 @@ public class LabelMangerAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                sendBroadcast(new Intent(ChanelFrg.MYLABELS));
                 finish();
             }
         });

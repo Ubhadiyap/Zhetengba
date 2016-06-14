@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -193,7 +194,7 @@ public class ChanAdapter extends BaseAdapter {
         }
         if(list!=null){
             if(!TextUtils.isEmpty(list.get(position).getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),viewHolder.head);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),viewHolder.head,optionsImag);
             }
             if(!TextUtils.isEmpty(list.get(position).getUserName())){
                 viewHolder.tv_ch_niName.setText(list.get(position).getUserName());
@@ -256,6 +257,10 @@ public class ChanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PerpageAct.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("userId", list.get(position).getCreatePersonId());
+//                bundle.putBoolean("friend",list.get(position).isFriend());
+                intent.putExtras(bundle);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

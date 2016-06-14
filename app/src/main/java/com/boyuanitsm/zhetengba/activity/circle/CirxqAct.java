@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -30,6 +31,7 @@ import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.boyuanitsm.zhetengba.view.MyRecyleview;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -93,6 +95,7 @@ public class CirxqAct extends BaseActivity {
     private View headView;
     private CirclexqListAdapter xqAdapter;
 
+    private boolean isQuanzhu=false;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_cirxq);
@@ -101,7 +104,7 @@ public class CirxqAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("互联网创业");
+        setTopTitle("");
         headView=getLayoutInflater().inflate(R.layout.xqhead_view,null);
         head= (CircleImageView) headView.findViewById(R.id.head);//头像
         name= (TextView) headView.findViewById(R.id.tv_qz);//圈主名
@@ -225,6 +228,13 @@ public class CirxqAct extends BaseActivity {
             }else {
                 notice.setText("公告：暂无");
             }
+            if (!TextUtils.isEmpty(entity.getCircleOwnerId())){
+                if(entity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())){
+                    isQuanzhu=true;
+                }else {
+                    isQuanzhu=false;
+                }
+            }
         }
     }
 
@@ -252,6 +262,7 @@ public class CirxqAct extends BaseActivity {
                                 if (position == (userList.size()+1)) {
                                     Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
                                     intent.putExtra("circleId", circleId);
+                                    intent.putExtra("isQuanzhu",isQuanzhu);
                                     startActivity(intent);
                                 }
                             }
@@ -259,6 +270,7 @@ public class CirxqAct extends BaseActivity {
                             if (position == 5) {
                                 Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
                                 intent.putExtra("circleId", circleId);
+                                intent.putExtra("isQuanzhu",isQuanzhu);
                                 startActivity(intent);
                             } else if (position == 4) {
                                 openActivity(AssignScanAct.class);

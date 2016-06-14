@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -245,6 +246,10 @@ public class CircleAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                Bundle bundle=new Bundle();
+                bundle.putString("userId", list.get(position).getUserId());
+//                bundle.putBoolean("friend",list.get(position).isFriend());
+                intent.putExtras(bundle);
                 intent.setClass(context, PerpageAct.class);
                 //需要开启新task,否则会报错
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
