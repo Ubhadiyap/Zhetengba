@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -53,10 +54,6 @@ public class ActAdapter extends BaseAdapter{
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-
-    public ActAdapter(Context context) {
-        this.context=context;
-    }
 
     public ActAdapter(Context context, List<SimpleInfo> infos) {
         this.infos = infos ;
@@ -118,12 +115,13 @@ public class ActAdapter extends BaseAdapter{
             convertView.setTag(viewHolder);
 
         }
-        if (infos.get(position).getUserNm()!=null){
-            viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
+        if (infos.get(position).getUserNm()!=null&&infos.get(position).isFriend()){
+            viewHolder.tv_niName.setText(infos.get(position).getRemark());//字段缺少用户名
+        }else if (infos.get(position).getUserNm()==null){
+            viewHolder.tv_niName.setText("暂无用户名");//字段缺少用户名
         }else {
-            viewHolder.tv_niName.setText("无用户名");//字段缺少用户名
+            viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
         }
-
         if (infos.get(position).getActivitySite()!=null){
             viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());//活动位置
         }else {
@@ -131,8 +129,6 @@ public class ActAdapter extends BaseAdapter{
         }
 
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
-        MyLogUtils.info("登陆用户id是：" + UserInfoDao.getUser().getId());
-        MyLogUtils.info("创建人id:"+infos.get(position).getCreatePersonId());
         if (!UserInfoDao.getUser().getId().equals(infos.get(position).getCreatePersonId())){
             viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
             viewHolder.ll_join.setVisibility(View.VISIBLE);
@@ -179,6 +175,7 @@ public class ActAdapter extends BaseAdapter{
             viewHolder.tv_text_jion.setText("参加");
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
         }
+//        if (infos.get(position).)
         viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,13 +183,11 @@ public class ActAdapter extends BaseAdapter{
                     new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            flag=true;
-                            stateChange(position, viewHolder);
+                            stateCancelChange(position, viewHolder);
                         }
                     }).setNegativeButton("取消",null).show();
                 }else {
-                    flag=false;
-                    stateChange(position, viewHolder);
+                    stateJionChange(position, viewHolder);
                 }
 
             }
@@ -274,6 +269,10 @@ public class ActAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
+                Bundle bundle=new Bundle();
+                bundle.putString("userId", infos.get(position).getUserId());
+                bundle.putBoolean("friend",infos.get(position).isFriend());
+                intent.putExtras(bundle);
                 intent.setClass(context, PerpageAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -291,7 +290,7 @@ public class ActAdapter extends BaseAdapter{
     * @param
     */
 
-    private void stateChange(final int position, final Holder viewHolder) {
+    private void stateJionChange(final int position, final Holder viewHolder) {
         RequestManager.getScheduleManager().getRespondActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -300,17 +299,6 @@ public class ActAdapter extends BaseAdapter{
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                if (flag) {
-                    viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
-                    viewHolder.tv_text_jion.setText("参加");
-                    viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
-                     int i= infos.get(position).getMemberNum();
-                        i=i-1;
-                    viewHolder.tv_join_num.setText(i+"");
-                    infos.get(position).setJoin(false);
-                    infos.get(position).setMemberNum(i);
-                    flag = false;
-                } else {
                     viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
                     viewHolder.tv_text_jion.setText("取消参加");
                     viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
@@ -327,12 +315,40 @@ public class ActAdapter extends BaseAdapter{
                         infos.get(position).setMemberNum(i);
                         infos.get(position).setJoin(true);
                     }
-
-                    flag=true;
-                }
             }
         });
     }
+    /**
+     * 取消参加或响应活动接口
+     * @param
+     */
+
+    private void stateCancelChange(final int position, final Holder viewHolder) {
+        RequestManager.getScheduleManager().cancelActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
+                viewHolder.tv_text_jion.setText("参加");
+                viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
+                int i = infos.get(position).getMemberNum();
+                i = i - 1;
+                viewHolder.tv_join_num.setText(i + "");
+                infos.get(position).setJoin(false);
+                infos.get(position).setMemberNum(i);
+            }
+        });
+    }
+
+    /***
+     * 删除活动
+     * @param id
+     * @param position
+     */
     private void removeActivity(String id, final int position){
         RequestManager.getScheduleManager().removeActivity(id, new ResultCallback<ResultBean<String>>() {
             @Override

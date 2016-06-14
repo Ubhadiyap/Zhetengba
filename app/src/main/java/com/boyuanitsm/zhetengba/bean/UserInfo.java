@@ -118,6 +118,15 @@ public class UserInfo implements Parcelable {
     private String homeTown;
     @Column
     private String dictName;
+    /**---------------------------------------------------------------------------------------------------------*/
+    /**
+     * 共同的标签
+     */
+    private String sameLabels;
+    /**
+     * 共同的圈子数
+     */
+    private int sameCircleCounts;
 
     public UserInfo() {
     }
@@ -157,6 +166,24 @@ public class UserInfo implements Parcelable {
         petName = in.readString();
         homeTown = in.readString();
         dictName = in.readString();
+        sameLabels=in.readString();
+        sameCircleCounts=in.readInt();
+    }
+
+    public String getSameLabels() {
+        return sameLabels;
+    }
+
+    public void setSameLabels(String sameLabels) {
+        this.sameLabels = sameLabels;
+    }
+
+    public int getSameCircleCounts() {
+        return sameCircleCounts;
+    }
+
+    public void setSameCircleCounts(int sameCircleCounts) {
+        this.sameCircleCounts = sameCircleCounts;
     }
 
     public String getAccredit() {
@@ -489,13 +516,14 @@ public class UserInfo implements Parcelable {
         dest.writeString(petName);
         dest.writeString(homeTown);
         dest.writeString(dictName);
+        dest.writeString(sameLabels);
+        dest.writeInt(sameCircleCounts);
     }
 
     @Override
     public String toString() {
         return "UserInfo{" +
-                "accredit='" + accredit + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
@@ -522,12 +550,15 @@ public class UserInfo implements Parcelable {
                 ", remark='" + remark + '\'' +
                 ", empno='" + empno + '\'' +
                 ", dictId='" + dictId + '\'' +
+                ", accredit='" + accredit + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", sex='" + sex + '\'' +
                 ", address='" + address + '\'' +
                 ", petName='" + petName + '\'' +
                 ", homeTown='" + homeTown + '\'' +
                 ", dictName='" + dictName + '\'' +
+                ", sameLabels='" + sameLabels + '\'' +
+                ", sameCircleCounts=" + sameCircleCounts +
                 '}';
     }
 }

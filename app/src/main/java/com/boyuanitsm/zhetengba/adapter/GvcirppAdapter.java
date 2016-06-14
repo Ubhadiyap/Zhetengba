@@ -14,20 +14,24 @@ import com.boyuanitsm.zhetengba.R;
  */
 public class GvcirppAdapter extends BaseAdapter {
     private Context context;
-    private final String TITLE[]={"小鲜肉","吃货","摄影控"};
+    private String[] title;
 
     public GvcirppAdapter(Context context) {
         this.context = context;
     }
+    public GvcirppAdapter(Context context,String[] title) {
+        this.context = context;
+        this.title=title;
+    }
 
     @Override
     public int getCount() {
-        return TITLE.length;
+        return title.length>=3?3:title.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return TITLE[position];
+        return position;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class GvcirppAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view=View.inflate(context, R.layout.gvcir_item,null);
         TextView tv_bq= (TextView) view.findViewById(R.id.tv_bq);
-        tv_bq.setText(TITLE[position]);
+        tv_bq.setText(title[position]);
 
         return view;
     }

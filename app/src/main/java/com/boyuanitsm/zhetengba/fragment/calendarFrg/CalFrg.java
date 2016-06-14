@@ -55,23 +55,34 @@ public class CalFrg extends BaseFragment {
     private List<LabelBannerInfo> bannerInfoList;
     private CalAdapter adapter;
     private int page=1,rows=10;
+    private int state=1;
     private boolean flag=true;
-    private IntentFilter filterFriend,filterAll;
+    private IntentFilter filterFriend,filterAll,filterMy;
     //    广播接收者更新档期数据
     private BroadcastReceiver calFriendChangeRecevier=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //仿照活动
-            getFriendAllSchudle(page, rows, 0 + "");//切换到好友；
-            flag=false;
+            state=0;
+            getFriendAllSchudle(page, rows,state + "");//切换到好友；
+
         }
     };
     private BroadcastReceiver calAllChangeRecevier=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //仿照活动
+            state=1;
             getScheduleList(page, rows);//切换到全部；
-            flag=false;
+
+        }
+    };
+    private BroadcastReceiver calMyChangeRecevier=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            state=2;
+            getFriendAllSchudle(page,rows,state+"");
+
         }
     };
 
@@ -92,37 +103,47 @@ public class CalFrg extends BaseFragment {
         filterAll=new IntentFilter();
         filterAll.addAction("calendAllDateChange");
         mActivity.registerReceiver(calAllChangeRecevier, filterAll);//切换到全部；
+        //接受全部更新列表；
+        filterMy=new IntentFilter();
+        filterMy.addAction("calendMyDateChange");
+        mActivity.registerReceiver(calMyChangeRecevier, filterMy);//切换到我的；
         //塞入item_loop_viewpager_calen，到viewpager   :view1
         viewHeader_calen = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_calen = (PullToRefreshListView) view.findViewById(R.id.lv_calen);
         //下拉刷新初始化
         LayoutHelperUtil.freshInit(lv_calen);
-        //设置listview头部headview
-        lv_calen.getRefreshableView().addHeaderView(viewHeader_calen);
         lv_calen.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
-                if (flag == false) {
-                    getFriendAllSchudle(page, rows, 0 + "");//好友列表获取；
-                } else {
+                if (state==0) {
+                    getFriendAllSchudle(page, rows, state + "");//好友列表获取；
+                } else if (state==1){
                     getScheduleList(page, rows);//全部列表获取；
+                }else if (state==2){
+                    getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
             }
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                if (flag == false) {
-                    getFriendAllSchudle(page, rows, 0 + "");//好友列表获取；
-                } else {
+                if (state==0) {
+                    getFriendAllSchudle(page, rows, state + "");//好友列表获取；
+                } else if(state==1){
                     getScheduleList(page, rows);//全部列表获取；
+                }else if (state==2){
+                    getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
             }
         });
-        if (flag){
+        //设置listview头部headview
+        lv_calen.getRefreshableView().addHeaderView(viewHeader_calen);
+        if (state==1){
             getScheduleList(page, rows);
-        }else {
-            getFriendAllSchudle(page, rows, 0 + "");
+        }else if (state==0){
+            getFriendAllSchudle(page, rows, state + "");
+        }else if (state==2){
+            getFriendAllSchudle(page, rows, state + "");
         }
         //档期轮播图片展示
         getScheduleBanner();
@@ -164,11 +185,18 @@ public class CalFrg extends BaseFragment {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
                 list = response.getData().getRows();
+                if (list.size() == 0) {
+                    if (page == 1) {
+
+                    } else {
+                        lv_calen.setHasMoreData(false);
+                    }
+                    return;
+                }
                 if (page == 1) {
                     datas.clear();
                 }
                 datas.addAll(list);
-                if (datas != null || datas.size() > 0) {
                     if (adapter == null) {
                         //设置简约listview的条目
                         adapter = new CalAdapter(mActivity,datas);
@@ -176,11 +204,6 @@ public class CalFrg extends BaseFragment {
                     } else {
                         adapter.update(datas);
                     }
-                } else {
-                    lv_calen.setHasMoreData(false);
-                }
-
-
             }
         });
     }
@@ -203,11 +226,19 @@ public class CalFrg extends BaseFragment {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
                 list = response.getData().getRows();
+                if (list.size() == 0) {
+                    if (page == 1) {
+                      adapter.update(list);  //没有数据
+                    } else {
+                        lv_calen.setHasMoreData(false);
+                    }
+                    return;
+                }
                 if (page == 1) {
                     datas.clear();
                 }
                 datas.addAll(list);
-                if (datas != null || datas.size() > 0) {
+
                     if (adapter == null) {
                         //设置简约listview的条目
                         adapter = new CalAdapter(mActivity, datas);
@@ -215,9 +246,7 @@ public class CalFrg extends BaseFragment {
                     } else {
                         adapter.update(datas);
                     }
-                } else {
-                    lv_calen.setHasMoreData(false);
-                }
+
 
             }
         });
@@ -305,4 +334,11 @@ public class CalFrg extends BaseFragment {
         };
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity.unregisterReceiver(calFriendChangeRecevier);
+        mActivity.unregisterReceiver(calAllChangeRecevier);
+        mActivity.unregisterReceiver(calMyChangeRecevier);
+    }
 }

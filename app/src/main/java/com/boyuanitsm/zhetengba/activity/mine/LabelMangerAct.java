@@ -14,9 +14,9 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
+import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -39,6 +39,7 @@ public class LabelMangerAct extends BaseActivity {
     private LabelGVadapter labelGVadapter;
     private LabelGvMyadapter myadapter;
     private String labelids;//接口传入参数
+    private LabelInterestDao labelInterestDao;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_labelmana2);
@@ -46,6 +47,7 @@ public class LabelMangerAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        labelInterestDao=new LabelInterestDao(LabelMangerAct.this);
         setTopTitle("标签管理");
         setRight("完成", new View.OnClickListener() {
             @Override
@@ -60,6 +62,12 @@ public class LabelMangerAct extends BaseActivity {
                     for (int i=1;i<mylist.size();i++){
                         labelids=labelids+","+mylist.get(i).getInterestId();
                     }
+
+//                    LabelInterestDao labelInfoDao=new LabelInterestDao(LabelMangerAct.this);
+//                    labelInfoDao.save(mylist);
+//                    for (int i=0;i<mylist.size();i++){
+//                        labelInterestDao.save(mylist.get(i));
+//                    }
                     addInterestLabel(labelids);
                 }
 
@@ -79,9 +87,10 @@ public class LabelMangerAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LabelBannerInfo str = list.get(position);
-                userInterestInfo=new UserInterestInfo();
+                userInterestInfo=new UserInterestInfo(LabelMangerAct.this);
                     userInterestInfo.setInterestId(str.getId());
                     userInterestInfo.setDictName(str.getDictName());
+                    labelInterestDao.save(userInterestInfo);
                     mylist.add(userInterestInfo);
                     myadapter.update(mylist);
                 list.remove(position);
@@ -94,6 +103,7 @@ public class LabelMangerAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserInterestInfo str = mylist.get(position);
+                labelInterestDao.delete(str.getId());
                 mylist.remove(position);
                 myadapter.update(mylist);
                 gv1.setAdapter(myadapter);
@@ -105,16 +115,7 @@ public class LabelMangerAct extends BaseActivity {
             }
         });
     }
-//    //刷新全部标签对应标签背景
-//    private int labelposition(LabelBannerInfo str){
-//        int position=-1;
-//        for (int i=0;i<list.size();i++){
-//            if (str.equals(list.get(i))){
-//                return position=i;
-//            }
-//        }
-//        return position;
-//    }
+
 
     /**
      * 个人兴趣标签/全部标签
@@ -156,6 +157,9 @@ public class LabelMangerAct extends BaseActivity {
         });
     }
 
+    /**
+     * 获取兴趣标签
+     */
     private void getMyInterestLabel(){
         RequestManager.getScheduleManager().findMyLabelListMoreByUserId(new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
             @Override
@@ -167,6 +171,9 @@ public class LabelMangerAct extends BaseActivity {
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
                 mylist=response.getData();
                     myadapter=new LabelGvMyadapter(LabelMangerAct.this,mylist);
+                    for (int i=0;i<mylist.size();i++){
+                    labelInterestDao.save(mylist.get(i));
+                     }
                    gv1.setAdapter(myadapter);
             }
         });

@@ -9,8 +9,10 @@ import com.boyuanitsm.zhetengba.chat.db.UserDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.lidroid.xutils.http.client.multipart.content.FileBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,8 +45,13 @@ public class TalkManager extends RequestManager{
      * @param rows
      * @param callback
      */
-    public void myCircleList(int page,int rows,ResultCallback callback){
+    public void myCircleList(String userId,int page,int rows,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
+        if(!TextUtils.isEmpty(userId)) {
+            map.put("userId", userId);
+        }else {
+            map.put("userId",UserInfoDao.getUser().getId());
+        }
         map.put("page",page+"");
         map.put("rows",rows+"");
         doPost(IZtbUrl.CIRCLE_LIST_URL,map,callback);
@@ -68,11 +75,13 @@ public class TalkManager extends RequestManager{
      * @param circleId
      * @param callback
      */
-    public void myCircleMember(String circleId,ResultCallback callback){
+    public void myCircleMember(String circleId,int page,int rows,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         if(!TextUtils.isEmpty(circleId)) {
             map.put("circleId", circleId);
         }
+        map.put("page",page+"");
+        map.put("rows",rows+"");
         doPost(IZtbUrl.CIRCLE_MEMBER_URL,map,callback);
     }
 
@@ -355,6 +364,15 @@ public class TalkManager extends RequestManager{
         map.put("page",page+"");
         map.put("rows",rows+"");
         doPost(IZtbUrl.CHANNEL_COMMENTS_URL,map,callback);
+    }
+
+    /**
+     * 上传多张图片
+     * @param fileMaps
+     * @param callback
+     */
+    public void upLoadImg(Map<String, List<FileBody>> fileMaps, ResultCallback callback){
+        submitMore(IZtbUrl.MODIFYUSERICON_URL,fileMaps,callback);
     }
 
 

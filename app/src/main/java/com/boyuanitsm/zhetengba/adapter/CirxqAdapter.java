@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -25,8 +26,9 @@ import java.util.List;
  */
 public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> {
     private final LayoutInflater inflater;
+    private Context context;
 //    private List<Integer> list;
-    private List<UserInfo> list=new ArrayList<>();
+    private List<MemberEntity> list=new ArrayList<>();
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
@@ -39,7 +41,8 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
 //        this.list = list;
 //
 //    }
-    public CirxqAdapter(Context context, List<UserInfo> list) {
+    public CirxqAdapter(Context context, List<MemberEntity> list) {
+        this.context=context;
         inflater = LayoutInflater.from(context);
         this.list = list;
     }
@@ -68,6 +71,7 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = inflater.inflate(R.layout.item_gl_cirxq, viewGroup, false);
+
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.mCir = (CircleImageView) view.findViewById(R.id.civ_hand);
         return viewHolder;
@@ -75,10 +79,45 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        if(list!=null&&list.size()>0) {
+        if (list.size()==0){
+            switch (i){
+                case 0:
+                    viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);
+                    if (mOnItemClickListener != null) {
+                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mOnItemClickListener.onItemClick(viewHolder.itemView, i);
+                            }
+                        });
+                    }
+                    break;
+                case 1:
+                    viewHolder.mCir.setImageResource(R.mipmap.cirxq_more);
+                    if (mOnItemClickListener != null) {
+                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mOnItemClickListener.onItemClick(viewHolder.itemView, i);
+                            }
+                        });
+                    }
+                    break;
+            }
+        }else if(list!=null&&list.size()>0) {
             if (list.size() <= 4) {
                 if (i == list.size()) {
                     viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);
+                    if (mOnItemClickListener != null) {
+                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mOnItemClickListener.onItemClick(viewHolder.itemView, i);
+                            }
+                        });
+                    }
+                } else if (i==(list.size()+1)){
+                    viewHolder.mCir.setImageResource(R.mipmap.cirxq_more);
                     if (mOnItemClickListener != null) {
                         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -169,6 +208,6 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return list.size() <=4 ? list.size() + 1 : 6;
+        return list.size() <=4 ? (list.size() + 2) : 6;
     }
 }

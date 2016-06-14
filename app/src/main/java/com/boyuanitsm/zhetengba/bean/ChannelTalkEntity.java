@@ -21,6 +21,23 @@ public class ChannelTalkEntity implements Parcelable{
     private String channelContent;//频道说说内容
     private String channelImage;//频道图片
     private String remark;//备注
+    /**
+     * 用户姓名
+     */
+    private String userName;
+    /**
+     * 用户头像
+     */
+    private String userIcon;
+    /**
+     * 用户性别
+     */
+    private String userSex;
+
+    /**
+     * 是否已点赞
+     */
+    private int liked;
    //评论
     private String fatherCommentId;//父评论ID
 
@@ -35,6 +52,7 @@ public class ChannelTalkEntity implements Parcelable{
     public ChannelTalkEntity() {
     }
 
+
     protected ChannelTalkEntity(Parcel in) {
         address = in.readString();
         commentCounts = in.readInt();
@@ -48,11 +66,45 @@ public class ChannelTalkEntity implements Parcelable{
         channelContent = in.readString();
         channelImage = in.readString();
         remark = in.readString();
+        userName = in.readString();
+        userIcon = in.readString();
+        userSex = in.readString();
+        liked = in.readInt();
         fatherCommentId = in.readString();
         channelTalkId = in.readString();
         commentUserId = in.readString();
         commentTime = in.readString();
         commentContent = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(address);
+        dest.writeInt(commentCounts);
+        dest.writeString(createPersonId);
+        dest.writeString(createTiem);
+        dest.writeString(id);
+        dest.writeByte((byte) (isValid ? 1 : 0));
+        dest.writeString(labelId);
+        dest.writeInt(likeCounts);
+        dest.writeInt(sharedCounts);
+        dest.writeString(channelContent);
+        dest.writeString(channelImage);
+        dest.writeString(remark);
+        dest.writeString(userName);
+        dest.writeString(userIcon);
+        dest.writeString(userSex);
+        dest.writeInt(liked);
+        dest.writeString(fatherCommentId);
+        dest.writeString(channelTalkId);
+        dest.writeString(commentUserId);
+        dest.writeString(commentTime);
+        dest.writeString(commentContent);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<ChannelTalkEntity> CREATOR = new Creator<ChannelTalkEntity>() {
@@ -203,29 +255,35 @@ public class ChannelTalkEntity implements Parcelable{
         this.sharedCounts = sharedCounts;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getUserName() {
+        return userName;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(address);
-        dest.writeInt(commentCounts);
-        dest.writeString(createPersonId);
-        dest.writeString(createTiem);
-        dest.writeString(id);
-        dest.writeByte((byte) (isValid ? 1 : 0));
-        dest.writeString(labelId);
-        dest.writeInt(likeCounts);
-        dest.writeInt(sharedCounts);
-        dest.writeString(channelContent);
-        dest.writeString(channelImage);
-        dest.writeString(remark);
-        dest.writeString(fatherCommentId);
-        dest.writeString(channelTalkId);
-        dest.writeString(commentUserId);
-        dest.writeString(commentTime);
-        dest.writeString(commentContent);
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserIcon() {
+        return userIcon;
+    }
+
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    public int getLiked() {
+        return liked;
+    }
+
+    public void setLiked(int liked) {
+        this.liked = liked;
     }
 }

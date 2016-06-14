@@ -216,9 +216,6 @@ public class ContractedAct extends BaseActivity {
             case R.id.bt_plane:
                 initData();
                 addActivity(simpleInfo);
-                Intent intentRecevier=new Intent();
-                intentRecevier.setAction("simpleAllDateChange");
-                this.sendBroadcast(intentRecevier);
 
         }
     }
@@ -255,6 +252,9 @@ public class ContractedAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 response.getData();
+                Intent intentRecevier=new Intent();
+                intentRecevier.setAction("simpleAllDateChange");
+                sendBroadcast(intentRecevier);
                 MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
                 finish();
             }

@@ -22,131 +22,133 @@
 
     </RelativeLayout>
 
-    <ScrollView
-        android:id="@+id/cir_sv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<ScrollView-->
+        <!--android:id="@+id/cir_sv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_gravity="center_horizontal"
-            android:layout_width="345dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/white_hui_edito"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="190dp">
-
-                <ImageView
-                    android:layout_width="345dp"
-                    android:layout_height="155dp"
-                    android:src="@mipmap/xqbg" />
-
-                <com.boyuanitsm.zhetengba.view.CircleImageView
-                    android:id="@+id/head"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/xqhend" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/tv_qz"
-                    style="@style/tv_second"
-                    android:layout_centerInParent="true"
-                    android:text="圈主: 小鱼儿"
-                    android:textColor="#666666"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_qzzl"
-                    style="@style/tv_second"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/tv_qz"
-                    android:background="@drawable/com_dybtn_nor"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="圈子资料"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp">
-
-                <TextView
-                    android:id="@+id/notice"
-                    style="@style/tv_second"
-                    android:layout_marginLeft="10dp"
-                    android:text="公告：早睡早起身体好，吃嘛嘛香"
-                    android:textColor="#333333"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:paddingRight="40dp"
-                android:layout_marginBottom="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_label"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"></android.support.v7.widget.RecyclerView>
-                <!--<com.boyuanitsm.zhetengba.view.HorizontalListView-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"></com.boyuanitsm.zhetengba.view.HorizontalListView>-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="40dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:layout_toRightOf="@id/rv_label"-->
-                    <!--android:src="@mipmap/mine_head" />-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="40dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:layout_toRightOf="@id/rv_label"-->
-                    <!--android:src="@mipmap/mine_head" />-->
-
-            </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_width="345dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:background="@drawable/white_hui_edito"-->
+            <!--android:orientation="vertical">-->
 
             <!--<RelativeLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content">-->
-            <!--<com.boyuanitsm.zhetengba.view.HorizontalListView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"></com.boyuanitsm.zhetengba.view.HorizontalListView>-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="190dp">-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="345dp"-->
+                    <!--android:layout_height="155dp"-->
+                    <!--android:src="@mipmap/xqbg" />-->
+
+                <!--<com.boyuanitsm.zhetengba.view.CircleImageView-->
+                    <!--android:id="@+id/head"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:src="@mipmap/xqhend" />-->
 
             <!--</RelativeLayout>-->
 
-        </LinearLayout>
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_qz"-->
+                    <!--style="@style/tv_second"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:text="圈主: 小鱼儿"-->
+                    <!--android:textColor="#666666"-->
+                    <!--android:textSize="12sp" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_qzzl"-->
+                    <!--style="@style/tv_second"-->
+                    <!--android:layout_height="15dp"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_toRightOf="@id/tv_qz"-->
+                    <!--android:background="@drawable/com_dybtn_nor"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:text="圈子资料"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="12sp" />-->
+
+            <!--</RelativeLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="25dp">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/notice"-->
+                    <!--style="@style/tv_second"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:text="公告：早睡早起身体好，吃嘛嘛香"-->
+                    <!--android:textColor="#333333"-->
+                    <!--android:textSize="12sp" />-->
+            <!--</RelativeLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:paddingRight="40dp"-->
+                <!--android:layout_marginBottom="15dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/rv_label"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:scrollbars="none"></android.support.v7.widget.RecyclerView>-->
+                <!--&lt;!&ndash;<com.boyuanitsm.zhetengba.view.HorizontalListView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"></com.boyuanitsm.zhetengba.view.HorizontalListView>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="40dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toRightOf="@id/rv_label"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@mipmap/mine_head" />&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="40dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toRightOf="@id/rv_label"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@mipmap/mine_head" />&ndash;&gt;-->
+
+            <!--</LinearLayout>-->
+
+            <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content">&ndash;&gt;-->
+            <!--&lt;!&ndash;<com.boyuanitsm.zhetengba.view.HorizontalListView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"></com.boyuanitsm.zhetengba.view.HorizontalListView>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
+
+        <!--</LinearLayout>-->
 
         <RelativeLayout
             android:visibility="gone"
@@ -167,12 +169,14 @@
 
 
 
-        <com.boyuanitsm.zhetengba.view.MyListview
+
+        <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
             android:id="@+id/lv_cirxq"
             android:divider="#e1e1e1"
             android:dividerHeight="1px"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.MyListview>
+            android:layout_height="match_parent"/>
+
     </LinearLayout>
-    </ScrollView>
+    <!--</ScrollView>-->
 </LinearLayout>

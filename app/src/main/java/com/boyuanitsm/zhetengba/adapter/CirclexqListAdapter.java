@@ -22,7 +22,9 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -41,9 +43,8 @@ import java.util.List;
 public class CirclexqListAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList=new ArrayList<>();
-    private boolean flag=false;
 
-    private List<CircleEntity> list;
+    private List<CircleEntity> list=new ArrayList<>();
     int clickPos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -66,6 +67,12 @@ public class CirclexqListAdapter extends BaseAdapter {
         this.list=list;
     }
 
+    public void notifyChange(List<List<ImageInfo>> dateList,List<CircleEntity> list){
+        this.dateList=dateList;
+        this.list=list;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getCount() {
@@ -85,7 +92,12 @@ public class CirclexqListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        final List<ImageInfo> itemList = dateList.get(position);
+        List<ImageInfo> itemList1 =new ArrayList<>();
+        if (list.get(position)!=null) {
+           itemList1 =dateList.get(position);
+        }
+
+
 //        final List<ImageInfo> itemList = new ArrayList<>();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -95,9 +107,11 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.ivChHead = (ImageView) convertView.findViewById(R.id.iv_ch_head);
             viewHolder.tvChNiName = (TextView) convertView.findViewById(R.id.tv_ch_niName);
             viewHolder.ivChGendar = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
+            viewHolder.zimg = (ImageView) convertView.findViewById(R.id.zimg);
             viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
+            viewHolder.llphoto = (LinearLayout) convertView.findViewById(R.id.llphoto);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
             viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
@@ -113,7 +127,10 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
             convertView.setTag(viewHolder);
         }
+        viewHolder.llphoto.setVisibility(View.VISIBLE);
+        final List<ImageInfo> itemList=itemList1;
         if (itemList.isEmpty() || itemList.isEmpty()) {
+            viewHolder.llphoto.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
@@ -183,9 +200,22 @@ public class CirclexqListAdapter extends BaseAdapter {
         }
 
         if(list!=null&&list.size()>0){
-//            if(!TextUtils.isEmpty(list.get(position).getUserId())){
-//                viewHolder.tvChNiName.setText(list.get(position).getUserId());
-//            }
+            if(!TextUtils.isEmpty(list.get(position).getUserIcon())){
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),viewHolder.ivChHead,optionsImag);
+            }
+            if(!TextUtils.isEmpty(list.get(position).getUserName())){
+                viewHolder.tvChNiName.setText(list.get(position).getUserName());
+            }else {
+                String str=list.get(position).getUserId();
+                viewHolder.tvChNiName.setText(str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
+            }
+            if(!TextUtils.isEmpty(list.get(position).getUserSex())){
+                if("0".equals(list.get(position).getUserSex())) {
+                    viewHolder.ivChGendar.setImageResource(R.mipmap.gfemale);//女0
+                }else if("1".equals(list.get(position).getUserSex())){
+                    viewHolder.ivChGendar.setImageResource(R.mipmap.male);//男1
+                }
+            }
             if(!TextUtils.isEmpty(list.get(position).getCreateTime()+"")){
                 viewHolder.tvTime.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTime()+"")));
             }
@@ -195,8 +225,15 @@ public class CirclexqListAdapter extends BaseAdapter {
             if(!TextUtils.isEmpty(list.get(position).getCircleName())){
                 viewHolder.tv_cir_name.setText(list.get(position).getCircleName());
             }
-            if(!TextUtils.isEmpty(list.get(position).getLikeCounts()+"")){
-                viewHolder.znum.setText(list.get(position).getLikeCounts()+"");
+            if(!TextUtils.isEmpty(list.get(position).getLiked()+"")) {
+                if (0==list.get(position).getLiked()) {//未点赞
+                    viewHolder.zimg.setImageResource(R.drawable.zan);
+                }else if (1==list.get(position).getLiked()){
+                    viewHolder.zimg.setImageResource(R.drawable.zan_b);
+                }
+            }
+            if(!TextUtils.isEmpty(list.get(position).getLikedCounts()+"")){
+                viewHolder.znum.setText(list.get(position).getLikedCounts()+"");
             }else {
                 viewHolder.znum.setText("0");
             }
@@ -227,9 +264,9 @@ public class CirclexqListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 clickPos=position;
-                if (!flag){
+                if (0==list.get(position).getLiked()){
                     addCircleLike(list.get(position).getId());
-                }else {
+                }else if (1==list.get(position).getLiked()){
                     removeCircleLike(list.get(position).getId());
                 }
             }
@@ -273,6 +310,7 @@ public class CirclexqListAdapter extends BaseAdapter {
         public ImageView ivChHead;
         public TextView tvChNiName;
         public ImageView ivChGendar;
+        public ImageView zimg;
         public TextView tvTime;
         public MyGridView iv_ch_image;
         public CustomImageView iv_oneimage;
@@ -282,6 +320,7 @@ public class CirclexqListAdapter extends BaseAdapter {
         private LinearLayout like;
         private LinearLayout ll_share;
         private LinearLayout ll_comment;
+        private LinearLayout llphoto;
         private TextView tv_content;
         private TextView znum;
         private TextView cnum;
@@ -297,13 +336,15 @@ public class CirclexqListAdapter extends BaseAdapter {
         RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                flag=true;
-                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()+1);
+                list.get(clickPos).setLiked(1);
+                if(!TextUtils.isEmpty(response.getData())) {
+                    list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
+                }
                 notifyDataSetChanged();
             }
         });
@@ -316,13 +357,15 @@ public class CirclexqListAdapter extends BaseAdapter {
         RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                flag=false;
-                list.get(clickPos).setLikeCounts(list.get(clickPos).getLikeCounts()-1);
+                list.get(clickPos).setLiked(0);
+                if(!TextUtils.isEmpty(response.getData())) {
+                    list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
+                }
                 notifyDataSetChanged();
             }
         });

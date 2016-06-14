@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,13 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.hyphenate.util.Utils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.List;
 
@@ -21,6 +27,11 @@ import java.util.List;
 public class CircleTextAdapter extends BaseAdapter {
     private Context context;
     private List<CircleEntity> list;
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
 //    private String[] str=new String[]{"小明","小红","小红","小红","小红","小红","小红"};
     public CircleTextAdapter(Context context){
         this.context=context;
@@ -62,9 +73,15 @@ public class CircleTextAdapter extends BaseAdapter {
             convertView.setTag(chaHolder);
         }
         if(list!=null&&list.size()>0) {
-//            if(!TextUtils.isEmpty(list.get(position).getCommentUserId())) {
-//                chaHolder.tv_name.setText(list.get(position).getCommentUserId());
-//            }
+            if (!TextUtils.isEmpty(list.get(position).getUserIcon())){
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),chaHolder.head,options);
+            }
+            if(!TextUtils.isEmpty(list.get(position).getUserName())){
+                chaHolder.tv_name.setText(list.get(position).getUserName());
+            }else if(!TextUtils.isEmpty(list.get(position).getCommentUserId())) {
+                String str=list.get(position).getCommentUserId();
+                chaHolder.tv_name.setText(str.substring(0, 3) + "***" + str.substring(str.length() - 3, str.length()));
+            }
             if(!TextUtils.isEmpty(list.get(position).getCommentTime())){
                 chaHolder.time.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCommentTime())));
             }

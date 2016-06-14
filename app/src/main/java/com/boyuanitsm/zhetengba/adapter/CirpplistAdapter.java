@@ -14,11 +14,13 @@ import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CircleppAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
+import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -41,13 +43,13 @@ public class CirpplistAdapter extends BaseAdapter{
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565)
             .build();
-    private List<UserInfo> list=new ArrayList<>();
+    private List<MemberEntity> list=new ArrayList<>();
 
     public CirpplistAdapter(Context context,boolean isshanchu) {
         this.context = context;
         this.isshanchu=isshanchu;
     }
-    public CirpplistAdapter(Context context,boolean isshanchu,List<UserInfo> list) {
+    public CirpplistAdapter(Context context,boolean isshanchu,List<MemberEntity> list) {
         this.context = context;
         this.isshanchu=isshanchu;
         this.list=list;
@@ -55,6 +57,11 @@ public class CirpplistAdapter extends BaseAdapter{
 
     public void notifyChange(boolean isshanchu){
         this.isshanchu=isshanchu;
+        notifyDataSetChanged();
+    }
+    public void notifyChange(boolean isshanchu,List<MemberEntity> list){
+        this.isshanchu=isshanchu;
+        this.list=list;
         notifyDataSetChanged();
     }
 
@@ -109,9 +116,14 @@ public class CirpplistAdapter extends BaseAdapter{
             if(!TextUtils.isEmpty(list.get(position).getUsername())){
                 holder.name.setText(list.get(position).getUsername());
             }
-//            if (!TextUtils.isEmpty(list.get(position).g))
+            if (!TextUtils.isEmpty(list.get(position).getSameCircleCounts()+"")){
+                holder.num.setText(list.get(position).getSameCircleCounts()+"");
+            }
+            if (!TextUtils.isEmpty(list.get(position).getSameLabels())){
+                String[] str= ZtinfoUtils.convertStrToArray(list.get(position).getSameLabels());
+                holder.hlv_cirpp.setAdapter(new GvcirppAdapter(context,str));
+            }
         }
-        holder.hlv_cirpp.setAdapter(new GvcirppAdapter(context));
         return convertView;
     }
 
