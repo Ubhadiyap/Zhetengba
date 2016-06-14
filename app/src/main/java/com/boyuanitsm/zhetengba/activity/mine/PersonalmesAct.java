@@ -104,8 +104,14 @@ public class PersonalmesAct extends BaseActivity {
             userEntity = personalMain.getUserEntity();
             if (UserInfoDao.getUser().getId().equals(userEntity.get(0).getId())) {
                 setTopTitle("个人资料");
+                iv_arrow.setVisibility(View.VISIBLE);
+                cv_photo.setEnabled(true);
+                headIcon.setEnabled(true);
                 instalData();
             } else {
+                iv_arrow.setVisibility(View.INVISIBLE);
+                cv_photo.setEnabled(false);
+                headIcon.setEnabled(false);
                 instalOtherData();
                 setIvArrowInvisible();
             }
@@ -170,9 +176,6 @@ public class PersonalmesAct extends BaseActivity {
      * 设置个人资料箭头隐藏
      */
     private void setIvArrowInvisible() {
-        iv_arrow.setVisibility(View.INVISIBLE);
-        cv_photo.setEnabled(false);
-        headIcon.setEnabled(false);
         cvUserName.setIvArrow(false);
         cvSex.setIvArrow(false);
         cvPhoneNum.setIvArrow(false);
