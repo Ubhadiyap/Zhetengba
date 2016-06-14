@@ -202,12 +202,17 @@ public class ContractedAct extends BaseActivity {
                 break;
             case R.id.ll_theme:
                 Intent intent = new Intent();
+                if (backTheme!=null){
+                    Bundle bundle=new Bundle();
+                    bundle.putString("backTheme",backTheme);
+                    intent.putExtras(bundle);
+                }
                 intent.setClass(this, EventdetailsAct.class);
                 startActivityForResult(intent, 0);
                 break;
-            case R.id.ll_theme_content:
-                openActivity(EventdetailsAct.class);
-                break;
+//            case R.id.ll_theme_content:
+//                openActivity(EventdetailsAct.class);
+//                break;
             case R.id.ll_hide://点击输入框以外地方，软键盘消失
                 InputMethodManager imm = (InputMethodManager)
                         getSystemService(ContractedAct.this.INPUT_METHOD_SERVICE);
@@ -230,7 +235,7 @@ public class ContractedAct extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0) {
+        if (requestCode == 0&&data!=null) {
             Bundle bundle = data.getBundleExtra("bundle2");
             backTheme = bundle.getString("detailsTheme");
 

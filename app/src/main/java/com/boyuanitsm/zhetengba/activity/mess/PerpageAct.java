@@ -104,8 +104,6 @@ public class PerpageAct extends BaseActivity {
     private TextView tv_niName;//昵称
     @ViewInject(R.id.ll_add_friend)
     private LinearLayout ll_add_riend;
-    @ViewInject(R.id.ll_add_friend_one)
-    private LinearLayout ll_add_friend_one;
     @ViewInject(R.id.iv_set)
     private ImageView iv_set;
     @ViewInject(R.id.bt_message)
@@ -143,20 +141,17 @@ public class PerpageAct extends BaseActivity {
         userId = bundle.getString("userId");
         flag=bundle.getBoolean("friend");
         if (UserInfoDao.getUser().getId().equals(userId)){
-            ll_add_friend_one.setVisibility(View.GONE);//加为好友
             ll_add_riend.setVisibility(View.VISIBLE);//档期frg
             iv_set.setVisibility(View.GONE);
             bt_message.setVisibility(View.GONE);
         }else  if (flag){
-            ll_add_friend_one.setVisibility(View.GONE);
             ll_add_riend.setVisibility(View.VISIBLE);
             iv_set.setVisibility(View.VISIBLE);
-            bt_message.setVisibility(View.VISIBLE);
+            bt_message.setText("发送消息");
         }else{
-            bt_message.setVisibility(View.GONE);
+            bt_message.setText("加为好友");
             iv_set.setVisibility(View.GONE);
             ll_add_riend.setVisibility(View.GONE);
-            ll_add_friend_one.setVisibility(View.VISIBLE);
         }
         getPersonalMain(userId);
 
@@ -261,7 +256,7 @@ public class PerpageAct extends BaseActivity {
         view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
     }
 
-    @OnClick({R.id.rl_dangqi, R.id.rl_dongtai, R.id.iv_set, R.id.cv_photo,R.id.bt_friend})
+    @OnClick({R.id.rl_dangqi, R.id.rl_dongtai, R.id.iv_set, R.id.cv_photo,R.id.bt_message})
     public void OnClick(View v) {
         switch (v.getId()) {
             case R.id.rl_dangqi://档期
@@ -278,19 +273,39 @@ public class PerpageAct extends BaseActivity {
                 View view = findViewById(R.id.iv_set);
                 showPopupWindow(view);
                 break;
-            case R.id.cv_photo://个人资料
-                openActivity(PersonalmesAct.class);
-                break;
-            case R.id.bt_friend://加为好友
-                Intent intent=new Intent(this,MessVerifyAct.class);
-                Bundle bundle=new Bundle();
-                bundle.putString("userName",userEntity.get(0).getPetName());
-                bundle.putString("userId",userEntity.get(0).getId());
-                intent.putExtras(bundle);
-                startActivity(intent);
+            case R.id.bt_message://加为好友
+                if (bt_message.getText().equals("加为好友")){
+                    Intent intent=new Intent(this,MessVerifyAct.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("userName",userEntity.get(0).getPetName());
+                    bundle.putString("userId",userEntity.get(0).getId());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }else if (bt_message.getText().equals("发送消息")){
+                    //调用发送消息接口
+                }
+
                 break;
         }
 
+
+    }
+
+    /**
+     * 点击头像跳转个人资料
+     */
+    private void setOnclikListener(){
+       cv_photo.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intentPerson = new Intent();
+               intentPerson.setClass(PerpageAct.this,PersonalmesAct.class);
+               Bundle bundlePerson = new Bundle();
+               bundlePerson.putParcelable(PAGEFRG_KEY, personalMain);
+               intentPerson.putExtras(bundlePerson);
+               startActivity(intentPerson);
+           }
+       });
 
     }
 
@@ -412,6 +427,7 @@ public class PerpageAct extends BaseActivity {
                 iniTab(userInterestEntity);
                 toPageCalFrg();
                 setSelect(0);
+                setOnclikListener();
                 hlv_perpage.setAdapter(new HlvppAdapter(PerpageAct.this, circleEntity));//她的圈子下面水平view适配器
             }
         });

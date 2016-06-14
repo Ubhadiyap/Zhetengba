@@ -128,25 +128,25 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/ll_add_friend_one"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center"
-                    android:visibility="gone">
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_add_friend_one"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="15dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:visibility="gone">-->
 
-                    <Button
-                        android:id="@+id/bt_friend"
-                        style="@style/com_button"
-                        android:layout_width="107dp"
-                        android:layout_height="31dp"
-                        android:background="@drawable/com_btn_nor_yel"
-                        android:gravity="center"
-                        android:text="加为好友"
-                        android:textColor="#fff"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                    <!--<Button-->
+                        <!--android:id="@+id/bt_friend"-->
+                        <!--style="@style/com_button"-->
+                        <!--android:layout_width="107dp"-->
+                        <!--android:layout_height="31dp"-->
+                        <!--android:background="@drawable/com_btn_nor_yel"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="加为好友"-->
+                        <!--android:textColor="#fff"-->
+                        <!--android:textSize="14sp" />-->
+                <!--</LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/ll_add_friend"
@@ -234,7 +234,6 @@
         </FrameLayout>
     </ScrollView>
     <Button
-        android:visibility="gone"
         android:id="@+id/bt_message"
         android:layout_width="match_parent"
         android:layout_height="40dp"

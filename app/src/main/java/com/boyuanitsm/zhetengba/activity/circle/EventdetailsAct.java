@@ -28,6 +28,13 @@ public class EventdetailsAct extends BaseActivity implements View.OnClickListene
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("活动详情");
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        if (bundle!=null){
+            str=bundle.getString("backTheme");
+            feedback_et.setText(str);
+            feedback_et.setSelection(str.length());
+        }
 
     }
     @OnClick({R.id.tv_ok})
@@ -37,7 +44,7 @@ public class EventdetailsAct extends BaseActivity implements View.OnClickListene
             case R.id.tv_ok:
                 str=feedback_et.getText().toString();
                 Intent intent=new Intent();
-                intent.setClass(EventdetailsAct.this, ContractedAct.class);
+//                intent.setClass(EventdetailsAct.this, ContractedAct.class);
                 Bundle bundle2=new Bundle();
                 bundle2.putString("detailsTheme",str);
                 intent.putExtra("bundle2",bundle2);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;

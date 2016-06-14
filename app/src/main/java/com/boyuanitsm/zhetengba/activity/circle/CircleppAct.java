@@ -14,6 +14,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CirpplistAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
+import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;

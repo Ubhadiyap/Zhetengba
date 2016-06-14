@@ -72,7 +72,20 @@ public class RecycleviewAdp extends RecyclerView.Adapter<RecycleviewAdp.ViewHold
            }
        }
         else{
-            viewHolder.mTxt.setText(list.get(i).getDictName());
+           if(i==list.size()){
+               viewHolder.mTxt.setText("更多...");
+               if (mOnItemClickListener!=null){
+                   viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           mOnItemClickListener.onItemClick(viewHolder.itemView,i);
+                       }
+                   });
+               }
+           }else {
+               viewHolder.mTxt.setText(list.get(i).getDictName());
+           }
+
         }
 
     }
@@ -80,6 +93,6 @@ public class RecycleviewAdp extends RecyclerView.Adapter<RecycleviewAdp.ViewHold
 
     @Override
     public int getItemCount() {
-        return (list.size()>4?4:list.size());
+        return (list.size()>=4?4:list.size()+1);
     }
 }
