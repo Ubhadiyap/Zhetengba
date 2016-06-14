@@ -79,7 +79,7 @@ public class PersonalmesAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("个人资料");
         user = UserInfoDao.getUser();
-        MyLogUtils.degug("user"+user);
+        MyLogUtils.degug("user" + user);
         if (user != null) {
             if (!(TextUtils.isEmpty(user.getPetName()))) {
                 MyLogUtils.degug("hah"+user);
@@ -87,7 +87,10 @@ public class PersonalmesAct extends BaseActivity {
                 cvUserName.setNotesText(user.getPetName());}
 
             if (!(TextUtils.isEmpty(user.getSex()))) {
-                    cvSex.setNotesText(user.getSex());
+                if(user.getSex().equals("0")){
+                    cvSex.setNotesText("女");
+                }if(user.getSex().equals("1")){
+                    cvSex.setNotesText("男");}
                 }
             if (!(TextUtils.isEmpty(user.getPhone()))) {
                 cvPhoneNum.setNotesText(user.getPhone());
@@ -247,17 +250,18 @@ public class PersonalmesAct extends BaseActivity {
                 if (resultCode == SEXMODIFY_BAKC) {
                     if (data != null) {
                         String sex=data.getStringExtra("Modify");
-                        if(sex.equals("女")){
+                        if(sex.equals("0")){
                             cvSex.setNotesText("女");
-                            user.setSex("女");
+
                         }
-                        if(sex.equals("男")){
+                        if(sex.equals("1")){
                             cvSex.setNotesText("男");
-                            user.setSex("男");
+
                         }
 
                     }
                 }
+                break;
 
         }
         super.onActivityResult(requestCode, resultCode, data);
