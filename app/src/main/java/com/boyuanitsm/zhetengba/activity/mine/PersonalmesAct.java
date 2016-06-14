@@ -15,16 +15,27 @@ import android.widget.RelativeLayout;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.IconFilePath;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
+import com.hyphenate.util.Utils;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.io.File;
 import java.util.HashMap;
@@ -55,6 +66,8 @@ public class PersonalmesAct extends BaseActivity {
     private CommonView cvBusiness;
     @ViewInject(R.id.cv_homeTown)
     private CommonView cvHomeTown;
+    @ViewInject(R.id.head)
+    private CircleImageView head;
 
     private String photoSavePath;
     private String photoSaveName;
@@ -68,6 +81,11 @@ public class PersonalmesAct extends BaseActivity {
 
     private MyReceiver myReceiver;
     private UserInfo user;
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
 
 
     @Override
@@ -81,6 +99,9 @@ public class PersonalmesAct extends BaseActivity {
         user = UserInfoDao.getUser();
         MyLogUtils.degug("user"+user);
         if (user != null) {
+            if(!TextUtils.isEmpty(user.getIcon())){
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()),head,options);
+            }
             if (!(TextUtils.isEmpty(user.getPetName()))) {
                 MyLogUtils.degug("hah"+user);
                 MyLogUtils.degug(user.getPetName());
@@ -273,7 +294,20 @@ public class PersonalmesAct extends BaseActivity {
         File file = new File(path);
         FileBody fileBody = new FileBody(file);
         filemap.put("file", fileBody);
+        RequestManager.getUserManager().subHeadImg(filemap, new ResultCallback<ResultBean<IconFilePath>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
 
+            }
+
+            @Override
+            public void onResponse(ResultBean<IconFilePath> response) {
+                user.setIcon(Uitls.imageFullUrl(response.getData().getIconFilePath()));
+                UserInfoDao.updateUser(user);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()),head,options);
+                sendBroadcast(new Intent(MineFrg.USER_INFO));
+            }
+        });
     }
 
     public static final String USER_INFO = "com.update.user";

@@ -1,5 +1,10 @@
 package com.boyuanitsm.zhetengba.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +13,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -24,14 +30,22 @@ import com.boyuanitsm.zhetengba.adapter.MonthSelectAdp;
 import com.boyuanitsm.zhetengba.adapter.RecycleviewAdp;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyViewPager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +61,13 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     private MyViewPager lvTimeAxis;//viewPager对象
     @ViewInject(R.id.rv_label)
     private RecyclerView rvLabel;//兴趣标签
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
+    @ViewInject(R.id.iv_headIcon)
+    private CircleImageView head;
 //    @ViewInject(R.id.rv_monthSelect)
 //    private RecyclerView rvMonthSelect;
     @ViewInject(R.id.tv_noLabel)
@@ -294,6 +315,41 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         return Integer.valueOf(format.format(new Date()));
     }
 
+    private MyReceiver myReceiver;
+    public static final String USER_INFO = "com.update.userinfo";
 
+    public class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            UserInfo user= UserInfoDao.getUser();
+            MyLogUtils.degug(user.getPetName());
+            if (user != null) {
+               if (!TextUtils.isEmpty(user.getIcon())){
+                   ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()),head,options);
+
+               }
+
+            }
+
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (myReceiver==null) {
+            myReceiver = new MyReceiver();
+            getActivity().registerReceiver(myReceiver, new IntentFilter(USER_INFO));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (myReceiver!=null){
+            getActivity().unregisterReceiver(myReceiver);
+            myReceiver=null;
+        }
+    }
 
 }

@@ -72,8 +72,8 @@ public class CircleglAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
         if (list!=null&&list.size()>0){
-            if(!TextUtils.isEmpty(list.get(position).getAddress())) {
-                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(position).getAddress(), holder.head,options);
+            if(!TextUtils.isEmpty(list.get(position).getCircleLogo())) {
+                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(position).getCircleLogo(), holder.head,options);
             }
             if(!TextUtils.isEmpty(list.get(position).getCircleName())) {
                 holder.name.setText(list.get(position).getCircleName());
