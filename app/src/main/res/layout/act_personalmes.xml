@@ -46,7 +46,7 @@
                         android:orientation="horizontal">
 
                         <com.boyuanitsm.zhetengba.view.CircleImageView
-                            android:id="@+id/cv_photo"
+                            android:id="@+id/head"
                             android:layout_width="40dp"
                             android:layout_height="40dp"/>
 

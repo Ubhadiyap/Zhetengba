@@ -17,8 +17,13 @@ import android.widget.RelativeLayout;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.PersonalMain;
+import com.boyuanitsm.zhetengba.bean.IconFilePath;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -26,6 +31,7 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
+import com.hyphenate.util.Utils;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -44,8 +50,8 @@ import java.util.Map;
  * Created by bitch-1 on 2016/5/3.
  */
 public class PersonalmesAct extends BaseActivity {
-    @ViewInject(R.id.cv_photo)
-    private CircleImageView cv_photo;
+//    @ViewInject(R.id.cv_photo)
+//    private CircleImageView cv_photo;
     @ViewInject(R.id.iv_arrow)
     private ImageView iv_arrow;
     @ViewInject(R.id.rl_headIcon)
@@ -68,6 +74,8 @@ public class PersonalmesAct extends BaseActivity {
     private CommonView cvBusiness;
     @ViewInject(R.id.cv_homeTown)
     private CommonView cvHomeTown;
+    @ViewInject(R.id.head)
+    private CircleImageView head;
 
     private String photoSavePath;
     private String photoSaveName;
@@ -80,15 +88,19 @@ public class PersonalmesAct extends BaseActivity {
     public static final int SEXMODIFY_BAKC = 201;//性别 resultcode 201
     private MyReceiver myReceiver;
     private UserInfo user;
+
     private String PAGEFRG_KEY = "perpage_to_pagecalFrg";
     private PersonalMain personalMain = new PersonalMain();
     private List<UserInfo> userEntity = new ArrayList<>();
     // 图片缓存 默认 等
-    private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+
             .showImageForEmptyUri(R.mipmap.zanwutupian)
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
+
 
     @Override
     public void setLayout() {
@@ -105,12 +117,13 @@ public class PersonalmesAct extends BaseActivity {
             if (UserInfoDao.getUser().getId().equals(userEntity.get(0).getId())) {
                 setTopTitle("个人资料");
                 iv_arrow.setVisibility(View.VISIBLE);
-                cv_photo.setEnabled(true);
+                head.setVisibility(View.VISIBLE);
+                head.setEnabled(true);
                 headIcon.setEnabled(true);
                 instalData();
             } else {
                 iv_arrow.setVisibility(View.INVISIBLE);
-                cv_photo.setEnabled(false);
+                head.setEnabled(false);
                 headIcon.setEnabled(false);
                 instalOtherData();
                 setIvArrowInvisible();
@@ -132,7 +145,7 @@ public class PersonalmesAct extends BaseActivity {
             cvUserName.setNotesText(userEntity.get(0).getPetName());
         }
         if (!TextUtils.isEmpty(userEntity.get(0).getIcon())){
-            ImageLoader.getInstance().displayImage(userEntity.get(0).getIcon(),cv_photo,optionsImag);
+            ImageLoader.getInstance().displayImage(userEntity.get(0).getIcon(),head,options);
         }
 
         if (!TextUtils.isEmpty(userEntity.get(0).getSex())) {
@@ -196,6 +209,9 @@ public class PersonalmesAct extends BaseActivity {
         user = UserInfoDao.getUser();
         MyLogUtils.degug("user" + user);
         if (user != null) {
+            if(!TextUtils.isEmpty(user.getIcon())){
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()),head,options);
+            }
             if (!(TextUtils.isEmpty(user.getPetName()))) {
                 MyLogUtils.degug("hah" + user);
                 MyLogUtils.degug(user.getPetName());
@@ -388,7 +404,20 @@ public class PersonalmesAct extends BaseActivity {
         File file = new File(path);
         FileBody fileBody = new FileBody(file);
         filemap.put("file", fileBody);
+        RequestManager.getUserManager().subHeadImg(filemap, new ResultCallback<ResultBean<IconFilePath>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
 
+            }
+
+            @Override
+            public void onResponse(ResultBean<IconFilePath> response) {
+                user.setIcon(Uitls.imageFullUrl(response.getData().getIconFilePath()));
+                UserInfoDao.updateUser(user);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()),head,options);
+                sendBroadcast(new Intent(MineFrg.USER_INFO));
+            }
+        });
     }
 
     public static final String USER_INFO = "com.update.user";

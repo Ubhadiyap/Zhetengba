@@ -162,6 +162,12 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
 
     private void setCircleEntity(CircleEntity entity){
         if(entity!=null){
+            if (!TextUtils.isEmpty(entity.getUserIcon())){
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getUserIcon()),head,optionsImag);
+            }
+            if (!TextUtils.isEmpty(entity.getCircleName())){
+                cirType.setText(entity.getCircleName());
+            }
             if(!TextUtils.isEmpty(entity.getUserName())){
                 name.setText(entity.getUserName());
             }else {

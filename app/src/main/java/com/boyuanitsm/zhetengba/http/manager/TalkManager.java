@@ -75,11 +75,13 @@ public class TalkManager extends RequestManager{
      * @param circleId
      * @param callback
      */
-    public void myCircleMember(String circleId,ResultCallback callback){
+    public void myCircleMember(String circleId,int page,int rows,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         if(!TextUtils.isEmpty(circleId)) {
             map.put("circleId", circleId);
         }
+        map.put("page",page+"");
+        map.put("rows",rows+"");
         doPost(IZtbUrl.CIRCLE_MEMBER_URL,map,callback);
     }
 
@@ -365,7 +367,7 @@ public class TalkManager extends RequestManager{
     }
 
     /**
-     * 上传图片
+     * 上传多张图片
      * @param fileMaps
      * @param callback
      */
