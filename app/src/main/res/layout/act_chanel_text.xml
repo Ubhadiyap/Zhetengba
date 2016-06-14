@@ -101,7 +101,9 @@
                         android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+
+                        >
 
                         <com.boyuanitsm.zhetengba.view.MyGridView
                             android:id="@+id/iv_ch_image"

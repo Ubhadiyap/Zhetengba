@@ -1,6 +1,5 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -15,11 +14,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
-import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
-import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
-import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 import java.util.List;
 
@@ -181,7 +176,6 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                 fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 if (calFrg == null) {
                     calFrg = new CalFrg();
-
                     fragmentTransaction.add(R.id.fl_calendar, calFrg);
                 } else {
                     fragmentTransaction.show(calFrg);
