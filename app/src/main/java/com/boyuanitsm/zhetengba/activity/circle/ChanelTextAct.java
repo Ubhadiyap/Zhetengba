@@ -35,6 +35,8 @@ import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.leaf.library.widget.MyListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -56,10 +58,10 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 //    private LinearLayout ll_comment;
     @ViewInject(R.id.et_comment)
     private EditText etComment;//评论内容
-    private MyListView my_lv;
-    private ScrollView sl_chanel;
+    @ViewInject(R.id.my_lv)
+    private PullToRefreshListView my_lv;
+//    private ScrollView sl_chanel;
     private LinearLayout ll_two;
-    @ViewInject(R.id.llphoto)
     private LinearLayout llphoto;
     private CustomImageView ng_one_image, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
@@ -84,18 +86,20 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
     private String channelId;//频道说说id
     private ChannelTalkEntity channelTalkEntity;//频道说说实体
-    @ViewInject(R.id.iv_ch_head)
+//    @ViewInject(R.id.iv_ch_head)
     private CircleImageView head;//头像
-    @ViewInject(R.id.tv_ch_niName)
+//    @ViewInject(R.id.tv_ch_niName)
     private TextView name;//姓名
-    @ViewInject(R.id.iv_ch_gendar)
+//    @ViewInject(R.id.iv_ch_gendar)
     private ImageView sex;//性别
-    @ViewInject(R.id.tv_time)
+//    @ViewInject(R.id.tv_time)
     private TextView time;//时间
-    @ViewInject(R.id.content)
+//    @ViewInject(R.id.content)
     private TextView content;//说说内容
-    @ViewInject(R.id.commentNum)
+//    @ViewInject(R.id.commentNum)
     private TextView commentNum;//评论数
+
+    private View headView;
     private int page=1;
     private int rows=10;
     private List<ChannelTalkEntity> list;
@@ -109,17 +113,21 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("频道正文");
+        headView=getLayoutInflater().inflate(R.layout.hannel_headerview,null);
+        assignView(headView);
+
         channelTalkEntity=getIntent().getParcelableExtra("channelEntity");
         channelId=getIntent().getStringExtra("channelId");
+        LayoutHelperUtil.freshInit(my_lv);
+        my_lv.getRefreshableView().addHeaderView(headView);
         setChannel(channelTalkEntity);
-        assignView();
 //        initDate();
         getCircleCommentsList(channelId, page, rows);
 //        adapter = new ChaTextAdapter(this);
 //        my_lv.setAdapter(adapter);
-        sl_chanel.smoothScrollTo(0, 0);
+//        sl_chanel.smoothScrollTo(0, 0);
 
-        my_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        my_lv.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                ll_answer.setVisibility(View.VISIBLE);
@@ -133,6 +141,20 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 //                et_comment.setText("回复"+str_nam+"：");
 
 
+            }
+        });
+        my_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                my_lv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                page=1;
+                getCircleCommentsList(channelId,page,rows);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                getCircleCommentsList(channelId,page,rows);
             }
         });
     }
@@ -160,16 +182,23 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    private void assignView() {
-        my_lv = (MyListView) findViewById(R.id.my_lv);
-        sl_chanel = (ScrollView) findViewById(R.id.sl_chanel);
-        iv_ch_image = (MyGridView) findViewById(R.id.iv_ch_image);
-        ng_one_image = (CustomImageView) findViewById(R.id.ng_one_image);
-        ll_two = (LinearLayout) findViewById(R.id.ll_two);
-        iv_two_one = (CustomImageView) findViewById(R.id.iv_two_one);
-        iv_two_two = (CustomImageView) findViewById(R.id.iv_two_two);
-        iv_two_three = (CustomImageView) findViewById(R.id.iv_two_three);
-        iv_two_four = (CustomImageView) findViewById(R.id.iv_two_four);
+    private void assignView(View view) {
+//        my_lv = (PullToRefreshListView) findViewById(R.id.my_lv);
+//        sl_chanel = (ScrollView) findViewById(R.id.sl_chanel);
+        head= (CircleImageView) view.findViewById(R.id.iv_ch_head);//头像
+        name= (TextView) view.findViewById(R.id.tv_ch_niName);//姓名
+        sex= (ImageView) view.findViewById(R.id.iv_ch_gendar);//性别
+        time= (TextView) view.findViewById(R.id.tv_time);//时间
+        content= (TextView) view.findViewById(R.id.content);//说说内容
+        commentNum= (TextView) view.findViewById(R.id.commentNum);//评论数
+        iv_ch_image = (MyGridView) view.findViewById(R.id.iv_ch_image);
+        ng_one_image = (CustomImageView) view.findViewById(R.id.ng_one_image);
+        ll_two = (LinearLayout) view.findViewById(R.id.ll_two);
+        iv_two_one = (CustomImageView) view.findViewById(R.id.iv_two_one);
+        iv_two_two = (CustomImageView) view.findViewById(R.id.iv_two_two);
+        iv_two_three = (CustomImageView) view.findViewById(R.id.iv_two_three);
+        iv_two_four = (CustomImageView) view.findViewById(R.id.iv_two_four);
+        llphoto= (LinearLayout) view.findViewById(R.id.llphoto);
     }
 
     private void initDate(ChannelTalkEntity channelTalkEntity) {
@@ -303,19 +332,37 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
     private List<ChannelTalkEntity> datas=new ArrayList<>();
     //获取评论列表
-    private void getCircleCommentsList(String channelTalkId,int page,int rows){
+    private void getCircleCommentsList(String channelTalkId, final int page, int rows){
         RequestManager.getTalkManager().getChannelCommentsList(channelTalkId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                my_lv.onPullUpRefreshComplete();
+                my_lv.onPullDownRefreshComplete();
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<ChannelTalkEntity>> response) {
+                my_lv.onPullUpRefreshComplete();
+                my_lv.onPullDownRefreshComplete();
                 list=response.getData().getRows();
                 commentNum.setText("评论"+list.size());
-                adapter = new ChaTextAdapter(ChanelTextAct.this,list);
-                my_lv.setAdapter(adapter);
+                if (list.size() == 0) {
+                    if (page == 1) {
+
+                    } else {
+                        my_lv.setHasMoreData(false);
+                    }
+                }
+                if(page==1){
+                    datas.clear();
+                }
+                datas.addAll(list);
+                if (adapter==null) {
+                    adapter = new ChaTextAdapter(ChanelTextAct.this, datas);
+                    my_lv.getRefreshableView().setAdapter(adapter);
+                }else {
+                    adapter.notifyChange(datas);
+                }
                 sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
             }
         });

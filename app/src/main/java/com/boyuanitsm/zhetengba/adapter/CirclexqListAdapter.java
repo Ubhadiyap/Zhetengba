@@ -44,7 +44,7 @@ public class CirclexqListAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList=new ArrayList<>();
 
-    private List<CircleEntity> list;
+    private List<CircleEntity> list=new ArrayList<>();
     int clickPos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -92,7 +92,12 @@ public class CirclexqListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        final List<ImageInfo> itemList = dateList.get(position);
+        List<ImageInfo> itemList1 =new ArrayList<>();
+        if (list.get(position)!=null) {
+           itemList1 =dateList.get(position);
+        }
+
+
 //        final List<ImageInfo> itemList = new ArrayList<>();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -123,6 +128,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
         }
         viewHolder.llphoto.setVisibility(View.VISIBLE);
+        final List<ImageInfo> itemList=itemList1;
         if (itemList.isEmpty() || itemList.isEmpty()) {
             viewHolder.llphoto.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);

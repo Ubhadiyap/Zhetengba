@@ -133,10 +133,6 @@ public class RegInfoAct extends BaseActivity {
         }
 
     }
-
-
-
-
     /**
      * 获取到适配器中选中的数据是适配器中有调用这个方法
      * @param datamap

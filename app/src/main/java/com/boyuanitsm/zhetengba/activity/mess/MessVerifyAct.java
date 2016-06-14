@@ -25,4 +25,5 @@ public class MessVerifyAct extends BaseActivity {
         setTopTitle(userName);
     }
     //调用添加好友接口
+
 }

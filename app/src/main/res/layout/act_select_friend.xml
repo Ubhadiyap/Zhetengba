@@ -16,6 +16,14 @@
     <TextView
         android:gravity="center"
         android:layout_weight="1"
+        android:id="@+id/tv_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#52c791"
+        android:text="我的"/>
+    <TextView
+        android:gravity="center"
+        android:layout_weight="1"
         android:id="@+id/tv_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

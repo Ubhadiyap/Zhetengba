@@ -99,30 +99,6 @@ public class PicShowDialog extends Dialog {
         });
 
     }
-
-//    public void init() {
-//        list = new ArrayList<PhotoView>();
-//        for (int i = 0; i < imageInfos.size(); i++) {
-//            PhotoView photoView = new PhotoView(context);
-//            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-//                @Override
-//                public void onPhotoTap(View view, float x, float y) {
-//                    dismiss();
-//                }
-//            });
-//            photoView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    dismiss();
-//                }
-//            });
-//            list.add(photoView);
-//        }
-//        for (int i = 0; i < imageInfos.size(); i++) {
-//            ImageLoader.getInstance().displayImage(imageInfos.get(i).getUrl(), list.get(i), optionsImag);
-//        }
-//
-//    }
     /***
      * 初始化viewpager适配器
      */

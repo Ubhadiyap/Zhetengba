@@ -68,7 +68,6 @@ public class CircleEntity implements Parcelable{
     private String remark;
 
     private boolean isValid;
-
     public CircleEntity() {
 
     }

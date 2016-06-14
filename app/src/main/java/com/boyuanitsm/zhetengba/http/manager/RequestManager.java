@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -184,6 +185,58 @@ public class RequestManager {
                             callback.onResponse(o);
                         } else {//失败
                             callback.onError(status, jsonObject.getString("message"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    callback.onError(-1, "亲，网络不给力");
+
+                }
+
+            }
+        }.execute();
+
+    }
+
+    /**
+     * 上传多张图片
+     *
+     * @param url
+     * @param
+     * @param fileMaps
+     * @param callback
+     */
+    public void submitMore(final String url, final Map<String, List<FileBody>> fileMaps, final ResultCallback callback) {
+        final HttpManager manager = new HttpManager();
+        final Map<String, String> par = new HashMap<String, String>();
+        MyLogUtils.info("地址：" + url);
+        par.put("type", "img");
+        par.put("uploadLableName", "file");
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                return manager.upListFile(url, par, fileMaps);
+            }
+
+            @Override
+            protected void onPreExecute() {
+
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                MyLogUtils.info("上传图片：" + result);
+                if (result != null) {
+                    try {
+                        JSONObject jsonObject=new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if(status==200){//成功
+                            Object o = mGson.fromJson(result, callback.mType);
+                            callback.onResponse(o);
+                        }else{//失败
+                            callback.onError(status,jsonObject.getString("message"));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

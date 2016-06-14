@@ -18,10 +18,13 @@ import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.ChaPagerAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
+import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 频道界面
@@ -38,7 +41,7 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
     private ChaPagerAdapter chaPagerAdapter;//viewpager适配器
     private ArrayList<ChaChildFrg> fragmentList;//viewpager嵌套fragment，将fragment装入fragmentlist集合内
     private ArrayList<TextView> textViewList;//承载标签的TextView集合
-    private ArrayList<String> titleList;//标签集合
+    private List<UserInterestInfo> titleList;//标签集合
     private ArrayList<Integer> moveToList;//设置textview宽高集合
     private ArrayList<String> contentList;
     private ChaChildFrg chaChildFrg;//子fragment01
@@ -79,13 +82,14 @@ private Button bt_plan;
         titleList = new ArrayList<>();
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
+        LabelInterestDao labelInterestDao=new LabelInterestDao(mActivity);
+        titleList= labelInterestDao.getScrollData(0,-1);
         //设置fragmentlist
         //填充titleList,titleLayout布局
-        for (int i = 0; i < strList.length; i++) {
+        for (int i = 0; i < titleList.size(); i++) {
             ChaChildFrg testFm = new ChaChildFrg().newInstance(contentList, i);
             fragmentList.add(testFm);
-            titleList.add(strList[i]);
-            addTitleLayout(titleList.get(i), idList[i]);
+            addTitleLayout(titleList.get(i).getDictName(), i);
         }
         //设置viewpager适配数据
         chaPagerAdapter = new ChaPagerAdapter(getChildFragmentManager(), fragmentList);

@@ -13,7 +13,7 @@ public interface IZtbUrl {
     //测试
 //    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
 
-   // public  String BASE_URL="http://172.16.6.253:8089/zhetengba/";
+//    public  String BASE_URL="http://172.16.6.225:8080/zhetengba/";
 
     /**=========登出地址==========**/
     public  String LOGOUT_URL=BASE_URL+"manager/unLogin/logout.do";
@@ -180,7 +180,8 @@ public interface IZtbUrl {
 
     //取消活动
     public static final String REMOVE_ACTIVITY_URL=BASE_URL+"schedule/login/removeActivity.do";
-
+    //取消档期
+    public  static  final String REMOVE_SHEDULE_URL=BASE_URL+"schedule/login/removeSchedule.do";
 
     //发布档期接口
     public static final String ADD_SHEDULE_URL=BASE_URL+"schedule/login/addSchedule.do";
@@ -189,5 +190,10 @@ public interface IZtbUrl {
     public static final String ACTIVITY_MESSAGE_URL=BASE_URL+"schedule/login/pushActivityMessage.do";
     //发布档期推送
     public static final String SHEDULE_MESSAGE_URL=BASE_URL+"schedule/login/pushScheduleMessage.do";
-
+    //取消活动参加
+    public static final  String CANCEL_ACTIVITY_URL=BASE_URL+"schedule/login/quitActivity.do";
+    //个人主页接口
+    public static  final  String PERSONAL_HOME_PAGE_URL=BASE_URL+"schedule/login/findPersonalByUserId.do";
+    //添加好友接口
+    public static final String ADD_FRIEND_URL="message/login/addFriendFromContact.do";
 }
