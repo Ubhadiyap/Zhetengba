@@ -54,7 +54,7 @@ public class LabelInterestDao {
      */
     public void update(UserInterestInfo labelBannerInfo) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-        db.execSQL("updata  label set interestId=?,dictName=? where id=?", new Object[]{labelBannerInfo.getInterestId(),labelBannerInfo.getDictName(), labelBannerInfo.getId()});
+        db.execSQL("update label set interestId=?,dictName=? where id=?", new Object[]{labelBannerInfo.getInterestId(),labelBannerInfo.getDictName(), labelBannerInfo.getId()});
         ContentValues values = new ContentValues();
         values.put("interestId",labelBannerInfo.getInterestId());
         values.put("dictName", labelBannerInfo.getDictName());
