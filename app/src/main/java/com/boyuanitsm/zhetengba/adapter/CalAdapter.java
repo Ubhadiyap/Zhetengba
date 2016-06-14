@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -141,7 +142,7 @@ public class CalAdapter extends BaseAdapter {
             } else {
                 calHolder.tv_gzcal_num.setText(0 + "");
             }
-
+//           calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger, null));
             calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
             calHolder.tv_cal_yh.setText("约Ta");
 //        calHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +164,7 @@ public class CalAdapter extends BaseAdapter {
                         @Override
                         public void onResponse(ResultBean<String> response) {
                             calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
+//                            calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger_b, null));
                         }
                     });
 
