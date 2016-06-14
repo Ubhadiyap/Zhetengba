@@ -1,6 +1,5 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +41,7 @@ public class EventdetailsAct extends BaseActivity implements View.OnClickListene
                 bundle2.putString("detailsTheme",str);
                 intent.putExtra("bundle2",bundle2);
                 setResult(0,intent);
-                this.finish();
+                finish();
                 break;
         }
     }
