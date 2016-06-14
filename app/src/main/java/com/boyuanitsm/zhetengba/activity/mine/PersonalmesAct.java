@@ -138,6 +138,7 @@ public class PersonalmesAct extends BaseActivity {
      */
 
     private void instalOtherData() {
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()),head,options);
         if (!TextUtils.isEmpty(userEntity.get(0).getPetName())) {
             setTopTitle(userEntity.get(0).getPetName());
         }
@@ -209,9 +210,7 @@ public class PersonalmesAct extends BaseActivity {
         user = UserInfoDao.getUser();
         MyLogUtils.degug("user" + user);
         if (user != null) {
-            if(!TextUtils.isEmpty(user.getIcon())){
                 ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()),head,options);
-            }
             if (!(TextUtils.isEmpty(user.getPetName()))) {
                 MyLogUtils.degug("hah" + user);
                 MyLogUtils.degug(user.getPetName());
