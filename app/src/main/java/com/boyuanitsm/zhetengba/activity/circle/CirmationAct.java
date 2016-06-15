@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.view.CommonView;
@@ -24,7 +26,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  */
 public class CirmationAct extends BaseActivity {
     @ViewInject(R.id.notice)
-    private TextView notice;//公告
+    private EditText notice;//公告
     @ViewInject(R.id.com_ewm)
     private CommonView com_ewm;//二维码
     @ViewInject(R.id.com_jb)
@@ -45,6 +47,14 @@ public class CirmationAct extends BaseActivity {
         setTopTitle("圈子资料");
         circleEntity=getIntent().getParcelableExtra("circleEntity");
         if(circleEntity!=null){
+            if (!TextUtils.isEmpty(circleEntity.getCircleOwnerId())){
+                if (circleEntity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())){
+                    notice.requestFocus(circleEntity.getNotice().length());
+                    notice.setEnabled(true);
+                }else {
+                    notice.setEnabled(false);
+                }
+            }
             if(!TextUtils.isEmpty(circleEntity.getNotice())) {
                 notice.setText(circleEntity.getNotice());
             }else {

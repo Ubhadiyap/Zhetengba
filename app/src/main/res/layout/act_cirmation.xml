@@ -12,7 +12,8 @@
         android:text="圈子公告"
        style="@style/tv_second" />
     
-   <TextView
+   <EditText
+       android:enabled="false"
        android:id="@+id/notice"
        android:textColor="#999999"
        android:textSize="12sp"

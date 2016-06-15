@@ -98,13 +98,14 @@ private Button bt_plan;
             fragmentList.add(testFm);
             addTitleLayout(titleList.get(i).getDictName(), i);
         }
-        MyLogUtils.degug("titleList:"+titleList.size()+"=====fragmentList:"+fragmentList.size());
         //设置viewpager适配数据
         chaPagerAdapter = new ChaPagerAdapter(getChildFragmentManager(), fragmentList);
         chaPagerAdapter.setFragments(fragmentList);
         vp_chan.setAdapter(chaPagerAdapter);
         vp_chan.setOffscreenPageLimit(9);//一共加载9页，如果此处不指定，默认只加载相邻页，提前加载增加用户体验
-        textViewList.get(0).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
+        if(textViewList!=null&&textViewList.size()>0) {
+            textViewList.get(0).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
+        }
         currentPos = 0;
         //设置频道标签id
         ((MainAct)getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
