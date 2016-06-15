@@ -103,6 +103,11 @@
                             style="@style/Tab_Text_Style"
                             android:visibility="gone" />
 
+                        <TextView
+                            android:id="@+id/tv_tab5"
+                            style="@style/Tab_Text_Style"
+                            android:visibility="gone" />
+
                     </LinearLayout>
 
                 </LinearLayout>

@@ -100,6 +100,8 @@ public class PerpageAct extends BaseActivity {
     private TextView tv_tab3;
     @ViewInject(R.id.tv_tab4)//第4个标签
     private TextView tv_tab4;
+    @ViewInject(R.id.tv_tab5)//第5个标签
+    private TextView tv_tab5;
     @ViewInject(R.id.tv_niName)
     private TextView tv_niName;//昵称
     @ViewInject(R.id.ll_add_friend)
@@ -177,55 +179,7 @@ public class PerpageAct extends BaseActivity {
 
     }
 
-    /**
-     * 兴趣标签初始化
-     * @param str
-     */
-    private void iniTab(List<UserInterestInfo> str) {
-        if (str.size() == 0) {
-            ll_tab.setVisibility(View.GONE);
-        } else if (str.size() == 1) {
-            ll_tab.setVisibility(View.VISIBLE);
-            tv_tab1.setVisibility(View.VISIBLE);
-            tv_tab1.setText(str.get(0).getDictName());
-            tv_tab2.setVisibility(View.GONE);
-            tv_tab3.setVisibility(View.GONE);
-            tv_tab4.setVisibility(View.GONE);
-        } else if (str.size() == 2) {
-            ll_tab.setVisibility(View.VISIBLE);
-            tv_tab1.setVisibility(View.VISIBLE);
-            tv_tab2.setVisibility(View.VISIBLE);
-            tv_tab1.setText(str.get(0).getDictName());
-            tv_tab2.setText(str.get(1).getDictName());
-            tv_tab3.setVisibility(View.GONE);
-            tv_tab4.setVisibility(View.GONE);
-        } else if (str.size() == 3) {
-            ll_tab.setVisibility(View.VISIBLE);
-            tv_tab1.setVisibility(View.VISIBLE);
-            tv_tab2.setVisibility(View.VISIBLE);
-            tv_tab3.setVisibility(View.VISIBLE);
-            tv_tab1.setText(str.get(0).getDictName());
-            tv_tab2.setText(str.get(1).getDictName());
-            tv_tab3.setText(str.get(2).getDictName());
-            tv_tab4.setVisibility(View.GONE);
-        } else if (str.size() == 4) {
-            ll_tab.setVisibility(View.VISIBLE);
-            tv_tab1.setVisibility(View.VISIBLE);
-            tv_tab2.setVisibility(View.VISIBLE);
-            tv_tab3.setVisibility(View.VISIBLE);
-            tv_tab4.setVisibility(View.VISIBLE);
-            tv_tab1.setText(str.get(0).getDictName());
-            tv_tab2.setText(str.get(1).getDictName());
-            tv_tab3.setText(str.get(2).getDictName());
-            tv_tab4.setText(str.get(3).getDictName());
-            tv_tab4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openActivity(LabelMangerAct.class);
-                }
-            });
-        }
-    }
+
 
     /**
      * 选中 选中btn颜色
@@ -246,15 +200,6 @@ public class PerpageAct extends BaseActivity {
     }
 
 
-    /**
-     * 初识化btn颜色
-     */
-    private void resetTabBtn() {
-        tv_dangqi.setTextColor(Color.parseColor("#cdcdcd"));
-        tv_dongtai.setTextColor(Color.parseColor("#cdcdcd"));
-        view_dangqi.setBackgroundColor(Color.parseColor("#cdcdcd"));
-        view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
-    }
 
     @OnClick({R.id.rl_dangqi, R.id.rl_dongtai, R.id.iv_set, R.id.cv_photo,R.id.bt_message})
     public void OnClick(View v) {
@@ -424,7 +369,7 @@ public class PerpageAct extends BaseActivity {
                 userEntity = personalMain.getUserEntity();
                 userInterestEntity = personalMain.getUserInterestEntity();
                 initUserData(userEntity);
-                iniTab(userInterestEntity);
+                iniTab(userInterestEntity,userEntity.get(0).getId());
                 toPageCalFrg();
                 setSelect(0);
                 setOnclikListener();
@@ -445,4 +390,79 @@ public class PerpageAct extends BaseActivity {
         ppagedtFrg.setArguments(bundle);
     }
 
+    /**
+     * 初识化btn颜色
+     */
+    private void resetTabBtn() {
+        tv_dangqi.setTextColor(Color.parseColor("#cdcdcd"));
+        tv_dongtai.setTextColor(Color.parseColor("#cdcdcd"));
+        view_dangqi.setBackgroundColor(Color.parseColor("#cdcdcd"));
+        view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
+    }
+    /**
+     * 兴趣标签初始化
+     * @param str
+     */
+    private void iniTab(List<UserInterestInfo> str, final String useId) {
+        if (str.size() == 0) {
+            ll_tab.setVisibility(View.GONE);
+        } else if (str.size() == 1) {
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setVisibility(View.GONE);
+            tv_tab3.setVisibility(View.GONE);
+            tv_tab4.setVisibility(View.GONE);
+            tv_tab5.setVisibility(View.GONE);
+        } else if (str.size() == 2) {
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setVisibility(View.GONE);
+            tv_tab4.setVisibility(View.GONE);
+            tv_tab5.setVisibility(View.GONE);
+        } else if (str.size() == 3) {
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab3.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setText(str.get(2).getDictName());
+            tv_tab4.setVisibility(View.GONE);
+            tv_tab5.setVisibility(View.GONE);
+        } else if (str.size() == 4) {
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab3.setVisibility(View.VISIBLE);
+            tv_tab4.setVisibility(View.VISIBLE);
+            tv_tab5.setVisibility(View.GONE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setText(str.get(2).getDictName());
+            tv_tab4.setText(str.get(3).getDictName());
+        }else if (str.size()>4){
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab3.setVisibility(View.VISIBLE);
+            tv_tab4.setVisibility(View.VISIBLE);
+            tv_tab5.setVisibility(View.VISIBLE);
+            tv_tab5.setText("更多");
+            tv_tab5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userId", useId);
+                    intent.setClass(PerpageAct.this, LabelMangerAct.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+        }
+    }
 }

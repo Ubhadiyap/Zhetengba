@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CalAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
@@ -57,32 +58,18 @@ public class CalFrg extends BaseFragment {
     private int page=1,rows=10;
     private int state=1;
     private boolean flag=true;
-    private IntentFilter filterFriend,filterAll,filterMy;
+    private IntentFilter filter;
     //    广播接收者更新档期数据
     private BroadcastReceiver calFriendChangeRecevier=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //仿照活动
-            state=0;
-            getFriendAllSchudle(page, rows,state + "");//切换到好友；
-
-        }
-    };
-    private BroadcastReceiver calAllChangeRecevier=new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //仿照活动
-            state=1;
-            getScheduleList(page, rows);//切换到全部；
-
-        }
-    };
-    private BroadcastReceiver calMyChangeRecevier=new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            state=2;
-            getFriendAllSchudle(page,rows,state+"");
-
+            page=1;
+            state=intent.getIntExtra("state",0);
+            if (state==1){
+                getScheduleList(page, rows);
+            }else {
+                getFriendAllSchudle(page, rows,state + "");//切换到好友；//切换到好友；
+            }
         }
     };
 
@@ -95,18 +82,7 @@ public class CalFrg extends BaseFragment {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        //广播接收者，接受好友列表更新数据
-        filterFriend=new IntentFilter();
-        filterFriend.addAction("calendFriendDateChange");
-        mActivity.registerReceiver(calFriendChangeRecevier, filterFriend);//切换到好友；
-        //接受全部更新列表；
-        filterAll=new IntentFilter();
-        filterAll.addAction("calendAllDateChange");
-        mActivity.registerReceiver(calAllChangeRecevier, filterAll);//切换到全部；
-        //接受全部更新列表；
-        filterMy=new IntentFilter();
-        filterMy.addAction("calendMyDateChange");
-        mActivity.registerReceiver(calMyChangeRecevier, filterMy);//切换到我的；
+
         //塞入item_loop_viewpager_calen，到viewpager   :view1
         viewHeader_calen = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_calen = (PullToRefreshListView) view.findViewById(R.id.lv_calen);
@@ -148,6 +124,15 @@ public class CalFrg extends BaseFragment {
         //档期轮播图片展示
         getScheduleBanner();
 
+    }
+
+    @Override
+    public void onResume() {
+        //广播接收者，接受好友列表更新数据
+        filter=new IntentFilter();
+        filter.addAction(ConstantValue.DATA_CHANGE_KEY);
+        mActivity.registerReceiver(calFriendChangeRecevier, filter);//切换到好友；
+        super.onResume();
     }
 
     /***
@@ -338,7 +323,6 @@ public class CalFrg extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         mActivity.unregisterReceiver(calFriendChangeRecevier);
-        mActivity.unregisterReceiver(calAllChangeRecevier);
-        mActivity.unregisterReceiver(calMyChangeRecevier);
+
     }
 }

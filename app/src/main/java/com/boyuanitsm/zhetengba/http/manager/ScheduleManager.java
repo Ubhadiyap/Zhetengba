@@ -145,6 +145,17 @@ public class ScheduleManager extends RequestManager {
         doPost(IZtbUrl.MY_INTEREST_URL,params,callback);
     }
     /**
+     * userId - 用户id 注：userId为空时查询个人兴趣标签；userId不为空时，查询他人兴趣标签（活动、档期列表点击头像查看信息）
+     * 返回:ResponseEntity(集合 List UserInterest) 响应信息
+     * @param
+     * @param callback
+     */
+    public void findOtherListMoreByUserId(String userId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("userId",userId);
+        doPost(IZtbUrl.MY_INTEREST_URL,params,callback);
+    }
+    /**
      * 档期轮播图,返回LabelBanner集合
      * @param callback
      */

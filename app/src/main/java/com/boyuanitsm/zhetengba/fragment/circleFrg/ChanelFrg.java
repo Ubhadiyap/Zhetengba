@@ -82,8 +82,9 @@ private Button bt_plan;
         titleList = new ArrayList<>();
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
-        LabelInterestDao labelInterestDao=new LabelInterestDao(mActivity);
-        titleList= labelInterestDao.getScrollData(0,-1);
+//        LabelInterestDao labelInterestDao=new LabelInterestDao(mActivity);
+//        titleList= labelInterestDao.getScrollData(0,-1);
+        titleList=LabelInterestDao.getInterestLabel();
         //设置fragmentlist
         //填充titleList,titleLayout布局
         for (int i = 0; i < titleList.size(); i++) {

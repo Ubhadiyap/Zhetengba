@@ -264,6 +264,12 @@ public class ActAdapter extends BaseAdapter{
                 }
             });
         }
+        viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(infos.get(position));
+            }
+        });
         //展示个人资料
         View.OnClickListener listener1=new View.OnClickListener() {
             @Override
@@ -358,13 +364,65 @@ public class ActAdapter extends BaseAdapter{
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(context,"删除活动成功！");
+                MyToastUtils.showShortToast(context, "删除活动成功！");
                 infos.remove(position);
                 notifyDataSetChanged();
             }
         });
     }
-
+    /***
+     * 设置条目点击显示活动详情dialog
+     * 1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
+     *
+     * @param
+     * @param info
+     */
+    private void showDialog(final SimpleInfo info) {
+        final CustomDialog.Builder builder = new CustomDialog.Builder(context);
+        if (!TextUtils.isEmpty(info.getActivityParticulars())) {
+            builder.setMessage(info.getActivityParticulars());
+        } else {
+            builder.setMessage("没有活动详情");
+        }
+        if (!UserInfoDao.getUser().getId().equals(info.getCreatePersonId())) {
+            if (info.isColleagues()) {
+                builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+                    }
+                });
+            } else if (info.isFriend()) {
+                builder.setNegativeButton("你们两个是好友", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+                    }
+                });
+            } else {
+                builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(context, MessVerifyAct.class);//加为好友
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userId", info.getUserId());//好友id
+                        if (!TextUtils.isEmpty(info.getUserNm())) {
+                            bundle.putString("userName", info.getUserNm());//好友名字
+                        } else {
+                            bundle.putString("userName", "无用户名");
+                        }
+                        intent.setAction("AddFriend");
+                        intent.putExtras(bundle);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+            builder.create().show();
+        }else {
+            builder.create().show();
+        }
+    }
 
     public static class Holder {
        public CircleImageView iv_headphoto;//头像

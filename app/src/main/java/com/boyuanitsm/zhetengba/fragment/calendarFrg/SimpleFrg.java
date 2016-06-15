@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
@@ -59,30 +60,19 @@ public class SimpleFrg extends BaseFragment {
     private int page = 1;
     private int rows = 10;
     private int state=1;
-    private IntentFilter filterFriend, filterAll,filterMy;
-    private BroadcastReceiver simFriendDteChangeRecevier = new BroadcastReceiver() {
+    private IntentFilter filter;
+    private BroadcastReceiver DteChangeRecevier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            getFriendOrAllAcitvity(page, rows, 0 + "");//切换到好友；
-            state=0;
-
+            page = 1;
+          state=intent.getIntExtra("state",0);
+            if (state==1){
+                getActivityList(page,rows);
+            }else {
+                getFriendOrAllAcitvity(page, rows, state + "");//切换到好友；
+            }
         }
     };
-    private BroadcastReceiver simAllDteChangeRecevier = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            getActivityList(page, rows);
-            state=1;
-        }
-    };
-    private BroadcastReceiver simMyDateChangeRecevier=new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            getFriendOrAllAcitvity(page,rows,2+"");
-            state=2;
-        }
-    };
-
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.act_frag, null, false);
@@ -91,18 +81,6 @@ public class SimpleFrg extends BaseFragment {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        //广播接收者，接受好友列表更新数据
-        filterFriend = new IntentFilter();
-        filterFriend.addAction("simpleFriendDateChange");
-        mActivity.registerReceiver(simFriendDteChangeRecevier, filterFriend);//切换到好友；
-        //接受全部更新列表；
-        filterAll = new IntentFilter();
-        filterAll.addAction("simpleAllDateChange");
-        mActivity.registerReceiver(simAllDteChangeRecevier, filterAll);//切换到全部；
-        //切换到我的
-        filterMy = new IntentFilter();
-        filterMy.addAction("simpleMyDateChange");
-        mActivity.registerReceiver(simMyDateChangeRecevier, filterMy);//切换到我的；
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         //刷新初始化
@@ -142,16 +120,18 @@ public class SimpleFrg extends BaseFragment {
         }else if (state==2){
             getFriendOrAllAcitvity(page,rows,state+"");
         }
-        lv_act.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SimpleInfo info = datas.get(position - 1);
-                showDialog(info);
-            }
-        });
         //首页活动轮播图片展示
         getBanner();
 
+    }
+
+    @Override
+    public void onResume() {
+        //广播接收者，接受好友列表更新数据
+        filter = new IntentFilter();
+        filter.addAction(ConstantValue.DATA_CHANGE_KEY);
+        mActivity.registerReceiver(DteChangeRecevier, filter);//切换到好友；
+        super.onResume();
     }
 
     /***
@@ -232,66 +212,11 @@ public class SimpleFrg extends BaseFragment {
     }
 
 
-    /***
-     * 设置条目点击显示活动详情dialog
-     * 1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
-     *
-     * @param
-     * @param info
-     */
-    private void showDialog(final SimpleInfo info) {
-        final CustomDialog.Builder builder = new CustomDialog.Builder(mActivity);
-        if (!TextUtils.isEmpty(info.getActivityParticulars())) {
-            builder.setMessage(info.getActivityParticulars());
-        } else {
-            builder.setMessage("没有活动详情");
-        }
-        if (!UserInfoDao.getUser().getId().equals(info.getCreatePersonId())) {
-            if (info.isColleagues()) {
-                builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
-                    }
-                });
-            } else if (info.isFriend()) {
-                builder.setNegativeButton("你们两个是好友", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
-                    }
-                });
-            } else {
-                builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(mActivity, MessVerifyAct.class);//加为好友
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userId", info.getUserId());//好友id
-                        if (!TextUtils.isEmpty(info.getUserNm())) {
-                            bundle.putString("userName", info.getUserNm());//好友名字
-                        } else {
-                            bundle.putString("userName", "无用户名");
-                        }
-                        intent.setAction("AddFriend");
-                        intent.putExtras(bundle);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mActivity.startActivity(intent);
-                    }
-                });
-            }
-            builder.create().show();
-        }else {
-            builder.create().show();
-        }
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mActivity.unregisterReceiver(simFriendDteChangeRecevier);//注销广播
-        mActivity.unregisterReceiver(simAllDteChangeRecevier);
-        mActivity.unregisterReceiver(simMyDateChangeRecevier);
+        mActivity.unregisterReceiver(DteChangeRecevier);//注销广播
+
     }
 
     /***
