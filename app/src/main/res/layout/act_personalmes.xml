@@ -46,11 +46,12 @@
                         android:orientation="horizontal">
 
                         <com.boyuanitsm.zhetengba.view.CircleImageView
+                            android:id="@+id/head"
                             android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/test_user" />
+                            android:layout_height="40dp"/>
 
                         <ImageView
+                            android:id="@+id/iv_arrow"
                             style="@style/image_right"
                             android:layout_gravity="center_vertical" />
                     </LinearLayout>

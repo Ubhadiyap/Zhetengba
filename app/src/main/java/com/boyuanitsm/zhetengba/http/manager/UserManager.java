@@ -4,6 +4,7 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.google.gson.Gson;
+import com.lidroid.xutils.http.client.multipart.content.FileBody;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -162,6 +163,15 @@ public class UserManager extends RequestManager{
 //    }
 //
 
+
+    /**
+     * 上传头像
+     * @param fileMaps
+     * @param callback
+     */
+    public void subHeadImg(Map<String,FileBody> fileMaps,ResultCallback callback){
+        submitFujian(IZtbUrl.MODIFYUSERICON_URL,fileMaps,callback);
+    }
 
 
 

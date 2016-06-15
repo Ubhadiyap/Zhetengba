@@ -201,7 +201,7 @@ public class CirclexqListAdapter extends BaseAdapter {
 
         if(list!=null&&list.size()>0){
             if(!TextUtils.isEmpty(list.get(position).getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),viewHolder.ivChHead);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),viewHolder.ivChHead,optionsImag);
             }
             if(!TextUtils.isEmpty(list.get(position).getUserName())){
                 viewHolder.tvChNiName.setText(list.get(position).getUserName());

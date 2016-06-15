@@ -27,6 +27,7 @@ import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
@@ -96,7 +97,7 @@ public class CircleAdapter extends BaseAdapter {
         } else {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_circle, null);
-            viewHolder.ivChHead = (ImageView) convertView.findViewById(R.id.iv_ch_head);
+            viewHolder.ivChHead = (CircleImageView) convertView.findViewById(R.id.iv_ch_head);
             viewHolder.tvChNiName = (TextView) convertView.findViewById(R.id.tv_ch_niName);
             viewHolder.ivChGendar = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
             viewHolder.zimg = (ImageView) convertView.findViewById(R.id.zimg);
@@ -192,7 +193,7 @@ public class CircleAdapter extends BaseAdapter {
 
         if(list!=null){
             if(!TextUtils.isEmpty(list.get(position).getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.ivChHead);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.ivChHead,optionsImag);
             }
             if(!TextUtils.isEmpty(list.get(position).getUserName())){
                 viewHolder.tvChNiName.setText(list.get(position).getUserName());
@@ -313,7 +314,7 @@ public class CircleAdapter extends BaseAdapter {
 
 
     class ViewHolder {
-        public ImageView ivChHead;
+        public CircleImageView ivChHead;
         public TextView tvChNiName;
         public ImageView zimg;
         public ImageView ivChGendar;

@@ -7,47 +7,38 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
-import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirclexqListAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
-import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
-import com.boyuanitsm.zhetengba.view.MyListview;
 import com.boyuanitsm.zhetengba.view.MyRecyleview;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -68,7 +59,7 @@ public class CirxqAct extends BaseActivity {
     private CirxqAdapter adapter;
     private String circleId;//圈子id
     private CircleEntity circleEntity;//圈子实体
-    private List<UserInfo> userList;//圈子成员集合
+    private List<MemberEntity> userList;//圈子成员集合
     private List<CircleEntity> circleEntityList;//该圈子说说列表
 
 //    @ViewInject(R.id.head)
@@ -241,15 +232,15 @@ public class CirxqAct extends BaseActivity {
     //获取圈子人员
     private void getCircleMembers(final String circleId){
         userList=new ArrayList<>();
-        RequestManager.getTalkManager().myCircleMember(circleId, new ResultCallback<ResultBean<List<UserInfo>>>() {
+        RequestManager.getTalkManager().myCircleMember(circleId,1,10, new ResultCallback<ResultBean<DataBean<MemberEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<List<UserInfo>> response) {
-                userList=response.getData();
+            public void onResponse(ResultBean<DataBean<MemberEntity>> response) {
+                userList=response.getData().getRows();
                 adapter=new CirxqAdapter(CirxqAct.this,userList);
                 rv_label.setAdapter(adapter);
                 adapter.setOnItemClickListener(new CirxqAdapter.OnItemClickListener() {
@@ -258,6 +249,12 @@ public class CirxqAct extends BaseActivity {
                         if (userList.size() <= 4) {
                             if (position == userList.size()) {
                                 openActivity(AssignScanAct.class);
+                            }else {
+                                if (position == (userList.size()+1)) {
+                                    Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
+                                    intent.putExtra("circleId", circleId);
+                                    startActivity(intent);
+                                }
                             }
                         } else {
                             if (position == 5) {

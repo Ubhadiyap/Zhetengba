@@ -23,6 +23,7 @@ public class CommonView extends RelativeLayout {
     private ImageView ivCommon;//左边图表
     private TextView tvCommon;//左边文字
     private TextView tvNotes;//右边按钮文字
+    private ImageView ivArrow;//右边箭头
 
 
     /**
@@ -62,6 +63,7 @@ public class CommonView extends RelativeLayout {
     private String notesText;
     private int notesTextColor;
     private float notesTextSize;
+    private boolean flag;
 
     public CommonView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -103,6 +105,7 @@ public class CommonView extends RelativeLayout {
         ivCommon = (ImageView) view.findViewById(R.id.ivCommon);
         tvCommon = (TextView) view.findViewById(R.id.tvCommon);
         tvNotes = (TextView) view.findViewById(R.id.tvNotes);
+        ivArrow =(ImageView) view.findViewById(R.id.ivArrow);
     }
 
     /**
@@ -215,6 +218,21 @@ public class CommonView extends RelativeLayout {
     public void setNotesTextColor(int notesTextColor){
         tvNotes.setTextColor(notesTextColor);
         this.notesTextColor=notesTextColor;
+    }
+
+    /***
+     * 设置右边箭头可见不可见
+     * @param flag
+     */
+    public void setIvArrow(boolean flag){
+        if (flag==true){
+            ivArrow.setVisibility(View.VISIBLE);
+            setEnabled(true);
+        }else {
+            ivArrow.setVisibility(View.INVISIBLE);
+            setEnabled(false);
+        }
+        this.flag=flag;
     }
 
     /**

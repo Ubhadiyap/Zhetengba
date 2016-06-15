@@ -19,7 +19,9 @@ import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -49,13 +51,7 @@ public class SerchCirAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子搜索");
-        plv.setPullRefreshEnabled(false);//下拉刷新
-        plv.setScrollLoadEnabled(false);//滑动加载
-        plv.setPullLoadEnabled(false);//上拉刷新
-        plv.setHasMoreData(false);//是否有更多数据
-        plv.getRefreshableView().setDivider(null);//设置分隔线
-        plv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
-        plv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
+        LayoutHelperUtil.freshInit(plv);
         plv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
         plv.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -63,6 +59,20 @@ public class SerchCirAct extends BaseActivity {
                 Intent intent = new Intent(SerchCirAct.this, CirxqAct.class);
                 intent.putExtra("circleId", list.get(position).getId());
                 startActivity(intent);
+            }
+        });
+        plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                plv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                page=1;
+                getCircle(circleName.getText().toString().trim(),page,rows);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                getCircle(circleName.getText().toString().trim(),page,rows);
             }
         });
         circleName.addTextChangedListener(watcher);
@@ -84,8 +94,9 @@ public class SerchCirAct extends BaseActivity {
         }
     };
 
+    private List<CircleEntity> datas=new ArrayList<>();
     //搜索圈子
-    private void getCircle(String circleName,int page,int rows){
+    private void getCircle(String circleName, final int page, int rows){
         if(!TextUtils.isEmpty(circleName)) {
             list=new ArrayList<>();
             RequestManager.getTalkManager().searchCircle(circleName, page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
@@ -100,9 +111,23 @@ public class SerchCirAct extends BaseActivity {
                     plv.onPullUpRefreshComplete();
                     plv.onPullDownRefreshComplete();
                     list = response.getData().getRows();
-                    if(list!=null&&list.size()>0) {
-                        adapter = new CircleglAdapter(SerchCirAct.this, list);
+                    if (list.size()==0){
+                        if (page==1){
+
+                        }else {
+                            plv.setHasMoreData(false);
+                        }
+                        return;
+                    }
+                    if (page==1){
+                        datas.clear();
+                    }
+                    datas.addAll(list);
+                    if (adapter==null) {
+                        adapter = new CircleglAdapter(SerchCirAct.this, datas);
                         plv.getRefreshableView().setAdapter(adapter);
+                    }else {
+                        adapter.notifyChange(datas);
                     }
                 }
             });
