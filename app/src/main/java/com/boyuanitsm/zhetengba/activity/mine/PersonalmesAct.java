@@ -16,8 +16,8 @@ import android.widget.RelativeLayout;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
-import com.boyuanitsm.zhetengba.bean.PersonalMain;
 import com.boyuanitsm.zhetengba.bean.IconFilePath;
+import com.boyuanitsm.zhetengba.bean.PersonalMain;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
@@ -31,7 +31,6 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
-import com.hyphenate.util.Utils;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -50,7 +49,7 @@ import java.util.Map;
  * Created by bitch-1 on 2016/5/3.
  */
 public class PersonalmesAct extends BaseActivity {
-//    @ViewInject(R.id.cv_photo)
+    //    @ViewInject(R.id.cv_photo)
 //    private CircleImageView cv_photo;
     @ViewInject(R.id.iv_arrow)
     private ImageView iv_arrow;
@@ -138,15 +137,15 @@ public class PersonalmesAct extends BaseActivity {
      */
 
     private void instalOtherData() {
-        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()),head,options);
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, options);
         if (!TextUtils.isEmpty(userEntity.get(0).getPetName())) {
             setTopTitle(userEntity.get(0).getPetName());
         }
         if (!TextUtils.isEmpty(userEntity.get(0).getPetName())) {
             cvUserName.setNotesText(userEntity.get(0).getPetName());
         }
-        if (!TextUtils.isEmpty(userEntity.get(0).getIcon())){
-            ImageLoader.getInstance().displayImage(userEntity.get(0).getIcon(),head,options);
+        if (!TextUtils.isEmpty(userEntity.get(0).getIcon())) {
+            ImageLoader.getInstance().displayImage(userEntity.get(0).getIcon(), head, options);
         }
 
         if (!TextUtils.isEmpty(userEntity.get(0).getSex())) {
@@ -210,7 +209,7 @@ public class PersonalmesAct extends BaseActivity {
         user = UserInfoDao.getUser();
         MyLogUtils.degug("user" + user);
         if (user != null) {
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()),head,options);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, options);
             if (!(TextUtils.isEmpty(user.getPetName()))) {
                 MyLogUtils.degug("hah" + user);
                 MyLogUtils.degug(user.getPetName());
@@ -218,34 +217,42 @@ public class PersonalmesAct extends BaseActivity {
             }
 
             if (!(TextUtils.isEmpty(user.getSex()))) {
-                cvSex.setNotesText(user.getSex());
-            }
-            if (!(TextUtils.isEmpty(user.getPhone()))) {
-                cvPhoneNum.setNotesText(user.getPhone());
-            }
-            if (!(TextUtils.isEmpty(user.getEmail()))) {
-                cvEmail.setNotesText(user.getEmail());
-            }
-
-            if (!(TextUtils.isEmpty(user.getCompanyName()))) {
-                cvCompanyName.setNotesText(user.getCompanyName());
-            }
-
-            if (!(TextUtils.isEmpty(user.getCompanyAddr()))) {
-                cvCompanyAdd.setNotesText(user.getCompanyAddr());
-            }
-            if (!(TextUtils.isEmpty(user.getCompanyPhone()))) {
-                cvCompanyTel.setNotesText(user.getCompanyPhone());
-            }
-            if (!(TextUtils.isEmpty(user.getJob()))) {
-                cvBusiness.setNotesText(user.getJob());
-            }
-            if (!(TextUtils.isEmpty(user.getHomeTown()))) {
-                cvHomeTown.setNotesText(user.getHomeTown());
+                if (user.getSex().equals("0")) {
+                    cvSex.setNotesText("女");
+                }
+                if (user.getSex().equals("1")) {
+                    cvSex.setNotesText("男");
+                }
             }
 
         }
+
+        if (!(TextUtils.isEmpty(user.getPhone()))) {
+            cvPhoneNum.setNotesText(user.getPhone());
+        }
+        if (!(TextUtils.isEmpty(user.getEmail()))) {
+            cvEmail.setNotesText(user.getEmail());
+        }
+
+        if (!(TextUtils.isEmpty(user.getCompanyName()))) {
+            cvCompanyName.setNotesText(user.getCompanyName());
+        }
+
+        if (!(TextUtils.isEmpty(user.getCompanyAddr()))) {
+            cvCompanyAdd.setNotesText(user.getCompanyAddr());
+        }
+        if (!(TextUtils.isEmpty(user.getCompanyPhone()))) {
+            cvCompanyTel.setNotesText(user.getCompanyPhone());
+        }
+        if (!(TextUtils.isEmpty(user.getJob()))) {
+            cvBusiness.setNotesText(user.getJob());
+        }
+        if (!(TextUtils.isEmpty(user.getHomeTown()))) {
+            cvHomeTown.setNotesText(user.getHomeTown());
+        }
+
     }
+
 
     @OnClick({R.id.rl_headIcon, R.id.cv_userName, R.id.cv_sex, R.id.cv_phoneNum, R.id.cv_email, R.id.cv_companyName, R.id.cv_companyAdd, R.id.cv_companyTel, R.id.cv_business, R.id.cv_homeTown})
     public void todo(View view) {
@@ -377,20 +384,23 @@ public class PersonalmesAct extends BaseActivity {
                 if (resultCode == SEXMODIFY_BAKC) {
                     if (data != null) {
                         String sex = data.getStringExtra("Modify");
-                        if (sex.equals("女")) {
+                        if (sex.equals("0")) {
                             cvSex.setNotesText("女");
-                            user.setSex("女");
                         }
-                        if (sex.equals("男")) {
-                            cvSex.setNotesText("男");
-                            user.setSex("男");
-                        }
+                        if (sex.equals("1")) {
+                            {
+                                cvSex.setNotesText("男");
+                            }
 
+                        }
                     }
+
+                    super.onActivityResult(requestCode, resultCode, data);
                 }
 
+                break;
         }
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     /**
@@ -413,7 +423,7 @@ public class PersonalmesAct extends BaseActivity {
             public void onResponse(ResultBean<IconFilePath> response) {
                 user.setIcon(Uitls.imageFullUrl(response.getData().getIconFilePath()));
                 UserInfoDao.updateUser(user);
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()),head,options);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, options);
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
             }
         });

@@ -10,6 +10,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -27,7 +28,7 @@ public class SelectSexAct extends BaseActivity {
     private RadioGroup rgSex;
 
     public final static String SEX = "sex";
-    private String sex;//2女 1男
+    private String sex;//0女 1男
     private UserInfo user;
 
     @Override
@@ -41,7 +42,7 @@ public class SelectSexAct extends BaseActivity {
         user=getIntent().getParcelableExtra("user");
         if(user!=null&& !TextUtils.isEmpty(user.getSex())){
             sex=user.getSex();
-            if(sex.equals("女")){
+            if(sex.equals("0")){
                 rgGirl.setChecked(true);
             }else
                 rgBoy.setChecked(true);
@@ -51,11 +52,11 @@ public class SelectSexAct extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rgBoy:
-                        user.setSex("男");
+                        user.setSex("1");
                         changeUserInfo();
                         break;
                     case R.id.rgGirl:
-                        user.setSex("女");
+                        user.setSex("0");
                         changeUserInfo();
                         break;
                 }
@@ -77,6 +78,7 @@ public class SelectSexAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                UserInfoDao.updateUser(user);
                 Intent intent = new Intent();
                 intent.putExtra("Modify", user.getSex());
                 setResult(PersonalmesAct.SEXMODIFY_BAKC, intent);

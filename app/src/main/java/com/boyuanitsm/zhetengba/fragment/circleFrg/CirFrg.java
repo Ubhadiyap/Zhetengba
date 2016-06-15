@@ -108,6 +108,7 @@ public class CirFrg extends Fragment {
      * @param rows
      */
     private void getAllCircleTalk(final int page,int rows){
+        circleEntityList=new ArrayList<>();
         RequestManager.getTalkManager().getAllCircleTalk(page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {

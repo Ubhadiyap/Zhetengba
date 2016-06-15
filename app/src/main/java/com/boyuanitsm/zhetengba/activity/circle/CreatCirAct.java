@@ -54,8 +54,12 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
                 openActivity(AssignScanAct.class);
                 break;
             case R.id.tv_creat://创建圈子，圈子管理增加一条，跳转至圈子管理
-                if (TextUtils.isEmpty(et_cir_name.getText().toString())){
-                    MyToastUtils.showShortToast(this,"名称不能为空");
+                if (TextUtils.isEmpty(et_cir_name.getText().toString().trim())){
+                    MyToastUtils.showShortToast(this,"圈子名称不能为空");
+                    return;
+                }else if(TextUtils.isEmpty(etNotes.getText().toString().trim())){
+                    MyToastUtils.showShortToast(this,"公告内容不能为空");
+                    return;
                 }else {
                     circleEntity.setCircleName(et_cir_name.getText().toString().trim());
                     circleEntity.setNotice(etNotes.getText().toString().trim());

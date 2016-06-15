@@ -19,6 +19,8 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -191,6 +193,8 @@ public class LabelMangerAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                sendBroadcast(new Intent(ChanelFrg.MYLABELS));
+                sendBroadcast(new Intent(MineFrg.USER_INFO));
                 finish();
             }
         });

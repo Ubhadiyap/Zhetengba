@@ -375,5 +375,18 @@ public class TalkManager extends RequestManager{
         submitMore(IZtbUrl.MODIFYUSERICON_URL,fileMaps,callback);
     }
 
+    /**
+     * 我的发布
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void myTalksOut(int page,int rows,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("page",page+"");
+        map.put("rows",rows+"");
+        doPost(IZtbUrl.MYTALKS_OUT_URL,map,callback);
+    }
+
 
 }
