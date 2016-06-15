@@ -35,6 +35,7 @@ import com.boyuanitsm.zhetengba.view.CustomDialog;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public class SimpleFrg extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             page = 1;
-          state=intent.getIntExtra("state",0);
+          state=intent.getIntExtra("state",state);
             if (state==1){
                 getActivityList(page,rows);
             }else {
@@ -270,7 +271,6 @@ public class SimpleFrg extends BaseFragment {
                     } else {
                         lv_act.setHasMoreData(false);
                     }
-                    return;
                 }
                 if (page == 1) {
                     datas.clear();
@@ -317,6 +317,7 @@ public class SimpleFrg extends BaseFragment {
      * @param state
      */
     private void getFriendOrAllAcitvity(final int page, int rows, String state) {
+        list=new ArrayList<SimpleInfo>();
         RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -328,7 +329,6 @@ public class SimpleFrg extends BaseFragment {
             public void onResponse(ResultBean<DataBean<SimpleInfo>> response) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
-                list=new ArrayList<SimpleInfo>();
                 list = response.getData().getRows();
                 //获取到的list没有数据时
                 if (list.size() == 0) {
@@ -338,7 +338,6 @@ public class SimpleFrg extends BaseFragment {
                         //无更多数据
                         lv_act.setHasMoreData(false);
                     }
-                    return;
                 }
                 if (page == 1) {
                     datas.clear();

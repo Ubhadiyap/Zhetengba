@@ -43,6 +43,7 @@ import java.util.List;
 public class CalAdapter extends BaseAdapter {
     private Context context;
     private List<ScheduleInfo> list;
+    private String strStart,strEnd;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -123,13 +124,22 @@ public class CalAdapter extends BaseAdapter {
             } else {
                 calHolder.tv_Name.setText("无用户名");
             }
-            if (list.get(position).getUserSex() == "1") {
-                calHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
-            } else {
-                calHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));
+            if (!TextUtils.isEmpty(list.get(position).getUserSex())){
+                if (list.get(position).getUserSex().equals(1+"")) {
+                    calHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
+                } else if (list.get(position).getUserSex().equals(0+"")){
+                    calHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));
+                }
             }
-
-            calHolder.tv_time_cal.setText(ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getStartTime())) + "—" + ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getEndTime())));
+            strStart=ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getStartTime()));
+            strEnd=ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getEndTime()));
+            if (strStart.substring(1,6).equals(strEnd.substring(1,6))){
+                String strTime=strStart+"—"+strEnd.substring(6);
+                calHolder.tv_time_cal.setText(strTime);//活动时间；
+            }else {
+                calHolder.tv_time_cal.setText(strStart + "—" + strEnd);//活动时间；
+            }
+//            calHolder.tv_time_cal.setText(ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getStartTime())) + "—" + ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getEndTime())));
             if (!TextUtils.isEmpty(list.get(position).getDictName())) {
                 calHolder.tv_state.setText(list.get(position).getDictName());//标签名称
             }

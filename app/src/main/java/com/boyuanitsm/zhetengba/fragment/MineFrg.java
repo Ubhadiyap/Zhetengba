@@ -76,6 +76,8 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     private LinearLayout titleLayout;
     @ViewInject(R.id.hslv_chanel)
     private HorizontalScrollView hslv_chanel;
+    @ViewInject(R.id.tv_name)
+    private TextView tv_name;
     private List<Integer> monthList;//设置时间集合
     private List<TextView> textViewList;//设置时间textview集合
     private ArrayList<Integer> moveToList;//设置textview宽高集合
@@ -98,7 +100,10 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         //设置横向
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rvLabel.setLayoutManager(linearLayoutManager);
-
+        if (!TextUtils.isEmpty(UserInfoDao.getUser().getPetName())){
+            tv_name.setText(UserInfoDao.getUser().getPetName());
+        }
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,options);
         getlable();//获得兴趣标签；
 
 //        findHistory();//获取事件轴

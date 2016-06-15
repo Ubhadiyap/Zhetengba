@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -259,7 +260,7 @@ public class ContractedAct extends BaseActivity {
             public void onResponse(ResultBean<String> response) {
                 response.getData();
                 Intent intentRecevier=new Intent();
-                intentRecevier.putExtra("state",1);
+//                intentRecevier.putExtra("state",1);
                 intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 sendBroadcast(intentRecevier);
                 MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");

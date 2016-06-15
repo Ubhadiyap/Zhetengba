@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.adapter.LabelGVadapter;
 import com.boyuanitsm.zhetengba.adapter.LabelGvMyadapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -186,6 +187,7 @@ public class LabelMangerAct extends BaseActivity {
             public void onResponse(ResultBean<String> response) {
                 sendBroadcast(new Intent(ChanelFrg.MYLABELS));
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
+                sendBroadcast(new Intent(PerpageAct.PPLABELS));
                 finish();
             }
         });

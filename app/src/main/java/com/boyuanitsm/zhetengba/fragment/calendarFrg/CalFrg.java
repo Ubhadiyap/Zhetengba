@@ -92,26 +92,29 @@ public class CalFrg extends BaseFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
-                if (state==0) {
+                if (state == 0) {
                     getFriendAllSchudle(page, rows, state + "");//好友列表获取；
-                } else if (state==1){
+                } else if (state == 1) {
                     getScheduleList(page, rows);//全部列表获取；
-                }else if (state==2){
+                } else if (state == 2) {
                     getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
             }
+
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                if (state==0) {
+                if (state == 0) {
                     getFriendAllSchudle(page, rows, state + "");//好友列表获取；
-                } else if(state==1){
+                } else if (state == 1) {
                     getScheduleList(page, rows);//全部列表获取；
-                }else if (state==2){
+                } else if (state == 2) {
                     getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
             }
         });
+        //档期轮播图片展示
+        getScheduleBanner();
         //设置listview头部headview
         lv_calen.getRefreshableView().addHeaderView(viewHeader_calen);
         if (state==1){
@@ -121,8 +124,7 @@ public class CalFrg extends BaseFragment {
         }else if (state==2){
             getFriendAllSchudle(page, rows, state + "");
         }
-        //档期轮播图片展示
-        getScheduleBanner();
+
 
     }
 
@@ -176,7 +178,6 @@ public class CalFrg extends BaseFragment {
                     } else {
                         lv_calen.setHasMoreData(false);
                     }
-                    return;
                 }
                 if (page == 1) {
                     datas.clear();

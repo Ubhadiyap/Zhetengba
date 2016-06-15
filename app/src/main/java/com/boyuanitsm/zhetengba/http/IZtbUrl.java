@@ -137,7 +137,7 @@ public interface IZtbUrl {
     //活动列表
     String ACTIVITY_LIST = BASE_URL + "schedule/login/findActivityList.do";
     //活动详情
-    String ACTIVITY_DETIALS = BANNER_URL + "schedule/login/findActivityDetails.do";
+    String ACTIVITY_DETIALS = BASE_URL + "schedule/login/findActivityDetails.do";
     //关注活动
     String ACTIVITY_COLLECTION_URL = BASE_URL + "schedule/login/addActivityCollection.do";
     //活动标签

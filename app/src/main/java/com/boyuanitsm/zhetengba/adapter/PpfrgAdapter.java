@@ -12,11 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -31,15 +39,17 @@ import java.util.List;
 public class PpfrgAdapter extends BaseAdapter {
     private Context context;
     private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
+    private List<UserInfo> userInfoList=new ArrayList<>();
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-    public PpfrgAdapter(Context context, List<ScheduleInfo> scheduleEntity) {
+    public PpfrgAdapter(Context context, List<ScheduleInfo> scheduleEntity, List<UserInfo> userInfoList) {
         this.context = context;
         this.scheduleEntity=scheduleEntity;
+        this.userInfoList=userInfoList;
     }
 
     @Override
@@ -58,7 +68,7 @@ public class PpfrgAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final CalHolder calHolder;
         if (convertView!=null&&convertView.getTag()!=null){
             calHolder= (CalHolder) convertView.getTag();
@@ -80,23 +90,45 @@ public class PpfrgAdapter extends BaseAdapter {
             calHolder.ll_guanzhu=(LinearLayout)convertView.findViewById(R.id.ll_guanzhu);
             calHolder.ll_yue=(LinearLayout)convertView.findViewById(R.id.ll_yue);
             calHolder.ll_name = (LinearLayout) convertView.findViewById(R.id.ll_name);
+            calHolder.ll_cal_guanzhu_del=(LinearLayout)convertView.findViewById(R.id.ll_guanzhu_del);
+            calHolder.ll_cal_share=(LinearLayout)convertView.findViewById(R.id.ll_yue_share);
             convertView.setTag(calHolder);
         }
-
+        if (!UserInfoDao.getUser().getId().equals(scheduleEntity.get(position).getCreatePersonId())){
+            calHolder.ll_guanzhu.setVisibility(View.VISIBLE);
+            calHolder.ll_yue.setVisibility(View.VISIBLE);
+            calHolder.ll_cal_guanzhu_del.setVisibility(View.GONE);
+            calHolder.ll_cal_share.setVisibility(View.GONE);
+        }else {
+            calHolder.ll_guanzhu.setVisibility(View.GONE);
+            calHolder.ll_yue.setVisibility(View.GONE);
+            calHolder.ll_cal_guanzhu_del.setVisibility(View.VISIBLE);
+            calHolder.ll_cal_share.setVisibility(View.VISIBLE);
+        }
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(scheduleEntity.get(position).getUserIcon()),calHolder.iv_icon,optionsImag);//用户头像；
 //        calHolder.iv_icon.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_user));
-        if (!TextUtils.isEmpty(scheduleEntity.get(position).getUserNm())){
-            calHolder.tv_Name.setText(scheduleEntity.get(position).getUserNm());//用户昵称
+        if (!TextUtils.isEmpty(userInfoList.get(0).getPetName())){
+            calHolder.tv_Name.setText(userInfoList.get(0).getPetName());//用户昵称
         }else {
-            calHolder.tv_Name.setText("无用户名");
+            calHolder.tv_Name.setText("暂无昵称");
         }
-        if (scheduleEntity.get(position).getUserSex()=="1"){
-            calHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
+        if (!TextUtils.isEmpty(scheduleEntity.get(position).getUserSex())){
+            if (scheduleEntity.get(position).getUserSex()=="1"){
+                calHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
+            }else {
+                calHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));
+            }
+        }
+        String strStart = ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getStartTime()));
+        String strEnd = ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getEndTime()));
+        if (strStart.substring(1,6).equals(strEnd.substring(1,6))){
+            String strTime=strStart+"—"+strEnd.substring(6);
+            calHolder.tv_time_cal.setText(strTime);//活动时间；
         }else {
-            calHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));
+            calHolder.tv_time_cal.setText(strStart + "—" + strEnd);//活动时间；
         }
 
-        calHolder.tv_time_cal.setText(ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getStartTime()))+ "—" + ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getEndTime())));
+//        calHolder.tv_time_cal.setText(ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getStartTime()))+ "—" + ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getEndTime())));
         if (!TextUtils.isEmpty(scheduleEntity.get(position).getDictName())){
             calHolder.tv_state.setText(scheduleEntity.get(position).getDictName());//标签名称
         }
@@ -125,6 +157,29 @@ public class PpfrgAdapter extends BaseAdapter {
                 calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
             }
         });
+        calHolder.ll_cal_guanzhu_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //调用删除此活动接口,刷新数据；
+                        removeSchuldel(scheduleEntity.get(position).getScheduleId(), position);
+                    }
+                }).setNegativeButton("取消", null).show();
+
+            }
+        });
+        calHolder.ll_cal_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //开启分享界面
+                Intent intent=new Intent();
+                intent.setClass(context,ShareDialogAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
     public static class CalHolder {
@@ -143,6 +198,27 @@ public class PpfrgAdapter extends BaseAdapter {
         public LinearLayout ll_guanzhu;//关注
         public LinearLayout ll_yue;//约TA
         private LinearLayout ll_name;//个人昵称
+        private LinearLayout ll_cal_guanzhu_del;
+        private LinearLayout ll_cal_share;
     }
+    /***
+     * 删除档期
+     * @param id
+     * @param position
+     */
+    private void removeSchuldel(String id, final int position){
+        RequestManager.getScheduleManager().removeSchuldel(id, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
 
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(context, "删除档期成功！");
+                scheduleEntity.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+    }
 }

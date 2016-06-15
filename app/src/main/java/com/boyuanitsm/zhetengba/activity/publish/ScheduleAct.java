@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
@@ -260,9 +261,10 @@ public class ScheduleAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(ScheduleAct.this,"发布档期成功");
+                MyToastUtils.showShortToast(ScheduleAct.this, "发布档期成功");
                 Intent intentRecevier=new Intent();
-                intentRecevier.setAction("calendAllDateChange");
+//                intentRecevier.putExtra("state",0);
+                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 sendBroadcast(intentRecevier);
                 finish();
             }

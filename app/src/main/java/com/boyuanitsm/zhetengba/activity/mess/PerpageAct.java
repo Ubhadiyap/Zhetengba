@@ -1,5 +1,7 @@
 package com.boyuanitsm.zhetengba.activity.mess;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -110,12 +112,14 @@ public class PerpageAct extends BaseActivity {
     private ImageView iv_set;
     @ViewInject(R.id.bt_message)
     private Button bt_message;
+    @ViewInject(R.id.tv_cir)
+    private TextView tv_cir;
 //    @ViewInject(R.id.tab_selcet)
 //    private PagerSlidingTabStrip tab_selcet;
 
     private String userId;
     private FragmentManager manager;
-    private Fragment ppagecalFrg=new PpagecalFrg(), ppagedtFrg=new PpagedtFrg();//档期frg 圈子动态frg
+    private Fragment ppagecalFrg, ppagedtFrg;//档期frg 圈子动态frg
     private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
     private List<CircleEntity> circleEntity = new ArrayList<>();
     private List<CircleEntity> circleTalkEntity = new ArrayList<>();
@@ -174,7 +178,13 @@ public class PerpageAct extends BaseActivity {
         }else {
             tv_niName.setText("暂无昵称");
         }
-
+        if (!TextUtils.isEmpty(userEntity.get(0).getSex())){
+            if (userEntity.get(0).getSex().equals(1+"")){
+                tv_cir.setText("他的圈子");
+            }else if (userEntity.get(0).getSex().equals(0+"")){
+                tv_cir.setText("她的圈子");
+            }
+        }
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), cv_photo, optionsImag);
 
     }
@@ -244,7 +254,7 @@ public class PerpageAct extends BaseActivity {
            @Override
            public void onClick(View v) {
                Intent intentPerson = new Intent();
-               intentPerson.setClass(PerpageAct.this,PersonalmesAct.class);
+               intentPerson.setClass(PerpageAct.this, PersonalmesAct.class);
                Bundle bundlePerson = new Bundle();
                bundlePerson.putParcelable(PAGEFRG_KEY, personalMain);
                intentPerson.putExtras(bundlePerson);
@@ -354,6 +364,8 @@ public class PerpageAct extends BaseActivity {
      * @param id
      */
     private void getPersonalMain(String id) {
+        ppagecalFrg=new PpagecalFrg();
+        ppagedtFrg=new PpagedtFrg();
         RequestManager.getScheduleManager().getPersonalMain(id, new ResultCallback<ResultBean<PersonalMain>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -369,7 +381,7 @@ public class PerpageAct extends BaseActivity {
                 userEntity = personalMain.getUserEntity();
                 userInterestEntity = personalMain.getUserInterestEntity();
                 initUserData(userEntity);
-                iniTab(userInterestEntity,userEntity.get(0).getId());
+                iniTab(userInterestEntity, userEntity.get(0).getId());
                 toPageCalFrg();
                 setSelect(0);
                 setOnclikListener();
@@ -382,12 +394,14 @@ public class PerpageAct extends BaseActivity {
      * 请求档期数据
      */
     private void toPageCalFrg() {
-        Intent intent=new Intent();
-        Bundle bundle=new Bundle();
-        bundle.putParcelable(PAGEFRG_KEY, personalMain);
-        intent.putExtras(bundle);
-        ppagecalFrg.setArguments(bundle);
-        ppagedtFrg.setArguments(bundle);
+            Intent intent=new Intent();
+            Bundle bundle=new Bundle();
+            bundle.putParcelable(PAGEFRG_KEY, personalMain);
+            intent.putExtras(bundle);
+            ppagecalFrg.setArguments(bundle);
+            ppagedtFrg.setArguments(bundle);
+
+
     }
 
     /**
@@ -451,6 +465,10 @@ public class PerpageAct extends BaseActivity {
             tv_tab3.setVisibility(View.VISIBLE);
             tv_tab4.setVisibility(View.VISIBLE);
             tv_tab5.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setText(str.get(2).getDictName());
+            tv_tab4.setText(str.get(3).getDictName());
             tv_tab5.setText("更多");
             tv_tab5.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -463,6 +481,35 @@ public class PerpageAct extends BaseActivity {
                     startActivity(intent);
                 }
             });
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk==null){
+            receiverTalk=new MyBroadCastReceiverTalk();
+            registerReceiver(receiverTalk, new IntentFilter(PPLABELS));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(receiverTalk!=null){
+            unregisterReceiver(receiverTalk);
+            receiverTalk=null;
+        }
+    }
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String PPLABELS ="perpage_update";
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getPersonalMain(userId);
+            manager = getSupportFragmentManager();
+//        gv_perpage.setAdapter(new GridViewPerAdapter(PerpageAct.this));
+            msv_scroll.smoothScrollTo(0, 0);
         }
     }
 }
