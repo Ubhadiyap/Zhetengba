@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
@@ -258,7 +259,8 @@ public class ContractedAct extends BaseActivity {
             public void onResponse(ResultBean<String> response) {
                 response.getData();
                 Intent intentRecevier=new Intent();
-                intentRecevier.setAction("simpleAllDateChange");
+                intentRecevier.putExtra("state",1);
+                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 sendBroadcast(intentRecevier);
                 MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
                 finish();

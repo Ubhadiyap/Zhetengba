@@ -104,12 +104,6 @@ public class LabelMangerAct extends BaseActivity {
                     for (int i = 1; i < mylist.size(); i++) {
                         labelids = labelids + "," + mylist.get(i).getInterestId();
                     }
-
-//                    LabelInterestDao labelInfoDao=new LabelInterestDao(LabelMangerAct.this);
-//                    labelInfoDao.save(mylist);
-//                    for (int i=0;i<mylist.size();i++){
-//                        labelInterestDao.save(mylist.get(i));
-//                    }
                     addInterestLabel(labelids);
                 }
 
@@ -130,8 +124,6 @@ public class LabelMangerAct extends BaseActivity {
                 userInterestInfo = new UserInterestInfo(LabelMangerAct.this);
                 userInterestInfo.setInterestId(str.getId());
                 userInterestInfo.setDictName(str.getDictName());
-//                    labelInterestDao.save(userInterestInfo);
-                LabelInterestDao.saveInterestLabel(userInterestInfo);
                 mylist.add(userInterestInfo);
                 myadapter.update(mylist);
                 list.remove(position);
@@ -144,7 +136,6 @@ public class LabelMangerAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserInterestInfo str = mylist.get(position);
-                labelInterestDao.delete(str.getId());
                 mylist.remove(position);
                 myadapter.update(mylist);
                 gv1.setAdapter(myadapter);
