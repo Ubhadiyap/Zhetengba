@@ -25,6 +25,7 @@ import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.util.NetUtils;
 
 /**
+ * 消息页面
  * Created by xiaoke on 2016/4/29.
  */
 public class MessFrg extends EaseConversationListFragment implements View.OnClickListener {
