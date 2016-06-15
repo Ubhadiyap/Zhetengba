@@ -69,8 +69,8 @@ public interface IZtbUrl {
      **/
     public String HISTORYMESSAGE_URL = BASE_URL + "schedule/login/findHistoryMessageListByMonth.do";
 
-//    /**=========我的兴趣标签列表（非全部）==========**/
-//    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
+    /**=========我的兴趣标签列表（非全部）==========**/
+    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
 
     /**
      * =========取消收藏接口==========
@@ -119,6 +119,11 @@ public interface IZtbUrl {
     String CIRCLE_COMMENTS_URL = BASE_URL + "talk/login/findCircleTalkCommentsList.do";
     /*频道说说评论列表*/
     String CHANNEL_COMMENTS_URL = BASE_URL + "talk/login/findChannelTalkCommentsList.do";
+    /*我的发布*/
+    String MYTALKS_OUT_URL=BASE_URL+"talk/login/findUserCircleTalk.do";
+
+
+
 
 
     /**

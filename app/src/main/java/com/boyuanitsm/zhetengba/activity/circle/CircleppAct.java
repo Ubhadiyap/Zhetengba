@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,12 +12,10 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CirpplistAdapter;
-import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
-import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -50,6 +46,8 @@ public class CircleppAct extends BaseActivity {
     private boolean flag=true;
     private int page=1;
     private int rows=10;
+
+    private boolean isQuanzhu;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_glcircle);
@@ -60,6 +58,12 @@ public class CircleppAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子成员");
         circleId=getIntent().getStringExtra("circleId");
+        isQuanzhu=getIntent().getBooleanExtra("isQuanzhu",false);
+        if (isQuanzhu){
+            tv_gl_member.setVisibility(View.VISIBLE);
+        }else {
+            tv_gl_member.setVisibility(View.GONE);
+        }
         LayoutHelperUtil.freshInit(plv);
         userList=new ArrayList<>();
         getCircleMembers(circleId,page,rows);
@@ -124,7 +128,7 @@ public class CircleppAct extends BaseActivity {
 
     private List<MemberEntity> datas=new ArrayList<>();
     //获取圈子人员
-    private void getCircleMembers(String circleId, final int page, int rows){
+    private void getCircleMembers(final String circleId, final int page, int rows){
         RequestManager.getTalkManager().myCircleMember(circleId,page,rows, new ResultCallback<ResultBean<DataBean<MemberEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -150,7 +154,7 @@ public class CircleppAct extends BaseActivity {
                 }
                 datas.addAll(userList);
                 if (adapter==null) {
-                    adapter = new CirpplistAdapter(CircleppAct.this, false, datas);
+                    adapter = new CirpplistAdapter(CircleppAct.this, false, datas,circleId);
                     plv.getRefreshableView().setAdapter(adapter);
                 }else {
                     adapter.notifyChange(false,datas);

@@ -331,6 +331,9 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
 
             }
 
+            getlable();//当修改兴趣标界面修改（添加，删除）签获得兴趣标签；
+
+
         }
     }
 
