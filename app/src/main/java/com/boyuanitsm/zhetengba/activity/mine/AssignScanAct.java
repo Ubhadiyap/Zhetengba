@@ -11,21 +11,17 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
-import com.boyuanitsm.zhetengba.widget.DialogChoseDate;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroupManager;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.hyphenate.easeui.adapter.EaseContactAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.widget.EaseSidebar;
-import com.hyphenate.exceptions.HyphenateException;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,12 +36,9 @@ public class AssignScanAct extends BaseActivity {
     private ProgressDialog progressDialog;
     @ViewInject(R.id.list)
     private ListView listView;
-//    @ViewInject(R.id.tvQun)
-//    private TextView tvQun;
     private PickContactAdapter contactAdapter;
     private boolean isSignleChecked = false;
 
-    private ArrayList<String> dayList=new ArrayList<>();
 
 
     @Override
@@ -56,59 +49,9 @@ public class AssignScanAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("联系人");
-//        final String st1 = getResources().getString(R.string.Is_to_create_a_group_chat);
-//        final String st2 = getResources().getString(R.string.Failed_to_create_groups);
-
-        for(int i=1;i<=30;i++){
-            dayList.add(i+"天");
-        }
         setRight("发送", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                progressDialog = new ProgressDialog(AssignScanAct.this);
-//                progressDialog.setMessage(st1);
-//                progressDialog.setCanceledOnTouchOutside(false);
-//                progressDialog.show();
-//
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        // 调用sdk创建群组方法
-//                        final String groupName = "测试";//设置群名称
-//                        String desc = "";//群简介
-//                        String[] members = getToBeAddMembers().toArray(new String[0]);
-//                        try {
-//                            EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
-//                            option.maxUsers = 200;//设置群聊最大人数
-//
-//                            String reason = AssignScanAct.this.getString(R.string.invite_join_group);
-//                            reason = EMClient.getInstance().getCurrentUser() + reason + groupName;
-//
-//                            option.style = EMGroupManager.EMGroupStyle.EMGroupStylePublicJoinNeedApproval;
-////                            if(publibCheckBox.isChecked()){
-////                                option.style = memberCheckbox.isChecked() ? EMGroupManager.EMGroupStyle.EMGroupStylePublicJoinNeedApproval : EMGroupManager.EMGroupStyle.EMGroupStylePublicOpenJoin;
-////                            }else{
-////                                option.style = memberCheckbox.isChecked()? EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite: EMGroupManager.EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
-////                            }
-//                            EMClient.getInstance().groupManager().createGroup(groupName, desc, members, reason, option);
-//                            runOnUiThread(new Runnable() {
-//                                public void run() {
-//                                    progressDialog.dismiss();
-//                                    setResult(RESULT_OK);
-//                                    finish();
-//                                }
-//                            });
-//                        } catch (final HyphenateException e) {
-//                            runOnUiThread(new Runnable() {
-//                                public void run() {
-//                                    progressDialog.dismiss();
-//                                    Toast.makeText(AssignScanAct.this, st2 + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//                        }
-//
-//                    }
-//                }).start();
             }
         });
 
@@ -151,24 +94,6 @@ public class AssignScanAct extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tvQun})
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.tvQun:
-//                DialogChoseDate dialogChooseMonth = new DialogChoseDate(AssignScanAct.this, dayList).builder(0);
-//                dialogChooseMonth.show();
-//                dialogChooseMonth.setOnSheetItemClickListener(new DialogChoseDate.SexClickListener() {
-//                    @Override
-//                    public void getAdress(String adress) {
-//                        tvQun.setText(adress);
-//
-//                    }
-//                });
-//                dialogChooseMonth.show();
-                break;
-        }
-    }
-
     /**
      * 获取要被添加的成员
      *
@@ -185,6 +110,24 @@ public class AssignScanAct extends BaseActivity {
         }
 
         return members;
+    }
+
+    /**
+     * 获取好友列表
+     */
+    private void getFriends(){
+        RequestManager.getMessManager().getFriends(new ResultCallback() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+
     }
 
 
@@ -211,21 +154,11 @@ public class AssignScanAct extends BaseActivity {
             TextView nameView = (TextView) view.findViewById(R.id.name);
 
             if (checkBox != null) {
-//                if(exitingMembers != null && exitingMembers.contains(username)){
-//                    checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_gray_selector);
-//                }else{
                 checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
-//                }
-                // checkBox.setOnCheckedChangeListener(null);
 
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        // 群组中原来的成员一直设为选中状态
-//                        if (exitingMembers.contains(username)) {
-//                            isChecked = true;
-//                            checkBox.setChecked(true);
-//                        }
                         isCheckedArray[position] = isChecked;
                         //如果是单选模式
                         if (isSignleChecked && isChecked) {
@@ -239,15 +172,8 @@ public class AssignScanAct extends BaseActivity {
 
                     }
                 });
-                // 群组中原来的成员一直设为选中状态
-//                if (exitingMembers.contains(username)) {
-//                    checkBox.setChecked(true);
-//                    isCheckedArray[position] = true;
-//                } else {
                 checkBox.setChecked(isCheckedArray[position]);
-//                }
             }
-//			}
             return view;
         }
     }

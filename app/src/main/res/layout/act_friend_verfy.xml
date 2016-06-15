@@ -28,6 +28,7 @@
         android:textSize="14sp" />
 
     <TextView
+        android:id="@+id/tvSend"
         android:layout_marginTop="15dp"
         android:text="发送"
        style="@style/com_button"/>

@@ -118,72 +118,27 @@ public class UserInfo implements Parcelable {
     private String homeTown;
     @Column
     private String dictName;
-    /**---------------------------------------------------------------------------------------------------------*/
-    /**
-     * 共同的标签
-     */
-    private String sameLabels;
-    /**
-     * 共同的圈子数
-     */
-    private int sameCircleCounts;
+
+    private String hUsername;//环信用户名
+    private String hPassword;//环信密码
 
     public UserInfo() {
     }
 
-    protected UserInfo(Parcel in) {
-        id = in.readString();
-        username = in.readString();
-        name = in.readString();
-        password = in.readString();
-        mobilePhoneKey = in.readString();
-        phone = in.readString();
-        bindMobileCount = in.readString();
-        email = in.readString();
-        qq = in.readString();
-        wechat = in.readString();
-        icon = in.readString();
-        token = in.readString();
-        referralCode = in.readString();
-        myReferralCode = in.readString();
-        companyName = in.readString();
-        companyAddr = in.readString();
-        companyPhone = in.readString();
-        job = in.readString();
-        userType = in.readString();
-        isValid = in.readString();
-        createPersonId = in.readString();
-        createTime = in.readString();
-        modifyPersonId = in.readString();
-        modifyTime = in.readString();
-        remark = in.readString();
-        empno = in.readString();
-        dictId = in.readString();
-        accredit = in.readString();
-        birthday = in.readString();
-        sex = in.readString();
-        address = in.readString();
-        petName = in.readString();
-        homeTown = in.readString();
-        dictName = in.readString();
-        sameLabels=in.readString();
-        sameCircleCounts=in.readInt();
+    public String gethUsername() {
+        return hUsername;
     }
 
-    public String getSameLabels() {
-        return sameLabels;
+    public void sethUsername(String hUsername) {
+        this.hUsername = hUsername;
     }
 
-    public void setSameLabels(String sameLabels) {
-        this.sameLabels = sameLabels;
+    public String gethPassword() {
+        return hPassword;
     }
 
-    public int getSameCircleCounts() {
-        return sameCircleCounts;
-    }
-
-    public void setSameCircleCounts(int sameCircleCounts) {
-        this.sameCircleCounts = sameCircleCounts;
+    public void sethPassword(String hPassword) {
+        this.hPassword = hPassword;
     }
 
     public String getAccredit() {
@@ -463,67 +418,11 @@ public class UserInfo implements Parcelable {
     }
 
 
-    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
-        @Override
-        public UserInfo createFromParcel(Parcel in) {
-            return new UserInfo(in);
-        }
-
-        @Override
-        public UserInfo[] newArray(int size) {
-            return new UserInfo[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(username);
-        dest.writeString(name);
-        dest.writeString(password);
-        dest.writeString(mobilePhoneKey);
-        dest.writeString(phone);
-        dest.writeString(bindMobileCount);
-        dest.writeString(email);
-        dest.writeString(qq);
-        dest.writeString(wechat);
-        dest.writeString(icon);
-        dest.writeString(token);
-        dest.writeString(referralCode);
-        dest.writeString(myReferralCode);
-        dest.writeString(companyName);
-        dest.writeString(companyAddr);
-        dest.writeString(companyPhone);
-        dest.writeString(job);
-        dest.writeString(userType);
-        dest.writeString(isValid);
-        dest.writeString(createPersonId);
-        dest.writeString(createTime);
-        dest.writeString(modifyPersonId);
-        dest.writeString(modifyTime);
-        dest.writeString(remark);
-        dest.writeString(empno);
-        dest.writeString(dictId);
-        dest.writeString(accredit);
-        dest.writeString(birthday);
-        dest.writeString(sex);
-        dest.writeString(address);
-        dest.writeString(petName);
-        dest.writeString(homeTown);
-        dest.writeString(dictName);
-        dest.writeString(sameLabels);
-        dest.writeInt(sameCircleCounts);
-    }
-
     @Override
     public String toString() {
         return "UserInfo{" +
-                "id='" + id + '\'' +
+                "accredit='" + accredit + '\'' +
+                ", id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
@@ -550,15 +449,106 @@ public class UserInfo implements Parcelable {
                 ", remark='" + remark + '\'' +
                 ", empno='" + empno + '\'' +
                 ", dictId='" + dictId + '\'' +
-                ", accredit='" + accredit + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", sex='" + sex + '\'' +
                 ", address='" + address + '\'' +
                 ", petName='" + petName + '\'' +
                 ", homeTown='" + homeTown + '\'' +
                 ", dictName='" + dictName + '\'' +
-                ", sameLabels='" + sameLabels + '\'' +
-                ", sameCircleCounts=" + sameCircleCounts +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.username);
+        dest.writeString(this.name);
+        dest.writeString(this.password);
+        dest.writeString(this.mobilePhoneKey);
+        dest.writeString(this.phone);
+        dest.writeString(this.bindMobileCount);
+        dest.writeString(this.email);
+        dest.writeString(this.qq);
+        dest.writeString(this.wechat);
+        dest.writeString(this.icon);
+        dest.writeString(this.token);
+        dest.writeString(this.referralCode);
+        dest.writeString(this.myReferralCode);
+        dest.writeString(this.companyName);
+        dest.writeString(this.companyAddr);
+        dest.writeString(this.companyPhone);
+        dest.writeString(this.job);
+        dest.writeString(this.userType);
+        dest.writeString(this.isValid);
+        dest.writeString(this.createPersonId);
+        dest.writeString(this.createTime);
+        dest.writeString(this.modifyPersonId);
+        dest.writeString(this.modifyTime);
+        dest.writeString(this.remark);
+        dest.writeString(this.empno);
+        dest.writeString(this.dictId);
+        dest.writeString(this.accredit);
+        dest.writeString(this.birthday);
+        dest.writeString(this.sex);
+        dest.writeString(this.address);
+        dest.writeString(this.petName);
+        dest.writeString(this.homeTown);
+        dest.writeString(this.dictName);
+        dest.writeString(this.hUsername);
+        dest.writeString(this.hPassword);
+    }
+
+    protected UserInfo(Parcel in) {
+        this.id = in.readString();
+        this.username = in.readString();
+        this.name = in.readString();
+        this.password = in.readString();
+        this.mobilePhoneKey = in.readString();
+        this.phone = in.readString();
+        this.bindMobileCount = in.readString();
+        this.email = in.readString();
+        this.qq = in.readString();
+        this.wechat = in.readString();
+        this.icon = in.readString();
+        this.token = in.readString();
+        this.referralCode = in.readString();
+        this.myReferralCode = in.readString();
+        this.companyName = in.readString();
+        this.companyAddr = in.readString();
+        this.companyPhone = in.readString();
+        this.job = in.readString();
+        this.userType = in.readString();
+        this.isValid = in.readString();
+        this.createPersonId = in.readString();
+        this.createTime = in.readString();
+        this.modifyPersonId = in.readString();
+        this.modifyTime = in.readString();
+        this.remark = in.readString();
+        this.empno = in.readString();
+        this.dictId = in.readString();
+        this.accredit = in.readString();
+        this.birthday = in.readString();
+        this.sex = in.readString();
+        this.address = in.readString();
+        this.petName = in.readString();
+        this.homeTown = in.readString();
+        this.dictName = in.readString();
+        this.hUsername = in.readString();
+        this.hPassword = in.readString();
+    }
+
+    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
+        public UserInfo createFromParcel(Parcel source) {
+            return new UserInfo(source);
+        }
+
+        public UserInfo[] newArray(int size) {
+            return new UserInfo[size];
+        }
+    };
 }

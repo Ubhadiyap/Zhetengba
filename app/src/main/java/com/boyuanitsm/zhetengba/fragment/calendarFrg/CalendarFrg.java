@@ -1,6 +1,5 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -16,11 +15,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
-import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
-import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
-import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 import java.util.List;
 
