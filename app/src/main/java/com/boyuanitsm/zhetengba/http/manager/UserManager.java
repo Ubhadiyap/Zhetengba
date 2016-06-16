@@ -174,6 +174,48 @@ public class UserManager extends RequestManager{
     }
 
 
+    /**
+     * 完善个人信息
+     * @param userInfo
+     * @param labelIds
+     * @param callback
+     */
+    public void perfect(UserInfo userInfo,String labelIds,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("labelIds",labelIds);
+        Gson gson = new Gson();
+        String json = gson.toJson(userInfo);
+        try {
+            JSONObject obj = new JSONObject(json);
+            if ((obj.toString()).indexOf("createTime") != -1) {
+                obj.remove("createTime");
+            }
+            if ((obj.toString()).indexOf("username") != -1) {
+                obj.remove("username");
+            }
+            if ((obj.toString()).indexOf("modifyTime") != -1) {
+                obj.remove("modifyTime");
+            }
+            if ((obj.toString()).indexOf("password") != -1) {
+                obj.remove("password");
+            }
+            if ((obj.toString()).indexOf("icon") != -1) {
+                obj.remove("icon");
+            }
+            Iterator<String> it = obj.keys();
+            while (it.hasNext()) {
+                String key = it.next();
+                params.put(key, String.valueOf(obj.get(key)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        doPost(IZtbUrl.PERFECT_URL, params, callback);
+
+
+    }
+
+
 
 
 

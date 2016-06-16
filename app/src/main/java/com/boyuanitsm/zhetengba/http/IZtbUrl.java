@@ -13,10 +13,13 @@ public interface IZtbUrl {
     //测试
 //    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
 
-//    public  String BASE_URL="http://172.16.6.225:8080/zhetengba/";
+//    public  String BASE_URL="http://172.16.5.160:8080/zhetengba/";
 
     /**=========登出地址==========**/
     public  String LOGOUT_URL=BASE_URL+"manager/unLogin/logout.do";
+
+    /**=========完善信息接口==========**/
+    public  String PERFECT_URL=BASE_URL+"manager/login/modifyPerfectUserInfo.do";
 
     /**=========注册地址==========**/
     public  String REGISTER_URL=BASE_URL+"manager/unLogin/register.do";
@@ -196,4 +199,6 @@ public interface IZtbUrl {
     public static  final  String PERSONAL_HOME_PAGE_URL=BASE_URL+"schedule/login/findPersonalByUserId.do";
     //添加好友接口
     public static final String ADD_FRIEND_URL="message/login/addFriendFromContact.do";
+
+
 }

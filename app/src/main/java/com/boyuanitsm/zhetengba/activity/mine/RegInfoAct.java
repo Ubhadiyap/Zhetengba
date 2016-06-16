@@ -6,29 +6,42 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.adapter.XqgvAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.IconFilePath;
+import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
+import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,17 +60,21 @@ public class RegInfoAct extends BaseActivity {
     @ViewInject(R.id.iv_rgificon)
     private CircleImageView iv_icon;
 
+    private UserInfo user;
+    private List<LabelBannerInfo> list=new ArrayList<LabelBannerInfo>();
+    private List<String>idlist;
+    private String lableid;
+
 
     private XqgvAdapter xqgvAdapter;//兴趣标签适配器
     private Map<Integer,String>datamap;//用来封装适配器里面选中和取消相中后的标签
-    private String connects;//标签选择的内容
     private String sex="男";//性别选择默认为男
     private String pickname;//昵称
 
     private String username;
     private String pwd;
     private String yzm;
-    private UserInfo userInfo;
+//    private UserInfo userInfo;
 
 
     private String photoSavePath;
@@ -86,20 +103,20 @@ public class RegInfoAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("注册信息");
         datamap=new HashMap<>();
-        userInfo=new UserInfo();
-
-
-        xqgvAdapter = new XqgvAdapter(getApplicationContext(),this);
-        gvqy.setAdapter(xqgvAdapter);
+//        userInfo=new UserInfo();
+        user=UserInfoDao.getUser();
+        MyLogUtils.info("测试user"+user);
+        idlist=new ArrayList<>();
+        getIntrestLabel("0");//获得全部兴趣标签
         rg_sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (group.getCheckedRadioButtonId()) {
                     case R.id.girl_rd:
-                        sex = "女";
+                        sex = "0";
                         break;
                     case R.id.boy_rd:
-                        sex = "男";
+                        sex = "1";
                         break;
                 }
 
@@ -107,25 +124,58 @@ public class RegInfoAct extends BaseActivity {
         });
 
     }
+
+    /**
+     * 个人兴趣标签/全部标签
+     * @param dictType
+     * @return
+     */
+    private void getIntrestLabel(String dictType){
+        RequestManager.getScheduleManager().getIntrestLabelList(dictType, new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
+                list = response.getData();
+                xqgvAdapter = new XqgvAdapter();
+                gvqy.setAdapter(xqgvAdapter);
+            }
+        });
+    }
+
+
     @OnClick({R.id.wancheng,R.id.iv_rgificon})
     public void OnClick(View view){
-
-        connects="";//被点击的选项内容
-        for(int key:datamap.keySet()){
-            connects=connects.concat(datamap.get(key).toString()+",");
-        }
-
         pickname=et_pickname.getText().toString().trim();//昵称
-        userInfo.setPetName(pickname);
-        userInfo.setSex(sex);
+        if(!TextUtils.isEmpty(pickname)&&pickname!=null){
+        user.setPetName(pickname);}
+        user.setSex(sex);
         switch (view.getId()){
             case R.id.iv_rgificon://点击图像
                 headIconDialog();
                 break;
 
-            case R.id.wancheng://
-//                toRegister(userInfo,yzm,connects);
-                MyToastUtils.showShortToast(getApplicationContext(), connects + sex+pickname);
+            case R.id.wancheng://完成
+                if(idlist==null){
+                    MyToastUtils.showShortToast(RegInfoAct.this,"请至少选择一个兴趣标签");
+                }else{
+                    if(idlist.size()==1){
+                        lableid=idlist.get(0);
+                        doPerfect(user,lableid);
+                    }
+                    if(idlist.size()>1){
+                        lableid=idlist.get(0);
+                        for (int i=1;i<idlist.size();i++){
+                            lableid=lableid+","+idlist.get(i);
+                        }
+                    }
+                    doPerfect(user,lableid);
+                }
+//               doPerfect();
+
                 break;
 
 
@@ -133,16 +183,31 @@ public class RegInfoAct extends BaseActivity {
         }
 
     }
-    /**
-     * 获取到适配器中选中的数据是适配器中有调用这个方法
-     * @param datamap
-     */
-    public void setData(Map<Integer,String> datamap){
-        this.datamap=datamap;
 
+    /**
+     * 完善个人信息
+     * @param user
+     * @param labelIds
+     */
+    private void doPerfect(UserInfo user,String labelIds) {
+        RequestManager.getUserManager().perfect(user, labelIds, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(getApplicationContext(),"成功");
+
+
+            }
+        });
     }
 
-
+    /**
+     * 添加图像
+     */
     private void headIconDialog() {
         MySelfSheetDialog dialog = new MySelfSheetDialog(RegInfoAct.this);
         dialog.builder().addSheetItem("拍照", MySelfSheetDialog.SheetItemColor.Blue, new MySelfSheetDialog.OnSheetItemClickListener() {
@@ -209,7 +274,7 @@ public class RegInfoAct extends BaseActivity {
             case IMAGE_COMPLETE:// 完成
                 temppath = data.getStringExtra("path");
                 iv_icon.setImageBitmap(MyBitmapUtils.LoadBigImg(temppath, 120, 120));
-
+                toloadfile(temppath);
                 break;
 
         }
@@ -217,27 +282,79 @@ public class RegInfoAct extends BaseActivity {
     }
 
 
+
     /**
-     * 保存用户信息
-     * @param
-     * @param
-     * @param
+     * 上传头像
+     *
+     * @param path
      */
-     private void saveUser(final UserInfo userInfo){
-         RequestManager.getUserManager().modifyUserInfo(userInfo, new ResultCallback<ResultBean<String>>() {
-             @Override
-             public void onError(int status, String errorMsg) {
+    private void toloadfile(String path) {
+        Map<String, FileBody> filemap = new HashMap<String, FileBody>();
+        File file = new File(path);
+        FileBody fileBody = new FileBody(file);
+        filemap.put("file", fileBody);
+        RequestManager.getUserManager().subHeadImg(filemap, new ResultCallback<ResultBean<IconFilePath>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
 
+            }
+
+            @Override
+            public void onResponse(ResultBean<IconFilePath> response) {
+                user.setIcon(Uitls.imageFullUrl(response.getData().getIconFilePath()));
+                UserInfoDao.updateUser(user);
+//                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, options);
+                sendBroadcast(new Intent(MineFrg.USER_INFO));
+            }
+        });
+    }
+
+    /**
+     * 标签
+     * gridview适配器
+     */
+    class XqgvAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            final int dex=position;
+            View view=View.inflate(RegInfoAct.this, R.layout.item_gv,null);
+            final CheckBox ck= (CheckBox) view.findViewById(R.id.ck_xq);
+            ck.setText(list.get(position).getDictName());
+            ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+             if(isChecked){
+                 idlist.add(list.get(position).getId());
+             }else {
+                 idlist.remove(list.get(position).getId());
              }
+            }
+        });
 
-             @Override
-             public void onResponse(ResultBean<String> response) {
-                 MyToastUtils.showShortToast(getApplicationContext(),"完善成功");
+            return view;
+        }
 
-             }
-         });
+    }
 
-     }
+
+
+
 
 
 

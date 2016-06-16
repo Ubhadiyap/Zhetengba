@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserBean;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -208,15 +210,17 @@ public class RegistAct extends BaseActivity {
      * @param captcha
      * @param password
      */
-    public void toRegister(String username,String captcha,String password){
-        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<String>>() {
+    public void toRegister(final String username,String captcha,String password){
+        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<UserBean>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
+            public void onResponse(ResultBean<UserBean> response) {
+                UserBean userBean=response.getData();
+                UserInfoDao.saveUser(userBean.getUser());
                 openActivity(RegInfoAct.class);
             }
         });

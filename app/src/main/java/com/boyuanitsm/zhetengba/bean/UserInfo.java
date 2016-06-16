@@ -128,6 +128,10 @@ public class UserInfo implements Parcelable {
      */
     private int sameCircleCounts;
 
+    private String hUsername;//环信账号
+    private String hPassword;//环信密码
+
+
     public UserInfo() {
     }
 
@@ -168,6 +172,24 @@ public class UserInfo implements Parcelable {
         dictName = in.readString();
         sameLabels=in.readString();
         sameCircleCounts=in.readInt();
+        hUsername=in.readString();
+        hPassword=in.readString();
+    }
+
+    public String gethPassword() {
+        return hPassword;
+    }
+
+    public void sethPassword(String hPassword) {
+        this.hPassword = hPassword;
+    }
+
+    public String gethUsername() {
+        return hUsername;
+    }
+
+    public void sethUsername(String hUsername) {
+        this.hUsername = hUsername;
     }
 
     public String getSameLabels() {
@@ -518,12 +540,15 @@ public class UserInfo implements Parcelable {
         dest.writeString(dictName);
         dest.writeString(sameLabels);
         dest.writeInt(sameCircleCounts);
+        dest.writeString(hUsername);
+        dest.writeString(hPassword);
     }
 
     @Override
     public String toString() {
         return "UserInfo{" +
-                "id='" + id + '\'' +
+                "accredit='" + accredit + '\'' +
+                ", id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
@@ -550,7 +575,6 @@ public class UserInfo implements Parcelable {
                 ", remark='" + remark + '\'' +
                 ", empno='" + empno + '\'' +
                 ", dictId='" + dictId + '\'' +
-                ", accredit='" + accredit + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", sex='" + sex + '\'' +
                 ", address='" + address + '\'' +
@@ -559,6 +583,8 @@ public class UserInfo implements Parcelable {
                 ", dictName='" + dictName + '\'' +
                 ", sameLabels='" + sameLabels + '\'' +
                 ", sameCircleCounts=" + sameCircleCounts +
+                ", hUsername='" + hUsername + '\'' +
+                ", hPassword='" + hPassword + '\'' +
                 '}';
     }
 }
