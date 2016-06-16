@@ -79,6 +79,28 @@ public class ZtinfoUtils {
     }
 
     /**
+     * 时间戳转化成时间
+     *
+     * @param time
+     * @return
+     */
+    @SuppressLint("SimpleDateFormat")
+    public static String timeToDate2(long time) {
+        long diff=new Date().getTime()-time;//当前时间与获取到的时间比较
+        SimpleDateFormat format;
+        MyLogUtils.degug("现在毫秒数："+new Date().getTime()+"，获取毫秒数："+time+"，相差毫秒数："+diff);
+        if (diff<86400000) {//小于1天
+            format = new SimpleDateFormat("HH:mm");
+        }else {
+            format = new SimpleDateFormat("MM月dd日 HH:mm");
+        }
+        return format.format(new Date(time));
+
+    }
+
+
+
+    /**
      * 格式化时间格式
      * @param date
      * @return

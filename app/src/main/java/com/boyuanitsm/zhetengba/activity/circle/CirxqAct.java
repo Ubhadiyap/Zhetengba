@@ -196,6 +196,7 @@ public class CirxqAct extends BaseActivity {
 
     //获取圈子详情
     private void getCircleDetail(String circleId){
+        circleEntity=new CircleEntity();
         RequestManager.getTalkManager().myCircleDetail(circleId, new ResultCallback<ResultBean<CircleEntity>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -205,7 +206,9 @@ public class CirxqAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<CircleEntity> response) {
                 circleEntity=response.getData();
-                setCircle(circleEntity);
+                if (circleEntity!=null) {
+                    setCircle(circleEntity);
+                }
             }
         });
     }
