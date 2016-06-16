@@ -54,4 +54,15 @@ public class MessManager extends RequestManager{
         doPost(IZtbUrl.FRIEND_LIST_URL,map,callback);
     }
 
+    /**
+     * 添加已经注册好友
+     * @param friendId
+     * @param callback
+     */
+    public void addFriendFromContact(String friendId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("friendId",friendId);
+        doPost(IZtbUrl.ADD_FRIEND_CONTACT,map,callback);
+    }
+
 }

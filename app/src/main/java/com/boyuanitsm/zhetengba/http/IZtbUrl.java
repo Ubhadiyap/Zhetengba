@@ -232,4 +232,6 @@ public interface IZtbUrl {
     String DELETE_FRIEND_URL=BASE_URL+"message/login/removeFriend.do";
     //好友列表
     String FRIEND_LIST_URL=BASE_URL+"message/login/findFriendsList.do";
+    //添加好友
+    String ADD_FRIEND_CONTACT=BASE_URL+"message/login/addFriendFromContact.do";
 }
