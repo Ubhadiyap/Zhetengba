@@ -16,9 +16,6 @@ import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
-import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
-import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.hyphenate.easeui.adapter.EaseContactAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -112,23 +109,6 @@ public class AssignScanAct extends BaseActivity {
         return members;
     }
 
-    /**
-     * 获取好友列表
-     */
-    private void getFriends(){
-        RequestManager.getMessManager().getFriends(new ResultCallback() {
-            @Override
-            public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
-            }
-
-            @Override
-            public void onResponse(Object response) {
-
-            }
-        });
-
-    }
 
 
     /**
