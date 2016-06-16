@@ -41,6 +41,7 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyViewPager;
+import com.hyphenate.util.Utils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -61,11 +62,6 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     private MyViewPager lvTimeAxis;//viewPager对象
     @ViewInject(R.id.rv_label)
     private RecyclerView rvLabel;//兴趣标签
-    private DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.mipmap.zanwutupian)
-            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
-            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
-            .bitmapConfig(Bitmap.Config.RGB_565).build();
     @ViewInject(R.id.iv_headIcon)
     private CircleImageView head;
 //    @ViewInject(R.id.rv_monthSelect)
@@ -87,6 +83,12 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     private int mMouthMargin;//设置月份间隙
 
     private List<String> timeList=new ArrayList<>();//存储时间
+    // 图片缓存 默认 等
+    private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -103,7 +105,8 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         if (!TextUtils.isEmpty(UserInfoDao.getUser().getPetName())){
             tv_name.setText(UserInfoDao.getUser().getPetName());
         }
-        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,options);
+        MyLogUtils.info(UserInfoDao.getUser().getIcon()+"图片地址");
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImag);
         getlable();//获得兴趣标签；
 
 //        findHistory();//获取事件轴
@@ -330,12 +333,11 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
             MyLogUtils.degug(user.getPetName());
             if (user != null) {
                if (!TextUtils.isEmpty(user.getIcon())){
-                   ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()),head,options);
+                   ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImag);
 
                }
 
             }
-
             getlable();//当修改兴趣标界面修改（添加，删除）签获得兴趣标签；
 
 

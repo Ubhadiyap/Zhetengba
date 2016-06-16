@@ -48,7 +48,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
     private List<UserInfo> userInfoList;
     ViewHolder viewHolder = null;
     int clickPos;
-    private boolean flag=false;
+    private boolean flag;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -107,6 +107,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
             viewHolder.znum= (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum= (TextView) convertView.findViewById(R.id.cnum);
             viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
+           viewHolder.zimg= (ImageView) convertView.findViewById(R.id.zimg);
             convertView.setTag(viewHolder);
         }
         if (str==null) {
@@ -207,6 +208,13 @@ public class PpdtfrgAdapter extends BaseAdapter {
             }else {
                 viewHolder.snum.setText("0");
             }
+            if (circleTalkEntityList.get(position).getLiked()==1){
+                viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan_b));
+                flag=true;
+            }else if (circleTalkEntityList.get(position).getLiked()==0){
+                viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan));
+                flag=false;
+            }
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleTalkEntityList.get(position).getUserIcon()),viewHolder.ivChHead,optionsImag);
             if (!TextUtils.isEmpty(circleTalkEntityList.get(position).getUserSex())){
                 if (circleTalkEntityList.get(position).getUserSex().equals(0+"")){
@@ -251,10 +259,9 @@ public class PpdtfrgAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 clickPos=position;
-
-                if (!flag){
+                if (flag==false){
                     addCircleLike(circleTalkEntityList.get(position).getId());
-                }else {
+                }else if (flag==true){
                     removeCircleLike(circleTalkEntityList.get(position).getId());
                 }
             }
@@ -312,6 +319,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
         private TextView znum;
         private TextView cnum;
         private TextView snum;
+        private ImageView zimg;
 
     }
     /**
@@ -329,6 +337,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 flag=true;
                 circleTalkEntityList.get(clickPos).setLikedCounts(circleTalkEntityList.get(clickPos).getLikedCounts()+1);
+                circleTalkEntityList.get(clickPos).setLiked(1);
                 notifyDataSetChanged();
             }
         });
@@ -348,6 +357,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 flag=false;
                 circleTalkEntityList.get(clickPos).setLikedCounts(circleTalkEntityList.get(clickPos).getLikedCounts()-1);
+                circleTalkEntityList.get(clickPos).setLiked(0);
                 notifyDataSetChanged();
             }
         });

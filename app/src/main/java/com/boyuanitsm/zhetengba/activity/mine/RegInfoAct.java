@@ -139,7 +139,6 @@ public class RegInfoAct extends BaseActivity {
      */
     public void setData(Map<Integer,String> datamap){
         this.datamap=datamap;
-
     }
 
 
