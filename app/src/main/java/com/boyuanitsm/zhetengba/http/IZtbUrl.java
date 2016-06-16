@@ -10,6 +10,7 @@ public interface IZtbUrl {
 //    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
     //测试
     public static final String BASE_URL = "http://172.16.5.193:8080/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.5.154:8080/zhetengba/";
 
 //    public  String BASE_URL="http://172.16.6.225:8080/zhetengba/";
 
