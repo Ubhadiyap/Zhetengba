@@ -254,8 +254,6 @@ public class RegistAct extends BaseActivity {
 
             public void onResponse(ResultBean<UserBean> response) {
                 UserBean userBean=response.getData();
-                UserInfoDao.saveUser(userBean.getUser());
-                openActivity(RegInfoAct.class);
                 login(userBean);
 
 //            public void onResponse(ResultBean<UserBean>  response) {
