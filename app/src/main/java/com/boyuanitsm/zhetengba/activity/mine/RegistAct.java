@@ -1,22 +1,34 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserBean;
+import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -46,6 +58,9 @@ public class RegistAct extends BaseActivity {
     private int i = 60;
     private Timer timer;
     private MyTimerTask myTask;
+
+    private static final String TAG = "RegAct";
+    private ProgressDialog pd;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_regist);
@@ -55,7 +70,16 @@ public class RegistAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("注册");
-
+        pd = new ProgressDialog(this);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Log.d(TAG, "EMClient.getInstance().onCancel");
+                progressShow = false;
+            }
+        });
+        pd.setMessage("注册中。。。");
 
     }
 
@@ -202,6 +226,8 @@ public class RegistAct extends BaseActivity {
 
     };
 
+
+    private boolean progressShow;
     /**
      * 注册
      * @param username
@@ -209,15 +235,18 @@ public class RegistAct extends BaseActivity {
      * @param password
      */
     public void toRegister(String username,String captcha,String password){
-        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<String>>() {
+        pd.show();
+        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<UserBean> >() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                pd.dismiss();
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
-                openActivity(RegInfoAct.class);
+            public void onResponse(ResultBean<UserBean>  response) {
+                UserBean userBean = response.getData();
+                login(userBean);
             }
         });
 
@@ -232,21 +261,106 @@ public class RegistAct extends BaseActivity {
         RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                i=60;
+                i = 60;
                 tv_code.setEnabled(false);
                 timer = new Timer();
                 myTask = new MyTimerTask();
                 timer.schedule(myTask, 0, 1000);
-                MyToastUtils.showShortToast(getApplicationContext(),"验证码发送成功");
+                MyToastUtils.showShortToast(getApplicationContext(), "验证码发送成功");
 
             }
         });
 
+    }
 
+
+    private String currentUsername;
+    private String currentPassword;
+    /**
+     * 登录环信
+     * @param
+     */
+    public void login(final UserBean userBean) {
+        if (!EaseCommonUtils.isNetWorkConnected(this)) {
+            Toast.makeText(this, R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        currentUsername=userBean.getUser().gethUsername();
+        currentPassword=userBean.getUser().gethPassword();
+        if (TextUtils.isEmpty(currentUsername)) {
+            Toast.makeText(this, R.string.User_name_cannot_be_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(currentPassword)) {
+            Toast.makeText(this, R.string.Password_cannot_be_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        progressShow = true;
+
+        // After logout，the DemoDB may still be accessed due to async callback, so the DemoDB will be re-opened again.
+        // close it before login to make sure DemoDB not overlap
+        DemoDBManager.getInstance().closeDB();
+
+        // reset current user name before login
+        DemoHelper.getInstance().setCurrentUserName(currentUsername);
+
+        final long start = System.currentTimeMillis();
+        // 调用sdk登陆方法登陆聊天服务器
+        Log.d(TAG, "EMClient.getInstance().login");
+        EMClient.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "login: onSuccess");
+                if (!RegistAct.this.isFinishing() && pd.isShowing()) {
+                    pd.dismiss();
+                }
+                // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+                // ** manually load all local groups and
+                EMClient.getInstance().groupManager().loadAllGroups();
+                EMClient.getInstance().chatManager().loadAllConversations();
+                // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
+                boolean updatenick = EMClient.getInstance().updateCurrentUserNick(
+                        MyApplication.currentUserNick.trim());
+                if (!updatenick) {
+                    Log.e("LoginActivity", "update current user nick fail");
+                }
+                //异步获取当前用户的昵称和头像(从自己服务器获取，demo使用的一个第三方服务)
+//                DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+
+                UserInfoDao.saveUser(userBean.getUser());
+                openActivity(RegInfoAct.class);
+                // 进入主页面
+//                Intent intent = new Intent(RegistAct.this,
+//                        MainAct.class);
+//                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                Log.d(TAG, "login: onProgress");
+            }
+
+            @Override
+            public void onError(final int code, final String message) {
+                Log.d(TAG, "login: onError: " + code);
+                if (!progressShow) {
+                    return;
+                }
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        pd.dismiss();
+                        Toast.makeText(getApplicationContext(), getString(R.string.Login_failed) + message,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 }

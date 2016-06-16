@@ -7,75 +7,75 @@ package com.boyuanitsm.zhetengba.http;
 public interface IZtbUrl {
 
     //基础地址
-    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
     //测试
-//    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
+    public static final String BASE_URL = "http://172.16.5.193:8080/zhetengba/";
 
 //    public  String BASE_URL="http://172.16.6.225:8080/zhetengba/";
 
     /**
      * =========登出地址==========
      **/
-    public String LOGOUT_URL = BASE_URL + "manager/unLogin/logout.do";
+     String LOGOUT_URL = BASE_URL + "manager/unLogin/logout.do";
 
     /**
      * =========注册地址==========
      **/
-    public String REGISTER_URL = BASE_URL + "manager/unLogin/register.do";
+     String REGISTER_URL = BASE_URL + "manager/unLogin/register.do";
 
     /**
      * =========发送验证码地址==========
      **/
-    public String SENDSMSCAPTCHA_URL = BASE_URL + "manager/unLogin/sendSmsCaptcha.do";
+     String SENDSMSCAPTCHA_URL = BASE_URL + "manager/unLogin/sendSmsCaptcha.do";
 
     /**
      * =========修改密码地址==========
      **/
-    public String MODIFYUSERPASSWORD_URL = BASE_URL + "manager/login/modifyUserPassword.do";
+     String MODIFYUSERPASSWORD_URL = BASE_URL + "manager/login/modifyUserPassword.do";
 
     /**
      * =========忘记密码地址==========
      **/
-    public String FORGETPASSWORD_URL = BASE_URL + "manager/unLogin/forgetPassword.do";
+     String FORGETPASSWORD_URL = BASE_URL + "manager/unLogin/forgetPassword.do";
     /**
      * =========登录地址==========
      **/
-    public String LOGIN_URL = BASE_URL + "manager/unLogin/login.do";
+     String LOGIN_URL = BASE_URL + "manager/unLogin/login.do";
 
     /**
      * =========修改用户头像==========
      **/
-    public String MODIFYUSERICON_URL = BASE_URL + "manager/login/modifyUserIcon.do";
+     String MODIFYUSERICON_URL = BASE_URL + "manager/login/modifyUserIcon.do";
 
 
     /**
      * =========修改用户信息==========
      **/
-    public String MODIFYUSERINFO_URL = BASE_URL + "manager/login/modifyUserInfo.do";
+     String MODIFYUSERINFO_URL = BASE_URL + "manager/login/modifyUserInfo.do";
 
 
     /**
      * =========收藏列表接口==========
      **/
-    public String COLLECTIONLIST_URL = BASE_URL + "schedule/login/findCollectionListByUserId.do";
+     String COLLECTIONLIST_URL = BASE_URL + "schedule/login/findCollectionListByUserId.do";
 
     /**
      * =========反馈接==========
      **/
-    public String ADDFEEDBACK_URL = BASE_URL + "schedule/login/addFeedBack.do";
+     String ADDFEEDBACK_URL = BASE_URL + "schedule/login/addFeedBack.do";
 
     /**
      * =========获取事件信息（时间轴接口）==========
      **/
-    public String HISTORYMESSAGE_URL = BASE_URL + "schedule/login/findHistoryMessageListByMonth.do";
+     String HISTORYMESSAGE_URL = BASE_URL + "schedule/login/findHistoryMessageListByMonth.do";
 
     /**=========我的兴趣标签列表（非全部）==========**/
-    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
+      String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
 
     /**
      * =========取消收藏接口==========
      **/
-    public String REMOVECOLLECTION_URL = BASE_URL + "schedule/login/removeCollection.do";
+     String REMOVECOLLECTION_URL = BASE_URL + "schedule/login/removeCollection.do";
 
     /*建立圈子*/
     String CREATE_CIRCLE_URL = BASE_URL + "talk/login/addCircle.do";
@@ -190,7 +190,7 @@ public interface IZtbUrl {
 
 
     //活动仅好友可见
-    public static final String ACTIVITY_FRIEND_URL = BASE_URL + "schedule/login/modifyActivityFriendSee.do";
+    String ACTIVITY_FRIEND_URL = BASE_URL + "schedule/login/modifyActivityFriendSee.do";
 
 
     //档期仅好友可见
@@ -228,4 +228,8 @@ public interface IZtbUrl {
     String DELETE_FRIEND_URL=BASE_URL+"message/login/removeFriend.do";
     //好友列表
     String FRIEND_LIST_URL=BASE_URL+"message/login/findFriendsList.do";
+    //修改昵称
+    String UPDATE_NICKNAME=BASE_URL+"message/login/modifyNickName.do";
+    /*创建群聊*/
+    String ADD_GROUP_URL=BASE_URL+"message/login/addGroupChat.do";
 }
