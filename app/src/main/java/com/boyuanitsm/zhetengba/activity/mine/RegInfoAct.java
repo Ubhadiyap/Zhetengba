@@ -189,6 +189,7 @@ public class RegInfoAct extends BaseActivity {
      * @param user
      * @param labelIds
      */
+
     private void doPerfect(UserInfo user,String labelIds) {
         RequestManager.getUserManager().perfect(user, labelIds, new ResultCallback<ResultBean<String>>() {
             @Override
@@ -199,6 +200,9 @@ public class RegInfoAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 MyToastUtils.showShortToast(getApplicationContext(),"成功");
+
+
+
 
 
             }

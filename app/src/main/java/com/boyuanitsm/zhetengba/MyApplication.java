@@ -15,6 +15,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.umeng.socialize.PlatformConfig;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by wangbin on 16/5/9.
  */
@@ -46,7 +48,8 @@ public class MyApplication extends Application{
         //init demo helper
         DemoHelper.getInstance().init(applicationContext);
 
-
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);
         //分享配置
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
         //微信 appid appsecret

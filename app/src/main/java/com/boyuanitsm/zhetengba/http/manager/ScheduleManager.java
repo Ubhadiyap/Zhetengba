@@ -1,5 +1,7 @@
 package com.boyuanitsm.zhetengba.http.manager;
 
+import android.text.TextUtils;
+
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
@@ -142,6 +144,17 @@ public class ScheduleManager extends RequestManager {
      */
     public void findMyLabelListMoreByUserId(ResultCallback callback){
         Map<String,String> params=new HashMap<>();
+        doPost(IZtbUrl.MY_INTEREST_URL,params,callback);
+    }
+    /**
+     * userId - 用户id 注：userId为空时查询个人兴趣标签；userId不为空时，查询他人兴趣标签（活动、档期列表点击头像查看信息）
+     * 返回:ResponseEntity(集合 List UserInterest) 响应信息
+     * @param
+     * @param callback
+     */
+    public void findOtherListMoreByUserId(String userId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("userId",userId);
         doPost(IZtbUrl.MY_INTEREST_URL,params,callback);
     }
     /**
@@ -392,7 +405,21 @@ public class ScheduleManager extends RequestManager {
         params.put("userId",userId);
         doPost(IZtbUrl.PERSONAL_HOME_PAGE_URL,params,callback);
     }
-    public void addFriend(){
 
+    /**
+     * 查询我的兴趣标签
+     * @param userId
+     * @param limitNum
+     * @param callback
+     */
+    public void selectMyLabels(String userId ,int limitNum ,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        if(!TextUtils.isEmpty(userId)){
+            params.put("userId",userId );
+        }
+        if(!TextUtils.isEmpty(limitNum+"")){
+            params.put("limitNum",limitNum+"");
+        }
+        doPost(IZtbUrl.MYLABELLIST_URL,params,callback);
     }
 }

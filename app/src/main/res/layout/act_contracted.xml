@@ -33,6 +33,8 @@
                 <LinearLayout
                     style="@style/simple_linear"
                     android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:paddingLeft="0dp"
                     android:background="@drawable/bg_circle_stroke_gray"
                     android:orientation="horizontal">
 
@@ -59,6 +61,8 @@
                 <LinearLayout
                     style="@style/simple_linear"
                     android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:paddingLeft="0dp"
                     android:background="@drawable/bg_circle_stroke_gray"
                     android:orientation="horizontal">
                         <EditText
@@ -249,7 +253,8 @@
                     android:id="@+id/ll_tab"
                     android:layout_width="match_parent"
                     android:layout_height="41dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
 
                     <TextView
                         android:layout_width="15dp"
@@ -312,7 +317,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="41dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/white"
+                android:background="@drawable/item_back"
                 android:paddingLeft="15dp">
 
                 <TextView
@@ -359,7 +364,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="41dp"
                     android:layout_marginRight="0dp"
-                    android:background="@color/white">
+                    android:background="@drawable/item_back">
 
                     <TextView
                         style="@style/simple_text2"
@@ -395,7 +400,7 @@
                     android:layout_height="41dp"
 
                     android:layout_marginRight="0dp"
-                    android:background="@color/white">
+                    android:background="@drawable/item_back">
 
                     <TextView
                         style="@style/simple_text2"

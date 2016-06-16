@@ -158,6 +158,23 @@ public class UserProfileManager {
 		});
 
 	}
+
+	/**
+	 * 设置昵称
+	 * @param nickname
+	 */
+	public void setNickName(String nickname){
+		setCurrentUserNick(nickname);
+	}
+
+	/**
+	 * 设置头像
+	 * @param avatar
+	 */
+	public void setUserAvatar(String avatar){
+		setCurrentUserAvatar(avatar);
+	}
+
 	public void asyncGetUserInfo(final String username,final EMValueCallBack<EaseUser> callback){
 		ParseManager.getInstance().asyncGetUserInfo(username, callback);
 	}

@@ -1,7 +1,9 @@
 package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -14,12 +16,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.ChaPagerAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
-import com.boyuanitsm.zhetengba.db.LabelInterestDao;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -64,10 +70,15 @@ private Button bt_plan;
         scrollView = (HorizontalScrollView) view.findViewById(R.id.hslv_chanel);
         titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
         vp_chan = (ViewPager) view.findViewById(R.id.vp_chan);
+        //初始化
+
+        textViewList = new ArrayList<>();
+        moveToList = new ArrayList<>();
         //设置间隙
         mTitleMargin = dip2px(mActivity, 10);
+        getMyLabels(-1);//获取我的兴趣标签
         //填充数据
-        initDate();
+//        initDate();
         //设置viewPager滑动监听
         vp_chan.setOnPageChangeListener(this);
     }
@@ -76,14 +87,17 @@ private Button bt_plan;
     /***
      * 填充数据
      */
-    private void initDate() {
-        //初始化
+    private void initDate(List<UserInterestInfo> titleList) {
+//        LabelInterestDao labelInterestDao=new LabelInterestDao(mActivity);
+//        titleList= labelInterestDao.getScrollData(0,-1);
         fragmentList = new ArrayList<>();
-        titleList = new ArrayList<>();
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
-        LabelInterestDao labelInterestDao=new LabelInterestDao(mActivity);
-        titleList= labelInterestDao.getScrollData(0,-1);
+//        LabelInterestDao labelInterestDao=new LabelInterestDao(mActivity);
+//        titleList= labelInterestDao.getScrollData(0,-1);
+//        titleList=LabelInterestDao.getInterestLabel();
+//=======
+//>>>>>>> e0c9c72e6156b72b12beead50bd6b4e441160e8b
         //设置fragmentlist
         //填充titleList,titleLayout布局
         for (int i = 0; i < titleList.size(); i++) {
@@ -96,9 +110,13 @@ private Button bt_plan;
         chaPagerAdapter.setFragments(fragmentList);
         vp_chan.setAdapter(chaPagerAdapter);
         vp_chan.setOffscreenPageLimit(9);//一共加载9页，如果此处不指定，默认只加载相邻页，提前加载增加用户体验
-        textViewList.get(0).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
+        if(textViewList!=null&&textViewList.size()>0) {
+            textViewList.get(0).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
+        }
         currentPos = 0;
-
+        //设置频道标签id
+        ((MainAct)getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
+        getActivity().sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
     }
 
     /***
@@ -168,6 +186,10 @@ private Button bt_plan;
         textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
         textViewList.get(position).setTextColor(Color.parseColor("#52C791"));
         currentPos = position;
+        ((MainAct)getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
+        Intent intent = new Intent(ChaChildFrg.CHANNELTALKS);
+        intent.putExtra("flag",position);
+        mActivity.sendBroadcast(intent);
         scrollView.scrollTo((int) moveToList.get(position), 0);
     }
 
@@ -175,6 +197,7 @@ private Button bt_plan;
     public void onPageScrollStateChanged(int state) {
 
     }
+
     @OnClick({R.id.bt_plan,R.id.ll_add})
     @Override
     public void onClick(View v) {
@@ -182,6 +205,8 @@ private Button bt_plan;
             case R.id.bt_plan:
                 Intent intent=new Intent(getActivity(),CirclefbAct.class);
                 intent.putExtra(CirclefbAct.TYPE,0);
+                intent.putExtra("labelId",titleList.get(currentPos).getInterestId());
+                intent.putExtra("flag",currentPos);
                 startActivity(intent);
                 break;
             case R.id.ll_add:
@@ -200,8 +225,60 @@ private Button bt_plan;
             }
             textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
             currentPos = (int) view.getTag();
+//            ((MainAct)getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
+//           mActivity.sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
             textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));
             vp_chan.setCurrentItem(currentPos);
+        }
+    }
+
+    /**
+     * 获取我的兴趣标签
+     * @param limitNum
+     */
+    private void getMyLabels(int limitNum){
+        titleList = new ArrayList<>();
+        RequestManager.getScheduleManager().selectMyLabels(null, limitNum, new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<UserInterestInfo>> response) {
+                titleList=response.getData();
+                initDate(titleList);
+            }
+        });
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk==null){
+            receiverTalk=new MyBroadCastReceiverTalk();
+            getActivity().registerReceiver(receiverTalk, new IntentFilter(MYLABELS));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(receiverTalk!=null){
+            getActivity().unregisterReceiver(receiverTalk);
+            receiverTalk=null;
+        }
+    }
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String MYLABELS ="labels_update";
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getMyLabels(-1);
+            titleLayout.removeAllViews();
+            textViewList.clear();
         }
     }
 

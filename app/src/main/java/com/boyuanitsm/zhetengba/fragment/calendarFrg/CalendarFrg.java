@@ -1,6 +1,5 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -13,13 +12,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
-import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
-import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
-import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 import java.util.List;
 
@@ -124,19 +120,18 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         mPopupWindow.setFocusable(true);
         mPopupWindow.setContentView(v);
         mPopupWindow.showAsDropDown(ll_friend, 20, 20);
+        final Intent intentRecevier = new Intent();
         tv_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                MyToastUtils.showShortToast(getContext(), "点击了好友");
-                //发送数据变化广播，通知Simple数据更新
-                Intent intentRecevier = new Intent();
                 if (rb_simple.isChecked()) {
-                    intentRecevier.setAction("simpleFriendDateChange");
                     tv_friend_all.setText("好友");
                 } else if (rb_calendar.isChecked()) {
-                    intentRecevier.setAction("calendFriendDateChange");
                     tv_friend_all_two.setText("好友");
                 }
+                int state=0;
+                intentRecevier.putExtra("state",state);
+                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
             }
@@ -146,15 +141,14 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
             public void onClick(View v) {
 //                MyToastUtils.showShortToast(getContext(), "点击了全部");
                 //发送数据变化广播，通知CaleFrg更新数据
-                Intent intentRecevier = new Intent();
                 if (rb_simple.isChecked()) {
-                    intentRecevier.setAction("simpleAllDateChange");
                     tv_friend_all.setText("全部");
                 } else if (rb_calendar.isChecked()) {
-                    intentRecevier.setAction("calendAllDateChange");
-                    mActivity.sendBroadcast(intentRecevier);
                     tv_friend_all_two.setText("全部");
                 }
+                int state=1;
+                intentRecevier.putExtra("state",state);
+                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
             }
@@ -162,15 +156,14 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         tv_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentRecevier = new Intent();
                 if (rb_simple.isChecked()) {
-                    intentRecevier.setAction("simpleMyDateChange");
                     tv_friend_all.setText("我的");
                 } else if (rb_calendar.isChecked()) {
-                    intentRecevier.setAction("calendMyDateChange");
-                    mActivity.sendBroadcast(intentRecevier);
                     tv_friend_all_two.setText("我的");
                 }
+                int state=2;
+                intentRecevier.putExtra("state",state);
+                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
             }
@@ -198,7 +191,6 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                 fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 if (calFrg == null) {
                     calFrg = new CalFrg();
-
                     fragmentTransaction.add(R.id.fl_calendar, calFrg);
                 } else {
                     fragmentTransaction.show(calFrg);
@@ -208,7 +200,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                 break;
 
         }
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
 }

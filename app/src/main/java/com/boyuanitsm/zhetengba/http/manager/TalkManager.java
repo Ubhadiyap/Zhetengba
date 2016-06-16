@@ -4,8 +4,6 @@ import android.text.TextUtils;
 
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
-import com.boyuanitsm.zhetengba.bean.UserInfo;
-import com.boyuanitsm.zhetengba.chat.db.UserDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -373,6 +371,19 @@ public class TalkManager extends RequestManager{
      */
     public void upLoadImg(Map<String, List<FileBody>> fileMaps, ResultCallback callback){
         submitMore(IZtbUrl.MODIFYUSERICON_URL,fileMaps,callback);
+    }
+
+    /**
+     * 我的发布
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void myTalksOut(int page,int rows,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("page",page+"");
+        map.put("rows",rows+"");
+        doPost(IZtbUrl.MYTALKS_OUT_URL,map,callback);
     }
 
 

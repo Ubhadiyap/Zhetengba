@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba;
 
 
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 
 /**
  * 全局常量
@@ -21,6 +22,11 @@ public class ConstantValue {
     public static final String IMAGEURL3="http://img05.tooopen.com/images/20140604/sy_62331342149.jpg";
     public static final String IMAGEURL4="http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg";
     public static final String IMAGEURL5="http://pic55.nipic.com/file/20141208/19462408_171130083000_2.jpg";
+
+    /**
+     * 首页简约/档期广播
+     */
+    public static final String DATA_CHANGE_KEY="data_change_fragment";
     /**
     /**
      * 数据库版本
@@ -29,4 +35,10 @@ public class ConstantValue {
    public final static Class<?>[] MODELS = {UserInfo.class};
     public final static String DB_NAME = "user.db";
 
+    /**
+     * 个人兴趣标签版本
+     */
+    public final static int LABEL_VERSION =2;
+    public final static Class<?>[] LABEL_MODELS = {UserInterestInfo.class};
+    public final static String LABEL_DB_NAME = "userInterestInfo.db";
 }

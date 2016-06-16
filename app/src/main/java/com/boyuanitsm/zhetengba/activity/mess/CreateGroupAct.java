@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.activity.mess;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,19 +12,19 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.widget.DialogChoseDate;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroupManager;
 import com.hyphenate.easeui.adapter.EaseContactAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.widget.EaseSidebar;
-import com.hyphenate.exceptions.HyphenateException;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -68,47 +69,58 @@ public class CreateGroupAct extends BaseActivity {
                 progressDialog = new ProgressDialog(CreateGroupAct.this);
                 progressDialog.setMessage(st1);
                 progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.show();
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 调用sdk创建群组方法
-                        final String groupName = "测试";//设置群名称
-                        String desc = "";//群简介
-                        String[] members = getToBeAddMembers().toArray(new String[0]);
-                        try {
-                            EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
-                            option.maxUsers = 200;//设置群聊最大人数
 
-                            String reason = CreateGroupAct.this.getString(R.string.invite_join_group);
-                            reason = EMClient.getInstance().getCurrentUser() + reason + groupName;
+                if(TextUtils.isEmpty(tvQun.getText().toString().trim())){
+                    MyToastUtils.showShortToast(getApplicationContext(),"请选择群时限");
+                    return;
+                }
+                String[] members = getToBeAddMembers().toArray(new String[0]);
+                if(members==null||members.length==0){
+                    MyToastUtils.showShortToast(getApplicationContext(),"请至少选择一个好友");
+                    return;
+                }
+                createGroup(tvQun.getText().toString().trim().substring(0,1),getPersonIds(members));
 
-                            option.style = EMGroupManager.EMGroupStyle.EMGroupStylePublicJoinNeedApproval;
-//                            if(publibCheckBox.isChecked()){
-//                                option.style = memberCheckbox.isChecked() ? EMGroupManager.EMGroupStyle.EMGroupStylePublicJoinNeedApproval : EMGroupManager.EMGroupStyle.EMGroupStylePublicOpenJoin;
-//                            }else{
-//                                option.style = memberCheckbox.isChecked()? EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite: EMGroupManager.EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
-//                            }
-                            EMClient.getInstance().groupManager().createGroup(groupName, desc, members, reason, option);
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    progressDialog.dismiss();
-                                    setResult(RESULT_OK);
-                                    finish();
-                                }
-                            });
-                        } catch (final HyphenateException e) {
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(CreateGroupAct.this, st2 + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-
-                    }
-                }).start();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        // 调用sdk创建群组方法
+//                        final String groupName = "测试";//设置群名称
+//                        String desc = "";//群简介
+//                        String[] members = getToBeAddMembers().toArray(new String[0]);
+//                        try {
+//                            EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
+//                            option.maxUsers = 200;//设置群聊最大人数
+//
+//                            String reason = CreateGroupAct.this.getString(R.string.invite_join_group);
+//                            reason = EMClient.getInstance().getCurrentUser() + reason + groupName;
+//
+//                            option.style = EMGroupManager.EMGroupStyle.EMGroupStylePublicJoinNeedApproval;
+////                            if(publibCheckBox.isChecked()){
+////                                option.style = memberCheckbox.isChecked() ? EMGroupManager.EMGroupStyle.EMGroupStylePublicJoinNeedApproval : EMGroupManager.EMGroupStyle.EMGroupStylePublicOpenJoin;
+////                            }else{
+////                                option.style = memberCheckbox.isChecked()? EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite: EMGroupManager.EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
+////                            }
+//                            EMClient.getInstance().groupManager().createGroup(groupName, desc, members, reason, option);
+//                            runOnUiThread(new Runnable() {
+//                                public void run() {
+//                                    progressDialog.dismiss();
+//                                    setResult(RESULT_OK);
+//                                    finish();
+//                                }
+//                            });
+//                        } catch (final HyphenateException e) {
+//                            runOnUiThread(new Runnable() {
+//                                public void run() {
+//                                    progressDialog.dismiss();
+//                                    Toast.makeText(CreateGroupAct.this, st2 + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                        }
+//
+//                    }
+//                }).start();
             }
         });
 
@@ -167,6 +179,41 @@ public class CreateGroupAct extends BaseActivity {
                 dialogChooseMonth.show();
                 break;
         }
+    }
+
+    /**
+     * 创建群聊
+     * @param timeLength
+     * @param personIds
+     */
+    private void createGroup(String timeLength,String personIds){
+        progressDialog.show();
+        RequestManager.getMessManager().createGroup( timeLength, personIds, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                progressDialog.dismiss();
+                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                progressDialog.dismiss();
+                MyToastUtils.showShortToast(getApplicationContext(),response.getMessage());
+                finish();
+
+            }
+        });
+    }
+
+    private String getPersonIds(String[] members){
+        String personsId="";
+        if(members!=null&&members.length>0){
+            for(String member:members){
+                personsId=member+",";
+            }
+            return personsId.substring(0,personsId.length()-1);
+        }
+        return personsId;
     }
 
     /**

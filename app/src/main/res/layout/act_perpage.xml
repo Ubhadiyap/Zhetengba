@@ -77,7 +77,6 @@
                     <LinearLayout
                         android:id="@+id/ll_tab"
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
@@ -103,6 +102,11 @@
                             style="@style/Tab_Text_Style"
                             android:visibility="gone" />
 
+                        <TextView
+                            android:id="@+id/tv_tab5"
+                            style="@style/Tab_Text_Style"
+                            android:visibility="gone" />
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -114,10 +118,10 @@
                     android:orientation="vertical"
                     android:paddingLeft="20dp"
                     android:paddingTop="15dp">
-
+                    <!--他的圈子-->
                     <TextView
+                        android:id="@+id/tv_cir"
                         style="@style/tv_second"
-                        android:text="她的圈子"
                         android:textColor="#333333"
                         android:textSize="14sp" />
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.IconFilePath;
@@ -421,10 +422,13 @@ public class PersonalmesAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<IconFilePath> response) {
-                user.setIcon(Uitls.imageFullUrl(response.getData().getIconFilePath()));
+                user.setIcon(response.getData().getIconFilePath());
                 UserInfoDao.updateUser(user);
                 ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, options);
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
+                Intent intentRecevier=new Intent();
+                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
+                sendBroadcast(intentRecevier);
             }
         });
     }

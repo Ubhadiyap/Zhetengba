@@ -14,6 +14,7 @@ import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.PersonalMain;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ListViewUtil;
@@ -34,6 +35,7 @@ public class PpagecalFrg extends BaseFragment {
     private MyListview lv_ppcal;
     private String userId;
     private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
+    private List<UserInfo> userInfoList=new ArrayList<>();
     private PersonalMain personalMain;
 //    private IntentFilter intentFilter;
     private String PAGEFRG_KEY = "perpage_to_pagecalFrg";
@@ -49,7 +51,8 @@ public class PpagecalFrg extends BaseFragment {
         Bundle bundle = this.getArguments();
         personalMain = bundle.getParcelable(PAGEFRG_KEY);
         scheduleEntity = personalMain.getScheduleEntity();
-        lv_ppcal.setAdapter(new PpfrgAdapter(mActivity, scheduleEntity));
+        userInfoList= personalMain.getUserEntity();
+        lv_ppcal.setAdapter(new PpfrgAdapter(mActivity, scheduleEntity,userInfoList));
         int lvHeight = ListViewUtil.MeasureListView(lv_ppcal);
         MyLogUtils.degug("lvheight=======" + lvHeight);
     }

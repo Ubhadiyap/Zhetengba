@@ -66,6 +66,16 @@ public class MainAct extends BaseActivity {
     private boolean isCurrentAccountRemoved = false;
     private MineFrg mineFrg;
 
+    private String labelId;//频道标签id
+
+    public String getLabelId() {
+        return labelId;
+    }
+
+    public void setLabelId(String labelId) {
+        this.labelId = labelId;
+    }
+
     /**
      * 检查当前用户是否被删除
      */

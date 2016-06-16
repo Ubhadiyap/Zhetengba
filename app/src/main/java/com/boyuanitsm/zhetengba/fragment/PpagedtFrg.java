@@ -14,6 +14,7 @@ import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.PersonalMain;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.utils.ListViewUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.view.MyListview;
@@ -45,7 +46,8 @@ public class PpagedtFrg extends BaseFragment {
         Bundle bundle = this.getArguments();
         personalMain = bundle.getParcelable(PAGEFRG_KEY);
         circleTalkEntity=personalMain.getCircleTalkEntity();
-            lv_ppcal.setAdapter(new PpdtfrgAdapter(mActivity,circleTalkEntity));
+        List<UserInfo> userEntity = personalMain.getUserEntity();
+        lv_ppcal.setAdapter(new PpdtfrgAdapter(mActivity, circleTalkEntity,userEntity));
             int lvHeight = ListViewUtil.MeasureListView(lv_ppcal);
             MyLogUtils.degug("lvheight=======" + lvHeight);
     }
