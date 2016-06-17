@@ -1,5 +1,7 @@
 package com.boyuanitsm.zhetengba.activity.mess;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -100,6 +102,8 @@ public class PerpageAct extends BaseActivity {
     private TextView tv_tab3;
     @ViewInject(R.id.tv_tab4)//第4个标签
     private TextView tv_tab4;
+    @ViewInject(R.id.tv_tab5)//第5个标签
+    private TextView tv_tab5;
     @ViewInject(R.id.tv_niName)
     private TextView tv_niName;//昵称
     @ViewInject(R.id.ll_add_friend)
@@ -108,12 +112,14 @@ public class PerpageAct extends BaseActivity {
     private ImageView iv_set;
     @ViewInject(R.id.bt_message)
     private Button bt_message;
+    @ViewInject(R.id.tv_cir)
+    private TextView tv_cir;
 //    @ViewInject(R.id.tab_selcet)
 //    private PagerSlidingTabStrip tab_selcet;
 
     private String userId;
     private FragmentManager manager;
-    private Fragment ppagecalFrg=new PpagecalFrg(), ppagedtFrg=new PpagedtFrg();//档期frg 圈子动态frg
+    private Fragment ppagecalFrg, ppagedtFrg;//档期frg 圈子动态frg
     private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
     private List<CircleEntity> circleEntity = new ArrayList<>();
     private List<CircleEntity> circleTalkEntity = new ArrayList<>();
@@ -172,60 +178,18 @@ public class PerpageAct extends BaseActivity {
         }else {
             tv_niName.setText("暂无昵称");
         }
-
+        if (!TextUtils.isEmpty(userEntity.get(0).getSex())){
+            if (userEntity.get(0).getSex().equals(1+"")){
+                tv_cir.setText("他的圈子");
+            }else if (userEntity.get(0).getSex().equals(0+"")){
+                tv_cir.setText("她的圈子");
+            }
+        }
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), cv_photo, optionsImag);
 
     }
 
-    /**
-     * 兴趣标签初始化
-     * @param str
-     */
-    private void iniTab(List<UserInterestInfo> str) {
-        if (str.size() == 0) {
-            ll_tab.setVisibility(View.GONE);
-        } else if (str.size() == 1) {
-            ll_tab.setVisibility(View.VISIBLE);
-            tv_tab1.setVisibility(View.VISIBLE);
-            tv_tab1.setText(str.get(0).getDictName());
-            tv_tab2.setVisibility(View.GONE);
-            tv_tab3.setVisibility(View.GONE);
-            tv_tab4.setVisibility(View.GONE);
-        } else if (str.size() == 2) {
-            ll_tab.setVisibility(View.VISIBLE);
-            tv_tab1.setVisibility(View.VISIBLE);
-            tv_tab2.setVisibility(View.VISIBLE);
-            tv_tab1.setText(str.get(0).getDictName());
-            tv_tab2.setText(str.get(1).getDictName());
-            tv_tab3.setVisibility(View.GONE);
-            tv_tab4.setVisibility(View.GONE);
-        } else if (str.size() == 3) {
-            ll_tab.setVisibility(View.VISIBLE);
-            tv_tab1.setVisibility(View.VISIBLE);
-            tv_tab2.setVisibility(View.VISIBLE);
-            tv_tab3.setVisibility(View.VISIBLE);
-            tv_tab1.setText(str.get(0).getDictName());
-            tv_tab2.setText(str.get(1).getDictName());
-            tv_tab3.setText(str.get(2).getDictName());
-            tv_tab4.setVisibility(View.GONE);
-        } else if (str.size() == 4) {
-            ll_tab.setVisibility(View.VISIBLE);
-            tv_tab1.setVisibility(View.VISIBLE);
-            tv_tab2.setVisibility(View.VISIBLE);
-            tv_tab3.setVisibility(View.VISIBLE);
-            tv_tab4.setVisibility(View.VISIBLE);
-            tv_tab1.setText(str.get(0).getDictName());
-            tv_tab2.setText(str.get(1).getDictName());
-            tv_tab3.setText(str.get(2).getDictName());
-            tv_tab4.setText(str.get(3).getDictName());
-            tv_tab4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openActivity(LabelMangerAct.class);
-                }
-            });
-        }
-    }
+
 
     /**
      * 选中 选中btn颜色
@@ -246,15 +210,6 @@ public class PerpageAct extends BaseActivity {
     }
 
 
-    /**
-     * 初识化btn颜色
-     */
-    private void resetTabBtn() {
-        tv_dangqi.setTextColor(Color.parseColor("#cdcdcd"));
-        tv_dongtai.setTextColor(Color.parseColor("#cdcdcd"));
-        view_dangqi.setBackgroundColor(Color.parseColor("#cdcdcd"));
-        view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
-    }
 
     @OnClick({R.id.rl_dangqi, R.id.rl_dongtai, R.id.iv_set, R.id.cv_photo,R.id.bt_message})
     public void OnClick(View v) {
@@ -299,7 +254,7 @@ public class PerpageAct extends BaseActivity {
            @Override
            public void onClick(View v) {
                Intent intentPerson = new Intent();
-               intentPerson.setClass(PerpageAct.this,PersonalmesAct.class);
+               intentPerson.setClass(PerpageAct.this, PersonalmesAct.class);
                Bundle bundlePerson = new Bundle();
                bundlePerson.putParcelable(PAGEFRG_KEY, personalMain);
                intentPerson.putExtras(bundlePerson);
@@ -409,6 +364,8 @@ public class PerpageAct extends BaseActivity {
      * @param id
      */
     private void getPersonalMain(String id) {
+        ppagecalFrg=new PpagecalFrg();
+        ppagedtFrg=new PpagedtFrg();
         RequestManager.getScheduleManager().getPersonalMain(id, new ResultCallback<ResultBean<PersonalMain>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -424,7 +381,7 @@ public class PerpageAct extends BaseActivity {
                 userEntity = personalMain.getUserEntity();
                 userInterestEntity = personalMain.getUserInterestEntity();
                 initUserData(userEntity);
-                iniTab(userInterestEntity);
+                iniTab(userInterestEntity, userEntity.get(0).getId());
                 toPageCalFrg();
                 setSelect(0);
                 setOnclikListener();
@@ -437,12 +394,122 @@ public class PerpageAct extends BaseActivity {
      * 请求档期数据
      */
     private void toPageCalFrg() {
-        Intent intent=new Intent();
-        Bundle bundle=new Bundle();
-        bundle.putParcelable(PAGEFRG_KEY, personalMain);
-        intent.putExtras(bundle);
-        ppagecalFrg.setArguments(bundle);
-        ppagedtFrg.setArguments(bundle);
+            Intent intent=new Intent();
+            Bundle bundle=new Bundle();
+            bundle.putParcelable(PAGEFRG_KEY, personalMain);
+            intent.putExtras(bundle);
+            ppagecalFrg.setArguments(bundle);
+            ppagedtFrg.setArguments(bundle);
+
+
     }
 
+    /**
+     * 初识化btn颜色
+     */
+    private void resetTabBtn() {
+        tv_dangqi.setTextColor(Color.parseColor("#cdcdcd"));
+        tv_dongtai.setTextColor(Color.parseColor("#cdcdcd"));
+        view_dangqi.setBackgroundColor(Color.parseColor("#cdcdcd"));
+        view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
+    }
+    /**
+     * 兴趣标签初始化
+     * @param str
+     */
+    private void iniTab(List<UserInterestInfo> str, final String useId) {
+        if (str.size() == 0) {
+            ll_tab.setVisibility(View.GONE);
+        } else if (str.size() == 1) {
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setVisibility(View.GONE);
+            tv_tab3.setVisibility(View.GONE);
+            tv_tab4.setVisibility(View.GONE);
+            tv_tab5.setVisibility(View.GONE);
+        } else if (str.size() == 2) {
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setVisibility(View.GONE);
+            tv_tab4.setVisibility(View.GONE);
+            tv_tab5.setVisibility(View.GONE);
+        } else if (str.size() == 3) {
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab3.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setText(str.get(2).getDictName());
+            tv_tab4.setVisibility(View.GONE);
+            tv_tab5.setVisibility(View.GONE);
+        } else if (str.size() == 4) {
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab3.setVisibility(View.VISIBLE);
+            tv_tab4.setVisibility(View.VISIBLE);
+            tv_tab5.setVisibility(View.GONE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setText(str.get(2).getDictName());
+            tv_tab4.setText(str.get(3).getDictName());
+        }else if (str.size()>4){
+            ll_tab.setVisibility(View.VISIBLE);
+            tv_tab1.setVisibility(View.VISIBLE);
+            tv_tab2.setVisibility(View.VISIBLE);
+            tv_tab3.setVisibility(View.VISIBLE);
+            tv_tab4.setVisibility(View.VISIBLE);
+            tv_tab5.setVisibility(View.VISIBLE);
+            tv_tab1.setText(str.get(0).getDictName());
+            tv_tab2.setText(str.get(1).getDictName());
+            tv_tab3.setText(str.get(2).getDictName());
+            tv_tab4.setText(str.get(3).getDictName());
+            tv_tab5.setText("更多");
+            tv_tab5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userId", useId);
+                    intent.setClass(PerpageAct.this, LabelMangerAct.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk==null){
+            receiverTalk=new MyBroadCastReceiverTalk();
+            registerReceiver(receiverTalk, new IntentFilter(PPLABELS));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(receiverTalk!=null){
+            unregisterReceiver(receiverTalk);
+            receiverTalk=null;
+        }
+    }
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String PPLABELS ="perpage_update";
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getPersonalMain(userId);
+            manager = getSupportFragmentManager();
+//        gv_perpage.setAdapter(new GridViewPerAdapter(PerpageAct.this));
+            msv_scroll.smoothScrollTo(0, 0);
+        }
+    }
 }

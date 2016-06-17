@@ -49,9 +49,47 @@ public class MessManager extends RequestManager{
      * 获取好友列表
      * @param callback
      */
-    public void getFriends(ResultCallback callback){
+    public void getFriends(String page, String rows,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
+        map.put("page",page+"");
+        map.put("rows",rows+"");
         doPost(IZtbUrl.FRIEND_LIST_URL,map,callback);
     }
 
+    /**
+<<<<<<< HEAD
+     * 添加已经注册好友
+     * @param friendId
+     * @param callback
+     */
+    public void addFriendFromContact(String friendId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("friendId",friendId);
+        doPost(IZtbUrl.ADD_FRIEND_CONTACT,map,callback);
+    }
+
+//=======
+    /**
+     * 修改昵称
+     * @param newNickName
+     * @param callback
+     */
+    public void updateNickName(String newNickName,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("newNickName",newNickName);
+        doPost(IZtbUrl.UPDATE_NICKNAME, map, callback);
+    }
+
+    /**
+     * 创建群聊
+     * @param timeLength
+     * @param personIds
+     * @param callback
+     */
+    public void createGroup(String timeLength,String personIds,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("remark",timeLength);
+        map.put("personIds",personIds);
+        doPost(IZtbUrl.ADD_GROUP_URL, map, callback);
+    }
 }

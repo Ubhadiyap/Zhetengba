@@ -1,20 +1,22 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
@@ -24,12 +26,13 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  * 修改资料界面
  * Created by Administrator on 2016/5/13.
  */
-public class EditAct extends BaseActivity{
+public class EditAct extends BaseActivity {
     @ViewInject(R.id.cet_editInfo)
     private ClearEditText cetEditInfo;
     private int TYPE;//1 昵称 2 手机号  3邮箱  4公司名称  5公司地址  6公司电话 7职务 9故乡
     public static String USER_TYPE = "type";
     private UserInfo user;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_edit);
@@ -38,15 +41,13 @@ public class EditAct extends BaseActivity{
     @Override
     public void init(Bundle savedInstanceState) {
         TYPE = getIntent().getIntExtra(USER_TYPE, 0);
-        user= UserInfoDao.getUser();
+        user = UserInfoDao.getUser();
         setTopPos(TYPE);
         setRight("提交", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveUserinfo();
-                saveUser(user);
-                MyLogUtils.degug("gaga"+user);
-
+                    saveUserinfo();
+                    saveUser(user);
 
 //                String content = cetEditInfo.getText().toString().trim();
 //                if (TextUtils.isEmpty(content)) {
@@ -93,12 +94,13 @@ public class EditAct extends BaseActivity{
 
     /**
      * 保存用户信息
+     *
      * @param userInfo
      */
     private void saveUser(final UserInfo userInfo) {
-        if(TYPE==8){
+        if (TYPE == 8) {
 
-        }else {
+        } else {
             RequestManager.getUserManager().modifyUserInfo(userInfo, new ResultCallback<ResultBean<String>>() {
                 @Override
                 public void onError(int status, String errorMsg) {
@@ -107,6 +109,8 @@ public class EditAct extends BaseActivity{
 
                 @Override
                 public void onResponse(ResultBean<String> response) {
+                    if(TYPE==1&&!TextUtils.isEmpty(userInfo.getPetName()))
+                    DemoHelper.getInstance().getUserProfileManager().setNickName(userInfo.getPetName());
                     UserInfoDao.updateUser(userInfo);
                     sendBroadcast(new Intent(PersonalmesAct.USER_INFO));
                     MyToastUtils.showShortToast(getApplicationContext(), "修改信息成功");
@@ -120,67 +124,73 @@ public class EditAct extends BaseActivity{
 
     /**
      * 保存用户到一个实体中
+     *
      * @return
      */
     private void saveUserinfo() {
         String content = cetEditInfo.getText().toString().trim();
-        switch (TYPE){
+        switch (TYPE) {
             case 1:
-                if(user!=null){
-                if(!TextUtils.isEmpty(content)){
-                    user.setPetName(content);
-                }else user.setPetName("");}
+                if (user != null) {
+                    if (!TextUtils.isEmpty(content)) {
+                        user.setPetName(content);
+                    } else user.setPetName("");
+                }
                 break;
             case 2:
                 boolean isMobileNO = ZtinfoUtils.isMobileNO(content);
-                if (!isMobileNO){
-                    MyToastUtils.showShortDebugToast(getApplicationContext(),"请输入正确的手机号吗");
+                if (!isMobileNO) {
+                    MyToastUtils.showShortDebugToast(getApplicationContext(), "请输入正确的手机号吗");
                     return;
-                }else {
-                    if(!TextUtils.isEmpty(content)){
+                } else {
+                    if (!TextUtils.isEmpty(content)) {
                         user.setPhone(content);
-                    }else {user.setPhone("");}
+                    } else {
+                        user.setPhone("");
+                    }
                 }
                 break;
             case 3:
                 boolean isEmail = ZtinfoUtils.isEmail(content);
-                if (!isEmail){
+                if (!isEmail) {
                     MyToastUtils.showShortDebugToast(getApplicationContext(), "请输入正确的邮箱号");
                     return;
-                }else {
-                    if(!(TextUtils.isEmpty(content))){
+                } else {
+                    if (!(TextUtils.isEmpty(content))) {
                         user.setEmail(content);
-                    }else {user.setEmail("");}
+                    } else {
+                        user.setEmail("");
+                    }
                 }
                 break;
             case 4:
-                if(!(TextUtils.isEmpty(content))){
+                if (!(TextUtils.isEmpty(content))) {
                     user.setCompanyName(content);
-                }else user.setCompanyName("");
+                } else user.setCompanyName("");
                 break;
             case 5:
-                if(!(TextUtils.isEmpty(content))){
+                if (!(TextUtils.isEmpty(content))) {
                     user.setCompanyAddr(content);
-                }else user.setCompanyAddr("");
+                } else user.setCompanyAddr("");
                 break;
             case 6:
-                if(!(TextUtils.isEmpty(content))){
+                if (!(TextUtils.isEmpty(content))) {
                     user.setCompanyPhone(content);
-            }else user.setCompanyPhone("");
+                } else user.setCompanyPhone("");
 
                 break;
             case 7:
-                if(!(TextUtils.isEmpty(content))){
+                if (!(TextUtils.isEmpty(content))) {
                     user.setJob(content);
-                }else user.setJob("");
+                } else user.setJob("");
 
                 break;
             case 8:
                 break;
             case 9:
-                if(!(TextUtils.isEmpty(content))){
+                if (!(TextUtils.isEmpty(content))) {
                     user.setHomeTown(content);
-                }else user.setHomeTown("");
+                } else user.setHomeTown("");
 
                 break;
         }
@@ -189,11 +199,11 @@ public class EditAct extends BaseActivity{
     }
 
     private void setTopPos(int position) {
-        switch (position){
+        switch (position) {
             case 1:
                 setTopTitle("昵称");
-                if(user!=null){
-                    if(!(TextUtils.isEmpty(user.getPetName()))){
+                if (user != null) {
+                    if (!(TextUtils.isEmpty(user.getPetName()))) {
                         cetEditInfo.setText(user.getPetName());
                     }
                 }
@@ -201,8 +211,8 @@ public class EditAct extends BaseActivity{
                 break;
             case 2:
                 setTopTitle("手机号码");
-                if(user!=null){
-                    if(!(TextUtils.isEmpty(user.getPhone()))){
+                if (user != null) {
+                    if (!(TextUtils.isEmpty(user.getPhone()))) {
                         cetEditInfo.setText(user.getPhone());
                     }
                 }
@@ -212,8 +222,8 @@ public class EditAct extends BaseActivity{
                 break;
             case 3:
                 setTopTitle("邮箱");
-                if(user!=null){
-                    if(!(TextUtils.isEmpty(user.getEmail()))){
+                if (user != null) {
+                    if (!(TextUtils.isEmpty(user.getEmail()))) {
                         cetEditInfo.setText(user.getEmail());
                     }
                 }
@@ -221,8 +231,8 @@ public class EditAct extends BaseActivity{
                 break;
             case 4:
                 setTopTitle("公司名称");
-                if(user!=null){
-                    if(!(TextUtils.isEmpty(user.getCompanyName()))){
+                if (user != null) {
+                    if (!(TextUtils.isEmpty(user.getCompanyName()))) {
                         cetEditInfo.setText(user.getCompanyName());
                     }
                 }
@@ -230,8 +240,8 @@ public class EditAct extends BaseActivity{
                 break;
             case 5:
                 setTopTitle("公司地址");
-                if(user!=null){
-                    if(!(TextUtils.isEmpty(user.getCompanyAddr()))){
+                if (user != null) {
+                    if (!(TextUtils.isEmpty(user.getCompanyAddr()))) {
                         cetEditInfo.setText(user.getCompanyAddr());
                     }
                 }
@@ -239,8 +249,8 @@ public class EditAct extends BaseActivity{
                 break;
             case 6:
                 setTopTitle("公司电话");
-                if(user!=null){
-                    if(!(TextUtils.isEmpty(user.getCompanyPhone()))){
+                if (user != null) {
+                    if (!(TextUtils.isEmpty(user.getCompanyPhone()))) {
                         cetEditInfo.setText(user.getCompanyPhone());
                     }
                 }
@@ -248,8 +258,8 @@ public class EditAct extends BaseActivity{
                 break;
             case 7:
                 setTopTitle("职务");
-                if(user!=null){
-                    if(!(TextUtils.isEmpty(user.getJob()))){
+                if (user != null) {
+                    if (!(TextUtils.isEmpty(user.getJob()))) {
                         cetEditInfo.setText(user.getJob());
                     }
                 }
@@ -262,12 +272,65 @@ public class EditAct extends BaseActivity{
 
             case 9://故乡
                 setTopTitle("故乡");
-                if(user!=null){
-                    if(!TextUtils.isEmpty(user.getHomeTown())){
+                if (user != null) {
+                    if (!TextUtils.isEmpty(user.getHomeTown())) {
                         cetEditInfo.setText(user.getHomeTown());
                     }
                 }
                 cetEditInfo.setHint("请输入故乡地址");
         }
+    }
+
+    /**
+     * 修改昵称
+     *
+     * @param newNickName
+     */
+    private void updateNickName(String newNickName) {
+        RequestManager.getMessManager().updateNickName(newNickName, new ResultCallback<String>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
+            }
+
+            @Override
+            public void onResponse(String response) {
+
+            }
+        });
+    }
+
+    private ProgressDialog dialog;
+    private void updateRemoteNick(final String nickName) {
+        dialog = ProgressDialog.show(this, getString(R.string.dl_update_nick), getString(R.string.dl_waiting));
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                boolean updatenick = DemoHelper.getInstance().getUserProfileManager().updateCurrentUserNickName(nickName);
+                if (EditAct.this.isFinishing()) {
+                    return;
+                }
+                if (!updatenick) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(EditAct.this, getString(R.string.toast_updatenick_fail), Toast.LENGTH_SHORT)
+                                    .show();
+                            dialog.dismiss();
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.dismiss();
+                            Toast.makeText(EditAct.this, getString(R.string.toast_updatenick_success), Toast.LENGTH_SHORT)
+                                    .show();
+//                            tvNickName.setText(nickName);
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }

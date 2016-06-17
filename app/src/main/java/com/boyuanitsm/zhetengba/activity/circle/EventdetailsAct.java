@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ContractedAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -42,13 +43,19 @@ public class EventdetailsAct extends BaseActivity implements View.OnClickListene
         switch (v.getId()){
             case R.id.tv_ok:
                 str=feedback_et.getText().toString();
-                Intent intent=new Intent();
+                if (str.isEmpty()){
+                    MyToastUtils.showShortToast(this,"输入内容不能为空");
+                    return;
+                }else {
+                    Intent intent=new Intent();
 //                intent.setClass(EventdetailsAct.this, ContractedAct.class);
-                Bundle bundle2=new Bundle();
-                bundle2.putString("detailsTheme",str);
-                intent.putExtra("bundle2",bundle2);
-                setResult(0,intent);
-                finish();
+                    Bundle bundle2=new Bundle();
+                    bundle2.putString("detailsTheme",str);
+                    intent.putExtra("bundle2",bundle2);
+                    setResult(0,intent);
+                    finish();
+                }
+
                 break;
         }
     }

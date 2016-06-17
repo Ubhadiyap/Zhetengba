@@ -302,6 +302,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		dialog.builder().setTitle("退出后，将不再接收此群聊信息").addSheetItem("退出", MySelfSheetDialog.SheetItemColor.Blue, new MySelfSheetDialog.OnSheetItemClickListener() {
 			@Override
 			public void onClick(int which) {
+				if (progressDialog == null) {
+					progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+					progressDialog.setCanceledOnTouchOutside(false);
+				}
 				progressDialog.setMessage("正在退出群聊");
 				progressDialog.show();
 				exitGrop();
@@ -322,6 +326,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		dialog.builder().setTitle("退出后，此群将被解散").addSheetItem("退出", MySelfSheetDialog.SheetItemColor.Blue, new MySelfSheetDialog.OnSheetItemClickListener() {
 			@Override
 			public void onClick(int which) {
+				if (progressDialog == null) {
+					progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+					progressDialog.setCanceledOnTouchOutside(false);
+				}
 				progressDialog.setMessage("正在解散群聊...");
 				progressDialog.show();
 				deleteGrop();

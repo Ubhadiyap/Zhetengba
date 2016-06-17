@@ -22,6 +22,8 @@ import com.boyuanitsm.zhetengba.chat.domain.RobotUser;
 import com.boyuanitsm.zhetengba.chat.parse.UserProfileManager;
 import com.boyuanitsm.zhetengba.chat.receiver.CallReceiver;
 import com.boyuanitsm.zhetengba.chat.utils.PreferenceManager;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMContactListener;
@@ -1118,20 +1120,31 @@ public class DemoHelper {
                    if(isGroupsSyncedWithServer()){
                        notifyForRecevingEvents();
                    }
-                   
-                   
-                   getUserProfileManager().asyncFetchContactInfosFromServer(usernames,new EMValueCallBack<List<EaseUser>>() {
-
+                   //获取好友列表
+                   RequestManager.getMessManager().getFriends("-1","-1",new ResultCallback<String>() {
                        @Override
-                       public void onSuccess(List<EaseUser> uList) {
-                           updateContactList(uList);
-                           getUserProfileManager().notifyContactInfosSyncListener(true);
+                       public void onError(int status, String errorMsg) {
+
                        }
 
                        @Override
-                       public void onError(int error, String errorMsg) {
+                       public void onResponse(String response) {
+
                        }
                    });
+                   //获取好友昵称头像
+//                   getUserProfileManager().asyncFetchContactInfosFromServer(usernames,new EMValueCallBack<List<EaseUser>>() {
+//
+//                       @Override
+//                       public void onSuccess(List<EaseUser> uList) {
+//                           updateContactList(uList);
+//                           getUserProfileManager().notifyContactInfosSyncListener(true);
+//                       }
+//
+//                       @Override
+//                       public void onError(int error, String errorMsg) {
+//                       }
+//                   });
                    if(callback != null){
                        callback.onSuccess(usernames);
                    }
@@ -1272,4 +1285,18 @@ public class DemoHelper {
         easeUI.popActivity(activity);
     }
 
+
+//    private void getFriends(){
+//        RequestManager.getMessManager().getFriends(new ResultCallback() {
+//            @Override
+//            public void onError(int status, String errorMsg) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Object response) {
+//
+//            }
+//        });
+//    }
 }

@@ -119,8 +119,10 @@ public class UserInfo implements Parcelable {
     @Column
     private String dictName;
 
-    private String hUsername;//环信用户名
+
+    private String hUsername;//环信账号
     private String hPassword;//环信密码
+
 
     public UserInfo() {
     }
@@ -133,12 +135,14 @@ public class UserInfo implements Parcelable {
         this.hUsername = hUsername;
     }
 
+
     public String gethPassword() {
         return hPassword;
     }
 
     public void sethPassword(String hPassword) {
         this.hPassword = hPassword;
+
     }
 
     public String getAccredit() {
@@ -455,6 +459,8 @@ public class UserInfo implements Parcelable {
                 ", petName='" + petName + '\'' +
                 ", homeTown='" + homeTown + '\'' +
                 ", dictName='" + dictName + '\'' +
+                ", hUsername='" + hUsername + '\'' +
+                ", hPassword='" + hPassword + '\'' +
                 '}';
     }
 

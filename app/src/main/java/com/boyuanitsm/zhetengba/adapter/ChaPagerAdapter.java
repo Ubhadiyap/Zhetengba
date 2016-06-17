@@ -32,7 +32,7 @@ public class ChaPagerAdapter extends FragmentPagerAdapter {
             for(Fragment f:this.fragmentList){
                 ft.remove(f);
             }
-            ft.commit();
+            ft.commitAllowingStateLoss();
             ft=null;
             fm.executePendingTransactions();
         }

@@ -17,6 +17,8 @@ public class ShUtils {
    
 	private static SmartDBHelper dbHelper;
 	private static DBOpenHelp dbOpenHelp;
+	private static SmartDBHelper labelDbHelper;
+	private static DBOpenHelp labelDbOpenHelp;
 	public static Context getApplicationContext(){
 		return getApplication().getApplicationContext();
 	}
@@ -28,11 +30,26 @@ public class ShUtils {
 		}
 		return dbHelper;
 	}
+
+
 	public static DBOpenHelp getDbOpenHelp(){
 		if (dbOpenHelp==null){
 			dbOpenHelp=new DBOpenHelp(getApplicationContext());
 		}
 		return dbOpenHelp;
+	}
+	public static SmartDBHelper getLabelDbhelper(){
+		if(labelDbHelper==null){
+			labelDbHelper=new SmartDBHelper(getApplicationContext(),
+					ConstantValue.LABEL_DB_NAME,null,ConstantValue.LABEL_VERSION,ConstantValue.LABEL_MODELS);
+		}
+		return labelDbHelper;
+	}
+	public static DBOpenHelp getLabelDbOpenHelp(){
+		if (labelDbOpenHelp==null){
+			labelDbOpenHelp=new DBOpenHelp(getApplicationContext());
+		}
+		return labelDbOpenHelp;
 	}
 	
 	public static MyApplication getApplication(){
