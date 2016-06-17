@@ -16,7 +16,7 @@ public interface IZtbUrl {
 //>>>>>>> b861e879a13f1675f3d65edaf7e678db0abc7ca9
     //测试
 //    public static final String BASE_URL = "http://172.16.5.193:8080/zhetengba/";
-//    public static final String BASE_URL = "http://172.16.5.154:8080/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.5.160:8080/zhetengba/";
 
 //    public  String BASE_URL="http://172.16.6.225:8080/zhetengba/";
 
@@ -172,7 +172,7 @@ public interface IZtbUrl {
 
 
     //关注档期接口
-    public static final String SCHEDULE_COLLECTION_URL = BASE_URL + "schedule/login/addScheduleCollection.do";
+    String SCHEDULE_COLLECTION_URL = BASE_URL + "schedule/login/addScheduleCollection.do";
 
 
     //约Ta接口
@@ -183,7 +183,7 @@ public interface IZtbUrl {
     String SCHEDULE_FRIEND_URL = BASE_URL + "schedule/login/findScheduleAllOrFriends.do";
 
     //活动指定谁看，通知谁
-    public static final String ACTIVITY_NOTICE_URL = BASE_URL + "schedule/login/sendActivityNotice.do";
+   String ACTIVITY_NOTICE_URL = BASE_URL + "schedule/login/sendActivityNotice.do";
 
 
     //档期指定谁看，通知谁
@@ -237,13 +237,10 @@ public interface IZtbUrl {
     String DELETE_FRIEND_URL=BASE_URL+"message/login/removeFriend.do";
     //好友列表
     String FRIEND_LIST_URL=BASE_URL+"message/login/findFriendsList.do";
-//<<<<<<< HEAD
     //添加好友
     String ADD_FRIEND_CONTACT=BASE_URL+"message/login/addFriendFromContact.do";
-//=======
     //修改昵称
     String UPDATE_NICKNAME=BASE_URL+"message/login/modifyNickName.do";
     /*创建群聊*/
     String ADD_GROUP_URL=BASE_URL+"message/login/addGroupChat.do";
-//>>>>>>> b861e879a13f1675f3d65edaf7e678db0abc7ca9
 }
