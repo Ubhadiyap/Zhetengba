@@ -38,7 +38,7 @@ import java.util.List;
  */
 public class CirFrg extends Fragment {
     private int[] icons = {R.drawable.test_banner, R.drawable.test_chanel, R.drawable.test_chanel, R.drawable.test_chanel};
-    private List<List<ImageInfo>> datalist=new ArrayList<>();
+    private List<List<ImageInfo>> datalist;
     private String[][] images=new String[][]{{
             ConstantValue.IMAGEURL,"1624","914"}
             ,{ConstantValue.IMAGEURL,"1624","914"}
@@ -64,7 +64,7 @@ public class CirFrg extends Fragment {
         getAllCircleTalk(page, rows);
         lv_cir = (PullToRefreshListView) view.findViewById(R.id.lv_cir);
 //        initData();
-        datalist=new ArrayList<>();
+//        datalist=new ArrayList<>();
         LayoutHelperUtil.freshInit(lv_cir);
 
         lv_cir.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -109,6 +109,7 @@ public class CirFrg extends Fragment {
      */
     private void getAllCircleTalk(final int page,int rows){
         circleEntityList=new ArrayList<>();
+        datalist=new ArrayList<>();
         RequestManager.getTalkManager().getAllCircleTalk(page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {

@@ -371,8 +371,8 @@ public class TalkManager extends RequestManager{
      * @param fileMaps
      * @param callback
      */
-    public void upLoadImg(Map<String, List<FileBody>> fileMaps, ResultCallback callback){
-        submitMore(IZtbUrl.MODIFYUSERICON_URL,fileMaps,callback);
+    public void upLoadImg(Map<String, FileBody> fileMaps, ResultCallback callback){
+        submitFujian(IZtbUrl.UPLOAD_URL,fileMaps,callback);
     }
 
     /**

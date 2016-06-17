@@ -65,7 +65,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private LinearLayout llphoto;
     private CustomImageView ng_one_image, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
-    private List<List<ImageInfo>> dataList = new ArrayList<>();
+    private List<List<ImageInfo>> dataList;
     private String[][] images = new String[][]{{
             ConstantValue.IMAGEURL, "1624", "914"}
             , {ConstantValue.IMAGEURL, "1624", "914"}
@@ -336,6 +336,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private List<ChannelTalkEntity> datas=new ArrayList<>();
     //获取评论列表
     private void getCircleCommentsList(String channelTalkId, final int page, int rows){
+        dataList = new ArrayList<>();
         RequestManager.getTalkManager().getChannelCommentsList(channelTalkId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {

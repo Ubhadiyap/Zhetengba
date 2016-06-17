@@ -16,7 +16,9 @@ import com.boyuanitsm.zhetengba.adapter.GvPhotoAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.bean.IconFilePath;
 import com.boyuanitsm.zhetengba.bean.ImageBean;
+import com.boyuanitsm.zhetengba.bean.ImgBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.ChaChildFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
@@ -62,6 +64,7 @@ public class CirclefbAct extends BaseActivity {
     private ChannelTalkEntity channelTalkEntity;
     private String labelId;//频道标签id
     private int flag;
+    private List<String> strList;
 
     @Override
     public void setLayout() {
@@ -72,7 +75,7 @@ public class CirclefbAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("Alic");
-        isShow=getIntent().getBooleanExtra("isShow", true);
+        isShow=getIntent().getBooleanExtra("isShow", false);
         circleId=getIntent().getStringExtra("circleId");
         labelId=getIntent().getStringExtra("labelId");
         type=getIntent().getIntExtra(TYPE, 1);
@@ -88,9 +91,9 @@ public class CirclefbAct extends BaseActivity {
                         if(!TextUtils.isEmpty(content)) {
                             channelTalkEntity.setLabelId(labelId);
                             channelTalkEntity.setChannelContent(content);
-//                            upLoadImg(selecteds);
+                            upLoadImg(selecteds);
 //                            channelTalkEntity.setChannelImage();
-                            addChannelTalk(channelTalkEntity);
+//                            addChannelTalk(channelTalkEntity);
                         }else {
                             MyToastUtils.showShortToast(CirclefbAct.this,"请输入频道说说内容");
                         }
@@ -98,7 +101,8 @@ public class CirclefbAct extends BaseActivity {
                     default:
                         if(!TextUtils.isEmpty(content)) {
                             entity.setTalkContent(content);
-                            addCircleTalk(entity, circleId);
+                            upLoadImg(selecteds);
+//                            addCircleTalk(entity, circleId);
                         }else {
                             MyToastUtils.showShortToast(CirclefbAct.this,"请输入圈子说说内容");
                         }
@@ -221,25 +225,42 @@ public class CirclefbAct extends BaseActivity {
 
     //上传图片
     private void upLoadImg(List<ImageBean> selecteds){
-        Map<String, List<FileBody>> fileMaps=new HashMap<String,List<FileBody>>();
-        List<FileBody> lists=new ArrayList<FileBody>();
-        for(int i=0;i<selecteds.size();i++) {
+        Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
+        for (int i = 0; i < selecteds.size(); i++) {
             FileBody fb = new FileBody(new File(selecteds.get(i).getPath()));
-            lists.add(fb);
+            fileMaps.put(i+"", fb);
         }
-        fileMaps.put("myfiles",lists);
-        RequestManager.getTalkManager().upLoadImg(fileMaps, new ResultCallback<ResultBean<String>>() {
+        strList=new ArrayList<>();
+        RequestManager.getTalkManager().upLoadImg(fileMaps, new ResultCallback<ResultBean<ImgBean<String>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
-//                imgStr=new StringBuilder();
-//                imgStr.append(response.getData()+",");
-//                channelTalkEntity.setChannelImage(imgStr.toString());
-//                addChannelTalk(channelTalkEntity);
+            public void onResponse(ResultBean<ImgBean<String>> response) {
+                strList=response.getData().getBigImgPaths();
+                imgStr=new StringBuilder();
+                if (strList.size()>0){
+                    if (strList.size()==1){
+                        imgStr.append(strList.get(0));
+                    }else {
+                        for (int i=0;i<strList.size();i++){
+                            imgStr.append(strList.get(i));
+                            imgStr.append(",");
+                        }
+                    }
+                }
+                switch (type){
+                    case 0:
+                        channelTalkEntity.setChannelImage(imgStr.toString());
+                        addChannelTalk(channelTalkEntity);
+                        break;
+                    default:
+                        entity.setTalkImage(imgStr.toString());
+                        addCircleTalk(entity, circleId);
+                        break;
+                }
             }
         });
     }
