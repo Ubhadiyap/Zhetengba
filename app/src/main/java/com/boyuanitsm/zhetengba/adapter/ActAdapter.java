@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.adapter;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,10 +45,11 @@ import java.util.List;
  * 设置条目点击
  * Created by xiaoke on 2016/4/25.
  */
-public class ActAdapter extends BaseAdapter{
+public class ActAdapter extends BaseAdapter {
     private Context context;
-    private List<SimpleInfo> infos=new ArrayList<>();
-    private boolean flag=true;//true参加
+    private List<SimpleInfo> infos = new ArrayList<>();
+    private boolean flag = true;//true参加
+    private String strStart, strEnd;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -55,18 +57,20 @@ public class ActAdapter extends BaseAdapter{
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
+
     public ActAdapter(Context context, List<SimpleInfo> infos) {
-        this.infos = infos ;
+        this.infos = infos;
         this.context = context;
     }
-    public void update(List<SimpleInfo> list){
-        this.infos=list;
+
+    public void update(List<SimpleInfo> list) {
+        this.infos = list;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-      return infos==null?0:infos.size();
+        return infos == null ? 0 : infos.size();
     }
 
     @Override
@@ -87,90 +91,104 @@ public class ActAdapter extends BaseAdapter{
             viewHolder = (Holder) convertView.getTag();
 
         } else {
-           convertView= View.inflate(context, R.layout.item_act, null);
+            convertView = View.inflate(context, R.layout.item_act, null);
             viewHolder = new Holder();
             viewHolder.iv_headphoto = (CircleImageView) convertView.findViewById(R.id.iv_headphoto);
             viewHolder.tv_niName = (TextView) convertView.findViewById(R.id.tv_niName);
             viewHolder.ll_person = (LinearLayout) convertView.findViewById(R.id.ll_person);
             viewHolder.tv_hdtheme = (TextView) convertView.findViewById(R.id.tv_hdtheme);
-            viewHolder.tv_loaction= (TextView) convertView.findViewById(R.id.tv_loaction);
-            viewHolder.tv_date= (TextView)convertView.findViewById(R.id.tv_date);
-            viewHolder.ll_guanzhu= (LinearLayout)convertView.findViewById(R.id.ll_guanzhu);
-            viewHolder.iv_simple_guanzhu= (ImageView)convertView.findViewById(R.id.iv_simple_guanzhu);
-            viewHolder.tv_guanzhu_num= (TextView)convertView.findViewById(R.id.tv_guanzhu_num);
-            viewHolder.ll_join= (LinearLayout)convertView.findViewById(R.id.ll_join);
+            viewHolder.tv_loaction = (TextView) convertView.findViewById(R.id.tv_loaction);
+            viewHolder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
+            viewHolder.ll_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu);
+            viewHolder.iv_simple_guanzhu = (ImageView) convertView.findViewById(R.id.iv_simple_guanzhu);
+            viewHolder.tv_guanzhu_num = (TextView) convertView.findViewById(R.id.tv_guanzhu_num);
+            viewHolder.ll_join = (LinearLayout) convertView.findViewById(R.id.ll_join);
             viewHolder.iv_join = (ImageView) convertView.findViewById(R.id.iv_join);
-            viewHolder.tv_join_num= (TextView)convertView.findViewById(R.id.tv_join_num);
-            viewHolder.tv_join_tal_num= (TextView)convertView.findViewById(R.id.tv_join_tal_num);
-            viewHolder.iv_gender= (ImageView) convertView.findViewById(R.id.iv_gender);
+            viewHolder.tv_join_num = (TextView) convertView.findViewById(R.id.tv_join_num);
+            viewHolder.tv_join_tal_num = (TextView) convertView.findViewById(R.id.tv_join_tal_num);
+            viewHolder.iv_gender = (ImageView) convertView.findViewById(R.id.iv_gender);
             viewHolder.iv_actdetial = (CircleImageView) convertView.findViewById(R.id.iv_actdetial);
-            viewHolder.tv_text_jion = (TextView)convertView.findViewById(R.id.tv_text_jion);
+            viewHolder.tv_text_jion = (TextView) convertView.findViewById(R.id.tv_text_jion);
             viewHolder.tv_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
-            viewHolder.ll_show= (LinearLayout) convertView.findViewById(R.id.ll_show);
-            viewHolder.ll_show2= (LinearLayout) convertView.findViewById(R.id.ll_show2);
-            viewHolder.ll_show3= (LinearLayout) convertView.findViewById(R.id.ll_show3);
-            viewHolder.ll_del =(LinearLayout) convertView.findViewById(R.id.ll_del);
-            viewHolder.ll_simple_share=(LinearLayout)convertView.findViewById(R.id.ll_simple_share);
-            viewHolder.ll_theme_location = (LinearLayout)convertView.findViewById(R.id.ll_theme_location);
+            viewHolder.ll_show = (LinearLayout) convertView.findViewById(R.id.ll_show);
+            viewHolder.ll_show2 = (LinearLayout) convertView.findViewById(R.id.ll_show2);
+            viewHolder.ll_show3 = (LinearLayout) convertView.findViewById(R.id.ll_show3);
+            viewHolder.ll_del = (LinearLayout) convertView.findViewById(R.id.ll_del);
+            viewHolder.ll_simple_share = (LinearLayout) convertView.findViewById(R.id.ll_simple_share);
+            viewHolder.ll_theme_location = (LinearLayout) convertView.findViewById(R.id.ll_theme_location);
             convertView.setTag(viewHolder);
 
         }
-        if (infos.get(position).getUserNm()!=null&&infos.get(position).isFriend()){
+        if (infos.get(position).getUserNm() != null && infos.get(position).isFriend()) {
             viewHolder.tv_niName.setText(infos.get(position).getRemark());//字段缺少用户名
-        }else if (infos.get(position).getUserNm()==null){
+        } else if (infos.get(position).getUserNm() == null) {
             viewHolder.tv_niName.setText("暂无用户名");//字段缺少用户名
-        }else {
+        } else {
             viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
         }
-        if (infos.get(position).getActivitySite()!=null){
+        if (infos.get(position).getActivitySite() != null) {
             viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());//活动位置
-        }else {
+        } else {
             viewHolder.ll_theme_location.setVisibility(View.GONE);
         }
 
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
-        if (!UserInfoDao.getUser().getId().equals(infos.get(position).getCreatePersonId())){
+        if (!UserInfoDao.getUser().getId().equals(infos.get(position).getCreatePersonId())) {
             viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
             viewHolder.ll_join.setVisibility(View.VISIBLE);
             viewHolder.ll_del.setVisibility(View.GONE);
             viewHolder.ll_simple_share.setVisibility(View.GONE);
-        }else {
+        } else {
             viewHolder.ll_guanzhu.setVisibility(View.GONE);
             viewHolder.ll_join.setVisibility(View.GONE);
             viewHolder.ll_del.setVisibility(View.VISIBLE);
             viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
         }
-        if (infos.get(position).getFollowNum()!=null){
-            viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum()+"");//关注人数
+        if (infos.get(position).getFollowNum() != null) {
+            viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
 
-        }else {
-            viewHolder.tv_guanzhu_num.setText(0+"");//关注人数
+        } else {
+            viewHolder.tv_guanzhu_num.setText(0 + "");//关注人数
 
         }
-        if (infos.get(position).getMemberNum()!=null){
-            viewHolder.tv_join_num.setText(infos.get(position).getMemberNum()+"");//目前成员数量；
-        }else {
-            viewHolder.tv_join_num.setText(0+"");//目前成员数量；
+        if (infos.get(position).getMemberNum() != null) {
+            viewHolder.tv_join_num.setText(infos.get(position).getMemberNum() + "");//目前成员数量；
+        } else {
+            viewHolder.tv_join_num.setText(0 + "");//目前成员数量；
         }
 
-        viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber()+"");//邀约人数
-        viewHolder.tv_date.setText(ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getStartTime()))+ "—" + ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getEndTime())));//活动时间；
-        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getUserIcon()), viewHolder.iv_headphoto, optionsImag);//用户头像
-        if (infos.get(position).getUserSex()=="男"){
-            viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
-        }else {
-            viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));//用户性别
+        viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber() + "");//邀约人数
+        strStart = ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getStartTime()));
+        strEnd = ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getEndTime()));
+        if (strStart.substring(1, 6).equals(strEnd.substring(1, 6))) {
+            String strTime = strStart + "—" + strEnd.substring(6);
+            viewHolder.tv_date.setText(strTime);//活动时间；
+        } else {
+            viewHolder.tv_date.setText(strStart + "—" + strEnd);//活动时间；
         }
-        if (infos.get(position).getIcon()!=null){
+        if (UserInfoDao.getUser().getId().equals(infos.get(position).getUserId())){
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),viewHolder.iv_headphoto,optionsImag);
+        }else {
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getUserIcon()), viewHolder.iv_headphoto, optionsImag);//用户头像
+        }
+        if (!TextUtils.isEmpty(infos.get(position).getUserSex())){
+            if (infos.get(position).getUserSex().equals(1+"")) {
+                viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
+            } else {
+                viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));//用户性别
+            }
+        }
+
+        if (infos.get(position).getIcon() != null) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getIcon()), viewHolder.iv_actdetial, optionsImag);//详情icon
         }
 //        返回状态判断是否参加，
-        if (infos.get(position).isJoin()){
+        if (infos.get(position).isJoin()) {
             viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
             viewHolder.tv_text_jion.setText("取消参加");
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
 
-        }else {
+        } else {
             viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
             viewHolder.tv_text_jion.setText("参加");
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
@@ -179,14 +197,14 @@ public class ActAdapter extends BaseAdapter{
         viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (infos.get(position).isJoin()){
+                if (infos.get(position).isJoin()) {
                     new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             stateCancelChange(position, viewHolder);
                         }
-                    }).setNegativeButton("取消",null).show();
-                }else {
+                    }).setNegativeButton("取消", null).show();
+                } else {
                     stateJionChange(position, viewHolder);
                 }
 
@@ -200,9 +218,9 @@ public class ActAdapter extends BaseAdapter{
                     @Override
                     public void onClick(View v) {
                         //调用删除此活动接口,刷新数据；
-                        removeActivity(infos.get(position).getId(),position);
+                        removeActivity(infos.get(position).getId(), position);
                     }
-                }).setNegativeButton("取消",null).show();
+                }).setNegativeButton("取消", null).show();
 
             }
         });
@@ -210,28 +228,28 @@ public class ActAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 //开启分享界面
-                Intent intent=new Intent();
-                intent.setClass(context,ShareDialogAct.class);
+                Intent intent = new Intent();
+                intent.setClass(context, ShareDialogAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
 
 
-          // viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
+        // viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
 //        返回状态判断是否关注;
-        if (infos.get(position).isFollow()){
+        if (infos.get(position).isFollow()) {
             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//已关注
             viewHolder.tv_text_guanzhu.setText("已关注");
             viewHolder.ll_guanzhu.setClickable(false);
-        }else {
+        } else {
             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));//默认图标
             viewHolder.tv_text_guanzhu.setText("关注");
             viewHolder.ll_guanzhu.setClickable(true);
             viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                // 调用关注接口
+                    // 调用关注接口
                     RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
                         @Override
                         public void onError(int status, String errorMsg) {
@@ -243,35 +261,41 @@ public class ActAdapter extends BaseAdapter{
                             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//默认图标
                             viewHolder.tv_text_guanzhu.setText("已关注");
                             infos.get(position).setFollow(true);
-                            if (infos.get(position).getFollowNum()!=null){
-                                int noticNum=infos.get(position).getFollowNum();
-                                noticNum=noticNum+1;
+                            if (infos.get(position).getFollowNum() != null) {
+                                int noticNum = infos.get(position).getFollowNum();
+                                noticNum = noticNum + 1;
                                 infos.get(position).setFollowNum(noticNum);
-                                viewHolder.tv_guanzhu_num.setText(noticNum+"");
+                                viewHolder.tv_guanzhu_num.setText(noticNum + "");
                                 viewHolder.ll_guanzhu.setClickable(false);
-                            }else {
-                                int noticNum=0;
-                                noticNum=noticNum+1;
+                            } else {
+                                int noticNum = 0;
+                                noticNum = noticNum + 1;
                                 infos.get(position).setFollowNum(noticNum);
-                                viewHolder.tv_guanzhu_num.setText(noticNum+"");
+                                viewHolder.tv_guanzhu_num.setText(noticNum + "");
                                 viewHolder.ll_guanzhu.setClickable(false);
                             }
 
-                            MyToastUtils.showShortToast(context,"已关注");
+                            MyToastUtils.showShortToast(context, "已关注");
                         }
                     });
 
                 }
             });
         }
-        //展示个人资料
-        View.OnClickListener listener1=new View.OnClickListener() {
+        viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                Bundle bundle=new Bundle();
+                showDialog(infos.get(position).getId());
+            }
+        });
+        //展示个人资料
+        View.OnClickListener listener1 = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
                 bundle.putString("userId", infos.get(position).getUserId());
-                bundle.putBoolean("friend",infos.get(position).isFriend());
+                bundle.putBoolean("friend", infos.get(position).isFriend());
                 intent.putExtras(bundle);
                 intent.setClass(context, PerpageAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -286,9 +310,10 @@ public class ActAdapter extends BaseAdapter{
     }
 
     /**
-    * 参加或响应活动接口
-    * @param
-    */
+     * 参加或响应活动接口
+     *
+     * @param
+     */
 
     private void stateJionChange(final int position, final Holder viewHolder) {
         RequestManager.getScheduleManager().getRespondActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
@@ -299,27 +324,29 @@ public class ActAdapter extends BaseAdapter{
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                    viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
-                    viewHolder.tv_text_jion.setText("取消参加");
-                    viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
-                    if (infos.get(position).getMemberNum()!=null){
-                        int i= infos.get(position).getMemberNum();
-                        i=i+1;
-                        viewHolder.tv_join_num.setText(i + "");
-                        infos.get(position).setMemberNum(i);
-                        infos.get(position).setJoin(true);
-                    }else {
-                        int i=0;
-                        i=i+1;
-                        viewHolder.tv_join_num.setText(i+"");
-                        infos.get(position).setMemberNum(i);
-                        infos.get(position).setJoin(true);
-                    }
+                viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
+                viewHolder.tv_text_jion.setText("取消参加");
+                viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
+                if (infos.get(position).getMemberNum() != null) {
+                    int i = infos.get(position).getMemberNum();
+                    i = i + 1;
+                    viewHolder.tv_join_num.setText(i + "");
+                    infos.get(position).setMemberNum(i);
+                    infos.get(position).setJoin(true);
+                } else {
+                    int i = 0;
+                    i = i + 1;
+                    viewHolder.tv_join_num.setText(i + "");
+                    infos.get(position).setMemberNum(i);
+                    infos.get(position).setJoin(true);
+                }
             }
         });
     }
+
     /**
      * 取消参加或响应活动接口
+     *
      * @param
      */
 
@@ -346,10 +373,11 @@ public class ActAdapter extends BaseAdapter{
 
     /***
      * 删除活动
+     *
      * @param id
      * @param position
      */
-    private void removeActivity(String id, final int position){
+    private void removeActivity(String id, final int position) {
         RequestManager.getScheduleManager().removeActivity(id, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -358,35 +386,113 @@ public class ActAdapter extends BaseAdapter{
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(context,"删除活动成功！");
+                MyToastUtils.showShortToast(context, "删除活动成功！");
                 infos.remove(position);
                 notifyDataSetChanged();
             }
         });
     }
 
+    /***
+     * 设置条目点击显示活动详情dialog
+     * 1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
+     *
+     * @param
+     * @param activityId
+     */
+    private void showDialog(String activityId) {
+        RequestManager.getScheduleManager().getActivityDetials(activityId, new ResultCallback<ResultBean<SimpleInfo>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<SimpleInfo> response) {
+                SimpleInfo simpleInfo = response.getData();
+                activityDetail(simpleInfo);
+
+            }
+        });
+
+    }
+
+    private void activityDetail(final SimpleInfo simpleInfo) {
+        final CustomDialog.Builder builder = new CustomDialog.Builder(context);
+        if (!TextUtils.isEmpty(simpleInfo.getActivityParticulars())) {
+            builder.setMessage(simpleInfo.getActivityParticulars());
+        } else {
+            builder.setMessage("没有活动详情");
+        }
+        if (!UserInfoDao.getUser().getId().equals(simpleInfo.getCreatePersonId())) {
+            if (simpleInfo.isColleagues()) {
+                builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+                    }
+                });
+            } else if (simpleInfo.isFriend()) {
+                builder.setNegativeButton("你们两个是好友", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+                    }
+                });
+            } else {
+                builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(context, MessVerifyAct.class);//加为好友
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userId", simpleInfo.getUserId());//好友id
+                        if (!TextUtils.isEmpty(simpleInfo.getUserNm())) {
+                            bundle.putString("userName", simpleInfo.getUserNm());//好友名字
+                        } else {
+                            bundle.putString("userName", "无用户名");
+                        }
+                        intent.setAction("AddFriend");
+                        intent.putExtras(bundle);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+            if (simpleInfo.getJoinCount() > 0) {
+                builder.setPositiveButton("一起参加了" + simpleInfo.getJoinCount() + "次活动", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+            }
+            builder.create().show();
+        } else {
+            builder.create().show();
+        }
+    }
 
     public static class Holder {
-       public CircleImageView iv_headphoto;//头像
-       public TextView tv_niName;//昵称
-       public LinearLayout ll_person;//个人信息id
-       public TextView tv_hdtheme;//活动主题
-       public TextView tv_loaction;//活动位置
-       public TextView tv_date;//活动日期
-       public LinearLayout ll_guanzhu;//关注数量
-       public ImageView iv_simple_guanzhu;//关注图标
-       public TextView tv_text_guanzhu;//关注文本
-       public TextView tv_guanzhu_num;//关注数量设置
-       public LinearLayout ll_join;//参加人数
-       public ImageView iv_join;//参加头像
-       public TextView tv_join_num;//参加数量
-       public TextView tv_join_tal_num;//活动总人数设置
-       public CircleImageView iv_actdetial;//活动标签
-       public ImageView iv_gender;//性别
-       public TextView tv_text_jion;//参加/取消参加
+        public CircleImageView iv_headphoto;//头像
+        public TextView tv_niName;//昵称
+        public LinearLayout ll_person;//个人信息id
+        public TextView tv_hdtheme;//活动主题
+        public TextView tv_loaction;//活动位置
+        public TextView tv_date;//活动日期
+        public LinearLayout ll_guanzhu;//关注数量
+        public ImageView iv_simple_guanzhu;//关注图标
+        public TextView tv_text_guanzhu;//关注文本
+        public TextView tv_guanzhu_num;//关注数量设置
+        public LinearLayout ll_join;//参加人数
+        public ImageView iv_join;//参加头像
+        public TextView tv_join_num;//参加数量
+        public TextView tv_join_tal_num;//活动总人数设置
+        public CircleImageView iv_actdetial;//活动标签
+        public ImageView iv_gender;//性别
+        public TextView tv_text_jion;//参加/取消参加
         public LinearLayout ll_theme_location;//活动位置Linear
-       public LinearLayout ll_show,ll_show2,ll_show3;
-        public LinearLayout ll_del,ll_simple_share;
+        public LinearLayout ll_show, ll_show2, ll_show3;
+        public LinearLayout ll_del, ll_simple_share;
     }
 
 

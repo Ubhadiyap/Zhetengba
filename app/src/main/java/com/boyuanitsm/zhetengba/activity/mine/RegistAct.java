@@ -19,8 +19,10 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserBean;
+
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
+
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -234,9 +236,14 @@ public class RegistAct extends BaseActivity {
      * @param captcha
      * @param password
      */
-    public void toRegister(String username,String captcha,String password){
-        pd.show();
-        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<UserBean> >() {
+
+    public void toRegister(final String username,String captcha,String password){
+        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<UserBean>>() {
+
+//    public void toRegister(String username,String captcha,String password){
+//        pd.show();
+//        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<UserBean> >() {
+
             @Override
             public void onError(int status, String errorMsg) {
                 pd.dismiss();
@@ -244,9 +251,14 @@ public class RegistAct extends BaseActivity {
             }
 
             @Override
-            public void onResponse(ResultBean<UserBean>  response) {
-                UserBean userBean = response.getData();
+
+            public void onResponse(ResultBean<UserBean> response) {
+                UserBean userBean=response.getData();
                 login(userBean);
+
+//            public void onResponse(ResultBean<UserBean>  response) {
+//                UserBean userBean = response.getData();
+//                login(userBean);
             }
         });
 

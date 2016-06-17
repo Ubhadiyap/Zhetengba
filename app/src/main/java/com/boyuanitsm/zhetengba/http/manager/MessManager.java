@@ -57,6 +57,19 @@ public class MessManager extends RequestManager{
     }
 
     /**
+<<<<<<< HEAD
+     * 添加已经注册好友
+     * @param friendId
+     * @param callback
+     */
+    public void addFriendFromContact(String friendId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("friendId",friendId);
+        doPost(IZtbUrl.ADD_FRIEND_CONTACT,map,callback);
+    }
+
+//=======
+    /**
      * 修改昵称
      * @param newNickName
      * @param callback

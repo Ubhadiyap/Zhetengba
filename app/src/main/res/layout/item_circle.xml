@@ -11,12 +11,13 @@
     android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <!--头像-->
     <com.boyuanitsm.zhetengba.view.CircleImageView
         android:id="@+id/iv_ch_head"
         android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/test_user" />
+        android:layout_height="40dp" />
 
+    <!--昵称-->
     <TextView
         android:id="@+id/tv_ch_niName"
         android:layout_width="wrap_content"
@@ -24,28 +25,27 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:gravity="center"
-        android:text="甜蜜的小猫"
         android:textColor="#666666"
         android:textSize="14sp" />
 
+    <!--性别-->
     <ImageView
         android:id="@+id/iv_ch_gendar"
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/female" />
+        android:layout_marginLeft="10dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <!--时间-->
         <TextView
             android:gravity="right"
             android:id="@+id/tv_time"
             android:textColor="#999999"
             android:textSize="12sp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="4分钟前"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 
@@ -60,20 +60,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <!--圈子内容-->
             <TextView
                 android:id="@+id/tv_content"
                 android:layout_weight="1"
                 android:textColor="#333333"
                 android:textSize="16sp"
-                android:text="最美好的结局就是，你成为了我的责任，而我成为了你的守护，如此相守一生，相伴到老。"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <!--圈子-->
             <TextView
                 android:id="@+id/tv_cir_name"
                 android:gravity="center"
                 android:textSize="12sp"
                 android:textColor="#fff"
-                android:text="户外圈"
                 android:background="@drawable/bg_circle_stroke_red"
                 android:layout_width="60dp"
                 android:layout_height="18dp" />
@@ -166,8 +166,7 @@
                 android:text="赞"/>
             <TextView
                 android:id="@+id/znum"
-                style="@style/Chanel_Small_Text"
-                android:text="(240)" />
+                style="@style/Chanel_Small_Text" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_comment"
@@ -184,8 +183,7 @@
                 android:text="评论"/>
             <TextView
                 android:id="@+id/cnum"
-                style="@style/Chanel_Small_Text"
-                android:text="(240)" />
+                style="@style/Chanel_Small_Text" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_share"
@@ -201,8 +199,7 @@
                 android:text="分享"/>
             <TextView
                 android:id="@+id/snum"
-                style="@style/Chanel_Small_Text"
-                android:text="(240)" />
+                style="@style/Chanel_Small_Text" />
         </LinearLayout>
     </LinearLayout>
     <View

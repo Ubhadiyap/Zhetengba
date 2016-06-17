@@ -7,12 +7,56 @@ package com.boyuanitsm.zhetengba.http;
 public interface IZtbUrl {
 
     //基础地址
-//    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
-    //测试
-    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
-//    public static final String BASE_URL = "http://172.16.5.154:8080/zhetengba/";
+    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
 
-//    public  String BASE_URL="http://172.16.6.225:8080/zhetengba/";
+    //测试
+//    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
+
+
+//    /**=========登出地址==========**/
+//    public  String LOGOUT_URL=BASE_URL+"manager/unLogin/logout.do";
+
+    /**=========完善信息接口==========**/
+    public  String PERFECT_URL=BASE_URL+"manager/login/modifyPerfectUserInfo.do";
+
+//    /**=========注册地址==========**/
+//    public  String REGISTER_URL=BASE_URL+"manager/unLogin/register.do";
+
+//    /**=========发送验证码地址==========**/
+//    public  String SENDSMSCAPTCHA_URL=BASE_URL+"manager/unLogin/sendSmsCaptcha.do";
+
+//    /**=========修改密码地址==========**/
+//    public  String MODIFYUSERPASSWORD_URL=BASE_URL+"manager/login/modifyUserPassword.do";
+
+//    /**=========忘记密码地址==========**/
+//    public  String FORGETPASSWORD_URL=BASE_URL+"manager/unLogin/forgetPassword.do";
+//    /**=========登录地址==========**/
+//    public  String LOGIN_URL=BASE_URL+"manager/unLogin/login.do";
+
+//    /**=========修改用户头像==========**/
+//    public  String MODIFYUSERICON_URL=BASE_URL+"manager/login/modifyUserIcon.do";
+
+
+
+
+//    /**=========修改用户信息==========**/
+//    public  String MODIFYUSERINFO_URL=BASE_URL+"manager/login/modifyUserInfo.do";
+
+
+//    /**=========收藏列表接口==========**/
+//    public  String COLLECTIONLIST_URL=BASE_URL+"schedule/login/findCollectionListByUserId.do";
+
+//    /**=========反馈接==========**/
+//    public  String ADDFEEDBACK_URL=BASE_URL+"schedule/login/addFeedBack.do";
+
+//    /**=========获取事件信息（时间轴接口）==========**/
+//    public  String HISTORYMESSAGE_URL=BASE_URL+"schedule/login/findHistoryMessageListByMonth.do";
+
+//    /**=========我的兴趣标签列表（非全部）==========**/
+//    public  String MYLABELLIST_URL=BASE_URL+"schedule/login/findMyLabelListByUserId.do";
+
+//    /**=========取消收藏接口==========**/
+//    public  String REMOVECOLLECTION_URL=BASE_URL+"schedule/login/removeCollection.do";
 
     /**
      * =========登出地址==========
@@ -78,6 +122,7 @@ public interface IZtbUrl {
      **/
      String REMOVECOLLECTION_URL = BASE_URL + "schedule/login/removeCollection.do";
 
+
     /*建立圈子*/
     String CREATE_CIRCLE_URL = BASE_URL + "talk/login/addCircle.do";
     /*我的圈子列表*/
@@ -122,6 +167,8 @@ public interface IZtbUrl {
     String CHANNEL_COMMENTS_URL = BASE_URL + "talk/login/findChannelTalkCommentsList.do";
     /*我的发布*/
     String MYTALKS_OUT_URL=BASE_URL+"talk/login/findUserCircleTalk.do";
+    /*上传图片*/
+    String UPLOAD_URL=BASE_URL+"talk/login/uploadImg.do";
 
 
 
@@ -138,7 +185,7 @@ public interface IZtbUrl {
     //活动列表
     String ACTIVITY_LIST = BASE_URL + "schedule/login/findActivityList.do";
     //活动详情
-    String ACTIVITY_DETIALS = BANNER_URL + "schedule/login/findActivityDetails.do";
+    String ACTIVITY_DETIALS = BASE_URL + "schedule/login/findActivityDetails.do";
     //关注活动
     String ACTIVITY_COLLECTION_URL = BASE_URL + "schedule/login/addActivityCollection.do";
     //活动标签
@@ -216,7 +263,14 @@ public interface IZtbUrl {
     String SHEDULE_MESSAGE_URL = BASE_URL + "schedule/login/pushScheduleMessage.do";
     //取消活动参加
     String CANCEL_ACTIVITY_URL = BASE_URL + "schedule/login/quitActivity.do";
-    //个人主页接口
+//    //个人主页接口
+//
+//    public static  final  String PERSONAL_HOME_PAGE_URL=BASE_URL+"schedule/login/findPersonalByUserId.do";
+//    //添加好友接口
+//    public static final String ADD_FRIEND_URL="message/login/addFriendFromContact.do";
+
+
+
     String PERSONAL_HOME_PAGE_URL = BASE_URL + "schedule/login/findPersonalByUserId.do";
 
 
@@ -229,8 +283,11 @@ public interface IZtbUrl {
     String DELETE_FRIEND_URL=BASE_URL+"message/login/removeFriend.do";
     //好友列表
     String FRIEND_LIST_URL=BASE_URL+"message/login/findFriendsList.do";
+    //添加好友
+    String ADD_FRIEND_CONTACT=BASE_URL+"message/login/addFriendFromContact.do";
     //修改昵称
     String UPDATE_NICKNAME=BASE_URL+"message/login/modifyNickName.do";
     /*创建群聊*/
     String ADD_GROUP_URL=BASE_URL+"message/login/addGroupChat.do";
+
 }
