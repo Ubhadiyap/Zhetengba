@@ -75,7 +75,7 @@ public class CirxqAct extends BaseActivity {
     private int rows=10;
 
 
-    private List<List<ImageInfo>> datalist=new ArrayList<>();
+    private List<List<ImageInfo>> datalist;
     private String[][] images=new String[][]{{
             ConstantValue.IMAGEURL,"1624","914"}
             ,{ConstantValue.IMAGEURL,"1624","914"}
@@ -114,7 +114,7 @@ public class CirxqAct extends BaseActivity {
         LayoutHelperUtil.freshInit(lv_cir);
         circleId=getIntent().getStringExtra("circleId");
 //        initData();
-        datalist=new ArrayList<>();
+//        datalist=new ArrayList<>();
         getCircleDetail(circleId);
         getCircleMembers(circleId);
         getThisCircleTalks(circleId, page, rows);
@@ -291,6 +291,7 @@ public class CirxqAct extends BaseActivity {
     //获取该圈子所有说说列表
     private void getThisCircleTalks(String circleId, final int page, int rows){
         circleEntityList=new ArrayList<CircleEntity>();
+        datalist = new ArrayList<>();
         RequestManager.getTalkManager().getSingleCircleAllTalks(circleId, page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {

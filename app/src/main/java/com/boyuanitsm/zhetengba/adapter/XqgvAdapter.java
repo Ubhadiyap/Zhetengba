@@ -52,10 +52,10 @@ public class XqgvAdapter extends BaseAdapter{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
              if(isChecked){
                  map.put(dex,ck.getText().toString());
-                 activity.setData(map);
+//                 activity.setData(map);
              }else {
                  map.remove(dex);
-                 activity.setData(map);
+//                 activity.setData(map);
              }
             }
         });
