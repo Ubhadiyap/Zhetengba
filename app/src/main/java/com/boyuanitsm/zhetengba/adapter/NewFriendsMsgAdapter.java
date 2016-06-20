@@ -14,9 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage.InviteMesageStatus;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.hyphenate.chat.EMClient;
 //import com.hyphenate.easeui.widget.CircleImageView;
@@ -118,7 +121,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                     @Override
                     public void onClick(View v) {
                         // 同意别人发的好友请求
-                        acceptInvitation(holder.agree, holder.status, msg);
+                        addFriends(holder.agree, holder.status, msg);
                     }
                 });
                 holder.status.setOnClickListener(new View.OnClickListener() {
@@ -281,5 +284,43 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
         LinearLayout groupContainer;
         TextView groupname;
         // TextView time;
+    }
+
+    private void addFriends(final Button buttonAgree,final Button buttonRefuse,final InviteMessage msg){
+        final ProgressDialog pd = new ProgressDialog(context);
+        String str1 = context.getResources().getString(R.string.Are_agree_with);
+        final String str2 = context.getResources().getString(R.string.Has_agreed_to);
+        final String str3 = context.getResources().getString(R.string.Agree_with_failure);
+        pd.setMessage(str1);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+        RequestManager.getMessManager().aggreeFriend(msg.getFrom(), new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                pd.dismiss();
+                Toast.makeText(context, errorMsg,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                msg.setStatus(InviteMesageStatus.AGREED);
+                // 更新db
+                ContentValues values = new ContentValues();
+                values.put(InviteMessgeDao.COLUMN_NAME_STATUS, msg.getStatus().ordinal());
+                messgeDao.updateMessage(msg.getId(), values);
+                ((Activity) context).runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        pd.dismiss();
+                        buttonAgree.setText(str2);
+                        buttonAgree.setBackgroundDrawable(null);
+                        buttonAgree.setEnabled(false);
+
+                        buttonRefuse.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
+        });
     }
 }

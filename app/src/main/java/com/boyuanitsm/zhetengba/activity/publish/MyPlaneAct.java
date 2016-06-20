@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class MyPlaneAct extends BaseActivity {
     private PullToRefreshListView lv_my_plane;
-    private List<List<ImageInfo>> datalist=new ArrayList<>();
+    private List<List<ImageInfo>> datalist;
     private String[][] images=new String[][]{{
             ConstantValue.IMAGEURL,"1624","914"}
             ,{ConstantValue.IMAGEURL,"1624","914"}
@@ -60,7 +60,7 @@ public class MyPlaneAct extends BaseActivity {
         //初始化下拉刷新
         LayoutHelperUtil.freshInit(lv_my_plane);
         getMyTalks(page,rows);
-        datalist=new ArrayList<>();
+//        datalist=new ArrayList<>();
 //        initData();
 //        MyPlaneAdapter adapter=new MyPlaneAdapter(MyPlaneAct.this,datalist);
 //       lv_my_plane.getRefreshableView().setAdapter(adapter);
@@ -103,6 +103,8 @@ public class MyPlaneAct extends BaseActivity {
      */
     private void getMyTalks(final int page, int rows){
         list=new ArrayList<>();
+        datalist=new ArrayList<>();
+
         RequestManager.getTalkManager().myTalksOut(page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {

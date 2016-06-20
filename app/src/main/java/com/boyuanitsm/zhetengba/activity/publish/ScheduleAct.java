@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
@@ -49,6 +51,7 @@ public class ScheduleAct extends BaseActivity {
     private List<LabelBannerInfo> listLabel = new ArrayList<>();//档期标签集合；
     private ScheduleInfo scheduleInfo;
     private String startDate;
+    private String hucanUserIds,hu_no_canUserIds;
 
 
     @Override
@@ -94,8 +97,9 @@ public class ScheduleAct extends BaseActivity {
 
     @OnClick({R.id.tv_xlwu, R.id.tv_bwln, R.id.tv_wuzj, R.id.tv_xdys, R.id.view_start, R.id.view_end, R.id.ll_hu_can, R.id.ll_hu_no_can,R.id.tv_plane})
     public void onClick(View v) {
+        Intent intent=new Intent();
+        Bundle bundle=new Bundle();
         switch (v.getId()) {
-
             case R.id.tv_xlwu:
                 setAllTabNor();
                 setcheckitem(0);
@@ -121,12 +125,32 @@ public class ScheduleAct extends BaseActivity {
                 break;
             case R.id.ll_hu_can:
                 if (select==1){
-                    openActivity(AssignScanAct.class);
+                    intent = new Intent();
+                    bundle=new Bundle();
+                    String str3="cal_hu_can";
+                    bundle.putString("can",str3);
+                    bundle.putString("canFlag","CalcanFlag");
+                    if (!TextUtils.isEmpty(hucanUserIds)){
+                        bundle.putString("canUserIds",hucanUserIds);
+                    }
+                    intent.putExtras(bundle);
+                    intent.setClass(this, AssignScanAct.class);
+                    startActivityForResult(intent, 3);
                 }
                 break;
             case R.id.ll_hu_no_can:
                 if (select==1){
-                    openActivity(AssignScanAct.class);
+                    intent = new Intent();
+                    bundle=new Bundle();
+                    String str4="cal_hu_no_can";
+                    bundle.putString("can",str4);
+                    bundle.putString("canFlag","CalnocanFlag");
+                    if (!TextUtils.isEmpty(hu_no_canUserIds)){
+                        bundle.putString("canUserIds",hu_no_canUserIds);
+                    }
+                    intent.putExtras(bundle);
+                    intent.setClass(this, AssignScanAct.class);
+                    startActivityForResult(intent, 4);
                 }
                 break;
 
@@ -171,11 +195,32 @@ public class ScheduleAct extends BaseActivity {
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data!=null){
+            Bundle bundle;
+            switch (requestCode){
+                case 3://谁能看
+                    bundle=data.getBundleExtra("bundle3");
+                    hucanUserIds=bundle.getString("bundleIds");
+                    break;
+                case 4://谁不能看
+                    bundle=data.getBundleExtra("bundle3");
+                    hu_no_canUserIds=bundle.getString("bundleIds");
+                    break;
+            }
+        }
+    }
+
     //初始化对象数据
     private void initDate(ScheduleInfo scheduleInfo) {
         scheduleInfo.setEndTime(cet_end.getText().toString());
         scheduleInfo.setStartTime(cet_start.getText().toString());
         scheduleInfo.setScheduleVisibility(select);
+        scheduleInfo.setNoticeUserIds(hucanUserIds);
+        scheduleInfo.setInvisibleUserIds(hu_no_canUserIds);
     }
 
     /**

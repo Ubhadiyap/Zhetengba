@@ -43,7 +43,7 @@ import java.util.List;
 public class ChaChildFrg extends BaseFragment {
     private List<String> list = new ArrayList<String>();
     private int flag;
-    private List<List<ImageInfo>> datalist=new ArrayList<>();
+    private List<List<ImageInfo>> datalist;
     private String[][] images=new String[][]{{
             ConstantValue.IMAGEURL,"1624","914"}
             ,{ConstantValue.IMAGEURL2,"1624","914"}
@@ -80,7 +80,7 @@ public class ChaChildFrg extends BaseFragment {
         //传入参数，标签对应集合
         LayoutHelperUtil.freshInit(lv_ch01);
 //        initDate();
-        datalist=new ArrayList<>();
+//        datalist=new ArrayList<>();
 //        getChannelTalks(lableId,page,rows);
 //        adapter=new ChanAdapter(mActivity,datalist);
 //        lv_ch01.getRefreshableView().setAdapter(adapter);
@@ -148,6 +148,7 @@ public class ChaChildFrg extends BaseFragment {
      */
     private void getChannelTalks(String lableId, final int page,int rows){
         channelTalkEntityList=new ArrayList<>();
+        datalist=new ArrayList<>();
         RequestManager.getTalkManager().getChannelTalks(lableId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {

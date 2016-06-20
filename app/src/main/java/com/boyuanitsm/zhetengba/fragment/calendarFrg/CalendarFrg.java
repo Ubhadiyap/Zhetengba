@@ -31,9 +31,9 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
     private boolean tag = true;
     private LinearLayout linearLayout;
     private PopupWindow mPopupWindow;
-    private LinearLayout ll_friend,ll_friend_two;
+    private LinearLayout ll_friend, ll_friend_two;
     private RadioGroup rg_simple;
-    private TextView tv_friend_all,tv_friend_all_two;
+    private TextView tv_friend_all, tv_friend_all_two;
     private List<SimpleInfo> list;
 
     @Override
@@ -48,9 +48,9 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         rb_calendar = (RadioButton) view.findViewById(R.id.rb_calendar);
         linearLayout = (LinearLayout) view.findViewById(R.id.ll_title_border);
         ll_friend = (LinearLayout) view.findViewById(R.id.ll_friend);
-        ll_friend_two=(LinearLayout) view.findViewById(R.id.ll_friend_two);
+        ll_friend_two = (LinearLayout) view.findViewById(R.id.ll_friend_two);
         tv_friend_all = (TextView) view.findViewById(R.id.tv_friend_all);
-        tv_friend_all_two= (TextView) view.findViewById(R.id.tv_friend_all_two);
+        tv_friend_all_two = (TextView) view.findViewById(R.id.tv_friend_all_two);
         childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         defaultChildShow(fragmentTransaction);
@@ -114,7 +114,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend, null);
         TextView tv_friend = (TextView) v.findViewById(R.id.tv_friend);
         TextView tv_all = (TextView) v.findViewById(R.id.tv_all);
-        TextView tv_me= (TextView) v.findViewById(R.id.tv_me);
+        TextView tv_me = (TextView) v.findViewById(R.id.tv_me);
         mPopupWindow.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_circle_stroke));
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setFocusable(true);
@@ -124,14 +124,16 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         tv_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int state = 0;
+                intentRecevier.putExtra("state", state);
                 if (rb_simple.isChecked()) {
                     tv_friend_all.setText("好友");
+                    intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 } else if (rb_calendar.isChecked()) {
                     tv_friend_all_two.setText("好友");
+                    intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
                 }
-                int state=0;
-                intentRecevier.putExtra("state",state);
-                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
+
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
             }
@@ -141,14 +143,15 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
             public void onClick(View v) {
 //                MyToastUtils.showShortToast(getContext(), "点击了全部");
                 //发送数据变化广播，通知CaleFrg更新数据
+                int state = 1;
+                intentRecevier.putExtra("state", state);
                 if (rb_simple.isChecked()) {
                     tv_friend_all.setText("全部");
+                    intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 } else if (rb_calendar.isChecked()) {
                     tv_friend_all_two.setText("全部");
+                    intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
                 }
-                int state=1;
-                intentRecevier.putExtra("state",state);
-                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
             }
@@ -156,14 +159,15 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         tv_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int state = 2;
+                intentRecevier.putExtra("state", state);
                 if (rb_simple.isChecked()) {
                     tv_friend_all.setText("我的");
+                    intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 } else if (rb_calendar.isChecked()) {
                     tv_friend_all_two.setText("我的");
+                    intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
                 }
-                int state=2;
-                intentRecevier.putExtra("state",state);
-                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
             }
