@@ -8,6 +8,7 @@ import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -61,5 +62,7 @@ public class Uitls {
 	public static String imageFullUrl(String path){
 		return IZtbUrl.BASE_URL+path;
 	}
+
+
 
 }

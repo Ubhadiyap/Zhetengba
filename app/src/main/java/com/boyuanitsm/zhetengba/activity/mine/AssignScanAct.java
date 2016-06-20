@@ -21,6 +21,8 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.hyphenate.easeui.adapter.EaseContactAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -39,12 +41,11 @@ public class AssignScanAct extends BaseActivity {
     private ProgressDialog progressDialog;
     @ViewInject(R.id.list)
     private ListView listView;
-    private List<String> idList=new ArrayList<>();//存取用户名list
+    private List<String> idList = new ArrayList<>();//存取用户名list
     private PickContactAdapter contactAdapter;
     private boolean isSignleChecked = false;
     private String[] strUserIds;//c存取已经选择的用户id
-
-
+    private int change=1;
 
     @Override
     public void setLayout() {
@@ -53,20 +54,28 @@ public class AssignScanAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        Intent intent=getIntent();
-        Bundle bundle=intent.getExtras();
-        final String str3= bundle.getString("can");
-        String str4=bundle.getString("canUserIds");//谁能看
-        String str5=bundle.getString("noCanUserIds");//谁不能看
-        String canflag=bundle.getString("canFlag");//判断点击进入的标志
-        if (!TextUtils.isEmpty(str4)){
-            if (canflag.equals("canFlag")||canflag.equals("CalcanFlag")){
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        final String str3 = bundle.getString("can");
+        String str4 = bundle.getString("canUserIds");//谁能看
+        MyLogUtils.info(str4+"返回的谁能看");
+        String str5 = bundle.getString("noCanUserIds");//谁不能看
+        String canflag = bundle.getString("canFlag");//判断点击进入的标志
+        if (!TextUtils.isEmpty(str4)) {
+
+            if (canflag.equals("canFlag") || canflag.equals("CalcanFlag")) {
                 strUserIds = ZtinfoUtils.convertStrToArray(str4);
+                for (int i=0;i<strUserIds.length;i++){
+                    idList.add(strUserIds[i]);
+                }
             }
 
-        }else if (!TextUtils.isEmpty(str5)){
-            if (canflag.equals("noCanFlag")||canflag.equals("CalnocanFlag")){
+        } else if (!TextUtils.isEmpty(str5)) {
+            if (canflag.equals("noCanFlag") || canflag.equals("CalnocanFlag")) {
                 strUserIds = ZtinfoUtils.convertStrToArray(str5);
+                for (int i=0;i<strUserIds.length;i++){
+                    idList.add(strUserIds[i]);
+                }
             }
         }
 
@@ -74,28 +83,7 @@ public class AssignScanAct extends BaseActivity {
         setRight("发送", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                Bundle bundle3=new Bundle();//谁能看
-                String userIds;
-                if (idList.size()==1){
-                    userIds=idList.get(0);
-                }else {
-                    userIds=idList.get(0);
-                    for (int i=1;i<idList.size();i++){
-                        userIds=userIds+","+idList.get(i);
-                    }
-                }
-                bundle3.putString("bundleIds",userIds);
-                intent.putExtra("bundle3", bundle3);
-                if (str3.equals("hu_can")){
-                    setResult(1, intent);
-                }else if (str3.equals("hu_no_can")){
-                    setResult(2,intent);
-                }else if (str3.equals("cal_hu_can")){
-                    setResult(3,intent);
-                }else if (str3.equals("cal_hu_no_can")){
-                    setResult(4,intent);
-                }
+                save(str3);
                 finish();
             }
         });
@@ -124,25 +112,55 @@ public class AssignScanAct extends BaseActivity {
             }
         });
 
-        contactAdapter = new PickContactAdapter(this, R.layout.em_who_scan_contact_with_checkbox, alluserList,strUserIds);
+        contactAdapter = new PickContactAdapter(this, R.layout.em_who_scan_contact_with_checkbox, alluserList);
         listView.setAdapter(contactAdapter);
-//        ((EaseSidebar) findViewById(R.id.sidebar)).setListView(listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
-                String strUserId=alluserList.get(position).getUsername();
+                String strUserId = alluserList.get(position).getUsername();
                 checkBox.toggle();
-                if (checkBox.isChecked()){
-                        idList.add(strUserId);
-                }else {
-                    idList.remove(strUserId);
-                }
+                change=2;
 
             }
         });
 
+    }
+
+    private void save(String str3) {
+        Intent intent = new Intent();
+        Bundle bundle3 = new Bundle();//谁能看
+        String userIds = null;
+        if (change==2){
+            idList=getToBeAddMembers();
+        }
+        if (idList.size() != 0) {
+            if (idList.size() == 1) {
+                userIds = idList.get(0);
+            } else if (idList.size()>1){
+                userIds = idList.get(0);
+                for (int i = 1; i < idList.size(); i++) {
+                    userIds = userIds + "," + idList.get(i);
+                }
+            }
+        }
+        MyLogUtils.info(userIds + "指定谁看的用户id");
+        bundle3.putString("bundleIds", userIds);
+        intent.putExtra("bundle3", bundle3);
+        if (str3.equals("hu_can")) {
+            setResult(1, intent);
+        } else if (str3.equals("hu_no_can")) {
+            setResult(2, intent);
+        } else if (str3.equals("cal_hu_can")) {
+            setResult(3, intent);
+        } else if (str3.equals("cal_hu_no_can")) {
+            setResult(4, intent);
+        }else if (str3.equals("circle")){
+            setResult(5,intent);
+        }else if (str3.equals("circleFriend")){
+            setResult(6,intent);
+        }
     }
 
 
@@ -156,7 +174,7 @@ public class AssignScanAct extends BaseActivity {
         int length = contactAdapter.isCheckedArray.length;
         for (int i = 0; i < length; i++) {
             String username = contactAdapter.getItem(i).getUsername();
-            if (contactAdapter.isCheckedArray[i]) {
+            if (contactAdapter.isCheckedArray[i]&&!idList.contains(username)) {
                 members.add(username);
             }
         }
@@ -165,21 +183,16 @@ public class AssignScanAct extends BaseActivity {
     }
 
 
-
     /**
      * adapter
      */
     private class PickContactAdapter extends EaseContactAdapter {
 
         private boolean[] isCheckedArray;
-        private String[] strIds;
-        private List<EaseUser> userList;
 
-        public PickContactAdapter(Context context, int resource, List<EaseUser> users, String[] strUserIds) {
+        public PickContactAdapter(Context context, int resource, List<EaseUser> users) {
             super(context, resource, users);
             isCheckedArray = new boolean[users.size()];
-            strIds=strUserIds;
-            userList=users;
         }
 
         @Override
@@ -191,35 +204,22 @@ public class AssignScanAct extends BaseActivity {
             final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
             ImageView avatarView = (ImageView) view.findViewById(R.id.avatar);
             TextView nameView = (TextView) view.findViewById(R.id.name);
-            if (strIds!=null){
-                for (int i=0;i<strIds.length;i++){
-                    if (strIds[i].equals(userList.get(position).getUsername())){
-                        isCheckedArray[position]=true;
-                        checkBox.setChecked(isCheckedArray[position]);
-                    }
+            if (checkBox!=null){
+                if (idList!=null&&idList.contains(username)){
+                    checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
+                    checkBox.setChecked(true);
+                }else {
+                    checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
                 }
-            }
 
-
-            if (checkBox != null) {
-                checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         isCheckedArray[position] = isChecked;
-                        //如果是单选模式
-                        if (isSignleChecked && isChecked) {
-                            for (int i = 0; i < isCheckedArray.length; i++) {
-                                if (i != position) {
-                                    isCheckedArray[i] = false;
-                                }
-                            }
-                            contactAdapter.notifyDataSetChanged();
-                        }
 
                     }
                 });
-                checkBox.setChecked(isCheckedArray[position]);
+                contactAdapter.notifyDataSetChanged();
             }
             return view;
         }

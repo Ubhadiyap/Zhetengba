@@ -120,7 +120,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qunavatar);
         LinearLayout ll_add_friend = (LinearLayout) v.findViewById(R.id.ll_add_friend);
 
-//        mPopupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_stroke));
+        mPopupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_stroke));
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setFocusable(true);
         mPopupWindow.setContentView(v);

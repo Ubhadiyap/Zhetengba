@@ -240,9 +240,6 @@ public class ContractedAct extends BaseActivity {
                 intent.setClass(this, EventdetailsAct.class);
                 startActivityForResult(intent, 0);
                 break;
-//            case R.id.ll_theme_content:
-//                openActivity(EventdetailsAct.class);
-//                break;
             case R.id.ll_hide://点击输入框以外地方，软键盘消失
                 InputMethodManager imm = (InputMethodManager)
                         getSystemService(ContractedAct.this.INPUT_METHOD_SERVICE);
@@ -276,6 +273,7 @@ public class ContractedAct extends BaseActivity {
                         bundle=data.getBundleExtra("bundle3");
                         hucanUserIds=bundle.getString("bundleIds");
                         strUserIds=hucanUserIds;
+                        MyLogUtils.info(strUserIds+"最终谁能看id");
                         break;
                     case 2://谁不能看
                         bundle=data.getBundleExtra("bundle3");

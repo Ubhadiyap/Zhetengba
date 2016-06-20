@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
@@ -42,6 +44,7 @@ import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.bean.UserBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
+import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
@@ -237,7 +240,11 @@ public class PerpageAct extends BaseActivity {
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }else if (bt_message.getText().equals("发送消息")){
-                    //调用发送消息接口
+                   Intent intent=new Intent(this, ChatActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("userId",userEntity.get(0).getId());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
 
                 break;
@@ -338,7 +345,7 @@ public class PerpageAct extends BaseActivity {
                 new MyAlertDialog(PerpageAct.this).builder().setTitle("提示").setMsg("确定删除该好友").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        deleteFriendPer(userEntity.get(0).getId());
                     }
                 }).setNegativeButton("取消", null).show();
 
@@ -386,6 +393,34 @@ public class PerpageAct extends BaseActivity {
                 setSelect(0);
                 setOnclikListener();
                 hlv_perpage.setAdapter(new HlvppAdapter(PerpageAct.this, circleEntity));//她的圈子下面水平view适配器
+                hlv_perpage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent=new Intent(PerpageAct.this, CircleglAct.class);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("PPuserId",userEntity.get(0).getId());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * 删除好友接口
+     * @param friendId
+     */
+    private void deleteFriendPer(String friendId){
+        RequestManager.getMessManager().deleteFriend(friendId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                finish();
             }
         });
     }

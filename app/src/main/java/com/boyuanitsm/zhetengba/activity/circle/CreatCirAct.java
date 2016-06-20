@@ -32,7 +32,7 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
     private EditText et_cir_name;
     @ViewInject(R.id.etNotes)
     private EditText etNotes;//圈子公告
-
+    private String personIds;//邀请成员id
     private CircleEntity circleEntity;//圈子实体
     @Override
     public void setLayout() {
@@ -51,7 +51,13 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_ask:
-                openActivity(AssignScanAct.class);
+                Intent  intent = new Intent();
+                Bundle bundle=new Bundle();
+                String str3="circle";
+                bundle.putString("can", str3);
+                intent.putExtras(bundle);
+                intent.setClass(this, AssignScanAct.class);
+                startActivityForResult(intent, 5);
                 break;
             case R.id.tv_creat://创建圈子，圈子管理增加一条，跳转至圈子管理
                 if (TextUtils.isEmpty(et_cir_name.getText().toString().trim())){
@@ -60,10 +66,19 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
                 }else {
                     circleEntity.setCircleName(et_cir_name.getText().toString().trim());
                     circleEntity.setNotice(etNotes.getText().toString().trim());
-                    addCircle(circleEntity, "");
+                    addCircle(circleEntity, personIds);
                 }
 
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data!=null&&resultCode==5){
+            Bundle bundle=data.getBundleExtra("bundle3");
+           personIds= bundle.getString("bundleIds");
         }
     }
 
@@ -86,6 +101,4 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
             }
         });
     }
-
-
 }
