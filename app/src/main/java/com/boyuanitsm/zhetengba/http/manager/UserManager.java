@@ -190,9 +190,9 @@ public class UserManager extends RequestManager{
             if ((obj.toString()).indexOf("createTime") != -1) {
                 obj.remove("createTime");
             }
-//            if ((obj.toString()).indexOf("username") != -1) {
-//                obj.remove("username");
-//            }
+            if ((obj.toString()).indexOf("username") != -1) {
+                obj.remove("username");
+            }
             if ((obj.toString()).indexOf("modifyTime") != -1) {
                 obj.remove("modifyTime");
             }
