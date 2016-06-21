@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.boyuanitsm.zhetengba">
+
     <permission
         android:name="com.boyuanitsm.zhetengba.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
@@ -14,7 +15,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -87,10 +88,11 @@
             android:name=".activity.MainAct"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide">
-
-        </activity>
-
+            android:theme="@style/horizontal_slide"></activity>
+        <!--引导页-->
+        <activity
+            android:name=".activity.GuideAct"
+            android:screenOrientation="portrait"></activity>
         <!--忘记密码界面-->
         <activity
             android:name=".activity.mine.FrogetpwdAct"
@@ -112,8 +114,9 @@
             android:name=".activity.publish.ScheduleAct"
             android:screenOrientation="portrait"></activity>
         <!--选择性别界面-->
-       <activity android:name=".activity.mine.SelectSexAct"
-           android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.mine.SelectSexAct"
+            android:screenOrientation="portrait"></activity>
         <!--个人资料界面-->
         <activity
             android:name=".activity.mine.PersonalmesAct"
@@ -143,7 +146,8 @@
             android:name=".activity.mine.MyColleitionAct"
             android:screenOrientation="portrait"></activity>
         <!--标签管理-->
-        <activity android:name=".activity.mine.LabelMangerAct"
+        <activity
+            android:name=".activity.mine.LabelMangerAct"
             android:screenOrientation="portrait"></activity>a
         <!--编辑界面-->
         <activity
@@ -174,12 +178,12 @@
             android:name=".activity.mess.ScanQrcodeAct"
             android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".activity.mess.PhoneAct"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity android:name=".activity.mess.CreateGroupAct"
-            android:screenOrientation="portrait"
-            ></activity>
+        <activity
+            android:name=".activity.mess.PhoneAct"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.mess.CreateGroupAct"
+            android:screenOrientation="portrait"></activity>
 
 
         <!-- 聊天相关-->
@@ -220,12 +224,12 @@
         <activity
             android:name=".chat.act.PickContactNoCheckboxActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
-            android:screenOrientation="portrait"
-            ></activity>
+        <activity
+            android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
+            android:screenOrientation="portrait"></activity>
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".chat.receiver.StartServiceReceiver">
@@ -334,16 +338,18 @@
             android:name=".activity.circle.CircleppAct"
             android:screenOrientation="portrait"></activity>
         <!--评论界面-->
-        <activity android:name=".activity.circle.CommentAct"
+        <activity
+            android:name=".activity.circle.CommentAct"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible"></activity>
         <!--简约界面-->
-        <activity android:name=".activity.ContractedAct"
+        <activity
+            android:name=".activity.ContractedAct"
             android:screenOrientation="portrait"></activity>
         <!--位置信息-->
         <!--<activity-->
-            <!--android:name=".activity.LocationAct"-->
-            <!--android:screenOrientation="portrait"></activity>-->
+        <!--android:name=".activity.LocationAct"-->
+        <!--android:screenOrientation="portrait"></activity>-->
         <!--管理圈子-->
         <activity
             android:name=".activity.circle.GLCirAct"
@@ -375,17 +381,21 @@
             android:name=".activity.mine.ClipActivity"
             android:screenOrientation="portrait"></activity>
         <!--活动详情-->
-        <activity android:name=".activity.circle.EventdetailsAct"
+        <activity
+            android:name=".activity.circle.EventdetailsAct"
             android:screenOrientation="portrait"></activity>
 
         <!--消息里面个人主页界面-->
-        <activity android:name=".activity.mess.PerpageAct"
+        <activity
+            android:name=".activity.mess.PerpageAct"
             android:screenOrientation="portrait"></activity>
         <!--添加图片选择界面-->
-        <activity android:name=".activity.photo.PicSelectActivity"
+        <activity
+            android:name=".activity.photo.PicSelectActivity"
             android:screenOrientation="portrait"></activity>
         <!--移除图片选择界面-->
-        <activity android:name=".activity.photo.ImageBrowserActivity"
+        <activity
+            android:name=".activity.photo.ImageBrowserActivity"
             android:screenOrientation="portrait"></activity>
 
         <!--dialog形式分享-->
@@ -398,25 +408,27 @@
         <!--###################友盟分享###############################-->
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
-            android:theme="@style/Theme.UMDefault"
-            android:excludeFromRecents="true"/>
-         <!--新浪微博-->
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.UMDefault" />
+        <!--新浪微博-->
         <activity
             android:name=".activity.wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!--扣扣和扣扣空间-->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent100424468" />
             </intent-filter>
         </activity>
@@ -429,7 +441,7 @@
         <activity
             android:name=".activity.wxapi.WBShareActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -438,40 +450,44 @@
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" >
-        </activity>
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"></activity>
+
         <service
             android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
         <!-- ###################添加UmengAppkey###################### -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="57429a29e0f55a470e001137" >
-        </meta-data>
+            android:value="57429a29e0f55a470e001137"></meta-data>
 
         <!--加好友验证界面-->
-        <activity android:name=".activity.mess.MessVerifyAct"
+        <activity
+            android:name=".activity.mess.MessVerifyAct"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="AddFriend"></action>
             </intent-filter>
         </activity>
         <!--圈子搜索界面-->
-        <activity android:name=".activity.circle.SerchCirAct"
+        <activity
+            android:name=".activity.circle.SerchCirAct"
             android:screenOrientation="portrait"></activity>
         <!--圈子二维码界面-->
-        <activity android:name=".activity.circle.CircleEr"
+        <activity
+            android:name=".activity.circle.CircleEr"
             android:screenOrientation="portrait"></activity>
         <!--圈子正文-->
-        <activity android:name=".activity.circle.CircleTextAct"
+        <activity
+            android:name=".activity.circle.CircleTextAct"
             android:screenOrientation="portrait"></activity>
         <!--测试listview-->
-        <activity android:name=".activity.TestListView"
+        <activity
+            android:name=".activity.TestListView"
             android:screenOrientation="portrait"></activity>
         <!--指定谁能看，不能看界面/邀请好友-->
-        <activity android:name=".activity.mine.AssignScanAct"
+        <activity
+            android:name=".activity.mine.AssignScanAct"
             android:screenOrientation="portrait"></activity>
 
 
@@ -479,18 +495,18 @@
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
-            android:theme="@style/MyDialogStyle"
-            android:exported="false">
-        </activity>
+            android:exported="false"
+            android:theme="@style/MyDialogStyle"></activity>
 
         <!-- Required SDK核心功能-->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.boyuanitsm.zhetengba" />
             </intent-filter>
@@ -499,8 +515,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -535,7 +550,8 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <!--Required  显示通知栏 -->
                 <category android:name="com.boyuanitsm.zhetengba" />
             </intent-filter>
             <intent-filter>
@@ -546,38 +562,51 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
 
         </receiver>
 
         <!-- Required SDK核心功能-->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false" />
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
             android:name="com.boyuanitsm.zhetengba.receiver.MyReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!--Required  用户注册SDK的intent-->
                 <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" /> <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!--Required  用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!--Required  用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!--Required  用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.boyuanitsm.zhetengba" />
             </intent-filter>
         </receiver>
 
 
         <!-- Required  . Enable it you can get statistics data with channel -->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="b80846c99d049f7e15fada5f" /> <!--  </>值来自开发者平台取得的AppKey-->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="b80846c99d049f7e15fada5f" />
+        <!--  </>值来自开发者平台取得的AppKey-->
 
     </application>
-
 
 
 </manifest>

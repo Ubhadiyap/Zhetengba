@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/yzm_btn"
+        android:gravity="center"
+        android:text="开始折腾"
+        android:textColor="@color/main_color"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+</RelativeLayout>
