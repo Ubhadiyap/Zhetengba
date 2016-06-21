@@ -68,7 +68,6 @@ public class MessManager extends RequestManager{
         doPost(IZtbUrl.ADD_FRIEND_CONTACT,map,callback);
     }
 
-//=======
     /**
      * 修改昵称
      * @param newNickName
@@ -91,5 +90,63 @@ public class MessManager extends RequestManager{
         map.put("remark",timeLength);
         map.put("personIds",personIds);
         doPost(IZtbUrl.ADD_GROUP_URL, map, callback);
+    }
+
+    /**
+     * 获取群成员列表
+     * @param groupId
+     * @param callback
+     */
+    public void getGroupMember(String groupId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("groupId",groupId);
+        doPost(IZtbUrl.GET_GROUP_MEMBER_URL, map, callback);
+    }
+
+    /**
+     * 移除群成员
+     * @param personIds 若当前登录用户为群主,当前用户的ID赋值给参数personIds,则为解散群
+     * @param callback
+     */
+    public void removeGroupPerson(String groupId,String personIds,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("groupId",groupId);
+        map.put("personIds",personIds);
+        doPost(IZtbUrl.REMOVE_GROUP_PERSON_URL,map,callback);
+    }
+
+    /**
+     * 退出群聊
+     * @param groupId
+     * @param callback
+     */
+    public void exitGroup(String groupId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("groupId",groupId);
+        doPost(IZtbUrl.EXIT_GROUP_URL, map, callback);
+    }
+
+    /**
+     * 删除好友
+     * @param friendId
+     * @param callback
+     */
+    public void deleteFriends(String friendId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("friendId",friendId);
+        doPost(IZtbUrl.REMOVE_FRIEND_URL, map, callback);
+    }
+
+    /**
+     * 增加群成员
+     * @param groupId
+     * @param personIds
+     * @param callback
+     */
+    public void addGroupMember(String groupId,String personIds,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("groupId",groupId);
+        map.put("personIds",personIds);
+        doPost(IZtbUrl.ADD_GROUP_MEMBER_URL,map,callback);
     }
 }

@@ -9,6 +9,8 @@ public interface IZtbUrl {
     //基础地址
     public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
     //测试
+//    public static final String BASE_URL = "http://172.16.5.202:8080/zhetengba/";
+
 
 //    public static final String BASE_URL = "http://172.16.5.202:8080/zhetengba/";
 //    /**=========登出地址==========**/
@@ -288,5 +290,16 @@ public interface IZtbUrl {
     //修改昵称
     String UPDATE_NICKNAME = BASE_URL + "message/login/modifyNickName.do";
     /*创建群聊*/
-    String ADD_GROUP_URL = BASE_URL + "message/login/addGroupChat.do";
+    String ADD_GROUP_URL=BASE_URL+"message/login/addGroupChat.do";
+    /*获取群成员列表*/
+    String GET_GROUP_MEMBER_URL=BASE_URL+"message/login/findGroupMember.do";
+    /*移除群组成员*/
+    String REMOVE_GROUP_PERSON_URL=BASE_URL+"message/login/removeUsersFromGroup.do";
+    /*退出群聊*/
+    String EXIT_GROUP_URL=BASE_URL+"message/login/removeFromGroup.do";
+    /*删除好友*/
+    String REMOVE_FRIEND_URL=BASE_URL+"message/login/removeFriend.do";
+    /*增加群成员*/
+    String ADD_GROUP_MEMBER_URL=BASE_URL+"message/login/addGroupMember";
+//    String ADD_GROUP_URL = BASE_URL + "message/login/addGroupChat.do";
 }

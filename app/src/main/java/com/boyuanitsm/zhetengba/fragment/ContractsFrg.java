@@ -111,25 +111,28 @@ public class ContractsFrg extends EaseContactListFragment {
         @Override
         public void onSyncComplete(final boolean success) {
             EMLog.d(TAG, "on contact list sync success:" + success);
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    getActivity().runOnUiThread(new Runnable(){
+            if(getActivity()!=null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        getActivity().runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            if(success){
-                                loadingView.setVisibility(View.GONE);
-                                refresh();
-                            }else{
-                                String s1 = getResources().getString(R.string.get_failed_please_check);
-                                Toast.makeText(getActivity(), s1,Toast.LENGTH_SHORT).show();
-                                loadingView.setVisibility(View.GONE);
+                            @Override
+                            public void run() {
+                                if (success) {
+                                    loadingView.setVisibility(View.GONE);
+                                    refresh();
+                                } else {
+                                    String s1 = getResources().getString(R.string.get_failed_please_check);
+                                    Toast.makeText(getActivity(), s1, Toast.LENGTH_SHORT).show();
+                                    loadingView.setVisibility(View.GONE);
+                                }
                             }
-                        }
 
-                    });
-                }
-            });
+                        });
+                    }
+                });
+            }
+
         }
     }
 

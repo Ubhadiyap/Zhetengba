@@ -21,6 +21,7 @@ import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.boyuanitsm.zhetengba.widget.DialogChoseDate;
 import com.hyphenate.easeui.adapter.EaseContactAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -43,6 +44,8 @@ public class CreateGroupAct extends BaseActivity {
     private ListView listView;
     @ViewInject(R.id.tvQun)
     private TextView tvQun;
+    @ViewInject(R.id.cetSearch)
+    private ClearEditText cetSearch;//搜索框
     private PickContactAdapter contactAdapter;
     private boolean isSignleChecked = false;
 
