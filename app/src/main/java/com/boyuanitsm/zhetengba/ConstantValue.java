@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba;
 
 
+import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 
@@ -42,4 +43,10 @@ public class ConstantValue {
     public final static int LABEL_VERSION =2;
     public final static Class<?>[] LABEL_MODELS = {UserInterestInfo.class};
     public final static String LABEL_DB_NAME = "userInterestInfo.db";
+    /**
+     * 个人兴趣标签版本
+     */
+    public final static int CIRCLE_VERSION =2;
+    public final static Class<?>[] CIRCLE_MODELS = {CircleInfo.class};
+    public final static String CIRCLE_DB_NAME = "circleinfo.db";
 }

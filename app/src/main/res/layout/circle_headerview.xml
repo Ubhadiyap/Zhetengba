@@ -19,13 +19,12 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:gravity="center_vertical">
-
+            <!--头像-->
             <com.boyuanitsm.zhetengba.view.CircleImageView
                 android:id="@+id/iv_ch_head"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/test_user" />
-
+                android:layout_height="40dp"/>
+                <!--昵称-->
             <TextView
                 android:id="@+id/tv_ch_niName"
                 android:layout_width="wrap_content"
@@ -33,17 +32,15 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:gravity="center"
-                android:text="甜蜜的小猫"
                 android:textColor="#666666"
                 android:textSize="14sp" />
-
+                <!--性别-->
             <ImageView
                 android:id="@+id/iv_ch_gendar"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/female" />
+                android:layout_marginStart="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

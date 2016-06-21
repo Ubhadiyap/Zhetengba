@@ -36,7 +36,7 @@ import java.util.List;
  * 频道界面
  * Created by xiaoke on 2016/5/2.
  */
-public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeListener,View.OnClickListener{
+public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private View view;//当前view
     private ViewPager vp_chan;//viewpager
     @ViewInject(R.id.ll_add)//添加textview；
@@ -52,12 +52,8 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
     private ArrayList<String> contentList;
     private ChaChildFrg chaChildFrg;//子fragment01
     private int currentPos;//当前位置
-    private int j = 0;
-    private String[] strList = new String[]{"足球", "摄影", "聚餐", "旅行"};//标签, "动漫","咖啡"
-    private int[] idList = new int[]{0, 1, 2, 3,};//与标签对应id
-@ViewInject(R.id.bt_plan)//发布按钮
-private Button bt_plan;
-
+    @ViewInject(R.id.bt_plan)//发布按钮
+    private Button bt_plan;
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.chanel_frg, null);
@@ -78,7 +74,6 @@ private Button bt_plan;
         mTitleMargin = dip2px(mActivity, 10);
         getMyLabels(-1);//获取我的兴趣标签
         //填充数据
-//        initDate();
         //设置viewPager滑动监听
         vp_chan.setOnPageChangeListener(this);
     }
@@ -87,35 +82,30 @@ private Button bt_plan;
     /***
      * 填充数据
      */
-    private void initDate(List<UserInterestInfo> titleList) {
-//        LabelInterestDao labelInterestDao=new LabelInterestDao(mActivity);
-//        titleList= labelInterestDao.getScrollData(0,-1);
+    private void initDate(List<UserInterestInfo> titleList) {;
         fragmentList = new ArrayList<>();
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
-//        LabelInterestDao labelInterestDao=new LabelInterestDao(mActivity);
-//        titleList= labelInterestDao.getScrollData(0,-1);
-//        titleList=LabelInterestDao.getInterestLabel();
-//=======
-//>>>>>>> e0c9c72e6156b72b12beead50bd6b4e441160e8b
         //设置fragmentlist
         //填充titleList,titleLayout布局
-        for (int i = 0; i < titleList.size(); i++) {
-            ChaChildFrg testFm = new ChaChildFrg().newInstance(contentList, i);
-            fragmentList.add(testFm);
-            addTitleLayout(titleList.get(i).getDictName(), i);
-        }
+            for (int i = 0; i < titleList.size(); i++) {
+                ChaChildFrg testFm = new ChaChildFrg().newInstance(contentList, i);
+                fragmentList.add(testFm);
+                addTitleLayout(titleList.get(i).getDictName(), i);
+            }
+
+
         //设置viewpager适配数据
         chaPagerAdapter = new ChaPagerAdapter(getChildFragmentManager(), fragmentList);
         chaPagerAdapter.setFragments(fragmentList);
         vp_chan.setAdapter(chaPagerAdapter);
         vp_chan.setOffscreenPageLimit(9);//一共加载9页，如果此处不指定，默认只加载相邻页，提前加载增加用户体验
-        if(textViewList!=null&&textViewList.size()>0) {
+        if (textViewList != null && textViewList.size() > 0) {
             textViewList.get(0).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
         }
         currentPos = 0;
         //设置频道标签id
-        ((MainAct)getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
+        ((MainAct) getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
         getActivity().sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
     }
 
@@ -186,9 +176,9 @@ private Button bt_plan;
         textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
         textViewList.get(position).setTextColor(Color.parseColor("#52C791"));
         currentPos = position;
-        ((MainAct)getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
+        ((MainAct) getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
         Intent intent = new Intent(ChaChildFrg.CHANNELTALKS);
-        intent.putExtra("flag",position);
+        intent.putExtra("flag", position);
         mActivity.sendBroadcast(intent);
         scrollView.scrollTo((int) moveToList.get(position), 0);
     }
@@ -198,15 +188,15 @@ private Button bt_plan;
 
     }
 
-    @OnClick({R.id.bt_plan,R.id.ll_add})
+    @OnClick({R.id.bt_plan, R.id.ll_add})
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt_plan:
-                Intent intent=new Intent(getActivity(),CirclefbAct.class);
-                intent.putExtra(CirclefbAct.TYPE,0);
-                intent.putExtra("labelId",titleList.get(currentPos).getInterestId());
-                intent.putExtra("flag",currentPos);
+                Intent intent = new Intent(getActivity(), CirclefbAct.class);
+                intent.putExtra(CirclefbAct.TYPE, 0);
+                intent.putExtra("labelId", titleList.get(currentPos).getInterestId());
+                intent.putExtra("flag", currentPos);
                 startActivity(intent);
                 break;
             case R.id.ll_add:
@@ -234,9 +224,10 @@ private Button bt_plan;
 
     /**
      * 获取我的兴趣标签
+     *
      * @param limitNum
      */
-    private void getMyLabels(int limitNum){
+    private void getMyLabels(int limitNum) {
         titleList = new ArrayList<>();
         RequestManager.getScheduleManager().selectMyLabels(null, limitNum, new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
             @Override
@@ -246,7 +237,7 @@ private Button bt_plan;
 
             @Override
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
-                titleList=response.getData();
+                titleList = response.getData();
                 initDate(titleList);
             }
         });
@@ -256,8 +247,8 @@ private Button bt_plan;
     @Override
     public void onStart() {
         super.onStart();
-        if (receiverTalk==null){
-            receiverTalk=new MyBroadCastReceiverTalk();
+        if (receiverTalk == null) {
+            receiverTalk = new MyBroadCastReceiverTalk();
             getActivity().registerReceiver(receiverTalk, new IntentFilter(MYLABELS));
         }
     }
@@ -265,13 +256,15 @@ private Button bt_plan;
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(receiverTalk!=null){
+        if (receiverTalk != null) {
             getActivity().unregisterReceiver(receiverTalk);
-            receiverTalk=null;
+            receiverTalk = null;
         }
     }
+
     private MyBroadCastReceiverTalk receiverTalk;
-    public static final String MYLABELS ="labels_update";
+    public static final String MYLABELS = "labels_update";
+
     private class MyBroadCastReceiverTalk extends BroadcastReceiver {
 
         @Override

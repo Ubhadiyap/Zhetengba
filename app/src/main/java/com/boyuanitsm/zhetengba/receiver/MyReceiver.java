@@ -4,9 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.bean.CircleInfo;
+import com.boyuanitsm.zhetengba.db.CircleMessDao;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,21 +35,32 @@ public class MyReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
 		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
-		
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
             //send the Registration Id to your server...
-                        
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
         	Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
 //        	processCustomMessage(context, bundle);
         
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-            Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
+			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
-        	
+			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+				try {
+					JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
+					String type = json.getString("type");//解析单个
+					String commentContent = json.getString("commentContent");//解析单个
+					Log.d(TAG, "------------------------------------commentContent" + commentContent);
+					if (TextUtils.equals(type,"2")){
+						Gson gson = new Gson();
+						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
+						CircleMessDao.saveCircleMess(circleInfo);
+						MyLogUtils.info(CircleMessDao.getCircleUser().toString()+"数据库内容");
+					}
+				} catch (JSONException e) {
+			}
+
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             
@@ -51,16 +68,16 @@ public class MyReceiver extends BroadcastReceiver {
         	Intent i = new Intent(context, MainAct.class);
         	i.putExtras(bundle);
         	//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         	context.startActivity(i);
         	
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
-            Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+			Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
             //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
         	
         } else if(JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
         	boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
-        	Log.w(TAG, "[MyReceiver]" + intent.getAction() +" connected state change to "+connected);
+        	Log.w(TAG, "[MyReceiver]" + intent.getAction() + " connected state change to " + connected);
         } else {
         	Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
         }
@@ -83,6 +100,9 @@ public class MyReceiver extends BroadcastReceiver {
 				try {
 					JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
 					Iterator<String> it =  json.keys();
+//					Gson gson = new Gson();
+//					CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);
+					Log.e(TAG, json.toString());
 
 					while (it.hasNext()) {
 						String myKey = it.next().toString();

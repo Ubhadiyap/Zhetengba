@@ -70,12 +70,11 @@
             android:id="@+id/ll_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+        <!--内容-->
         <TextView
             android:id="@+id/tv_content"
             android:textColor="#333333"
             android:textSize="16sp"
-            android:text="没有人会理会你的委屈，没有人会理会你的无奈。当一切既定成为现实的时候，要学会接受，接受所有的不公平。 当有人背信弃义时，你的指责能改变它吗？不能！那么就接受吧！全当是一种教训。"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -139,7 +138,7 @@
             </LinearLayout>
             <com.boyuanitsm.zhetengba.view.CustomImageView
                 android:id="@+id/iv_oneimage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 

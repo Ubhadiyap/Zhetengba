@@ -19,6 +19,8 @@ public class ShUtils {
 	private static DBOpenHelp dbOpenHelp;
 	private static SmartDBHelper labelDbHelper;
 	private static DBOpenHelp labelDbOpenHelp;
+	private static SmartDBHelper circleDbHelper;
+	private static DBOpenHelp circleDbOpenHelper;
 	public static Context getApplicationContext(){
 		return getApplication().getApplicationContext();
 	}
@@ -50,6 +52,19 @@ public class ShUtils {
 			labelDbOpenHelp=new DBOpenHelp(getApplicationContext());
 		}
 		return labelDbOpenHelp;
+	}
+	public static SmartDBHelper getCircleDbhelper(){
+		if(circleDbHelper==null){
+			circleDbHelper=new SmartDBHelper(getApplicationContext(),
+					ConstantValue.CIRCLE_DB_NAME,null,ConstantValue.CIRCLE_VERSION,ConstantValue.CIRCLE_MODELS);
+		}
+		return circleDbHelper;
+	}
+	public static DBOpenHelp getCircleDbOpenHelper(){
+		if (circleDbOpenHelper==null){
+			circleDbOpenHelper=new DBOpenHelp(getApplicationContext());
+		}
+		return circleDbOpenHelper;
 	}
 	
 	public static MyApplication getApplication(){
