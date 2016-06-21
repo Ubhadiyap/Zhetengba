@@ -26,6 +26,7 @@ import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
@@ -210,7 +211,8 @@ public class ChanAdapter extends BaseAdapter {
                 }
             }
             if(!TextUtils.isEmpty(list.get(position).getCreateTiem())){
-                viewHolder.tv_time.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTiem())));
+//                ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTiem()))
+                viewHolder.tv_time.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTiem())));
             }
             if(!TextUtils.isEmpty(list.get(position).getChannelContent())){
                 viewHolder.tv_content.setText(list.get(position).getChannelContent());

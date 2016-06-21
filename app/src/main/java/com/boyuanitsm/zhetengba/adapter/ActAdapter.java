@@ -174,7 +174,7 @@ public class ActAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(infos.get(position).getUserSex())){
             if (infos.get(position).getUserSex().equals(1+"")) {
                 viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
-            } else {
+            } else if (infos.get(position).getUserSex().equals(0+"")){
                 viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));//用户性别
             }
         }

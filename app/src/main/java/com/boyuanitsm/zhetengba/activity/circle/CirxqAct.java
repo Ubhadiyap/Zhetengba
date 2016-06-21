@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
@@ -62,7 +63,7 @@ public class CirxqAct extends BaseActivity {
     private CircleEntity circleEntity;//圈子实体
     private List<MemberEntity> userList;//圈子成员集合
     private List<CircleEntity> circleEntityList;//该圈子说说列表
-
+    private String personIds;//存储邀请用户id
 //    @ViewInject(R.id.head)
     private CircleImageView head;//头像
 //    @ViewInject(R.id.tv_qz)
@@ -99,6 +100,7 @@ public class CirxqAct extends BaseActivity {
     @Override
     public void setLayout() {
         setContentView(R.layout.act_cirxq);
+        AppManager.getAppManager().addActivity(this);
 
     }
 
@@ -260,7 +262,13 @@ public class CirxqAct extends BaseActivity {
                     public void onItemClick(View view, int position) {
                         if (userList.size() <= 4) {
                             if (position == userList.size()) {
-                                openActivity(AssignScanAct.class);
+                                Intent  intent = new Intent();
+                                Bundle bundle=new Bundle();
+                                String str3="circleFriend";
+                                bundle.putString("can", str3);
+                                intent.putExtras(bundle);
+                                intent.setClass(CirxqAct.this, AssignScanAct.class);
+                                startActivityForResult(intent, 6);
                             }else {
                                 if (position == (userList.size()+1)) {
                                     Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
@@ -276,7 +284,13 @@ public class CirxqAct extends BaseActivity {
                                 intent.putExtra("isQuanzhu",isQuanzhu);
                                 startActivity(intent);
                             } else if (position == 4) {
-                                openActivity(AssignScanAct.class);
+                                Intent  intent = new Intent();
+                                Bundle bundle=new Bundle();
+                                String str3="circleFriend";
+                                bundle.putString("can", str3);
+                                intent.putExtras(bundle);
+                                intent.setClass(CirxqAct.this, AssignScanAct.class);
+                                startActivityForResult(intent, 6);
                             }
                         }
                     }
@@ -285,6 +299,15 @@ public class CirxqAct extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data!=null&&resultCode==6){
+            Bundle bundle=data.getBundleExtra("bundle3");
+            personIds= bundle.getString("bundleIds");
+            inviteFriendToCircle(circleId,personIds);
+        }
+    }
 
     private List<CircleEntity> datas=new ArrayList<>();
 
@@ -337,6 +360,24 @@ public class CirxqAct extends BaseActivity {
     }
 
 
+    /**
+     * 邀请好友加入圈子接口
+     * @param circleId
+     * @param personIds
+     */
+    private void inviteFriendToCircle(String circleId,String personIds){
+        RequestManager.getTalkManager().inviteFriendToCircle(circleId, personIds, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+
+            }
+        });
+    }
 
     @Override
     protected void onStart() {

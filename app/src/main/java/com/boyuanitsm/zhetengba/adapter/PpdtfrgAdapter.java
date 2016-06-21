@@ -49,6 +49,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
     ViewHolder viewHolder = null;
     int clickPos;
     private boolean flag;
+    private String circleId;//说说id
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -210,10 +211,10 @@ public class PpdtfrgAdapter extends BaseAdapter {
             }
             if (circleTalkEntityList.get(position).getLiked()==1){
                 viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan_b));
-                flag=true;
+//                flag=true;
             }else if (circleTalkEntityList.get(position).getLiked()==0){
                 viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan));
-                flag=false;
+//                flag=false;
             }
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleTalkEntityList.get(position).getUserIcon()),viewHolder.ivChHead,optionsImag);
             if (!TextUtils.isEmpty(circleTalkEntityList.get(position).getUserSex())){
@@ -258,11 +259,20 @@ public class PpdtfrgAdapter extends BaseAdapter {
         viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+//                clickPos = position;
+//                channelId = list.get(position).getId();
+//                if (0==list.get(position).getLiked()) {
+//                    addChannelLike(channelId);
+//                } else if (1==list.get(position).getLiked()){
+//                    removeChannelLike(channelId);
+//                }
                 clickPos=position;
-                if (flag==false){
-                    addCircleLike(circleTalkEntityList.get(position).getId());
-                }else if (flag==true){
-                    removeCircleLike(circleTalkEntityList.get(position).getId());
+                circleId=circleTalkEntityList.get(position).getId();
+                if (0==circleTalkEntityList.get(position).getLiked()){
+                    addCircleLike(circleId);
+                }else if (1==circleTalkEntityList.get(position).getLiked()){
+                    removeCircleLike(circleId);
                 }
             }
         });
@@ -335,8 +345,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                flag=true;
-                circleTalkEntityList.get(clickPos).setLikedCounts(circleTalkEntityList.get(clickPos).getLikedCounts()+1);
+                circleTalkEntityList.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 circleTalkEntityList.get(clickPos).setLiked(1);
                 notifyDataSetChanged();
             }

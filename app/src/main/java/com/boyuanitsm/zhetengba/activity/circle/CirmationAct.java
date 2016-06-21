@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -16,6 +17,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -73,7 +75,7 @@ public class CirmationAct extends BaseActivity {
 
                 break;
             case R.id.tv_tc://圈子退出
-                exitCircle(circleEntity.getId());
+            exitCircle(circleEntity.getId());
 //                Toast.makeText(getApplicationContext(),"hah",Toast.LENGTH_SHORT).show();
 
                 break;
@@ -94,6 +96,12 @@ public class CirmationAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                if (!TextUtils.isEmpty(circleEntity.getCircleOwnerId())) {
+                    if (circleEntity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())) {
+                        AppManager.getAppManager().finishActivity(CirxqAct.class);
+                        MyToastUtils.showShortToast(CirmationAct.this,"圈子已经解散！");
+                    }
+                }
                 finish();
                 sendBroadcast(new Intent(CircleglAct.INTENTFLAG));
             }

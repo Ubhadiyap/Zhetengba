@@ -26,7 +26,7 @@ public class ScheduleInfo implements Parcelable {
     private String userName;
     private String userIcon;//用户头像
     private String userNm;//用户昵称
-    private String userSex;//用户性别
+    private String userSex;//用户性别男士1，女士0
     private String dictName;//标签名称
 
     public String getNoticeUserIds() {

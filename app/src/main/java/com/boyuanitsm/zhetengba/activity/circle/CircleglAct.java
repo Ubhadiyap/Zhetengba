@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,6 +18,7 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
@@ -47,8 +49,23 @@ public class CircleglAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("圈子管理");
-        getCircleList(null,page, rows);
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        if (bundle!=null){
+            String ppuserId=bundle.getString("PPuserId");
+            if (!TextUtils.isEmpty(ppuserId)) {
+                if (ppuserId.equals(UserInfoDao.getUser().getId())) {
+                    setTopTitle("圈子管理");
+                    getCircleList(null, page, rows);
+                } else {
+                    setTopTitle("TA的圈子");
+                    getCircleList(ppuserId, page, rows);
+                }
+            }
+        }else {
+            setTopTitle("圈子管理");
+            getCircleList(null,page,rows);
+        }
         lv_circlegl.setPullRefreshEnabled(true);//下拉刷新
         lv_circlegl.setScrollLoadEnabled(true);//滑动加载
         lv_circlegl.setPullLoadEnabled(false);//上拉刷新

@@ -64,7 +64,7 @@ public class CalFrg extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             page=1;
-            state=intent.getIntExtra("state",0);
+            state=intent.getIntExtra("state",state);
             if (state==1){
                 getScheduleList(page, rows);
             }else {
@@ -132,7 +132,7 @@ public class CalFrg extends BaseFragment {
     public void onResume() {
         //广播接收者，接受好友列表更新数据
         filter=new IntentFilter();
-        filter.addAction(ConstantValue.DATA_CHANGE_KEY);
+        filter.addAction(ConstantValue.CAL_DATA_CHANGE_KEY);
         mActivity.registerReceiver(calFriendChangeRecevier, filter);//切换到好友；
         super.onResume();
     }

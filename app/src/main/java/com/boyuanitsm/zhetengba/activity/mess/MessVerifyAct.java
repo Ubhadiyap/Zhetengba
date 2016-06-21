@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.hyphenate.chat.EMClient;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -37,9 +38,10 @@ public class MessVerifyAct extends BaseActivity {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         userId=bundle.getString("userId");
+        MyLogUtils.info(userId+"用户id");
         userName=bundle.getString("userName");
         setTopTitle(userName);
-        hUserName="18217077027";
+        hUserName=userId;
     }
     //调用添加好友接口
 
@@ -60,6 +62,7 @@ public class MessVerifyAct extends BaseActivity {
         if(EMClient.getInstance().getCurrentUser().equals(hUserName)){
             new MyAlertDialog(this).builder().setTitle("提示").setMsg(getResources().
                     getString(R.string.not_add_myself)).setNegativeButton("确定", null).show();
+            finish();
             return;
         }
 
@@ -68,10 +71,16 @@ public class MessVerifyAct extends BaseActivity {
             if(EMClient.getInstance().contactManager().getBlackListUsernames().contains(hUserName)){
                 new MyAlertDialog(this).builder().setTitle("提示").setMsg(getResources().
                         getString(R.string.user_already_in_contactlist)).setNegativeButton("确定", null).show();
+                finish();
                 return;
             }
             new MyAlertDialog(this).builder().setTitle("提示").setMsg(getResources().
-                    getString(R.string.This_user_is_already_your_friend)).setNegativeButton("确定", null).show();
+                    getString(R.string.This_user_is_already_your_friend)).setNegativeButton("确定", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            }).show();
             return;
         }
 
@@ -80,6 +89,7 @@ public class MessVerifyAct extends BaseActivity {
         progressDialog.setMessage(stri);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
+        finish();
 
         new Thread(new Runnable() {
             public void run() {

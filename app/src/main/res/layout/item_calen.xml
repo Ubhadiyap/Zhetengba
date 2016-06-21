@@ -18,19 +18,19 @@
             android:orientation="horizontal"
             android:paddingLeft="15dp">
 
+            <!--头像-->
             <com.boyuanitsm.zhetengba.view.CircleImageView
                 android:id="@+id/iv_icon"
                 android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/test_user"/>
+                android:layout_height="30dp"/>
 
+            <!--昵称-->
             <TextView
                 android:id="@+id/tv_Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="甜蜜的小猫"
                 style="@style/MainAct_simple_cale_Text" />
 
             <ImageView

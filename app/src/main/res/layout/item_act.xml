@@ -33,6 +33,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"/>
 
+                <!--昵称-->
                 <TextView
                     android:id="@+id/tv_niName"
                     android:layout_width="wrap_content"
@@ -40,17 +41,16 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:gravity="center"
-                    android:text="甜蜜的小猫"
                     android:textColor="#5fa67d"
                     android:textSize="12sp" />
 
+                <!--性别-->
                 <ImageView
                     android:id="@+id/iv_gender"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/female" />
+                    android:layout_marginStart="10dp" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_show"
@@ -66,14 +66,13 @@
             android:layout_height="match_parent"
             android:paddingLeft="55dp">
 
+            <!--活动主题-->
             <TextView
                 android:id="@+id/tv_hdtheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center_vertical"
-
-                android:text="下午一起去苏浙汇吃饭"
                 android:textColor="@color/one_color"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -105,13 +104,13 @@
                         android:layout_height="15dp"
                         android:src="@drawable/location" />
 
+                    <!--活动地点-->
                     <TextView
                         android:id="@+id/tv_loaction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:paddingStart="10dp"
-                        android:text="汤全国际"
                         android:textColor="@color/simple_item_loaction"
                         android:textSize="12sp" />
                     <TextView
@@ -132,12 +131,12 @@
                         android:layout_height="16dp"
                         android:background="@drawable/time" />
 
+                    <!--活动时间-->
                     <TextView
                         android:id="@+id/tv_date"
                         style="@style/MainAct_simple_Text"
                         android:paddingLeft="10dp"
-                        android:paddingStart="10dp"
-                        android:text="3月6日 15：00—18：30" />
+                        android:paddingStart="10dp" />
                 </LinearLayout>
 
 

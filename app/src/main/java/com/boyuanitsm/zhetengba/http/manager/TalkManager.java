@@ -36,6 +36,23 @@ public class TalkManager extends RequestManager{
         doPost(IZtbUrl.CREATE_CIRCLE_URL,map,callBack);
     }
 
+    /**
+     * 建立圈子邀请好友加入
+     * @param circleId
+     * @param userIds
+     * @param callback
+     */
+
+    public void inviteFriendToCircle(String circleId,String userIds,ResultCallback callback){
+        Map<String ,String> map=new HashMap<>();
+        if (!TextUtils.isEmpty(circleId)){
+            map.put("circleId",circleId);
+        }
+        if (!TextUtils.isEmpty(userIds)){
+            map.put("userIds",userIds);
+        }
+        doPost(IZtbUrl.INVITE_FRIEND_TOCIRCLE_URL,map,callback);
+    }
 
     /**
      * 我的圈子列表
