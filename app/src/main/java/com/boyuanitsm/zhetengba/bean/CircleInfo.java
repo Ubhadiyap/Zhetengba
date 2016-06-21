@@ -21,9 +21,9 @@ public class CircleInfo implements Parcelable{
     @Column
     private String  createTime;//创建时间
     @Column
-    private int messtype;//1评论了我，赞了我2.邀请，拒绝，接受3.同意拒绝提示，分享了，
+    private String messtype;//1评论了我，赞了我2.邀请，拒绝，接受3.同意拒绝提示，分享了，
     @Column
-    private int messageState;//1评论我，2，赞我// 1请求加入，2，邀请加入，//  1同意了请求，2，拒绝了请求，3，分享了圈子
+    private String messageState;//1评论我，2，赞我// 1请求加入，2，邀请加入，//  1同意了请求，2，拒绝了请求，3，分享了圈子
     @Column
     private String circleName;//圈子名称
     @Column
@@ -63,19 +63,19 @@ public class CircleInfo implements Parcelable{
         this.createTime = createTime;
     }
 
-    public int getMesstype() {
+    public String getMesstype() {
         return messtype;
     }
 
-    public void setMesstype(int messtype) {
+    public void setMesstype(String messtype) {
         this.messtype = messtype;
     }
 
-    public int getMessageState() {
+    public String getMessageState() {
         return messageState;
     }
 
-    public void setMessageState(int messageState) {
+    public void setMessageState(String messageState) {
         this.messageState = messageState;
     }
 
@@ -103,29 +103,6 @@ public class CircleInfo implements Parcelable{
         this.commentTalk = commentTalk;
     }
 
-    public static Creator<CircleInfo> getCREATOR() {
-        return CREATOR;
-    }
-
-    @Override
-    public String toString() {
-        return "CircleInfo{" +
-                "userId='" + userId + '\'' +
-                ", userIcon='" + userIcon + '\'' +
-                ", petName='" + petName + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", messtype=" + messtype +
-                ", messageState=" + messageState +
-                ", circleName='" + circleName + '\'' +
-                ", commentContent='" + commentContent + '\'' +
-                ", commentTalk='" + commentTalk + '\'' +
-                '}';
-    }
-
-
-    public CircleInfo() {
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -133,38 +110,6 @@ public class CircleInfo implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.userId);
-        dest.writeString(this.userIcon);
-        dest.writeString(this.petName);
-        dest.writeString(this.createTime);
-        dest.writeInt(this.messtype);
-        dest.writeInt(this.messageState);
-        dest.writeString(this.circleName);
-        dest.writeString(this.commentContent);
-        dest.writeString(this.commentTalk);
+
     }
-
-    protected CircleInfo(Parcel in) {
-        this.userId = in.readString();
-        this.userIcon = in.readString();
-        this.petName = in.readString();
-        this.createTime = in.readString();
-        this.messtype = in.readInt();
-        this.messageState = in.readInt();
-        this.circleName = in.readString();
-        this.commentContent = in.readString();
-        this.commentTalk = in.readString();
-    }
-
-    public static final Creator<CircleInfo> CREATOR = new Creator<CircleInfo>() {
-        @Override
-        public CircleInfo createFromParcel(Parcel source) {
-            return new CircleInfo(source);
-        }
-
-        @Override
-        public CircleInfo[] newArray(int size) {
-            return new CircleInfo[size];
-        }
-    };
 }
