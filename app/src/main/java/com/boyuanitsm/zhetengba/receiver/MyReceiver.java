@@ -47,8 +47,10 @@ public class MyReceiver extends BroadcastReceiver {
 			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
 			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+			String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的内容: " + extra);
 				try {
-					JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
+					JSONObject json = new JSONObject(extra);
 					String type = json.getString("type");//解析单个
 					String commentContent = json.getString("commentContent");//解析单个
 					Log.d(TAG, "------------------------------------commentContent" + commentContent);

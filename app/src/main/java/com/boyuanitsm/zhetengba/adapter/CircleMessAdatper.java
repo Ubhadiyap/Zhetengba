@@ -130,7 +130,7 @@ public class CircleMessAdatper extends BaseAdapter {
                     if (circleInfoList.get(position).getMessageState() == 1) {
                         holder1.tv_huifu.setText("评论“我”："+circleInfoList.get(position).getCommentContent());
                     } else if (circleInfoList.get(position).getMessageState() == 2) {
-                        holder1.tv_huifu.setText("赞了“我”的状态！");
+                        holder1.tv_huifu.setText("赞了“我”的状态!");
                     }
                     convertView.setTag(holder1);
                     break;
