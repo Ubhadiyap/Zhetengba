@@ -123,11 +123,6 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
 
         getCircleCommentsList(circleId, page, rows);
 
-//        initDate();
-//        adapter = new ChaTextAdapter(this);//评论列表
-//        my_lv.setAdapter(adapter);
-//        sl_chanel.smoothScrollTo(0, 0);
-
         my_lv.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -165,6 +160,13 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             if (!TextUtils.isEmpty(entity.getUserIcon())){
                 ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getUserIcon()),head,optionsImag);
             }
+            if (!TextUtils.isEmpty(entity.getUserSex())){
+                if (entity.getUserSex().equals(1+"")){
+                    sex.setImageResource(R.drawable.male);
+                }else if (entity.getUserSex().equals(0+"")){
+                    sex.setImageResource(R.drawable.female);
+                }
+            }
             if (!TextUtils.isEmpty(entity.getCircleName())){
                 cirType.setText(entity.getCircleName());
             }
@@ -175,7 +177,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 name.setText(str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
             }
             if(!TextUtils.isEmpty(entity.getCreateTime())){
-                time.setText(ZtinfoUtils.timeToDate(Long.parseLong(entity.getCreateTime())));
+                time.setText(ZtinfoUtils.timeChange(Long.parseLong(entity.getCreateTime())));
             }
             if(!TextUtils.isEmpty(entity.getTalkContent())){
                 content.setText(entity.getTalkContent());
@@ -189,8 +191,6 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         }
     }
     private void assignView(View view) {
-//        my_lv = (MyListView) findViewById(R.id.my_lv);
-//        sl_chanel = (ScrollView) findViewById(R.id.sl_chanel);
         llphoto= (LinearLayout) view.findViewById(R.id.llphoto);
         head= (CircleImageView) view.findViewById(R.id.iv_ch_head);//头像
         name= (TextView) view.findViewById(R.id.tv_ch_niName);//姓名

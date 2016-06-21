@@ -37,20 +37,7 @@ import java.util.List;
  * Created by xiaoke on 2016/5/2.
  */
 public class CirFrg extends Fragment {
-    private int[] icons = {R.drawable.test_banner, R.drawable.test_chanel, R.drawable.test_chanel, R.drawable.test_chanel};
     private List<List<ImageInfo>> datalist;
-    private String[][] images=new String[][]{{
-            ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL2,"1624","914"}
-            ,{ConstantValue.IMAGEURL3,"1624","914"}
-            ,{ConstantValue.IMAGEURL4,"250","250"}
-            ,{ConstantValue.IMAGEURL5,"250","250"}
-            ,{ConstantValue.IMAGEURL4,"250","250"}
-            ,{ConstantValue.IMAGEURL3,"250","250"}
-            ,{ConstantValue.IMAGEURL5,"1280","800"}
-    };
-
     private List<CircleEntity> circleEntityList;
 
     private PullToRefreshListView lv_cir;
@@ -84,22 +71,6 @@ public class CirFrg extends Fragment {
         return view;
     }
 
-
-    private void initData() {
-        datalist=new ArrayList<>();
-        //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
-        ArrayList<ImageInfo> singleList=new ArrayList<>();
-        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-        datalist.add(singleList);
-        //从一到9生成9条朋友圈内容，分别是1~9张图片
-        for(int i=0;i<9;i++){
-            ArrayList<ImageInfo> itemList=new ArrayList<>();
-            for(int j=0;j<=i;j++){
-                itemList.add(new ImageInfo(images[j][0],Integer.parseInt(images[j][1]),Integer.parseInt(images[j][2])));
-            }
-            datalist.add(itemList);
-        }
-    }
 
     private List<CircleEntity> datas=new ArrayList<>();
     /**
@@ -140,7 +111,7 @@ public class CirFrg extends Fragment {
                     if(!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
                         String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
                         for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(Uitls.imageFullUrl(urlList[i]), 1624, 914));
+                            itemList.add(new ImageInfo(urlList[i], 1624, 914));
                         }
                     }
                     datalist.add(itemList);

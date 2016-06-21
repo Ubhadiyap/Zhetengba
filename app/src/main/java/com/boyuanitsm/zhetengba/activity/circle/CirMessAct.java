@@ -12,6 +12,7 @@ import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
 import com.boyuanitsm.zhetengba.adapter.CircleMessAdatper;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
+import com.boyuanitsm.zhetengba.db.CircleMessDao;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -57,12 +58,7 @@ public class CirMessAct extends BaseActivity {
         //初始化刷新列表
         LayoutHelperUtil.freshInit(lv_cir_mess);
         lv_cir_mess.getRefreshableView().setDivider(null);
-        for (int i = 1; i <= 3; i++) {
-            info = new CircleInfo();
-            info.setType(i);
-            info.setState(i);
-            list.add(info);
-        }
+       list= CircleMessDao.getCircleUser();
         CircleMessAdatper adapter = new CircleMessAdatper(CirMessAct.this, list);
         lv_cir_mess.getRefreshableView().setAdapter(adapter);
 //        lv_cir_mess.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {

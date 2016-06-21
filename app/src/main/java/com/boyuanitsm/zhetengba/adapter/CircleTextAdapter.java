@@ -32,7 +32,6 @@ public class CircleTextAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-//    private String[] str=new String[]{"小明","小红","小红","小红","小红","小红","小红"};
     public CircleTextAdapter(Context context){
         this.context=context;
     }
@@ -83,7 +82,7 @@ public class CircleTextAdapter extends BaseAdapter {
                 chaHolder.tv_name.setText(str.substring(0, 3) + "***" + str.substring(str.length() - 3, str.length()));
             }
             if(!TextUtils.isEmpty(list.get(position).getCommentTime())){
-                chaHolder.time.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCommentTime())));
+                chaHolder.time.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCommentTime())));
             }
             if(!TextUtils.isEmpty(list.get(position).getCommentContent())){
                 chaHolder.content.setText(list.get(position).getCommentContent());

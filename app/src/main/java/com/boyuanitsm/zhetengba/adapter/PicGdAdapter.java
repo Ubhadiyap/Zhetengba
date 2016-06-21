@@ -9,6 +9,8 @@ import android.widget.ImageView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -60,7 +62,7 @@ public class PicGdAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
        convertView= View.inflate(context, R.layout.item_pic_gd, null);
         CustomImageView iv_chanel_pic = (CustomImageView) convertView.findViewById(R.id.iv_chanel_pic);
-        ImageLoader.getInstance().displayImage(list.get(position).getUrl(),iv_chanel_pic,optionsImag);
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUrl()),iv_chanel_pic,optionsImag);
         iv_chanel_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
 import com.boyuanitsm.zhetengba.utils.Uitls;
@@ -132,7 +133,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            handlerOneImage(viewHolder, itemList.get(0));
+            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage );
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -144,14 +145,10 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
-//            viewHolder.iv_two_one.setImageUrl(itemList.get(0).getUrl());
-//            viewHolder.iv_two_two.setImageUrl(itemList.get(1).getUrl());
-//            viewHolder.iv_two_three.setImageUrl(itemList.get(2).getUrl());
-//            viewHolder.iv_two_four.setImageUrl(itemList.get(3).getUrl());
-            ImageLoader.getInstance().displayImage(itemList.get(0).getUrl(), viewHolder.iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(1).getUrl(), viewHolder.iv_two_two, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(2).getUrl(), viewHolder.iv_two_three, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(3).getUrl(), viewHolder.iv_two_four, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_two_one, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(1).getUrl()), viewHolder.iv_two_two, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(2).getUrl()), viewHolder.iv_two_three, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(3).getUrl()), viewHolder.iv_two_four, optionsImag);
             viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -259,7 +256,7 @@ public class ChanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PerpageAct.class);
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putString("userId", list.get(position).getCreatePersonId());
 //                bundle.putBoolean("friend",list.get(position).isFriend());
                 intent.putExtras(bundle);
@@ -273,9 +270,9 @@ public class ChanAdapter extends BaseAdapter {
             public void onClick(View v) {
                 clickPos = position;
                 channelId = list.get(position).getId();
-                if (0==list.get(position).getLiked()) {
+                if (0 == list.get(position).getLiked()) {
                     addChannelLike(channelId);
-                } else if (1==list.get(position).getLiked()){
+                } else if (1 == list.get(position).getLiked()) {
                     removeChannelLike(channelId);
                 }
             }
@@ -329,36 +326,6 @@ public class ChanAdapter extends BaseAdapter {
 
 
     }
-
-    private void handlerOneImage(CaViewHolder viewHolder, ImageInfo image) {
-        int totalWidth;
-        int imageWidth;
-        int imageHeight;
-        ScreenTools screentools = ScreenTools.instance(context);
-        totalWidth = screentools.getScreenWidth() - screentools.dip2px(80);
-        imageWidth = screentools.dip2px(image.getWidth());
-        imageHeight = screentools.dip2px(image.getHeight());
-        if (image.getWidth() <= image.getHeight()) {
-            if (imageHeight > totalWidth) {
-                imageHeight = totalWidth;
-                imageWidth = (imageHeight * image.getWidth()) / image.getHeight();
-            }
-        } else {
-            if (imageWidth > totalWidth) {
-                imageWidth = totalWidth;
-                imageHeight = (imageWidth * image.getHeight()) / image.getWidth();
-            }
-        }
-        ViewGroup.LayoutParams layoutparams = viewHolder.iv_oneimage.getLayoutParams();
-        layoutparams.height = imageHeight;
-        layoutparams.width = imageWidth;
-        viewHolder.iv_oneimage.setLayoutParams(layoutparams);
-        viewHolder.iv_oneimage.setClickable(true);
-        viewHolder.iv_oneimage.setScaleType(ImageView.ScaleType.FIT_XY);
-        viewHolder.iv_oneimage.setImageUrl(image.getUrl());
-
-    }
-
     /**
      * 点赞
      * @param channelId
