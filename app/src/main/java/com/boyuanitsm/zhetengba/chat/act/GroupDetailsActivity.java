@@ -439,13 +439,19 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 			@Override
 			public void onResponse(ResultBean<String> response) {
-				runOnUiThread(new Runnable() {
-					public void run(){
-						refreshMembers();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						runOnUiThread(new Runnable() {
+							public void run(){
+								refreshMembers();
 //						((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
-						progressDialog.dismiss();
+								progressDialog.dismiss();
+							}
+						});
 					}
-				});
+				}).start();
+
 			}
 		});
 
@@ -756,15 +762,26 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							@Override
 							public void onResponse(String response) {
 								isInDeleteMode = false;
-								runOnUiThread(new Runnable() {
+								deleteDialog.dismiss();
+								refreshMembers();
+//								new Thread(new Runnable() {
+//									@Override
+//									public void run() {
+//
+//										runOnUiThread(new Runnable() {
+//
+//											@Override
+//											public void run() {
+//												deleteDialog.dismiss();
+//												refreshMembers();
+////												((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() );
+//											}
+//										});
+//									}
+//								}).start();
 
-									@Override
-									public void run() {
-										deleteDialog.dismiss();
-										refreshMembers();
-										((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() );
-									}
-								});
+
+
 							}
 						});
 //						new Thread(new Runnable() {
@@ -994,7 +1011,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 						easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
 						uList.add(easeUser);
 					}
-					if(uList!=null)
+					if(uList!=null&&uList.size()>0)
 					DemoHelper.getInstance().updateContactList(uList);
 				}
 				List<String> members = new ArrayList<String>();

@@ -300,6 +300,6 @@ public interface IZtbUrl {
     /*删除好友*/
     String REMOVE_FRIEND_URL=BASE_URL+"message/login/removeFriend.do";
     /*增加群成员*/
-    String ADD_GROUP_MEMBER_URL=BASE_URL+"message/login/addGroupMember";
+    String ADD_GROUP_MEMBER_URL=BASE_URL+"message/login/addGroupMember.do";
 //    String ADD_GROUP_URL = BASE_URL + "message/login/addGroupChat.do";
 }
