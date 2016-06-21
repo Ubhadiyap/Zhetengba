@@ -29,6 +29,7 @@ import com.boyuanitsm.zhetengba.chat.utils.PreferenceManager;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMContactListener;
@@ -55,6 +56,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseNotifier;
 import com.hyphenate.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
@@ -584,7 +586,8 @@ public class DemoHelper {
             msg.setFrom(inviter);
             msg.setTo(groupId);
             msg.setMsgId(UUID.randomUUID().toString());
-            msg.addBody(new EMTextMessageBody(inviter + " " + st3));
+
+            msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + " " + st3));
             msg.setStatus(EMMessage.Status.SUCCESS);
             // 保存邀请消息
             EMClient.getInstance().chatManager().saveMessage(msg);
@@ -1143,10 +1146,14 @@ public class DemoHelper {
                                     List<EaseUser> uList = new ArrayList<EaseUser>();
                                     for (FriendsBean friendsBean : list) {
                                         EaseUser easeUser = new EaseUser(friendsBean.getId());
-                                        if (!TextUtils.isEmpty(friendsBean.getPetName()))
+                                        if (!TextUtils.isEmpty(friendsBean.getPetName())) {
                                             easeUser.setNick(friendsBean.getPetName());
-                                        else
+                                            easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0,1));
+                                        }
+                                        else {
                                             easeUser.setNick(friendsBean.getUsername());
+                                            easeUser.setInitialLetter("#");
+                                        }
 
                                         easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
 //                                        easeUser.setAvatar("http://172.16.6.253:8089/zhetengba/userIcon/90017a421ee84e0db5c6d53e55c03c50.png");
