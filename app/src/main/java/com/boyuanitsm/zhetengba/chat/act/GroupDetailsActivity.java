@@ -36,6 +36,14 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
 import com.hyphenate.EMGroupChangeListener;
@@ -43,6 +51,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.easeui.widget.EaseAlertDialog.AlertDialogUser;
@@ -93,7 +102,6 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		// 获取传过来的groupid
 		groupId = getIntent().getStringExtra("groupId");
 		group = EMClient.getInstance().groupManager().getGroup(groupId);
-
 		// we are not supposed to show the group if we don't find the group
 		if(group == null){
 			finish();
@@ -105,6 +113,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	@Override
 	public void init(Bundle savedInstanceState) {
+
 		instance = this;
 		st = getResources().getString(R.string.people);
 		clearAllHistory = (RelativeLayout) findViewById(R.id.clear_all_history);
@@ -142,17 +151,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		EMClient.getInstance().groupManager().addGroupChangeListener(groupChangeListener);
 
 		((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
-
 //		+ "(" + group.getAffiliationsCount() + st
-
-		List<String> members = new ArrayList<String>();
-		members.addAll(group.getMembers());
-
-		adapter = new GridAdapter(this, R.layout.em_grid, members);
-		userGridview.setAdapter(adapter);
-
-		// 保证每次进详情看到的都是最新的group
-		updateGroup();
+		//获取群成员列表
+		getGroupMembers(groupId);
 
 		// 设置OnTouchListener
 		userGridview.setOnTouchListener(new OnTouchListener() {
@@ -332,7 +333,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				}
 				progressDialog.setMessage("正在解散群聊...");
 				progressDialog.show();
-				deleteGrop();
+				removeGroupPerson(groupId, EMClient.getInstance().getCurrentUser());
+//				deleteGrop();
 
 			}
 		}).show();
@@ -424,35 +426,77 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	 */
 	private void addMembersToGroup(final String[] newmembers) {
 		final String st6 = getResources().getString(R.string.Add_group_members_fail);
-		new Thread(new Runnable() {
-			
-			public void run() {
-				try {
-					// 创建者调用add方法
-					if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
-						EMClient.getInstance().groupManager().addUsersToGroup(groupId, newmembers);
-					} else {
-						// 一般成员调用invite方法
-						EMClient.getInstance().groupManager().inviteUser(groupId, newmembers, null);
+		RequestManager.getMessManager().addGroupMember(groupId, getPersonIds(newmembers), new ResultCallback<ResultBean<String>>() {
+			@Override
+			public void onError(int status, String errorMsg) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						progressDialog.dismiss();
+						Toast.makeText(getApplicationContext(), st6 , Toast.LENGTH_SHORT).show();
 					}
-					runOnUiThread(new Runnable() {
-						public void run() {
-						    refreshMembers();
-							((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() );
-							progressDialog.dismiss();
-						}
-					});
-				} catch (final Exception e) {
-					runOnUiThread(new Runnable() {
-						public void run() {
-							progressDialog.dismiss();
-							Toast.makeText(getApplicationContext(), st6 + e.getMessage(), Toast.LENGTH_SHORT).show();
-						}
-					});
-				}
+				});
 			}
-		}).start();
+
+			@Override
+			public void onResponse(ResultBean<String> response) {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						runOnUiThread(new Runnable() {
+							public void run(){
+								refreshMembers();
+//						((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
+								progressDialog.dismiss();
+							}
+						});
+					}
+				}).start();
+
+			}
+		});
+
+
+//		new Thread(new Runnable() {
+//
+//			public void run() {
+//				try {
+//					// 创建者调用add方法
+//					if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
+//						EMClient.getInstance().groupManager().addUsersToGroup(groupId, newmembers);
+//					} else {
+//						// 一般成员调用invite方法
+//						EMClient.getInstance().groupManager().inviteUser(groupId, newmembers, null);
+//					}
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//						    refreshMembers();
+//							((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
+//							progressDialog.dismiss();
+//						}
+//					});
+//				} catch (final Exception e) {
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							progressDialog.dismiss();
+//							Toast.makeText(getApplicationContext(), st6 + e.getMessage(), Toast.LENGTH_SHORT).show();
+//						}
+//					});
+//				}
+//			}
+//		}).start();
 	}
+
+	private String getPersonIds(String[] members){
+		String personsId="";
+		if(members!=null&&members.length>0){
+			for(String member:members){
+				personsId=member+",";
+			}
+			return personsId.substring(0,personsId.length()-1);
+		}
+		return personsId;
+	}
+
 
 	@Override
 	public void onClick(View v) {
@@ -703,34 +747,72 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 						deleteDialog.setMessage(st13);
 						deleteDialog.setCanceledOnTouchOutside(false);
 						deleteDialog.show();
-						new Thread(new Runnable() {
+						//移除
+						RequestManager.getMessManager().removeGroupPerson(groupId, username, new ResultCallback<String>() {
+							@Override
+							public void onError(int status, String errorMsg) {
+								deleteDialog.dismiss();
+								runOnUiThread(new Runnable() {
+									public void run() {
+										Toast.makeText(getApplicationContext(), st14 ,Toast.LENGTH_SHORT).show();
+									}
+								});
+							}
 
 							@Override
-							public void run() {
-								try {
-									// 删除被选中的成员
-								    EMClient.getInstance().groupManager().removeUserFromGroup(groupId, username);
-									isInDeleteMode = false;
-									runOnUiThread(new Runnable() {
+							public void onResponse(String response) {
+								isInDeleteMode = false;
+								deleteDialog.dismiss();
+								refreshMembers();
+//								new Thread(new Runnable() {
+//									@Override
+//									public void run() {
+//
+//										runOnUiThread(new Runnable() {
+//
+//											@Override
+//											public void run() {
+//												deleteDialog.dismiss();
+//												refreshMembers();
+////												((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() );
+//											}
+//										});
+//									}
+//								}).start();
 
-										@Override
-										public void run() {
-											deleteDialog.dismiss();
-											refreshMembers();
-											((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() );
-										}
-									});
-								} catch (final Exception e) {
-									deleteDialog.dismiss();
-									runOnUiThread(new Runnable() {
-										public void run() {
-											Toast.makeText(getApplicationContext(), st14 + e.getMessage(),Toast.LENGTH_SHORT).show();
-										}
-									});
-								}
+
 
 							}
-						}).start();
+						});
+//						new Thread(new Runnable() {
+//
+//							@Override
+//							public void run() {
+//
+//								try {
+//									// 删除被选中的成员
+//								    EMClient.getInstance().groupManager().removeUserFromGroup(groupId, username);
+//									isInDeleteMode = false;
+//									runOnUiThread(new Runnable() {
+//
+//										@Override
+//										public void run() {
+//											deleteDialog.dismiss();
+//											refreshMembers();
+//											((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() );
+//										}
+//									});
+//								} catch (final Exception e) {
+//									deleteDialog.dismiss();
+//									runOnUiThread(new Runnable() {
+//										public void run() {
+//											Toast.makeText(getApplicationContext(), st14 + e.getMessage(),Toast.LENGTH_SHORT).show();
+//										}
+//									});
+//								}
+//
+//							}
+//						}).start();
 					}
 				});
 
@@ -899,5 +981,83 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
         }
     	
     }
+
+	/**
+	 * 获取群成员列表
+	 * @param groupId
+	 */
+	private void getGroupMembers(String groupId){
+		RequestManager.getMessManager().getGroupMember(groupId, new ResultCallback<ResultBean<List<UserInfo>>>() {
+			@Override
+			public void onError(int status, String errorMsg) {
+				MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
+			}
+
+			@Override
+			public void onResponse(ResultBean<List<UserInfo>> response) {
+				List<UserInfo> datas=response.getData();
+				if(datas!=null&&datas.size()>0){
+					List<EaseUser> uList = new ArrayList<EaseUser>();
+					for (UserInfo friendsBean : datas) {
+						EaseUser easeUser = new EaseUser(friendsBean.getId());
+						if (!TextUtils.isEmpty(friendsBean.getPetName())) {
+							easeUser.setNick(friendsBean.getPetName());
+							easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0,1));
+						}
+						else {
+							easeUser.setNick(friendsBean.getUsername());
+							easeUser.setInitialLetter("#");
+						}
+						easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
+						uList.add(easeUser);
+					}
+					if(uList!=null&&uList.size()>0)
+					DemoHelper.getInstance().updateContactList(uList);
+				}
+				List<String> members = new ArrayList<String>();
+				members.addAll(group.getMembers());
+
+				adapter = new GridAdapter(GroupDetailsActivity.this, R.layout.em_grid, members);
+				userGridview.setAdapter(adapter);
+
+				// 保证每次进详情看到的都是最新的group
+				updateGroup();
+
+			}
+		});
+	}
+
+	/**
+	 * 移除群成员及解散群聊
+	 * @param groupId
+	 * @param personId
+	 */
+	private void removeGroupPerson(final String groupId,String personId){
+		final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
+        RequestManager.getMessManager().removeGroupPerson(groupId, personId, new ResultCallback<ResultBean<String>>() {
+			@Override
+			public void onError(int status, String errorMsg) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						progressDialog.dismiss();
+						Toast.makeText(getApplicationContext(), st5 , Toast.LENGTH_SHORT).show();
+					}
+				});
+			}
+
+			@Override
+			public void onResponse(ResultBean<String> response) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						progressDialog.dismiss();
+						setResult(RESULT_OK);
+						finish();
+						if(ChatActivity.activityInstance != null)
+							ChatActivity.activityInstance.finish();
+					}
+				});
+			}
+		});
+	}
 
 }

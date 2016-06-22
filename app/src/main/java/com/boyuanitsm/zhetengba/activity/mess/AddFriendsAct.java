@@ -32,6 +32,8 @@ public class AddFriendsAct extends BaseActivity {
     @ViewInject(R.id.cetSearch)
     private ClearEditText cetSearch;
 
+
+
     @Override
     public void setLayout() {
         setContentView(R.layout.actt_add_friends);
@@ -109,15 +111,15 @@ public class AddFriendsAct extends BaseActivity {
         RequestManager.getMessManager().findUserByPhone(phone, new ResultCallback<ResultBean<UserInfo>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<UserInfo> response) {
-                UserInfo userInfo=response.getData();
-                if(userInfo!=null){
-                    Intent intent=new Intent(AddFriendsAct.this,PerpageAct.class);
-                    Bundle bundle=new Bundle();
+                UserInfo userInfo = response.getData();
+                if (userInfo != null) {
+                    Intent intent = new Intent(AddFriendsAct.this, PerpageAct.class);
+                    Bundle bundle = new Bundle();
                     bundle.putString("userId", userInfo.getId());
 //                  bundle.putBoolean("friend",userInfo.isFriend());
                     intent.putExtras(bundle);
@@ -126,5 +128,7 @@ public class AddFriendsAct extends BaseActivity {
             }
         });
     }
+
+
 
 }

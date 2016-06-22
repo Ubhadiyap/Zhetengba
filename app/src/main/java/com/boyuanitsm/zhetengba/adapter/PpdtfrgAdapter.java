@@ -56,10 +56,11 @@ public class PpdtfrgAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-    public PpdtfrgAdapter(Context context, List<CircleEntity> circleEntityList, List<UserInfo> userEntity) {
+    public PpdtfrgAdapter(Context context, List<CircleEntity> circleEntityList, List<UserInfo> userEntity, List<List<ImageInfo>> datalist) {
         this.context = context;
         this.circleTalkEntityList=circleEntityList;
         this.userInfoList=userEntity;
+        this.dateList=datalist;
     }
 
     @Override
@@ -79,11 +80,8 @@ public class PpdtfrgAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        String[] str=new String[]{};
-        if (!TextUtils.isEmpty(circleTalkEntityList.get(position).getTalkImage())){
-            str=ZtinfoUtils.convertStrToArray(circleTalkEntityList.get(position).getTalkImage());
-        }
-//        final List<ImageInfo> itemList = dateList.get(position);
+
+        final List<ImageInfo> itemList = dateList.get(position);
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -111,73 +109,73 @@ public class PpdtfrgAdapter extends BaseAdapter {
            viewHolder.zimg= (ImageView) convertView.findViewById(R.id.zimg);
             convertView.setTag(viewHolder);
         }
-        if (str==null) {
+        if (itemList==null) {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
-        } else if (str.length== 1) {
+        } else if (itemList.size()== 1) {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
 //            handlerOneImage(viewHolder, itemList.get(0));
 //            展示图片，暂时注掉
-//            LayoutHelperUtil.handlerOneImage(context, str[0], viewHolder.iv_oneimage);
-//            viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    PicShowDialog dialog = new PicShowDialog(context, str, 0);
-//                    dialog.show();
-//                }
-//            });
-        } else if (str.length == 4) {
+            LayoutHelperUtil.handlerOneImage(context,itemList.get(0), viewHolder.iv_oneimage);
+            viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
+                    dialog.show();
+                }
+            });
+        } else if (itemList.size() == 4) {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
 //            viewHolder.iv_two_one.setImageUrl(itemList.get(0).getUrl());
 
-            ImageLoader.getInstance().displayImage(str[0], viewHolder.iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(str[1], viewHolder.iv_two_two, optionsImag);
-            ImageLoader.getInstance().displayImage(str[2], viewHolder.iv_two_three, optionsImag);
-            ImageLoader.getInstance().displayImage(str[3], viewHolder.iv_two_four, optionsImag);
-//            viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
-//                    dialog.show();
-//                }
-//            });
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_two_one, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(1).getUrl()), viewHolder.iv_two_two, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(2).getUrl()), viewHolder.iv_two_three, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(3).getUrl()), viewHolder.iv_two_four, optionsImag);
+            viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
+                    dialog.show();
+                }
+            });
 
-//            viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 1);
-//                    dialog.show();
-//                }
-//            });
-//
-//            viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 2);
-//                    dialog.show();
-//                }
-//            });
-//
-//            viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 3);
-//                    dialog.show();
-//                }
-//            });
+            viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PicShowDialog dialog = new PicShowDialog(context, itemList, 1);
+                    dialog.show();
+                }
+            });
+
+            viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PicShowDialog dialog = new PicShowDialog(context, itemList, 2);
+                    dialog.show();
+                }
+            });
+
+            viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PicShowDialog dialog = new PicShowDialog(context, itemList, 3);
+                    dialog.show();
+                }
+            });
 
         } else {
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setNumColumns(3);
-//            PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
-//            viewHolder.iv_ch_image.setAdapter(adapter);
+            PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
+            viewHolder.iv_ch_image.setAdapter(adapter);
 
         }
 
@@ -186,7 +184,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
 //                viewHolder.tvChNiName.setText(list.get(position).getUserId());
 //            }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCreateTime())){
-                viewHolder.tvTime.setText(ZtinfoUtils.timeToDate(Long.parseLong(circleTalkEntityList.get(position).getCreateTime())));
+                viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleTalkEntityList.get(position).getCreateTime())));
             }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getTalkContent())){
                 viewHolder.tv_content.setText(circleTalkEntityList.get(position).getTalkContent());
@@ -259,14 +257,6 @@ public class PpdtfrgAdapter extends BaseAdapter {
         viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                clickPos = position;
-//                channelId = list.get(position).getId();
-//                if (0==list.get(position).getLiked()) {
-//                    addChannelLike(channelId);
-//                } else if (1==list.get(position).getLiked()){
-//                    removeChannelLike(channelId);
-//                }
                 clickPos=position;
                 circleId=circleTalkEntityList.get(position).getId();
                 if (0==circleTalkEntityList.get(position).getLiked()){
@@ -280,8 +270,6 @@ public class PpdtfrgAdapter extends BaseAdapter {
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ShareDialog dialog=new ShareDialog(context);
-//                dialog.show();
                 Intent intent = new Intent(context, ShareDialogAct.class);
                 context.startActivity(intent);
             }

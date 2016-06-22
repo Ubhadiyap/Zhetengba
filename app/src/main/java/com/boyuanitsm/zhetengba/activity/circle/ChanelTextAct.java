@@ -66,17 +66,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private CustomImageView ng_one_image, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
     private List<List<ImageInfo>> dataList;
-    private String[][] images = new String[][]{{
-            ConstantValue.IMAGEURL, "1624", "914"}
-            , {ConstantValue.IMAGEURL, "1624", "914"}
-            , {ConstantValue.IMAGEURL, "1624", "914"}
-            , {ConstantValue.IMAGEURL, "1624", "914"}
-            , {ConstantValue.IMAGEURL, "250", "250"}
-            , {ConstantValue.IMAGEURL, "250", "250"}
-            , {ConstantValue.IMAGEURL, "250", "250"}
-            , {ConstantValue.IMAGEURL, "250", "250"}
-            , {ConstantValue.IMAGEURL, "1280", "800"}
-    };
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -121,11 +110,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         LayoutHelperUtil.freshInit(my_lv);
         my_lv.getRefreshableView().addHeaderView(headView);
         setChannel(channelTalkEntity);
-//        initDate();
         getCircleCommentsList(channelId, page, rows);
-//        adapter = new ChaTextAdapter(this);
-//        my_lv.setAdapter(adapter);
-//        sl_chanel.smoothScrollTo(0, 0);
 
         my_lv.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -162,7 +147,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private void setChannel(ChannelTalkEntity entity){
         if(entity!=null){
             if (!TextUtils.isEmpty(entity.getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getUserIcon()),head,optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getUserIcon()), head, optionsImag);
             }
             if(!TextUtils.isEmpty(entity.getUserName())){
                 name.setText(entity.getUserName());
@@ -170,8 +155,15 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 String str=entity.getCreatePersonId();
                 name.setText(str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
             }
+            if(!TextUtils.isEmpty(entity.getUserSex())){
+                if (entity.getUserSex().equals(1+"")){
+                    sex.setImageResource(R.drawable.male);
+                }else if (entity.getUserSex().equals(0+"")){
+                    sex.setImageResource(R.drawable.female);
+                }
+            }
             if(!TextUtils.isEmpty(entity.getCreateTiem())){
-                time.setText(ZtinfoUtils.timeToDate(Long.parseLong(entity.getCreateTiem())));
+                time.setText(ZtinfoUtils.timeChange(Long.parseLong(entity.getCreateTiem())));
             }
             if(!TextUtils.isEmpty(entity.getChannelContent())){
                 content.setText(entity.getChannelContent());
@@ -186,8 +178,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     }
 
     private void assignView(View view) {
-//        my_lv = (PullToRefreshListView) findViewById(R.id.my_lv);
-//        sl_chanel = (ScrollView) findViewById(R.id.sl_chanel);
         head= (CircleImageView) view.findViewById(R.id.iv_ch_head);//头像
         name= (TextView) view.findViewById(R.id.tv_ch_niName);//姓名
         sex= (ImageView) view.findViewById(R.id.iv_ch_gendar);//性别
@@ -215,14 +205,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             }
         }
         dataList.add(singleList);
-        //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
-//        final ArrayList<ImageInfo> singleList = new ArrayList<>();
-//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-//        dataList.add(singleList);
-//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-//        dataList.add(singleList);
-//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-//        dataList.add(singleList);
         llphoto.setVisibility(View.VISIBLE);
         if (singleList.isEmpty() || singleList.isEmpty()) {
             llphoto.setVisibility(View.GONE);

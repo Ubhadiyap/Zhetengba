@@ -1,16 +1,21 @@
 package com.boyuanitsm.zhetengba.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 /**
  * 布局常用方法
@@ -23,10 +28,17 @@ public class LayoutHelperUtil {
      *
      * @param image
      */
+
     public static void handlerOneImage(Context context ,ImageInfo image,CustomImageView imageView) {
         int totalWidth;
         int imageWidth;
         int imageHeight;
+        // 图片缓存 默认 等
+       DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.mipmap.zanwutupian)
+                .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+                .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565).build();
         ScreenTools screentools = ScreenTools.instance(context);
         totalWidth = screentools.getScreenWidth() - screentools.dip2px(80);
         imageWidth = screentools.dip2px(image.getWidth());
@@ -47,8 +59,9 @@ public class LayoutHelperUtil {
         layoutparams.width = imageWidth;
         imageView.setLayoutParams(layoutparams);
         imageView.setClickable(true);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setImageUrl(image.getUrl());
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(image.getUrl()),imageView,optionsImag);
 
     }
     public static void freshInit(PullToRefreshListView listView){

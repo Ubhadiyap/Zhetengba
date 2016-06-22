@@ -21,6 +21,11 @@ import com.hyphenate.EMCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+
 /**
  * 设置界面
  * Created by bitch-1 on 2016/5/3.
@@ -139,7 +144,12 @@ public class SettingAct extends BaseActivity {
            @Override
            public void onResponse(ResultBean response) {
                UserInfoDao.deleteUser();
+               JPushInterface.setAlias(SettingAct.this, null, new TagAliasCallback() {
+                   @Override
+                   public void gotResult(int i, String s, Set<String> set) {
 
+                   }
+               });
            }
        });
 

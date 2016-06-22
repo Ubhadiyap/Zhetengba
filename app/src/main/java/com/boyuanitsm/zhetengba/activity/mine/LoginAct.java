@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -23,11 +24,19 @@ import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MD5Utils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * Created by bitch-1 on 2016/4/29.
@@ -44,6 +53,7 @@ public class LoginAct extends BaseActivity {
     private String currentPassword;
 
     private ProgressDialog pd;
+    private String zheTeBaId;
 
     @Override
     public void setLayout() {
@@ -242,7 +252,13 @@ public class LoginAct extends BaseActivity {
             public void onResponse(ResultBean<UserBean> response) {
                 UserBean userBean = response.getData();
                 login(userBean);
+                MyLogUtils.info(userBean.getUser().getId()+"id是");
+                JPushInterface.setAlias(LoginAct.this, userBean.getUser().getId(), new TagAliasCallback() {
+                    @Override
+                    public void gotResult(int i, String s, Set<String> set) {
 
+                    }
+                });
             }
         });
     }

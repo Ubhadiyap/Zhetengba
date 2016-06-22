@@ -63,8 +63,20 @@ public class SplashAct extends BaseActivity {
                         Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
                     }
-                    startActivity(new Intent(SplashAct.this, LoginAct.class));
+                    boolean isFirst = SpUtils.getIsFirst(SplashAct.this);
+                    Intent intent = null;
+                    if (isFirst) {
+                        // 第一次进入应用
+                        intent = new Intent(SplashAct.this, GuideAct.class);
+                        SpUtils.setIsFirst(SplashAct.this, false);
+                    } else {
+                        // 主页面
+                        intent = new Intent(SplashAct.this, LoginAct.class);
+                    }
+                    startActivity(intent);
                     finish();
+//                    startActivity(new Intent(SplashAct.this, GuideAct.class));
+//                    finish();
                 }
             }
         }).start();

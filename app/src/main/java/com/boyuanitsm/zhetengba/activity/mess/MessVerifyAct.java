@@ -108,6 +108,7 @@ public class MessVerifyAct extends BaseActivity {
                             progressDialog.dismiss();
                             String s1 = getResources().getString(R.string.send_successful);
                             Toast.makeText(getApplicationContext(), s1,Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     });
                 } catch (final Exception e) {
