@@ -167,23 +167,6 @@ public class CirxqAct extends BaseActivity {
     }
 
 
-
-    private void initData() {
-        datalist=new ArrayList<>();
-        //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
-        ArrayList<ImageInfo> singleList=new ArrayList<>();
-        singleList.add(new ImageInfo(images[0][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-        datalist.add(singleList);
-        //从一到9生成9条朋友圈内容，分别是1~9张图片
-        for(int i=0;i<9;i++){
-            ArrayList<ImageInfo> itemList=new ArrayList<>();
-            for(int j=0;j<=i;j++){
-                itemList.add(new ImageInfo(images[j][0],Integer.parseInt(images[j][1]),Integer.parseInt(images[j][2])));
-            }
-            datalist.add(itemList);
-        }
-    }
-
 //    @OnClick({R.id.tv_qzzl})
 //    public void OnClick(View v){
 //        switch (v.getId()){
@@ -344,7 +327,7 @@ public class CirxqAct extends BaseActivity {
                     if(!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
                         String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
                         for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(Uitls.imageFullUrl(urlList[i]), 1624, 914));
+                            itemList.add(new ImageInfo(urlList[i], 1624, 914));
                         }
                     }
                     datalist.add(itemList);

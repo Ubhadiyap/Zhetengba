@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -51,17 +52,22 @@ public class CircleMessAdatper extends BaseAdapter {
         this.context = context;
         this.circleInfoList = list;
     }
+    public void updata(List<CircleInfo> list){
+        this.circleInfoList=list;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemViewType(int position) {
-        if (circleInfoList.get(position).getMesstype().equals(0)){
+        if (circleInfoList.get(position).getMesstype().equals(0+"")){
             return 0;
-        }else if (circleInfoList.get(position).getMesstype().equals(1)){
+        }else if (circleInfoList.get(position).getMesstype().equals(1+"")){
             return 1;
-        }else if (circleInfoList.get(position).getMesstype().equals(2)){
+        }else if (circleInfoList.get(position).getMesstype().equals(2+"")){
             return 2;
+        }else {
+            return 4;
         }
-        return Integer.parseInt(circleInfoList.get(position).getMesstype());
     }
 
     @Override
@@ -128,15 +134,15 @@ public class CircleMessAdatper extends BaseAdapter {
                         holder1.niName1.setText(circleInfoList.get(position).getPetName());
                     }
                     if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())){
-                        holder1.createTime1.setText(circleInfoList.get(position).getCreateTime());
+                        holder1.createTime1.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
                     }
                     ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),holder1.iv_icon,optionsImag);
                     if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentTalk())){
                         holder1.tv_talk.setText(circleInfoList.get(position).getCommentTalk());
                     }
-                    if (circleInfoList.get(position).getMessageState().equals(1+"")) {
+                    if (circleInfoList.get(position).getMessageState().equals(0+"")) {
                         holder1.tv_huifu.setText("评论“我”："+circleInfoList.get(position).getCommentContent());
-                    } else if (circleInfoList.get(position).getMessageState().equals(2+"")) {
+                    } else if (circleInfoList.get(position).getMessageState().equals(1+"")) {
                         holder1.tv_huifu.setText("赞了“我”的状态!");
                     }
                     convertView.setTag(holder1);
@@ -156,10 +162,10 @@ public class CircleMessAdatper extends BaseAdapter {
                         }
                     });
 
-                    if (circleInfoList.get(position).getMessageState().equals(1+"")) {
+                    if (circleInfoList.get(position).getMessageState().equals(0+"")) {
                         holder2.tv_qingqiu.setText("请求加入娱乐圈");
                         holder2.tv_beizhu.setText("备注：你好，我是李宇春");
-                    } else if (circleInfoList.get(position).getMessageState().equals(2+"")) {
+                    } else if (circleInfoList.get(position).getMessageState().equals(1+"")) {
                         holder2.tv_qingqiu.setText("邀请你加入买菜圈");
                         holder2.tv_beizhu.setText("备注：一起去买菜");
                     }

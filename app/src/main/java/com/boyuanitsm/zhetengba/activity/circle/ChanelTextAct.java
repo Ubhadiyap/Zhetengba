@@ -201,7 +201,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         if(!TextUtils.isEmpty(channelTalkEntity.getChannelImage())) {
             String[] urlList = ZtinfoUtils.convertStrToArray(channelTalkEntity.getChannelImage());
             for (int i = 0; i < urlList.length; i++) {
-                singleList.add(new ImageInfo(Uitls.imageFullUrl(urlList[i]), 1624, 914));
+                singleList.add(new ImageInfo(urlList[i], 1624, 914));
             }
         }
         dataList.add(singleList);
@@ -216,8 +216,8 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             iv_ch_image.setVisibility(View.GONE);
             ng_one_image.setVisibility(View.VISIBLE);
 
-
-            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), ng_one_image);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()),ng_one_image,optionsImag);
+//            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), ng_one_image);
 
             ng_one_image.setOnClickListener(new View.OnClickListener() {
                 @Override

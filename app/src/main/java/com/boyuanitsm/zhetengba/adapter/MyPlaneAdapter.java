@@ -58,17 +58,19 @@ public class MyPlaneAdapter extends BaseAdapter {
 
     public MyPlaneAdapter(Context context, List<List<ImageInfo>> dateList) {
         this.context = context;
-        this.dateList=dateList;
+        this.dateList = dateList;
 
     }
-    public MyPlaneAdapter(Context context, List<List<ImageInfo>> dateList,List<CircleEntity> list) {
+
+    public MyPlaneAdapter(Context context, List<List<ImageInfo>> dateList, List<CircleEntity> list) {
         this.context = context;
-        this.dateList=dateList;
-        this.list=list;
+        this.dateList = dateList;
+        this.list = list;
     }
-    public void notifyChange(List<List<ImageInfo>> dateList,List<CircleEntity> list){
-        this.dateList=dateList;
-        this.list=list;
+
+    public void notifyChange(List<List<ImageInfo>> dateList, List<CircleEntity> list) {
+        this.dateList = dateList;
+        this.list = list;
         notifyDataSetChanged();
     }
 
@@ -102,22 +104,21 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.ivChGendar = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
             viewHolder.zimg = (ImageView) convertView.findViewById(R.id.zimg);
             viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
-            viewHolder.ll_like= (LinearLayout) convertView.findViewById(R.id.like);
+            viewHolder.ll_like = (LinearLayout) convertView.findViewById(R.id.like);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             viewHolder.llphoto = (LinearLayout) convertView.findViewById(R.id.llphoto);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
-            viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.iv_oneimage = (ImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
             viewHolder.ll_two = (LinearLayout) convertView.findViewById(R.id.ll_two);
-            viewHolder.iv_two_one = (CustomImageView) convertView.findViewById(R.id.iv_two_one);
-            viewHolder.iv_two_two = (CustomImageView) convertView.findViewById(R.id.iv_two_two);
-            viewHolder.iv_two_three = (CustomImageView) convertView.findViewById(R.id.iv_two_three);
-            viewHolder.iv_two_four = (CustomImageView) convertView.findViewById(R.id.iv_two_four);
+            viewHolder.iv_two_one = (ImageView) convertView.findViewById(R.id.iv_two_one);
+            viewHolder.iv_two_two = (ImageView) convertView.findViewById(R.id.iv_two_two);
+            viewHolder.iv_two_three = (ImageView) convertView.findViewById(R.id.iv_two_three);
+            viewHolder.iv_two_four = (ImageView) convertView.findViewById(R.id.iv_two_four);
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
-            viewHolder.znum= (TextView) convertView.findViewById(R.id.znum);
-            viewHolder.cnum= (TextView) convertView.findViewById(R.id.cnum);
-            viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
+            viewHolder.znum = (TextView) convertView.findViewById(R.id.znum);
+            viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
             convertView.setTag(viewHolder);
         }
         viewHolder.llphoto.setVisibility(View.VISIBLE);
@@ -131,7 +132,8 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
 //            handlerOneImage(viewHolder, itemList.get(0));
-            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
+//            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -145,10 +147,10 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.VISIBLE);
 //            viewHolder.iv_two_one.setImageUrl(itemList.get(0).getUrl());
 
-            ImageLoader.getInstance().displayImage(itemList.get(0).getUrl(), viewHolder.iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(1).getUrl(), viewHolder.iv_two_two, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(2).getUrl(), viewHolder.iv_two_three, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(3).getUrl(), viewHolder.iv_two_four, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_two_one, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(1).getUrl()), viewHolder.iv_two_two, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(2).getUrl()), viewHolder.iv_two_three, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(3).getUrl()), viewHolder.iv_two_four, optionsImag);
             viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -191,61 +193,69 @@ public class MyPlaneAdapter extends BaseAdapter {
 
         }
 
-        if(list!=null){
-            if(!TextUtils.isEmpty(list.get(position).getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.ivChHead,optionsImag);
+        if (list != null) {
+            if (!TextUtils.isEmpty(list.get(position).getUserIcon())) {
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.ivChHead, optionsImag);
             }
-            if(!TextUtils.isEmpty(list.get(position).getUserName())){
+            if (!TextUtils.isEmpty(list.get(position).getUserName())) {
                 viewHolder.tvChNiName.setText(list.get(position).getUserName());
-            }else {
-                String str=list.get(position).getUserId();
-                viewHolder.tvChNiName.setText(str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
+            } else {
+                String str = list.get(position).getUserId();
+                viewHolder.tvChNiName.setText(str.substring(0, 3) + "***" + str.substring(str.length() - 3, str.length()));
             }
-            if(!TextUtils.isEmpty(list.get(position).getUserSex())){
-                if("0".equals(list.get(position).getUserSex())) {
+            if (!TextUtils.isEmpty(list.get(position).getUserSex())) {
+                if ("0".equals(list.get(position).getUserSex())) {
                     viewHolder.ivChGendar.setImageResource(R.mipmap.gfemale);//女0
-                }else if("1".equals(list.get(position).getUserSex())){
+                } else if ("1".equals(list.get(position).getUserSex())) {
                     viewHolder.ivChGendar.setImageResource(R.mipmap.male);//男1
                 }
             }
-            if(!TextUtils.isEmpty(list.get(position).getCreateTime())){
+            if (!TextUtils.isEmpty(list.get(position).getCreateTime())) {
                 viewHolder.tvTime.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTime())));
             }
-            if(!TextUtils.isEmpty(list.get(position).getTalkContent())){
+            if (!TextUtils.isEmpty(list.get(position).getTalkContent())) {
                 viewHolder.tv_content.setText(list.get(position).getTalkContent());
             }
-            if(!TextUtils.isEmpty(list.get(position).getCircleName())){
+            if (!TextUtils.isEmpty(list.get(position).getCircleName())) {
                 viewHolder.tv_cir_name.setText(list.get(position).getCircleName());
             }
-            if(!TextUtils.isEmpty(list.get(position).getLiked()+"")) {
-                if (0==list.get(position).getLiked()) {//未点赞
+            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+                if (0 == list.get(position).getLiked()) {//未点赞
                     viewHolder.zimg.setImageResource(R.drawable.zan);
-                }else if (1==list.get(position).getLiked()){
+                } else if (1 == list.get(position).getLiked()) {
                     viewHolder.zimg.setImageResource(R.drawable.zan_b);
                 }
             }
-            if(!TextUtils.isEmpty(list.get(position).getLikedCounts()+"")){
-                viewHolder.znum.setText(list.get(position).getLikedCounts()+"");
-            }else {
-                viewHolder.znum.setText("0");
+            if (!TextUtils.isEmpty(list.get(position).getLikedCounts() + "")) {
+                if (list.get(position).getLikedCounts() == 0) {
+                    viewHolder.znum.setVisibility(View.GONE);
+                } else {
+                    viewHolder.znum.setVisibility(View.VISIBLE);
+                    viewHolder.znum.setText(list.get(position).getLikedCounts() + "");
+                }
+
             }
-            if(!TextUtils.isEmpty(list.get(position).getCommentCounts()+"")){
-                viewHolder.cnum.setText(list.get(position).getCommentCounts()+"");
-            }else {
-                viewHolder.cnum.setText("0");
+            if (!TextUtils.isEmpty(list.get(position).getCommentCounts() + "")) {
+                if (list.get(position).getCommentCounts() == 0) {
+                    viewHolder.cnum.setVisibility(View.GONE);
+                } else {
+                    viewHolder.cnum.setVisibility(View.VISIBLE);
+                    viewHolder.cnum.setText(list.get(position).getCommentCounts() + "");
+                }
+
             }
-            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
-                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
-            }else {
-                viewHolder.snum.setText("0");
-            }
+//            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
+//                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
+//            }else {
+//                viewHolder.snum.setText("0");
+//            }
         }
         //点击用户头像，进入用户圈子主页
         viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putString("userId", list.get(position).getUserId());
 //                bundle.putBoolean("friend",list.get(position).isFriend());
                 intent.putExtras(bundle);
@@ -261,7 +271,7 @@ public class MyPlaneAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, CirxqAct.class);
-                intent.putExtra("circleId",list.get(position).getCircleId());
+                intent.putExtra("circleId", list.get(position).getCircleId());
                 //需要开启新task,否则会报错
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -271,11 +281,11 @@ public class MyPlaneAdapter extends BaseAdapter {
         viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickPos=position;
+                clickPos = position;
 
-                if (0==list.get(position).getLiked()){
+                if (0 == list.get(position).getLiked()) {
                     addCircleLike(list.get(position).getId());
-                }else if (1==list.get(position).getLiked()){
+                } else if (1 == list.get(position).getLiked()) {
                     removeCircleLike(list.get(position).getId());
                 }
             }
@@ -307,8 +317,8 @@ public class MyPlaneAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, CircleTextAct.class);
-                intent.putExtra("circleEntity",list.get(position));
-                intent.putExtra("circleId",list.get(position).getId());
+                intent.putExtra("circleEntity", list.get(position));
+                intent.putExtra("circleId", list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -324,10 +334,10 @@ public class MyPlaneAdapter extends BaseAdapter {
         public ImageView ivChGendar;
         public TextView tvTime;
         public MyGridView iv_ch_image;
-        public CustomImageView iv_oneimage;
+        public ImageView iv_oneimage;
         public TextView tv_cir_name;
         private LinearLayout ll_two;
-        private CustomImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
+        private ImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
         private LinearLayout ll_like;
         private LinearLayout ll_share;
         private LinearLayout ll_comment;
@@ -341,40 +351,43 @@ public class MyPlaneAdapter extends BaseAdapter {
 
     /**
      * 圈子说说点赞
+     *
      * @param circleTalkId
      */
-    private void addCircleLike(String circleTalkId ){
+    private void addCircleLike(String circleTalkId) {
         RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(context,errorMsg);
+                MyToastUtils.showShortToast(context, errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(1);
-                if(!TextUtils.isEmpty(response.getData())) {
+                if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
                 notifyDataSetChanged();
             }
         });
     }
+
     /**
      * 取消圈子说说点赞
+     *
      * @param circleTalkId
      */
-    private void removeCircleLike(String circleTalkId ){
+    private void removeCircleLike(String circleTalkId) {
         RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(context,errorMsg);
+                MyToastUtils.showShortToast(context, errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(0);
-                if(!TextUtils.isEmpty(response.getData())) {
+                if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
                 notifyDataSetChanged();

@@ -83,9 +83,11 @@
             android:id="@+id/ll_ch_image"
             android:layout_marginTop="15dp"
             android:orientation="vertical"
-            android:layout_width="260dp"
+            android:gravity="left"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <com.boyuanitsm.zhetengba.view.MyGridView
+                android:visibility="gone"
                 android:id="@+id/iv_ch_image"
                 android:paddingBottom="3dp"
                 android:verticalSpacing="3dp"
@@ -136,9 +138,10 @@
 
 
             </LinearLayout>
-            <com.boyuanitsm.zhetengba.view.CustomImageView
+            <ImageView
+                android:visibility="gone"
                 android:id="@+id/iv_oneimage"
-                android:layout_width="wrap_content"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
@@ -164,6 +167,7 @@
                 style="@style/Chanel_Small_Text"
                 android:text="赞"/>
             <TextView
+                android:visibility="gone"
                 android:id="@+id/znum"
                 style="@style/Chanel_Small_Text"
                 android:text="(240)" />
@@ -182,6 +186,7 @@
                 style="@style/Chanel_Small_Text"
                 android:text="评论"/>
             <TextView
+                android:visibility="gone"
                 android:id="@+id/cnum"
                 style="@style/Chanel_Small_Text"
                 android:text="(240)" />
@@ -198,10 +203,6 @@
             <TextView
                 style="@style/Chanel_Small_Text"
                 android:text="分享"/>
-            <TextView
-                android:id="@+id/snum"
-                style="@style/Chanel_Small_Text"
-                android:text="(240)" />
         </LinearLayout>
     </LinearLayout>
     <View

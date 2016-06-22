@@ -61,17 +61,6 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private CustomImageView iv_oneimage, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
     private List<List<ImageInfo>> dataList ;
-    private String[][] images = new String[][]{{
-            ConstantValue.IMAGEURL, "1624", "914"}
-            , {ConstantValue.IMAGEURL, "1624", "914"}
-            , {ConstantValue.IMAGEURL, "1624", "914"}
-            , {ConstantValue.IMAGEURL, "1624", "914"}
-            , {ConstantValue.IMAGEURL, "250", "250"}
-            , {ConstantValue.IMAGEURL, "250", "250"}
-            , {ConstantValue.IMAGEURL, "250", "250"}
-            , {ConstantValue.IMAGEURL, "250", "250"}
-            , {ConstantValue.IMAGEURL, "1280", "800"}
-    };
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -215,18 +204,10 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         if(!TextUtils.isEmpty(circleEntity.getTalkImage())) {
             String[] urlList = ZtinfoUtils.convertStrToArray(circleEntity.getTalkImage());
             for (int i = 0; i < urlList.length; i++) {
-                singleList.add(new ImageInfo(Uitls.imageFullUrl(urlList[i]), 1624, 914));
+                singleList.add(new ImageInfo(urlList[i], 1624, 914));
             }
         }
         dataList.add(singleList);
-        //这里单独添加一条单条的测试数据，用来测试单张的时候横竖图片的效果
-//        final ArrayList<ImageInfo> singleList = new ArrayList<>();
-//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-//        dataList.add(singleList);
-//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-//        dataList.add(singleList);
-//        singleList.add(new ImageInfo(images[8][0], Integer.parseInt(images[8][1]), Integer.parseInt(images[8][2])));
-//        dataList.add(singleList);
         llphoto.setVisibility(View.VISIBLE);
         if (singleList.isEmpty() || singleList.isEmpty()) {
             llphoto.setVisibility(View.GONE);
@@ -252,11 +233,10 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             iv_ch_image.setVisibility(View.GONE);
             iv_oneimage.setVisibility(View.GONE);
             ll_two.setVisibility(View.VISIBLE);
-//            viewHolder.iv_two_four.setImageUrl(itemList.get(3).getUrl());
-            ImageLoader.getInstance().displayImage(singleList.get(0).getUrl(), iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(singleList.get(1).getUrl(), iv_two_two, optionsImag);
-            ImageLoader.getInstance().displayImage(singleList.get(2).getUrl(), iv_two_three, optionsImag);
-            ImageLoader.getInstance().displayImage(singleList.get(3).getUrl(), iv_two_four, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()), iv_two_one, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(1).getUrl()), iv_two_two, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(2).getUrl()), iv_two_three, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(3).getUrl()), iv_two_four, optionsImag);
             iv_two_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -304,7 +284,6 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_chanel_comment:
-//                openActivity(CommentAct.class);
                 commentCircleTalk(circleId,null,etComment.getText().toString().trim());
                 break;
 

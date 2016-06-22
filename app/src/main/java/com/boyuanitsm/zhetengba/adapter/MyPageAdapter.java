@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -59,7 +60,7 @@ public class MyPageAdapter extends PagerAdapter {
         //            ImageLoader.getInstance().displayImage(
         //                    UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerPic()), iv_iamge,
         //                    optionsImag);
-        ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+list.get(position).getIcon(),iv_iamge,optionsImag);
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getIcon()),iv_iamge,optionsImag);
         //UrlManager,网络地址管理类
 
         ((ViewPager) container).addView(view);

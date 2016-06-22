@@ -82,17 +82,18 @@
         <LinearLayout
             android:id="@+id/llphoto"
             android:layout_marginTop="15dp"
-
             android:orientation="vertical"
-            android:layout_width="260dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <com.boyuanitsm.zhetengba.view.MyGridView
+                android:visibility="gone"
                 android:id="@+id/iv_ch_image"
                 android:paddingBottom="3dp"
                 android:horizontalSpacing="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_two"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -102,13 +103,13 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                    <ImageView
                         android:id="@+id/iv_two_one"
                         android:layout_weight="1"
                         android:scaleType="fitXY"
                         android:layout_width="83dp"
                         android:layout_height="83dp" />
-                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                    <ImageView
                         android:layout_marginLeft="3dp"
                         android:id="@+id/iv_two_two"
                         android:layout_weight="1"
@@ -120,13 +121,13 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                    <ImageView
                         android:id="@+id/iv_two_three"
                         android:layout_weight="1"
                         android:scaleType="fitXY"
                         android:layout_width="83dp"
                         android:layout_height="83dp" />
-                    <com.boyuanitsm.zhetengba.view.CustomImageView
+                    <ImageView
                         android:layout_marginLeft="3dp"
                         android:id="@+id/iv_two_four"
                         android:layout_weight="1"
@@ -134,13 +135,11 @@
                         android:layout_width="83dp"
                         android:layout_height="83dp" />
                 </LinearLayout>
-
-
             </LinearLayout>
-            <com.boyuanitsm.zhetengba.view.CustomImageView
+            <ImageView
                 android:id="@+id/iv_oneimage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -197,9 +196,6 @@
             <TextView
                 style="@style/Chanel_Small_Text"
                 android:text="分享"/>
-            <TextView
-                android:id="@+id/snum"
-                style="@style/Chanel_Small_Text" />
         </LinearLayout>
     </LinearLayout>
     <View

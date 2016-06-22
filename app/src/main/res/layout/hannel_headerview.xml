@@ -75,7 +75,7 @@
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/llphoto"
-                android:layout_width="260dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:orientation="vertical">
@@ -141,7 +141,7 @@
 
                 <com.boyuanitsm.zhetengba.view.CustomImageView
                     android:id="@+id/ng_one_image"
-                    android:layout_width="match_parent"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
