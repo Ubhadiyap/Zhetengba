@@ -150,25 +150,6 @@
 
         <!--</LinearLayout>-->
 
-        <RelativeLayout
-            android:visibility="gone"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:textColor="@color/white"
-                android:background="@drawable/but_jaru_select"
-                android:gravity="center"
-                android:layout_height="30dp"
-                android:layout_width="106dp"
-                android:text="立即加入"
-                style="@style/tv_second" />
-
-        </RelativeLayout>
-
-
-
 
         <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
             android:id="@+id/lv_cirxq"
@@ -178,5 +159,24 @@
             android:layout_height="match_parent"/>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_jiaru"
+        android:visibility="gone"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/white"
+            android:background="@drawable/but_jaru_select"
+            android:gravity="center"
+            android:layout_height="30dp"
+            android:layout_width="106dp"
+            android:text="立即加入"
+            style="@style/tv_second" />
+
+    </RelativeLayout>
+
     <!--</ScrollView>-->
 </LinearLayout>
