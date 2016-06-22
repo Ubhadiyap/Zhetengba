@@ -123,8 +123,27 @@ public class UserInfo implements Parcelable {
     private String hUsername;//环信账号
     private String hPassword;//环信密码
 
+    private String sameLabels;//共同标签
+    private Integer sameCircleCounts;//共同圈子数
+
 
     public UserInfo() {
+    }
+
+    public Integer getSameCircleCounts() {
+        return sameCircleCounts;
+    }
+
+    public void setSameCircleCounts(Integer sameCircleCounts) {
+        this.sameCircleCounts = sameCircleCounts;
+    }
+
+    public String getSameLabels() {
+        return sameLabels;
+    }
+
+    public void setSameLabels(String sameLabels) {
+        this.sameLabels = sameLabels;
     }
 
     public String gethUsername() {
@@ -461,6 +480,8 @@ public class UserInfo implements Parcelable {
                 ", dictName='" + dictName + '\'' +
                 ", hUsername='" + hUsername + '\'' +
                 ", hPassword='" + hPassword + '\'' +
+                ", sameLabels='" + sameLabels + '\'' +
+                ", sameCircleCounts='" + sameCircleCounts + '\'' +
                 '}';
     }
 
@@ -507,6 +528,8 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.dictName);
         dest.writeString(this.hUsername);
         dest.writeString(this.hPassword);
+        dest.writeString(this.sameLabels);
+        dest.writeInt(this.sameCircleCounts);
     }
 
     protected UserInfo(Parcel in) {
@@ -546,6 +569,8 @@ public class UserInfo implements Parcelable {
         this.dictName = in.readString();
         this.hUsername = in.readString();
         this.hPassword = in.readString();
+        this.sameLabels=in.readString();
+        this.sameCircleCounts=in.readInt();
     }
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
