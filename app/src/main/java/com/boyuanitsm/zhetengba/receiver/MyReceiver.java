@@ -51,8 +51,6 @@ public class MyReceiver extends BroadcastReceiver {
 				try {
 					JSONObject json = new JSONObject(extra);
 					String type = json.getString("type");//解析单个
-					String commentContent = json.getString("commentContent");//解析单个
-					Log.d(TAG, "------------------------------------commentContent" + commentContent);
 					if (TextUtils.equals(type,"2")){
 						Gson gson = new Gson();
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
@@ -60,6 +58,7 @@ public class MyReceiver extends BroadcastReceiver {
 						MyLogUtils.info(CircleMessDao.getCircleUser().toString()+"数据库内容");
 					}
 				} catch (JSONException e) {
+                    e.printStackTrace();
 			}
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {

@@ -61,22 +61,6 @@ public class CirMessAct extends BaseActivity {
        list= CircleMessDao.getCircleUser();
         CircleMessAdatper adapter = new CircleMessAdatper(CirMessAct.this, list);
         lv_cir_mess.getRefreshableView().setAdapter(adapter);
-//        lv_cir_mess.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                CircleInfo circleInfo = (CircleInfo) lv_cir_mess.getRefreshableView().getItemAtPosition(position);
-//                if (circleInfo.getType() == 1 && circleInfo.getState() == 1) {
-//                    ll_reply.setVisibility(View.VISIBLE);
-//                    et_reply.setFocusable(true);
-//                    et_reply.setFocusableInTouchMode(true);
-//                    et_reply.requestFocus();
-//                    et_reply.requestFocusFromTouch();
-//                    InputMethodManager imm = (InputMethodManager) getSystemService(CirMessAct.this.INPUT_METHOD_SERVICE);
-//                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-//
-//                }
-//            }
-//        });
     }
 
 

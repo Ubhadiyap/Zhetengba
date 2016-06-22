@@ -35,9 +35,9 @@ import java.util.List;
  * Created by xiaoke on 2016/5/9.
  */
 public class CircleMessAdatper extends BaseAdapter {
-    public static final int STATE1 = 1;
-    public static final int STATE2 = 2;
-    public static final int SATE3 = 3;
+    public static final int STATE1 = 0;
+    public static final int STATE2 = 1;
+    public static final int SATE3 = 2;
     private List<CircleInfo> circleInfoList;
     private Context context;
     // 图片缓存 默认 等
@@ -54,7 +54,14 @@ public class CircleMessAdatper extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return circleInfoList.get(position).getMesstype();
+        if (circleInfoList.get(position).getMesstype().equals(0)){
+            return 0;
+        }else if (circleInfoList.get(position).getMesstype().equals(1)){
+            return 1;
+        }else if (circleInfoList.get(position).getMesstype().equals(2)){
+            return 2;
+        }
+        return Integer.parseInt(circleInfoList.get(position).getMesstype());
     }
 
     @Override
@@ -127,9 +134,9 @@ public class CircleMessAdatper extends BaseAdapter {
                     if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentTalk())){
                         holder1.tv_talk.setText(circleInfoList.get(position).getCommentTalk());
                     }
-                    if (circleInfoList.get(position).getMessageState() == 1) {
+                    if (circleInfoList.get(position).getMessageState().equals(1+"")) {
                         holder1.tv_huifu.setText("评论“我”："+circleInfoList.get(position).getCommentContent());
-                    } else if (circleInfoList.get(position).getMessageState() == 2) {
+                    } else if (circleInfoList.get(position).getMessageState().equals(2+"")) {
                         holder1.tv_huifu.setText("赞了“我”的状态!");
                     }
                     convertView.setTag(holder1);
@@ -149,10 +156,10 @@ public class CircleMessAdatper extends BaseAdapter {
                         }
                     });
 
-                    if (circleInfoList.get(position).getMessageState() == 1) {
+                    if (circleInfoList.get(position).getMessageState().equals(1+"")) {
                         holder2.tv_qingqiu.setText("请求加入娱乐圈");
                         holder2.tv_beizhu.setText("备注：你好，我是李宇春");
-                    } else if (circleInfoList.get(position).getMessageState() == 2) {
+                    } else if (circleInfoList.get(position).getMessageState().equals(2+"")) {
                         holder2.tv_qingqiu.setText("邀请你加入买菜圈");
                         holder2.tv_beizhu.setText("备注：一起去买菜");
                     }
@@ -171,9 +178,9 @@ public class CircleMessAdatper extends BaseAdapter {
                             context.startActivity(intent);
                         }
                     });
-                    if (circleInfoList.get(position).getMessageState() == 1) {
+                    if (circleInfoList.get(position).getMessageState().equals(1+"")) {
                         holder3.tv_shenqing.setText("同意了你的请求，欢迎加入吃饭圈");
-                    } else if (circleInfoList.get(position).getMessageState() == 2) {
+                    } else if (circleInfoList.get(position).getMessageState().equals(2+"")) {
                         holder3.tv_shenqing.setText("拒绝了你的请求，不参加吃饭圈");
                     } else {
                         holder3.tv_shenqing.setText("分享了你的吃饭圈子");

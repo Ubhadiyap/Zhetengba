@@ -31,6 +31,21 @@ public class CircleInfo implements Parcelable{
     @Column
     private String commentTalk;//评论的说说
 
+    @Override
+    public String toString() {
+        return "CircleInfo{" +
+                "userId='" + userId + '\'' +
+                ", userIcon='" + userIcon + '\'' +
+                ", petName='" + petName + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", messtype='" + messtype + '\'' +
+                ", messageState='" + messageState + '\'' +
+                ", circleName='" + circleName + '\'' +
+                ", commentContent='" + commentContent + '\'' +
+                ", commentTalk='" + commentTalk + '\'' +
+                '}';
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -110,6 +125,41 @@ public class CircleInfo implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(this.userId);
+        dest.writeString(this.userIcon);
+        dest.writeString(this.petName);
+        dest.writeString(this.createTime);
+        dest.writeString(this.messtype);
+        dest.writeString(this.messageState);
+        dest.writeString(this.circleName);
+        dest.writeString(this.commentContent);
+        dest.writeString(this.commentTalk);
     }
+
+    public CircleInfo() {
+    }
+
+    protected CircleInfo(Parcel in) {
+        this.userId = in.readString();
+        this.userIcon = in.readString();
+        this.petName = in.readString();
+        this.createTime = in.readString();
+        this.messtype = in.readString();
+        this.messageState = in.readString();
+        this.circleName = in.readString();
+        this.commentContent = in.readString();
+        this.commentTalk = in.readString();
+    }
+
+    public static final Creator<CircleInfo> CREATOR = new Creator<CircleInfo>() {
+        @Override
+        public CircleInfo createFromParcel(Parcel source) {
+            return new CircleInfo(source);
+        }
+
+        @Override
+        public CircleInfo[] newArray(int size) {
+            return new CircleInfo[size];
+        }
+    };
 }
