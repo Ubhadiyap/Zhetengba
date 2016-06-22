@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.ArraySet;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -24,10 +23,9 @@ import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MD5Utils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
-import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
@@ -200,7 +198,7 @@ public class LoginAct extends BaseActivity {
                 //异步获取当前用户的昵称和头像(从自己服务器获取，demo使用的一个第三方服务)
 //                DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
                 DemoHelper.getInstance().getUserProfileManager().setNickName(userBean.getUser().getUsername());
-                DemoHelper.getInstance().getUserProfileManager().setUserAvatar("http://172.16.6.253:8089/zhetengba/userIcon/90017a421ee84e0db5c6d53e55c03c50.png");
+                DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(userBean.getUser().getIcon()));
                 UserInfoDao.saveUser(userBean.getUser());
                 // 进入主页面
                 Intent intent = new Intent(LoginAct.this,
