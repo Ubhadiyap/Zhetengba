@@ -59,7 +59,6 @@ public class LayoutHelperUtil {
         layoutparams.width = imageWidth;
         imageView.setLayoutParams(layoutparams);
         imageView.setClickable(true);
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setImageUrl(image.getUrl());
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(image.getUrl()),imageView,optionsImag);
 

@@ -113,18 +113,18 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             viewHolder.llphoto = (LinearLayout) convertView.findViewById(R.id.llphoto);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
-            viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.iv_oneimage = (ImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
             viewHolder.ll_two = (LinearLayout) convertView.findViewById(R.id.ll_two);
             viewHolder.like = (LinearLayout) convertView.findViewById(R.id.like);
-            viewHolder.iv_two_one = (CustomImageView) convertView.findViewById(R.id.iv_two_one);
-            viewHolder.iv_two_two = (CustomImageView) convertView.findViewById(R.id.iv_two_two);
-            viewHolder.iv_two_three = (CustomImageView) convertView.findViewById(R.id.iv_two_three);
-            viewHolder.iv_two_four = (CustomImageView) convertView.findViewById(R.id.iv_two_four);
+            viewHolder.iv_two_one = (ImageView) convertView.findViewById(R.id.iv_two_one);
+            viewHolder.iv_two_two = (ImageView) convertView.findViewById(R.id.iv_two_two);
+            viewHolder.iv_two_three = (ImageView) convertView.findViewById(R.id.iv_two_three);
+            viewHolder.iv_two_four = (ImageView) convertView.findViewById(R.id.iv_two_four);
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             viewHolder.znum= (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum= (TextView) convertView.findViewById(R.id.cnum);
-            viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
+//            viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
             convertView.setTag(viewHolder);
         }
         viewHolder.llphoto.setVisibility(View.VISIBLE);
@@ -138,8 +138,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-//            handlerOneImage(viewHolder, itemList.get(0));
-            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -153,10 +152,10 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.VISIBLE);
 //            viewHolder.iv_two_one.setImageUrl(itemList.get(0).getUrl());
 
-            ImageLoader.getInstance().displayImage(itemList.get(0).getUrl(), viewHolder.iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(1).getUrl(), viewHolder.iv_two_two, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(2).getUrl(), viewHolder.iv_two_three, optionsImag);
-            ImageLoader.getInstance().displayImage(itemList.get(3).getUrl(), viewHolder.iv_two_four, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_two_one, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(1).getUrl()), viewHolder.iv_two_two, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(2).getUrl()), viewHolder.iv_two_three, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(3).getUrl()), viewHolder.iv_two_four, optionsImag);
             viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -242,11 +241,11 @@ public class CirclexqListAdapter extends BaseAdapter {
             }else {
                 viewHolder.cnum.setText("0");
             }
-            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
-                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
-            }else {
-                viewHolder.snum.setText("0");
-            }
+//            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
+//                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
+//            }else {
+//                viewHolder.snum.setText("0");
+//            }
         }
         //点击用户头像，进入用户圈子主页
         viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
@@ -313,10 +312,10 @@ public class CirclexqListAdapter extends BaseAdapter {
         public ImageView zimg;
         public TextView tvTime;
         public MyGridView iv_ch_image;
-        public CustomImageView iv_oneimage;
+        public ImageView iv_oneimage;
         public TextView tv_cir_name;
         private LinearLayout ll_two;
-        private CustomImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
+        private ImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
         private LinearLayout like;
         private LinearLayout ll_share;
         private LinearLayout ll_comment;

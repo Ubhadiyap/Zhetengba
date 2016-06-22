@@ -38,7 +38,7 @@ public class CirMessAct extends BaseActivity {
     private Button bt_reply;
     private List<CircleInfo> list = new ArrayList<CircleInfo>();
     private CircleInfo info;
-
+    private  CircleMessAdatper adapter;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_mess);
@@ -58,8 +58,8 @@ public class CirMessAct extends BaseActivity {
         //初始化刷新列表
         LayoutHelperUtil.freshInit(lv_cir_mess);
         lv_cir_mess.getRefreshableView().setDivider(null);
-       list= CircleMessDao.getCircleUser();
-        CircleMessAdatper adapter = new CircleMessAdatper(CirMessAct.this, list);
+        list= CircleMessDao.getCircleUser();
+        adapter = new CircleMessAdatper(CirMessAct.this, list);
         lv_cir_mess.getRefreshableView().setAdapter(adapter);
     }
 
