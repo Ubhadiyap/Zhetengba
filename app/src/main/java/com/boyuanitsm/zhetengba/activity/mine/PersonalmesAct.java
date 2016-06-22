@@ -21,6 +21,7 @@ import com.boyuanitsm.zhetengba.bean.IconFilePath;
 import com.boyuanitsm.zhetengba.bean.PersonalMain;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -425,6 +426,8 @@ public class PersonalmesAct extends BaseActivity {
                 user.setIcon(response.getData().getIconFilePath());
                 UserInfoDao.updateUser(user);
                 ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, options);
+                DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(response.getData().getIconFilePath()));
+
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
                 Intent intentRecevier=new Intent();
                 intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);

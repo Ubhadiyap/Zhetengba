@@ -27,6 +27,7 @@ import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -344,7 +345,8 @@ public class RegistAct extends BaseActivity {
                 }
                 //异步获取当前用户的昵称和头像(从自己服务器获取，demo使用的一个第三方服务)
 //                DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-
+                DemoHelper.getInstance().getUserProfileManager().setNickName(userBean.getUser().getUsername());
+                DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(userBean.getUser().getIcon()));
                 UserInfoDao.saveUser(userBean.getUser());
                 openActivity(RegInfoAct.class);
                 // 进入主页面

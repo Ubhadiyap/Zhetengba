@@ -1,8 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -57,7 +55,10 @@ public class SerchCirAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(SerchCirAct.this, CirxqAct.class);
-                intent.putExtra("circleId", list.get(position).getId());
+                Bundle bundle=new Bundle();
+                bundle.putString("circleId",list.get(position).getId());
+                bundle.putInt("IsInCircle",list.get(position).getIsInCircle());
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

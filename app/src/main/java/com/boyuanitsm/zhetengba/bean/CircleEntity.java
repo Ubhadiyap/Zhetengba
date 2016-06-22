@@ -26,6 +26,7 @@ public class CircleEntity implements Parcelable{
     private String userId;//用户id
     private String talkContent;//说说内容
     private String talkImage;//说说图片
+    private Integer isInCircle;//是否在圈子里面，后面才加的字段
     /**
      * 用户姓名
      */
@@ -104,6 +105,7 @@ public class CircleEntity implements Parcelable{
         deleteCommentTime = in.readString();
         remark = in.readString();
         isValid = in.readByte() != 0;
+        isInCircle=in.readInt();
     }
 
     public static final Creator<CircleEntity> CREATOR = new Creator<CircleEntity>() {
@@ -117,6 +119,14 @@ public class CircleEntity implements Parcelable{
             return new CircleEntity[size];
         }
     };
+
+    public Integer getIsInCircle() {
+        return isInCircle;
+    }
+
+    public void setIsInCircle(Integer isInCircle) {
+        this.isInCircle = isInCircle;
+    }
 
     public String getTalkContent() {
         return talkContent;
@@ -406,5 +416,6 @@ public class CircleEntity implements Parcelable{
         dest.writeString(deleteCommentTime);
         dest.writeString(remark);
         dest.writeByte((byte) (isValid ? 1 : 0));
+        dest.writeInt(isInCircle);
     }
 }
