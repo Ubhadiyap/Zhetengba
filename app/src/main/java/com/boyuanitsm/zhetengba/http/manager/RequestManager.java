@@ -25,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -93,7 +92,9 @@ public class RequestManager {
                                 if (status == 200) {//成功
                                     Object o = mGson.fromJson(result, callback.mType);
                                     callback.onResponse(o);
-                                } else {//失败
+                                } else if(status==601){
+                                    callback.onError(status, result);
+                                }else {//失败
                                     callback.onError(status, jsonObject.getString("message"));
                                 }
                             } catch (JSONException e) {
