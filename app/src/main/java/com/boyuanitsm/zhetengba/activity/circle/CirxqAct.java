@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.AppManager;
@@ -64,6 +65,7 @@ public class CirxqAct extends BaseActivity {
     private List<MemberEntity> userList;//圈子成员集合
     private List<CircleEntity> circleEntityList;//该圈子说说列表
     private String personIds;//存储邀请用户id
+    private int IsInCircle;//从收索圈子进来后的判断条件看是否在圈子里面 0不在，1在；
 //    @ViewInject(R.id.head)
     private CircleImageView head;//头像
 //    @ViewInject(R.id.tv_qz)
@@ -71,6 +73,8 @@ public class CirxqAct extends BaseActivity {
 //    @ViewInject(R.id.notice)
     private TextView notice;//公告
     private TextView qzzl;//圈子资料
+
+    private RelativeLayout rl_jiaru;
 
     private int page=1;
     private int rows=10;
@@ -113,13 +117,33 @@ public class CirxqAct extends BaseActivity {
         notice= (TextView) headView.findViewById(R.id.notice);//公告
         qzzl= (TextView) headView.findViewById(R.id.tv_qzzl);//圈子资料
         rv_label= (MyRecyleview) headView.findViewById(R.id.rv_label);//圈子成员
+        rl_jiaru=(RelativeLayout) headView.findViewById(R.id.rl_jiaru);//加入圈子 默认是隐藏的
+
         LayoutHelperUtil.freshInit(lv_cir);
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        if(bundle!=null){
+            circleId=bundle.getString("circleId");
+            IsInCircle=bundle.getInt("IsInCircle");
+            if(IsInCircle==0){
+                rl_jiaru.setVisibility(View.VISIBLE);
+                getCircleDetail(circleId);
+                getCircleMembers(circleId);
+            }else {
+                rl_jiaru.setVisibility(View.GONE);
+                getCircleDetail(circleId);
+                getCircleMembers(circleId);
+                getThisCircleTalks(circleId, page, rows);
+            }
+
+        }
         circleId=getIntent().getStringExtra("circleId");
 //        initData();
 //        datalist=new ArrayList<>();
         getCircleDetail(circleId);
         getCircleMembers(circleId);
         getThisCircleTalks(circleId, page, rows);
+
 //        list = new ArrayList<Integer>(Arrays.asList(R.mipmap.cirxq_l,R.mipmap.cirxq_lb,R.mipmap.cirxq_lbb,R.mipmap.cirxq_l,R.mipmap.cirxq_lb));
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CirxqAct.this);
