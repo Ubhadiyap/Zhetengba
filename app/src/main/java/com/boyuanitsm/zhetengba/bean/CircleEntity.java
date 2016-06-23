@@ -69,56 +69,10 @@ public class CircleEntity implements Parcelable{
     private String remark;
 
     private boolean isValid;
+
     public CircleEntity() {
 
     }
-
-    protected CircleEntity(Parcel in) {
-        address = in.readString();
-        circleLogo = in.readString();
-        circleName = in.readString();
-        circleOwnerId = in.readString();
-        circleType = in.readString();
-        commentCounts = in.readInt();
-        createTime = in.readString();
-        id = in.readString();
-        likedCounts = in.readInt();
-        memberCounts = in.readInt();
-        modifyTime = in.readString();
-        notice = in.readString();
-        sharedCounts = in.readInt();
-        userName = in.readString();
-        userId = in.readString();
-        talkContent = in.readString();
-        talkImage = in.readString();
-        userIcon = in.readString();
-        userSex = in.readString();
-        liked = in.readInt();
-        fatherCommentId = in.readString();
-        circleId = in.readString();
-        commentUserId = in.readString();
-        commentTime = in.readString();
-        commentContent = in.readString();
-        modifyCommentUserId = in.readString();
-        modifyCommentTime = in.readString();
-        deleteCommentUserId = in.readString();
-        deleteCommentTime = in.readString();
-        remark = in.readString();
-        isValid = in.readByte() != 0;
-        isInCircle=in.readInt();
-    }
-
-    public static final Creator<CircleEntity> CREATOR = new Creator<CircleEntity>() {
-        @Override
-        public CircleEntity createFromParcel(Parcel in) {
-            return new CircleEntity(in);
-        }
-
-        @Override
-        public CircleEntity[] newArray(int size) {
-            return new CircleEntity[size];
-        }
-    };
 
     public Integer getIsInCircle() {
         return isInCircle;
@@ -385,37 +339,84 @@ public class CircleEntity implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(address);
-        dest.writeString(circleLogo);
-        dest.writeString(circleName);
-        dest.writeString(circleOwnerId);
-        dest.writeString(circleType);
-        dest.writeInt(commentCounts);
-        dest.writeString(createTime);
-        dest.writeString(id);
-        dest.writeInt(likedCounts);
-        dest.writeInt(memberCounts);
-        dest.writeString(modifyTime);
-        dest.writeString(notice);
-        dest.writeInt(sharedCounts);
-        dest.writeString(userName);
-        dest.writeString(userId);
-        dest.writeString(talkContent);
-        dest.writeString(talkImage);
-        dest.writeString(userIcon);
-        dest.writeString(userSex);
-        dest.writeInt(liked);
-        dest.writeString(fatherCommentId);
-        dest.writeString(circleId);
-        dest.writeString(commentUserId);
-        dest.writeString(commentTime);
-        dest.writeString(commentContent);
-        dest.writeString(modifyCommentUserId);
-        dest.writeString(modifyCommentTime);
-        dest.writeString(deleteCommentUserId);
-        dest.writeString(deleteCommentTime);
-        dest.writeString(remark);
-        dest.writeByte((byte) (isValid ? 1 : 0));
-        dest.writeInt(isInCircle);
+        dest.writeString(this.address);
+        dest.writeString(this.circleLogo);
+        dest.writeString(this.circleName);
+        dest.writeString(this.circleOwnerId);
+        dest.writeString(this.circleType);
+        dest.writeInt(this.commentCounts);
+        dest.writeString(this.createTime);
+        dest.writeString(this.id);
+        dest.writeInt(this.likedCounts);
+        dest.writeInt(this.memberCounts);
+        dest.writeString(this.modifyTime);
+        dest.writeString(this.notice);
+        dest.writeInt(this.sharedCounts);
+        dest.writeString(this.userName);
+        dest.writeString(this.userId);
+        dest.writeString(this.talkContent);
+        dest.writeString(this.talkImage);
+        dest.writeValue(this.isInCircle);
+        dest.writeString(this.userIcon);
+        dest.writeString(this.userSex);
+        dest.writeInt(this.liked);
+        dest.writeString(this.fatherCommentId);
+        dest.writeString(this.circleId);
+        dest.writeString(this.commentUserId);
+        dest.writeString(this.commentTime);
+        dest.writeString(this.commentContent);
+        dest.writeString(this.modifyCommentUserId);
+        dest.writeString(this.modifyCommentTime);
+        dest.writeString(this.deleteCommentUserId);
+        dest.writeString(this.deleteCommentTime);
+        dest.writeString(this.remark);
+        dest.writeByte(this.isValid ? (byte) 1 : (byte) 0);
     }
+
+    protected CircleEntity(Parcel in) {
+        this.address = in.readString();
+        this.circleLogo = in.readString();
+        this.circleName = in.readString();
+        this.circleOwnerId = in.readString();
+        this.circleType = in.readString();
+        this.commentCounts = in.readInt();
+        this.createTime = in.readString();
+        this.id = in.readString();
+        this.likedCounts = in.readInt();
+        this.memberCounts = in.readInt();
+        this.modifyTime = in.readString();
+        this.notice = in.readString();
+        this.sharedCounts = in.readInt();
+        this.userName = in.readString();
+        this.userId = in.readString();
+        this.talkContent = in.readString();
+        this.talkImage = in.readString();
+        this.isInCircle = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.userIcon = in.readString();
+        this.userSex = in.readString();
+        this.liked = in.readInt();
+        this.fatherCommentId = in.readString();
+        this.circleId = in.readString();
+        this.commentUserId = in.readString();
+        this.commentTime = in.readString();
+        this.commentContent = in.readString();
+        this.modifyCommentUserId = in.readString();
+        this.modifyCommentTime = in.readString();
+        this.deleteCommentUserId = in.readString();
+        this.deleteCommentTime = in.readString();
+        this.remark = in.readString();
+        this.isValid = in.readByte() != 0;
+    }
+
+    public static final Creator<CircleEntity> CREATOR = new Creator<CircleEntity>() {
+        @Override
+        public CircleEntity createFromParcel(Parcel source) {
+            return new CircleEntity(source);
+        }
+
+        @Override
+        public CircleEntity[] newArray(int size) {
+            return new CircleEntity[size];
+        }
+    };
 }

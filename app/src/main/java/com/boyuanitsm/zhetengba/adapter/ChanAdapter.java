@@ -105,7 +105,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
-            viewHolder.iv_oneimage = (ImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_ch_niName = (TextView) convertView.findViewById(R.id.tv_ch_niName);
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             viewHolder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
@@ -132,8 +132,13 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()),viewHolder.iv_oneimage,optionsImag);
-//            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage );
+//            if (!TextUtils.isEmpty(itemList.get(0).getUrl())){
+//                Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()));
+//                itemList.get(0).setWidth(bitmap.getWidth());
+//                itemList.get(0).setHeight(bitmap.getHeight());
+////            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()),viewHolder.iv_oneimage,optionsImag);
+//                LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage );
+//            }
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -318,7 +323,7 @@ public class ChanAdapter extends BaseAdapter {
         private LinearLayout ll_like;
         private LinearLayout ll_share;
         private LinearLayout ll_answer;
-        private ImageView iv_oneimage;
+        private CustomImageView iv_oneimage;
         private MyGridView iv_ch_image;
         private TextView tv_ch_niName;
         private TextView tv_content;
@@ -329,7 +334,6 @@ public class ChanAdapter extends BaseAdapter {
         private RelativeLayout ll_date;
         private TextView znum;
         private TextView cnum;
-        private TextView snum;
 
 
     }

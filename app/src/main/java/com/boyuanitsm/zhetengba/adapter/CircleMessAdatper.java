@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,11 +21,15 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -52,20 +57,21 @@ public class CircleMessAdatper extends BaseAdapter {
         this.context = context;
         this.circleInfoList = list;
     }
-    public void updata(List<CircleInfo> list){
-        this.circleInfoList=list;
+
+    public void updata(List<CircleInfo> list) {
+        this.circleInfoList = list;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (circleInfoList.get(position).getMesstype().equals(0+"")){
+        if (circleInfoList.get(position).getMesstype().equals(0 + "")) {
             return 0;
-        }else if (circleInfoList.get(position).getMesstype().equals(1+"")){
+        } else if (circleInfoList.get(position).getMesstype().equals(1 + "")) {
             return 1;
-        }else if (circleInfoList.get(position).getMesstype().equals(2+"")){
+        } else if (circleInfoList.get(position).getMesstype().equals(2 + "")) {
             return 2;
-        }else {
+        } else {
             return 4;
         }
     }
@@ -77,7 +83,7 @@ public class CircleMessAdatper extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return circleInfoList==null?0: circleInfoList.size();
+        return circleInfoList == null ? 0 : circleInfoList.size();
     }
 
     @Override
@@ -91,7 +97,7 @@ public class CircleMessAdatper extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         //tiem_mess_one两种布局
         int type = getItemViewType(position);
         Holder1 holder1 = null;
@@ -116,11 +122,11 @@ public class CircleMessAdatper extends BaseAdapter {
                     convertView = View.inflate(context, R.layout.item_mess, null);
                     holder1.tv_huifu = (TextView) convertView.findViewById(R.id.tv_huifu);
                     holder1.ll_reply = (LinearLayout) convertView.findViewById(R.id.ll_reply);
-                   holder1.cv_head1= (CircleImageView) convertView.findViewById(R.id.cv_head1);
-                    holder1.niName1=(TextView)convertView.findViewById(R.id.tv_niname);
-                    holder1.createTime1=(TextView)convertView.findViewById(R.id.tv_time);
+                    holder1.cv_head1 = (CircleImageView) convertView.findViewById(R.id.cv_head1);
+                    holder1.niName1 = (TextView) convertView.findViewById(R.id.tv_niname);
+                    holder1.createTime1 = (TextView) convertView.findViewById(R.id.tv_time);
                     holder1.iv_icon = (CircleImageView) convertView.findViewById(R.id.iv_icon);
-                    holder1.tv_talk= (TextView) convertView.findViewById(R.id.tv_talk);
+                    holder1.tv_talk = (TextView) convertView.findViewById(R.id.tv_talk);
                     holder1.cv_head1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -130,19 +136,19 @@ public class CircleMessAdatper extends BaseAdapter {
                         }
                     });
                     ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleInfoList.get(position).getUserIcon()), holder1.cv_head1, optionsImag);
-                    if (!TextUtils.isEmpty(circleInfoList.get(position).getPetName())){
+                    if (!TextUtils.isEmpty(circleInfoList.get(position).getPetName())) {
                         holder1.niName1.setText(circleInfoList.get(position).getPetName());
                     }
-                    if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())){
+                    if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())) {
                         holder1.createTime1.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
                     }
-                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),holder1.iv_icon,optionsImag);
-                    if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentTalk())){
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()), holder1.iv_icon, optionsImag);
+                    if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentTalk())) {
                         holder1.tv_talk.setText(circleInfoList.get(position).getCommentTalk());
                     }
-                    if (circleInfoList.get(position).getMessageState().equals(0+"")) {
-                        holder1.tv_huifu.setText("评论“我”："+circleInfoList.get(position).getCommentContent());
-                    } else if (circleInfoList.get(position).getMessageState().equals(1+"")) {
+                    if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
+                        holder1.tv_huifu.setText("评论“我”：" + circleInfoList.get(position).getCommentContent());
+                    } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
                         holder1.tv_huifu.setText("赞了“我”的状态!");
                     }
                     convertView.setTag(holder1);
@@ -152,22 +158,102 @@ public class CircleMessAdatper extends BaseAdapter {
                     convertView = View.inflate(context, R.layout.item_mess_one, null);
                     holder2.tv_qingqiu = (TextView) convertView.findViewById(R.id.tv_qingqiu);
                     holder2.tv_beizhu = (TextView) convertView.findViewById(R.id.tv_beizhu);
-                    holder2.cv_head2= (CircleImageView) convertView.findViewById(R.id.cv_head2);
+                    holder2.cv_head2 = (CircleImageView) convertView.findViewById(R.id.cv_head2);
+                    holder2.tv_petName = (TextView) convertView.findViewById(R.id.tv_petName);
+                    holder2.tv_creatTime = (TextView) convertView.findViewById(R.id.tv_creatTime);
+                    holder2.bt_yes = (Button) convertView.findViewById(R.id.bt_yes);
+                    holder2.bt_no = (Button) convertView.findViewById(R.id.bt_no);
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleInfoList.get(position).getUserIcon()), holder2.cv_head2, optionsImag);
+                    if (!TextUtils.isEmpty(circleInfoList.get(position).getPetName())) {
+                        holder2.tv_petName.setText(circleInfoList.get(position).getPetName());
+                    }
+                    if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())) {
+                        holder2.tv_creatTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
+                    }
                     holder2.cv_head2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(context, PerpageAct.class);
+                            Intent intent = new Intent(context, PerpageAct.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                         }
                     });
+                    final Holder2 finalHolder = holder2;
 
-                    if (circleInfoList.get(position).getMessageState().equals(0+"")) {
-                        holder2.tv_qingqiu.setText("请求加入娱乐圈");
-                        holder2.tv_beizhu.setText("备注：你好，我是李宇春");
-                    } else if (circleInfoList.get(position).getMessageState().equals(1+"")) {
-                        holder2.tv_qingqiu.setText("邀请你加入买菜圈");
-                        holder2.tv_beizhu.setText("备注：一起去买菜");
+                    if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
+                        holder2.tv_qingqiu.setText("请求加入" + circleInfoList.get(position).getCircleName());
+                        holder2.bt_yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                RequestManager.getTalkManager().sendAgreeCircleResp(circleInfoList.get(position).getCircleId(), circleInfoList.get(position).getUserId(), new ResultCallback() {
+                                    @Override
+                                    public void onError(int status, String errorMsg) {
+
+                                    }
+
+                                    @Override
+                                    public void onResponse(Object response) {
+                                        finalHolder.bt_yes.setBackgroundColor(Color.GRAY);
+                                        finalHolder.bt_yes.setClickable(false);
+                                        finalHolder.bt_no.setClickable(false);
+                                        MyToastUtils.showShortToast(context, "同意" + circleInfoList.get(position).getPetName() + "加入" + circleInfoList.get(position).getCircleName());
+                                    }
+                                });
+                            }
+                        });
+                        holder2.bt_no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                finalHolder.bt_no.setBackgroundColor(Color.GRAY);
+                                finalHolder.bt_yes.setClickable(false);
+                                finalHolder.bt_no.setClickable(false);
+                                MyToastUtils.showShortToast(context, "拒绝" + circleInfoList.get(position).getPetName() + "加入" + circleInfoList.get(position).getCircleName());
+                            }
+                        });
+//                        holder2.tv_beizhu.setText("备注：你好，我是李宇春");
+                    } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
+                        holder2.tv_qingqiu.setText("邀请你加入" + circleInfoList.get(position).getCircleName());
+                        holder2.bt_yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //同意加入
+                                RequestManager.getTalkManager().sendAgreeCircleInviteMsg(circleInfoList.get(position).getCircleId(), new ResultCallback<ResultBean<String>>() {
+                                    @Override
+                                    public void onError(int status, String errorMsg) {
+
+                                    }
+
+                                    @Override
+                                    public void onResponse(ResultBean<String> response) {
+                                        finalHolder.bt_yes.setBackgroundColor(Color.GRAY);
+                                        finalHolder.bt_yes.setClickable(false);
+                                        finalHolder.bt_no.setClickable(false);
+                                        MyToastUtils.showShortToast(context, "已加入" + circleInfoList.get(position).getCircleName());
+                                    }
+                                });
+                            }
+                        });
+                        holder2.bt_no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //拒绝加入
+                                RequestManager.getTalkManager().sendRefuseCircleResp(circleInfoList.get(position).getCircleId(), new ResultCallback<ResultBean<String>>() {
+                                    @Override
+                                    public void onError(int status, String errorMsg) {
+
+                                    }
+
+                                    @Override
+                                    public void onResponse(ResultBean<String> response) {
+                                        finalHolder.bt_no.setBackgroundColor(Color.GRAY);
+                                        finalHolder.bt_no.setClickable(false);
+                                        finalHolder.bt_yes.setClickable(false);
+                                        MyToastUtils.showShortToast(context, "已拒绝加入" + circleInfoList.get(position).getCircleName());
+                                    }
+                                });
+                            }
+                        });
+//                        holder2.tv_beizhu.setText("备注：一起去买菜");
                     }
                     convertView.setTag(holder2);
                     break;
@@ -175,21 +261,28 @@ public class CircleMessAdatper extends BaseAdapter {
                     holder3 = new Holder3();
                     convertView = View.inflate(context, R.layout.item_mess_two, null);
                     holder3.tv_shenqing = (TextView) convertView.findViewById(R.id.tv_shenqing);
-                    holder3.cv_head3= (CircleImageView) convertView.findViewById(R.id.cv_head3);
+                    holder3.cv_head3 = (CircleImageView) convertView.findViewById(R.id.cv_head3);
+                    holder3.tv_creatTime = (TextView) convertView.findViewById(R.id.tv_creatTime);
+                    holder3.tv_petName = (TextView) convertView.findViewById(R.id.tv_petName);
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleInfoList.get(position).getUserIcon()),holder3.cv_head3,optionsImag);
+                    if (!TextUtils.isEmpty(circleInfoList.get(position).getPetName())) {
+                        holder3.tv_petName.setText(circleInfoList.get(position).getPetName());
+                    }
+                    if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())) {
+                        holder3.tv_creatTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
+                    }
                     holder3.cv_head3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(context, PerpageAct.class);
+                            Intent intent = new Intent(context, PerpageAct.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                         }
                     });
-                    if (circleInfoList.get(position).getMessageState().equals(1+"")) {
-                        holder3.tv_shenqing.setText("同意了你的请求，欢迎加入吃饭圈");
-                    } else if (circleInfoList.get(position).getMessageState().equals(2+"")) {
-                        holder3.tv_shenqing.setText("拒绝了你的请求，不参加吃饭圈");
-                    } else {
-                        holder3.tv_shenqing.setText("分享了你的吃饭圈子");
+                    if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
+                        holder3.tv_shenqing.setText("同意了我的邀请，已加入"+circleInfoList.get(position).getCircleName());
+                    } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
+                        holder3.tv_shenqing.setText("拒绝了我的邀请，不参加"+circleInfoList.get(position).getCircleName());
                     }
                     convertView.setTag(holder3);
                     break;
@@ -199,7 +292,7 @@ public class CircleMessAdatper extends BaseAdapter {
         return convertView;
     }
 
-    class Holder1 {
+    static class Holder1 {
         private TextView tv_huifu;
         private LinearLayout ll_reply;
         private CircleImageView cv_head1;
@@ -209,16 +302,19 @@ public class CircleMessAdatper extends BaseAdapter {
         private TextView tv_talk;
     }
 
-    class Holder2 {
+    static class Holder2 {
         private TextView tv_qingqiu;
         private TextView tv_beizhu;
+        private Button bt_yes, bt_no;
         private CircleImageView cv_head2;
+        private TextView tv_petName;
+        private TextView tv_creatTime;
     }
 
-    class Holder3 {
+    static class Holder3 {
         private TextView tv_shenqing;
         private CircleImageView cv_head3;
+        private TextView tv_petName;
+        private TextView tv_creatTime;
     }
-
-
 }
