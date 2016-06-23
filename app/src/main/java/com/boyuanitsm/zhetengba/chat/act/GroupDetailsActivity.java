@@ -81,6 +81,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	private EMGroup group;
 	private GridAdapter adapter;
 	private ProgressDialog progressDialog;
+	private TextView tvTime;
 
 	private RelativeLayout rl_switch_block_groupmsg;
 
@@ -113,9 +114,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	@Override
 	public void init(Bundle savedInstanceState) {
-
+		findGroupInfo();
 		instance = this;
 		st = getResources().getString(R.string.people);
+		tvTime= (TextView) findViewById(R.id.tvTime);
 		clearAllHistory = (RelativeLayout) findViewById(R.id.clear_all_history);
 		tvTitle= (TextView) findViewById(R.id.tvTitle);
 		userGridview = (EaseExpandGridView) findViewById(R.id.gridview);
@@ -1040,7 +1042,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				runOnUiThread(new Runnable() {
 					public void run() {
 						progressDialog.dismiss();
-						Toast.makeText(getApplicationContext(), st5 , Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), st5, Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
@@ -1052,7 +1054,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 						progressDialog.dismiss();
 						setResult(RESULT_OK);
 						finish();
-						if(ChatActivity.activityInstance != null)
+						if (ChatActivity.activityInstance != null)
 							ChatActivity.activityInstance.finish();
 					}
 				});
@@ -1060,4 +1062,17 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		});
 	}
 
+	private void findGroupInfo(){
+		RequestManager.getMessManager().findGroupInfo(groupId, new ResultCallback<String>() {
+			@Override
+			public void onError(int status, String errorMsg) {
+
+			}
+
+			@Override
+			public void onResponse(String response) {
+
+			}
+		});
+	}
 }
