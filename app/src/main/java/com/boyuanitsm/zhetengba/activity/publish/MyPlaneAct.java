@@ -135,7 +135,7 @@ public class MyPlaneAct extends BaseActivity {
                     if(!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
                         String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
                         for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(Uitls.imageFullUrl(urlList[i]), 1624, 914));
+                            itemList.add(new ImageInfo(urlList[i], 1624, 914));
                         }
                     }
                     datalist.add(itemList);

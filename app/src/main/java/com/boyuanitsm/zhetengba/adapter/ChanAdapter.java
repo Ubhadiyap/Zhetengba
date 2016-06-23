@@ -105,7 +105,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
-            viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.iv_oneimage = (ImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_ch_niName = (TextView) convertView.findViewById(R.id.tv_ch_niName);
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             viewHolder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
@@ -120,7 +120,6 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_ch_image = (LinearLayout) convertView.findViewById(R.id.ll_ch_image);
             viewHolder.znum= (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum= (TextView) convertView.findViewById(R.id.cnum);
-            viewHolder.snum= (TextView) convertView.findViewById(R.id.snum);
             convertView.setTag(viewHolder);
         }
         viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
@@ -133,7 +132,8 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage );
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()),viewHolder.iv_oneimage,optionsImag);
+//            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage );
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -222,20 +222,27 @@ public class ChanAdapter extends BaseAdapter {
                 }
             }
             if(!TextUtils.isEmpty(list.get(position).getLikeCounts()+"")){
-                viewHolder.znum.setText(list.get(position).getLikeCounts()+"");
-            }else {
-                viewHolder.znum.setText("0");
+                if (list.get(position).getLikeCounts()==0){
+                    viewHolder.znum.setVisibility(View.GONE);
+                }else {
+                    viewHolder.znum.setVisibility(View.VISIBLE);
+                    viewHolder.znum.setText(list.get(position).getLikeCounts()+"");
+                }
             }
             if(!TextUtils.isEmpty(list.get(position).getCommentCounts()+"")){
-                viewHolder.cnum.setText(list.get(position).getCommentCounts()+"");
-            }else {
-                viewHolder.cnum.setText("0");
+                if (list.get(position).getCommentCounts()==0){
+                    viewHolder.cnum.setVisibility(View.GONE);
+                }else {
+                    viewHolder.cnum.setVisibility(View.VISIBLE);
+                    viewHolder.cnum.setText(list.get(position).getCommentCounts()+"");
+                }
+//                viewHolder.cnum.setText("0");
             }
-            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
-                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
-            }else {
-                viewHolder.snum.setText("0");
-            }
+//            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
+//                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
+//            }else {
+//                viewHolder.snum.setText("0");
+//            }
         }
         //点击活动详情跳转频道正文
         View.OnClickListener listener = new View.OnClickListener() {
@@ -311,7 +318,7 @@ public class ChanAdapter extends BaseAdapter {
         private LinearLayout ll_like;
         private LinearLayout ll_share;
         private LinearLayout ll_answer;
-        private CustomImageView iv_oneimage;
+        private ImageView iv_oneimage;
         private MyGridView iv_ch_image;
         private TextView tv_ch_niName;
         private TextView tv_content;

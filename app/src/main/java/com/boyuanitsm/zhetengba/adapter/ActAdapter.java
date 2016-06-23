@@ -145,11 +145,12 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
         }
         if (infos.get(position).getFollowNum() != null) {
-            viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
-
-        } else {
-            viewHolder.tv_guanzhu_num.setText(0 + "");//关注人数
-
+            if (infos.get(position).getFollowNum() == 0) {
+                viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
+            } else {
+                viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+                viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
+            }
         }
         if (infos.get(position).getMemberNum() != null) {
             viewHolder.tv_join_num.setText(infos.get(position).getMemberNum() + "");//目前成员数量；
@@ -265,15 +266,17 @@ public class ActAdapter extends BaseAdapter {
                                 int noticNum = infos.get(position).getFollowNum();
                                 noticNum = noticNum + 1;
                                 infos.get(position).setFollowNum(noticNum);
-                                viewHolder.tv_guanzhu_num.setText(noticNum + "");
-                                viewHolder.ll_guanzhu.setClickable(false);
-                            } else {
-                                int noticNum = 0;
-                                noticNum = noticNum + 1;
-                                infos.get(position).setFollowNum(noticNum);
+                                viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
                                 viewHolder.tv_guanzhu_num.setText(noticNum + "");
                                 viewHolder.ll_guanzhu.setClickable(false);
                             }
+//                            else {
+//                                int noticNum = 0;
+//                                noticNum = noticNum + 1;
+//                                infos.get(position).setFollowNum(noticNum);
+//                                viewHolder.tv_guanzhu_num.setText(noticNum + "");
+//                                viewHolder.ll_guanzhu.setClickable(false);
+//                            }
 
                             MyToastUtils.showShortToast(context, "已关注");
                         }

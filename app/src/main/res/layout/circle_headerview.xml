@@ -75,7 +75,7 @@
                     android:layout_weight="1"
                     android:textColor="#333333"
                     android:textSize="16sp"
-                    android:text="最美好的结局就是，你成为了我的责任，而我成为了你的守护，如此相守一生，相伴到老。"
+                    android:text="相伴到老。"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -94,7 +94,7 @@
                 android:id="@+id/llphoto"
                 android:layout_marginTop="15dp"
                 android:orientation="vertical"
-                android:layout_width="260dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <com.boyuanitsm.zhetengba.view.MyGridView
                     android:id="@+id/iv_ch_image"
@@ -145,9 +145,9 @@
                             android:layout_height="83dp" />
                     </LinearLayout>
                 </LinearLayout>
-                <com.boyuanitsm.zhetengba.view.CustomImageView
+                <ImageView
                     android:id="@+id/iv_oneimage"
-                    android:layout_width="match_parent"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>

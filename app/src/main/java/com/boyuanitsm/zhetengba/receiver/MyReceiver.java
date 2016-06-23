@@ -51,6 +51,8 @@ public class MyReceiver extends BroadcastReceiver {
 				try {
 					JSONObject json = new JSONObject(extra);
 					String type = json.getString("type");//解析单个
+//                    String comment=json.getString("commentTalk");
+//                    Log.d(TAG, "json.getString(\"commentContent\"); 接收到推送下来的commentContent的内容: " + comment);
 					if (TextUtils.equals(type,"2")){
 						Gson gson = new Gson();
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
