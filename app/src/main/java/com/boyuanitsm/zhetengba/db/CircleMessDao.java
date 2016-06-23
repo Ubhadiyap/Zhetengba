@@ -59,6 +59,7 @@ public class CircleMessDao extends TemplateDAO<CircleInfo,String> {
         values.put("circle_ame",circleInfo.getCircleName());
         values.put("comment_content",circleInfo.getCommentContent());
         values.put("comment_talk",circleInfo.getCommentTalk());
+        values.put("cicle_id",circleInfo.getCircleId());
         db.update(getDao().getTableName(), values, "userId=?", new String[]{circleInfo.getUserId()});
     }
 

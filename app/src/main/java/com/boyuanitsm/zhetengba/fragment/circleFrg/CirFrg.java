@@ -4,9 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -28,6 +31,7 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +43,20 @@ import java.util.List;
 public class CirFrg extends Fragment {
     private List<List<ImageInfo>> datalist;
     private List<CircleEntity> circleEntityList;
-
     private PullToRefreshListView lv_cir;
     private CircleAdapter adapter;
     private int page=1;
     private int rows=10;
+    private Bitmap bitmap;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
 
+            }
+        }
+    };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.cir_frg, null);
@@ -58,20 +70,27 @@ public class CirFrg extends Fragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-                page=1;
-                getAllCircleTalk(page,rows);
+                page = 1;
+                getAllCircleTalk(page, rows);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getAllCircleTalk(page,rows);
+                getAllCircleTalk(page, rows);
             }
         });
         return view;
     }
 
-
+    Thread thread=new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Message message=new Message();
+            message.what=1;
+            handler.sendMessage(message);
+        }
+    });
     private List<CircleEntity> datas=new ArrayList<>();
     /**
      * 获取所有圈子说说
@@ -106,13 +125,14 @@ public class CirFrg extends Fragment {
                 }
                 datas.addAll(circleEntityList);
                 for (int j=0;j<datas.size();j++) {
-                    List<ImageInfo> itemList=new ArrayList<>();
+                    final List<ImageInfo> itemList=new ArrayList<>();
                     //将图片地址转化成数组
                     if(!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
-                        String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
-                        for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(urlList[i], 1624, 914));
+                        final String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
+                            for (int i = 0; i < urlList.length; i++) {
+                                itemList.add(new ImageInfo(urlList[i], 1624, 914));
                         }
+
                     }
                     datalist.add(itemList);
                 }
@@ -125,7 +145,6 @@ public class CirFrg extends Fragment {
             }
         });
     }
-
 
 
     @Override

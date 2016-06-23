@@ -81,17 +81,7 @@ public class CirxqAct extends BaseActivity {
 
 
     private List<List<ImageInfo>> datalist;
-    private String[][] images=new String[][]{{
-            ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"1280","800"}
-    };
+
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
@@ -129,17 +119,16 @@ public class CirxqAct extends BaseActivity {
                 rl_jiaru.setVisibility(View.VISIBLE);
                 getCircleDetail(circleId);
                 getCircleMembers(circleId);
-            }else {
+            }else{
                 rl_jiaru.setVisibility(View.GONE);
                 getCircleDetail(circleId);
                 getCircleMembers(circleId);
                 getThisCircleTalks(circleId, page, rows);
             }
+            lv_cir.getRefreshableView().addHeaderView(headView);
 
         }
         circleId=getIntent().getStringExtra("circleId");
-//        initData();
-//        datalist=new ArrayList<>();
         getCircleDetail(circleId);
         getCircleMembers(circleId);
         getThisCircleTalks(circleId, page, rows);
@@ -166,13 +155,13 @@ public class CirxqAct extends BaseActivity {
         qzzl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(CirxqAct.this,CirmationAct.class);
-                intent.putExtra("circleEntity",circleEntity);
+                Intent intent = new Intent(CirxqAct.this, CirmationAct.class);
+                intent.putExtra("circleEntity", circleEntity);
                 startActivity(intent);
             }
         });
 
-        lv_cir.getRefreshableView().addHeaderView(headView);
+
         lv_cir.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -231,7 +220,7 @@ public class CirxqAct extends BaseActivity {
             }
             if(!TextUtils.isEmpty(entity.getUserName())){
                 name.setText("圈主：" + entity.getUserName());
-            }else {
+            }else if (!TextUtils.isEmpty(entity.getCircleOwnerId())){
                 String str=entity.getCircleOwnerId();
                 name.setText("圈主："+str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
             }

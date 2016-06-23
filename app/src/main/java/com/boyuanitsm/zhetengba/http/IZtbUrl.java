@@ -173,8 +173,14 @@ public interface IZtbUrl {
     String UPLOAD_URL = BASE_URL + "talk/login/uploadImg.do";
     /*邀请好友建立圈子*/
     String INVITE_FRIEND_TOCIRCLE_URL = BASE_URL + "message/login/sendCircleInviteMsg.do";
-
-
+//    邀请好友同意接口
+    String INVITE_AGREE_URL=BASE_URL+"message/login/sendAgreeCircleInviteMsg.do";
+    //邀请好友拒绝接口
+    String INVITE_REFUSE_URL=BASE_URL+"message/login/sendRefuseCircleInviteMsg.do";
+    //同意加入接口
+    String QING_AGREE_URL=BASE_URL+"message/login/sendAgreeCircleResp.do";
+    //拒绝加入接口
+    String QING_REFUSE_URL=BASE_URL+"message/login/sendRefuseCircleResp.do";
     /**
      * =======档期 =======
      */

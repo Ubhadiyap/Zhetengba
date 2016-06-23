@@ -23,14 +23,15 @@ public class CircleInfo implements Parcelable{
     @Column
     private String messtype;//1评论了我，赞了我2.邀请，拒绝，接受3.同意拒绝提示，分享了，
     @Column
-    private String messageState;//1评论我，2，赞我// 1请求加入，2，邀请加入，//  1同意了请求，2，拒绝了请求，3，分享了圈子
+    private String messageState;//0评论我，1赞我// 0请求加入，1，邀请加入，//  0同意了请求，1，拒绝了请求，2，同意了邀请，3拒绝了邀请
     @Column
     private String circleName;//圈子名称
     @Column
     private String commentContent;//评论内容
     @Column
     private String commentTalk;//评论的说说
-
+    @Column
+    private String circleId;//圈子id
     @Override
     public String toString() {
         return "CircleInfo{" +
@@ -43,7 +44,20 @@ public class CircleInfo implements Parcelable{
                 ", circleName='" + circleName + '\'' +
                 ", commentContent='" + commentContent + '\'' +
                 ", commentTalk='" + commentTalk + '\'' +
+                ", circleId='" + circleId + '\'' +
                 '}';
+    }
+
+    public String getCircleId() {
+        return circleId;
+    }
+
+    public void setCircleId(String circleId) {
+        this.circleId = circleId;
+    }
+
+    public static Creator<CircleInfo> getCREATOR() {
+        return CREATOR;
     }
 
     public String getUserId() {
@@ -118,6 +132,9 @@ public class CircleInfo implements Parcelable{
         this.commentTalk = commentTalk;
     }
 
+    public CircleInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -134,9 +151,7 @@ public class CircleInfo implements Parcelable{
         dest.writeString(this.circleName);
         dest.writeString(this.commentContent);
         dest.writeString(this.commentTalk);
-    }
-
-    public CircleInfo() {
+        dest.writeString(this.circleId);
     }
 
     protected CircleInfo(Parcel in) {
@@ -149,6 +164,7 @@ public class CircleInfo implements Parcelable{
         this.circleName = in.readString();
         this.commentContent = in.readString();
         this.commentTalk = in.readString();
+        this.circleId = in.readString();
     }
 
     public static final Creator<CircleInfo> CREATOR = new Creator<CircleInfo>() {

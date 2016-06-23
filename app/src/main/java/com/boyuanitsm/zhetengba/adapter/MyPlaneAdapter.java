@@ -109,7 +109,7 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             viewHolder.llphoto = (LinearLayout) convertView.findViewById(R.id.llphoto);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
-            viewHolder.iv_oneimage = (ImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
             viewHolder.ll_two = (LinearLayout) convertView.findViewById(R.id.ll_two);
             viewHolder.iv_two_one = (ImageView) convertView.findViewById(R.id.iv_two_one);
@@ -132,6 +132,10 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
 //            handlerOneImage(viewHolder, itemList.get(0));
+            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()));
+            itemList.get(0).setWidth(bitmap.getWidth());
+            itemList.get(0).setHeight(bitmap.getHeight());
+            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
 //            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +215,7 @@ public class MyPlaneAdapter extends BaseAdapter {
                 }
             }
             if (!TextUtils.isEmpty(list.get(position).getCreateTime())) {
-                viewHolder.tvTime.setText(ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTime())));
+                viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTime())));
             }
             if (!TextUtils.isEmpty(list.get(position).getTalkContent())) {
                 viewHolder.tv_content.setText(list.get(position).getTalkContent());
@@ -334,7 +338,7 @@ public class MyPlaneAdapter extends BaseAdapter {
         public ImageView ivChGendar;
         public TextView tvTime;
         public MyGridView iv_ch_image;
-        public ImageView iv_oneimage;
+        public CustomImageView iv_oneimage;
         public TextView tv_cir_name;
         private LinearLayout ll_two;
         private ImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;

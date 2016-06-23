@@ -387,7 +387,7 @@ public class TalkManager extends RequestManager{
      * @param callback
      */
     public void upLoadImg(Map<String, FileBody> fileMaps, ResultCallback callback){
-        submitFujian(IZtbUrl.UPLOAD_URL,fileMaps,callback);
+        submitFujian(IZtbUrl.UPLOAD_URL, fileMaps, callback);
     }
 
     /**
@@ -400,8 +400,54 @@ public class TalkManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.MYTALKS_OUT_URL,map,callback);
+        doPost(IZtbUrl.MYTALKS_OUT_URL, map, callback);
     }
 
+    /**
+     * 邀请好友加入，同意
+     * @param circleId
+     * @param callback
+     */
+    public void sendAgreeCircleInviteMsg(String circleId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("circleId",circleId);
+        doPost(IZtbUrl.INVITE_AGREE_URL,map,callback);
+    }
 
+    /**
+     * 邀请加入，拒绝
+     * @param circleId
+     * @param callback
+     */
+    public void sendRefuseCircleResp(String circleId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("circleId",circleId);
+        doPost(IZtbUrl.INVITE_REFUSE_URL,map,callback);
+    }
+
+    /**
+     * 请求加入，同意
+     * @param circleId
+     * @param personId
+     * @param callback
+     */
+    public void sendAgreeCircleResp(String circleId,String personId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("circleId",circleId);
+        map.put("personId",personId);
+        doPost(IZtbUrl.QING_AGREE_URL,map,callback);
+    }
+
+    /**
+     * 请求加入，拒绝；
+     * @param circleId
+     * @param personId
+     * @param callback
+     */
+    public void qingRefuseCircleResp(String circleId,String personId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("circleId",circleId);
+        map.put("personId",personId);
+        doPost(IZtbUrl.QING_REFUSE_URL, map, callback);
+    }
 }

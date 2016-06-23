@@ -138,10 +138,10 @@
 
 
             </LinearLayout>
-            <ImageView
+            <com.boyuanitsm.zhetengba.view.CustomImageView
                 android:visibility="gone"
                 android:id="@+id/iv_oneimage"
-                android:layout_width="130dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 

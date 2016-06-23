@@ -25,11 +25,14 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
-import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Set;
 
@@ -146,7 +149,7 @@ public class LoginAct extends BaseActivity {
      *
      * @param
      */
-    public void login(final UserBean userBean) {
+    public void login(final UserBean userBean, final int type) {
         if (!EaseCommonUtils.isNetWorkConnected(this)) {
             Toast.makeText(this, R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
             return;
@@ -198,13 +201,20 @@ public class LoginAct extends BaseActivity {
                 //异步获取当前用户的昵称和头像(从自己服务器获取，demo使用的一个第三方服务)
 //                DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
                 DemoHelper.getInstance().getUserProfileManager().setNickName(userBean.getUser().getUsername());
-                DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(userBean.getUser().getIcon()));
+                DemoHelper.getInstance().getUserProfileManager().setUserAvatar("http://172.16.6.253:8089/zhetengba/userIcon/90017a421ee84e0db5c6d53e55c03c50.png");
                 UserInfoDao.saveUser(userBean.getUser());
+                if(type==0){
+                    //进入完善信息界面
+                    Intent intent=new Intent(LoginAct.this,RegInfoAct.class);
+                    startActivity(intent);
+                    finish();
+                }
+                if(type==1){
                 // 进入主页面
                 Intent intent = new Intent(LoginAct.this,
                         MainAct.class);
                 startActivity(intent);
-                finish();
+                finish();}
             }
 
             @Override
@@ -237,19 +247,39 @@ public class LoginAct extends BaseActivity {
         }
     }
 
-    private void toLogin(String username, String password) {
+    private void toLogin(final String username, String password) {
         pd.show();
         RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<UserBean>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                if(601==status){
+                    try {
+                        Gson mGson = new Gson();
+                        JSONObject  json = new JSONObject(errorMsg);
+                        JSONObject data = json.getJSONObject("data");
+                        UserBean userBean = mGson.fromJson(data.toString(), UserBean.class);
+                        MyLogUtils.info("要死人啦"+userBean);
+                        login(userBean, 0);
+                        JPushInterface.setAlias(LoginAct.this, userBean.getUser().getId(), new TagAliasCallback() {
+                            @Override
+                            public void gotResult(int i, String s, Set<String> set) {
+
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }else {
+                    MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
+                }
                 pd.dismiss();
-                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<UserBean> response) {
                 UserBean userBean = response.getData();
-                login(userBean);
+                login(userBean,1);
                 MyLogUtils.info(userBean.getUser().getId()+"id是");
                 JPushInterface.setAlias(LoginAct.this, userBean.getUser().getId(), new TagAliasCallback() {
                     @Override
