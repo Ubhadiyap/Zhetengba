@@ -26,7 +26,7 @@ public class CircleEntity implements Parcelable{
     private String userId;//用户id
     private String talkContent;//说说内容
     private String talkImage;//说说图片
-    private Integer isInCircle;//是否在圈子里面，后面才加的字段
+    private int isInCircle;//是否在圈子里面，后面才加的字段
     /**
      * 用户姓名
      */
@@ -69,16 +69,14 @@ public class CircleEntity implements Parcelable{
     private String remark;
 
     private boolean isValid;
-
     public CircleEntity() {
-
     }
 
-    public Integer getIsInCircle() {
+    public int getIsInCircle() {
         return isInCircle;
     }
 
-    public void setIsInCircle(Integer isInCircle) {
+    public void setIsInCircle(int isInCircle) {
         this.isInCircle = isInCircle;
     }
 
@@ -356,7 +354,7 @@ public class CircleEntity implements Parcelable{
         dest.writeString(this.userId);
         dest.writeString(this.talkContent);
         dest.writeString(this.talkImage);
-        dest.writeValue(this.isInCircle);
+        dest.writeInt(this.isInCircle);
         dest.writeString(this.userIcon);
         dest.writeString(this.userSex);
         dest.writeInt(this.liked);
@@ -370,7 +368,7 @@ public class CircleEntity implements Parcelable{
         dest.writeString(this.deleteCommentUserId);
         dest.writeString(this.deleteCommentTime);
         dest.writeString(this.remark);
-        dest.writeByte(this.isValid ? (byte) 1 : (byte) 0);
+        dest.writeByte(isValid ? (byte) 1 : (byte) 0);
     }
 
     protected CircleEntity(Parcel in) {
@@ -391,7 +389,7 @@ public class CircleEntity implements Parcelable{
         this.userId = in.readString();
         this.talkContent = in.readString();
         this.talkImage = in.readString();
-        this.isInCircle = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.isInCircle = in.readInt();
         this.userIcon = in.readString();
         this.userSex = in.readString();
         this.liked = in.readInt();
@@ -409,12 +407,10 @@ public class CircleEntity implements Parcelable{
     }
 
     public static final Creator<CircleEntity> CREATOR = new Creator<CircleEntity>() {
-        @Override
         public CircleEntity createFromParcel(Parcel source) {
             return new CircleEntity(source);
         }
 
-        @Override
         public CircleEntity[] newArray(int size) {
             return new CircleEntity[size];
         }

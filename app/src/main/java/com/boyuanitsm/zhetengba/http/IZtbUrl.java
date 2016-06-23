@@ -307,5 +307,7 @@ public interface IZtbUrl {
     String REMOVE_FRIEND_URL=BASE_URL+"message/login/removeFriend.do";
     /*增加群成员*/
     String ADD_GROUP_MEMBER_URL=BASE_URL+"message/login/addGroupMember.do";
+    /*查找群详情*/
+    String GROUP_INFO=BASE_URL+"message/login/findGroupInfo.do";
 //    String ADD_GROUP_URL = BASE_URL + "message/login/addGroupChat.do";
 }

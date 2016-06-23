@@ -55,10 +55,13 @@ public class SerchCirAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(SerchCirAct.this, CirxqAct.class);
-                Bundle bundle=new Bundle();
-                bundle.putString("circleId",list.get(position).getId());
-                bundle.putInt("IsInCircle",list.get(position).getIsInCircle());
-                intent.putExtras(bundle);
+//                Bundle bundle=new Bundle();
+//                bundle.putString("circleId",list.get(position).getId());
+//                bundle.putInt("IsInCircle",list.get(position).getIsInCircle());
+                intent.putExtra("circleId",list.get(position).getId());
+//                intent.putExtra("IsInCircle",list.get(position).getIsInCircle());
+                intent.putExtra("isincircle",list.get(position).getIsInCircle());
+                intent.putExtra("type",0);
                 startActivity(intent);
             }
         });

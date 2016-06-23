@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.GroupBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
@@ -81,6 +82,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	private EMGroup group;
 	private GridAdapter adapter;
 	private ProgressDialog progressDialog;
+	private TextView tvTime;
 
 	private RelativeLayout rl_switch_block_groupmsg;
 
@@ -116,6 +118,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 		instance = this;
 		st = getResources().getString(R.string.people);
+		tvTime= (TextView) findViewById(R.id.tvTime);
 		clearAllHistory = (RelativeLayout) findViewById(R.id.clear_all_history);
 		tvTitle= (TextView) findViewById(R.id.tvTitle);
 		userGridview = (EaseExpandGridView) findViewById(R.id.gridview);
@@ -133,6 +136,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		searchLayout = (RelativeLayout) findViewById(R.id.rl_search);
 
 		tvTitle.setText("对话管理");
+		findGroupInfo();//查找群信息
 		idText.setText(groupId);
 		if (group.getOwner() == null || "".equals(group.getOwner())
 				|| !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
@@ -286,7 +290,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	private void refreshMembers(){
 	    adapter.clear();
-        List<String> members = new ArrayList<String>();
+
+		List<String> members = new ArrayList<String>();
         members.addAll(group.getMembers());
         adapter.addAll(members);
         
@@ -439,18 +444,21 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 			@Override
 			public void onResponse(ResultBean<String> response) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						runOnUiThread(new Runnable() {
-							public void run(){
-								refreshMembers();
-//						((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
-								progressDialog.dismiss();
-							}
-						});
-					}
-				}).start();
+				updateGroup();
+				progressDialog.dismiss();
+
+//				new Thread(new Runnable() {
+//					@Override
+//					public void run() {
+//						runOnUiThread(new Runnable() {
+//							public void run(){
+//								refreshMembers();
+////						((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
+//								progressDialog.dismiss();
+//							}
+//						});
+//					}
+//				}).start();
 
 			}
 		});
@@ -763,7 +771,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							public void onResponse(String response) {
 								isInDeleteMode = false;
 								deleteDialog.dismiss();
-								refreshMembers();
+								updateGroup();
+//								refreshMembers();
 //								new Thread(new Runnable() {
 //									@Override
 //									public void run() {
@@ -1040,7 +1049,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				runOnUiThread(new Runnable() {
 					public void run() {
 						progressDialog.dismiss();
-						Toast.makeText(getApplicationContext(), st5 , Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), st5, Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
@@ -1052,7 +1061,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 						progressDialog.dismiss();
 						setResult(RESULT_OK);
 						finish();
-						if(ChatActivity.activityInstance != null)
+						if (ChatActivity.activityInstance != null)
 							ChatActivity.activityInstance.finish();
 					}
 				});
@@ -1060,4 +1069,20 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		});
 	}
 
+	private void findGroupInfo(){
+		RequestManager.getMessManager().findGroupInfo(groupId, new ResultCallback<ResultBean<GroupBean>>() {
+			@Override
+			public void onError(int status, String errorMsg) {
+
+			}
+
+			@Override
+			public void onResponse(ResultBean<GroupBean> response) {
+              GroupBean groupBean=response.getData();
+				if(groupBean!=null){
+					tvTime.setText("还剩"+groupBean.getReminderDays()+"天");
+				}
+			}
+		});
+	}
 }

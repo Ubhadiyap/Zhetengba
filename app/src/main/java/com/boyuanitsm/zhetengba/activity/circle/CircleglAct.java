@@ -42,7 +42,6 @@ public class CircleglAct extends BaseActivity {
     private int page=1;
     private int rows=10;
     private CircleglAdapter adapter;
-    private String str,str1;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circlegl);
@@ -51,23 +50,20 @@ public class CircleglAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         Intent intent=getIntent();
-        final Bundle bundle=intent.getExtras();
+        Bundle bundle=intent.getExtras();
         if (bundle!=null){
             String ppuserId=bundle.getString("PPuserId");
             if (!TextUtils.isEmpty(ppuserId)) {
                 if (ppuserId.equals(UserInfoDao.getUser().getId())) {
-                    str="圈子管理";
-                    setTopTitle(str);
+                    setTopTitle("圈子管理");
                     getCircleList(null, page, rows);
                 } else {
-                    str="TA的圈子";
-                    setTopTitle(str);
+                    setTopTitle("TA的圈子");
                     getCircleList(ppuserId, page, rows);
                 }
             }
         }else {
-            str="圈子管理";
-            setTopTitle(str);
+            setTopTitle("圈子管理");
             getCircleList(null,page,rows);
         }
         lv_circlegl.setPullRefreshEnabled(true);//下拉刷新
@@ -83,15 +79,8 @@ public class CircleglAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CircleglAct.this, CirxqAct.class);
-                Bundle bundle1=new Bundle();
-                bundle1.putString("circleId", datas.get(position).getId());
-                if (str.equals("圈子管理")){
-                    bundle1.putInt("IsInCircle", 1);
-                }else if (str.equals("TA的圈子")){
-                    bundle1.putInt("IsInCircle", 0);
-                }
-//                intent.putExtra("circleId", datas.get(position).getId());
-                intent.putExtras(bundle1);
+                intent.putExtra("circleId", datas.get(position).getId());
+                intent.putExtra("type",1);
                 startActivity(intent);
 //                openActivity(CirxqAct.class);
             }
