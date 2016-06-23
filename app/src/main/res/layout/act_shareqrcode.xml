@@ -13,9 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/iverm"
             android:layout_width="170dp"
             android:layout_height="170dp" />
         <TextView
+            android:id="@+id/tv_shareer"
             android:layout_marginTop="30dp"
             android:text="分享二维码"
             style="@style/com_button"/>
