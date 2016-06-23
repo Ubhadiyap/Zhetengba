@@ -131,10 +131,11 @@ public class CirxqAct extends BaseActivity {
         type=intent.getExtras().getInt("type");
         circleId=intent.getExtras().getString("circleId");
         if(type==0){
-            //从收索里面进来
+            //从收索里面进来(需要判断是否在圈子里面的)
             IsInCircle=intent.getExtras().getInt("isincircle");
             if(IsInCircle==0){
                 //不在圈子里面
+                cir_fb.setVisibility(View.GONE);
                 rl_jiaru.setVisibility(View.VISIBLE);
                 getCircleDetail(circleId);
                 getCircleMembers(circleId);
@@ -143,6 +144,7 @@ public class CirxqAct extends BaseActivity {
                 isFresh(false);
             }else if(IsInCircle==1){
                 //在圈子里面
+                cir_fb.setVisibility(View.VISIBLE);
                 rl_jiaru.setVisibility(View.GONE);
                 getCircleDetail(circleId);
                 getCircleMembers(circleId);
@@ -152,7 +154,7 @@ public class CirxqAct extends BaseActivity {
 
         }
         if(type==1){
-            //从圈子管理进来
+            //从圈子管理进来,或者从子圈子frg进来（已经在圈子里面的）
             getCircleDetail(circleId);
             getCircleMembers(circleId);
             getThisCircleTalks(circleId, page, rows);
