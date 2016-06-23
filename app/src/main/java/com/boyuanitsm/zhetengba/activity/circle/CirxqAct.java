@@ -30,7 +30,6 @@ import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
-import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyRecyleview;
@@ -66,6 +65,7 @@ public class CirxqAct extends BaseActivity {
     private List<CircleEntity> circleEntityList;//该圈子说说列表
     private String personIds;//存储邀请用户id
     private int IsInCircle;//从收索圈子进来后的判断条件看是否在圈子里面 0不在，1在；
+    private int type;//类型
 //    @ViewInject(R.id.head)
     private CircleImageView head;//头像
 //    @ViewInject(R.id.tv_qz)
@@ -118,39 +118,45 @@ public class CirxqAct extends BaseActivity {
         qzzl= (TextView) headView.findViewById(R.id.tv_qzzl);//圈子资料
         rv_label= (MyRecyleview) headView.findViewById(R.id.rv_label);//圈子成员
         rl_jiaru=(RelativeLayout) headView.findViewById(R.id.rl_jiaru);//加入圈子 默认是隐藏的
-
+        lv_cir.getRefreshableView().addHeaderView(headView);
         LayoutHelperUtil.freshInit(lv_cir);
-        Intent intent=getIntent();
-        Bundle bundle=intent.getExtras();
-        if(bundle!=null){
-            circleId=bundle.getString("circleId");
-            IsInCircle=bundle.getInt("IsInCircle");
-            if(IsInCircle==0){
-                rl_jiaru.setVisibility(View.VISIBLE);
-                getCircleDetail(circleId);
-                getCircleMembers(circleId);
-            }else {
-                rl_jiaru.setVisibility(View.GONE);
-                getCircleDetail(circleId);
-                getCircleMembers(circleId);
-                getThisCircleTalks(circleId, page, rows);
-            }
-
-        }
-        circleId=getIntent().getStringExtra("circleId");
-//        initData();
-//        datalist=new ArrayList<>();
-        getCircleDetail(circleId);
-        getCircleMembers(circleId);
-        getThisCircleTalks(circleId, page, rows);
-
-//        list = new ArrayList<Integer>(Arrays.asList(R.mipmap.cirxq_l,R.mipmap.cirxq_lb,R.mipmap.cirxq_lbb,R.mipmap.cirxq_l,R.mipmap.cirxq_lb));
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CirxqAct.this);
         //设置横向
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
         rv_label.setLayoutManager(linearLayoutManager);
+        Intent intent=getIntent();
+
+        type=intent.getExtras().getInt("type");
+        circleId=intent.getExtras().getString("circleId");
+        if(type==0){
+            //从收索里面进来
+            IsInCircle=intent.getExtras().getInt("isincircle");
+            if(IsInCircle==0){
+                //不在圈子里面
+                rl_jiaru.setVisibility(View.VISIBLE);
+                getCircleDetail(circleId);
+                getCircleMembers(circleId);
+                xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
+                lv_cir.getRefreshableView().setAdapter(xqAdapter);
+                isFresh(false);
+            }else if(IsInCircle==1){
+                //在圈子里面
+                rl_jiaru.setVisibility(View.GONE);
+                getCircleDetail(circleId);
+                getCircleMembers(circleId);
+                getThisCircleTalks(circleId, page, rows);
+                isFresh(true);
+            }
+
+        }
+        if(type==1){
+            //从圈子管理进来
+            getCircleDetail(circleId);
+            getCircleMembers(circleId);
+            getThisCircleTalks(circleId, page, rows);
+            isFresh(true);
+        }
 
         cir_fb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,42 +172,55 @@ public class CirxqAct extends BaseActivity {
         qzzl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(CirxqAct.this,CirmationAct.class);
-                intent.putExtra("circleEntity",circleEntity);
+                Intent intent = new Intent(CirxqAct.this, CirmationAct.class);
+                intent.putExtra("circleEntity", circleEntity);
                 startActivity(intent);
             }
         });
-
-        lv_cir.getRefreshableView().addHeaderView(headView);
-        lv_cir.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-                page=1;
-                getThisCircleTalks(circleId,page,rows);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
-                getThisCircleTalks(circleId,page,rows);
-            }
-        });
-//        lv_cir.setAdapter(new CirclexqListAdapter(CirxqAct.this,datalist));
     }
 
+    /**此方法是判断如果不在圈子里下拉时不刷新圈子说说
+     * 在圈子里面下拉刷新圈子说说
+     *
+     * @param isin
+     */
+    private void isFresh( boolean isin) {
+        if(isin==false) {
+            //不在圈子里面看不到圈子说说，所以下拉时不刷新说说
+            lv_cir.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+                @Override
+                public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                    lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                    lv_cir.onPullUpRefreshComplete();
+                    lv_cir.onPullDownRefreshComplete();
+                }
 
-//    @OnClick({R.id.tv_qzzl})
-//    public void OnClick(View v){
-//        switch (v.getId()){
-//            case R.id.tv_qzzl://圈子资料
-//                Intent intent=new Intent(CirxqAct.this,CirmationAct.class);
-//                intent.putExtra("circleEntity",circleEntity);
-//                startActivity(intent);
-//                break;
-//        }
-//
-//    }
+                @Override
+                public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                    lv_cir.onPullUpRefreshComplete();
+                    lv_cir.onPullDownRefreshComplete();
+                }
+            });
+        }else {
+            //在圈子里面
+            lv_cir.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+                    @Override
+                    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                        lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                        page=1;
+                        getThisCircleTalks(circleId,page,rows);
+                    }
+
+                    @Override
+                    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                        page++;
+                        getThisCircleTalks(circleId,page,rows);
+                    }
+                });
+
+        }
+    }
+
 
     //获取圈子详情
     private void getCircleDetail(String circleId){

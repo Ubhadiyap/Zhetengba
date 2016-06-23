@@ -80,6 +80,7 @@ public class CircleglAct extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CircleglAct.this, CirxqAct.class);
                 intent.putExtra("circleId", datas.get(position).getId());
+                intent.putExtra("type",1);
                 startActivity(intent);
 //                openActivity(CirxqAct.class);
             }
