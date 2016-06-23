@@ -185,7 +185,7 @@ public class AddressBookAdapter extends BaseAdapter implements SectionIndexer{
             @Override
             public void onResponse(ResultBean<UserInfo> response) {
                 UserInfo userInfo=response.getData();
-                if(userInfo!=null){
+                if(userInfo!=null&&!TextUtils.isEmpty(userInfo.getId())){
                   addContact(userInfo.gethUsername(),null);
                 }else{
                    MyToastUtils.showShortToast(context,"此好友还没有注册，赶紧去邀请他注册吧");

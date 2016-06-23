@@ -34,7 +34,9 @@ import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
 
@@ -108,7 +110,7 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             viewHolder.llphoto = (LinearLayout) convertView.findViewById(R.id.llphoto);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
-            viewHolder.iv_oneimage = (ImageView) convertView.findViewById(R.id.iv_oneimage);
+            viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.tv_cir_name = (TextView) convertView.findViewById(R.id.tv_cir_name);
             viewHolder.ll_two = (LinearLayout) convertView.findViewById(R.id.ll_two);
             viewHolder.iv_two_one = (ImageView) convertView.findViewById(R.id.iv_two_one);
@@ -131,8 +133,12 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
 //            handlerOneImage(viewHolder, itemList.get(0));
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
-//            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
+            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()));
+            itemList.get(0).setWidth(bitmap.getWidth());
+            itemList.get(0).setHeight(bitmap.getHeight());
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag)
+
+            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -330,7 +336,7 @@ public class CircleAdapter extends BaseAdapter {
         public ImageView ivChGendar;
         public TextView tvTime;
         public MyGridView iv_ch_image;
-        public ImageView iv_oneimage;
+        public CustomImageView iv_oneimage;
         public TextView tv_cir_name;
         private LinearLayout ll_two;
         private ImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;

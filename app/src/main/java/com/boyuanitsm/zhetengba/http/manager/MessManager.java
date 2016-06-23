@@ -99,7 +99,7 @@ public class MessManager extends RequestManager{
      */
     public void getGroupMember(String groupId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
-        map.put("groupId",groupId);
+        map.put("hgroupid",groupId);
         doPost(IZtbUrl.GET_GROUP_MEMBER_URL, map, callback);
     }
 
@@ -148,5 +148,15 @@ public class MessManager extends RequestManager{
         map.put("groupId",groupId);
         map.put("personIds",personIds);
         doPost(IZtbUrl.ADD_GROUP_MEMBER_URL,map,callback);
+    }
+
+    /**
+     * 查找群消息
+     * @param hgroupid
+     */
+    public void findGroupInfo(String hgroupid,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("hgroupid",hgroupid);
+        doPost(IZtbUrl.GROUP_INFO, map, callback);
     }
 }

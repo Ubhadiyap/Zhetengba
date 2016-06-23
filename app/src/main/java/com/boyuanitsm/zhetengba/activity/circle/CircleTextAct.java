@@ -58,7 +58,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private LinearLayout ll_two;
 //    @ViewInject(R.id.llphoto)
     private LinearLayout llphoto;
-    private CustomImageView iv_oneimage, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
+    private CustomImageView iv_oneimage;
+    private CustomImageView  iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
     private List<List<ImageInfo>> dataList ;
     // 图片缓存 默认 等
@@ -218,9 +219,12 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             ll_two.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.GONE);
             iv_oneimage.setVisibility(View.VISIBLE);
-
-
-            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), iv_oneimage);
+            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(singleList.get(0).getUrl()));
+            singleList.get(0).setWidth(bitmap.getWidth());
+            singleList.get(0).setHeight(bitmap.getHeight());
+            LayoutHelperUtil.handlerOneImage(CircleTextAct.this, singleList.get(0), iv_oneimage);
+//ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()),iv_oneimage,optionsImag);
+//            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), iv_oneimage);
 
             iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override

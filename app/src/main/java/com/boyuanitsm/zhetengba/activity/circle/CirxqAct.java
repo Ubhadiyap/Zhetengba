@@ -48,11 +48,11 @@ import java.util.List;
  * Created by bitch-1 on 2016/5/11.
  */
 public class CirxqAct extends BaseActivity {
-//    @ViewInject(R.id.rv_label)
+    //    @ViewInject(R.id.rv_label)
     private MyRecyleview rv_label;
     @ViewInject(R.id.lv_cirxq)
     private PullToRefreshListView lv_cir;
-//    @ViewInject(R.id.cir_sv)
+    //    @ViewInject(R.id.cir_sv)
 //    private ScrollView cir_sv;
     @ViewInject(R.id.cir_fb)
     private TextView cir_fb;
@@ -66,11 +66,11 @@ public class CirxqAct extends BaseActivity {
     private String personIds;//存储邀请用户id
     private int IsInCircle;//从收索圈子进来后的判断条件看是否在圈子里面 0不在，1在；
     private int type;//类型
-//    @ViewInject(R.id.head)
+    //    @ViewInject(R.id.head)
     private CircleImageView head;//头像
-//    @ViewInject(R.id.tv_qz)
+    //    @ViewInject(R.id.tv_qz)
     private TextView name;//圈主名
-//    @ViewInject(R.id.notice)
+    //    @ViewInject(R.id.notice)
     private TextView notice;//公告
     private TextView qzzl;//圈子资料
 
@@ -204,19 +204,19 @@ public class CirxqAct extends BaseActivity {
         }else {
             //在圈子里面
             lv_cir.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-                    @Override
-                    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                        lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-                        page=1;
-                        getThisCircleTalks(circleId,page,rows);
-                    }
+                @Override
+                public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                    lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                    page=1;
+                    getThisCircleTalks(circleId,page,rows);
+                }
 
-                    @Override
-                    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                        page++;
-                        getThisCircleTalks(circleId,page,rows);
-                    }
-                });
+                @Override
+                public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                    page++;
+                    getThisCircleTalks(circleId,page,rows);
+                }
+            });
 
         }
     }
@@ -453,3 +453,4 @@ public class CirxqAct extends BaseActivity {
     }
 
 }
+

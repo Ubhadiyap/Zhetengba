@@ -529,7 +529,7 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.hUsername);
         dest.writeString(this.hPassword);
         dest.writeString(this.sameLabels);
-        dest.writeInt(this.sameCircleCounts);
+        dest.writeValue(this.sameCircleCounts);
     }
 
     protected UserInfo(Parcel in) {
@@ -569,15 +569,17 @@ public class UserInfo implements Parcelable {
         this.dictName = in.readString();
         this.hUsername = in.readString();
         this.hPassword = in.readString();
-        this.sameLabels=in.readString();
-        this.sameCircleCounts=in.readInt();
+        this.sameLabels = in.readString();
+        this.sameCircleCounts = (Integer) in.readValue(Integer.class.getClassLoader());
     }
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
+        @Override
         public UserInfo createFromParcel(Parcel source) {
             return new UserInfo(source);
         }
 
+        @Override
         public UserInfo[] newArray(int size) {
             return new UserInfo[size];
         }
