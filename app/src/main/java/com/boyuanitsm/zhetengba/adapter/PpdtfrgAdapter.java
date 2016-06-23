@@ -116,12 +116,12 @@ public class PpdtfrgAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()));
-            itemList.get(0).setWidth(bitmap.getWidth());
-            itemList.get(0).setHeight(bitmap.getHeight());
-            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage);
+//            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()),optionsImag);
+//            itemList.get(0).setWidth(bitmap.getWidth());
+//            itemList.get(0).setHeight(bitmap.getHeight());
+//            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage);
 //            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()), optionsImag);
-//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

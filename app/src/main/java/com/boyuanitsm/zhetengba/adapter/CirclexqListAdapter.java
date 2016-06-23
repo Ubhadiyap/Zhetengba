@@ -138,11 +138,11 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()));
-            itemList.get(0).setWidth(bitmap.getWidth());
-            itemList.get(0).setHeight(bitmap.getHeight());
-            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
-//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
+//            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()),optionsImag);
+//            itemList.get(0).setWidth(bitmap.getWidth());
+//            itemList.get(0).setHeight(bitmap.getHeight());
+//            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -236,20 +236,20 @@ public class CirclexqListAdapter extends BaseAdapter {
                 }
             }
             if(!TextUtils.isEmpty(list.get(position).getLikedCounts()+"")){
-                viewHolder.znum.setText(list.get(position).getLikedCounts()+"");
-            }else {
-                viewHolder.znum.setText("0");
+                if (list.get(position).getLikedCounts()==0){
+                    viewHolder.znum.setVisibility(View.GONE);
+                }else {
+                    viewHolder.znum.setVisibility(View.VISIBLE);
+                    viewHolder.znum.setText(list.get(position).getLikedCounts()+"");
+                }
             }
             if(!TextUtils.isEmpty(list.get(position).getCommentCounts()+"")){
-                viewHolder.cnum.setText(list.get(position).getCommentCounts()+"");
-            }else {
-                viewHolder.cnum.setText("0");
+                if (list.get(position).getCommentCounts()==0){
+                    viewHolder.cnum.setVisibility(View.GONE);
+                }else {
+                    viewHolder.cnum.setText(list.get(position).getCommentCounts()+"");
+                }
             }
-//            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
-//                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
-//            }else {
-//                viewHolder.snum.setText("0");
-//            }
         }
         //点击用户头像，进入用户圈子主页
         viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {

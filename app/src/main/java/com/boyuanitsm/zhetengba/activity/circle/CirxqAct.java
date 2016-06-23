@@ -216,7 +216,7 @@ public class CirxqAct extends BaseActivity {
         if(entity!=null){
             setTopTitle(entity.getCircleName());
             if(!TextUtils.isEmpty(entity.getCircleLogo())){
-                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+entity.getCircleLogo(),head,options);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getCircleLogo()),head,options);
             }
             if(!TextUtils.isEmpty(entity.getUserName())){
                 name.setText("圈主：" + entity.getUserName());

@@ -49,7 +49,7 @@ public class TalkManager extends RequestManager{
             map.put("circleId",circleId);
         }
         if (!TextUtils.isEmpty(userIds)){
-            map.put("userIds",userIds);
+            map.put("friendIds",userIds);
         }
         doPost(IZtbUrl.INVITE_FRIEND_TOCIRCLE_URL,map,callback);
     }

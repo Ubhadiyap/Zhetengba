@@ -6,13 +6,13 @@ import java.util.List;
  * Created by Administrator on 2016/6/16.
  */
 public class ImgBean<T> {
-    List<T> bigImgPaths;
+    List<T> smallPaths;
 
     public List<T> getBigImgPaths() {
-        return bigImgPaths;
+        return smallPaths;
     }
 
-    public void setBigImgPaths(List<T> bigImgPaths) {
-        this.bigImgPaths = bigImgPaths;
+    public void setBigImgPaths(List<T> smallPaths) {
+        this.smallPaths = smallPaths;
     }
 }
