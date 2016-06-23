@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.GroupBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
@@ -114,7 +115,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	@Override
 	public void init(Bundle savedInstanceState) {
-		findGroupInfo();
+
 		instance = this;
 		st = getResources().getString(R.string.people);
 		tvTime= (TextView) findViewById(R.id.tvTime);
@@ -135,6 +136,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		searchLayout = (RelativeLayout) findViewById(R.id.rl_search);
 
 		tvTitle.setText("对话管理");
+		findGroupInfo();//查找群信息
 		idText.setText(groupId);
 		if (group.getOwner() == null || "".equals(group.getOwner())
 				|| !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
@@ -288,7 +290,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	private void refreshMembers(){
 	    adapter.clear();
-        List<String> members = new ArrayList<String>();
+
+		List<String> members = new ArrayList<String>();
         members.addAll(group.getMembers());
         adapter.addAll(members);
         
@@ -441,18 +444,21 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 			@Override
 			public void onResponse(ResultBean<String> response) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						runOnUiThread(new Runnable() {
-							public void run(){
-								refreshMembers();
-//						((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
-								progressDialog.dismiss();
-							}
-						});
-					}
-				}).start();
+				updateGroup();
+				progressDialog.dismiss();
+
+//				new Thread(new Runnable() {
+//					@Override
+//					public void run() {
+//						runOnUiThread(new Runnable() {
+//							public void run(){
+//								refreshMembers();
+////						((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
+//								progressDialog.dismiss();
+//							}
+//						});
+//					}
+//				}).start();
 
 			}
 		});
@@ -765,7 +771,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							public void onResponse(String response) {
 								isInDeleteMode = false;
 								deleteDialog.dismiss();
-								refreshMembers();
+								updateGroup();
+//								refreshMembers();
 //								new Thread(new Runnable() {
 //									@Override
 //									public void run() {
@@ -1063,15 +1070,18 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void findGroupInfo(){
-		RequestManager.getMessManager().findGroupInfo(groupId, new ResultCallback<String>() {
+		RequestManager.getMessManager().findGroupInfo(groupId, new ResultCallback<ResultBean<GroupBean>>() {
 			@Override
 			public void onError(int status, String errorMsg) {
 
 			}
 
 			@Override
-			public void onResponse(String response) {
-
+			public void onResponse(ResultBean<GroupBean> response) {
+              GroupBean groupBean=response.getData();
+				if(groupBean!=null){
+					tvTime.setText("还剩"+groupBean.getReminderDays()+"天");
+				}
 			}
 		});
 	}

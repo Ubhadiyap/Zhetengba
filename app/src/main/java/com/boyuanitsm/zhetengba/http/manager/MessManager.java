@@ -99,7 +99,7 @@ public class MessManager extends RequestManager{
      */
     public void getGroupMember(String groupId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
-        map.put("groupId",groupId);
+        map.put("hgroupid",groupId);
         doPost(IZtbUrl.GET_GROUP_MEMBER_URL, map, callback);
     }
 

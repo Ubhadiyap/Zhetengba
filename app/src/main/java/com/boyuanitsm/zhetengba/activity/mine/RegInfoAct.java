@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.bean.IconFilePath;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -192,12 +193,14 @@ public class RegInfoAct extends BaseActivity {
         RequestManager.getUserManager().perfect(user, labelIds, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 UserInfoDao.updateUser(user);
+                if(!TextUtils.isEmpty(user.getPetName()))
+                DemoHelper.getInstance().getUserProfileManager().setNickName(user.getPetName());
 //                MyToastUtils.showShortToast(getApplicationContext(),"成功");
                 openActivity(MainAct.class);
 
@@ -302,6 +305,7 @@ public class RegInfoAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<IconFilePath> response) {
                 user.setIcon(response.getData().getIconFilePath());
+                DemoHelper.getInstance().getUserProfileManager().setUserAvatar(response.getData().getIconFilePath());
                 UserInfoDao.updateUser(user);
 //                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, options);
             }
