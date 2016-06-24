@@ -180,6 +180,17 @@ public class ScheduleManager extends RequestManager {
     }
 
     /**
+     * 点击约她判断匹配时间
+     * @param scheduleId
+     * @param callback
+     */
+    public void findMatchingActivities(String scheduleId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("scheduleId",scheduleId);
+        doPost(IZtbUrl.FINDMATCHING_URL,params,callback);
+    }
+
+    /**
      * 关注档期 ，返回String响应状态
      * @param scheduleId
      * @param callback
