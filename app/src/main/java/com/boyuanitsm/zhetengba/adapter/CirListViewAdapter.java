@@ -14,7 +14,9 @@ import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.CommentAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ScreenTools;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
@@ -88,7 +90,11 @@ public class CirListViewAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            handlerOneImage(viewHolder, itemList.get(0));
+            Bitmap bitmap=ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()),optionsImag);
+            itemList.get(0).setWidth(bitmap.getWidth());
+            itemList.get(0).setHeight(bitmap.getHeight());
+            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage);
+//            handlerOneImage(viewHolder, itemList.get(0));
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,34 +198,6 @@ public class CirListViewAdapter extends BaseAdapter {
         private MyGridView iv_ch_image;
         private LinearLayout ll_two;
         private CustomImageView iv_two_one,iv_two_two,iv_two_three,iv_two_four;
-
-    }
-    private void handlerOneImage(ViewHolder viewHolder, ImageInfo image) {
-        int totalWidth;
-        int imageWidth;
-        int imageHeight;
-        ScreenTools screentools = ScreenTools.instance(context);
-        totalWidth = screentools.getScreenWidth() - screentools.dip2px(80);
-        imageWidth = screentools.dip2px(image.getWidth());
-        imageHeight = screentools.dip2px(image.getHeight());
-        if (image.getWidth() <= image.getHeight()) {
-            if (imageHeight > totalWidth) {
-                imageHeight = totalWidth;
-                imageWidth = (imageHeight * image.getWidth()) / image.getHeight();
-            }
-        } else {
-            if (imageWidth > totalWidth) {
-                imageWidth = totalWidth;
-                imageHeight = (imageWidth * image.getHeight()) / image.getWidth();
-            }
-        }
-        ViewGroup.LayoutParams layoutparams = viewHolder.iv_oneimage.getLayoutParams();
-        layoutparams.height = imageHeight;
-        layoutparams.width = imageWidth;
-        viewHolder.iv_oneimage.setLayoutParams(layoutparams);
-        viewHolder.iv_oneimage.setClickable(true);
-        viewHolder.iv_oneimage.setScaleType(ImageView.ScaleType.FIT_XY);
-        viewHolder.iv_oneimage.setImageUrl(image.getUrl());
 
     }
 }

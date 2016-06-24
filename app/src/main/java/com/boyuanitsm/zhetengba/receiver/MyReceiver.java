@@ -8,7 +8,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
+import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.CircleMessDao;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.google.gson.Gson;
@@ -58,7 +60,12 @@ public class MyReceiver extends BroadcastReceiver {
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
 						CircleMessDao.saveCircleMess(circleInfo);
 						MyLogUtils.info(CircleMessDao.getCircleUser().toString()+"数据库内容");
-					}
+					}else if (TextUtils.equals(type,"0")){
+                        Gson gson=new Gson();
+                        ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
+                        ActivityMessDao.saveCircleMess(activityMess);
+                        MyLogUtils.info(ActivityMessDao.getCircleUser().toString()+"活动数据库内容");
+                    }
 				} catch (JSONException e) {
                     e.printStackTrace();
 			}

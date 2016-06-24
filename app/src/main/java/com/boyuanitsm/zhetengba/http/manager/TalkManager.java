@@ -10,7 +10,6 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,7 +48,7 @@ public class TalkManager extends RequestManager{
             map.put("circleId",circleId);
         }
         if (!TextUtils.isEmpty(userIds)){
-            map.put("userIds",userIds);
+            map.put("friendIds",userIds);
         }
         doPost(IZtbUrl.INVITE_FRIEND_TOCIRCLE_URL,map,callback);
     }
@@ -449,5 +448,16 @@ public class TalkManager extends RequestManager{
         map.put("circleId",circleId);
         map.put("personId",personId);
         doPost(IZtbUrl.QING_REFUSE_URL, map, callback);
+    }
+
+    /**
+     * 申请加入圈子
+     * @param circleId
+     * @param callback
+     */
+    public void sendRequestJoinCircle(String circleId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("circleId",circleId);
+        doPost(IZtbUrl.JOINCIRCLE_URL,map,callback);
     }
 }

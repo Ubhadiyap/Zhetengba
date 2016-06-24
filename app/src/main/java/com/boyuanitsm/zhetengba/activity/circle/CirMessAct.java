@@ -57,6 +57,9 @@ public class CirMessAct extends BaseActivity {
         });
         //初始化刷新列表
         LayoutHelperUtil.freshInit(lv_cir_mess);
+        lv_cir_mess.setPullRefreshEnabled(false);
+        lv_cir_mess.setPullLoadEnabled(false);
+        lv_cir_mess.setScrollLoadEnabled(false);
         lv_cir_mess.getRefreshableView().setDivider(null);
         list= CircleMessDao.getCircleUser();
         adapter = new CircleMessAdatper(CirMessAct.this, list);

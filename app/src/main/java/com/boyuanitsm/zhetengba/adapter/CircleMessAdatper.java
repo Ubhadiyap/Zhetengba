@@ -280,8 +280,12 @@ public class CircleMessAdatper extends BaseAdapter {
                         }
                     });
                     if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
-                        holder3.tv_shenqing.setText("同意了我的邀请，已加入"+circleInfoList.get(position).getCircleName());
+                        holder3.tv_shenqing.setText("同意了我的请求，已加入"+circleInfoList.get(position).getCircleName());
                     } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
+                        holder3.tv_shenqing.setText("拒绝了我的请求，不参加"+circleInfoList.get(position).getCircleName());
+                    }else if (circleInfoList.get(position).getMessageState().equals(2+"")){
+                        holder3.tv_shenqing.setText("同意了我的邀请，已加入"+circleInfoList.get(position).getCircleName());
+                    }else if (circleInfoList.get(position).getMessageState().equals(3+"")){
                         holder3.tv_shenqing.setText("拒绝了我的邀请，不参加"+circleInfoList.get(position).getCircleName());
                     }
                     convertView.setTag(holder3);

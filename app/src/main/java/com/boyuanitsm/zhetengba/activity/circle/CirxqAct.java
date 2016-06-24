@@ -30,6 +30,11 @@ import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+
+import com.boyuanitsm.zhetengba.utils.Uitls;
+
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyRecyleview;
@@ -130,18 +135,26 @@ public class CirxqAct extends BaseActivity {
         type=intent.getExtras().getInt("type");
         circleId=intent.getExtras().getString("circleId");
         if(type==0){
-            //从收索里面进来
+            //从收索里面进来(需要判断是否在圈子里面的)
             IsInCircle=intent.getExtras().getInt("isincircle");
             if(IsInCircle==0){
                 //不在圈子里面
-                rl_jiaru.setVisibility(View.VISIBLE);
+                cir_fb.setVisibility(View.GONE);
+                rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
                 getCircleDetail(circleId);
                 getCircleMembers(circleId);
                 xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
                 lv_cir.getRefreshableView().setAdapter(xqAdapter);
                 isFresh(false);
+                rl_jiaru.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        joInCircle(circleId);
+                    }
+                });
             }else if(IsInCircle==1){
                 //在圈子里面
+                cir_fb.setVisibility(View.VISIBLE);
                 rl_jiaru.setVisibility(View.GONE);
                 getCircleDetail(circleId);
                 getCircleMembers(circleId);
@@ -151,7 +164,7 @@ public class CirxqAct extends BaseActivity {
 
         }
         if(type==1){
-            //从圈子管理进来
+            //从圈子管理进来,或者从子圈子frg进来（已经在圈子里面的）
             getCircleDetail(circleId);
             getCircleMembers(circleId);
             getThisCircleTalks(circleId, page, rows);
@@ -175,6 +188,26 @@ public class CirxqAct extends BaseActivity {
                 Intent intent = new Intent(CirxqAct.this, CirmationAct.class);
                 intent.putExtra("circleEntity", circleEntity);
                 startActivity(intent);
+            }
+        });
+    }
+
+    /**当申请加入圈子按钮可见时点击掉接口
+     * @param circleId
+     */
+    private void joInCircle(String circleId) {
+        RequestManager.getTalkManager().sendRequestJoinCircle(circleId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(CirxqAct.this,errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(CirxqAct.this,"申请成功，等待圈主响应");
+                finish();
+
+
             }
         });
     }
@@ -246,7 +279,7 @@ public class CirxqAct extends BaseActivity {
         if(entity!=null){
             setTopTitle(entity.getCircleName());
             if(!TextUtils.isEmpty(entity.getCircleLogo())){
-                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+entity.getCircleLogo(),head,options);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getCircleLogo()),head,options);
             }
             if(!TextUtils.isEmpty(entity.getUserName())){
                 name.setText("圈主：" + entity.getUserName());

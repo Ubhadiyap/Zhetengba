@@ -9,7 +9,7 @@ public interface IZtbUrl {
     //基础地址
     public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
     //测试
-//    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
 
 
 //    public static final String BASE_URL = "http://172.16.5.202:8080/zhetengba/";
@@ -181,6 +181,8 @@ public interface IZtbUrl {
     String QING_AGREE_URL=BASE_URL+"message/login/sendAgreeCircleResp.do";
     //拒绝加入接口
     String QING_REFUSE_URL=BASE_URL+"message/login/sendRefuseCircleResp.do";
+    //申请加入圈子接口
+    String JOINCIRCLE_URL=BASE_URL+"talk/login/sendRequestJoinCircle.do";
     /**
      * =======档期 =======
      */
