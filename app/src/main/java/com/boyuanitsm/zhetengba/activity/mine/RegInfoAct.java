@@ -68,7 +68,7 @@ public class RegInfoAct extends BaseActivity {
 
     private XqgvAdapter xqgvAdapter;//兴趣标签适配器
     private Map<Integer,String>datamap;//用来封装适配器里面选中和取消相中后的标签
-    private String sex="男";//性别选择默认为男
+    private String sex="1";//性别选择默认为男
     private String pickname;//昵称
 
     private String username;

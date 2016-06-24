@@ -20,6 +20,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_petName"
             style="@style/tv_second"
             android:text="张学友"
             android:textColor="@color/two_color"

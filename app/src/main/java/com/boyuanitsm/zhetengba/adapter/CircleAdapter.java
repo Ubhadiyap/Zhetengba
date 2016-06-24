@@ -130,9 +130,9 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
 //            handlerOneImage(viewHolder, itemList.get(0));
 //            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()),optionsImag);
-//            itemList.get(0).setWidth(bitmap.getWidth());
-//            itemList.get(0).setHeight(bitmap.getHeight());
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
+            itemList.get(0).setWidth(200);
+            itemList.get(0).setHeight(200);
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
 
             LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {

@@ -139,10 +139,10 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
 //            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()),optionsImag);
-//            itemList.get(0).setWidth(bitmap.getWidth());
-//            itemList.get(0).setHeight(bitmap.getHeight());
-//            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
+            itemList.get(0).setWidth(200);
+            itemList.get(0).setHeight(200);
+            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

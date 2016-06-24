@@ -195,19 +195,27 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
         }
 //        if (infos.get(position).)
+
         viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (infos.get(position).isJoin()) {
-                    new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            stateCancelChange(position, viewHolder);
+                viewHolder.ll_join.setClickable(false);
+                        if (infos.get(position).isJoin()) {
+                            new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    stateCancelChange(position, viewHolder);
+                                }
+                            }).setNegativeButton("取消", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    viewHolder.ll_join.setClickable(true);
+                                }
+                            }).show();
+                        } else {
+                            stateJionChange(position, viewHolder);
                         }
-                    }).setNegativeButton("取消", null).show();
-                } else {
-                    stateJionChange(position, viewHolder);
-                }
+
 
             }
         });
@@ -247,44 +255,32 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));//默认图标
             viewHolder.tv_text_guanzhu.setText("关注");
             viewHolder.ll_guanzhu.setClickable(true);
-            viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 调用关注接口
-                    RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
-                        @Override
-                        public void onError(int status, String errorMsg) {
-
-                        }
-
-                        @Override
-                        public void onResponse(ResultBean<String> response) {
-                            viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//默认图标
-                            viewHolder.tv_text_guanzhu.setText("已关注");
-                            infos.get(position).setFollow(true);
-                            if (infos.get(position).getFollowNum() != null) {
-                                int noticNum = infos.get(position).getFollowNum();
-                                noticNum = noticNum + 1;
-                                infos.get(position).setFollowNum(noticNum);
-                                viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
-                                viewHolder.tv_guanzhu_num.setText(noticNum + "");
-                                viewHolder.ll_guanzhu.setClickable(false);
-                            }
-//                            else {
-//                                int noticNum = 0;
-//                                noticNum = noticNum + 1;
-//                                infos.get(position).setFollowNum(noticNum);
-//                                viewHolder.tv_guanzhu_num.setText(noticNum + "");
-//                                viewHolder.ll_guanzhu.setClickable(false);
-//                            }
-
-                            MyToastUtils.showShortToast(context, "已关注");
-                        }
-                    });
-
-                }
-            });
         }
+        viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 调用关注接口
+                RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+                    @Override
+                    public void onError(int status, String errorMsg) {
+
+                    }
+
+                    @Override
+                    public void onResponse(ResultBean<String> response) {
+                        infos.get(position).setFollow(true);
+                        int noticNum = infos.get(position).getFollowNum();
+                        noticNum = noticNum + 1;
+                        infos.get(position).setFollowNum(noticNum);
+                        viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+                        viewHolder.ll_guanzhu.setClickable(false);
+                        notifyDataSetChanged();
+                        MyToastUtils.showShortToast(context, "已关注");
+                    }
+                });
+
+            }
+        });
         viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,27 +318,17 @@ public class ActAdapter extends BaseAdapter {
         RequestManager.getScheduleManager().getRespondActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                    viewHolder.ll_join.setClickable(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
-                viewHolder.tv_text_jion.setText("取消参加");
-                viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
-                if (infos.get(position).getMemberNum() != null) {
+                viewHolder.ll_join.setClickable(true);
                     int i = infos.get(position).getMemberNum();
                     i = i + 1;
-                    viewHolder.tv_join_num.setText(i + "");
                     infos.get(position).setMemberNum(i);
                     infos.get(position).setJoin(true);
-                } else {
-                    int i = 0;
-                    i = i + 1;
-                    viewHolder.tv_join_num.setText(i + "");
-                    infos.get(position).setMemberNum(i);
-                    infos.get(position).setJoin(true);
-                }
+                notifyDataSetChanged();
             }
         });
     }
@@ -357,19 +343,17 @@ public class ActAdapter extends BaseAdapter {
         RequestManager.getScheduleManager().cancelActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                    viewHolder.ll_join.setClickable(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
-                viewHolder.tv_text_jion.setText("参加");
-                viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
+                viewHolder.ll_join.setClickable(true);
                 int i = infos.get(position).getMemberNum();
                 i = i - 1;
-                viewHolder.tv_join_num.setText(i + "");
                 infos.get(position).setJoin(false);
                 infos.get(position).setMemberNum(i);
+                notifyDataSetChanged();
             }
         });
     }

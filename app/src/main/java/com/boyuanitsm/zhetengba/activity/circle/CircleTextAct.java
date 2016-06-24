@@ -220,10 +220,10 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             iv_ch_image.setVisibility(View.GONE);
             iv_oneimage.setVisibility(View.VISIBLE);
 //            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(singleList.get(0).getUrl()),optionsImag);
-//            singleList.get(0).setWidth(bitmap.getWidth());
-//            singleList.get(0).setHeight(bitmap.getHeight());
-//            LayoutHelperUtil.handlerOneImage(CircleTextAct.this, singleList.get(0), iv_oneimage);
-ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()),iv_oneimage,optionsImag);
+            singleList.get(0).setWidth(200);
+            singleList.get(0).setHeight(200);
+            LayoutHelperUtil.handlerOneImage(CircleTextAct.this, singleList.get(0), iv_oneimage);
+//ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()),iv_oneimage,optionsImag);
 //            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), iv_oneimage);
 
             iv_oneimage.setOnClickListener(new View.OnClickListener() {

@@ -37,6 +37,7 @@ public class ActivityMessDao  extends TemplateDAO<ActivityMess,String> {
      * @return
      */
     public static List<ActivityMess> getCircleUser(){
+        SQLiteDatabase db=getDao().getWritableDatabase();
         List<ActivityMess> list=getDao().find();
         if (list!=null&&list.size()>0){
             return list;
