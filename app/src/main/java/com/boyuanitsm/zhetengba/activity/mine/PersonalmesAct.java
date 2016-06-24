@@ -269,9 +269,8 @@ public class PersonalmesAct extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.cv_sex://性别
-//                    openActivity(SelectSexAct.class);
                 Intent intent1 = new Intent(PersonalmesAct.this, SelectSexAct.class);
-                intent1.putExtra("user", user);
+//                intent1.putExtra("user", user);
                 startActivityForResult(intent1, SEXMODIFY_GO);
                 break;
             case R.id.cv_phoneNum://手机号码
