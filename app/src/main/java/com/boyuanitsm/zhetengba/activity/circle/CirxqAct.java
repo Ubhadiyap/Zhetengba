@@ -30,6 +30,7 @@ import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyRecyleview;
@@ -135,12 +136,18 @@ public class CirxqAct extends BaseActivity {
             if(IsInCircle==0){
                 //不在圈子里面
                 cir_fb.setVisibility(View.GONE);
-                rl_jiaru.setVisibility(View.VISIBLE);
+                rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
                 getCircleDetail(circleId);
                 getCircleMembers(circleId);
                 xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
                 lv_cir.getRefreshableView().setAdapter(xqAdapter);
                 isFresh(false);
+                rl_jiaru.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        joInCircle(circleId);
+                    }
+                });
             }else if(IsInCircle==1){
                 //在圈子里面
                 cir_fb.setVisibility(View.VISIBLE);
@@ -177,6 +184,26 @@ public class CirxqAct extends BaseActivity {
                 Intent intent = new Intent(CirxqAct.this, CirmationAct.class);
                 intent.putExtra("circleEntity", circleEntity);
                 startActivity(intent);
+            }
+        });
+    }
+
+    /**当申请加入圈子按钮可见时点击掉接口
+     * @param circleId
+     */
+    private void joInCircle(String circleId) {
+        RequestManager.getTalkManager().sendRequestJoinCircle(circleId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(CirxqAct.this,errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(CirxqAct.this,"申请成功，等待圈主响应");
+                finish();
+
+
             }
         });
     }

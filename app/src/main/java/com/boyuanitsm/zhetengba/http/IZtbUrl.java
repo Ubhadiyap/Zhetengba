@@ -181,6 +181,8 @@ public interface IZtbUrl {
     String QING_AGREE_URL=BASE_URL+"message/login/sendAgreeCircleResp.do";
     //拒绝加入接口
     String QING_REFUSE_URL=BASE_URL+"message/login/sendRefuseCircleResp.do";
+    //申请加入圈子接口
+    String JOINCIRCLE_URL=BASE_URL+"talk/login/sendRequestJoinCircle.do";
     /**
      * =======档期 =======
      */
