@@ -181,6 +181,8 @@ public interface IZtbUrl {
     String QING_AGREE_URL=BASE_URL+"message/login/sendAgreeCircleResp.do";
     //拒绝加入接口
     String QING_REFUSE_URL=BASE_URL+"message/login/sendRefuseCircleResp.do";
+    //申请加入圈子接口
+    String JOINCIRCLE_URL=BASE_URL+"talk/login/sendRequestJoinCircle.do";
     /**
      * =======档期 =======
      */
@@ -309,5 +311,7 @@ public interface IZtbUrl {
     String ADD_GROUP_MEMBER_URL=BASE_URL+"message/login/addGroupMember.do";
     /*查找群详情*/
     String GROUP_INFO=BASE_URL+"message/login/findGroupInfo.do";
+    /*查找用户*/
+    String FIND_USER_URL=BASE_URL+"message/login/findUserIcon.do";
 //    String ADD_GROUP_URL = BASE_URL + "message/login/addGroupChat.do";
 }

@@ -61,14 +61,14 @@ public class RegInfoAct extends BaseActivity {
     private CircleImageView iv_icon;
 
     private UserInfo user;
-    private List<LabelBannerInfo> list=new ArrayList<LabelBannerInfo>();
-    private List<String>idlist;
+    private List<LabelBannerInfo> list = new ArrayList<LabelBannerInfo>();
+    private List<String> idlist;
     private String lableid;
 
 
     private XqgvAdapter xqgvAdapter;//兴趣标签适配器
-    private Map<Integer,String>datamap;//用来封装适配器里面选中和取消相中后的标签
-    private String sex="1";//性别选择默认为男
+    private Map<Integer, String> datamap;//用来封装适配器里面选中和取消相中后的标签
+    private String sex = "1";//性别选择默认为男
     private String pickname;//昵称
 
     private String username;
@@ -102,11 +102,11 @@ public class RegInfoAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("注册信息");
-        datamap=new HashMap<>();
+        datamap = new HashMap<>();
 //        userInfo=new UserInfo();
-        user=UserInfoDao.getUser();
-        MyLogUtils.info("测试user"+user);
-        idlist=new ArrayList<>();
+        user = UserInfoDao.getUser();
+        MyLogUtils.info("测试user" + user);
+        idlist = new ArrayList<>();
         getIntrestLabel("0");//获得全部兴趣标签
         rg_sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -127,10 +127,11 @@ public class RegInfoAct extends BaseActivity {
 
     /**
      * 个人兴趣标签/全部标签
+     *
      * @param dictType
      * @return
      */
-    private void getIntrestLabel(String dictType){
+    private void getIntrestLabel(String dictType) {
         RequestManager.getScheduleManager().getIntrestLabelList(dictType, new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -147,36 +148,42 @@ public class RegInfoAct extends BaseActivity {
     }
 
 
-    @OnClick({R.id.wancheng,R.id.iv_rgificon})
-    public void OnClick(View view){
-        pickname=et_pickname.getText().toString().trim();//昵称
-        if(!TextUtils.isEmpty(pickname)&&pickname!=null){
-        user.setPetName(pickname);}
+    @OnClick({R.id.wancheng, R.id.iv_rgificon})
+    public void OnClick(View view) {
+        pickname = et_pickname.getText().toString().trim();//昵称
+        if (!TextUtils.isEmpty(pickname) && pickname != null) {
+            user.setPetName(pickname);
+        }
         user.setSex(sex);
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_rgificon://点击图像
                 headIconDialog();
                 break;
 
             case R.id.wancheng://完成
-                if(idlist==null){
-                    MyToastUtils.showShortToast(RegInfoAct.this,"请至少选择一个兴趣标签");
-                }else{
-                    if(idlist.size()==1){
-                        lableid=idlist.get(0);
-                        doPerfect(user,lableid);
-                    }
-                    if(idlist.size()>1){
-                        lableid=idlist.get(0);
-                        for (int i=1;i<idlist.size();i++){
-                            lableid=lableid+","+idlist.get(i);
-                        }
-                    }
-                    doPerfect(user,lableid);
+                if (TextUtils.isEmpty(pickname)) {
+                    MyToastUtils.showShortToast(RegInfoAct.this, "请输入昵称");
+                    et_pickname.requestFocus();
+                    return;
+                }
+                if(idlist.size()==0){
+                    lableid="";
                 }
 
-                break;
+                if (idlist.size() == 1) {
+                    lableid = idlist.get(0);
+//                        doPerfect(user,lableid);
+                }
+                if (idlist.size() > 1) {
+                    lableid = idlist.get(0);
+                    for (int i = 1; i < idlist.size(); i++) {
+                        lableid = lableid + "," + idlist.get(i);
+                    }
+                }
+                doPerfect(user, lableid);
 
+
+                break;
 
 
         }
@@ -185,22 +192,23 @@ public class RegInfoAct extends BaseActivity {
 
     /**
      * 完善个人信息
+     *
      * @param user
      * @param labelIds
      */
 
-    private void doPerfect(final UserInfo user,String labelIds) {
+    private void doPerfect(final UserInfo user, String labelIds) {
         RequestManager.getUserManager().perfect(user, labelIds, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 UserInfoDao.updateUser(user);
-                if(!TextUtils.isEmpty(user.getPetName()))
-                DemoHelper.getInstance().getUserProfileManager().setNickName(user.getPetName());
+                if (!TextUtils.isEmpty(user.getPetName()))
+                    DemoHelper.getInstance().getUserProfileManager().setNickName(user.getPetName());
 //                MyToastUtils.showShortToast(getApplicationContext(),"成功");
                 openActivity(MainAct.class);
 
@@ -285,7 +293,6 @@ public class RegInfoAct extends BaseActivity {
     }
 
 
-
     /**
      * 上传头像
      *
@@ -320,7 +327,7 @@ public class RegInfoAct extends BaseActivity {
 
         @Override
         public int getCount() {
-            return list.size();
+            return list.size() + 1;
         }
 
         @Override
@@ -335,31 +342,47 @@ public class RegInfoAct extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            final int dex=position;
-            View view=View.inflate(RegInfoAct.this, R.layout.item_gv,null);
-            final CheckBox ck= (CheckBox) view.findViewById(R.id.ck_xq);
-            ck.setText(list.get(position).getDictName());
-            ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-             if(isChecked){
-                 idlist.add(list.get(position).getId());
-             }else {
-                 idlist.remove(list.get(position).getId());
-             }
+            final int dex = position;
+            View view = View.inflate(RegInfoAct.this, R.layout.item_gv, null);
+            final CheckBox ck = (CheckBox) view.findViewById(R.id.ck_xq);
+            if (position == 0) {
+                ck.setText("吐槽");
+                ck.setChecked(true);
+                ck.setClickable(false);
+            } else {
+                ck.setText(list.get(position - 1).getDictName());
+                ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            idlist.add(list.get(position - 1).getId());
+                        } else {
+                            idlist.remove(list.get(position - 1).getId());
+                        }
+                    }
+                });
             }
-        });
+
+
+//            if(position==0){ck.setText("吐槽");ck.isChecked();ck.setClickable(false);}
+//            else{
+//            ck.setText(list.get(position).getDictName());
+//            ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//             if(isChecked){
+//                 idlist.add(list.get(position).getId());
+//             }else {
+//                 idlist.remove(list.get(position).getId());
+//             }
+//            }
+//        });
+//            }
 
             return view;
         }
 
     }
-
-
-
-
-
-
 
 
 }

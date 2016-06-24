@@ -23,11 +23,13 @@ import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.db.UserDao;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
+import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
@@ -39,6 +41,7 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
 import java.util.List;
@@ -244,6 +247,15 @@ public class MainAct extends BaseActivity {
             // 提示新消息
             for (EMMessage message : messages) {
                 DemoHelper.getInstance().getNotifier().onNewMsg(message);
+                ChatUserBean chatUserBean=new ChatUserBean();
+                chatUserBean.setUserId(message.getFrom());
+                try {
+                    chatUserBean.setNick(message.getStringAttribute("nick"));
+                    chatUserBean.setIcon(message.getStringAttribute("icon"));
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+                ChatUserDao.saveUser(chatUserBean);
             }
             refreshUIWithMessage();
         }

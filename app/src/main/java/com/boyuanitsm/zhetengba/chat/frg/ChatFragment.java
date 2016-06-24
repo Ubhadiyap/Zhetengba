@@ -24,7 +24,9 @@ import com.boyuanitsm.zhetengba.chat.act.ForwardMessageActivity;
 import com.boyuanitsm.zhetengba.chat.act.GroupDetailsActivity;
 import com.boyuanitsm.zhetengba.chat.domain.EmojiconExampleGroupData;
 import com.boyuanitsm.zhetengba.chat.domain.RobotUser;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
@@ -190,6 +192,9 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
             message.setAttribute("fire", FIRE_ON);
         else
             message.setAttribute("fire",FIRE_CLOSE);
+
+        message.setAttribute("nick", UserInfoDao.getUser().getPetName());
+        message.setAttribute("icon", Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()));
 
     }
 

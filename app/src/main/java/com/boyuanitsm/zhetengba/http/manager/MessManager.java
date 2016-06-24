@@ -159,4 +159,14 @@ public class MessManager extends RequestManager{
         map.put("hgroupid",hgroupid);
         doPost(IZtbUrl.GROUP_INFO, map, callback);
     }
+
+    /**
+     * 通过UserId获取用户信息
+     * @param personId
+     */
+    public void findUserByHId(String personId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("personId",personId);
+        doPost(IZtbUrl.FIND_USER_URL,map,callback);
+    }
 }

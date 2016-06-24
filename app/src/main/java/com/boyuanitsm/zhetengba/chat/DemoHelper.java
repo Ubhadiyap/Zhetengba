@@ -26,6 +26,7 @@ import com.boyuanitsm.zhetengba.chat.domain.RobotUser;
 import com.boyuanitsm.zhetengba.chat.parse.UserProfileManager;
 import com.boyuanitsm.zhetengba.chat.receiver.CallReceiver;
 import com.boyuanitsm.zhetengba.chat.utils.PreferenceManager;
+import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -727,6 +728,9 @@ public class DemoHelper {
         //TODO 获取不在好友列表里的群成员具体信息，即陌生人信息，demo未实现
         if (user == null && getRobotList() != null) {
             user = getRobotList().get(username);
+        }
+        if(user==null&& ChatUserDao.findUserById(username)!=null){
+            user=ChatUserDao.findUserById(username);
         }
         return user;
     }

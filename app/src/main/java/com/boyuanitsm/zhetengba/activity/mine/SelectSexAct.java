@@ -40,7 +40,8 @@ public class SelectSexAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("性别");
-        user=getIntent().getParcelableExtra("user");
+//        user=getIntent().getParcelableExtra("user");
+        user=UserInfoDao.getUser();
         MyLogUtils.info(user+"返回的user");
         if(user!=null&& !TextUtils.isEmpty(user.getSex())){
             sex=user.getSex();
