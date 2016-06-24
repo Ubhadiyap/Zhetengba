@@ -67,8 +67,21 @@ public class CircleEntity implements Parcelable{
     private String deleteCommentTime;
 
     private String remark;
-
+    private String petName;
     private boolean isValid;
+
+    public String getPetName() {
+        return petName;
+    }
+
+    public void setPetName(String petName) {
+        this.petName = petName;
+    }
+
+    public static Creator<CircleEntity> getCREATOR() {
+        return CREATOR;
+    }
+
     public CircleEntity() {
     }
 
@@ -368,7 +381,8 @@ public class CircleEntity implements Parcelable{
         dest.writeString(this.deleteCommentUserId);
         dest.writeString(this.deleteCommentTime);
         dest.writeString(this.remark);
-        dest.writeByte(isValid ? (byte) 1 : (byte) 0);
+        dest.writeString(this.petName);
+        dest.writeByte(this.isValid ? (byte) 1 : (byte) 0);
     }
 
     protected CircleEntity(Parcel in) {
@@ -403,14 +417,17 @@ public class CircleEntity implements Parcelable{
         this.deleteCommentUserId = in.readString();
         this.deleteCommentTime = in.readString();
         this.remark = in.readString();
+        this.petName = in.readString();
         this.isValid = in.readByte() != 0;
     }
 
     public static final Creator<CircleEntity> CREATOR = new Creator<CircleEntity>() {
+        @Override
         public CircleEntity createFromParcel(Parcel source) {
             return new CircleEntity(source);
         }
 
+        @Override
         public CircleEntity[] newArray(int size) {
             return new CircleEntity[size];
         }

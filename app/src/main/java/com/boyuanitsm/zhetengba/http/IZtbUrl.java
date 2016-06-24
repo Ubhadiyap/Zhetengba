@@ -6,13 +6,19 @@ package com.boyuanitsm.zhetengba.http;
  */
 public interface IZtbUrl {
 
+
 //    //基础地址
-//    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
-    //测试  刘恒地址
-    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
+    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+//    //测试  刘恒地址
+//    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
+
+   
+    //测试
+//    public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
 
 
-//    public static final String BASE_URL = "http://172.16.5.202:8080/zhetengba/";
+
+//    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
 //    /**=========登出地址==========**/
 //    public  String LOGOUT_URL=BASE_URL+"manager/unLogin/logout.do";
 
@@ -173,7 +179,7 @@ public interface IZtbUrl {
     String UPLOAD_URL = BASE_URL + "talk/login/uploadImg.do";
     /*邀请好友建立圈子*/
     String INVITE_FRIEND_TOCIRCLE_URL = BASE_URL + "message/login/sendCircleInviteMsg.do";
-//    邀请好友同意接口
+    //邀请好友同意接口
     String INVITE_AGREE_URL=BASE_URL+"message/login/sendAgreeCircleInviteMsg.do";
     //邀请好友拒绝接口
     String INVITE_REFUSE_URL=BASE_URL+"message/login/sendRefuseCircleInviteMsg.do";
@@ -314,5 +320,7 @@ public interface IZtbUrl {
     String ADD_GROUP_MEMBER_URL=BASE_URL+"message/login/addGroupMember.do";
     /*查找群详情*/
     String GROUP_INFO=BASE_URL+"message/login/findGroupInfo.do";
+    /*查找用户*/
+    String FIND_USER_URL=BASE_URL+"message/login/findUserIcon.do";
 //    String ADD_GROUP_URL = BASE_URL + "message/login/addGroupChat.do";
 }

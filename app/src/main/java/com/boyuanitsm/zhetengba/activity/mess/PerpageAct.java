@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
@@ -420,6 +421,12 @@ public class PerpageAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                Intent intent=new Intent();
+                int state=0;
+                intent.putExtra("state", state);
+                intent.setAction(ConstantValue.DATA_CHANGE_KEY);
+                intent.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
+                sendBroadcast(intent);
                 finish();
             }
         });

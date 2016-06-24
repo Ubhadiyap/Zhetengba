@@ -121,7 +121,7 @@ public class CharacterParserUtils {
 			if (key.getBytes().length >= 2) {
 				value = (String) convert(key);
 				if (value == null) {
-					value = "unknown";
+					value = "#";
 				}
 			} else {
 				value = key;

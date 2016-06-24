@@ -114,7 +114,7 @@ public class CalAdapter extends BaseAdapter {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), calHolder.iv_icon, optionsImag);//用户头像；
 //        calHolder.iv_icon.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_user));
 //            if (list.get(position))
-            if (!TextUtils.isEmpty(list.get(position).getUserNm())) {
+            if (!TextUtils.isEmpty(list.get(position).getUserName())) {
                 calHolder.tv_Name.setText(list.get(position).getUserNm());//用户昵称
             } else {
                 calHolder.tv_Name.setText("无用户名");
@@ -147,7 +147,6 @@ public class CalAdapter extends BaseAdapter {
             } else {
                 calHolder.tv_gzcal_num.setText(0 + "");
             }
-//           calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger, null));
             calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
             calHolder.tv_cal_yh.setText("约Ta");
 //        calHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {

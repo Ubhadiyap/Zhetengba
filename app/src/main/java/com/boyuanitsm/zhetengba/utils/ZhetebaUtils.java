@@ -73,7 +73,7 @@ public class ZhetebaUtils {
      * */
     public static boolean checkCellPhone(String cellPhoneNr)
     {
-        String reg="^[1][\\d]{10}";
+        String reg="^[1][34578][\\d]{9}";
         return startCheck(reg,cellPhoneNr);
     }
     public static boolean startCheck(String reg,String string)

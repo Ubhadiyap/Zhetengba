@@ -13,6 +13,7 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
@@ -39,13 +40,17 @@ public class SelectSexAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("性别");
+//        user=getIntent().getParcelableExtra("user");
         user=UserInfoDao.getUser();
+        MyLogUtils.info(user+"返回的user");
         if(user!=null&& !TextUtils.isEmpty(user.getSex())){
             sex=user.getSex();
+            MyLogUtils.info(sex+"性别是");
             if(sex.equals("0")){
                 rgGirl.setChecked(true);
-            }else
+            }else{
                 rgBoy.setChecked(true);
+            }
         }
         rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -81,6 +86,7 @@ public class SelectSexAct extends BaseActivity {
                 UserInfoDao.updateUser(user);
                 Intent intent = new Intent();
                 intent.putExtra("Modify", user.getSex());
+                MyLogUtils.info(user.getSex()+"成功更新后，性别");
                 setResult(PersonalmesAct.SEXMODIFY_BAKC, intent);
                 finish();
 

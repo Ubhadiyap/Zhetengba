@@ -15,6 +15,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -113,6 +114,7 @@ public class EditAct extends BaseActivity {
                     DemoHelper.getInstance().getUserProfileManager().setNickName(userInfo.getPetName());
                     UserInfoDao.updateUser(userInfo);
                     sendBroadcast(new Intent(PersonalmesAct.USER_INFO));
+                    sendBroadcast(new Intent(MineFrg.USER_INFO));
                     MyToastUtils.showShortToast(getApplicationContext(), "修改信息成功");
                     finish();
 

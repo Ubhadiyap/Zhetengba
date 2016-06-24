@@ -86,17 +86,6 @@ public class CirxqAct extends BaseActivity {
 
 
     private List<List<ImageInfo>> datalist;
-    private String[][] images=new String[][]{{
-            ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"1624","914"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"250","250"}
-            ,{ConstantValue.IMAGEURL,"1280","800"}
-    };
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)

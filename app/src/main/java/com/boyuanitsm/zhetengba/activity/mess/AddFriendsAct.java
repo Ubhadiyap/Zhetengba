@@ -16,6 +16,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -56,7 +57,11 @@ public class AddFriendsAct extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString()) && s.length() == 11) {
-                    findUserByPhone(s.toString());
+                    if (TextUtils.equals(UserInfoDao.getUser().getPhone(),s.toString())){
+                        MyToastUtils.showShortToast(AddFriendsAct.this,"您输入的是自己手机号");
+                    }else{
+                        findUserByPhone(s.toString());
+                    }
                 }
             }
         });
@@ -117,13 +122,15 @@ public class AddFriendsAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<UserInfo> response) {
                 UserInfo userInfo = response.getData();
-                if (userInfo != null) {
+                if (!TextUtils.isEmpty(userInfo.getId())) {
                     Intent intent = new Intent(AddFriendsAct.this, PerpageAct.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("userId", userInfo.getId());
 //                  bundle.putBoolean("friend",userInfo.isFriend());
                     intent.putExtras(bundle);
                     startActivity(intent);
+                }else {
+                    MyToastUtils.showShortToast(AddFriendsAct.this,"无此用户");
                 }
             }
         });

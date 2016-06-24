@@ -81,7 +81,6 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     private MonthSelectAdp monthSelectAdp;
     private int currentPos;//当前位置
     private int mMouthMargin;//设置月份间隙
-
     private List<String> timeList=new ArrayList<>();//存储时间
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -97,6 +96,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
 
     @Override
     public void initData(Bundle savedInstanceState) {
+
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         //设置横向
@@ -329,14 +329,17 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            UserInfo user= UserInfoDao.getUser();
+          UserInfo  user= UserInfoDao.getUser();
             MyLogUtils.degug(user.getPetName());
             if (user != null) {
                if (!TextUtils.isEmpty(user.getIcon())){
                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImag);
 
                }
-
+                if (!TextUtils.isEmpty(user.getPetName())){
+                    tv_name.setText(user.getPetName());
+                    MyLogUtils.info(user.getPetName()+"广播接收后昵称");
+                }
             }
             getlable();//当修改兴趣标界面修改（添加，删除）签获得兴趣标签；
 
