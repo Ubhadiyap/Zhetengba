@@ -36,15 +36,15 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.GroupBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
-import com.boyuanitsm.zhetengba.chat.DemoHelper;
-import com.boyuanitsm.zhetengba.http.IZtbUrl;
+import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
 import com.hyphenate.EMGroupChangeListener;
@@ -52,7 +52,6 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMGroup;
-import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.easeui.widget.EaseAlertDialog.AlertDialogUser;
@@ -1006,23 +1005,40 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			public void onResponse(ResultBean<List<UserInfo>> response) {
 				List<UserInfo> datas=response.getData();
 				if(datas!=null&&datas.size()>0){
-					List<EaseUser> uList = new ArrayList<EaseUser>();
-					for (UserInfo friendsBean : datas) {
-						EaseUser easeUser = new EaseUser(friendsBean.getId());
-						if (!TextUtils.isEmpty(friendsBean.getPetName())) {
-							easeUser.setNick(friendsBean.getPetName());
-							easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0,1));
+
+					List<ChatUserBean> chatList=new ArrayList<ChatUserBean>();
+					for (UserInfo friendsBean : datas){
+						ChatUserBean chatUserBean=new ChatUserBean();
+						chatUserBean.setUserId(friendsBean.getId());
+						chatUserBean.setIcon(Uitls.imageFullUrl(friendsBean.getIcon()));
+						if(TextUtils.isEmpty(friendsBean.getPetName())){
+							chatUserBean.setNick(friendsBean.getUsername());
+						}else{
+							chatUserBean.setNick(friendsBean.getPetName());
 						}
-						else {
-							easeUser.setNick(friendsBean.getUsername());
-							easeUser.setInitialLetter("#");
-						}
-						easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
-						uList.add(easeUser);
+						chatList.add(chatUserBean);
 					}
-					if(uList!=null&&uList.size()>0)
-					DemoHelper.getInstance().updateContactList(uList);
+					if(chatList.size()>0)
+					ChatUserDao.saveUserList(chatList);
+//					List<EaseUser> uList = new ArrayList<EaseUser>();
+//					for (UserInfo friendsBean : datas) {
+//						EaseUser easeUser = new EaseUser(friendsBean.getId());
+//						if (!TextUtils.isEmpty(friendsBean.getPetName())) {
+//							easeUser.setNick(friendsBean.getPetName());
+//							easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0,1));
+//						}
+//						else {
+//							easeUser.setNick(friendsBean.getUsername());
+//							easeUser.setInitialLetter("#");
+//						}
+//						easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
+//						uList.add(easeUser);
+//					}
+//					if(uList!=null&&uList.size()>0)
+//					DemoHelper.getInstance().updateContactList(uList);
 				}
+
+
 				List<String> members = new ArrayList<String>();
 				members.addAll(group.getMembers());
 

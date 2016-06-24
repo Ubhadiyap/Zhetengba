@@ -309,5 +309,7 @@ public interface IZtbUrl {
     String ADD_GROUP_MEMBER_URL=BASE_URL+"message/login/addGroupMember.do";
     /*查找群详情*/
     String GROUP_INFO=BASE_URL+"message/login/findGroupInfo.do";
+    /*查找用户*/
+    String FIND_USER_URL=BASE_URL+"message/login/findUserIcon.do";
 //    String ADD_GROUP_URL = BASE_URL + "message/login/addGroupChat.do";
 }

@@ -117,13 +117,15 @@ public class AddFriendsAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<UserInfo> response) {
                 UserInfo userInfo = response.getData();
-                if (userInfo != null) {
+                if (userInfo != null&&userInfo.getId()!=null) {
                     Intent intent = new Intent(AddFriendsAct.this, PerpageAct.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("userId", userInfo.getId());
 //                  bundle.putBoolean("friend",userInfo.isFriend());
                     intent.putExtras(bundle);
                     startActivity(intent);
+                }else{
+                    MyToastUtils.showShortToast(getApplicationContext(),"无此用户");
                 }
             }
         });

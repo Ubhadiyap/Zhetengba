@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba;
 
 
+import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
@@ -34,7 +35,7 @@ public class ConstantValue {
      * 数据库版本
      */
     public final static int VERSION =2;
-   public final static Class<?>[] MODELS = {UserInfo.class};
+   public final static Class<?>[] MODELS = {UserInfo.class, ChatUserBean.class};
     public final static String DB_NAME = "user.db";
 
     /**
