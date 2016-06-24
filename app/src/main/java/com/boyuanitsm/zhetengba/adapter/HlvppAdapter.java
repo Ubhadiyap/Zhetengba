@@ -65,7 +65,6 @@ public class HlvppAdapter extends BaseAdapter {
         View view=View.inflate(context, R.layout.item_hlvpp,null);
         CircleImageView cir_pagehand= (CircleImageView) view.findViewById(R.id.cir_pagehand);
         TextView tv_more= (TextView) view.findViewById(R.id.tv_more);
-        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleEntityList.get(position).getCircleLogo()),cir_pagehand,optionsImag);
         tv_more.setText(circleEntityList.get(position).getCircleName());
         LinearLayout ll_quanzi= (LinearLayout) view.findViewById(R.id.ll_quanzi);
         if(position==4){
@@ -80,14 +79,7 @@ public class HlvppAdapter extends BaseAdapter {
                 }
             });
         }else {
-//            ll_quanzi.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent=new Intent(context, CirFriendAct.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    context.startActivity(intent);
-//                }
-//            });
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleEntityList.get(position).getCircleLogo()),cir_pagehand,optionsImag);
 
         }
         return view;

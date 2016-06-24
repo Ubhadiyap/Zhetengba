@@ -40,6 +40,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_second"
         style="@style/tv_second"
         android:textColor="#333333"
         android:text="已接受您的邀请"
