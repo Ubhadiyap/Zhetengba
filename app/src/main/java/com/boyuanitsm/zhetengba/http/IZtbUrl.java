@@ -6,10 +6,22 @@ package com.boyuanitsm.zhetengba.http;
  */
 public interface IZtbUrl {
 
-    //基础地址
+
+//    //基础地址
     public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+//<<<<<<< HEAD
 //    测试
 //    public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
+
+//=======
+//    //测试  刘恒地址
+//    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
+
+   
+    //测试
+//    public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
+
+
 
 //    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
 //    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
@@ -216,7 +228,10 @@ public interface IZtbUrl {
 
 
     //档期列表
-    String SCHEDULE_LIST_URL = BASE_URL + "schedule/login/findScheduleList.do";
+    String SCHEDULE_LIST_URL = BASE_URL + "shedule/login/findScheduleList.do";
+
+    //点击约她匹配列表
+    String FINDMATCHING_URL=BASE_URL +"schedule/login/findMatchingActivities.do";
 
 
     //关注档期接口
