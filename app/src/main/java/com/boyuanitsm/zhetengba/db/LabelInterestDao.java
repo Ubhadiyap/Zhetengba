@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class LabelInterestDao extends TemplateDAO<UserInterestInfo, String> {
+
     private static LabelInterestDao labelInterestDao;
     public LabelInterestDao() {
         super(ShUtils.getLabelDbhelper());
@@ -70,6 +71,13 @@ public class LabelInterestDao extends TemplateDAO<UserInterestInfo, String> {
      */
     public static void deleteInterestLabel(String id) {
         getDao().delete(id);
+    }
+
+    /**
+     * 删除所有
+     */
+    public static void delAll(){
+        getDao().deleteAll();
     }
 //    public void delete(String id) {
 //        SQLiteDatabase db = getDao().getWritableDatabase();

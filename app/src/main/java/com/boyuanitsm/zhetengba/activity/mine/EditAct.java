@@ -33,6 +33,7 @@ public class EditAct extends BaseActivity {
     private int TYPE;//1 昵称 2 手机号  3邮箱  4公司名称  5公司地址  6公司电话 7职务 9故乡
     public static String USER_TYPE = "type";
     private UserInfo user;
+    private boolean flag=true;
 
     @Override
     public void setLayout() {
@@ -47,48 +48,12 @@ public class EditAct extends BaseActivity {
         setRight("提交", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    saveUserinfo();
-                    saveUser(user);
+                   if (saveUserinfo()==true){
+                       saveUser(user);
+                   }else {
+                       MyToastUtils.showShortToast(EditAct.this,"修改信息失败！");
+                   }
 
-//                String content = cetEditInfo.getText().toString().trim();
-//                if (TextUtils.isEmpty(content)) {
-//                    MyToastUtils.showShortDebugToast(getApplicationContext(),"请输入完成后再提交");
-//                    return;
-//                }
-//                switch (TYPE){
-//                    case 1:
-//
-//                        break;
-//                    case 2:
-//                        boolean isMobileNO = ZtinfoUtils.isMobileNO(content);
-//                        if (!isMobileNO){
-//                            MyToastUtils.showShortDebugToast(getApplicationContext(),"请输入正确的手机号吗");
-//                            return;
-//                        }
-//                        break;
-//                    case 3:
-//                        boolean isEmail = ZtinfoUtils.isEmail(content);
-//                        if (!isEmail){
-//                            MyToastUtils.showShortDebugToast(getApplicationContext(), "请输入正确的邮箱号");
-//                            return;
-//                        }
-//                        break;
-//                    case 4:
-//
-//                        break;
-//                    case 5:
-//
-//                        break;
-//                    case 6:
-//
-//                        break;
-//                    case 7:
-//
-//                        break;
-//                    case 8:
-//                        break;
-//                }
-//                finish();
             }
         });
     }
@@ -129,75 +94,91 @@ public class EditAct extends BaseActivity {
      *
      * @return
      */
-    private void saveUserinfo() {
+    private boolean saveUserinfo() {
         String content = cetEditInfo.getText().toString().trim();
         switch (TYPE) {
             case 1:
                 if (user != null) {
                     if (!TextUtils.isEmpty(content)) {
                         user.setPetName(content);
-                    } else user.setPetName("");
+                    } else {
+                        user.setPetName("");
+                    }
+                  flag=true;
                 }
                 break;
             case 2:
                 boolean isMobileNO = ZtinfoUtils.isMobileNO(content);
                 if (!isMobileNO) {
                     MyToastUtils.showShortDebugToast(getApplicationContext(), "请输入正确的手机号吗");
-                    return;
+                    flag=false;
                 } else {
                     if (!TextUtils.isEmpty(content)) {
                         user.setPhone(content);
                     } else {
                         user.setPhone("");
                     }
+                   flag=true;
                 }
                 break;
             case 3:
                 boolean isEmail = ZtinfoUtils.isEmail(content);
                 if (!isEmail) {
                     MyToastUtils.showShortDebugToast(getApplicationContext(), "请输入正确的邮箱号");
-                    return;
+                   flag=false;
                 } else {
                     if (!(TextUtils.isEmpty(content))) {
                         user.setEmail(content);
                     } else {
                         user.setEmail("");
                     }
+                   flag=true;
                 }
                 break;
             case 4:
                 if (!(TextUtils.isEmpty(content))) {
                     user.setCompanyName(content);
-                } else user.setCompanyName("");
+                } else{
+                    user.setCompanyName("");
+                }
+                flag=true;
                 break;
             case 5:
                 if (!(TextUtils.isEmpty(content))) {
                     user.setCompanyAddr(content);
-                } else user.setCompanyAddr("");
+                } else {
+                    user.setCompanyAddr("");
+                }
+                flag=true;
                 break;
             case 6:
                 if (!(TextUtils.isEmpty(content))) {
                     user.setCompanyPhone(content);
-                } else user.setCompanyPhone("");
-
+                } else {
+                    user.setCompanyPhone("");
+                }
+                  flag=true;
                 break;
             case 7:
                 if (!(TextUtils.isEmpty(content))) {
                     user.setJob(content);
-                } else user.setJob("");
-
+                } else {
+                    user.setJob("");
+                }
+               flag=true;
                 break;
             case 8:
                 break;
             case 9:
                 if (!(TextUtils.isEmpty(content))) {
                     user.setHomeTown(content);
-                } else user.setHomeTown("");
-
+                } else {
+                    user.setHomeTown("");
+                }
+                  flag=true;
                 break;
         }
-
-
+        return flag;
     }
 
     private void setTopPos(int position) {

@@ -24,6 +24,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -99,13 +100,13 @@ public class LabelMangerAct extends BaseActivity {
                     MyToastUtils.showShortToast(LabelMangerAct.this, "至少选择一个兴趣标签");
                 } else if (mylist.size() == 1) {
                     labelids = mylist.get(0).getInterestId();
-                    addInterestLabel(labelids);
+                    addInterestLabel(labelids,mylist);
                 } else if (mylist.size() > 1) {
                     labelids = mylist.get(0).getInterestId();
                     for (int i = 1; i < mylist.size(); i++) {
                         labelids = labelids + "," + mylist.get(i).getInterestId();
                     }
-                    addInterestLabel(labelids);
+                    addInterestLabel(labelids, mylist);
                 }
 
             }
@@ -122,7 +123,7 @@ public class LabelMangerAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LabelBannerInfo str = list.get(position);
-                userInterestInfo = new UserInterestInfo(LabelMangerAct.this);
+                userInterestInfo = new UserInterestInfo();
                 userInterestInfo.setInterestId(str.getId());
                 userInterestInfo.setDictName(str.getDictName());
                 mylist.add(userInterestInfo);
@@ -175,8 +176,9 @@ public class LabelMangerAct extends BaseActivity {
     /**
      * 添加个人兴趣标签
      * @param labelIds
+     * @param mylist
      */
-    private void addInterestLabel(String labelIds){
+    private void addInterestLabel(final String labelIds, final List<UserInterestInfo> mylist){
         RequestManager.getScheduleManager().addInterestLabel(labelIds, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -185,6 +187,14 @@ public class LabelMangerAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                LabelInterestDao.delAll();
+                for (int i=0;i<mylist.size();i++){
+                    UserInterestInfo userInterestInfo=new UserInterestInfo();
+                    userInterestInfo.setInterestId(mylist.get(i).getInterestId());
+                    userInterestInfo.setDictName(mylist.get(i).getDictName());
+                    LabelInterestDao.saveInterestLabel(userInterestInfo);
+                }
+                MyLogUtils.info(LabelInterestDao.getInterestLabel().toString());
                 sendBroadcast(new Intent(ChanelFrg.MYLABELS));
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
                 sendBroadcast(new Intent(PerpageAct.PPLABELS));

@@ -28,6 +28,19 @@ public class ScheduleInfo implements Parcelable {
     private String userNm;//用户昵称
     private String userSex;//用户性别男士1，女士0
     private String dictName;//标签名称
+    private boolean friend;//是否是朋友
+
+    public boolean isFriend() {
+        return friend;
+    }
+
+    public void setFriend(boolean friend) {
+        this.friend = friend;
+    }
+
+    public static Creator<ScheduleInfo> getCREATOR() {
+        return CREATOR;
+    }
 
     public String getNoticeUserIds() {
         return noticeUserIds;
@@ -210,6 +223,9 @@ public class ScheduleInfo implements Parcelable {
     }
 
 
+    public ScheduleInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -237,9 +253,7 @@ public class ScheduleInfo implements Parcelable {
         dest.writeString(this.userNm);
         dest.writeString(this.userSex);
         dest.writeString(this.dictName);
-    }
-
-    public ScheduleInfo() {
+        dest.writeByte(this.friend ? (byte) 1 : (byte) 0);
     }
 
     protected ScheduleInfo(Parcel in) {
@@ -263,6 +277,7 @@ public class ScheduleInfo implements Parcelable {
         this.userNm = in.readString();
         this.userSex = in.readString();
         this.dictName = in.readString();
+        this.friend = in.readByte() != 0;
     }
 
     public static final Creator<ScheduleInfo> CREATOR = new Creator<ScheduleInfo>() {

@@ -21,7 +21,7 @@
             <TextView
                 android:textSize="12sp"
                 android:textColor="@color/white"
-                android:text="修改备注"
+                android:text="@string/beizhu"
                style="@style/tv_second" />
         </LinearLayout>
 

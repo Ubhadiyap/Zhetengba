@@ -28,8 +28,6 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
     public SimpleFrg simpleFrg;
     private CalFrg calFrg;
     private RadioButton rb_simple, rb_calendar;//拿到
-    private boolean tag = true;
-    private LinearLayout linearLayout;
     private PopupWindow mPopupWindow;
     private LinearLayout ll_friend, ll_friend_two;
     private RadioGroup rg_simple;
@@ -46,7 +44,6 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
     public void initData(Bundle savedInstanceState) {
         rb_simple = (RadioButton) view.findViewById(R.id.rb_simple);
         rb_calendar = (RadioButton) view.findViewById(R.id.rb_calendar);
-        linearLayout = (LinearLayout) view.findViewById(R.id.ll_title_border);
         ll_friend = (LinearLayout) view.findViewById(R.id.ll_friend);
         ll_friend_two = (LinearLayout) view.findViewById(R.id.ll_friend_two);
         tv_friend_all = (TextView) view.findViewById(R.id.tv_friend_all);

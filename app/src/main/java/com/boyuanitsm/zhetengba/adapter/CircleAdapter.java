@@ -45,6 +45,7 @@ public class CircleAdapter extends BaseAdapter {
     private List<List<ImageInfo>> dateList;
     private List<CircleEntity> list;
     ViewHolder viewHolder = null;
+    private LinearLayout ll_like;
     int clickPos;
 
     // 图片缓存 默认 等
@@ -101,7 +102,7 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.ivChGendar = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
             viewHolder.zimg = (ImageView) convertView.findViewById(R.id.zimg);
             viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
-            viewHolder.ll_like= (LinearLayout) convertView.findViewById(R.id.like);
+            ll_like= (LinearLayout) convertView.findViewById(R.id.like);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             viewHolder.llphoto = (LinearLayout) convertView.findViewById(R.id.llphoto);
@@ -277,11 +278,11 @@ public class CircleAdapter extends BaseAdapter {
             }
         });
         //点赞
-        viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
+        ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ll_like.setClickable(false);
                 clickPos=position;
-
                 if (0==list.get(position).getLiked()){
                     addCircleLike(list.get(position).getId());
                 }else if (1==list.get(position).getLiked()){
@@ -337,7 +338,6 @@ public class CircleAdapter extends BaseAdapter {
         public TextView tv_cir_name;
         private LinearLayout ll_two;
         private ImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
-        private LinearLayout ll_like;
         private LinearLayout ll_share;
         private LinearLayout ll_comment;
         private LinearLayout llphoto;
@@ -357,11 +357,13 @@ public class CircleAdapter extends BaseAdapter {
             @Override
             public void onError(int status, String errorMsg) {
                 MyToastUtils.showShortToast(context,errorMsg);
+                ll_like.setClickable(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(1);
+                ll_like.setClickable(true);
                 if(!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }

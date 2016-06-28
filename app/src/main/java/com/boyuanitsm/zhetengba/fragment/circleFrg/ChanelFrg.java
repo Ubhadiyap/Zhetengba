@@ -6,27 +6,31 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
-import com.boyuanitsm.zhetengba.adapter.ChaPagerAdapter;
+import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
+import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
+import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.util.ArrayList;
@@ -36,24 +40,22 @@ import java.util.List;
  * 频道界面
  * Created by xiaoke on 2016/5/2.
  */
-public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeListener, View.OnClickListener {
-    private View view;//当前view
-    private ViewPager vp_chan;//viewpager
-    @ViewInject(R.id.ll_add)//添加textview；
-    private RelativeLayout ll_add;
-    private HorizontalScrollView scrollView;//scrollView
-    private LinearLayout titleLayout;//频道，头部标签布局
+public class ChanelFrg extends BaseFragment implements View.OnClickListener {
+    private int currentPos;//当前位置
     private int mTitleMargin;//头部标签之间空隙；
-    private ChaPagerAdapter chaPagerAdapter;//viewpager适配器
-    private ArrayList<ChaChildFrg> fragmentList;//viewpager嵌套fragment，将fragment装入fragmentlist集合内
+    private int page = 1;
+    private int rows = 10;
+    private View view;//当前view
+    private PullToRefreshListView vp_chan;//viewpager
+    private ChanAdapter adapter;
+    private LinearLayout titleLayout;//频道，头部标签布局
     private ArrayList<TextView> textViewList;//承载标签的TextView集合
     private List<UserInterestInfo> titleList;//标签集合
     private ArrayList<Integer> moveToList;//设置textview宽高集合
-    private ArrayList<String> contentList;
-    private ChaChildFrg chaChildFrg;//子fragment01
-    private int currentPos;//当前位置
-    @ViewInject(R.id.bt_plan)//发布按钮
-    private Button bt_plan;
+    private List<ChannelTalkEntity> channelTalkEntityList;
+    private List<List<ImageInfo>> datalist;
+    private List<ChannelTalkEntity> datas = new ArrayList<>();
+
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.chanel_frg, null);
@@ -62,51 +64,52 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        //初始化控件
-        scrollView = (HorizontalScrollView) view.findViewById(R.id.hslv_chanel);
-        titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
-        vp_chan = (ViewPager) view.findViewById(R.id.vp_chan);
-        //初始化
-
-        textViewList = new ArrayList<>();
-        moveToList = new ArrayList<>();
-        //设置间隙
-        mTitleMargin = dip2px(mActivity, 10);
-        getMyLabels(-1);//获取我的兴趣标签
-        //填充数据
-        //设置viewPager滑动监听
-        vp_chan.setOnPageChangeListener(this);
+        initView();        //初始化控件
+        titleList = LabelInterestDao.getInterestLabel();        //设置间隙
+        if (titleList == null) {
+            getMyLabels(-1);
+        } else {
+            initDate(titleList);
+        }
+        MyLogUtils.info(titleList.toString());
     }
 
+    private void initView() {
+        titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
+        vp_chan = (PullToRefreshListView) view.findViewById(R.id.vp_chan);
+    }
 
     /***
      * 填充数据
      */
-    private void initDate(List<UserInterestInfo> titleList) {;
-        fragmentList = new ArrayList<>();
+    private void initDate(final List<UserInterestInfo> titleList) {
+        ;
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
-        //设置fragmentlist
-        //填充titleList,titleLayout布局
-            for (int i = 0; i < titleList.size(); i++) {
-                ChaChildFrg testFm = new ChaChildFrg().newInstance(contentList, i);
-                fragmentList.add(testFm);
-                addTitleLayout(titleList.get(i).getDictName(), i);
-            }
+        getChannelTalks(titleList.get(0).getInterestId(), page, rows);
+        for (int i = 0; i < titleList.size(); i++) {
+            addTitleLayout(titleList.get(i).getDictName(), i);
+        }
 
-
-        //设置viewpager适配数据
-        chaPagerAdapter = new ChaPagerAdapter(getChildFragmentManager(), fragmentList);
-        chaPagerAdapter.setFragments(fragmentList);
-        vp_chan.setAdapter(chaPagerAdapter);
-        vp_chan.setOffscreenPageLimit(9);//一共加载9页，如果此处不指定，默认只加载相邻页，提前加载增加用户体验
         if (textViewList != null && textViewList.size() > 0) {
             textViewList.get(0).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
         }
+        LayoutHelperUtil.freshInit(vp_chan);
+        vp_chan.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                vp_chan.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                page = 1;
+                getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+            }
+        });
         currentPos = 0;
-        //设置频道标签id
-        ((MainAct) getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
-        getActivity().sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
     }
 
     /***
@@ -117,27 +120,19 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
      */
 
     private void addTitleLayout(String title, int position) {
-        //塞入条目
         final TextView textView = (TextView) mActivity.getLayoutInflater().inflate(R.layout.chanel_child_title, null);
-        //设置title
         textView.setText(title);
         textView.setTextSize(14);
         textView.setTextColor(Color.parseColor("#999999"));
-        //设置position Tag
-        textView.setTag(position);
-        //点击监听
+        textView.setTag(position);        //设置position Tag
         textView.setOnClickListener(new posOnClickListener());
-        //LinearLayout管理器布局
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        //设置左右间隙
-        params.leftMargin = dip2px(mActivity, mTitleMargin);
-        params.rightMargin = dip2px(mActivity, mTitleMargin);
-        //将textView添加至params
+        mTitleMargin = ZtinfoUtils.dip2px(mActivity, 10);        //设置左右间隙
+        params.leftMargin = ZtinfoUtils.dip2px(mActivity, mTitleMargin);
+        params.rightMargin = ZtinfoUtils.dip2px(mActivity, mTitleMargin);
         titleLayout.addView(textView, params);
-        //把textView加入集合
         textViewList.add(textView);
-        //设置宽高
-        int width;
+        int width;        //设置宽高
         if (position == 0) {
             width = 0;
             moveToList.add(width);
@@ -150,50 +145,13 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
         }
     }
 
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     */
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
-    /***
-     * 滑动监听
-     *
-     * @param position
-     * @param positionOffset
-     * @param positionOffsetPixels
-     */
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        //当前位置textview 文字选中变色
-        textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
-        textViewList.get(position).setTextColor(Color.parseColor("#52C791"));
-        currentPos = position;
-        ((MainAct) getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
-        Intent intent = new Intent(ChaChildFrg.CHANNELTALKS);
-        intent.putExtra("flag", position);
-        mActivity.sendBroadcast(intent);
-        scrollView.scrollTo((int) moveToList.get(position), 0);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
 
     @OnClick({R.id.bt_plan, R.id.ll_add})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_plan:
-                Intent intent = new Intent(getActivity(), CirclefbAct.class);
+                Intent intent = new Intent(mActivity, CirclefbAct.class);
                 intent.putExtra(CirclefbAct.TYPE, 0);
                 intent.putExtra("labelId", titleList.get(currentPos).getInterestId());
                 intent.putExtra("flag", currentPos);
@@ -202,7 +160,6 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
             case R.id.ll_add:
                 openActivity(LabelMangerAct.class);
                 break;
-//            openActivity(LabelManaAct.class);
         }
     }
 
@@ -215,10 +172,8 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
             }
             textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
             currentPos = (int) view.getTag();
-//            ((MainAct)getActivity()).setLabelId(titleList.get(currentPos).getInterestId());
-//           mActivity.sendBroadcast(new Intent(ChaChildFrg.CHANNELTALKS));
+            getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
             textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));
-            vp_chan.setCurrentItem(currentPos);
         }
     }
 
@@ -244,12 +199,66 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
     }
 
 
+    /**
+     * 获取频道说说列表
+     *
+     * @param lableId
+     * @param page
+     * @param rows
+     */
+    private void getChannelTalks(String lableId, final int page, int rows) {
+        channelTalkEntityList = new ArrayList<>();
+        datalist = new ArrayList<>();
+        RequestManager.getTalkManager().getChannelTalks(lableId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                vp_chan.onPullUpRefreshComplete();
+                vp_chan.onPullDownRefreshComplete();
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<ChannelTalkEntity>> response) {
+                vp_chan.onPullUpRefreshComplete();
+                vp_chan.onPullDownRefreshComplete();
+                channelTalkEntityList = response.getData().getRows();
+                if (channelTalkEntityList.size() == 0) {
+                    if (page == 1) {
+
+                    } else {
+                        vp_chan.setHasMoreData(false);
+                    }
+                }
+                if (page == 1) {
+                    datas.clear();
+                }
+                datas.addAll(channelTalkEntityList);
+                for (int j = 0; j < datas.size(); j++) {
+                    List<ImageInfo> itemList = new ArrayList<>();
+                    //将图片地址转化成数组
+                    if (!TextUtils.isEmpty(datas.get(j).getChannelImage())) {
+                        String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getChannelImage());
+                        for (int i = 0; i < urlList.length; i++) {
+                            itemList.add(new ImageInfo(urlList[i], 1624, 914));
+                        }
+                    }
+                    datalist.add(itemList);
+                }
+                if (adapter == null) {
+                    adapter = new ChanAdapter(mActivity, datalist, datas);
+                    vp_chan.getRefreshableView().setAdapter(adapter);
+                } else {
+                    adapter.notifyChange(datalist, datas);
+                }
+            }
+        });
+    }
+
     @Override
     public void onStart() {
         super.onStart();
         if (receiverTalk == null) {
             receiverTalk = new MyBroadCastReceiverTalk();
-            getActivity().registerReceiver(receiverTalk, new IntentFilter(MYLABELS));
+            mActivity.registerReceiver(receiverTalk, new IntentFilter(MYLABELS));
         }
     }
 
@@ -257,7 +266,7 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
     public void onDestroy() {
         super.onDestroy();
         if (receiverTalk != null) {
-            getActivity().unregisterReceiver(receiverTalk);
+            mActivity.unregisterReceiver(receiverTalk);
             receiverTalk = null;
         }
     }
@@ -269,9 +278,11 @@ public class ChanelFrg extends BaseFragment implements ViewPager.OnPageChangeLis
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            getMyLabels(-1);
             titleLayout.removeAllViews();
             textViewList.clear();
+            titleList.clear();
+            titleList = LabelInterestDao.getInterestLabel();
+            initDate(titleList);
         }
     }
 

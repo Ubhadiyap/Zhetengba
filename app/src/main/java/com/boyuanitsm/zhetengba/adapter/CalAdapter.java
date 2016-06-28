@@ -119,7 +119,7 @@ public class CalAdapter extends BaseAdapter {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), calHolder.iv_icon, optionsImag);//用户头像；
 //        calHolder.iv_icon.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_user));
 //            if (list.get(position))
-            if (!TextUtils.isEmpty(list.get(position).getUserName())) {
+            if (!TextUtils.isEmpty(list.get(position).getUserNm())) {
                 calHolder.tv_Name.setText(list.get(position).getUserNm());//用户昵称
             } else {
                 calHolder.tv_Name.setText("无用户名");
@@ -186,6 +186,7 @@ public class CalAdapter extends BaseAdapter {
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
                     bundle.putString("userId", list.get(position).getUserId());
+                    bundle.putBoolean("friend",list.get(position).isFriend());
                     intent.putExtras(bundle);
                     intent.setClass(context, PerpageAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

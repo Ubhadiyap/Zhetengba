@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,7 +39,8 @@ public class CirMessAct extends BaseActivity {
     private Button bt_reply;
     private List<CircleInfo> list = new ArrayList<CircleInfo>();
     private CircleInfo info;
-    private  CircleMessAdatper adapter;
+    private CircleMessAdatper adapter;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_mess);
@@ -61,7 +63,10 @@ public class CirMessAct extends BaseActivity {
         lv_cir_mess.setPullLoadEnabled(false);
         lv_cir_mess.setScrollLoadEnabled(false);
         lv_cir_mess.getRefreshableView().setDivider(null);
-        list= CircleMessDao.getCircleUser();
+        list = CircleMessDao.getCircleUser();
+        if (list!=null&&list.size() > 0) {
+            Collections.reverse(list);
+        }
         adapter = new CircleMessAdatper(CirMessAct.this, list);
         lv_cir_mess.getRefreshableView().setAdapter(adapter);
     }

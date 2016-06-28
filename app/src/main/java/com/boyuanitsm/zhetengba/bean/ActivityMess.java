@@ -21,6 +21,26 @@ public class ActivityMess implements Parcelable {
     private String type;//0是活动
     @Column
      private String userIcon;//
+    @Column
+    private String createTime;
+    @Column
+    private String activityTheme;
+
+    public String getActivityTheme() {
+        return activityTheme;
+    }
+
+    public void setActivityTheme(String activityTheme) {
+        this.activityTheme = activityTheme;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
     @Override
     public String toString() {
@@ -77,6 +97,9 @@ public class ActivityMess implements Parcelable {
         this.userIcon = userIcon;
     }
 
+    public ActivityMess() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -89,9 +112,8 @@ public class ActivityMess implements Parcelable {
         dest.writeString(this.message);
         dest.writeString(this.type);
         dest.writeString(this.userIcon);
-    }
-
-    public ActivityMess() {
+        dest.writeString(this.createTime);
+        dest.writeString(this.activityTheme);
     }
 
     protected ActivityMess(Parcel in) {
@@ -100,6 +122,8 @@ public class ActivityMess implements Parcelable {
         this.message = in.readString();
         this.type = in.readString();
         this.userIcon = in.readString();
+        this.createTime = in.readString();
+        this.activityTheme = in.readString();
     }
 
     public static final Creator<ActivityMess> CREATOR = new Creator<ActivityMess>() {

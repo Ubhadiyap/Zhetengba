@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
+import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
@@ -31,7 +33,7 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
-
+    private String type;
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
@@ -52,7 +54,7 @@ public class MyReceiver extends BroadcastReceiver {
 			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的内容: " + extra);
 				try {
 					JSONObject json = new JSONObject(extra);
-					String type = json.getString("type");//解析单个
+					type = json.getString("type");//解析单个
 //                    String comment=json.getString("commentTalk");
 //                    Log.d(TAG, "json.getString(\"commentContent\"); 接收到推送下来的commentContent的内容: " + comment);
 					if (TextUtils.equals(type,"2")){
@@ -72,13 +74,20 @@ public class MyReceiver extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-
-            //打开自定义的Activity
-            Intent i = new Intent(context, MainAct.class);
-            i.putExtras(bundle);
-            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Intent i=new Intent();
+                if (type.equals(2+"")){
+                    i.setClass(context, CirMessAct.class);
+                }else if (type.equals(0+"")||type.equals(1+"")){
+                    i.setClass(context, DqMesAct.class);
+                }
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);
+//            //打开自定义的Activity
+//            Intent i = new Intent(context, MainAct.class);
+//            i.putExtras(bundle);
+//            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            context.startActivity(i);
 
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));

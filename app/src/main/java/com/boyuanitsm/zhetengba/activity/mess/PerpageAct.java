@@ -422,8 +422,8 @@ public class PerpageAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 Intent intent=new Intent();
-                int state=0;
-                intent.putExtra("state", state);
+//                int state=0;
+//                intent.putExtra("state", state);
                 intent.setAction(ConstantValue.DATA_CHANGE_KEY);
                 intent.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
                 sendBroadcast(intent);

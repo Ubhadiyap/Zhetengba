@@ -61,7 +61,7 @@
                 android:id="@+id/rb_cir"
                 style="@style/MainAct_Bottom_RadioButton_Text"
                 android:layout_weight="1"
-                android:text="圈子"
+                android:text="@string/find"
                 app:drawableTop="@drawable/bottom_picchange_circle" />
 
             <com.boyuanitsm.zhetengba.view.MyRadioButton

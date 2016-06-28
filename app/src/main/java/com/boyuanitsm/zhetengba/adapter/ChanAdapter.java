@@ -48,8 +48,9 @@ import java.util.List;
 public class ChanAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList=new ArrayList<>();
-    private List<ChannelTalkEntity> list;
+    private List<ChannelTalkEntity> list=new ArrayList<>();
     private String channelId;//说说id
+    private LinearLayout ll_like;
     int clickPos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -91,7 +92,7 @@ public class ChanAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        CaViewHolder viewHolder;
+        final CaViewHolder viewHolder;
         final List<ImageInfo> itemList = dateList.get(position);
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (CaViewHolder) convertView.getTag();
@@ -101,7 +102,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.zimg= (ImageView) convertView.findViewById(R.id.zimg);
             viewHolder.sex= (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
             viewHolder.head= (CircleImageView) convertView.findViewById(R.id.iv_ch_head);
-            viewHolder.ll_like = (LinearLayout) convertView.findViewById(R.id.ll_like);
+            ll_like = (LinearLayout) convertView.findViewById(R.id.ll_like);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
@@ -277,9 +278,10 @@ public class ChanAdapter extends BaseAdapter {
             }
         });
         //点赞
-        viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
+        ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ll_like.setClickable(false);
                 clickPos = position;
                 channelId = list.get(position).getId();
                 if (0 == list.get(position).getLiked()) {
@@ -320,7 +322,6 @@ public class ChanAdapter extends BaseAdapter {
         private ImageView zimg;
         private ImageView sex;
         private CircleImageView head;
-        private LinearLayout ll_like;
         private LinearLayout ll_share;
         private LinearLayout ll_answer;
         private CustomImageView iv_oneimage;
@@ -345,11 +346,13 @@ public class ChanAdapter extends BaseAdapter {
         RequestManager.getTalkManager().addChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                ll_like.setClickable(true);
                 MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                ll_like.setClickable(true);
                 list.get(clickPos).setLiked(1);
                 if(!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
@@ -368,11 +371,13 @@ public class ChanAdapter extends BaseAdapter {
         RequestManager.getTalkManager().removeChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                ll_like.setClickable(true);
                 MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                ll_like.setClickable(true);
                 list.get(clickPos).setLiked(0);
                 if(!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));

@@ -16,11 +16,11 @@ import com.boyuanitsm.zhetengba.adapter.GvPhotoAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
-import com.boyuanitsm.zhetengba.bean.IconFilePath;
 import com.boyuanitsm.zhetengba.bean.ImageBean;
 import com.boyuanitsm.zhetengba.bean.ImgBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.ChaChildFrg;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -74,7 +74,7 @@ public class CirclefbAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("Alic");
+        setTopTitle(UserInfoDao.getUser().getPetName());
         isShow=getIntent().getBooleanExtra("isShow", false);
         circleId=getIntent().getStringExtra("circleId");
         labelId=getIntent().getStringExtra("labelId");
@@ -91,7 +91,11 @@ public class CirclefbAct extends BaseActivity {
                         if(!TextUtils.isEmpty(content)) {
                             channelTalkEntity.setLabelId(labelId);
                             channelTalkEntity.setChannelContent(content);
-                            upLoadImg(selecteds);
+                            if (selecteds.size()>0) {
+                                upLoadImg(selecteds);
+                            }else {
+                                addChannelTalk(channelTalkEntity);
+                            }
 //                            channelTalkEntity.setChannelImage();
 //                            addChannelTalk(channelTalkEntity);
                         }else {
@@ -101,8 +105,11 @@ public class CirclefbAct extends BaseActivity {
                     default:
                         if(!TextUtils.isEmpty(content)) {
                             entity.setTalkContent(content);
-                            upLoadImg(selecteds);
-//                            addCircleTalk(entity, circleId);
+                            if (selecteds.size()>0) {
+                                upLoadImg(selecteds);
+                            }else {
+                                addCircleTalk(entity, circleId);
+                            }
                         }else {
                             MyToastUtils.showShortToast(CirclefbAct.this,"请输入圈子说说内容");
                         }
@@ -216,8 +223,7 @@ public class CirclefbAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 finish();
-                Intent intent=new Intent(ChaChildFrg.CHANNELTALKS);
-                intent.putExtra("flag",flag);
+                Intent intent=new Intent(ChanelFrg.MYLABELS);
                 sendBroadcast(intent);
             }
         });

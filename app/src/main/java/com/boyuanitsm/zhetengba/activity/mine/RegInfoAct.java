@@ -23,7 +23,9 @@ import com.boyuanitsm.zhetengba.bean.IconFilePath;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -172,13 +174,20 @@ public class RegInfoAct extends BaseActivity {
 
                 if (idlist.size() == 1) {
                     lableid = idlist.get(0);
+                   UserInterestInfo userInterestInfo=new UserInterestInfo();
+                    userInterestInfo.setDictName(lableid);
+                    LabelInterestDao.saveInterestLabel(userInterestInfo);
 //                        doPerfect(user,lableid);
                 }
                 if (idlist.size() > 1) {
                     lableid = idlist.get(0);
                     for (int i = 1; i < idlist.size(); i++) {
+                        UserInterestInfo userInterestInfo=new UserInterestInfo();
+                        userInterestInfo.setDictName(idlist.get(i));
                         lableid = lableid + "," + idlist.get(i);
+                        LabelInterestDao.saveInterestLabel(userInterestInfo);
                     }
+
                 }
                 doPerfect(user, lableid);
 

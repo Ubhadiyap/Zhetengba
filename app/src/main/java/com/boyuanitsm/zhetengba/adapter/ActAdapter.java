@@ -119,11 +119,7 @@ public class ActAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
 
         }
-        if (infos.get(position).getUserNm() != null && infos.get(position).isFriend()) {
-            viewHolder.tv_niName.setText(infos.get(position).getRemark());//字段缺少用户名
-        } else if (infos.get(position).getUserNm() == null) {
-            viewHolder.tv_niName.setText("暂无用户名");//字段缺少用户名
-        } else {
+        if (!TextUtils.isEmpty(infos.get(position).getUserNm())) {
             viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
         }
         if (infos.get(position).getActivitySite() != null) {

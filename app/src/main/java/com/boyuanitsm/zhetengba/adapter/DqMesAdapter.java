@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -63,6 +64,11 @@ public class DqMesAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        if (list.get(position).getType().equals(0+"")) {
+            viewHolder.llInvitation.setVisibility(View.GONE);
+        } else {
+            viewHolder.llInvitation.setVisibility(View.VISIBLE);
+        }
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),viewHolder.civhead,optionsImag);
         if (!TextUtils.isEmpty(list.get(position).getPetName())){
             viewHolder.tv_name.setText(list.get(position).getPetName());
@@ -70,10 +76,9 @@ public class DqMesAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(list.get(position).getMessage())){
             viewHolder.tv_second.setText(list.get(position).getMessage());
         }
-        if (position == 0) {
-            viewHolder.llInvitation.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.llInvitation.setVisibility(View.GONE);
+
+        if (!TextUtils.isEmpty(list.get(position).getCreateTime())){
+            viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTime())));
         }
         return convertView;
     }
