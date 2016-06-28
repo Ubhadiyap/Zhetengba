@@ -200,6 +200,10 @@ public class EditAct extends BaseActivity {
 
     }
 
+    /**
+     * 跳转至输入这边来的时候
+     * @param position
+     */
     private void setTopPos(int position) {
         switch (position) {
             case 1:
@@ -210,6 +214,8 @@ public class EditAct extends BaseActivity {
                     }
                 }
                 cetEditInfo.setHint("请输入昵称");
+                cetEditInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(8)});
+
                 break;
             case 2:
                 setTopTitle("手机号码");

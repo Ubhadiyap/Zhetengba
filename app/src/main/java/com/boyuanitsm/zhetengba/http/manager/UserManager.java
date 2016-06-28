@@ -74,13 +74,14 @@ public class UserManager extends RequestManager{
 
     /**
      * 忘记密码
-     * @param sms
+     * @param captcha
      * @param newPassword
      * @param callback
      */
-    public void forgetPassword(String sms,String newPassword,ResultCallback callback){
+    public void forgetPassword(String phoneNumber,String captcha,String newPassword,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
-        params.put("sms",sms);
+        params.put("phoneNumber",phoneNumber);
+        params.put("captcha",captcha);
         params.put("newPassword",newPassword);
         doPost(IZtbUrl.FORGETPASSWORD_URL, params, callback);
 

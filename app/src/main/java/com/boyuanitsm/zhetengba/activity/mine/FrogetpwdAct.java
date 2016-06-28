@@ -85,8 +85,7 @@ public class FrogetpwdAct extends BaseActivity {
 
             case R.id.tv_frogettj://提交
                  if(isValidate()){
-                     frogetpwd(yzm, pwd);
-
+                     frogetpwd(phone,yzm, pwd);
                  }
 
                 break;
@@ -154,7 +153,7 @@ public class FrogetpwdAct extends BaseActivity {
         }
 
         if(!ZhetebaUtils.checkPwd(pwd)){
-            MyToastUtils.showShortToast(getApplicationContext(), "请输入6-20位字母或数字");
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母或数字");
             return false;
         }
         return true;
@@ -196,13 +195,14 @@ public class FrogetpwdAct extends BaseActivity {
 
     /**
      * 忘记密码
-     * @param sms
+     * @param captcha
      * @param newPassword
      */
-    public void frogetpwd(String sms,String newPassword){
-        RequestManager.getUserManager().forgetPassword(sms, newPassword, new ResultCallback<ResultBean<String>>() {
+    public void frogetpwd(String phoneNumber,String captcha,String newPassword){
+        RequestManager.getUserManager().forgetPassword(phoneNumber,captcha, newPassword, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(FrogetpwdAct.this,errorMsg);
 
             }
 

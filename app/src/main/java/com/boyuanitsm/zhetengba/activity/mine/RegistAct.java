@@ -6,10 +6,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,10 +22,8 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserBean;
-
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
-
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -55,7 +56,8 @@ public class RegistAct extends BaseActivity {
     private TextView tv_code;
     @ViewInject(R.id.register_cb)
     private CheckBox register_cb;
-
+    @ViewInject(R.id.tv_zc)
+    private TextView tv_zc;
 
     private String phone, yzm,pwd,cpwd;//手机号，验证码，确认的密码
     private int i = 60;
@@ -83,8 +85,55 @@ public class RegistAct extends BaseActivity {
             }
         });
         pd.setMessage("注册中。。。");
+//
+        register_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    tv_zc.setEnabled(true);
+                    tv_zc.setBackgroundResource(R.drawable.com_dybtn_select);
+
+
+                }else {
+                    tv_zc.setBackgroundResource(R.drawable.com_dybtn_hui);
+                    tv_zc.setEnabled(false);
+                }
+            }
+        });
+//        et_phone.addTextChangedListener(textWatcher);
+//        et_yzm.addTextChangedListener(textWatcher);
+//        et_pwd.addTextChangedListener(textWatcher);
+//        et_cpwd.addTextChangedListener(textWatcher);
 
     }
+
+    TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            phone = et_phone.getText().toString().trim();
+            yzm = et_yzm.getText().toString().trim();
+            pwd = et_pwd.getText().toString().trim();
+            cpwd=et_cpwd.getText().toString().trim();
+            if(!TextUtils.isEmpty(phone)&&!TextUtils.isEmpty(yzm)&&!TextUtils.isEmpty(pwd)&&!TextUtils.isEmpty(cpwd)){
+                tv_zc.setEnabled(true);
+                tv_zc.setBackgroundResource(R.drawable.com_dybtn_select);
+            }else {
+                tv_zc.setBackgroundResource(R.drawable.com_dybtn_hui);
+                tv_zc.setEnabled(false);
+            }
+
+        }
+    };
 
     @OnClick({R.id.tv_code,R.id.tv_zc})
     public void OnClick(View v){
@@ -110,9 +159,9 @@ public class RegistAct extends BaseActivity {
 
 
             case R.id.tv_zc://注册
-                if(isValidate()){
+                if(isValidate()) {
 //                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
-                   toRegister(phone, yzm, pwd);
+                    toRegister(phone, yzm, pwd);
                 }
 
                 break;
@@ -184,7 +233,7 @@ public class RegistAct extends BaseActivity {
         }
 
         if(!ZhetebaUtils.checkPwd(pwd)){
-            MyToastUtils.showShortToast(getApplicationContext(), "请输入6-20位字母或数字");
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母和数字");
             return false;
         }
         if (!register_cb.isChecked()) {
@@ -377,4 +426,6 @@ public class RegistAct extends BaseActivity {
             }
         });
     }
+
+
 }

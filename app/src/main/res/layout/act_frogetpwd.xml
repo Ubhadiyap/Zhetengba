@@ -101,8 +101,8 @@
         android:background="@null"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:inputType="number"
-        android:maxLength="11"
+        android:inputType="textPassword"
+        android:maxLength="24"
         android:singleLine="true"
         />
     <View

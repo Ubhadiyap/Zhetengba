@@ -51,6 +51,8 @@ public class SelectSexAct extends BaseActivity {
             }else{
                 rgBoy.setChecked(true);
             }
+        }else {
+            rgBoy.setChecked(true);
         }
         rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
