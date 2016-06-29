@@ -16,6 +16,7 @@ import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -25,6 +26,7 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
+import com.boyuanitsm.zhetengba.view.ScheduDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -40,6 +42,7 @@ public class PpfrgAdapter extends BaseAdapter {
     private Context context;
     private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
     private List<UserInfo> userInfoList=new ArrayList<>();
+    private List<SimpleInfo> simpleInfos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -156,10 +159,33 @@ public class PpfrgAdapter extends BaseAdapter {
                 calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));
             }
         });
+//        calHolder.ll_yue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
+//            }
+//        });
         calHolder.ll_yue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
+                calHolder.ll_yue.setClickable(false);
+                simpleInfos=new ArrayList<SimpleInfo>();
+                RequestManager.getScheduleManager().findMatchingActivities(scheduleEntity.get(position).getScheduleId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+                    @Override
+                    public void onError(int status, String errorMsg) {
+                        calHolder.ll_yue.setClickable(true);
+                    }
+
+                    @Override
+                    public void onResponse(ResultBean<List<SimpleInfo>> response) {
+                        calHolder.ll_yue.setClickable(true);
+                        simpleInfos= response.getData();
+                        ScheduDialog dialog=new ScheduDialog(context,simpleInfos,scheduleEntity.get(position).getScheduleId());
+                        dialog.show();
+//                            calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger_b, null));
+                    }
+                });
+
             }
         });
         calHolder.ll_cal_guanzhu_del.setOnClickListener(new View.OnClickListener() {
