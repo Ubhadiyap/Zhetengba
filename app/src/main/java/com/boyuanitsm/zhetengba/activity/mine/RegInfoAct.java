@@ -225,9 +225,10 @@ public class RegInfoAct extends BaseActivity {
                 UserInfoDao.updateUser(user);
                 if (!TextUtils.isEmpty(user.getPetName()))
                     DemoHelper.getInstance().getUserProfileManager().setNickName(user.getPetName());
+                DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(user.getIcon()));
 //                MyToastUtils.showShortToast(getApplicationContext(),"成功");
                 openActivity(MainAct.class);
-
+                finish();
             }
         });
     }
@@ -358,7 +359,6 @@ public class RegInfoAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<IconFilePath> response) {
                 user.setIcon(response.getData().getIconFilePath());
-                DemoHelper.getInstance().getUserProfileManager().setUserAvatar(response.getData().getIconFilePath());
                 UserInfoDao.updateUser(user);
 //                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, options);
             }
