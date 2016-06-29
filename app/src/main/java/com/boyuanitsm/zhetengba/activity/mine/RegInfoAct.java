@@ -174,7 +174,8 @@ public class RegInfoAct extends BaseActivity {
                     return;
                 }
                 if(idlist.size()==0){
-                    lableid="";
+                    MyToastUtils.showShortToast(RegInfoAct.this,"至少选择一个兴趣标签！");
+                    return;
                 }
 
                 if (idlist.size() == 1) {
@@ -373,12 +374,12 @@ public class RegInfoAct extends BaseActivity {
 
         @Override
         public int getCount() {
-            return list.size() + 1;
+            return list.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return position;
+            return list.get(position);
         }
 
         @Override
@@ -391,24 +392,24 @@ public class RegInfoAct extends BaseActivity {
             final int dex = position;
             View view = View.inflate(RegInfoAct.this, R.layout.item_gv, null);
             final CheckBox ck = (CheckBox) view.findViewById(R.id.ck_xq);
-            if (position == 0) {
-                ck.setText("吐槽");
-                ck.setChecked(true);
-                ck.setClickable(false);
-            } else {
-                ck.setText(list.get(position - 1).getDictName());
+//            if (position == 0) {
+//                ck.setText("吐槽");
+//                ck.setChecked(true);
+//                ck.setClickable(false);
+//            } else {
+                ck.setText(list.get(position).getDictName());
                 ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
-                            idlist.add(list.get(position - 1));
+                            idlist.add(list.get(position));
 
                         } else {
-                            idlist.remove(list.get(position - 1));
+                            idlist.remove(list.get(position));
                         }
                     }
                 });
-            }
+//            }
 
 
 //            if(position==0){ck.setText("吐槽");ck.isChecked();ck.setClickable(false);}

@@ -172,6 +172,8 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             }
             textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
             currentPos = (int) view.getTag();
+            page=1;
+            rows=10;
             getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
             textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));
         }

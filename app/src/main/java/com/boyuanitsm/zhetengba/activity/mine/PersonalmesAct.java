@@ -157,6 +157,8 @@ public class PersonalmesAct extends BaseActivity {
                 cvSex.setNotesText("女");
             }
 
+        }else {
+            cvSex.setNotesText("男");
         }
 
         if (!TextUtils.isEmpty(userEntity.get(0).getPhone())) {
@@ -229,6 +231,8 @@ public class PersonalmesAct extends BaseActivity {
                 if (user.getSex().equals("1")) {
                     cvSex.setNotesText("男");
                 }
+            }else{
+                cvSex.setNotesText("男");
             }
 
         }

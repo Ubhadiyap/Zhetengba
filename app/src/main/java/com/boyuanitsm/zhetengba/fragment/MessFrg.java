@@ -18,11 +18,17 @@ import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.activity.mess.CreateGroupAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
+import com.boyuanitsm.zhetengba.bean.ActivityMess;
+import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
+import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.util.NetUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 消息页面
@@ -67,6 +73,15 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {//档期消息
+                    TextView tv_message = (TextView) view.findViewById(R.id.message);
+                    List<ActivityMess> circleUserList = ActivityMessDao.getCircleUser();
+                    if (circleUserList!=null&&circleUserList.size() > 0) {
+                        Collections.reverse(circleUserList);
+                        tv_message.setText(circleUserList.get(0).getMessage());
+                    }else {
+                        tv_message.setText("");
+                    }
+
                     Intent dqIntent = new Intent(getContext(), DqMesAct.class);
                     getContext().startActivity(dqIntent);
                 } else {
