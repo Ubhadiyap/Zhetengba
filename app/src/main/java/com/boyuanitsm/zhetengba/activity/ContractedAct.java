@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -85,6 +86,8 @@ public class ContractedAct extends BaseActivity {
     private EditText tv_select;
     @ViewInject(R.id.iv_friend)//按钮
     private ImageView iv_friend;
+    @ViewInject(R.id.bt_plane)
+    private Button bt_plan;
 
     private Map<Integer, String> map;
     private boolean flag = true;
@@ -246,6 +249,7 @@ public class ContractedAct extends BaseActivity {
                 imm.hideSoftInputFromWindow(et_theme.getWindowToken(), 0);
                 break;
             case R.id.bt_plane:
+                bt_plan.setClickable(false);
                 initData();
                 addActivity(simpleInfo);
 
@@ -298,10 +302,12 @@ public class ContractedAct extends BaseActivity {
         RequestManager.getScheduleManager().addActivity(simpleInfo, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                bt_plan.setClickable(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                bt_plan.setClickable(true);
                 response.getData();
                 Intent intentRecevier=new Intent();
 //                intentRecevier.putExtra("state",1);

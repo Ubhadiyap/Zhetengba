@@ -31,7 +31,9 @@
             android:layout_marginLeft="0dp" />
 
         <ListView
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"
             android:id="@+id/lv_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

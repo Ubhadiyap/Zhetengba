@@ -187,6 +187,7 @@ public class ScheduleAct extends BaseActivity {
                 });
                 break;
             case R.id.tv_plane:
+                tv_plane.setClickable(false);
                 initDate(scheduleInfo);
                 addSchedule(scheduleInfo);
                 break;
@@ -301,11 +302,12 @@ public class ScheduleAct extends BaseActivity {
         RequestManager.getScheduleManager().addSchedule(scheduleInfo, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                    tv_plane.setClickable(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                tv_plane.setClickable(true);
                 MyToastUtils.showShortToast(ScheduleAct.this, "发布档期成功");
                 Intent intentRecevier=new Intent();
 //                intentRecevier.putExtra("state",0);

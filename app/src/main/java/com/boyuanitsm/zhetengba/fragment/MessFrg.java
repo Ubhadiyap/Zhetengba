@@ -44,7 +44,6 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.em_chat_neterror_item, null);
         errorItemContainer.addView(errorView);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
-
         rlAdd.setOnClickListener(this);
         rlContract.setOnClickListener(this);
 
@@ -67,22 +66,24 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
     protected void setUpView() {
         super.setUpView();
         // 注册上下文菜单
+        List<ActivityMess> list = ActivityMessDao.getCircleUser();
+//        tvmessage.setText("nihao");
+        if (list!=null&&list.size() > 0) {
+            Collections.reverse(list);
+            tvmessage.setText(list.get(0).getMessage());
+            tvUnReaNum.setVisibility(View.VISIBLE);
+        }else {
+            tvmessage.setText("");
+            tvUnReaNum.setVisibility(View.GONE);
+        }
         registerForContextMenu(conversationListView);
         conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {//档期消息
-                    TextView tv_message = (TextView) view.findViewById(R.id.message);
-                    List<ActivityMess> circleUserList = ActivityMessDao.getCircleUser();
-                    if (circleUserList!=null&&circleUserList.size() > 0) {
-                        Collections.reverse(circleUserList);
-                        tv_message.setText(circleUserList.get(0).getMessage());
-                    }else {
-                        tv_message.setText("");
-                    }
-
                     Intent dqIntent = new Intent(getContext(), DqMesAct.class);
+                    tvUnReaNum.setVisibility(View.GONE);
                     getContext().startActivity(dqIntent);
                 } else {
                     EMConversation conversation = conversationListView.getItem(position - 1);

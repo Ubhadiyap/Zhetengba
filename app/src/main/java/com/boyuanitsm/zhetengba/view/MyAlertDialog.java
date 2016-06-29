@@ -131,6 +131,7 @@ public class MyAlertDialog {
 			public void onClick(View v) {
 				if(listener!=null){
 				listener.onClick(v);
+				dialog.dismiss();
 				}else{
 				dialog.dismiss();
 				}

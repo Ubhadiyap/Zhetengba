@@ -197,17 +197,18 @@ public class ActAdapter extends BaseAdapter {
             public void onClick(View v) {
                 viewHolder.ll_join.setClickable(false);
                         if (infos.get(position).isJoin()) {
-                            new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                            final MyAlertDialog dialog=new MyAlertDialog(context);
+                           dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     stateCancelChange(position, viewHolder);
                                 }
                             }).setNegativeButton("取消", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    viewHolder.ll_join.setClickable(true);
-                                }
-                            }).show();
+                               @Override
+                               public void onClick(View v) {
+                                   viewHolder.ll_join.setClickable(true);
+                               }
+                           }).show();
                         } else {
                             stateJionChange(position, viewHolder);
                         }

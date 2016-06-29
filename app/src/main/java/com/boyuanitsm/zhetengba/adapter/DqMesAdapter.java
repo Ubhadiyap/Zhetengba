@@ -103,6 +103,7 @@ public class DqMesAdapter extends BaseAdapter {
                         viewHolder.tvAccept.setClickable(false);
                         viewHolder.tvRefuse.setClickable(false);
                         viewHolder.tvAccept.setBackgroundColor(Color.GRAY);
+                        viewHolder.tvAccept.setText("已接受");
                         MyToastUtils.showShortToast(context, "已经同意！");
 
                     }
@@ -126,6 +127,7 @@ public class DqMesAdapter extends BaseAdapter {
                         viewHolder.tvAccept.setClickable(false);
                         viewHolder.tvRefuse.setClickable(false);
                         viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
+                        viewHolder.tvRefuse.setText("已拒绝");
                         MyToastUtils.showShortToast(context, "已经拒绝！");
                     }
                 });

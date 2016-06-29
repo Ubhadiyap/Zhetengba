@@ -46,6 +46,13 @@ public class ActivityMessDao  extends TemplateDAO<ActivityMess,String> {
         }
 
     }
+
+    /**
+     * 删除所有
+     */
+    public static void delAll(){
+        getDao().deleteAll();
+    }
     /**
      * 更新用户
      *
