@@ -102,7 +102,7 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:inputType="textPassword"
-        android:maxLength="11"
+        android:maxLength="24"
         android:singleLine="true"
         />
     <View

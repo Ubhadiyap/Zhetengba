@@ -166,8 +166,16 @@
 
 
     <TextView
+        android:enabled="false"
+        android:background="@drawable/com_dybtn_hui"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:id="@+id/tv_zc"
-        style="@style/com_dybtn"
         android:layout_marginTop="15dp"
         android:text="注册"
         />
