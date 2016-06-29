@@ -29,6 +29,15 @@ public class ScheduleInfo implements Parcelable {
     private String userSex;//用户性别男士1，女士0
     private String dictName;//标签名称
     private boolean friend;//是否是朋友
+    private boolean agreeAbout;//是否邀约成功
+
+    public boolean isAgreeAbout() {
+        return agreeAbout;
+    }
+
+    public void setAgreeAbout(boolean agreeAbout) {
+        this.agreeAbout = agreeAbout;
+    }
 
     public boolean isFriend() {
         return friend;
@@ -254,6 +263,7 @@ public class ScheduleInfo implements Parcelable {
         dest.writeString(this.userSex);
         dest.writeString(this.dictName);
         dest.writeByte(this.friend ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.agreeAbout ? (byte) 1 : (byte) 0);
     }
 
     protected ScheduleInfo(Parcel in) {
@@ -278,6 +288,7 @@ public class ScheduleInfo implements Parcelable {
         this.userSex = in.readString();
         this.dictName = in.readString();
         this.friend = in.readByte() != 0;
+        this.agreeAbout = in.readByte() != 0;
     }
 
     public static final Creator<ScheduleInfo> CREATOR = new Creator<ScheduleInfo>() {

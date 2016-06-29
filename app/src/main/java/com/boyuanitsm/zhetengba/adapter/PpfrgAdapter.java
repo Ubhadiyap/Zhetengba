@@ -137,20 +137,25 @@ public class PpfrgAdapter extends BaseAdapter {
         calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));
         calHolder.tv_cal_text_guanzhu.setText("关注");
         if (scheduleEntity.get(position).getFollowNum()!=null){
+            calHolder.tv_gzcal_num.setVisibility(View.VISIBLE);
             calHolder.tv_gzcal_num.setText(scheduleEntity.get(position).getFollowNum()+"");
         }else {
-            calHolder.tv_gzcal_num.setText(0+"");
+            calHolder.tv_gzcal_num.setVisibility(View.GONE);
         }
 
-        calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
-        calHolder.tv_cal_yh.setText("约Ta");
+        if (scheduleEntity.get(position).isAgreeAbout()){
+            calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
+            calHolder.tv_cal_yh.setText("邀约成功");
+        }else{
+            calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
+            calHolder.tv_cal_yh.setText("约Ta");
+        }
         calHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));
             }
         });
-//        calHolder.tv_cal_text_guanzhu.setText("1");
         calHolder.ll_yue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

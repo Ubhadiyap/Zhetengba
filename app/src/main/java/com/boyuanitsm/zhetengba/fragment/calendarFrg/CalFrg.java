@@ -113,8 +113,7 @@ public class CalFrg extends BaseFragment {
                 }
             }
         });
-        //档期轮播图片展示
-        getScheduleBanner();
+
         //设置listview头部headview
         lv_calen.getRefreshableView().addHeaderView(viewHeader_calen);
         if (state==1){
@@ -124,7 +123,8 @@ public class CalFrg extends BaseFragment {
         }else if (state==2){
             getFriendAllSchudle(page, rows, state + "");
         }
-
+        //档期轮播图片展示
+        getScheduleBanner();
 
     }
 
@@ -204,7 +204,8 @@ public class CalFrg extends BaseFragment {
         RequestManager.getScheduleManager().getScheduleFriend(page, rows, state, new ResultCallback<ResultBean<DataBean<ScheduleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                lv_calen.onPullUpRefreshComplete();
+                lv_calen.onPullDownRefreshComplete();
             }
 
             @Override

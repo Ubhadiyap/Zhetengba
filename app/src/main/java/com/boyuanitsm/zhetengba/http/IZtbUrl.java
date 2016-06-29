@@ -8,22 +8,19 @@ public interface IZtbUrl {
 
 
 //    //基础地址
-    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
-//<<<<<<< HEAD
+//    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
 //    测试
 //    public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
 
 //=======
 //    //测试  刘恒地址
-//    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
-
-   
-    //测试
-//    public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.249:8080/zhetengba/";
 
 
 
-//    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
+
+
+    public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
 //    public static final String BASE_URL = "http://172.16.6.225:8080/zhetengba/";
 //    /**=========登出地址==========**/
 //    public  String LOGOUT_URL=BASE_URL+"manager/unLogin/logout.do";
@@ -228,7 +225,7 @@ public interface IZtbUrl {
 
 
     //档期列表
-    String SCHEDULE_LIST_URL = BASE_URL + "shedule/login/findScheduleList.do";
+    String SCHEDULE_LIST_URL = BASE_URL + "schedule/login/findScheduleList.do";
 
     //点击约她匹配列表
     String FINDMATCHING_URL=BASE_URL +"schedule/login/findMatchingActivities.do";
@@ -287,6 +284,10 @@ public interface IZtbUrl {
     String SHEDULE_MESSAGE_URL = BASE_URL + "schedule/login/pushScheduleMessage.do";
     //取消活动参加
     String CANCEL_ACTIVITY_URL = BASE_URL + "schedule/login/quitActivity.do";
+    //档期同意接口
+    String AGREE_ACTIVITY_URL=BASE_URL+"message/login/sendAgreeActivityResp.do";
+    //档期拒绝
+    String REFUSE_ACTIVITY_URL=BASE_URL+"message/login/sendRefuseActivityResp.do";
 //    //个人主页接口
 //
 //    public static  final  String PERSONAL_HOME_PAGE_URL=BASE_URL+"schedule/login/findPersonalByUserId.do";

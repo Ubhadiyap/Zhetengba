@@ -206,9 +206,10 @@ public class ScheduleManager extends RequestManager {
      * @param scheduleId
      * @param callback
      */
-    public void getAbout(String scheduleId,ResultCallback callback){
+    public void getAbout(String scheduleId,String activityId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("scheduleId",scheduleId);
+        params.put("activityId",activityId);
         doPost(IZtbUrl.ABOUT_URL,params,callback);
     }
 
@@ -432,5 +433,32 @@ public class ScheduleManager extends RequestManager {
             params.put("limitNum",limitNum+"");
         }
         doPost(IZtbUrl.MYLABELLIST_URL,params,callback);
+    }
+
+    /**
+     * t同意加入活动接口
+     * @param activityId
+     * @param scheduleId
+     * @param callback
+     */
+    public void agreeActivity(String activityId, String scheduleId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("activityId",activityId);
+        params.put("scheduleId",scheduleId);
+        doPost(IZtbUrl.AGREE_ACTIVITY_URL,params,callback);
+
+    }
+
+    /**
+     * 拒绝加入活动接口
+     * @param activityId
+     * @param scheduleId
+     * @param callback
+     */
+    public void refuseActivity(String activityId, String scheduleId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("activityId",activityId);
+        params.put("scheduleId",scheduleId);
+        doPost(IZtbUrl.REFUSE_ACTIVITY_URL,params,callback);
     }
 }

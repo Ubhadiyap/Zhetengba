@@ -18,6 +18,20 @@ public class FriendsBean implements Parcelable {
     private String petName;
     private String icon;
 
+    @Override
+    public String toString() {
+        return "FriendsBean{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", sex='" + sex + '\'' +
+                ", petName='" + petName + '\'' +
+                ", icon='" + icon + '\'' +
+                '}';
+    }
+
     public String getIcon() {
         return icon;
     }

@@ -15,8 +15,10 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -25,10 +27,12 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
+import com.boyuanitsm.zhetengba.view.ScheduDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +43,7 @@ public class CalAdapter extends BaseAdapter {
     private Context context;
     private List<ScheduleInfo> list;
     private String strStart,strEnd;
+    private List<SimpleInfo> simpleInfos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -143,12 +148,19 @@ public class CalAdapter extends BaseAdapter {
             calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));
             calHolder.tv_cal_text_guanzhu.setText("关注");
             if (list.get(position).getFollowNum() != null) {
+                calHolder.tv_gzcal_num.setVisibility(View.VISIBLE);
                 calHolder.tv_gzcal_num.setText(list.get(position).getFollowNum() + "");
             } else {
-                calHolder.tv_gzcal_num.setText(0 + "");
+                calHolder.tv_gzcal_num.setVisibility(View.GONE);
             }
-            calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
-            calHolder.tv_cal_yh.setText("约Ta");
+            if (list.get(position).isAgreeAbout()){
+                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
+                calHolder.tv_cal_yh.setText("邀约成功");
+            }else{
+                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
+                calHolder.tv_cal_yh.setText("约Ta");
+            }
+
 //        calHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -159,40 +171,26 @@ public class CalAdapter extends BaseAdapter {
             calHolder.ll_yue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RequestManager.getScheduleManager().getAbout(list.get(position).getScheduleId(), new ResultCallback<ResultBean<String>>() {
+                    calHolder.ll_yue.setClickable(false);
+                    simpleInfos=new ArrayList<SimpleInfo>();
+                    RequestManager.getScheduleManager().findMatchingActivities(list.get(position).getScheduleId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
                         @Override
                         public void onError(int status, String errorMsg) {
-
+                            calHolder.ll_yue.setClickable(true);
                         }
 
                         @Override
-                        public void onResponse(ResultBean<String> response) {
-                            calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
+                        public void onResponse(ResultBean<List<SimpleInfo>> response) {
+                            calHolder.ll_yue.setClickable(true);
+                            simpleInfos= response.getData();
+                            ScheduDialog dialog=new ScheduDialog(context,simpleInfos,list.get(position).getScheduleId());
+                            dialog.show();
 //                            calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger_b, null));
                         }
                     });
 
                 }
             });
-//            calHolder.ll_yue.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                  RequestManager.getScheduleManager().findMatchingActivities(list.get(position).getScheduleId(), new ResultCallback<ResultBean<String>>() {
-//                      @Override
-//                      public void onError(int status, String errorMsg) {
-//                          MyToastUtils.showShortToast(context,errorMsg);
-//                      }
-//
-//                      @Override
-//                      public void onResponse(ResultBean<String> response) {
-//
-//
-//
-//                      }
-//                  });
-//
-//                }
-//            });
             //点击头像昵称进入个人主页
             calHolder.ll_name.setOnClickListener(new View.OnClickListener() {
                 @Override

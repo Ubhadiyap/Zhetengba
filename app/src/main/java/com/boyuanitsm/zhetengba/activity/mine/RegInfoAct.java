@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.IconFilePath;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
@@ -27,6 +28,8 @@ import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
@@ -175,7 +178,7 @@ public class RegInfoAct extends BaseActivity {
                 if (idlist.size() == 1) {
                     lableid = idlist.get(0);
                    UserInterestInfo userInterestInfo=new UserInterestInfo();
-                    userInterestInfo.setDictName(lableid);
+                    userInterestInfo.setInterestId(lableid);
                     LabelInterestDao.saveInterestLabel(userInterestInfo);
 //                        doPerfect(user,lableid);
                 }
@@ -183,14 +186,14 @@ public class RegInfoAct extends BaseActivity {
                     lableid = idlist.get(0);
                     for (int i = 1; i < idlist.size(); i++) {
                         UserInterestInfo userInterestInfo=new UserInterestInfo();
-                        userInterestInfo.setDictName(idlist.get(i));
+                        userInterestInfo.setInterestId(idlist.get(i));
                         lableid = lableid + "," + idlist.get(i);
                         LabelInterestDao.saveInterestLabel(userInterestInfo);
                     }
 
                 }
                 doPerfect(user, lableid);
-
+//                addInterestLabel(lableid,idlist);
 
                 break;
 
@@ -221,6 +224,35 @@ public class RegInfoAct extends BaseActivity {
 //                MyToastUtils.showShortToast(getApplicationContext(),"成功");
                 openActivity(MainAct.class);
 
+            }
+        });
+    }
+    /**
+     * 添加个人兴趣标签
+     * @param labelIds
+     * @param mylist
+     */
+    private void addInterestLabel(final String labelIds, final List<UserInterestInfo> mylist){
+        RequestManager.getScheduleManager().addInterestLabel(labelIds, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                LabelInterestDao.delAll();
+                for (int i = 0; i < mylist.size(); i++) {
+                    UserInterestInfo userInterestInfo = new UserInterestInfo();
+                    userInterestInfo.setInterestId(mylist.get(i).getInterestId());
+                    userInterestInfo.setDictName(mylist.get(i).getDictName());
+                    LabelInterestDao.saveInterestLabel(userInterestInfo);
+                }
+                MyLogUtils.info(LabelInterestDao.getInterestLabel().toString());
+                sendBroadcast(new Intent(ChanelFrg.MYLABELS));
+                sendBroadcast(new Intent(MineFrg.USER_INFO));
+                sendBroadcast(new Intent(PerpageAct.PPLABELS));
+                finish();
             }
         });
     }
@@ -255,6 +287,7 @@ public class RegInfoAct extends BaseActivity {
             }
         }).show();
     }
+
 
     /**
      * 返回的Path

@@ -1,38 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_plan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e66cc998">
+    android:background="#e66cc998"
+    android:gravity="center"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/ll_cancel"
-        android:layout_centerInParent="true"
-        android:background="@drawable/di9"
-        android:paddingTop="50dp"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
         android:layout_width="270dp"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="@drawable/di9"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingTop="50dp">
+
         <TextView
             android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
             android:text="@string/avite"
             android:textColor="@color/main_color"
-            android:textSize="16sp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-       <View
-           style="@style/view_line"
-           android:layout_marginLeft="0dp"
-          />
+            android:textSize="16sp" />
+
+        <View
+            style="@style/view_line"
+            android:layout_marginLeft="0dp" />
+
         <ListView
+            android:layout_marginLeft="15dp"
             android:id="@+id/lv_theme"
-            android:divider="@null"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:divider="@null"
+            android:visibility="gone"></ListView>
 
-        </ListView>
-
-        </LinearLayout>
-</RelativeLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_tishi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="还没有相匹配的活动"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

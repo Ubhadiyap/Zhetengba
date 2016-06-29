@@ -25,6 +25,37 @@ public class ActivityMess implements Parcelable {
     private String createTime;
     @Column
     private String activityTheme;
+    @Column
+    private String messtype;
+    @Column
+    private String activityId;
+    @Column
+    private String scheduleId;
+
+
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
+    }
+
+    public String getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    public String getMesstype() {
+        return messtype;
+    }
+
+    public void setMesstype(String messtype) {
+        this.messtype = messtype;
+    }
 
     public String getActivityTheme() {
         return activityTheme;
@@ -114,6 +145,9 @@ public class ActivityMess implements Parcelable {
         dest.writeString(this.userIcon);
         dest.writeString(this.createTime);
         dest.writeString(this.activityTheme);
+        dest.writeString(this.messtype);
+        dest.writeString(this.activityId);
+        dest.writeString(this.scheduleId);
     }
 
     protected ActivityMess(Parcel in) {
@@ -124,6 +158,9 @@ public class ActivityMess implements Parcelable {
         this.userIcon = in.readString();
         this.createTime = in.readString();
         this.activityTheme = in.readString();
+        this.messtype = in.readString();
+        this.activityId = in.readString();
+        this.scheduleId = in.readString();
     }
 
     public static final Creator<ActivityMess> CREATOR = new Creator<ActivityMess>() {

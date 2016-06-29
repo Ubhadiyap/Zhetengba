@@ -61,6 +61,14 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>
     </style>
+    <style name="Cal_Dialog">
+        <item name="android:windowFrame">@null</item><!-- 边框 -->
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>
+    </style>
     <!--简约界面item:关注/参加字体样式-->
     <style name="MainAct_simple_Text">
         <item name="android:layout_height">wrap_content</item>

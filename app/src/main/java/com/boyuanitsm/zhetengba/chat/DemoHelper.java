@@ -31,6 +31,7 @@ import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMContactListener;
@@ -1146,6 +1147,7 @@ public class DemoHelper {
                             DataBean<FriendsBean> dataBean = response.getData();
                             if (dataBean != null) {
                                 List<FriendsBean> list = dataBean.getRows();
+                                MyLogUtils.info(list.toString());
                                 if (list != null && list.size() > 0) {
                                     List<EaseUser> uList = new ArrayList<EaseUser>();
                                     for (FriendsBean friendsBean : list) {
