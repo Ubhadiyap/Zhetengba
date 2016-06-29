@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.db;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
@@ -84,6 +85,7 @@ public class ChatUserDao extends TemplateDAO<ChatUserBean, String> {
             EaseUser easeUser = new EaseUser(chatUserBean.getUserId());
             easeUser.setAvatar(chatUserBean.getIcon());
             easeUser.setNick(chatUserBean.getNick());
+            if(!TextUtils.isEmpty(chatUserBean.getNick()))
             easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(chatUserBean.getNick()).substring(0, 1));
             return easeUser;
         } else {

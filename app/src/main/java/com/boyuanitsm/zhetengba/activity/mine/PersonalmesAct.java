@@ -383,8 +383,10 @@ public class PersonalmesAct extends BaseActivity {
                 break;
 
             case IMAGE_COMPLETE:// 完成
-                temppath = data.getStringExtra("path");
-                toloadfile(temppath);
+                if (data!=null) {
+                    temppath = data.getStringExtra("path");
+                    toloadfile(temppath);
+                }
 //                ivHead.setImageBitmap(getimage(temppath));
 
                 break;

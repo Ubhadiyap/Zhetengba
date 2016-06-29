@@ -144,7 +144,7 @@ public class SettingAct extends BaseActivity {
            @Override
            public void onResponse(ResultBean response) {
                UserInfoDao.deleteUser();
-               JPushInterface.setAlias(SettingAct.this, null, new TagAliasCallback() {
+               JPushInterface.setAlias(SettingAct.this,"", new TagAliasCallback() {
                    @Override
                    public void gotResult(int i, String s, Set<String> set) {
 
