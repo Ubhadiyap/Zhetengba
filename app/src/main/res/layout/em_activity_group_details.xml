@@ -262,13 +262,13 @@
                     android:typeface="serif" />
 
                 <TextView
+                    android:id="@+id/tvTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:gravity="center_vertical|left"
-                    android:text="还剩3天"
                     android:textColor="@color/two_color"
                     android:textSize="16sp" />
 
