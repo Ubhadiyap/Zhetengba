@@ -62,7 +62,7 @@ public class MyReceiver extends BroadcastReceiver {
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
 						CircleMessDao.saveCircleMess(circleInfo);
 						MyLogUtils.info(CircleMessDao.getCircleUser().toString()+"数据库内容");
-					}else if (TextUtils.equals(type,"0")){
+					}else{
                         Gson gson=new Gson();
                         ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
                         ActivityMessDao.saveCircleMess(activityMess);

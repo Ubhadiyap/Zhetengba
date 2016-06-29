@@ -153,7 +153,7 @@ public class FrogetpwdAct extends BaseActivity {
         }
 
         if(!ZhetebaUtils.checkPwd(pwd)){
-            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母或数字");
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母和数字");
             return false;
         }
         return true;
@@ -208,7 +208,8 @@ public class FrogetpwdAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                openActivity(MainAct.class);
+                MyToastUtils.showShortToast(FrogetpwdAct.this,"密码修改成功，请重新登录！");
+                openActivity(LoginAct.class);
             }
         });
 

@@ -8,6 +8,7 @@ import com.boyuanitsm.zhetengba.adapter.DqMesAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class DqMesAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("档期消息");
         list= ActivityMessDao.getCircleUser();
+        MyLogUtils.info(list+"档期消息信息");
         if (list!=null&&list.size() > 0) {
             Collections.reverse(list);
         }

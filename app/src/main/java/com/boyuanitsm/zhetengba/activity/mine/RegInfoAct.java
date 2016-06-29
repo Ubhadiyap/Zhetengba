@@ -35,6 +35,8 @@ import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
@@ -67,7 +69,7 @@ public class RegInfoAct extends BaseActivity {
 
     private UserInfo user;
     private List<LabelBannerInfo> list = new ArrayList<LabelBannerInfo>();
-    private List<String> idlist;
+    private List<LabelBannerInfo> idlist;//存储选中的兴趣标签
     private String lableid;
 
 
@@ -176,23 +178,17 @@ public class RegInfoAct extends BaseActivity {
                 }
 
                 if (idlist.size() == 1) {
-                    lableid = idlist.get(0);
-                   UserInterestInfo userInterestInfo=new UserInterestInfo();
-                    userInterestInfo.setInterestId(lableid);
-                    LabelInterestDao.saveInterestLabel(userInterestInfo);
+                    lableid = idlist.get(0).getId();
 //                        doPerfect(user,lableid);
                 }
                 if (idlist.size() > 1) {
-                    lableid = idlist.get(0);
+                    lableid = idlist.get(0).getId();
                     for (int i = 1; i < idlist.size(); i++) {
-                        UserInterestInfo userInterestInfo=new UserInterestInfo();
-                        userInterestInfo.setInterestId(idlist.get(i));
-                        lableid = lableid + "," + idlist.get(i);
-                        LabelInterestDao.saveInterestLabel(userInterestInfo);
+                        lableid = lableid + "," + idlist.get(i).getId();
                     }
 
                 }
-                doPerfect(user, lableid);
+                doPerfect(user, lableid,idlist);
 //                addInterestLabel(lableid,idlist);
 
                 break;
@@ -204,12 +200,12 @@ public class RegInfoAct extends BaseActivity {
 
     /**
      * 完善个人信息
-     *
-     * @param user
+     *  @param user
      * @param labelIds
+     * @param idlist
      */
 
-    private void doPerfect(final UserInfo user, String labelIds) {
+    private void doPerfect(final UserInfo user, final String labelIds, final List<LabelBannerInfo> idlist) {
         RequestManager.getUserManager().perfect(user, labelIds, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -218,6 +214,14 @@ public class RegInfoAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                if (idlist.size()>0){
+                    for (int i=0;i<idlist.size();i++){
+                        UserInterestInfo userInterestInfo=new UserInterestInfo();
+                        userInterestInfo.setInterestId(idlist.get(i).getId());
+                        userInterestInfo.setDictName(idlist.get(i).getDictName());
+                        LabelInterestDao.saveInterestLabel(userInterestInfo);
+                    }
+                }
                 UserInfoDao.updateUser(user);
                 if (!TextUtils.isEmpty(user.getPetName()))
                     DemoHelper.getInstance().getUserProfileManager().setNickName(user.getPetName());
@@ -397,9 +401,10 @@ public class RegInfoAct extends BaseActivity {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
-                            idlist.add(list.get(position - 1).getId());
+                            idlist.add(list.get(position - 1));
+
                         } else {
-                            idlist.remove(list.get(position - 1).getId());
+                            idlist.remove(list.get(position - 1));
                         }
                     }
                 });
