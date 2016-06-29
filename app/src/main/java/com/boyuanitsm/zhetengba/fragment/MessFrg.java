@@ -18,17 +18,11 @@ import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.activity.mess.CreateGroupAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
-import com.boyuanitsm.zhetengba.bean.ActivityMess;
-import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
-import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.util.NetUtils;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 消息页面
@@ -66,26 +60,35 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
     @Override
     protected void setUpView() {
         super.setUpView();
+        tvmessage.setText("一起约炮把");
         // 注册上下文菜单
         registerForContextMenu(conversationListView);
+        rlDq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dqIntent = new Intent(getContext(), DqMesAct.class);
+                getContext().startActivity(dqIntent);
+            }
+        });
         conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {//档期消息
-                    TextView tv_message = (TextView) view.findViewById(R.id.message);
-                    List<ActivityMess> circleUserList = ActivityMessDao.getCircleUser();
-                    if (circleUserList!=null&&circleUserList.size() > 0) {
-                        Collections.reverse(circleUserList);
-                        tv_message.setText(circleUserList.get(0).getMessage());
-                    }else {
-                        tv_message.setText("");
-                    }
+//                if (position == 0) {//档期消息
+//                    TextView tv_message = (TextView) view.findViewById(R.id.message);
+//                    List<ActivityMess> circleUserList = ActivityMessDao.getCircleUser();
+//                    if (circleUserList!=null&&circleUserList.size() > 0) {
+//                        Collections.reverse(circleUserList);
+//                        tv_message.setText(circleUserList.get(0).getMessage());
+//                    }else {
+//                        tv_message.setText("");
+//                    }
+//
+//                    Intent dqIntent = new Intent(getContext(), DqMesAct.class);
+//                    getContext().startActivity(dqIntent);
+//                } else {
 
-                    Intent dqIntent = new Intent(getContext(), DqMesAct.class);
-                    getContext().startActivity(dqIntent);
-                } else {
-                    EMConversation conversation = conversationListView.getItem(position - 1);
+                    EMConversation conversation = conversationListView.getItem(position);
                     String username = conversation.getUserName();
                     if (username.equals(EMClient.getInstance().getCurrentUser()))
                         Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, Toast.LENGTH_SHORT).show();
@@ -106,10 +109,11 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                         startActivity(intent);
                     }
 
+
                 }
 
 
-            }
+//            }
         });
     }
 
