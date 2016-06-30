@@ -1,9 +1,7 @@
-package com.boyuanitsm.zhetengba.activity;
+package com.boyuanitsm.zhetengba.activity.publish;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,20 +22,16 @@ import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
-import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
-import com.boyuanitsm.zhetengba.bean.UserInfo;
-import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
-import com.boyuanitsm.zhetengba.widget.ToggleButton;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -249,7 +243,7 @@ public class ContractedAct extends BaseActivity {
                 imm.hideSoftInputFromWindow(et_theme.getWindowToken(), 0);
                 break;
             case R.id.bt_plane:
-                bt_plan.setClickable(false);
+                bt_plan.setEnabled(false);
                 initData();
                 addActivity(simpleInfo);
 
@@ -302,12 +296,12 @@ public class ContractedAct extends BaseActivity {
         RequestManager.getScheduleManager().addActivity(simpleInfo, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                bt_plan.setClickable(true);
+                bt_plan.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                bt_plan.setClickable(true);
+                bt_plan.setEnabled(true);
                 response.getData();
                 Intent intentRecevier=new Intent();
 //                intentRecevier.putExtra("state",1);

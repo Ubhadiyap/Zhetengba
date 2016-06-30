@@ -229,6 +229,7 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
     <!--评论图片样式-->
     <style name="Comemt_iamge">

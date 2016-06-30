@@ -77,16 +77,20 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             tvUnReaNum.setVisibility(View.GONE);
         }
         registerForContextMenu(conversationListView);
+        rlDq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvUnReaNum.setVisibility(View.GONE);
+                Intent dqIntent = new Intent(getContext(), DqMesAct.class);
+                getContext().startActivity(dqIntent);
+            }
+        });
+
         conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {//档期消息
-                    Intent dqIntent = new Intent(getContext(), DqMesAct.class);
-                    tvUnReaNum.setVisibility(View.GONE);
-                    getContext().startActivity(dqIntent);
-                } else {
-                    EMConversation conversation = conversationListView.getItem(position - 1);
+                    EMConversation conversation = conversationListView.getItem(position);
                     String username = conversation.getUserName();
                     if (username.equals(EMClient.getInstance().getCurrentUser()))
                         Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, Toast.LENGTH_SHORT).show();
@@ -101,7 +105,6 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                                 intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_GROUP);
                             }
 
-                        }
                         // it's single chat
                         intent.putExtra(Constant.EXTRA_USER_ID, username);
                         startActivity(intent);

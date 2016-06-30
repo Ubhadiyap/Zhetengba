@@ -344,7 +344,7 @@
             android:windowSoftInputMode="stateVisible"></activity>
         <!--简约界面-->
         <activity
-            android:name=".activity.ContractedAct"
+            android:name=".activity.publish.ContractedAct"
             android:screenOrientation="portrait"></activity>
         <!--位置信息-->
         <!--<activity-->

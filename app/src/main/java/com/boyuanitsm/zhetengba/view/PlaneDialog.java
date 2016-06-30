@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.ContractedAct;
+import com.boyuanitsm.zhetengba.activity.publish.ContractedAct;
 import com.boyuanitsm.zhetengba.activity.publish.ScheduleAct;
 
 /**

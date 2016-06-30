@@ -195,7 +195,7 @@ public class ActAdapter extends BaseAdapter {
         viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewHolder.ll_join.setClickable(false);
+                viewHolder.ll_join.setEnabled(false);
                         if (infos.get(position).isJoin()) {
                             final MyAlertDialog dialog=new MyAlertDialog(context);
                            dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
@@ -206,7 +206,7 @@ public class ActAdapter extends BaseAdapter {
                             }).setNegativeButton("取消", new View.OnClickListener() {
                                @Override
                                public void onClick(View v) {
-                                   viewHolder.ll_join.setClickable(true);
+                                   viewHolder.ll_join.setEnabled(true);
                                }
                            }).show();
                         } else {
@@ -315,12 +315,12 @@ public class ActAdapter extends BaseAdapter {
         RequestManager.getScheduleManager().getRespondActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                    viewHolder.ll_join.setClickable(true);
+                    viewHolder.ll_join.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                viewHolder.ll_join.setClickable(true);
+                viewHolder.ll_join.setEnabled(true);
                     int i = infos.get(position).getMemberNum();
                     i = i + 1;
                     infos.get(position).setMemberNum(i);
@@ -340,12 +340,12 @@ public class ActAdapter extends BaseAdapter {
         RequestManager.getScheduleManager().cancelActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                    viewHolder.ll_join.setClickable(true);
+                    viewHolder.ll_join.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                viewHolder.ll_join.setClickable(true);
+                viewHolder.ll_join.setEnabled(true);
                 int i = infos.get(position).getMemberNum();
                 i = i - 1;
                 infos.get(position).setJoin(false);

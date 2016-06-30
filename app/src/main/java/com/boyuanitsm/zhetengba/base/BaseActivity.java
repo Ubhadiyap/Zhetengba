@@ -85,6 +85,9 @@ public abstract class BaseActivity extends FragmentActivity {
         rlRight.setOnClickListener(onClick);
     }
 
+    public void setRightEnable(boolean flag){
+        tvRight.setEnabled(flag);
+    }
     /**
      * 返回
      *
