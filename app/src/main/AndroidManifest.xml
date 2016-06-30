@@ -70,7 +70,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
@@ -344,7 +344,7 @@
             android:windowSoftInputMode="stateVisible"></activity>
         <!--简约界面-->
         <activity
-            android:name=".activity.ContractedAct"
+            android:name=".activity.publish.ContractedAct"
             android:screenOrientation="portrait"></activity>
         <!--位置信息-->
         <!--<activity-->

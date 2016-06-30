@@ -26,6 +26,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;

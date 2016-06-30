@@ -42,7 +42,7 @@ public class ScheduleAct extends BaseActivity {
     @ViewInject(R.id.cet_end)
     private EditText cet_end;
     @ViewInject(R.id.tv_plane)
-    private Button tv_plane;
+    private TextView tv_plane;
     private ImageView iv_button;
     private int select=1;
     private TextView tv_xlws, tv_bwln, tv_wlzj, tv_xdys;//闲来无事，百无聊赖，无聊至极，闲的要死
@@ -191,6 +191,7 @@ public class ScheduleAct extends BaseActivity {
                 });
                 break;
             case R.id.tv_plane:
+                tv_plane.setEnabled(false);
                 initDate(scheduleInfo);
                 pd.show();
                 addSchedule(scheduleInfo);
@@ -306,12 +307,16 @@ public class ScheduleAct extends BaseActivity {
         RequestManager.getScheduleManager().addSchedule(scheduleInfo, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                    tv_plane.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+
                 pd.dismiss();
+
+                tv_plane.setEnabled(true);
+
                 MyToastUtils.showShortToast(ScheduleAct.this, "发布档期成功");
                 Intent intentRecevier=new Intent();
 //                intentRecevier.putExtra("state",0);

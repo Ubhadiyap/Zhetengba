@@ -75,9 +75,9 @@ public class MyReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             Intent i=new Intent();
-                if (type.equals(2+"")){
+                if (TextUtils.equals(type,"2")){
                     i.setClass(context, CirMessAct.class);
-                }else if (type.equals(0+"")||type.equals(1+"")){
+                }else {
                     i.setClass(context, DqMesAct.class);
                 }
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

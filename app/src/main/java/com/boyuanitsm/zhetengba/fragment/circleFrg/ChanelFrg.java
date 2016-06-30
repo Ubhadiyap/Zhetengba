@@ -284,7 +284,11 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             textViewList.clear();
             titleList.clear();
             titleList = LabelInterestDao.getInterestLabel();
-            initDate(titleList);
+            if (titleList == null) {
+                getMyLabels(-1);
+            } else {
+                initDate(titleList);
+            }
         }
     }
 

@@ -25,6 +25,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
@@ -91,6 +92,8 @@ public class CirclefbAct extends BaseActivity {
         setRight("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setRightEnable(false);
+                MyLogUtils.info("点击事件几次++++++++++++");
                 content=etContent.getText().toString().trim();
                 pd.show();
                 switch (type){
@@ -207,12 +210,17 @@ public class CirclefbAct extends BaseActivity {
         RequestManager.getTalkManager().addCircleTalk(circleEntity, circleId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                setRightEnable(true);
 
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+
                 pd.dismiss();
+
+                setRightEnable(true);
+
                 finish();
                 sendBroadcast(new Intent(CirxqAct.TALKS));
                 sendBroadcast(new Intent(CirFrg.ALLTALKS));
@@ -225,12 +233,16 @@ public class CirclefbAct extends BaseActivity {
         RequestManager.getTalkManager().addChannelTalk(channelTalkEntity, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                setRightEnable(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+
                 pd.dismiss();
+
+                setRightEnable(true);
+
                 finish();
                 Intent intent=new Intent(ChanelFrg.MYLABELS);
                 sendBroadcast(intent);
