@@ -132,6 +132,11 @@ public class PersonalmesAct extends BaseActivity {
         } else {
             instalData();
         }
+        photoSavePath = Environment.getExternalStorageDirectory().getPath() + "/ClipHeadPhoto/cache/";
+        File tempFile = new File(photoSavePath);
+        if (!tempFile.exists()) {
+            tempFile.mkdirs();
+        }
     }
 
     /**
@@ -367,7 +372,7 @@ public class PersonalmesAct extends BaseActivity {
                 }
                 uri = data.getData();
                 Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap(this, uri);
-                File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImg(userbitmap, 100, 100), "user_head.png");
+                File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
                 intent = new Intent(this, ClipActivity.class);
                 intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.png");
                 startActivityForResult(intent, IMAGE_COMPLETE);
