@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.activity.publish;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
@@ -21,7 +21,6 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
@@ -53,6 +52,8 @@ public class ScheduleAct extends BaseActivity {
     private String startDate;
     private String hucanUserIds,hu_no_canUserIds;
 
+    private ProgressDialog pd;//缓冲弹出框
+
 
     @Override
     public void setLayout() {
@@ -64,6 +65,9 @@ public class ScheduleAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         scheduleInfo=new ScheduleInfo();
         setTopTitle("档期");
+        pd=new ProgressDialog(ScheduleAct.this);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setMessage("发布中....");
         getInterestScheduleLabel(1 + "");
         assignView();
         setcheckitem(0);
@@ -188,6 +192,7 @@ public class ScheduleAct extends BaseActivity {
                 break;
             case R.id.tv_plane:
                 initDate(scheduleInfo);
+                pd.show();
                 addSchedule(scheduleInfo);
                 break;
 
@@ -306,6 +311,7 @@ public class ScheduleAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                pd.dismiss();
                 MyToastUtils.showShortToast(ScheduleAct.this, "发布档期成功");
                 Intent intentRecevier=new Intent();
 //                intentRecevier.putExtra("state",0);

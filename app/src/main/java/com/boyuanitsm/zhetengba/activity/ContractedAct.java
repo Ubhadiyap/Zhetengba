@@ -1,9 +1,8 @@
 package com.boyuanitsm.zhetengba.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -23,20 +22,16 @@ import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
-import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
-import com.boyuanitsm.zhetengba.bean.UserInfo;
-import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
-import com.boyuanitsm.zhetengba.widget.ToggleButton;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -101,6 +96,8 @@ public class ContractedAct extends BaseActivity {
     private String strUserIds;//用于存储指定谁可见用户ids；
     private String strUserNoIds;//用户存错谁不能见；
 
+    private ProgressDialog pd;//缓冲弹出框
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -110,6 +107,9 @@ public class ContractedAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("简约");
         map = new HashMap<>();
+        pd=new ProgressDialog(ContractedAct.this);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setMessage("发布中...");
         list = new ArrayList<ActivityLabel>();
         getAcitivtyLabel();
         et_pp_num.addTextChangedListener(judgeEditNum());
@@ -247,6 +247,7 @@ public class ContractedAct extends BaseActivity {
                 break;
             case R.id.bt_plane:
                 initData();
+                pd.show();
                 addActivity(simpleInfo);
 
         }
@@ -302,6 +303,7 @@ public class ContractedAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                pd.dismiss();
                 response.getData();
                 Intent intentRecevier=new Intent();
 //                intentRecevier.putExtra("state",1);
