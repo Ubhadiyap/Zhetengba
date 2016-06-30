@@ -70,8 +70,9 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             Collections.reverse(list);
             tvmessage.setText(list.get(0).getMessage());
             tvUnReaNum.setVisibility(View.VISIBLE);
+            tvUnReaNum.setText("1");
         }else {
-            tvmessage.setText("");
+            tvmessage.setText("暂无新消息");
             tvUnReaNum.setVisibility(View.GONE);
         }
         registerForContextMenu(conversationListView);

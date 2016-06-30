@@ -193,9 +193,9 @@ public class CircleMessAdatper extends BaseAdapter {
 
                                     @Override
                                     public void onResponse(Object response) {
-                                        finalHolder.bt_yes.setBackgroundColor(Color.GRAY);
-                                        finalHolder.bt_yes.setClickable(false);
-                                        finalHolder.bt_no.setClickable(false);
+                                        finalHolder.bt_yes.setText("已同意");
+                                        finalHolder.bt_yes.setEnabled(false);
+                                        finalHolder.bt_no.setEnabled(false);
                                         MyToastUtils.showShortToast(context, "同意" + circleInfoList.get(position).getPetName() + "加入" + circleInfoList.get(position).getCircleName());
                                     }
                                 });
@@ -204,10 +204,22 @@ public class CircleMessAdatper extends BaseAdapter {
                         holder2.bt_no.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                finalHolder.bt_no.setBackgroundColor(Color.GRAY);
-                                finalHolder.bt_yes.setClickable(false);
-                                finalHolder.bt_no.setClickable(false);
-                                MyToastUtils.showShortToast(context, "拒绝" + circleInfoList.get(position).getPetName() + "加入" + circleInfoList.get(position).getCircleName());
+                                RequestManager.getTalkManager().qingRefuseCircleResp(circleInfoList.get(position).getCircleId(), circleInfoList.get(position).getUserId(), new ResultCallback() {
+                                    @Override
+                                    public void onError(int status, String errorMsg) {
+
+                                    }
+
+                                    @Override
+                                    public void onResponse(Object response) {
+                                        finalHolder.bt_no.setText("已拒绝");
+                                        finalHolder.bt_yes.setEnabled(false);
+                                        finalHolder.bt_no.setEnabled(false);
+                                        MyToastUtils.showShortToast(context, "拒绝" + circleInfoList.get(position).getPetName() + "加入" + circleInfoList.get(position).getCircleName());
+
+                                    }
+                                });
+
                             }
                         });
 //                        holder2.tv_beizhu.setText("备注：你好，我是李宇春");
@@ -225,9 +237,9 @@ public class CircleMessAdatper extends BaseAdapter {
 
                                     @Override
                                     public void onResponse(ResultBean<String> response) {
-                                        finalHolder.bt_yes.setBackgroundColor(Color.GRAY);
-                                        finalHolder.bt_yes.setClickable(false);
-                                        finalHolder.bt_no.setClickable(false);
+                                        finalHolder.bt_yes.setText("已加入");
+                                        finalHolder.bt_yes.setEnabled(false);
+                                        finalHolder.bt_no.setEnabled(false);
                                         MyToastUtils.showShortToast(context, "已加入" + circleInfoList.get(position).getCircleName());
                                     }
                                 });
@@ -245,9 +257,9 @@ public class CircleMessAdatper extends BaseAdapter {
 
                                     @Override
                                     public void onResponse(ResultBean<String> response) {
-                                        finalHolder.bt_no.setBackgroundColor(Color.GRAY);
-                                        finalHolder.bt_no.setClickable(false);
-                                        finalHolder.bt_yes.setClickable(false);
+                                        finalHolder.bt_no.setText("已拒绝");
+                                        finalHolder.bt_no.setEnabled(false);
+                                        finalHolder.bt_yes.setEnabled(false);
                                         MyToastUtils.showShortToast(context, "已拒绝加入" + circleInfoList.get(position).getCircleName());
                                     }
                                 });

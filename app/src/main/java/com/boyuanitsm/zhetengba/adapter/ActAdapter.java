@@ -140,19 +140,13 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.ll_del.setVisibility(View.VISIBLE);
             viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
         }
-        if (infos.get(position).getFollowNum() != null) {
             if (infos.get(position).getFollowNum() == 0) {
                 viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
             } else {
                 viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
                 viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
             }
-        }
-        if (infos.get(position).getMemberNum() != null) {
             viewHolder.tv_join_num.setText(infos.get(position).getMemberNum() + "");//目前成员数量；
-        } else {
-            viewHolder.tv_join_num.setText(0 + "");//目前成员数量；
-        }
 
         viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber() + "");//邀约人数
         strStart = ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getStartTime()));
@@ -320,12 +314,13 @@ public class ActAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                viewHolder.ll_join.setEnabled(true);
+                    addGroup(infos.get(position).getId());
+                    viewHolder.ll_join.setEnabled(true);
                     int i = infos.get(position).getMemberNum();
                     i = i + 1;
                     infos.get(position).setMemberNum(i);
                     infos.get(position).setJoin(true);
-                notifyDataSetChanged();
+                    notifyDataSetChanged();
             }
         });
     }
@@ -340,11 +335,12 @@ public class ActAdapter extends BaseAdapter {
         RequestManager.getScheduleManager().cancelActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                    viewHolder.ll_join.setEnabled(true);
+                viewHolder.ll_join.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                delGroup(infos.get(position).getId());
                 viewHolder.ll_join.setEnabled(true);
                 int i = infos.get(position).getMemberNum();
                 i = i - 1;
@@ -373,6 +369,42 @@ public class ActAdapter extends BaseAdapter {
                 MyToastUtils.showShortToast(context, "删除活动成功！");
                 infos.remove(position);
                 notifyDataSetChanged();
+            }
+        });
+    }
+
+    /**
+     *参加成功后，调用添加群组
+     * @param actId
+     */
+    private void addGroup(String actId) {
+        RequestManager.getScheduleManager().addHXGroup(actId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+
+            }
+        });
+    }
+
+    /**
+     * 移除群组
+     * @param activityId
+     */
+    private void delGroup(String activityId){
+        RequestManager.getScheduleManager().deleGroup(activityId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+
             }
         });
     }

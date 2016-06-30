@@ -11,8 +11,10 @@ public interface IZtbUrl {
     //外网
 //    public static final String BASE_URL = "http://115.29.249.210:8080/zhetengba/";
     //内网
-    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
 //    public static final String BASE_URL = "http://172.16.6.251:8080/zhetengba/";
+        public static final String BASE_URL = "http://172.16.5.242:8080/zhetengba/";
+
 
     //测试
 //    public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
@@ -250,6 +252,10 @@ public interface IZtbUrl {
 
 
     String PERSONAL_HOME_PAGE_URL = BASE_URL + "schedule/login/findPersonalByUserId.do";
+    //添加换新群组接口
+    String ADD_HGROUP_URL=BASE_URL+"message/login/addHGroup.do";
+    //取消参加移除群组
+    String DELET_GROUP_URL=BASE_URL+"message/login/removeHGroup.do";
 
 
     /**

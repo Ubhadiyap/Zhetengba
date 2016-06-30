@@ -425,11 +425,17 @@ public class MainAct extends BaseActivity {
         int unreadMsgCountTotal = 0;
         int chatroomUnreadMsgCount = 0;
         unreadMsgCountTotal = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-        for(EMConversation conversation:EMClient.getInstance().chatManager().getAllConversations().values()){
-            if(conversation.getType() == EMConversation.EMConversationType.ChatRoom)
-                chatroomUnreadMsgCount=chatroomUnreadMsgCount+conversation.getUnreadMsgCount();
+        if (EMClient.getInstance().chatManager().getAllConversations().size()==0){
+            return 0;
+        }else {
+            for(EMConversation conversation:EMClient.getInstance().chatManager().getAllConversations().values()){
+                if(conversation.getType() == EMConversation.EMConversationType.ChatRoom)
+                    chatroomUnreadMsgCount=chatroomUnreadMsgCount+conversation.getUnreadMsgCount();
+            }
+            return unreadMsgCountTotal-chatroomUnreadMsgCount;
+
         }
-        return unreadMsgCountTotal-chatroomUnreadMsgCount;
+
     }
 
     /**
