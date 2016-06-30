@@ -81,7 +81,6 @@ public class SettingAct extends BaseActivity {
                         .setPositiveButton("退出", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                logout();
                                 loginOut();
                             }
                         }).setNegativeButton("取消", null).show();
@@ -91,12 +90,8 @@ public class SettingAct extends BaseActivity {
     }
 
 
-    void logout() {
-        final ProgressDialog pd = new ProgressDialog(this);
-        String st = getResources().getString(R.string.Are_logged_out);
-        pd.setMessage(st);
-        pd.setCanceledOnTouchOutside(false);
-        pd.show();
+    void logout(final ProgressDialog pd) {
+
         DemoHelper.getInstance().logout(false,new EMCallBack() {
 
             @Override
@@ -104,6 +99,15 @@ public class SettingAct extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         pd.dismiss();
+                        UserInfoDao.deleteUser();
+                        LabelInterestDao.delAll();//清理数据库
+                        ActivityMessDao.delAll();
+                        JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
+                            @Override
+                            public void gotResult(int i, String s, Set<String> set) {
+
+                            }
+                        });
                         // 重新显示登陆页面
                         AppManager.getAppManager().finishActivity(MainAct.class);
                         finish();
@@ -128,7 +132,6 @@ public class SettingAct extends BaseActivity {
                        pd.dismiss();
                        Toast.makeText(SettingAct.this, "退出失败", Toast.LENGTH_SHORT).show();
 
-
                    }
                });
             }
@@ -139,23 +142,21 @@ public class SettingAct extends BaseActivity {
      * 登出
      */
     private void loginOut(){
+        final ProgressDialog pd = new ProgressDialog(this);
+        String st = getResources().getString(R.string.Are_logged_out);
+        pd.setMessage(st);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
        RequestManager.getUserManager().Loginout(new ResultCallback<ResultBean<String>>() {
            @Override
            public void onError(int status, String errorMsg) {
-
+               pd.dismiss();
+               Toast.makeText(SettingAct.this, "退出失败", Toast.LENGTH_SHORT).show();
            }
 
            @Override
            public void onResponse(ResultBean response) {
-               UserInfoDao.deleteUser();
-               LabelInterestDao.delAll();//清理数据库
-               ActivityMessDao.delAll();
-               JPushInterface.setAlias(SettingAct.this, "", new TagAliasCallback() {
-                   @Override
-                   public void gotResult(int i, String s, Set<String> set) {
-
-                   }
-               });
+               logout(pd);
            }
        });
 

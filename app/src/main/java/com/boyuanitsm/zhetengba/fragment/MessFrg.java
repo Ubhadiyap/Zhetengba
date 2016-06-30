@@ -66,7 +66,9 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         super.setUpView();
         // 注册上下文菜单
         List<ActivityMess> list = ActivityMessDao.getCircleUser();
-        if (list!=null&&list.size() > 0) {
+
+//        tvmessage.setText("nihao");
+        if (list != null && list.size() > 0) {
             Collections.reverse(list);
             tvmessage.setText(list.get(0).getMessage());
             tvUnReaNum.setVisibility(View.VISIBLE);
@@ -76,19 +78,20 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             tvUnReaNum.setVisibility(View.GONE);
         }
         registerForContextMenu(conversationListView);
-        rlDq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvUnReaNum.setVisibility(View.GONE);
-                Intent dqIntent = new Intent(getContext(), DqMesAct.class);
-                getContext().startActivity(dqIntent);
-            }
-        });
+       rlDq.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tvUnReaNum.setVisibility(View.GONE);
+                    Intent dqIntent = new Intent(getContext(), DqMesAct.class);
+                    getContext().startActivity(dqIntent);
+                }
+            });
 
-        conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                     EMConversation conversation = conversationListView.getItem(position);
                     String username = conversation.getUserName();
                     if (username.equals(EMClient.getInstance().getCurrentUser()))
@@ -103,29 +106,28 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                             } else {
                                 intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_GROUP);
                             }
+                            // it's single chat
+                            intent.putExtra(Constant.EXTRA_USER_ID, username);
+                            startActivity(intent);
+                        }
 
-                        // it's single chat
-                        intent.putExtra(Constant.EXTRA_USER_ID, username);
-                        startActivity(intent);
                     }
 
 
                 }
-
-
-            }
-        });
-    }
-
-    @Override
-    protected void onConnectionDisconnected() {
-        super.onConnectionDisconnected();
-        if (NetUtils.hasNetwork(getActivity())) {
-            errorText.setText(R.string.can_not_connect_chat_server_connection);
-        } else {
-            errorText.setText(R.string.the_current_network);
+            });
         }
-    }
+
+        @Override
+        protected void onConnectionDisconnected () {
+            super.onConnectionDisconnected();
+            if (NetUtils.hasNetwork(getActivity())) {
+                errorText.setText(R.string.can_not_connect_chat_server_connection);
+            } else {
+                errorText.setText(R.string.the_current_network);
+            }
+        }
+
 
     /**
      * 待解决：对话框布局有出入
@@ -174,5 +176,6 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         });
 
     }
-
 }
+
+

@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -48,6 +49,7 @@ public class CirclefbAct extends BaseActivity {
     private EditText etContent;
     private String content;
     private StringBuilder imgStr;//图片地址
+    private ProgressDialog pd;
 
     @ViewInject(R.id.my_gv)
     private com.leaf.library.widget.MyGridView gvPhoto;//添加图片gridview
@@ -76,6 +78,10 @@ public class CirclefbAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle(UserInfoDao.getUser().getPetName());
+        pd=new ProgressDialog(CirclefbAct.this);
+        pd.setMessage("发布中...");
+        pd.setCanceledOnTouchOutside(false);
+
         isShow=getIntent().getBooleanExtra("isShow", false);
         circleId=getIntent().getStringExtra("circleId");
         labelId=getIntent().getStringExtra("labelId");
@@ -89,6 +95,7 @@ public class CirclefbAct extends BaseActivity {
                 setRightEnable(false);
                 MyLogUtils.info("点击事件几次++++++++++++");
                 content=etContent.getText().toString().trim();
+                pd.show();
                 switch (type){
                     case 0:
                         if(!TextUtils.isEmpty(content)) {
@@ -209,7 +216,11 @@ public class CirclefbAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+
+                pd.dismiss();
+
                 setRightEnable(true);
+
                 finish();
                 sendBroadcast(new Intent(CirxqAct.TALKS));
                 sendBroadcast(new Intent(CirFrg.ALLTALKS));
@@ -227,7 +238,11 @@ public class CirclefbAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+
+                pd.dismiss();
+
                 setRightEnable(true);
+
                 finish();
                 Intent intent=new Intent(ChanelFrg.MYLABELS);
                 sendBroadcast(intent);
