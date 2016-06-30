@@ -1,6 +1,8 @@
 package com.boyuanitsm.zhetengba.activity.publish;
 
 import android.annotation.SuppressLint;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -98,6 +100,8 @@ public class ContractedAct extends BaseActivity {
     private String strUserIds;//用于存储指定谁可见用户ids；
     private String strUserNoIds;//用户存错谁不能见；
 
+    private ProgressDialog pd;//缓冲弹出框
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -107,6 +111,9 @@ public class ContractedAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("简约");
         map = new HashMap<>();
+        pd=new ProgressDialog(ContractedAct.this);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setMessage("发布中...");
         list = new ArrayList<ActivityLabel>();
         getAcitivtyLabel();
         et_pp_num.addTextChangedListener(judgeEditNum());
@@ -245,6 +252,7 @@ public class ContractedAct extends BaseActivity {
             case R.id.bt_plane:
                 bt_plan.setEnabled(false);
                 initData();
+                pd.show();
                 addActivity(simpleInfo);
 
         }
@@ -301,6 +309,7 @@ public class ContractedAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                pd.dismiss();
                 bt_plan.setEnabled(true);
                 response.getData();
                 Intent intentRecevier=new Intent();
