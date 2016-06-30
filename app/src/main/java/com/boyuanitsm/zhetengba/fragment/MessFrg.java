@@ -19,7 +19,6 @@ import com.boyuanitsm.zhetengba.activity.mess.CreateGroupAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
-import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.hyphenate.chat.EMClient;
@@ -67,7 +66,6 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         super.setUpView();
         // 注册上下文菜单
         List<ActivityMess> list = ActivityMessDao.getCircleUser();
-//        tvmessage.setText("nihao");
         if (list!=null&&list.size() > 0) {
             Collections.reverse(list);
             tvmessage.setText(list.get(0).getMessage());
@@ -109,6 +107,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                         intent.putExtra(Constant.EXTRA_USER_ID, username);
                         startActivity(intent);
                     }
+
 
                 }
 

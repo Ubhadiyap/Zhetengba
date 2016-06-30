@@ -148,7 +148,7 @@ public class SettingAct extends BaseActivity {
                UserInfoDao.deleteUser();
                LabelInterestDao.delAll();//清理数据库
                ActivityMessDao.delAll();
-               JPushInterface.setAlias(SettingAct.this, null, new TagAliasCallback() {
+               JPushInterface.setAlias(SettingAct.this, "", new TagAliasCallback() {
                    @Override
                    public void gotResult(int i, String s, Set<String> set) {
 

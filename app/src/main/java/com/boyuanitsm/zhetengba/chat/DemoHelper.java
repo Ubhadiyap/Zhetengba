@@ -588,7 +588,6 @@ public class DemoHelper {
             msg.setFrom(inviter);
             msg.setTo(groupId);
             msg.setMsgId(UUID.randomUUID().toString());
-
             msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + " " + st3));
             msg.setStatus(EMMessage.Status.SUCCESS);
             // 保存邀请消息
