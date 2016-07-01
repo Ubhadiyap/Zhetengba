@@ -44,7 +44,7 @@ public class EditAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         TYPE = getIntent().getIntExtra(USER_TYPE, 0);
         user = UserInfoDao.getUser();
-        setTopPos(TYPE);
+        setTopPos(TYPE);//从不同的地方跳转过来后设置不同标题，输入框设置不同设置属性
         setRight("提交", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,6 +244,7 @@ public class EditAct extends BaseActivity {
                     }
                 }
                 cetEditInfo.setHint("请输入公司电话");
+                cetEditInfo.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
             case 7:
                 setTopTitle("职务");
