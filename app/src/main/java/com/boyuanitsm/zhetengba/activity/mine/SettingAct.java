@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.AppManager;
@@ -11,16 +12,14 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
-import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
-import com.boyuanitsm.zhetengba.widget.ToggleButton;
 import com.hyphenate.EMCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -30,13 +29,19 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
+//import cn.jpush.android.api.JPushInterface;
+//import cn.jpush.android.api.TagAliasCallback;
+
 /**
  * 设置界面
  * Created by bitch-1 on 2016/5/3.
  */
 public class SettingAct extends BaseActivity {
-    @ViewInject(R.id.tb_verification)
-    private ToggleButton tbVerification;
+//    @ViewInject(R.id.tb_verification)
+//    private ToggleButton tbVerification;
+    @ViewInject(R.id.iv_yz)
+    private ImageView iv_yz;
+    private int select=0;//加我不需要验证
 
     @Override
     public void setLayout() {
@@ -46,23 +51,38 @@ public class SettingAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("设置");
-        tbVerification.setIsSwitch(true);
-        tbVerification.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
-            @Override
-            public void onToggle(boolean on) {
-                if (on) {//添加我时需要验证
-
-                } else {//添加我时不需要验证
-
-                }
-            }
-        });
+//        tbVerification.setIsSwitch(true);
+//        tbVerification.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
+//            @Override
+//            public void onToggle(boolean on) {
+//                if (on) {//添加我时需要验证
+//
+//                } else {//添加我时不需要验证
+//
+//                }
+//            }
+//        });
     }
 
 
-    @OnClick({R.id.cv_about, R.id.cv_feedback, R.id.cv_checkUpdate, R.id.cv_clearCache, R.id.llExit})
+    @OnClick({R.id.iv_yz,R.id.cv_about, R.id.cv_feedback, R.id.cv_checkUpdate, R.id.cv_clearCache, R.id.llExit})
     public void todo(View view) {
         switch (view.getId()) {
+            case R.id.iv_yz:
+                if(select==0){
+                    select=1;
+                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+                    MyToastUtils.showShortToast(SettingAct.this,select+"");
+                    return;
+                }
+                if(select==1){
+                    select=0;
+                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
+                    MyToastUtils.showShortToast(SettingAct.this, select + "");
+                    return;
+                }
+
+                break;
             case R.id.cv_about://关于
                 openActivity(AboutztbAct.class);
                 break;
