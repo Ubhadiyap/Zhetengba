@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.adapter;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -188,10 +189,11 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context,255), ActionBar.LayoutParams.WRAP_CONTENT);
+            viewHolder.iv_ch_image.setLayoutParams(params);
             viewHolder.iv_ch_image.setNumColumns(3);
             PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
             viewHolder.iv_ch_image.setAdapter(adapter);
-
         }
         if (list != null) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.head, optionsImag);

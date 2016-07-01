@@ -185,10 +185,14 @@ public class CircleMessAdatper extends BaseAdapter {
                         holder2.bt_yes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                finalHolder.bt_yes.setEnabled(false);
+                                finalHolder.bt_no.setEnabled(false);
                                 RequestManager.getTalkManager().sendAgreeCircleResp(circleInfoList.get(position).getCircleId(), circleInfoList.get(position).getUserId(), new ResultCallback<ResultBean<String>>() {
                                     @Override
                                     public void onError(int status, String errorMsg) {
-
+                                        finalHolder.bt_yes.setEnabled(false);
+                                        finalHolder.bt_no.setEnabled(false);
+                                        MyToastUtils.showShortToast(context,"请求出错！");
                                     }
 
                                     @Override
@@ -204,6 +208,8 @@ public class CircleMessAdatper extends BaseAdapter {
                         holder2.bt_no.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                finalHolder.bt_yes.setEnabled(false);
+                                finalHolder.bt_no.setEnabled(false);
                                 RequestManager.getTalkManager().qingRefuseCircleResp(circleInfoList.get(position).getCircleId(), circleInfoList.get(position).getUserId(), new ResultCallback<ResultBean<String>>() {
                                     @Override
                                     public void onError(int status, String errorMsg) {
@@ -228,11 +234,14 @@ public class CircleMessAdatper extends BaseAdapter {
                         holder2.bt_yes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                finalHolder.bt_yes.setEnabled(false);
+                                finalHolder.bt_no.setEnabled(false);
                                 //同意加入
                                 RequestManager.getTalkManager().sendAgreeCircleInviteMsg(circleInfoList.get(position).getCircleId(), new ResultCallback<ResultBean<String>>() {
                                     @Override
                                     public void onError(int status, String errorMsg) {
-
+                                        finalHolder.bt_yes.setEnabled(false);
+                                        finalHolder.bt_no.setEnabled(false);
                                     }
 
                                     @Override
@@ -248,11 +257,14 @@ public class CircleMessAdatper extends BaseAdapter {
                         holder2.bt_no.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                finalHolder.bt_yes.setEnabled(false);
+                                finalHolder.bt_no.setEnabled(false);
                                 //拒绝加入
                                 RequestManager.getTalkManager().sendRefuseCircleResp(circleInfoList.get(position).getCircleId(), new ResultCallback<ResultBean<String>>() {
                                     @Override
                                     public void onError(int status, String errorMsg) {
-
+                                        finalHolder.bt_yes.setEnabled(false);
+                                        finalHolder.bt_no.setEnabled(false);
                                     }
 
                                     @Override

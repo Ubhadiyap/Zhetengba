@@ -87,6 +87,9 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         ;
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
+        if (titleList.size()<currentPos){
+            currentPos=0;
+        }
         getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
         for (int i = 0; i < titleList.size(); i++) {
             addTitleLayout(titleList.get(i).getDictName(), i);

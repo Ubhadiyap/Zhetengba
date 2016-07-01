@@ -37,7 +37,7 @@ import java.util.List;
 public class CircleglAct extends BaseActivity {
     @ViewInject(R.id.lv_circlegl)
     private PullToRefreshListView lv_circlegl;
-
+    private String str;
     private List<CircleEntity> list;
     private int page=1;
     private int rows=10;
@@ -55,15 +55,18 @@ public class CircleglAct extends BaseActivity {
             String ppuserId=bundle.getString("PPuserId");
             if (!TextUtils.isEmpty(ppuserId)) {
                 if (ppuserId.equals(UserInfoDao.getUser().getId())) {
-                    setTopTitle("圈子管理");
+                    str="圈子管理";
+                    setTopTitle(str);
                     getCircleList(null, page, rows);
                 } else {
-                    setTopTitle("TA的圈子");
+                    str="TA的圈子";
+                    setTopTitle(str);
                     getCircleList(ppuserId, page, rows);
                 }
             }
         }else {
-            setTopTitle("圈子管理");
+            str="圈子管理";
+            setTopTitle(str);
             getCircleList(null,page,rows);
         }
         lv_circlegl.setPullRefreshEnabled(true);//下拉刷新
@@ -79,10 +82,20 @@ public class CircleglAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CircleglAct.this, CirxqAct.class);
-                intent.putExtra("circleId", datas.get(position).getId());
-                intent.putExtra("type",1);
+                Bundle bundle1=new Bundle();
+                bundle1.putString("circleId", datas.get(position).getId());
+//                intent.putExtra("circleId", datas.get(position).getId());
+                if (str.equals("圈子管理")){
+                    bundle1.putInt("type", 1);
+//                    intent.putExtra("type",1);
+                }else if (str.equals("TA的圈子")){
+                    bundle1.putInt("type",0);
+                    bundle1.putInt("isincircle",datas.get(position).getIsInCircle());
+//                    intent.putExtra("type",0);
+//                    intent.
+                }
+                intent.putExtras(bundle1);
                 startActivity(intent);
-//                openActivity(CirxqAct.class);
             }
         });
         lv_circlegl.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
