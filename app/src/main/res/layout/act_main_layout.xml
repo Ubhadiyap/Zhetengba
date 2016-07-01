@@ -36,7 +36,6 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:gravity="center"
-
                 android:text="档期"
                 app:drawableTop="@drawable/bottom_picchange_calen"
                 app:myDrawableSize="29dp" />

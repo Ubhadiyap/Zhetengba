@@ -119,13 +119,21 @@ public class UserInfo implements Parcelable {
     @Column
     private String dictName;
 
-
+    @Column
+    private boolean friend;
     private String hUsername;//环信账号
     private String hPassword;//环信密码
 
     private String sameLabels;//共同标签
     private Integer sameCircleCounts;//共同圈子数
 
+    public boolean isFriend() {
+        return friend;
+    }
+
+    public void setFriend(boolean friend) {
+        this.friend = friend;
+    }
 
     public UserInfo() {
     }
@@ -526,6 +534,7 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.petName);
         dest.writeString(this.homeTown);
         dest.writeString(this.dictName);
+        dest.writeByte(this.friend ? (byte) 1 : (byte) 0);
         dest.writeString(this.hUsername);
         dest.writeString(this.hPassword);
         dest.writeString(this.sameLabels);
@@ -567,6 +576,7 @@ public class UserInfo implements Parcelable {
         this.petName = in.readString();
         this.homeTown = in.readString();
         this.dictName = in.readString();
+        this.friend = in.readByte() != 0;
         this.hUsername = in.readString();
         this.hPassword = in.readString();
         this.sameLabels = in.readString();

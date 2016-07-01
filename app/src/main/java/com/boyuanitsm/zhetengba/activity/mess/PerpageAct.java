@@ -149,26 +149,7 @@ public class PerpageAct extends BaseActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         userId = bundle.getString("userId");
-        flag=bundle.getBoolean("friend");
-        if (UserInfoDao.getUser().getId().equals(userId)){
-            ll_add_riend.setVisibility(View.VISIBLE);//档期frg
-            iv_set.setVisibility(View.GONE);
-            bt_message.setVisibility(View.GONE);
-        }else  if (flag){
-            ll_add_riend.setVisibility(View.VISIBLE);
-            iv_set.setVisibility(View.VISIBLE);
-            bt_message.setText("发送消息");
-        }else{
-            bt_message.setText("加为好友");
-            iv_set.setVisibility(View.GONE);
-            ll_add_riend.setVisibility(View.GONE);
-        }
         getPersonalMain(userId);
-
-        manager = getSupportFragmentManager();
-//        gv_perpage.setAdapter(new GridViewPerAdapter(PerpageAct.this));
-        msv_scroll.smoothScrollTo(0, 0);
-
 
     }
 
@@ -387,6 +368,7 @@ public class PerpageAct extends BaseActivity {
                 scheduleEntity = personalMain.getScheduleEntity();
                 circleTalkEntity = personalMain.getCircleTalkEntity();
                 userEntity = personalMain.getUserEntity();
+                instalData();
                 userInterestEntity = personalMain.getUserInterestEntity();
                 initUserData(userEntity);
                 iniTab(userInterestEntity, userEntity.get(0).getId());
@@ -406,6 +388,27 @@ public class PerpageAct extends BaseActivity {
                 });
             }
         });
+    }
+
+    private void instalData() {
+        if (userEntity!=null){
+            flag=userEntity.get(0).isFriend();
+        }
+        if (UserInfoDao.getUser().getId().equals(userId)){
+            ll_add_riend.setVisibility(View.VISIBLE);//档期frg
+            iv_set.setVisibility(View.GONE);
+            bt_message.setVisibility(View.GONE);
+        }else  if (flag){
+            ll_add_riend.setVisibility(View.VISIBLE);
+            iv_set.setVisibility(View.VISIBLE);
+            bt_message.setText("发送消息");
+        }else{
+            bt_message.setText("加为好友");
+            iv_set.setVisibility(View.GONE);
+            ll_add_riend.setVisibility(View.GONE);
+        }
+        manager = getSupportFragmentManager();
+        msv_scroll.smoothScrollTo(0, 0);
     }
 
     /**

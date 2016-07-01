@@ -83,9 +83,13 @@ public class ChaTextAdapter extends BaseAdapter {
             }
             if(!TextUtils.isEmpty(list.get(position).getCommentTime())){
                 chaHolder.time.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCommentTime())));
+            }else {
+                chaHolder.time.setText("");
             }
             if(!TextUtils.isEmpty(list.get(position).getCommentContent())){
                 chaHolder.content.setText(list.get(position).getCommentContent());
+            }else {
+                chaHolder.content.setText("");
             }
         }
         return convertView;

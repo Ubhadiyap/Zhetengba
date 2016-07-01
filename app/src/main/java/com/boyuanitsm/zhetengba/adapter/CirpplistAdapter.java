@@ -110,7 +110,7 @@ public class CirpplistAdapter extends BaseAdapter{
             holder.ll_shanchu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    removeMember(circleId,list.get(position).getId());
+                    removeMember(circleId,list.get(position).getId(),position);
                 }
             });
         }
@@ -118,8 +118,8 @@ public class CirpplistAdapter extends BaseAdapter{
             if (!TextUtils.isEmpty(list.get(position).getIcon())){
                 ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+list.get(position).getIcon(),holder.head,options);
             }
-            if(!TextUtils.isEmpty(list.get(position).getUsername())){
-                holder.name.setText(list.get(position).getUsername());
+            if(!TextUtils.isEmpty(list.get(position).getPetName())){
+                holder.name.setText(list.get(position).getPetName());
             }
             if (!TextUtils.isEmpty(list.get(position).getSameCircleCounts()+"")){
                 holder.num.setText(list.get(position).getSameCircleCounts()+"");
@@ -145,8 +145,9 @@ public class CirpplistAdapter extends BaseAdapter{
      * 圈主删除成员
      * @param circleId 圈子id
      * @param memberId 成员id
+     * @param position
      */
-    private void removeMember(String circleId,String memberId){
+    private void removeMember(String circleId, String memberId, final int position){
         RequestManager.getTalkManager().removeMember(circleId, memberId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -155,6 +156,8 @@ public class CirpplistAdapter extends BaseAdapter{
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                list.remove(position);
+                notifyDataSetChanged();
                 context.sendBroadcast(new Intent(CircleppAct.MEMBER));
                 context.sendBroadcast(new Intent(CirxqAct.MEMBERXQ));
             }
