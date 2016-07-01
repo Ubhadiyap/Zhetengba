@@ -142,7 +142,7 @@ public class RequestManager {
             }
         };
         // 设定超时时间
-        request.setRetryPolicy(new DefaultRetryPolicy(50000, 1, 1.0f));
+        request.setRetryPolicy(new DefaultRetryPolicy(5000, 1, 1.0f));
         MyApplication.getInstance().addToRequestQueue(request);
         MyApplication.getInstance().getRequestQueue().start();
     }

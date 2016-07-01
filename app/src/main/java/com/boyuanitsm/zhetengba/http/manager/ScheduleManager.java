@@ -419,6 +419,27 @@ public class ScheduleManager extends RequestManager {
     }
 
     /**
+     * 添加换新群组
+     * @param activityId
+     * @param callback
+     */
+    public void addHXGroup(String activityId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("activityId",activityId);
+        doPost(IZtbUrl.ADD_HGROUP_URL,params,callback);
+    }
+
+    /**
+     * 移除群组
+     * @param activityId
+     * @param callback
+     */
+    public void deleGroup(String activityId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("activityId",activityId);
+        doPost(IZtbUrl.DELET_GROUP_URL,params,callback);
+    }
+    /**
      * 查询我的兴趣标签
      * @param userId
      * @param limitNum

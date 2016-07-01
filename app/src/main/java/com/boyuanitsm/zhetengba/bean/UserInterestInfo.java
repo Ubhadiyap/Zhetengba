@@ -12,7 +12,7 @@ import com.leaf.library.db.annotation.Table;
  * Created by xiaoke on 2016/6/2.
  */
 @Table(name = "interest_table")
-public class UserInterestInfo {
+public class UserInterestInfo implements Parcelable{
     @Column
     private String createPersonId;//'创建人',
     @Column
@@ -118,4 +118,49 @@ public class UserInterestInfo {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.createPersonId);
+        dest.writeString(this.createTiem);
+        dest.writeString(this.dictName);
+        dest.writeString(this.id);
+        dest.writeString(this.interestId);
+        dest.writeValue(this.isValid);
+        dest.writeString(this.modifyPersonId);
+        dest.writeString(this.modifyTime);
+        dest.writeString(this.userId);
+    }
+
+    public UserInterestInfo() {
+    }
+
+    protected UserInterestInfo(Parcel in) {
+        this.createPersonId = in.readString();
+        this.createTiem = in.readString();
+        this.dictName = in.readString();
+        this.id = in.readString();
+        this.interestId = in.readString();
+        this.isValid = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.modifyPersonId = in.readString();
+        this.modifyTime = in.readString();
+        this.userId = in.readString();
+    }
+
+    public static final Creator<UserInterestInfo> CREATOR = new Creator<UserInterestInfo>() {
+        @Override
+        public UserInterestInfo createFromParcel(Parcel source) {
+            return new UserInterestInfo(source);
+        }
+
+        @Override
+        public UserInterestInfo[] newArray(int size) {
+            return new UserInterestInfo[size];
+        }
+    };
 }

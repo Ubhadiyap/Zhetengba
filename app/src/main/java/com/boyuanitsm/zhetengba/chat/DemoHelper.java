@@ -588,7 +588,13 @@ public class DemoHelper {
             msg.setFrom(inviter);
             msg.setTo(groupId);
             msg.setMsgId(UUID.randomUUID().toString());
-            msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + " " + st3));
+            if (EaseUserUtils.getUserInfo(inviter)==null){
+                MyLogUtils.info("获取对象为空，EaseUserUtils.getUserInfo(inviter)+inviter是多少："+inviter);
+                return;
+            }else {
+                msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + " " + st3));
+
+            }
             msg.setStatus(EMMessage.Status.SUCCESS);
             // 保存邀请消息
             EMClient.getInstance().chatManager().saveMessage(msg);

@@ -72,19 +72,13 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             Collections.reverse(list);
             tvmessage.setText(list.get(0).getMessage());
             tvUnReaNum.setVisibility(View.VISIBLE);
-        } else {
-
-            if (list != null && list.size() > 0) {
-                Collections.reverse(list);
-                tvmessage.setText(list.get(0).getMessage());
-                tvUnReaNum.setVisibility(View.VISIBLE);
-            } else {
-
-                tvmessage.setText("");
-                tvUnReaNum.setVisibility(View.GONE);
-            }
-            registerForContextMenu(conversationListView);
-            rlDq.setOnClickListener(new View.OnClickListener() {
+            tvUnReaNum.setText("1");
+        }else {
+            tvmessage.setText("暂无新消息");
+            tvUnReaNum.setVisibility(View.GONE);
+        }
+        registerForContextMenu(conversationListView);
+       rlDq.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     tvUnReaNum.setVisibility(View.GONE);
@@ -123,7 +117,6 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                 }
             });
         }
-    }
 
         @Override
         protected void onConnectionDisconnected () {

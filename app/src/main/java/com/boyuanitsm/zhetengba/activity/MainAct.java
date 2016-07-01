@@ -45,6 +45,10 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
 import java.util.List;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /***
  * 设置首页信息
@@ -425,11 +429,17 @@ public class MainAct extends BaseActivity {
         int unreadMsgCountTotal = 0;
         int chatroomUnreadMsgCount = 0;
         unreadMsgCountTotal = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-        for(EMConversation conversation:EMClient.getInstance().chatManager().getAllConversations().values()){
-            if(conversation.getType() == EMConversation.EMConversationType.ChatRoom)
-                chatroomUnreadMsgCount=chatroomUnreadMsgCount+conversation.getUnreadMsgCount();
+        if (EMClient.getInstance().chatManager().getAllConversations().size()==0){
+            return 0;
+        }else {
+            for(EMConversation conversation:EMClient.getInstance().chatManager().getAllConversations().values()){
+                if(conversation.getType() == EMConversation.EMConversationType.ChatRoom)
+                    chatroomUnreadMsgCount=chatroomUnreadMsgCount+conversation.getUnreadMsgCount();
+            }
+            return unreadMsgCountTotal-chatroomUnreadMsgCount;
+
         }
-        return unreadMsgCountTotal-chatroomUnreadMsgCount;
+
     }
 
     /**
@@ -528,8 +538,15 @@ public class MainAct extends BaseActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
+                            @Override
+                            public void gotResult(int i, String s, Set<String> set) {
+
+                            }
+                        });
                         dialog.dismiss();
                         conflictBuilder = null;
+
                         finish();
                         Intent intent = new Intent(MainAct.this, LoginAct.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -568,6 +585,12 @@ public class MainAct extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         accountRemovedBuilder = null;
+                        JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
+                            @Override
+                            public void gotResult(int i, String s, Set<String> set) {
+
+                            }
+                        });
                         finish();
                         startActivity(new Intent(MainAct.this, LoginAct.class));
                     }

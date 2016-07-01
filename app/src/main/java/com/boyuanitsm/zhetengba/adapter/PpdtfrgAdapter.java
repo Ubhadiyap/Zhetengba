@@ -194,15 +194,23 @@ public class PpdtfrgAdapter extends BaseAdapter {
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCircleName())){
                 viewHolder.tv_cir_name.setText(circleTalkEntityList.get(position).getCircleName());
             }
-            if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getLikedCounts()+"")){
-                viewHolder.znum.setText(circleTalkEntityList.get(position).getLikedCounts()+"");
-            }else {
-                viewHolder.znum.setText("0");
+            if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getLikedCounts()+"")) {
+                if (circleTalkEntityList.get(position).getLikedCounts() == 0) {
+                    viewHolder.znum.setVisibility(View.GONE);
+                } else {
+                    viewHolder.znum.setVisibility(View.VISIBLE);
+                    viewHolder.znum.setText(circleTalkEntityList.get(position).getLikedCounts() + "");
+
+                }
             }
+
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCommentCounts()+"")){
-                viewHolder.cnum.setText(circleTalkEntityList.get(position).getCommentCounts()+"");
-            }else {
-                viewHolder.cnum.setText("0");
+                if (circleTalkEntityList.get(position).getCommentCounts()==0){
+                    viewHolder.cnum.setVisibility(View.GONE);
+                }else {
+                    viewHolder.cnum.setVisibility(View.VISIBLE);
+                    viewHolder.cnum.setText(circleTalkEntityList.get(position).getCommentCounts()+"");
+                }
             }
 //            if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getSharedCounts()+"")){
 //                viewHolder.snum.setText(circleTalkEntityList.get(position).getSharedCounts()+"");
