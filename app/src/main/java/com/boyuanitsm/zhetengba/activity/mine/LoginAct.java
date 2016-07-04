@@ -201,7 +201,7 @@ public class LoginAct extends BaseActivity {
                 }
                 //异步获取当前用户的昵称和头像(从自己服务器获取，demo使用的一个第三方服务)
 //                DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-                DemoHelper.getInstance().getUserProfileManager().setNickName(userBean.getUser().getUsername());
+                DemoHelper.getInstance().getUserProfileManager().setNickName(userBean.getUser().getPetName());
                 DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(userBean.getUser().getIcon()));
                 UserInfoDao.saveUser(userBean.getUser());
                 if(type==0){

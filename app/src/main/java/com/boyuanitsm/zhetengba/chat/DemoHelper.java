@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.Constant;
+import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.FriendsBean;
@@ -27,11 +28,11 @@ import com.boyuanitsm.zhetengba.chat.parse.UserProfileManager;
 import com.boyuanitsm.zhetengba.chat.receiver.CallReceiver;
 import com.boyuanitsm.zhetengba.chat.utils.PreferenceManager;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
-import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMContactListener;
@@ -164,7 +165,7 @@ public class DemoHelper {
             appContext = context;
 
             //设为调试模式，打成正式包时，最好设为false，以免消耗额外的资源
-            EMClient.getInstance().setDebugMode(true);
+            EMClient.getInstance().setDebugMode(ConstantValue.IS_SHOW_DEBUG);
             //get easeui instance
             easeUI = EaseUI.getInstance();
             //调用easeui的api设置providers
@@ -723,7 +724,7 @@ public class DemoHelper {
         appContext.startActivity(intent);
     }
 
-    private EaseUser getUserInfo(String username) {
+    private EaseUser getUserInfo(final String username) {
         //获取user信息，demo是从内存的好友列表里获取，
         //实际开发中，可能还需要从服务器获取用户信息,
         //从服务器获取的数据，最好缓存起来，避免频繁的网络请求
@@ -738,6 +739,20 @@ public class DemoHelper {
         if(user==null&& ChatUserDao.findUserById(username)!=null){
             user=ChatUserDao.findUserById(username);
         }
+//        if(user==null){
+//            RequestManager.getMessManager().findUserByHId(username, new ResultCallback<ResultBean<UserInfo>>() {
+//                @Override
+//                public void onError(int status, String errorMsg) {
+//
+//                }
+//
+//                @Override
+//                public void onResponse(ResultBean<UserInfo> response) {
+//                    EaseUser eUser=new EaseUser(username);
+//
+//                }
+//            });
+//        }
         return user;
     }
 
@@ -1156,19 +1171,20 @@ public class DemoHelper {
                                 if (list != null && list.size() > 0) {
                                     List<EaseUser> uList = new ArrayList<EaseUser>();
                                     for (FriendsBean friendsBean : list) {
-                                        EaseUser easeUser = new EaseUser(friendsBean.getId());
-                                        if (!TextUtils.isEmpty(friendsBean.getPetName())) {
-                                            easeUser.setNick(friendsBean.getPetName());
-                                            easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0,1));
-                                        }
-                                        else {
-                                            easeUser.setNick(friendsBean.getUsername());
-                                            easeUser.setInitialLetter("#");
-                                        }
+                                        if(friendsBean!=null) {
+                                            EaseUser easeUser = new EaseUser(friendsBean.getId());
+                                            if (!TextUtils.isEmpty(friendsBean.getPetName())) {
+                                                easeUser.setNick(friendsBean.getPetName());
+                                                easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0, 1));
+                                            } else {
+                                                easeUser.setNick(friendsBean.getUsername());
+                                                easeUser.setInitialLetter("#");
+                                            }
 
-                                        easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
+                                            easeUser.setAvatar(Uitls.imageFullUrl(friendsBean.getIcon()));
 //                                        easeUser.setAvatar("http://172.16.6.253:8089/zhetengba/userIcon/90017a421ee84e0db5c6d53e55c03c50.png");
-                                        uList.add(easeUser);
+                                            uList.add(easeUser);
+                                        }
                                     }
                                     updateContactList(uList);
                                 }

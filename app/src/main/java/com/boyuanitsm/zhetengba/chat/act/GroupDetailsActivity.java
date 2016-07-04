@@ -317,7 +317,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 			}
 		}).show();
-		startActivityForResult(new Intent(this, ExitGroupDialog.class), REQUEST_CODE_EXIT);
+//		startActivityForResult(new Intent(this, ExitGroupDialog.class), REQUEST_CODE_EXIT);
 
 	}
 
@@ -365,30 +365,45 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	 * @param
 	 */
 	private void exitGrop() {
-		String st1 = getResources().getString(R.string.Exit_the_group_chat_failure);
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					EMClient.getInstance().groupManager().leaveGroup(groupId);
-					runOnUiThread(new Runnable() {
-						public void run() {
-							progressDialog.dismiss();
-							setResult(RESULT_OK);
-							finish();
-							if(ChatActivity.activityInstance != null)
-							    ChatActivity.activityInstance.finish();
-						}
-					});
-				} catch (final Exception e) {
-					runOnUiThread(new Runnable() {
-						public void run() {
-							progressDialog.dismiss();
-							Toast.makeText(getApplicationContext(), getResources().getString(R.string.Exit_the_group_chat_failure) + " " + e.getMessage(),Toast.LENGTH_SHORT).show();
-						}
-					});
-				}
+//		String st1 = getResources().getString(R.string.Exit_the_group_chat_failure);
+		RequestManager.getMessManager().exitGroup(groupId, new ResultCallback<ResultBean<String>>() {
+			@Override
+			public void onError(int status, String errorMsg) {
+				MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
 			}
-		}).start();
+
+			@Override
+			public void onResponse(ResultBean<String> response) {
+				progressDialog.dismiss();
+				setResult(RESULT_OK);
+				finish();
+				if(ChatActivity.activityInstance != null)
+					ChatActivity.activityInstance.finish();
+			}
+		});
+//		new Thread(new Runnable() {
+//			public void run() {
+//				try {
+//					EMClient.getInstance().groupManager().leaveGroup(groupId);
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							progressDialog.dismiss();
+//							setResult(RESULT_OK);
+//							finish();
+//							if(ChatActivity.activityInstance != null)
+//							    ChatActivity.activityInstance.finish();
+//						}
+//					});
+//				} catch (final Exception e) {
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							progressDialog.dismiss();
+//							Toast.makeText(getApplicationContext(), getResources().getString(R.string.Exit_the_group_chat_failure) + " " + e.getMessage(),Toast.LENGTH_SHORT).show();
+//						}
+//					});
+//				}
+//			}
+//		}).start();
 	}
 
 	/**
@@ -1085,6 +1100,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		});
 	}
 
+	/**
+	 * 获取群组详情
+	 */
 	private void findGroupInfo(){
 		RequestManager.getMessManager().findGroupInfo(groupId, new ResultCallback<ResultBean<GroupBean>>() {
 			@Override

@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.fragment;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,15 +10,26 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.NewFriendsMsgActivity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
+import com.boyuanitsm.zhetengba.bean.FriendsBean;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.chat.act.MyGroupAct;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
+import com.boyuanitsm.zhetengba.chat.db.UserDao;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.util.EMLog;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,9 +45,11 @@ public class ContractsFrg extends EaseContactListFragment {
     private ContactInfoSyncListener contactInfoSyncListener;
 
     private TextView tvUnReadMsg;
+    private UserDao userDao;
     @Override
     protected void initView() {
         super.initView();
+        userDao=new UserDao(getContext());
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.em_contacts_header, null);
         HeaderItemClickListener clickListener = new HeaderItemClickListener();
         headerView.findViewById(R.id.cvNewF).setOnClickListener(clickListener);
@@ -52,20 +66,70 @@ public class ContractsFrg extends EaseContactListFragment {
 
     @Override
     public void refresh() {
-        Map<String, EaseUser> m = DemoHelper.getInstance().getContactList();
-        if (m instanceof Hashtable<?, ?>) {
-            m = (Map<String, EaseUser>) ((Hashtable<String, EaseUser>)m).clone();
-        }
-        setContactsMap(m);
-        super.refresh();
-        if(inviteMessgeDao == null){
-            inviteMessgeDao = new InviteMessgeDao(getActivity());
-        }
-        if(inviteMessgeDao.getUnreadMessagesCount() > 0){
-            tvUnReadMsg.setVisibility(View.VISIBLE);
-        }else{
-            tvUnReadMsg.setVisibility(View.GONE);
-        }
+        RequestManager.getMessManager().getFriends("-1", "-1", new ResultCallback<ResultBean<DataBean<FriendsBean>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                Map<String, EaseUser> m = DemoHelper.getInstance().getContactList();
+                if (m instanceof Hashtable<?, ?>) {
+                    m = (Map<String, EaseUser>) ((Hashtable<String, EaseUser>) m).clone();
+                }
+                setContactsMap(m);
+                getContactList();
+                contactListLayout.refresh();
+                if (inviteMessgeDao == null) {
+                    inviteMessgeDao = new InviteMessgeDao(getActivity());
+                }
+                if (inviteMessgeDao.getUnreadMessagesCount() > 0) {
+                    tvUnReadMsg.setVisibility(View.VISIBLE);
+                } else {
+                    tvUnReadMsg.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<FriendsBean>> response) {
+                DataBean<FriendsBean> dataBean = response.getData();
+                if (dataBean != null) {
+                    List<FriendsBean> list = dataBean.getRows();
+                    MyLogUtils.info(list.toString());
+                    if (list != null && list.size() > 0) {
+                        List<EaseUser> uList = new ArrayList<EaseUser>();
+                        for (FriendsBean friendsBean : list) {
+                            EaseUser easeUser = new EaseUser(friendsBean.getId());
+                            if (!TextUtils.isEmpty(friendsBean.getPetName())) {
+                                easeUser.setNick(friendsBean.getPetName());
+                                easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0, 1));
+                            } else {
+                                easeUser.setNick(friendsBean.getUsername());
+                                easeUser.setInitialLetter("#");
+                            }
+
+                            easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
+//                                        easeUser.setAvatar("http://172.16.6.253:8089/zhetengba/userIcon/90017a421ee84e0db5c6d53e55c03c50.png");
+                            uList.add(easeUser);
+                        }
+                        userDao.saveContactList(uList);
+                    }
+                }
+
+                Map<String, EaseUser> m = DemoHelper.getInstance().getContactList();
+                if (m instanceof Hashtable<?, ?>) {
+                    m = (Map<String, EaseUser>) ((Hashtable<String, EaseUser>) m).clone();
+                }
+                setContactsMap(m);
+                getContactList();
+                contactListLayout.refresh();
+                if (inviteMessgeDao == null) {
+                    inviteMessgeDao = new InviteMessgeDao(getActivity());
+                }
+                if (inviteMessgeDao.getUnreadMessagesCount() > 0) {
+                    tvUnReadMsg.setVisibility(View.VISIBLE);
+                } else {
+                    tvUnReadMsg.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     @SuppressWarnings("unchecked")

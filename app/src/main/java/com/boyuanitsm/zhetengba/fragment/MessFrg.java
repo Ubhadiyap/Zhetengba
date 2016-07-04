@@ -91,7 +91,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+//                    MyToastUtils.showShortToast(getContext(),"点击了");
                     EMConversation conversation = conversationListView.getItem(position);
                     String username = conversation.getUserName();
                     if (username.equals(EMClient.getInstance().getCurrentUser()))
@@ -107,9 +107,10 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                                 intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_GROUP);
                             }
                             // it's single chat
-                            intent.putExtra(Constant.EXTRA_USER_ID, username);
-                            startActivity(intent);
+
                         }
+                        intent.putExtra(Constant.EXTRA_USER_ID, username);
+                        startActivity(intent);
 
                     }
 

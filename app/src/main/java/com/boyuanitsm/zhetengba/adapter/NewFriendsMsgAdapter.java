@@ -350,7 +350,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
     }
 
 
-    private void getUser(String personId,final CircleImageView cvHead,final TextView tvNick) {
+    private void getUser(final String personId,final CircleImageView cvHead,final TextView tvNick) {
         RequestManager.getMessManager().findUserByHId(personId, new ResultCallback<ResultBean<UserInfo>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -362,7 +362,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                 UserInfo userInfo = response.getData();
                 if(userInfo!=null){
                     ChatUserBean chatUserBean=new ChatUserBean();
-                    chatUserBean.setUserId(userInfo.getId());
+                    chatUserBean.setUserId(personId);
                     chatUserBean.setNick(userInfo.getPetName());
                     chatUserBean.setIcon(Uitls.imageFullUrl(userInfo.getIcon()));
                     ChatUserDao.saveUser(chatUserBean);

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ContextMenuActivity;
 import com.boyuanitsm.zhetengba.chat.act.ForwardMessageActivity;
@@ -229,10 +230,12 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
      */
     @Override
     public void onAvatarClick(String username) {
-        //头像点击事件
-//        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-//        intent.putExtra("username", username);
-//        startActivity(intent);
+        if(chatType == Constant.CHATTYPE_GROUP) {
+            //头像点击事件
+            Intent intent = new Intent(getActivity(), PerpageAct.class);
+            intent.putExtra("userId", username);
+            startActivity(intent);
+        }
     }
 
     @Override
