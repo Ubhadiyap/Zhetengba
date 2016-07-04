@@ -70,10 +70,19 @@ public class DqMesAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if (list.get(position).getType().equals(0 + "")) {
-            viewHolder.llInvitation.setVisibility(View.GONE);
-        } else if (list.get(position).getType().equals(1 + "") && list.get(position).getMesstype().equals(1 + "")) {
-            viewHolder.llInvitation.setVisibility(View.VISIBLE);
+        switch (list.get(position).getType()){
+            case 0+"":
+                viewHolder.llInvitation.setVisibility(View.GONE);
+                break;
+            case 1+"":
+                if (!TextUtils.isEmpty(list.get(position).getMesstype())){
+                    if (list.get(position).getMesstype().equals(1+"")){
+                        viewHolder.llInvitation.setVisibility(View.VISIBLE);
+                    }
+                }else {
+                    viewHolder.llInvitation.setVisibility(View.GONE);
+                }
+                break;
         }
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.civhead, optionsImag);
         if (!TextUtils.isEmpty(list.get(position).getPetName())) {

@@ -109,7 +109,7 @@ public class ContractedAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("简约");
+        setTopTitle("会友");
         map = new HashMap<>();
         pd=new ProgressDialog(ContractedAct.this);
         pd.setCanceledOnTouchOutside(false);
@@ -315,6 +315,7 @@ public class ContractedAct extends BaseActivity {
                 Intent intentRecevier=new Intent();
 //                intentRecevier.putExtra("state",1);
                 intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
+                intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
                 sendBroadcast(intentRecevier);
                 MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
                 finish();

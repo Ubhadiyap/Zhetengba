@@ -64,7 +64,7 @@ public class ScheduleAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         scheduleInfo=new ScheduleInfo();
-        setTopTitle("档期");
+        setTopTitle("有空");
         pd=new ProgressDialog(ScheduleAct.this);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("发布中....");
@@ -319,8 +319,8 @@ public class ScheduleAct extends BaseActivity {
 
                 MyToastUtils.showShortToast(ScheduleAct.this, "发布档期成功");
                 Intent intentRecevier=new Intent();
-//                intentRecevier.putExtra("state",0);
                 intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
+                intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
                 sendBroadcast(intentRecevier);
                 finish();
             }

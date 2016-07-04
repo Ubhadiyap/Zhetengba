@@ -35,20 +35,20 @@ public class ConstantValue {
     /**
      * 数据库版本
      */
-    public final static int VERSION =2;
-   public final static Class<?>[] MODELS = {UserInfo.class, ChatUserBean.class};
+    public final static int VERSION =3;
+   public final static Class<?>[] MODELS = {UserInfo.class, ChatUserBean.class,UserInterestInfo.class,CircleInfo.class, ActivityMess.class};
     public final static String DB_NAME = "user.db";
-
-    /**
-     * 个人兴趣标签版本
-     */
-    public final static int LABEL_VERSION =2;
-    public final static Class<?>[] LABEL_MODELS = {UserInterestInfo.class};
-    public final static String LABEL_DB_NAME = "userInterestInfo.db";
-    /**
-     * 个人兴趣标签版本
-     */
-    public final static int CIRCLE_VERSION =3;
-    public final static Class<?>[] CIRCLE_MODELS = {CircleInfo.class, ActivityMess.class};
-    public final static String CIRCLE_DB_NAME = "circleinfo.db";
+//
+//    /**
+//     * 个人兴趣标签版本
+//     */
+//    public final static int LABEL_VERSION =2;
+//    public final static Class<?>[] LABEL_MODELS = {};
+//    public final static String LABEL_DB_NAME = "userInterestInfo.db";
+//    /**
+//     * 个人兴趣标签版本
+//     */
+//    public final static int CIRCLE_VERSION =3;
+//    public final static Class<?>[] CIRCLE_MODELS = {};
+//    public final static String CIRCLE_DB_NAME = "circleinfo.db";
 }

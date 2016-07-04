@@ -313,11 +313,9 @@ public class PerpageAct extends BaseActivity {
         WindowManager manager = (WindowManager) getSystemService(PerpageAct.this.WINDOW_SERVICE);
         @SuppressWarnings("deprecation")
         //获取xoff
-                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+         int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
         //xoff,yoff基于anchor的左下角进行偏移。
         popupWindow.showAsDropDown(parent, xpos, 0);
-
-
         LinearLayout ll_schy = (LinearLayout) layout.findViewById(R.id.ll_schy);//删除好友
         LinearLayout ll_xiugai = (LinearLayout) layout.findViewById(R.id.ll_xiugai);//修改备注
 
