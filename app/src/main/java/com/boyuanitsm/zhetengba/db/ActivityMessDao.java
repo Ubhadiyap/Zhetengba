@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ActivityMessDao  extends TemplateDAO<ActivityMess,String> {
     public ActivityMessDao() {
-        super(ShUtils.getCircleDbhelper());
+        super(ShUtils.getDbhelper());
     }
     private static ActivityMessDao dao;
     private static ActivityMessDao getDao(){

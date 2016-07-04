@@ -53,16 +53,12 @@ import java.util.List;
  * Created by bitch-1 on 2016/5/11.
  */
 public class CirxqAct extends BaseActivity {
-    //    @ViewInject(R.id.rv_label)
     private MyRecyleview rv_label;
     @ViewInject(R.id.lv_cirxq)
     private PullToRefreshListView lv_cir;
-    //    @ViewInject(R.id.cir_sv)
-//    private ScrollView cir_sv;
     @ViewInject(R.id.cir_fb)
     private TextView cir_fb;
     private List<Integer>list;
-
     private CirxqAdapter adapter;
     private String circleId;//圈子id
     private CircleEntity circleEntity;//圈子实体
@@ -71,11 +67,8 @@ public class CirxqAct extends BaseActivity {
     private String personIds;//存储邀请用户id
     private int IsInCircle;//从收索圈子进来后的判断条件看是否在圈子里面 0不在，1在；
     private int type;//类型
-    //    @ViewInject(R.id.head)
     private CircleImageView head;//头像
-    //    @ViewInject(R.id.tv_qz)
     private TextView name;//圈主名
-    //    @ViewInject(R.id.notice)
     private TextView notice;//公告
     private TextView qzzl;//圈子资料
 
@@ -99,7 +92,6 @@ public class CirxqAct extends BaseActivity {
     public void setLayout() {
         setContentView(R.layout.act_cirxq);
         AppManager.getAppManager().addActivity(this);
-
     }
 
     @Override

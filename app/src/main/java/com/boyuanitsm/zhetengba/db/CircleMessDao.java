@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class CircleMessDao extends TemplateDAO<CircleInfo, String> {
     public CircleMessDao() {
-        super(ShUtils.getCircleDbhelper());
+        super(ShUtils.getDbhelper());
     }
 
     private static CircleMessDao dao;

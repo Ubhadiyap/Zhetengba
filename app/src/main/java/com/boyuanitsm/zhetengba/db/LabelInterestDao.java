@@ -18,7 +18,7 @@ public class LabelInterestDao extends TemplateDAO<UserInterestInfo, String> {
 
     private static LabelInterestDao labelInterestDao;
     public LabelInterestDao() {
-        super(ShUtils.getLabelDbhelper());
+        super(ShUtils.getDbhelper());
 
     }
     private static LabelInterestDao getDao(){
