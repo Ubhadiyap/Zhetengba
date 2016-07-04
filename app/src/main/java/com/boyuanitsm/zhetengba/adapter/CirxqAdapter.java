@@ -26,7 +26,6 @@ import java.util.List;
 public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> {
     private final LayoutInflater inflater;
     private Context context;
-//    private List<Integer> list;
     private List<MemberEntity> list=new ArrayList<>();
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -35,11 +34,6 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
             .bitmapConfig(Bitmap.Config.RGB_565)
             .build();
 
-//    public CirxqAdapter(Context context, List<Integer> list) {
-//        inflater = LayoutInflater.from(context);
-//        this.list = list;
-//
-//    }
     public CirxqAdapter(Context context, List<MemberEntity> list) {
         this.context=context;
         inflater = LayoutInflater.from(context);
@@ -70,7 +64,6 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = inflater.inflate(R.layout.item_gl_cirxq, viewGroup, false);
-
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.mCir = (CircleImageView) view.findViewById(R.id.civ_hand);
         return viewHolder;
@@ -181,26 +174,8 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
                         break;
                 }
 
-//            if (i == (list.size()-1)) {
-//                viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);
-//            }
-//           viewHolder.mCir.setImageResource(list.get(i));
             }
         }
-//        if (i==4){
-//            viewHolder.mCir.setText("更多...");
-//            //如果设置了回调，则设置点击事件
-//            if (mOnItemClickListener!=null){
-//                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        mOnItemClickListener.onItemClick(viewHolder.itemView,i);
-//                    }
-//                });
-//            }
-//        }else{
-//            viewHolder.mCir.setImageResource(list.get(i));
-//        }
 
     }
 

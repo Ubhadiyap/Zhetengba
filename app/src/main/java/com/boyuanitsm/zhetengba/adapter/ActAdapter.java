@@ -122,7 +122,8 @@ public class ActAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(infos.get(position).getUserNm())) {
             viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
         }
-        if (infos.get(position).getActivitySite() != null) {
+        if (!TextUtils.isEmpty(infos.get(position).getActivitySite())) {
+            viewHolder.ll_theme_location.setVisibility(View.VISIBLE);
             viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());//活动位置
         } else {
             viewHolder.ll_theme_location.setVisibility(View.GONE);
