@@ -111,6 +111,7 @@
 
 
                 <com.boyuanitsm.zhetengba.view.CommonView
+                    android:visibility="gone"
                     android:id="@+id/cv_email"
                     android:layout_width="wrap_content"
                     android:layout_height="41dp"
@@ -120,8 +121,6 @@
                     app:notesText=""
                     app:notesTextColor="#999999"
                     app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
-
-                <View style="@style/view_line" />
 
                 <com.boyuanitsm.zhetengba.view.CommonView
                     android:id="@+id/cv_companyName"
@@ -139,6 +138,7 @@
 
 
                 <com.boyuanitsm.zhetengba.view.CommonView
+                    android:visibility="gone"
                     android:id="@+id/cv_companyAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="41dp"
@@ -154,6 +154,7 @@
 
 
                 <com.boyuanitsm.zhetengba.view.CommonView
+                    android:visibility="gone"
                     android:id="@+id/cv_companyTel"
                     android:layout_width="wrap_content"
                     android:layout_height="41dp"
