@@ -143,26 +143,7 @@ public class PerpageAct extends BaseActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         userId = bundle.getString("userId");
-        flag=bundle.getBoolean("friend");
-        if (UserInfoDao.getUser().getId().equals(userId)){
-            ll_add_riend.setVisibility(View.VISIBLE);//档期frg
-            iv_set.setVisibility(View.GONE);
-            bt_message.setVisibility(View.GONE);
-        }else  if (flag){
-            ll_add_riend.setVisibility(View.VISIBLE);
-            iv_set.setVisibility(View.VISIBLE);
-            bt_message.setText("发送消息");
-        }else{
-            bt_message.setText("加为好友");
-            iv_set.setVisibility(View.GONE);
-            ll_add_riend.setVisibility(View.GONE);
-        }
         getPersonalMain(userId);
-
-        manager = getSupportFragmentManager();
-//        gv_perpage.setAdapter(new GridViewPerAdapter(PerpageAct.this));
-        msv_scroll.smoothScrollTo(0, 0);
-
 
     }
 
@@ -386,11 +367,9 @@ public class PerpageAct extends BaseActivity {
         WindowManager manager = (WindowManager) getSystemService(PerpageAct.this.WINDOW_SERVICE);
         @SuppressWarnings("deprecation")
         //获取xoff
-                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+         int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
         //xoff,yoff基于anchor的左下角进行偏移。
         popupWindow.showAsDropDown(parent, xpos, 0);
-
-
         LinearLayout ll_schy = (LinearLayout) layout.findViewById(R.id.ll_schy);//删除好友
         LinearLayout ll_xiugai = (LinearLayout) layout.findViewById(R.id.ll_xiugai);//修改备注
 
@@ -441,6 +420,7 @@ public class PerpageAct extends BaseActivity {
                 scheduleEntity = personalMain.getScheduleEntity();
                 circleTalkEntity = personalMain.getCircleTalkEntity();
                 userEntity = personalMain.getUserEntity();
+                instalData();
                 userInterestEntity = personalMain.getUserInterestEntity();
                 initUserData(userEntity);
                 iniTab(userInterestEntity, userEntity.get(0).getId());
@@ -460,6 +440,27 @@ public class PerpageAct extends BaseActivity {
                 });
             }
         });
+    }
+
+    private void instalData() {
+        if (userEntity!=null){
+            flag=userEntity.get(0).isFriend();
+        }
+        if (UserInfoDao.getUser().getId().equals(userId)){
+            ll_add_riend.setVisibility(View.VISIBLE);//档期frg
+            iv_set.setVisibility(View.GONE);
+            bt_message.setVisibility(View.GONE);
+        }else  if (flag){
+            ll_add_riend.setVisibility(View.VISIBLE);
+            iv_set.setVisibility(View.VISIBLE);
+            bt_message.setText("发送消息");
+        }else{
+            bt_message.setText("加为好友");
+            iv_set.setVisibility(View.GONE);
+            ll_add_riend.setVisibility(View.GONE);
+        }
+        manager = getSupportFragmentManager();
+        msv_scroll.smoothScrollTo(0, 0);
     }
 
     /**

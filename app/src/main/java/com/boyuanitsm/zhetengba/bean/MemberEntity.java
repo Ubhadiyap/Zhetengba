@@ -20,6 +20,7 @@ public class MemberEntity implements Parcelable {
     private String icon;
 
     private String userType;
+    private String petName;
 
     /**---------------------------------------------------------------------------------------------------------*/
     /**
@@ -30,6 +31,18 @@ public class MemberEntity implements Parcelable {
      * 共同的圈子数
      */
     private int sameCircleCounts;
+
+    public String getPetName() {
+        return petName;
+    }
+
+    public void setPetName(String petName) {
+        this.petName = petName;
+    }
+
+    public static Creator<MemberEntity> getCREATOR() {
+        return CREATOR;
+    }
 
     public MemberEntity() {
     }
@@ -98,29 +111,6 @@ public class MemberEntity implements Parcelable {
         this.sameCircleCounts = sameCircleCounts;
     }
 
-    protected MemberEntity(Parcel in) {
-        id = in.readString();
-        username = in.readString();
-        name = in.readString();
-        phone = in.readString();
-        icon = in.readString();
-        userType = in.readString();
-        sameLabels = in.readString();
-        sameCircleCounts = in.readInt();
-    }
-
-    public static final Creator<MemberEntity> CREATOR = new Creator<MemberEntity>() {
-        @Override
-        public MemberEntity createFromParcel(Parcel in) {
-            return new MemberEntity(in);
-        }
-
-        @Override
-        public MemberEntity[] newArray(int size) {
-            return new MemberEntity[size];
-        }
-    };
-
     @Override
     public int describeContents() {
         return 0;
@@ -128,13 +118,38 @@ public class MemberEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(username);
-        dest.writeString(name);
-        dest.writeString(phone);
-        dest.writeString(icon);
-        dest.writeString(userType);
-        dest.writeString(sameLabels);
-        dest.writeInt(sameCircleCounts);
+        dest.writeString(this.id);
+        dest.writeString(this.username);
+        dest.writeString(this.name);
+        dest.writeString(this.phone);
+        dest.writeString(this.icon);
+        dest.writeString(this.userType);
+        dest.writeString(this.petName);
+        dest.writeString(this.sameLabels);
+        dest.writeInt(this.sameCircleCounts);
     }
+
+    protected MemberEntity(Parcel in) {
+        this.id = in.readString();
+        this.username = in.readString();
+        this.name = in.readString();
+        this.phone = in.readString();
+        this.icon = in.readString();
+        this.userType = in.readString();
+        this.petName = in.readString();
+        this.sameLabels = in.readString();
+        this.sameCircleCounts = in.readInt();
+    }
+
+    public static final Creator<MemberEntity> CREATOR = new Creator<MemberEntity>() {
+        @Override
+        public MemberEntity createFromParcel(Parcel source) {
+            return new MemberEntity(source);
+        }
+
+        @Override
+        public MemberEntity[] newArray(int size) {
+            return new MemberEntity[size];
+        }
+    };
 }

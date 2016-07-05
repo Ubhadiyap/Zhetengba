@@ -46,13 +46,10 @@ import java.util.List;
  * Created by xiaoke on 2016/5/11.
  */
 public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
-//    @ViewInject(R.id.ll_comment)//评论
-//    private LinearLayout ll_comment;
     @ViewInject(R.id.et_comment)
     private EditText etComment;//评论内容
     @ViewInject(R.id.my_lv)
     private PullToRefreshListView my_lv;
-//    private ScrollView sl_chanel;
     private LinearLayout ll_two;
     private LinearLayout llphoto;
     private CustomImageView ng_one_image, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
@@ -64,22 +61,14 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-
     private String channelId;//频道说说id
     private ChannelTalkEntity channelTalkEntity;//频道说说实体
-//    @ViewInject(R.id.iv_ch_head)
     private CircleImageView head;//头像
-//    @ViewInject(R.id.tv_ch_niName)
     private TextView name;//姓名
-//    @ViewInject(R.id.iv_ch_gendar)
     private ImageView sex;//性别
-//    @ViewInject(R.id.tv_time)
     private TextView time;//时间
-//    @ViewInject(R.id.content)
     private TextView content;//说说内容
-//    @ViewInject(R.id.commentNum)
     private TextView commentNum;//评论数
-
     private View headView;
     private int page=1;
     private int rows=10;
@@ -96,7 +85,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         setTopTitle("频道正文");
         headView=getLayoutInflater().inflate(R.layout.hannel_headerview,null);
         assignView(headView);
-
         channelTalkEntity=getIntent().getParcelableExtra("channelEntity");
         channelId=getIntent().getStringExtra("channelId");
         LayoutHelperUtil.freshInit(my_lv);
@@ -104,22 +92,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         setChannel(channelTalkEntity);
         getCircleCommentsList(channelId, page, rows);
 
-        my_lv.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ll_answer.setVisibility(View.VISIBLE);
-//                et_comment.setFocusable(true);
-//                et_comment.setFocusableInTouchMode(true);
-//                et_comment.requestFocus();
-//                et_comment.requestFocusFromTouch();
-//              view= (View) parent.getItemAtPosition(0);
-//             TextView user_name= (TextView) view.findViewById(R.id.tv_user_name);
-//               String  str_nam = user_name.getText().toString();
-//                et_comment.setText("回复"+str_nam+"：");
-
-
-            }
-        });
         my_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -207,12 +179,9 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             ll_two.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.GONE);
             ng_one_image.setVisibility(View.VISIBLE);
-//            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(singleList.get(0).getUrl()),optionsImag);
             singleList.get(0).setWidth(200);
             singleList.get(0).setHeight(200);
             LayoutHelperUtil.handlerOneImage(ChanelTextAct.this, singleList.get(0), ng_one_image);
-//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()),ng_one_image,optionsImag);
-//            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), ng_one_image);
 
             ng_one_image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -225,7 +194,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             iv_ch_image.setVisibility(View.GONE);
             ng_one_image.setVisibility(View.GONE);
             ll_two.setVisibility(View.VISIBLE);
-//            viewHolder.iv_two_four.setImageUrl(itemList.get(3).getUrl());
             ImageLoader.getInstance().displayImage(singleList.get(0).getUrl(), iv_two_one, optionsImag);
             ImageLoader.getInstance().displayImage(singleList.get(1).getUrl(), iv_two_two, optionsImag);
             ImageLoader.getInstance().displayImage(singleList.get(2).getUrl(), iv_two_three, optionsImag);
@@ -277,10 +245,8 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_comment:
-//                openActivity(CommentAct.class);//打开评论列表
                 break;
             case R.id.iv_chanel_comment:
-//                openActivity(CommentAct.class);
                 commentChannelTalk(channelId,null,etComment.getText().toString().trim());
                 break;
         }
@@ -305,7 +271,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 ZtinfoUtils.hideSoftKeyboard(ChanelTextAct.this, etComment);
                 etComment.setText("");
                 getCircleCommentsList(channelTalkId, page, rows);
-//                commentNum.setText("评论"+"");
             }
         });
     }
@@ -326,7 +291,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 my_lv.onPullUpRefreshComplete();
                 my_lv.onPullDownRefreshComplete();
                 list=response.getData().getRows();
-                commentNum.setText("评论"+list.size());
+                commentNum.setText("评论" + list.size());
                 if (list.size() == 0) {
                     if (page == 1) {
 
@@ -344,7 +309,10 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 }else {
                     adapter.notifyChange(datas);
                 }
-                sendBroadcast(new Intent(ChanelFrg.MYLABELS));
+                Intent intent=new Intent(ChanelFrg.MYLABELS);
+                Bundle bundle=new Bundle();
+                intent.putExtras(bundle);
+                sendBroadcast(intent);
             }
         });
     }

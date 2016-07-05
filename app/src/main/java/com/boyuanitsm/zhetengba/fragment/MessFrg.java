@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +92,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+//                    MyToastUtils.showShortToast(getContext(),"点击了");
                     EMConversation conversation = conversationListView.getItem(position);
                     String username = conversation.getUserName();
                     if (username.equals(EMClient.getInstance().getCurrentUser()))
@@ -107,9 +108,10 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                                 intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_GROUP);
                             }
                             // it's single chat
-                            intent.putExtra(Constant.EXTRA_USER_ID, username);
-                            startActivity(intent);
+
                         }
+                        intent.putExtra(Constant.EXTRA_USER_ID, username);
+                        startActivity(intent);
 
                     }
 
@@ -135,21 +137,18 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
      */
     private void addPop() {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mPopupWindow = new PopupWindow(layoutParams.width, layoutParams.height);
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.act_pop_mess, null);
+        mPopupWindow = new PopupWindow(v,layoutParams.width, layoutParams.height);
         LinearLayout ll_sao = (LinearLayout) v.findViewById(R.id.ll_sao);
         LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qunavatar);
         LinearLayout ll_add_friend = (LinearLayout) v.findViewById(R.id.ll_add_friend);
-
-        mPopupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.bg_stroke));
-        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
         mPopupWindow.setFocusable(true);
-        mPopupWindow.setContentView(v);
         //获取xoff
         WindowManager manager = (WindowManager) getActivity().getSystemService(getActivity().WINDOW_SERVICE);
         int xpos = manager.getDefaultDisplay().getWidth() / 2 - mPopupWindow.getWidth() / 2;
         //xoff,yoff基于anchor的左下角进行偏移。
-        mPopupWindow.showAsDropDown(rlAdd, xpos, 20);
+        mPopupWindow.showAsDropDown(rlAdd, xpos, 0);
         ll_sao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

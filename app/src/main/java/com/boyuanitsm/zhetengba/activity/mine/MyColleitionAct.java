@@ -45,7 +45,7 @@ public class MyColleitionAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("取消搜藏");
+        setTopTitle("取消收藏");
         LayoutHelperUtil.freshInit(plv);
         findgzPortsMsg(page, rows);
         plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {

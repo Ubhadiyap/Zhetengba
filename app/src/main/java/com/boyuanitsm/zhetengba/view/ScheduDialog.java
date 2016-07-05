@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -51,6 +52,13 @@ public class ScheduDialog extends Dialog {
         getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         ListView lv_theme = (ListView) view.findViewById(R.id.lv_theme);
         TextView tv_tishi= (TextView) view.findViewById(R.id.tv_tishi);
+        LinearLayout rl_plan = (LinearLayout) view.findViewById(R.id.rl_plan);
+        rl_plan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         if (simpleInfos.size()>0){
             tv_tishi.setVisibility(View.GONE);
             lv_theme.setVisibility(View.VISIBLE);

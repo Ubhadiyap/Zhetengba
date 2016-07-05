@@ -22,14 +22,14 @@
                 android:layout_width="116dp"
                 android:layout_height="116dp"
                 android:src="@mipmap/logo" />
+
             <TextView
+                android:id="@+id/tv_publish"
                 style="@style/tv_second"
                 android:layout_marginTop="31dp"
-                android:text="版本号：NO4654321-1.0"
                 android:textColor="#999999" />
-
         </LinearLayout>
-
+        <!--android:text="版本号：NO4654321-1.0"-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

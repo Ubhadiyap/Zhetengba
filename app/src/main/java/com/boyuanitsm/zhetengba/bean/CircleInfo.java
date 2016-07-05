@@ -32,6 +32,8 @@ public class CircleInfo implements Parcelable{
     private String commentTalk;//评论的说说
     @Column
     private String circleId;//圈子id
+    @Column
+    private String type;
     @Override
     public String toString() {
         return "CircleInfo{" +
@@ -45,7 +47,16 @@ public class CircleInfo implements Parcelable{
                 ", commentContent='" + commentContent + '\'' +
                 ", commentTalk='" + commentTalk + '\'' +
                 ", circleId='" + circleId + '\'' +
+                ", type='" + type + '\'' +
                 '}';
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getCircleId() {
@@ -152,6 +163,7 @@ public class CircleInfo implements Parcelable{
         dest.writeString(this.commentContent);
         dest.writeString(this.commentTalk);
         dest.writeString(this.circleId);
+        dest.writeString(this.type);
     }
 
     protected CircleInfo(Parcel in) {
@@ -165,6 +177,7 @@ public class CircleInfo implements Parcelable{
         this.commentContent = in.readString();
         this.commentTalk = in.readString();
         this.circleId = in.readString();
+        this.type = in.readString();
     }
 
     public static final Creator<CircleInfo> CREATOR = new Creator<CircleInfo>() {

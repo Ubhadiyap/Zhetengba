@@ -1,11 +1,14 @@
 package com.boyuanitsm.zhetengba.fragment.calendarFrg;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
@@ -107,16 +110,18 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
      * 选择对话框，选择好友/全部
      */
     private void selectPop() {
-        mPopupWindow = new PopupWindow(200, 200);
         View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend, null);
+        mPopupWindow = new PopupWindow(v, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
         TextView tv_friend = (TextView) v.findViewById(R.id.tv_friend);
         TextView tv_all = (TextView) v.findViewById(R.id.tv_all);
         TextView tv_me = (TextView) v.findViewById(R.id.tv_me);
-        mPopupWindow.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.bg_circle_stroke));
-        mPopupWindow.setOutsideTouchable(true);
+        //获取xoff
+        WindowManager manager = (WindowManager) getActivity().getSystemService(getActivity().WINDOW_SERVICE);
+        int xpos = manager.getDefaultDisplay().getWidth() / 2 - mPopupWindow.getWidth() / 2;
+        //xoff,yoff基于anchor的左下角进行偏移。
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
         mPopupWindow.setFocusable(true);
-        mPopupWindow.setContentView(v);
-        mPopupWindow.showAsDropDown(ll_friend, 20, 20);
+        mPopupWindow.showAsDropDown(ll_friend, xpos, 0);
         final Intent intentRecevier = new Intent();
         tv_friend.setOnClickListener(new View.OnClickListener() {
             @Override

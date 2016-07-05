@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.adapter;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -47,11 +48,11 @@ import java.util.List;
  */
 public class ChanAdapter extends BaseAdapter {
     private Context context;
-    private List<List<ImageInfo>> dateList=new ArrayList<>();
-    private List<ChannelTalkEntity> list=new ArrayList<>();
+    private List<List<ImageInfo>> dateList = new ArrayList<>();
+    private List<ChannelTalkEntity> list = new ArrayList<>();
     private String channelId;//说说id
     private LinearLayout ll_like;
-    int clickPos;
+    int clickPos=0;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -63,15 +64,16 @@ public class ChanAdapter extends BaseAdapter {
         this.context = context;
         this.dateList = dateList;
     }
-    public ChanAdapter(Context context, List<List<ImageInfo>> dateList,List<ChannelTalkEntity> list) {
+
+    public ChanAdapter(Context context, List<List<ImageInfo>> dateList, List<ChannelTalkEntity> list) {
         this.context = context;
         this.dateList = dateList;
-        this.list=list;
+        this.list = list;
     }
 
-    public void notifyChange(List<List<ImageInfo>> dateList,List<ChannelTalkEntity> list){
-        this.dateList=dateList;
-        this.list=list;
+    public void notifyChange(List<List<ImageInfo>> dateList, List<ChannelTalkEntity> list) {
+        this.dateList = dateList;
+        this.list = list;
         notifyDataSetChanged();
     }
 
@@ -99,9 +101,9 @@ public class ChanAdapter extends BaseAdapter {
         } else {
             convertView = View.inflate(context, R.layout.item_chanle, null);
             viewHolder = new CaViewHolder();
-            viewHolder.zimg= (ImageView) convertView.findViewById(R.id.zimg);
-            viewHolder.sex= (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
-            viewHolder.head= (CircleImageView) convertView.findViewById(R.id.iv_ch_head);
+            viewHolder.zimg = (ImageView) convertView.findViewById(R.id.zimg);
+            viewHolder.sex = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
+            viewHolder.head = (CircleImageView) convertView.findViewById(R.id.iv_ch_head);
             ll_like = (LinearLayout) convertView.findViewById(R.id.ll_like);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
@@ -119,8 +121,8 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_date = (RelativeLayout) convertView.findViewById(R.id.ll_date);
             viewHolder.ll_user = (LinearLayout) convertView.findViewById(R.id.ll_user);
             viewHolder.ll_ch_image = (LinearLayout) convertView.findViewById(R.id.ll_ch_image);
-            viewHolder.znum= (TextView) convertView.findViewById(R.id.znum);
-            viewHolder.cnum= (TextView) convertView.findViewById(R.id.cnum);
+            viewHolder.znum = (TextView) convertView.findViewById(R.id.znum);
+            viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
             convertView.setTag(viewHolder);
         }
         viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
@@ -133,13 +135,9 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-//            if (!TextUtils.isEmpty(itemList.get(0).getUrl())){
-//                Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()),optionsImag);
-                itemList.get(0).setWidth(200);
-                itemList.get(0).setHeight(200);
-//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()),viewHolder.iv_oneimage,optionsImag);
-                LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage );
-//            }
+            itemList.get(0).setWidth(200);
+            itemList.get(0).setHeight(200);
+            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -191,64 +189,57 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context,255), ActionBar.LayoutParams.WRAP_CONTENT);
+            viewHolder.iv_ch_image.setLayoutParams(params);
             viewHolder.iv_ch_image.setNumColumns(3);
             PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
             viewHolder.iv_ch_image.setAdapter(adapter);
-
         }
-        if(list!=null){
-            if(!TextUtils.isEmpty(list.get(position).getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),viewHolder.head,optionsImag);
-            }
-            if(!TextUtils.isEmpty(list.get(position).getUserName())){
+        if (list != null) {
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.head, optionsImag);
+            if (!TextUtils.isEmpty(list.get(position).getUserName())) {
                 viewHolder.tv_ch_niName.setText(list.get(position).getUserName());
-            }else {
-                String str=list.get(position).getCreatePersonId();
+            } else {
+                String str = list.get(position).getCreatePersonId();
                 viewHolder.tv_ch_niName.setText(str.substring(0, 3) + "***" + str.substring(str.length() - 3, str.length()));
             }
-            if(!TextUtils.isEmpty(list.get(position).getUserSex())){
-                if("0".equals(list.get(position).getUserSex())) {
+            if (!TextUtils.isEmpty(list.get(position).getUserSex())) {
+                if ("0".equals(list.get(position).getUserSex())) {
                     viewHolder.sex.setImageResource(R.mipmap.gfemale);//女0
-                }else if("1".equals(list.get(position).getUserSex())){
+                } else if ("1".equals(list.get(position).getUserSex())) {
                     viewHolder.sex.setImageResource(R.mipmap.male);//男1
                 }
             }
-            if(!TextUtils.isEmpty(list.get(position).getCreateTiem())){
+            if (!TextUtils.isEmpty(list.get(position).getCreateTiem())) {
 //                ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTiem()))
                 viewHolder.tv_time.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTiem())));
             }
-            if(!TextUtils.isEmpty(list.get(position).getChannelContent())){
+            if (!TextUtils.isEmpty(list.get(position).getChannelContent())) {
                 viewHolder.tv_content.setText(list.get(position).getChannelContent());
             }
-            if(!TextUtils.isEmpty(list.get(position).getLiked()+"")) {
-                if (0==list.get(position).getLiked()) {//未点赞
+            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+                if (0 == list.get(position).getLiked()) {//未点赞
                     viewHolder.zimg.setImageResource(R.drawable.zan);
-                }else if (1==list.get(position).getLiked()){
+                } else if (1 == list.get(position).getLiked()) {
                     viewHolder.zimg.setImageResource(R.drawable.zan_b);
                 }
             }
-            if(!TextUtils.isEmpty(list.get(position).getLikeCounts()+"")){
-                if (list.get(position).getLikeCounts()==0){
+            if (!TextUtils.isEmpty(list.get(position).getLikeCounts() + "")) {
+                if (list.get(position).getLikeCounts() == 0) {
                     viewHolder.znum.setVisibility(View.GONE);
-                }else {
+                } else {
                     viewHolder.znum.setVisibility(View.VISIBLE);
-                    viewHolder.znum.setText(list.get(position).getLikeCounts()+"");
+                    viewHolder.znum.setText(list.get(position).getLikeCounts() + "");
                 }
             }
-            if(!TextUtils.isEmpty(list.get(position).getCommentCounts()+"")){
-                if (list.get(position).getCommentCounts()==0){
+            if (!TextUtils.isEmpty(list.get(position).getCommentCounts() + "")) {
+                if (list.get(position).getCommentCounts() == 0) {
                     viewHolder.cnum.setVisibility(View.GONE);
-                }else {
+                } else {
                     viewHolder.cnum.setVisibility(View.VISIBLE);
-                    viewHolder.cnum.setText(list.get(position).getCommentCounts()+"");
+                    viewHolder.cnum.setText(list.get(position).getCommentCounts() + "");
                 }
-//                viewHolder.cnum.setText("0");
             }
-//            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
-//                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
-//            }else {
-//                viewHolder.snum.setText("0");
-//            }
         }
         //点击活动详情跳转频道正文
         View.OnClickListener listener = new View.OnClickListener() {
@@ -256,7 +247,7 @@ public class ChanAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, ChanelTextAct.class);
-                intent.putExtra("channelEntity",list.get(position));
+                intent.putExtra("channelEntity", list.get(position));
                 intent.putExtra("channelId", list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -271,7 +262,6 @@ public class ChanAdapter extends BaseAdapter {
                 Intent intent = new Intent(context, PerpageAct.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("userId", list.get(position).getCreatePersonId());
-//                bundle.putBoolean("friend",list.get(position).isFriend());
                 intent.putExtras(bundle);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -281,7 +271,7 @@ public class ChanAdapter extends BaseAdapter {
         ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ll_like.setClickable(false);
+                ll_like.setEnabled(false);
                 clickPos = position;
                 channelId = list.get(position).getId();
                 if (0 == list.get(position).getLiked()) {
@@ -338,23 +328,25 @@ public class ChanAdapter extends BaseAdapter {
 
 
     }
+
     /**
      * 点赞
+     *
      * @param channelId
      */
-    private void addChannelLike(String channelId){
+    private void addChannelLike(String channelId) {
         RequestManager.getTalkManager().addChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                ll_like.setClickable(true);
-                MyToastUtils.showShortToast(context,errorMsg);
+                ll_like.setEnabled(true);
+                MyToastUtils.showShortToast(context, errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                ll_like.setClickable(true);
+                ll_like.setEnabled(true);
                 list.get(clickPos).setLiked(1);
-                if(!TextUtils.isEmpty(response.getData())) {
+                if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
                 }
                 notifyDataSetChanged();
@@ -365,27 +357,27 @@ public class ChanAdapter extends BaseAdapter {
 
     /**
      * 取消点赞
+     *
      * @param channelId
      */
-    private void removeChannelLike(String channelId){
+    private void removeChannelLike(String channelId) {
         RequestManager.getTalkManager().removeChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                ll_like.setClickable(true);
-                MyToastUtils.showShortToast(context,errorMsg);
+                ll_like.setEnabled(true);
+                MyToastUtils.showShortToast(context, errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                ll_like.setClickable(true);
+                ll_like.setEnabled(true);
                 list.get(clickPos).setLiked(0);
-                if(!TextUtils.isEmpty(response.getData())) {
+                if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
                 }
                 notifyDataSetChanged();
             }
         });
-
     }
 
 }

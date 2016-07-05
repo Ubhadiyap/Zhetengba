@@ -122,7 +122,8 @@ public class ActAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(infos.get(position).getUserNm())) {
             viewHolder.tv_niName.setText(infos.get(position).getUserNm());//字段缺少用户名
         }
-        if (infos.get(position).getActivitySite() != null) {
+        if (!TextUtils.isEmpty(infos.get(position).getActivitySite())) {
+            viewHolder.ll_theme_location.setVisibility(View.VISIBLE);
             viewHolder.tv_loaction.setText(infos.get(position).getActivitySite());//活动位置
         } else {
             viewHolder.ll_theme_location.setVisibility(View.GONE);
@@ -157,6 +158,9 @@ public class ActAdapter extends BaseAdapter {
         } else {
             viewHolder.tv_date.setText(strStart + "—" + strEnd);//活动时间；
         }
+//        if (!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
+//
+//        }
         if (UserInfoDao.getUser().getId().equals(infos.get(position).getUserId())){
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),viewHolder.iv_headphoto,optionsImag);
         }else {

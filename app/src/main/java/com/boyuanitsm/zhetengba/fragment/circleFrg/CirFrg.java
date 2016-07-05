@@ -47,16 +47,6 @@ public class CirFrg extends Fragment {
     private CircleAdapter adapter;
     private int page=1;
     private int rows=10;
-    private Bitmap bitmap;
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-
-            }
-        }
-    };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.cir_frg, null);
@@ -83,14 +73,6 @@ public class CirFrg extends Fragment {
         return view;
     }
 
-    Thread thread=new Thread(new Runnable() {
-        @Override
-        public void run() {
-            Message message=new Message();
-            message.what=1;
-            handler.sendMessage(message);
-        }
-    });
     private List<CircleEntity> datas=new ArrayList<>();
     /**
      * 获取所有圈子说说

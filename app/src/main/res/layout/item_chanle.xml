@@ -63,7 +63,7 @@
         android:layout_marginLeft="65dp"
         android:layout_marginRight="15dp"
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/ll_content"
@@ -89,8 +89,10 @@
                 android:visibility="gone"
                 android:id="@+id/iv_ch_image"
                 android:paddingBottom="3dp"
+                android:columnWidth="83dp"
+                android:horizontalSpacing="3dp"
                 android:verticalSpacing="3dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <LinearLayout
                 android:id="@+id/ll_two"

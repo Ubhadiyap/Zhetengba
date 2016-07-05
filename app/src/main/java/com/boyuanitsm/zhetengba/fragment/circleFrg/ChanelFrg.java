@@ -42,6 +42,7 @@ import java.util.List;
  */
 public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private int currentPos;//当前位置
+    private int pos = 0;//返回的位置
     private int mTitleMargin;//头部标签之间空隙；
     private int page = 1;
     private int rows = 10;
@@ -54,7 +55,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private ArrayList<Integer> moveToList;//设置textview宽高集合
     private List<ChannelTalkEntity> channelTalkEntityList;
     private List<List<ImageInfo>> datalist;
-    private List<ChannelTalkEntity> datas = new ArrayList<>();
+    private List<ChannelTalkEntity> datas = new ArrayList<>();;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -86,13 +87,16 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         ;
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
-        getChannelTalks(titleList.get(0).getInterestId(), page, rows);
+        if (titleList.size()<currentPos){
+            currentPos=0;
+        }
+        getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
         for (int i = 0; i < titleList.size(); i++) {
             addTitleLayout(titleList.get(i).getDictName(), i);
         }
 
         if (textViewList != null && textViewList.size() > 0) {
-            textViewList.get(0).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
+            textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
         }
         LayoutHelperUtil.freshInit(vp_chan);
         vp_chan.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -109,7 +113,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
             }
         });
-        currentPos = 0;
+        currentPos = pos;
     }
 
     /***
@@ -172,8 +176,8 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             }
             textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
             currentPos = (int) view.getTag();
-            page=1;
-            rows=10;
+            page = 1;
+            rows = 10;
             getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
             textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));
         }
@@ -211,6 +215,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private void getChannelTalks(String lableId, final int page, int rows) {
         channelTalkEntityList = new ArrayList<>();
         datalist = new ArrayList<>();
+
         RequestManager.getTalkManager().getChannelTalks(lableId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -283,7 +288,14 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             titleLayout.removeAllViews();
             textViewList.clear();
             titleList.clear();
+            datalist.clear();
             titleList = LabelInterestDao.getInterestLabel();
+            if (intent!=null) {
+                Bundle bundle=intent.getExtras();
+                if (bundle!=null) {
+                    pos = bundle.getInt("flag", currentPos);
+                }
+            }
             if (titleList == null) {
                 getMyLabels(-1);
             } else {

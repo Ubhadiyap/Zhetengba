@@ -65,12 +65,9 @@ public class PicShowDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_dialog_pic);
         getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//        getWindow().setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         vp = (MyViewPager) findViewById(R.id.vp);
         ll_point = (LinearLayout) findViewById(R.id.ll_point);
-//        init();
         initMyPageAdapter();
-//        vp.setAdapter(new ViewPagerAdapter());
         vp.setCurrentItem(position);
         vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

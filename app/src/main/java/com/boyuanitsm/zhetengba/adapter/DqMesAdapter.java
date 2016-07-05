@@ -70,10 +70,19 @@ public class DqMesAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if (list.get(position).getType().equals(0 + "")) {
-            viewHolder.llInvitation.setVisibility(View.GONE);
-        } else if (list.get(position).getType().equals(1 + "") && list.get(position).getMesstype().equals(1 + "")) {
-            viewHolder.llInvitation.setVisibility(View.VISIBLE);
+        switch (list.get(position).getType()){
+            case 0+"":
+                viewHolder.llInvitation.setVisibility(View.GONE);
+                break;
+            case 1+"":
+                if (!TextUtils.isEmpty(list.get(position).getMesstype())){
+                    if (list.get(position).getMesstype().equals(1+"")){
+                        viewHolder.llInvitation.setVisibility(View.VISIBLE);
+                    }
+                }else {
+                    viewHolder.llInvitation.setVisibility(View.GONE);
+                }
+                break;
         }
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.civhead, optionsImag);
         if (!TextUtils.isEmpty(list.get(position).getPetName())) {
@@ -89,20 +98,20 @@ public class DqMesAdapter extends BaseAdapter {
         viewHolder.tvAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewHolder.tvAccept.setClickable(false);
-                viewHolder.tvRefuse.setClickable(false);
+                viewHolder.tvAccept.setEnabled(false);
+                viewHolder.tvRefuse.setEnabled(false);
                 RequestManager.getScheduleManager().agreeActivity(list.get(position).getActivityId(), list.get(position).getScheduleId(), new ResultCallback<ResultBean<String>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-                        viewHolder.tvAccept.setClickable(true);
-                        viewHolder.tvRefuse.setClickable(true);
+                        viewHolder.tvAccept.setEnabled(false);
+                        viewHolder.tvRefuse.setEnabled(false);
+                        MyToastUtils.showShortToast(context,"请求出错！");
                     }
 
                     @Override
                     public void onResponse(ResultBean<String> response) {
                         viewHolder.tvAccept.setClickable(false);
                         viewHolder.tvRefuse.setClickable(false);
-                        viewHolder.tvAccept.setBackgroundColor(Color.GRAY);
                         viewHolder.tvAccept.setText("已接受");
                         MyToastUtils.showShortToast(context, "已经同意！");
 
@@ -118,15 +127,14 @@ public class DqMesAdapter extends BaseAdapter {
                 RequestManager.getScheduleManager().refuseActivity(list.get(position).getActivityId(), list.get(position).getScheduleId(), new ResultCallback<ResultBean<String>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-                        viewHolder.tvAccept.setClickable(true);
-                        viewHolder.tvRefuse.setClickable(true);
+                        viewHolder.tvAccept.setClickable(false);
+                        viewHolder.tvRefuse.setClickable(false);
                     }
 
                     @Override
                     public void onResponse(ResultBean<String> response) {
                         viewHolder.tvAccept.setClickable(false);
                         viewHolder.tvRefuse.setClickable(false);
-                        viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
                         viewHolder.tvRefuse.setText("已拒绝");
                         MyToastUtils.showShortToast(context, "已经拒绝！");
                     }

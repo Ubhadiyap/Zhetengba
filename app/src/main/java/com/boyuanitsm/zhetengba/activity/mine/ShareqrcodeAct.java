@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -34,7 +37,9 @@ public class ShareqrcodeAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("分享二维码");
-        bitmap= ZhetebaUtils.createQRImage(erUrl);
+        if (!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
+            bitmap= ZhetebaUtils.createQRImage(UserInfoDao.getUser().getId());
+        }
         iverm.setScaleType(ImageView.ScaleType.FIT_XY);
         iverm.setImageBitmap(bitmap);
     }

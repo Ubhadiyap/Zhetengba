@@ -281,7 +281,7 @@ public class CircleAdapter extends BaseAdapter {
         ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ll_like.setClickable(false);
+                ll_like.setEnabled(false);
                 clickPos=position;
                 if (0==list.get(position).getLiked()){
                     addCircleLike(list.get(position).getId());
@@ -357,13 +357,13 @@ public class CircleAdapter extends BaseAdapter {
             @Override
             public void onError(int status, String errorMsg) {
                 MyToastUtils.showShortToast(context,errorMsg);
-                ll_like.setClickable(true);
+                ll_like.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(1);
-                ll_like.setClickable(true);
+                ll_like.setEnabled(true);
                 if(!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
@@ -379,12 +379,14 @@ public class CircleAdapter extends BaseAdapter {
         RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                ll_like.setEnabled(true);
                 MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(0);
+                ll_like.setEnabled(true);
                 if(!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }

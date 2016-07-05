@@ -72,7 +72,6 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
         } else {
             fragmentTransaction.show(chanelFrg);
         }
-
         fragmentTransaction.commit();
     }
     /***

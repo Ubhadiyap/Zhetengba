@@ -93,7 +93,6 @@ public class CirclefbAct extends BaseActivity {
             @Override
             public void onClick(View v) {
                 setRightEnable(false);
-                MyLogUtils.info("点击事件几次++++++++++++");
                 content=etContent.getText().toString().trim();
                 pd.show();
                 switch (type){
@@ -106,8 +105,6 @@ public class CirclefbAct extends BaseActivity {
                             }else {
                                 addChannelTalk(channelTalkEntity);
                             }
-//                            channelTalkEntity.setChannelImage();
-//                            addChannelTalk(channelTalkEntity);
                         }else {
                             MyToastUtils.showShortToast(CirclefbAct.this,"请输入频道说说内容");
                         }
@@ -143,14 +140,6 @@ public class CirclefbAct extends BaseActivity {
                 }
             });
         }
-//        gv_qzfb.setSelector(new ColorDrawable(Color.TRANSPARENT));
-//        gv_qzfb.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                adapter1.setSeclection(position);
-//                adapter1.notifyDataSetChanged();
-//            }
-//        });
         adapter = new GvPhotoAdapter(selecteds, 9, CirclefbAct.this);
         gvPhoto.setAdapter(adapter);
 
@@ -171,9 +160,6 @@ public class CirclefbAct extends BaseActivity {
                 } else {
                     adapter.notifyDataSetChanged();
                 }
-//                intent.putExtra(PicSelectActivity.IMAGES, (Serializable) selecteds);
-//                sendBroadcast(intent);
-//                tvSelect.setVisibility(View.GONE);
             }
         }
 
@@ -183,8 +169,6 @@ public class CirclefbAct extends BaseActivity {
                 List<ImageBean> addSelect = (List<ImageBean>) data.getSerializableExtra(PicSelectActivity.IMAGES);
                 selecteds.addAll(addSelect);
                 adapter.notifyDataSetChanged();
-//                intent.putExtra(PicSelectActivity.IMAGES, (Serializable) selecteds);
-//                sendBroadcast(intent);
             }
         }
         /**预览删除照片*/
@@ -193,8 +177,6 @@ public class CirclefbAct extends BaseActivity {
                 if (selecteds.size() > 0) {
                     selecteds = (List<ImageBean>) data.getSerializableExtra("M_LIST");
                     adapter.notifyDataChange(selecteds);
-//                    intent.putExtra(PicSelectActivity.IMAGES, (Serializable) selecteds);
-//                    sendBroadcast(intent);
                 }
             }
         }
@@ -216,11 +198,8 @@ public class CirclefbAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-
                 pd.dismiss();
-
                 setRightEnable(true);
-
                 finish();
                 sendBroadcast(new Intent(CirxqAct.TALKS));
                 sendBroadcast(new Intent(CirFrg.ALLTALKS));
@@ -238,14 +217,14 @@ public class CirclefbAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-
-                pd.dismiss();
-
-                setRightEnable(true);
-
-                finish();
                 Intent intent=new Intent(ChanelFrg.MYLABELS);
+                Bundle bundle=new Bundle();
+                bundle.putInt("flag", flag);
+                intent.putExtras(intent);
                 sendBroadcast(intent);
+                pd.dismiss();
+                setRightEnable(true);
+                finish();
             }
         });
     }

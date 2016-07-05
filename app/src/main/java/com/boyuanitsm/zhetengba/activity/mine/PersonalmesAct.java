@@ -33,6 +33,7 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
+import com.bumptech.glide.util.Util;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -144,7 +145,8 @@ public class PersonalmesAct extends BaseActivity {
      */
 
     private void instalOtherData() {
-        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, options);
+//        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, options);
+        MyLogUtils.info(userEntity.get(0).getIcon()+"他人的头像是");
         if (!TextUtils.isEmpty(userEntity.get(0).getPetName())) {
             setTopTitle(userEntity.get(0).getPetName());
         }
@@ -152,7 +154,7 @@ public class PersonalmesAct extends BaseActivity {
             cvUserName.setNotesText(userEntity.get(0).getPetName());
         }
         if (!TextUtils.isEmpty(userEntity.get(0).getIcon())) {
-            ImageLoader.getInstance().displayImage(userEntity.get(0).getIcon(), head, options);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, options);
         }
 
         if (!TextUtils.isEmpty(userEntity.get(0).getSex())) {

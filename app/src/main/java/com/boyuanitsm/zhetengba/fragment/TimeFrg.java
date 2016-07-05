@@ -1,6 +1,12 @@
 package com.boyuanitsm.zhetengba.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -10,9 +16,14 @@ import com.boyuanitsm.zhetengba.adapter.TimeAxisListAdp;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.HistoryMsgBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -62,4 +73,31 @@ public class TimeFrg extends BaseFragment {
             }
         });
     }
+    private MyReceiver myReceiver;
+    public static final String LISTORY_DATA = "com.update.history";
+    public class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            inputTime = getArguments().getString(INPUT_TIME);
+            findHistory(inputTime);
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (myReceiver==null) {
+            myReceiver = new MyReceiver();
+            getActivity().registerReceiver(myReceiver, new IntentFilter(LISTORY_DATA));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (myReceiver!=null){
+            getActivity().unregisterReceiver(myReceiver);
+            myReceiver=null;
+        }
+    }
+
 }
