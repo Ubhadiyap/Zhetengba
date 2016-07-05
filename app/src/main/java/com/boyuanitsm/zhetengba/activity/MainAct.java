@@ -34,6 +34,7 @@ import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.hyphenate.EMContactListener;
@@ -41,6 +42,7 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
@@ -256,6 +258,7 @@ public class MainAct extends BaseActivity {
                 try {
                     chatUserBean.setNick(message.getStringAttribute("nick"));
                     chatUserBean.setIcon(message.getStringAttribute("icon"));
+//                    MyToastUtils.showShortToast(getApplication(),message.getStringAttribute("nick")+":"+message.getStringAttribute("icon"));
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
@@ -343,8 +346,11 @@ public class MainAct extends BaseActivity {
                     if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.toChatUsername != null &&
                             username.equals(ChatActivity.activityInstance.toChatUsername)) {
                         String st10 = getResources().getString(R.string.have_you_removed);
-                        Toast.makeText(MainAct.this, ChatActivity.activityInstance.getToChatUsername() + st10,Toast.LENGTH_SHORT)
+                        if(EaseUserUtils.getUserInfo(ChatActivity.activityInstance.getToChatUsername())!=null)
+                        Toast.makeText(MainAct.this, EaseUserUtils.getUserInfo(ChatActivity.activityInstance.getToChatUsername()).getNick()+st10,Toast.LENGTH_SHORT)
                                 .show();
+                        else
+                            MyToastUtils.showShortToast(getApplicationContext(),"对方"+st10);
                         ChatActivity.activityInstance.finish();
                     }
                 }

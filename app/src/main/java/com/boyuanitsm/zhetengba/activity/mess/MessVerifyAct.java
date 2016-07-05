@@ -89,7 +89,6 @@ public class MessVerifyAct extends BaseActivity {
         progressDialog.setMessage(stri);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        finish();
 
         new Thread(new Runnable() {
             public void run() {
