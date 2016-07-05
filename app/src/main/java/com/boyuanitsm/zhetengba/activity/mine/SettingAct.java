@@ -48,7 +48,7 @@ public class SettingAct extends BaseActivity {
     private CommonView cv_clearCache;
     private int select=0;//加我不需要验证
     private String totalCacheSize;
-    private int version;
+    private String version;
     private String platform;
 
     @Override
@@ -60,17 +60,6 @@ public class SettingAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("设置");
         initData();
-//        tbVerification.setIsSwitch(true);
-//        tbVerification.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
-//            @Override
-//            public void onToggle(boolean on) {
-//                if (on) {//添加我时需要验证
-//
-//                } else {//添加我时不需要验证
-//
-//                }
-//            }
-//        });
     }
 
     private void initData() {
@@ -108,6 +97,7 @@ public class SettingAct extends BaseActivity {
                 openActivity(FeedbackAct.class);
                 break;
             case R.id.cv_checkUpdate://检查更新
+                version=ZtinfoUtils.getVersion(SettingAct.this);
                 findNewVersion(version, platform);
                 break;
             case R.id.cv_clearCache://清楚缓存
@@ -132,7 +122,7 @@ public class SettingAct extends BaseActivity {
      * @param version
      * @param platform
      */
-    private void findNewVersion(int version,String platform) {
+    private void findNewVersion(String version,String platform) {
         RequestManager.getUserManager().findNewApp(version, platform, new ResultCallback() {
             @Override
             public void onError(int status, String errorMsg) {

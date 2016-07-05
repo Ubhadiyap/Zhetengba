@@ -29,6 +29,8 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
@@ -153,7 +155,7 @@ public class ContractedAct extends BaseActivity {
         if (!TextUtils.isEmpty(tv_select.getText().toString())) {
             simpleInfo.setActivitySite(tv_select.getText().toString());//位置
         }
-        if (Integer.parseInt(et_pp_num.getText().toString()) != 0) {
+        if (!TextUtils.isEmpty(et_pp_num.getText().toString())) {
             simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
         } else {
             MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
@@ -162,6 +164,10 @@ public class ContractedAct extends BaseActivity {
         if (!TextUtils.isEmpty(et_end.getText().toString())) {
             simpleInfo.setEndTime(et_end.getText().toString());
         } else {
+            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            return;
+        }
+        if (TextUtils.isEmpty(simpleInfo.getLabelId())){
             MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
             return;
         }
@@ -327,6 +333,8 @@ public class ContractedAct extends BaseActivity {
                 Intent intentRecevier = new Intent();
                 intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
+                intentRecevier.setAction(MineFrg.USER_INFO);
+                intentRecevier.setAction(TimeFrg.LISTORY_DATA);
                 sendBroadcast(intentRecevier);
                 MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
                 finish();
