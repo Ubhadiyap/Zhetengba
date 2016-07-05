@@ -117,7 +117,7 @@ public class SettingAct extends BaseActivity {
                 if(select==1){
                     select=0;
                     iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
-                    MyToastUtils.showShortToast(SettingAct.this, select + "");
+//                    MyToastUtils.showShortToast(SettingAct.this, select + "");
                     ischeck();//默认进来不需要，点击后不需要
                     editor.putString("typenum", "0");
                     editor.commit();
@@ -126,7 +126,7 @@ public class SettingAct extends BaseActivity {
                 if(select==0){
                     select=1;
                     iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
-                    MyToastUtils.showShortToast(SettingAct.this, select + "");
+//                    MyToastUtils.showShortToast(SettingAct.this, select + "");
                     ischeck();//需要
                     editor.putString("typenum", "1");
                     editor.commit();
