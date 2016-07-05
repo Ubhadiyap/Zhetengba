@@ -24,6 +24,7 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
@@ -447,7 +448,7 @@ public class PersonalmesAct extends BaseActivity {
 
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
                 Intent intentRecevier=new Intent();
-                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
+                intentRecevier.setAction(SimpleFrg.DATA_CHANGE_KEY);
                 sendBroadcast(intentRecevier);
             }
         });

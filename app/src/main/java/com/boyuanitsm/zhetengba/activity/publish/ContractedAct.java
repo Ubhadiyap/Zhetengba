@@ -31,10 +31,12 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.TimeFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -86,7 +88,6 @@ public class ContractedAct extends BaseActivity {
     private ImageView iv_friend;
     @ViewInject(R.id.bt_plane)
     private Button bt_plan;
-
     private Map<Integer, String> map;
     private boolean flag = true;
     private int MIN_MARK = 1;
@@ -94,16 +95,15 @@ public class ContractedAct extends BaseActivity {
     private Map<String, String> newMap = new HashMap<>();
     private List<ActivityLabel> list;
     private GvTbAdapter adapter;
-    private int select = 1;//好友可见；0全部可见
+    private int select = 0;//好友可见；0全部可见
     private SimpleInfo simpleInfo = new SimpleInfo();
     private String backTheme;
     private String hucanUserIds;
     private String hu_no_canUserIds;
     private String strUserIds;//用于存储指定谁可见用户ids；
     private String strUserNoIds;//用户存错谁不能见；
-
     private ProgressDialog pd;//缓冲弹出框
-
+    private Date startDate,endDate;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -125,11 +125,9 @@ public class ContractedAct extends BaseActivity {
                 if (select == 1) {
                     iv_friend.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
                     select = 0;
-                    return;
                 } else {
                     iv_friend.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
                     select = 1;
-                    return;
                 }
             }
         });
@@ -145,13 +143,6 @@ public class ContractedAct extends BaseActivity {
             MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
             return;
         }
-        if (!TextUtils.isEmpty(et_start.getText().toString())) {
-            simpleInfo.setStartTime(et_start.getText().toString());
-        } else {
-            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
-            return;
-
-        }
         if (!TextUtils.isEmpty(tv_select.getText().toString())) {
             simpleInfo.setActivitySite(tv_select.getText().toString());//位置
         }
@@ -161,16 +152,24 @@ public class ContractedAct extends BaseActivity {
             MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
             return;
         }
-        if (!TextUtils.isEmpty(et_end.getText().toString())) {
-            simpleInfo.setEndTime(et_end.getText().toString());
-        } else {
-            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
-            return;
-        }
+
         if (TextUtils.isEmpty(simpleInfo.getLabelId())){
             MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
             return;
         }
+       if (!TextUtils.isEmpty(et_start.getText())&&!TextUtils.isEmpty(et_end.getText())){
+           Long times=endDate.getTime()-startDate.getTime();
+           if (times>0){
+                simpleInfo.setStartTime(et_start.getText().toString());
+               simpleInfo.setEndTime(et_end.getText().toString());
+           }else {
+               MyToastUtils.showShortToast(ContractedAct.this,"开始时间不得大于结束时间，请重新选择！");
+               return;
+           }
+       }else {
+           MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+           return;
+       }
         simpleInfo.setActivityVisibility(select);//全部可见
         simpleInfo.setActivityParticulars(backTheme);
         simpleInfo.setNoticeUserIds(hucanUserIds);//指定谁可见
@@ -203,9 +202,10 @@ public class ContractedAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                        ;
-                        String time = format.format(date);
+                        MyLogUtils.info(date + "date是多少");
+                        startDate=date;
+                       String time= ZhetebaUtils.compareTime(ContractedAct.this, date.getTime());
+                        MyLogUtils.info(time+"time是多少");
                         et_start.setText(time);
                     }
                 });
@@ -221,8 +221,8 @@ public class ContractedAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                        String time = format.format(date);
+                        endDate=date;
+                        String time=ZhetebaUtils.compareTime(ContractedAct.this,date.getTime());
                         et_end.setText(time);
                     }
                 });
@@ -330,12 +330,9 @@ public class ContractedAct extends BaseActivity {
             public void onResponse(ResultBean<String> response) {
                 pd.dismiss();
                 response.getData();
-                Intent intentRecevier = new Intent();
-                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
-                intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
-                intentRecevier.setAction(MineFrg.USER_INFO);
-                intentRecevier.setAction(TimeFrg.LISTORY_DATA);
-                sendBroadcast(intentRecevier);
+                sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+                sendBroadcast(new Intent(MineFrg.USER_INFO));
+                sendBroadcast(new Intent(TimeFrg.LISTORY_DATA));
                 MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
                 finish();
             }

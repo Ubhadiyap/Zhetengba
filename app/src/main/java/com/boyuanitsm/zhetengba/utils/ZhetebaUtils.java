@@ -71,32 +71,32 @@ public class ZhetebaUtils {
 
     /**
      * 手机号码验证,11位，不知道详细的手机号码段，只是验证开头必须是1和位数
-     * */
-    public static boolean checkCellPhone(String cellPhoneNr)
-    {
-        String reg="^[1][34578][\\d]{9}";
-        return startCheck(reg,cellPhoneNr);
+     */
+    public static boolean checkCellPhone(String cellPhoneNr) {
+        String reg = "^[1][34578][\\d]{9}";
+        return startCheck(reg, cellPhoneNr);
     }
-    public static boolean startCheck(String reg,String string)
-    {
-        boolean tem=false;
+
+    public static boolean startCheck(String reg, String string) {
+        boolean tem = false;
 
         Pattern pattern = Pattern.compile(reg);
-        Matcher matcher=pattern.matcher(string);
+        Matcher matcher = pattern.matcher(string);
 
-        tem=matcher.matches();
+        tem = matcher.matches();
         return tem;
     }
 
     /**
      * 密码验证
+     *
      * @param pwd
      * @return
      */
-    public static boolean checkPwd(String pwd){
+    public static boolean checkPwd(String pwd) {
 //        String reg="^[0-9A-Za-z]{4,24}$";
-        String reg="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{4,24}$";//字母+数字组合
-        return startCheck(reg,pwd);
+        String reg = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{4,24}$";//字母+数字组合
+        return startCheck(reg, pwd);
     }
 
     /**
@@ -108,6 +108,64 @@ public class ZhetebaUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(new Date());
     }
+
+    /**
+     * 与当前时间对比
+     *
+     * @param context
+     * @param datess
+     * @return
+     */
+    public static String compareTime(Context context, Long datess) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Long nowss = new Date().getTime();
+        Long times = datess - nowss;
+        if (times > 0) {
+            return format.format(new Date(datess));
+        } else {
+            MyToastUtils.showShortToast(context, "时间不得小于当前时间，请重新选择！");
+            return format.format(new Date(nowss));
+        }
+    }
+    /**
+     * 时间对比
+     * @param context
+     * @param datess
+     * @return
+     */
+//    public static String compareTimeOther(Context context, Long datess,Long nowss) {
+//
+////        if (nowss==0){
+////            nowss=new Date().getTime();
+////            Long times = datess - nowss;
+////            if (times > 0) {
+////                return format.format(new Date(datess));
+////            } else {
+////                MyToastUtils.showShortToast(context, "时间不得小于当前时间，请重新选择！");
+////                return format.format(new Date(nowss));
+////            }
+////        }else if (datess!=0){
+////            Long times = datess - nowss;
+////            if (times > 0) {
+////                return format.format(new Date(nowss));
+////            } else{
+////                MyToastUtils.showShortToast(context, "开始时间不得小于结束时间，请重新选择！");
+////                return format.format(new Date(nowss));
+////            }
+////        }else if (datess>0){
+////           Long times=datess-nowss;
+////            if (times>0){
+////                return format.format(new Date(nowss));
+////            }else {
+////                nowss=new Date().getTime();
+////                MyToastUtils.showShortToast(context,"开始时间不得大于结束时间，请重新选择！");
+////                return format.format(new Date(nowss));
+////            }
+////        }else {
+////            return format.format(new Date(nowss));
+////        }
+//
+//    }
 
     /**
      * 时间戳转化成时间
@@ -124,10 +182,11 @@ public class ZhetebaUtils {
 
     /**
      * 格式化时间格式
+     *
      * @param date
      * @return
      */
-    public static String formatTime(String date){
+    public static String formatTime(String date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return format.format(new Date(date));
     }
@@ -161,10 +220,11 @@ public class ZhetebaUtils {
         Date strtodate = formatter.parse(strDate, pos);
         return strtodate;
     }
+
     /**
      * 获取新增一个月
-     * */
-    public static List<String> getMonthList(){
+     */
+    public static List<String> getMonthList() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         List<String> dateList = new ArrayList<>();
         Date date = new Date();
@@ -175,31 +235,34 @@ public class ZhetebaUtils {
 
         calendar.add(Calendar.MONTH, 1);
         dateList.add(formatter.format(calendar.getTime()));
-        return  dateList;
+        return dateList;
     }
+
     /**
      * 获取最近7/30天时间集合
+     *
      * @param
-     * */
-    public static List<String> getDateLists(int day){
+     */
+    public static List<String> getDateLists(int day) {
         List<String> lists = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date date=new Date();//取时间,今天
-        Calendar   calendar   =   new GregorianCalendar();
-        for(int i=0;i<day;i++){
+        Date date = new Date();//取时间,今天
+        Calendar calendar = new GregorianCalendar();
+        for (int i = 0; i < day; i++) {
             calendar.setTime(date);
-            calendar.add(calendar.DATE,1);//把日期往后增加一天.整数往后推,负数往前移动
-            date=calendar.getTime();   //这个时间就是日期往后推一天的结果
+            calendar.add(calendar.DATE, 1);//把日期往后增加一天.整数往后推,负数往前移动
+            date = calendar.getTime();   //这个时间就是日期往后推一天的结果
             String daytime = format.format(date);
             calendar.clear();
             lists.add(daytime);
         }
         return lists;
     }
+
     /**
      * 根据两个时间获取两张中间时间
-     * */
-    public static List<String> getTimeList(String starTime,String endTime){
+     */
+    public static List<String> getTimeList(String starTime, String endTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
@@ -220,6 +283,7 @@ public class ZhetebaUtils {
         }
         return result;
     }
+
     /**
      * 获得手机唯一IMEI
      */
@@ -708,17 +772,15 @@ public class ZhetebaUtils {
     }
 
 
-
-
-
     /**
      * 提供精确的加法运算。
+     *
      * @param v1 被加数
      * @param v2 加数
      * @return 两个参数的和
      */
 
-    public static double add(double v1,double v2){
+    public static double add(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.add(b2).doubleValue();
@@ -726,11 +788,12 @@ public class ZhetebaUtils {
 
     /**
      * 提供精确的减法运算。
+     *
      * @param v1 被减数
      * @param v2 减数
      * @return 两个参数的差
      */
-    public static double sub(double v1,double v2){
+    public static double sub(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.subtract(b2).doubleValue();
@@ -738,11 +801,12 @@ public class ZhetebaUtils {
 
     /**
      * 检查手机上是否安装了指定的软件
+     *
      * @param context
      * @param packageName：应用包名
      * @return
      */
-    public static boolean isAvilible(Context context, String packageName){
+    public static boolean isAvilible(Context context, String packageName) {
         //获取packagemanager
         final PackageManager packageManager = context.getPackageManager();
         //获取所有已安装程序的包信息
@@ -750,8 +814,8 @@ public class ZhetebaUtils {
         //用于存储所有已安装程序的包名
         List<String> packageNames = new ArrayList<String>();
         //从pinfo中将包名字逐一取出，压入pName list中
-        if(packageInfos != null){
-            for(int i = 0; i < packageInfos.size(); i++){
+        if (packageInfos != null) {
+            for (int i = 0; i < packageInfos.size(); i++) {
                 String packName = packageInfos.get(i).packageName;
                 packageNames.add(packName);
             }
@@ -760,15 +824,16 @@ public class ZhetebaUtils {
         return packageNames.contains(packageName);
     }
 
-    public static Map<String,String> mapHelper(Map<String,String> map){
-                Map<String,String> newMap=new HashMap<>();
-        for (Map.Entry<String,String> nMap:map.entrySet()){
-            String str= nMap.getKey();
-            newMap.put("str",nMap.getValue());
+    public static Map<String, String> mapHelper(Map<String, String> map) {
+        Map<String, String> newMap = new HashMap<>();
+        for (Map.Entry<String, String> nMap : map.entrySet()) {
+            String str = nMap.getKey();
+            newMap.put("str", nMap.getValue());
         }
         return newMap;
 
     }
+
     private static int QR_WIDTH = 400;
     private static int QR_HEIGHT = 400;
 
@@ -808,6 +873,7 @@ public class ZhetebaUtils {
 
     /**
      * 查询缓存大小
+     *
      * @param context
      * @return
      * @throws Exception
@@ -819,6 +885,7 @@ public class ZhetebaUtils {
         }
         return getFormatSize(cacheSize);
     }
+
     /**
      * 格式化单位
      *
@@ -856,14 +923,16 @@ public class ZhetebaUtils {
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
                 + "TB";
     }
+
     /**
      * 获取文件
+     *
      * @param file
      * @return
      * @throws Exception
      */
-    public static long getFolderSize(File file) throws Exception{
-        long size =0;
+    public static long getFolderSize(File file) throws Exception {
+        long size = 0;
         try {
             File[] fileList = file.listFiles();
             for (int i = 0; i < fileList.length; i++) {
@@ -879,8 +948,10 @@ public class ZhetebaUtils {
         }
         return size;
     }
+
     /**
      * 清除缓存
+     *
      * @param context
      */
     public static void clearAllCache(Context context) {
@@ -889,6 +960,7 @@ public class ZhetebaUtils {
             deleteDir(context.getFilesDir().getAbsoluteFile());
         }
     }
+
     private static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();

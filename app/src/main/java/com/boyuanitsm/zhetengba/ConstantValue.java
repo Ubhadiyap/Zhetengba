@@ -29,8 +29,7 @@ public class ConstantValue {
     /**
      * 首页简约/档期广播
      */
-    public static final String DATA_CHANGE_KEY="data_change_fragment";
-    public static final String CAL_DATA_CHANGE_KEY="cal_data_change_fragment";
+
     /**
     /**
      * 数据库版本

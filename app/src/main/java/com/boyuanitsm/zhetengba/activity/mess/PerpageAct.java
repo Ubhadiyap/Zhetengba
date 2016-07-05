@@ -49,6 +49,8 @@ import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.Uitls;
@@ -425,8 +427,8 @@ public class PerpageAct extends BaseActivity {
                 Intent intent=new Intent();
 //                int state=0;
 //                intent.putExtra("state", state);
-                intent.setAction(ConstantValue.DATA_CHANGE_KEY);
-                intent.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
+                intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
+                intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
                 sendBroadcast(intent);
                 finish();
             }

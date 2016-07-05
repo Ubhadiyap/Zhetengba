@@ -29,7 +29,10 @@ import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.db.UserDao;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
+import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
+import com.boyuanitsm.zhetengba.db.LabelInterestDao;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
@@ -59,9 +62,9 @@ public class MainAct extends BaseActivity {
     private CalendarFrg calendarFrg;
     private CircleFrg circleFrg;
     private MessFrg messFrg;
-    private  PlaneDialog planeDialog;
+    private PlaneDialog planeDialog;
     private MyRadioButton rb_mes;
-//    // 未读消息textview
+    //    // 未读消息textview
     private TextView unreadLabel;
     private final static int[] icons = {R.drawable.menu_ticket_b, R.drawable.menu_chat_b, R.drawable.menu_loop_b, R.drawable.menu_me_b};
 
@@ -100,6 +103,7 @@ public class MainAct extends BaseActivity {
 
     private InviteMessgeDao inviteMessgeDao;
     private UserDao userDao;
+
     @Override
     public void setLayout() {
 
@@ -107,12 +111,12 @@ public class MainAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
             // 三个fragment里加的判断同理
-            DemoHelper.getInstance().logout(false,null);
+            DemoHelper.getInstance().logout(false, null);
             finish();
             startActivity(new Intent(this, LoginAct.class));
             return;
@@ -125,7 +129,7 @@ public class MainAct extends BaseActivity {
         }
         setContentView(R.layout.act_main_layout);
         AppManager.getAppManager().addActivity(this);
-        rb_mes= (MyRadioButton) findViewById(R.id.rb_mes);
+        rb_mes = (MyRadioButton) findViewById(R.id.rb_mes);
         unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
         //获取frg的管理器
         fragmentManager = getSupportFragmentManager();
@@ -137,7 +141,7 @@ public class MainAct extends BaseActivity {
         RadioGroup rg_button = (RadioGroup) findViewById(R.id.rg_button);
         RadioButton rb_cal = (RadioButton) findViewById(R.id.rb_cal);
         ImageView iv_plane = (ImageView) findViewById(R.id.iv_plane);
-        planeDialog=new PlaneDialog(this);
+        planeDialog = new PlaneDialog(this);
         planeDialog.getWindow().setWindowAnimations(R.style.ActionSheetDialogAnimation);
         rb_cal.setChecked(true);
         iv_plane.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +157,6 @@ public class MainAct extends BaseActivity {
         registerBroadcastReceiver();
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
     }
-
 
 
     /***
@@ -186,7 +189,7 @@ public class MainAct extends BaseActivity {
         if (circleFrg != null) {
             transaction.hide(circleFrg);
         }
-        if (mineFrg!=null){
+        if (mineFrg != null) {
             transaction.hide(mineFrg);
         }
 
@@ -203,7 +206,7 @@ public class MainAct extends BaseActivity {
             hideFragment(transaction);
             switch (group.getCheckedRadioButtonId()) {
                 case R.id.rb_cal://点击档期显示：简约/档期界面
-                    currentTabIndex=0;
+                    currentTabIndex = 0;
                     if (calendarFrg == null) {
                         calendarFrg = new CalendarFrg();
                         transaction.add(R.id.fl_main, calendarFrg);
@@ -212,7 +215,7 @@ public class MainAct extends BaseActivity {
                     }
                     break;
                 case R.id.rb_mes://点击显示：消息界面
-                    currentTabIndex=1;
+                    currentTabIndex = 1;
                     if (messFrg == null) {
                         messFrg = new MessFrg();
                         transaction.add(R.id.fl_main, messFrg);
@@ -221,7 +224,7 @@ public class MainAct extends BaseActivity {
                     }
                     break;
                 case R.id.rb_cir://点击显示：圈子界面
-                    currentTabIndex=2;
+                    currentTabIndex = 2;
                     if (circleFrg == null) {
                         circleFrg = new CircleFrg();
                         transaction.add(R.id.fl_main, circleFrg);
@@ -230,11 +233,11 @@ public class MainAct extends BaseActivity {
                     }
                     break;
                 case R.id.rb_my://点击显示：我的界面
-                    currentTabIndex=3;
-                    if (mineFrg==null) {
+                    currentTabIndex = 3;
+                    if (mineFrg == null) {
                         mineFrg = new MineFrg();
-                        transaction.add(R.id.fl_main,mineFrg);
-                    }else{
+                        transaction.add(R.id.fl_main, mineFrg);
+                    } else {
                         transaction.show(mineFrg);
                     }
                     break;
@@ -251,7 +254,7 @@ public class MainAct extends BaseActivity {
             // 提示新消息
             for (EMMessage message : messages) {
                 DemoHelper.getInstance().getNotifier().onNewMsg(message);
-                ChatUserBean chatUserBean=new ChatUserBean();
+                ChatUserBean chatUserBean = new ChatUserBean();
                 chatUserBean.setUserId(message.getFrom());
                 try {
                     chatUserBean.setNick(message.getStringAttribute("nick"));
@@ -277,7 +280,8 @@ public class MainAct extends BaseActivity {
         }
 
         @Override
-        public void onMessageChanged(EMMessage message, Object change) {}
+        public void onMessageChanged(EMMessage message, Object change) {
+        }
     };
 
     private void refreshUIWithMessage() {
@@ -294,7 +298,6 @@ public class MainAct extends BaseActivity {
             }
         });
     }
-
 
 
     private void registerBroadcastReceiver() {
@@ -332,10 +335,11 @@ public class MainAct extends BaseActivity {
     }
 
 
-
     public class MyContactListener implements EMContactListener {
         @Override
-        public void onContactAdded(String username) {}
+        public void onContactAdded(String username) {
+        }
+
         @Override
         public void onContactDeleted(final String username) {
             runOnUiThread(new Runnable() {
@@ -343,22 +347,28 @@ public class MainAct extends BaseActivity {
                     if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.toChatUsername != null &&
                             username.equals(ChatActivity.activityInstance.toChatUsername)) {
                         String st10 = getResources().getString(R.string.have_you_removed);
-                        Toast.makeText(MainAct.this, ChatActivity.activityInstance.getToChatUsername() + st10,Toast.LENGTH_SHORT)
+                        Toast.makeText(MainAct.this, ChatActivity.activityInstance.getToChatUsername() + st10, Toast.LENGTH_SHORT)
                                 .show();
                         ChatActivity.activityInstance.finish();
                     }
                 }
             });
         }
+
         @Override
-        public void onContactInvited(String username, String reason) {}
+        public void onContactInvited(String username, String reason) {
+        }
+
         @Override
-        public void onContactAgreed(String username) {}
+        public void onContactAgreed(String username) {
+        }
+
         @Override
-        public void onContactRefused(String username) {}
+        public void onContactRefused(String username) {
+        }
     }
 
-    private void unregisterBroadcastReceiver(){
+    private void unregisterBroadcastReceiver() {
         broadcastManager.unregisterReceiver(broadcastReceiver);
     }
 
@@ -378,6 +388,7 @@ public class MainAct extends BaseActivity {
         }
 
     }
+
     /**
      * 刷新未读消息数
      */
@@ -429,14 +440,14 @@ public class MainAct extends BaseActivity {
         int unreadMsgCountTotal = 0;
         int chatroomUnreadMsgCount = 0;
         unreadMsgCountTotal = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-        if (EMClient.getInstance().chatManager().getAllConversations().size()==0){
+        if (EMClient.getInstance().chatManager().getAllConversations().size() == 0) {
             return 0;
-        }else {
-            for(EMConversation conversation:EMClient.getInstance().chatManager().getAllConversations().values()){
-                if(conversation.getType() == EMConversation.EMConversationType.ChatRoom)
-                    chatroomUnreadMsgCount=chatroomUnreadMsgCount+conversation.getUnreadMsgCount();
+        } else {
+            for (EMConversation conversation : EMClient.getInstance().chatManager().getAllConversations().values()) {
+                if (conversation.getType() == EMConversation.EMConversationType.ChatRoom)
+                    chatroomUnreadMsgCount = chatroomUnreadMsgCount + conversation.getUnreadMsgCount();
             }
-            return unreadMsgCountTotal-chatroomUnreadMsgCount;
+            return unreadMsgCountTotal - chatroomUnreadMsgCount;
 
         }
 
@@ -487,6 +498,7 @@ public class MainAct extends BaseActivity {
 
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
     }
+
     @Override
     protected void onStop() {
         EMClient.getInstance().chatManager().removeMessageListener(messageListener);
@@ -495,6 +507,7 @@ public class MainAct extends BaseActivity {
 
         super.onStop();
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean("isConflict", isConflict);
@@ -520,12 +533,13 @@ public class MainAct extends BaseActivity {
     private BroadcastReceiver internalDebugReceiver;
     private BroadcastReceiver broadcastReceiver;
     private LocalBroadcastManager broadcastManager;
+
     /**
      * 显示帐号在别处登录dialog
      */
     private void showConflictDialog() {
         isConflictDialogShow = true;
-        DemoHelper.getInstance().logout(false,null);
+        DemoHelper.getInstance().logout(false, null);
         String st = getResources().getString(R.string.Logoff_notification);
         if (!MainAct.this.isFinishing()) {
             // clear up global variables
@@ -544,9 +558,11 @@ public class MainAct extends BaseActivity {
 
                             }
                         });
+                        UserInfoDao.deleteUser();
+                        ActivityMessDao.delAll();
+                        LabelInterestDao.delAll();
                         dialog.dismiss();
                         conflictBuilder = null;
-
                         finish();
                         Intent intent = new Intent(MainAct.this, LoginAct.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -570,7 +586,7 @@ public class MainAct extends BaseActivity {
      */
     private void showAccountRemovedDialog() {
         isAccountRemovedDialogShow = true;
-        DemoHelper.getInstance().logout(false,null);
+        DemoHelper.getInstance().logout(false, null);
         String st5 = getResources().getString(R.string.Remove_the_notification);
         if (!MainAct.this.isFinishing()) {
             // clear up global variables

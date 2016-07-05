@@ -21,9 +21,11 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.TimeFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -51,7 +53,7 @@ public class ScheduleAct extends BaseActivity {
     private CommonView ll_hu_can, ll_hu_no_can;
     private List<LabelBannerInfo> listLabel = new ArrayList<>();//档期标签集合；
     private ScheduleInfo scheduleInfo;
-    private String startDate;
+    private Date startDate,endDate;
     private String hucanUserIds,hu_no_canUserIds;
 
     private ProgressDialog pd;//缓冲弹出框
@@ -84,18 +86,24 @@ public class ScheduleAct extends BaseActivity {
         ll_hu_can = (CommonView) findViewById(R.id.ll_hu_can);
         ll_hu_no_can = (CommonView) findViewById(R.id.ll_hu_no_can);
         iv_button = (ImageView) findViewById(R.id.iv_button);
-
+        scheduleInfo.setScheduleVisibility(1);
+        ll_hu_can.setEnabled(false);
+        ll_hu_no_can.setEnabled(false);
         iv_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (select == 1) {
-                    iv_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
-                    select = 0;
-                    return;
-                } else {
                     iv_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+                    ll_hu_can.setEnabled(true);
+                    ll_hu_no_can.setEnabled(true);
+                    select = 2;
+                    scheduleInfo.setScheduleVisibility(2);
+                } else {
+                    ll_hu_can.setEnabled(false);
+                    ll_hu_no_can.setEnabled(false);
+                    iv_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
                     select = 1;
-                    return;
+                    scheduleInfo.setScheduleVisibility(1);
                 }
             }
         });
@@ -130,7 +138,7 @@ public class ScheduleAct extends BaseActivity {
                 scheduleInfo.setLabelId(listLabel.get(3).getId());
                 break;
             case R.id.ll_hu_can:
-                if (select==1){
+                if (select==2){
                     intent = new Intent();
                     bundle=new Bundle();
                     String str3="cal_hu_can";
@@ -145,7 +153,7 @@ public class ScheduleAct extends BaseActivity {
                 }
                 break;
             case R.id.ll_hu_no_can:
-                if (select==1){
+                if (select==2){
                     intent = new Intent();
                     bundle=new Bundle();
                     String str4="cal_hu_no_can";
@@ -169,15 +177,14 @@ public class ScheduleAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                        String time = format.format(date);
-                        startDate = time;
+                        startDate=date;
+                        String time=ZhetebaUtils.compareTime(ScheduleAct.this,date.getTime());
                         cet_start.setText(time);
                     }
                 });
                 break;
             case R.id.view_end://结束时间
-                TimeDialog endDialog = new TimeDialog(ScheduleAct.this, TimeDialog.Type.ALL);
+                final TimeDialog endDialog = new TimeDialog(ScheduleAct.this, TimeDialog.Type.ALL);
                 endDialog.setRange(getCurrentYear() - 50, getCurrentYear());
                 endDialog.builder();
                 endDialog.show();
@@ -185,18 +192,14 @@ public class ScheduleAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                        String time = format.format(date);
-                        startDate = time;
+                        endDate=date;
+                        String time= ZhetebaUtils.compareTime(ScheduleAct.this, date.getTime());
                         cet_end.setText(time);
                     }
                 });
                 break;
             case R.id.tv_plane:
-                tv_plane.setEnabled(false);
                 initDate(scheduleInfo);
-                pd.show();
-                addSchedule(scheduleInfo);
                 break;
 
         }
@@ -224,11 +227,24 @@ public class ScheduleAct extends BaseActivity {
 
     //初始化对象数据
     private void initDate(ScheduleInfo scheduleInfo) {
-        scheduleInfo.setEndTime(cet_end.getText().toString());
-        scheduleInfo.setStartTime(cet_start.getText().toString());
-        scheduleInfo.setScheduleVisibility(select);
+        if (!TextUtils.isEmpty(cet_end.getText().toString())&&!TextUtils.isEmpty(cet_start.getText().toString())){
+                Long times=endDate.getTime()-startDate.getTime();
+                if (times>0){
+                    scheduleInfo.setStartTime(cet_start.getText().toString());
+                    scheduleInfo.setEndTime(cet_end.getText().toString());
+                }else {
+                    MyToastUtils.showShortToast(ScheduleAct.this,"开始时间不得大于结束时间，请重新选择！");
+                    return;
+                }
+        }else {
+        MyToastUtils.showShortToast(ScheduleAct.this, "您有活动信息未完善，请完善！");
+        return;
+    }
+//        scheduleInfo.setScheduleVisibility(select);
         scheduleInfo.setNoticeUserIds(hucanUserIds);
         scheduleInfo.setInvisibleUserIds(hu_no_canUserIds);
+        pd.show();
+        addSchedule(scheduleInfo);
     }
 
     /**
@@ -309,23 +325,16 @@ public class ScheduleAct extends BaseActivity {
         RequestManager.getScheduleManager().addSchedule(scheduleInfo, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                    tv_plane.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
 
                 pd.dismiss();
-
-                tv_plane.setEnabled(true);
-
                 MyToastUtils.showShortToast(ScheduleAct.this, "发布档期成功");
-                Intent intentRecevier=new Intent();
-                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
-                intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
-                intentRecevier.setAction(MineFrg.USER_INFO);
-                intentRecevier.setAction(TimeFrg.LISTORY_DATA);
-                sendBroadcast(intentRecevier);
+                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
+                sendBroadcast(new Intent(MineFrg.USER_INFO));
+                sendBroadcast(new Intent(TimeFrg.LISTORY_DATA));
                 finish();
             }
         });

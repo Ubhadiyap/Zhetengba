@@ -130,10 +130,10 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                 intentRecevier.putExtra("state", state);
                 if (rb_simple.isChecked()) {
                     tv_friend_all.setText("好友");
-                    intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
+                    intentRecevier.setAction(SimpleFrg.DATA_CHANGE_KEY);
                 } else if (rb_calendar.isChecked()) {
                     tv_friend_all_two.setText("好友");
-                    intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
+                    intentRecevier.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
                 }
 
                 mActivity.sendBroadcast(intentRecevier);
@@ -149,10 +149,10 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                 intentRecevier.putExtra("state", state);
                 if (rb_simple.isChecked()) {
                     tv_friend_all.setText("全部");
-                    intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
+                    intentRecevier.setAction(SimpleFrg.DATA_CHANGE_KEY);
                 } else if (rb_calendar.isChecked()) {
                     tv_friend_all_two.setText("全部");
-                    intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
+                    intentRecevier.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
                 }
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
@@ -165,10 +165,10 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                 intentRecevier.putExtra("state", state);
                 if (rb_simple.isChecked()) {
                     tv_friend_all.setText("我的");
-                    intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
+                    intentRecevier.setAction(SimpleFrg.DATA_CHANGE_KEY);
                 } else if (rb_calendar.isChecked()) {
                     tv_friend_all_two.setText("我的");
-                    intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
+                    intentRecevier.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
                 }
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();

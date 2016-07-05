@@ -14,8 +14,8 @@ public class ScheduleInfo implements Parcelable {
     private String	personId;//创建人
     private String	startTime;//档期开始时间',
     private String	endTime ;//档期结束时间',
-    private Integer	 scheduleVisibility;//可见性（默认为1）1全部可见2好友可见',
-    private Integer	 followNum ;//关注数',
+    private int	 scheduleVisibility;//可见性（默认为1）1全部可见2好友可见',
+    private int	 followNum ;//关注数',
     private Boolean	 isValid ;//是否有效.0:无效;1:有效',
     private String createTime;//创建时间
     private String createPersonId;//创建人Id；
@@ -30,6 +30,10 @@ public class ScheduleInfo implements Parcelable {
     private String dictName;//标签名称
     private boolean friend;//是否是朋友
     private boolean agreeAbout;//是否邀约成功
+
+    public int getFollowNum() {
+        return followNum;
+    }
 
     public boolean isAgreeAbout() {
         return agreeAbout;
@@ -75,8 +79,6 @@ public class ScheduleInfo implements Parcelable {
         this.userName = userName;
     }
 
-
-
     public String getPersonId() {
         return personId;
     }
@@ -100,8 +102,6 @@ public class ScheduleInfo implements Parcelable {
     public void setCreatePersonId(String createPersonId) {
         this.createPersonId = createPersonId;
     }
-
-
 
     public String getDictName() {
         return dictName;
@@ -167,14 +167,6 @@ public class ScheduleInfo implements Parcelable {
         this.endTime = endTime;
     }
 
-    public Integer getFollowNum() {
-        return followNum;
-    }
-
-    public void setFollowNum(Integer followNum) {
-        this.followNum = followNum;
-    }
-
     public Boolean getIsValid() {
         return isValid;
     }
@@ -215,11 +207,15 @@ public class ScheduleInfo implements Parcelable {
         this.scheduleId = scheduleId;
     }
 
-    public Integer getScheduleVisibility() {
+    public void setFollowNum(int followNum) {
+        this.followNum = followNum;
+    }
+
+    public int getScheduleVisibility() {
         return scheduleVisibility;
     }
 
-    public void setScheduleVisibility(Integer scheduleVisibility) {
+    public void setScheduleVisibility(int scheduleVisibility) {
         this.scheduleVisibility = scheduleVisibility;
     }
 
@@ -248,8 +244,8 @@ public class ScheduleInfo implements Parcelable {
         dest.writeString(this.personId);
         dest.writeString(this.startTime);
         dest.writeString(this.endTime);
-        dest.writeValue(this.scheduleVisibility);
-        dest.writeValue(this.followNum);
+        dest.writeInt(this.scheduleVisibility);
+        dest.writeInt(this.followNum);
         dest.writeValue(this.isValid);
         dest.writeString(this.createTime);
         dest.writeString(this.createPersonId);
@@ -273,8 +269,8 @@ public class ScheduleInfo implements Parcelable {
         this.personId = in.readString();
         this.startTime = in.readString();
         this.endTime = in.readString();
-        this.scheduleVisibility = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.followNum = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.scheduleVisibility = in.readInt();
+        this.followNum = in.readInt();
         this.isValid = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.createTime = in.readString();
         this.createPersonId = in.readString();

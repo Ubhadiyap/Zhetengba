@@ -147,7 +147,7 @@ public class CalAdapter extends BaseAdapter {
 //        if (list.get(position).)//是否关注
             calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));
             calHolder.tv_cal_text_guanzhu.setText("关注");
-            if (list.get(position).getFollowNum() != null) {
+            if (list.get(position).getFollowNum() != 0) {
                 calHolder.tv_gzcal_num.setVisibility(View.VISIBLE);
                 calHolder.tv_gzcal_num.setText(list.get(position).getFollowNum() + "");
             } else {

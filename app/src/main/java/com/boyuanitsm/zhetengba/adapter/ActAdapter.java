@@ -130,6 +130,7 @@ public class ActAdapter extends BaseAdapter {
         }
 
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
+        MyLogUtils.info(UserInfoDao.getUser().getId()+"数据库用户信息,"+infos.get(position).getCreatePersonId()+"创建人信息");
         if (!UserInfoDao.getUser().getId().equals(infos.get(position).getCreatePersonId())) {
             viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
             viewHolder.ll_join.setVisibility(View.VISIBLE);
