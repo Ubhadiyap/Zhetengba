@@ -6,6 +6,25 @@
     >
     <include layout="@layout/title_act_layout"></include>
 
+    <com.boyuanitsm.zhetengba.widget.ClearEditText
+        android:id="@+id/cetSearch"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/em_seabar_input"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:lines="1"
+        android:maxLength="11"
+        android:drawableLeft="@drawable/em_search_bar_icon_normal"
+        android:drawablePadding="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="16sp"
+        android:hint="搜索"
+        />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >

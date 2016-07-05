@@ -1,6 +1,9 @@
 package com.boyuanitsm.zhetengba.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.view.CommonView;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.util.EMLog;
@@ -52,8 +56,12 @@ public class ContractsFrg extends EaseContactListFragment {
         userDao=new UserDao(getContext());
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.em_contacts_header, null);
         HeaderItemClickListener clickListener = new HeaderItemClickListener();
-        headerView.findViewById(R.id.cvNewF).setOnClickListener(clickListener);
-        headerView.findViewById(R.id.cvMyQl).setOnClickListener(clickListener);
+        CommonView commNf= (CommonView) headerView.findViewById(R.id.cvNewF);
+        CommonView commGroup= (CommonView) headerView.findViewById(R.id.cvMyQl);
+        commNf.setArrowGone();
+        commGroup.setArrowGone();
+        commNf.setOnClickListener(clickListener);
+        commGroup.setOnClickListener(clickListener);
         tvUnReadMsg= (TextView) headerView.findViewById(R.id.tvUnReadMsg);
         //添加headerview
         listView.addHeaderView(headerView);
@@ -95,24 +103,28 @@ public class ContractsFrg extends EaseContactListFragment {
                     if (list != null && list.size() > 0) {
                         List<EaseUser> uList = new ArrayList<EaseUser>();
                         for (FriendsBean friendsBean : list) {
-                            EaseUser easeUser = new EaseUser(friendsBean.getId());
-                            if (!TextUtils.isEmpty(friendsBean.getPetName())) {
-                                easeUser.setNick(friendsBean.getPetName());
-                                easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0, 1));
-                            } else {
-                                easeUser.setNick(friendsBean.getUsername());
-                                easeUser.setInitialLetter("#");
-                            }
+                            if(friendsBean!=null) {
+                                EaseUser easeUser = new EaseUser(friendsBean.getId());
+                                if (!TextUtils.isEmpty(friendsBean.getPetName())) {
+                                    easeUser.setNick(friendsBean.getPetName());
+                                    easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0, 1));
+                                } else {
+                                    easeUser.setNick(friendsBean.getUsername());
+                                    easeUser.setInitialLetter("#");
+                                }
 
-                            easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
+                                easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
 //                                        easeUser.setAvatar("http://172.16.6.253:8089/zhetengba/userIcon/90017a421ee84e0db5c6d53e55c03c50.png");
-                            uList.add(easeUser);
+                                uList.add(easeUser);
+                            }
                         }
-                        userDao.saveContactList(uList);
+                        DemoHelper.getInstance().updateContactList(uList);
+//                        userDao.saveContactList(uList);
                     }
                 }
 
-                Map<String, EaseUser> m = DemoHelper.getInstance().getContactList();
+                Map<String, EaseUser> m = userDao.getContactList();
+//                Map<String, EaseUser> m=DemoHelper.
                 if (m instanceof Hashtable<?, ?>) {
                     m = (Map<String, EaseUser>) ((Hashtable<String, EaseUser>) m).clone();
                 }
@@ -257,6 +269,32 @@ public class ContractsFrg extends EaseContactListFragment {
             }
         }
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(receiver==null){
+            receiver=new ContractBroadCast();
+            getActivity().registerReceiver(receiver,new IntentFilter(UPDATE_CONTRACT));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(receiver!=null){
+            getActivity().unregisterReceiver(receiver);
+        }
+    }
+
+    private ContractBroadCast receiver;
+    public static final String UPDATE_CONTRACT="com.update.contract";
+    class ContractBroadCast extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+           refresh();
+        }
     }
 
 }

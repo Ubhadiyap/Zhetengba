@@ -16,6 +16,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.VersionDataEntity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
+import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -221,6 +222,7 @@ public class SettingAct extends BaseActivity {
                         UserInfoDao.deleteUser();
                         LabelInterestDao.delAll();//清理数据库
                         ActivityMessDao.delAll();
+                        ChatUserDao.deleteUser();
                         JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
                             @Override
                             public void gotResult(int i, String s, Set<String> set) {
