@@ -28,6 +28,7 @@ import com.boyuanitsm.zhetengba.chat.parse.UserProfileManager;
 import com.boyuanitsm.zhetengba.chat.receiver.CallReceiver;
 import com.boyuanitsm.zhetengba.chat.utils.PreferenceManager;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
+import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
@@ -627,6 +628,7 @@ public class DemoHelper {
 
             //发送好友变动广播
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+            appContext.sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
         }
 
         @Override
@@ -639,6 +641,7 @@ public class DemoHelper {
 
             //发送好友变动广播
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+            appContext.sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
         }
 
         @Override
@@ -731,14 +734,16 @@ public class DemoHelper {
         EaseUser user = null;
         if (username.equals(EMClient.getInstance().getCurrentUser()))
             return getUserProfileManager().getCurrentUserInfo();
-        user = getContactList().get(username);
+        user=ChatUserDao.findUserById(username);
+        if(user==null){
+            user = getContactList().get(username);
+        }
+
         //TODO 获取不在好友列表里的群成员具体信息，即陌生人信息，demo未实现
-        if (user == null && getRobotList() != null) {
-            user = getRobotList().get(username);
-        }
-        if(user==null&& ChatUserDao.findUserById(username)!=null){
-            user=ChatUserDao.findUserById(username);
-        }
+//        if (user == null && getRobotList() != null) {
+//            user = getRobotList().get(username);
+//        }
+
 //        if(user==null){
 //            RequestManager.getMessManager().findUserByHId(username, new ResultCallback<ResultBean<UserInfo>>() {
 //                @Override

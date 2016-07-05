@@ -45,8 +45,8 @@ public class CalAdapter extends BaseAdapter {
     private List<SimpleInfo> simpleInfos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.mipmap.zanwutupian)
-            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
@@ -146,7 +146,7 @@ public class CalAdapter extends BaseAdapter {
 //        if (list.get(position).)//是否关注
             calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));
             calHolder.tv_cal_text_guanzhu.setText("关注");
-            if (list.get(position).getFollowNum() != null) {
+            if (list.get(position).getFollowNum() != 0) {
                 calHolder.tv_gzcal_num.setVisibility(View.VISIBLE);
                 calHolder.tv_gzcal_num.setText(list.get(position).getFollowNum() + "");
             } else {

@@ -235,6 +235,10 @@ public class CommonView extends RelativeLayout {
         this.flag=flag;
     }
 
+    public void setArrowGone(){
+        ivArrow.setVisibility(View.INVISIBLE);
+    }
+
     /**
      * 设置字体大小
      * @param notesTextSize

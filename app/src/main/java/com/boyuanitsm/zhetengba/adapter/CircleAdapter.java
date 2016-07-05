@@ -54,7 +54,11 @@ public class CircleAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-
+    private DisplayImageOptions optionsImagh = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
     public CircleAdapter(Context context, List<List<ImageInfo>> dateList) {
         this.context = context;
         this.dateList = dateList;
@@ -194,9 +198,7 @@ public class CircleAdapter extends BaseAdapter {
         }
 
         if(list!=null){
-            if(!TextUtils.isEmpty(list.get(position).getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.ivChHead,optionsImag);
-            }
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.ivChHead,optionsImagh);
             if(!TextUtils.isEmpty(list.get(position).getUserName())){
                 viewHolder.tvChNiName.setText(list.get(position).getUserName());
             }else {

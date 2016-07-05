@@ -48,12 +48,16 @@ public class ActAdapter extends BaseAdapter {
     private String strStart, strEnd;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
+
+    private DisplayImageOptions optionsImagd = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-
-
     public ActAdapter(Context context, List<SimpleInfo> infos) {
         this.infos = infos;
         this.context = context;
@@ -126,7 +130,8 @@ public class ActAdapter extends BaseAdapter {
         }
 
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
-        if (!UserInfoDao.getUser().getId().equals(infos.get(position).getCreatePersonId())) {
+        MyLogUtils.info(UserInfoDao.getUser().getId() + "数据库用户信息," + infos.get(position).getCreatePersonId() + "创建人信息");
+        if (!infos.get(position).getCreatePersonId().equals(UserInfoDao.getUser().getId())) {
             viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
             viewHolder.ll_join.setVisibility(View.VISIBLE);
             viewHolder.ll_del.setVisibility(View.GONE);
@@ -171,7 +176,7 @@ public class ActAdapter extends BaseAdapter {
         }
 
         if (infos.get(position).getIcon() != null) {
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getIcon()), viewHolder.iv_actdetial, optionsImag);//详情icon
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getIcon()), viewHolder.iv_actdetial, optionsImagd);//详情icon
         }
 //        返回状态判断是否参加，
         if (infos.get(position).isJoin()) {

@@ -52,6 +52,11 @@ public class PpdtfrgAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
+    private DisplayImageOptions optionsImagh = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
     public PpdtfrgAdapter(Context context, List<CircleEntity> circleEntityList, List<UserInfo> userEntity, List<List<ImageInfo>> datalist) {
         this.context = context;
         this.circleTalkEntityList=circleEntityList;
@@ -220,7 +225,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
                 viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan));
 //                flag=false;
             }
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleTalkEntityList.get(position).getUserIcon()),viewHolder.ivChHead,optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleTalkEntityList.get(position).getUserIcon()),viewHolder.ivChHead,optionsImagh);
             if (!TextUtils.isEmpty(circleTalkEntityList.get(position).getUserSex())){
                 if (circleTalkEntityList.get(position).getUserSex().equals(0+"")){
                     viewHolder.ivChGendar.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));

@@ -24,6 +24,7 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
@@ -97,8 +98,8 @@ public class PersonalmesAct extends BaseActivity {
 
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
 
-            .showImageForEmptyUri(R.mipmap.zanwutupian)
-            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
@@ -448,7 +449,7 @@ public class PersonalmesAct extends BaseActivity {
 
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
                 Intent intentRecevier=new Intent();
-                intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
+                intentRecevier.setAction(SimpleFrg.DATA_CHANGE_KEY);
                 sendBroadcast(intentRecevier);
             }
         });

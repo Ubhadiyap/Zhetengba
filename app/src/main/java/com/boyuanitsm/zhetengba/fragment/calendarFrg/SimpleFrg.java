@@ -118,13 +118,14 @@ public class SimpleFrg extends BaseFragment {
 
     }
 
+    public static final String DATA_CHANGE_KEY="data_change_fragment";
     @Override
-    public void onResume() {
+    public void onStart() {
         //广播接收者，接受好友列表更新数据
         filter = new IntentFilter();
-        filter.addAction(ConstantValue.DATA_CHANGE_KEY);
+        filter.addAction(DATA_CHANGE_KEY);
         mActivity.registerReceiver(DteChangeRecevier, filter);//切换到好友；
-        super.onResume();
+        super.onStart();
     }
 
     /***

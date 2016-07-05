@@ -127,12 +127,12 @@ public class CalFrg extends BaseFragment {
         getScheduleBanner();
 
     }
-
+    public static final String CAL_DATA_CHANGE_KEY="cal_data_change_fragment";
     @Override
     public void onResume() {
         //广播接收者，接受好友列表更新数据
         filter=new IntentFilter();
-        filter.addAction(ConstantValue.CAL_DATA_CHANGE_KEY);
+        filter.addAction(CAL_DATA_CHANGE_KEY);
         mActivity.registerReceiver(calFriendChangeRecevier, filter);//切换到好友；
         super.onResume();
     }

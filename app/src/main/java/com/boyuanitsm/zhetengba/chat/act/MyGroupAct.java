@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +19,7 @@ import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.adapter.GroupAdapter;
+import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.exceptions.HyphenateException;
@@ -33,6 +36,8 @@ public class MyGroupAct extends BaseActivity {
     protected List<EMGroup> grouplist;
     private GroupAdapter groupAdapter;
     private InputMethodManager inputMethodManager;
+
+    private ClearEditText cetSearch;
     private SwipeRefreshLayout swipeRefreshLayout;
     @Override
     public void setLayout() {
@@ -42,6 +47,7 @@ public class MyGroupAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("群聊列表");
+        cetSearch= (ClearEditText) findViewById(R.id.cetSearch);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         grouplist = EMClient.getInstance().groupManager().getAllGroups();
         groupListView = (ListView) findViewById(R.id.list);
@@ -70,7 +76,23 @@ public class MyGroupAct extends BaseActivity {
                 }.start();
             }
         });
+        //搜索
+        cetSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                groupAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -79,7 +101,7 @@ public class MyGroupAct extends BaseActivity {
                 Intent intent = new Intent(MyGroupAct.this, ChatActivity.class);
                 // it is group chat
                 intent.putExtra("chatType", Constant.CHATTYPE_GROUP);
-                intent.putExtra("userId", groupAdapter.getItem(position-1).getGroupId());
+                intent.putExtra("userId", groupAdapter.getItem(position).getGroupId());
                 startActivityForResult(intent, 0);
             }
 

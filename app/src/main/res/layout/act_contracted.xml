@@ -456,7 +456,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:background="@drawable/switch_on"/>
+                        android:background="@drawable/switch_off"/>
 
                 </LinearLayout>
             </LinearLayout>

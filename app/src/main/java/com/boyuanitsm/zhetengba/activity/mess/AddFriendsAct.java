@@ -57,7 +57,7 @@ public class AddFriendsAct extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString()) && s.length() == 11) {
-                    if (TextUtils.equals(UserInfoDao.getUser().getPhone(),s.toString())){
+                    if (TextUtils.equals(UserInfoDao.getUser().getUsername(),s.toString())){
                         MyToastUtils.showShortToast(AddFriendsAct.this,"您输入的是自己手机号");
                     }else{
                         findUserByPhone(s.toString());
