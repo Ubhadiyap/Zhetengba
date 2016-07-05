@@ -110,7 +110,7 @@ public class MessManager extends RequestManager{
      */
     public void removeGroupPerson(String groupId,String personIds,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
-        map.put("groupId",groupId);
+        map.put("hgroupid",groupId);
         map.put("personIds",personIds);
         doPost(IZtbUrl.REMOVE_GROUP_PERSON_URL,map,callback);
     }
@@ -122,7 +122,7 @@ public class MessManager extends RequestManager{
      */
     public void exitGroup(String groupId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
-        map.put("groupId",groupId);
+        map.put("hgroupid",groupId);
         doPost(IZtbUrl.EXIT_GROUP_URL, map, callback);
     }
 

@@ -25,7 +25,7 @@ public class GroupBean implements Parcelable {
 
     private String id;
     private String groupOwnerId;
-    private String type;
+    private String type;//true 为自建群, false 为活动群
     private String activityId;
     private String groupName;
     private String createTime;
