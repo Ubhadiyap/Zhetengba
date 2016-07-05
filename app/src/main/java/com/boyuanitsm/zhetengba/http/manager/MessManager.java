@@ -169,4 +169,26 @@ public class MessManager extends RequestManager{
         map.put("personId",personId);
         doPost(IZtbUrl.FIND_USER_URL,map,callback);
     }
+
+
+    /**
+     * 设置里面添加好友需要验证
+     * @param callback
+     */
+    public void isCheck(ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        doPost(IZtbUrl.ISCHECKED_URL,map,callback);
+    }
+
+    /**
+     * 从首页点击头像进来点击加为好友时调的获取用户信息接口
+     * @param personId
+     * @param callback
+     */
+    public void findUserIcon(String personId,ResultCallback callback){
+        Map<String,String>map=new HashMap();
+        map.put("personId",personId);
+        doPost(IZtbUrl.FINDUSERICON_URL,map,callback);
+
+    }
 }

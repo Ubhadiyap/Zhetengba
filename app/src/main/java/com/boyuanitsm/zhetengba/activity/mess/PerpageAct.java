@@ -32,17 +32,12 @@ import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
-import com.boyuanitsm.zhetengba.adapter.CircleglAdapter;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
-import com.boyuanitsm.zhetengba.bean.DataBean;
-import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.PersonalMain;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
-import com.boyuanitsm.zhetengba.bean.SimpleInfo;
-import com.boyuanitsm.zhetengba.bean.UserBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
@@ -51,6 +46,7 @@ import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
@@ -61,11 +57,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 消息里面的个人主页界面
@@ -122,6 +115,7 @@ public class PerpageAct extends BaseActivity {
 //    private PagerSlidingTabStrip tab_selcet;
 
     private String userId;
+    private String PersonId;//通过这个调获取用户详情接口然后取到字段判断是否跳转到验证界面
     private FragmentManager manager;
     private Fragment ppagecalFrg, ppagedtFrg;//档期frg 圈子动态frg
     private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
@@ -234,12 +228,13 @@ public class PerpageAct extends BaseActivity {
                 break;
             case R.id.bt_message://加为好友
                 if (bt_message.getText().equals("加为好友")){
-                    Intent intent=new Intent(this,MessVerifyAct.class);
-                    Bundle bundle=new Bundle();
-                    bundle.putString("userName",userEntity.get(0).getPetName());
-                    bundle.putString("userId",userEntity.get(0).getId());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                    isValidation(userId);
+//                    Intent intent=new Intent(this,MessVerifyAct.class);
+//                    Bundle bundle=new Bundle();
+//                    bundle.putString("userName",userEntity.get(0).getPetName());
+//                    bundle.putString("userId",userEntity.get(0).getId());
+//                    intent.putExtras(bundle);
+//                    startActivity(intent);
                 }else if (bt_message.getText().equals("发送消息")){
                    Intent intent=new Intent(this, ChatActivity.class);
                     Bundle bundle=new Bundle();
@@ -252,6 +247,65 @@ public class PerpageAct extends BaseActivity {
         }
 
 
+    }
+
+    /**点击加为好友按钮时候通过此接口返回获取字段判断是否需要验证
+     * 是否有需要验证
+     */
+    private void isValidation(String personId) {
+        RequestManager.getMessManager().findUserIcon(personId, new ResultCallback<ResultBean<UserInfo>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<UserInfo> response) {
+                UserInfo userinfo=response.getData();
+                if(userinfo!=null){
+                    if(userinfo.getUserType()!=null){
+                        String usertype=userinfo.getUserType();
+                        if(usertype.equals("1")){
+                            Intent intent=new Intent(PerpageAct.this,MessVerifyAct.class);
+                            Bundle bundle=new Bundle();
+                            bundle.putString("userName",userEntity.get(0).getPetName());
+                            bundle.putString("userId",userEntity.get(0).getId());
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }else {
+                            addfrend(userEntity.get(0).getId());
+
+                        }
+                    }
+
+
+
+
+                }
+
+
+
+            }
+        });
+
+    }
+
+    /**
+     *
+     */
+    private void addfrend(String friendId) {
+        RequestManager.getMessManager().aggreeFriend(friendId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(PerpageAct.this,"添加成功");
+
+            }
+        });
     }
 
     /**

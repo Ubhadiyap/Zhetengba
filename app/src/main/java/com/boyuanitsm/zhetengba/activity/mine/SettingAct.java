@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -41,7 +42,10 @@ public class SettingAct extends BaseActivity {
 //    private ToggleButton tbVerification;
     @ViewInject(R.id.iv_yz)
     private ImageView iv_yz;
-    private int select=0;//加我不需要验证
+    private int select=1;//默认加我需要验证，0加我时不需要验证
+
+    private SharedPreferences sharedPrefrences;
+    private SharedPreferences.Editor editor;
 
     @Override
     public void setLayout() {
@@ -51,6 +55,22 @@ public class SettingAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("设置");
+        sharedPrefrences = this.getSharedPreferences("type",MODE_PRIVATE);//得到SharedPreferences，会生成user.xml
+        editor = sharedPrefrences.edit();
+
+        String typenum = sharedPrefrences.getString("typenum", null);
+        if(typenum!=null){
+            if(typenum.equals("1")){
+                iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+            }
+            if(typenum.equals("0")){
+                iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
+            }
+        }else {
+            iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+        }
+
+
 //        tbVerification.setIsSwitch(true);
 //        tbVerification.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
 //            @Override
@@ -69,16 +89,22 @@ public class SettingAct extends BaseActivity {
     public void todo(View view) {
         switch (view.getId()) {
             case R.id.iv_yz:
-                if(select==0){
-                    select=1;
-                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
-                    MyToastUtils.showShortToast(SettingAct.this,select+"");
-                    return;
-                }
                 if(select==1){
                     select=0;
                     iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
                     MyToastUtils.showShortToast(SettingAct.this, select + "");
+                    isXuyao();//默认进来不需要，点击后不需要
+                    editor.putString("typenum", "0");
+                    editor.commit();
+                    return;
+                }
+                if(select==0){
+                    select=1;
+                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+                    MyToastUtils.showShortToast(SettingAct.this, select + "");
+                    isXuyao();//需要
+                    editor.putString("typenum", "1");
+                    editor.commit();
                     return;
                 }
 
@@ -107,6 +133,23 @@ public class SettingAct extends BaseActivity {
 
                 break;
         }
+    }
+
+    /**
+     * 添加好友默认是不需要添加状态，掉一次后台切换一次状态
+     */
+    private void isXuyao() {
+        RequestManager.getMessManager().isCheck(new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+
+            }
+        });
     }
 
 
