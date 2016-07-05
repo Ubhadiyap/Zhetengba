@@ -46,7 +46,6 @@ import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
@@ -283,7 +282,8 @@ public class PerpageAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(PerpageAct.this,"添加成功");
+//                MyToastUtils.showShortToast(PerpageAct.this,"添加成功");
+                getPersonalMain(userId);
 
             }
         });
