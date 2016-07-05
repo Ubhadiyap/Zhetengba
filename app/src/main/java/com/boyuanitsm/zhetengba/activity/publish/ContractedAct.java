@@ -29,6 +29,8 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
@@ -111,7 +113,7 @@ public class ContractedAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("会友");
         map = new HashMap<>();
-        pd=new ProgressDialog(ContractedAct.this);
+        pd = new ProgressDialog(ContractedAct.this);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("发布中...");
         list = new ArrayList<ActivityLabel>();
@@ -137,21 +139,44 @@ public class ContractedAct extends BaseActivity {
      * 初始化simpleInfo
      */
     private void initData() {
-
-        if (et_theme.getText().toString() != null && et_start.getText().toString() != null && et_end.getText().toString() != null && et_pp_num.getText().toString() != null) {
+        if (!TextUtils.isEmpty(et_theme.getText().toString())) {
             simpleInfo.setActivityTheme(et_theme.getText().toString());
-            simpleInfo.setStartTime(et_start.getText().toString());
-            simpleInfo.setActivitySite(tv_select.getText().toString());//位置
-            simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
-            simpleInfo.setEndTime(et_end.getText().toString());
-            simpleInfo.setActivityVisibility(select);//全部可见
-            simpleInfo.setActivityParticulars(backTheme);
-            simpleInfo.setNoticeUserIds(hucanUserIds);//指定谁可见
-            simpleInfo.setInvisibleUserIds(hu_no_canUserIds);//指定谁不可见
         } else {
-            MyToastUtils.showShortToast(ContractedAct.this, "您有未输入的内容");
+            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            return;
         }
+        if (!TextUtils.isEmpty(et_start.getText().toString())) {
+            simpleInfo.setStartTime(et_start.getText().toString());
+        } else {
+            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            return;
 
+        }
+        if (!TextUtils.isEmpty(tv_select.getText().toString())) {
+            simpleInfo.setActivitySite(tv_select.getText().toString());//位置
+        }
+        if (!TextUtils.isEmpty(et_pp_num.getText().toString())) {
+            simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
+        } else {
+            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            return;
+        }
+        if (!TextUtils.isEmpty(et_end.getText().toString())) {
+            simpleInfo.setEndTime(et_end.getText().toString());
+        } else {
+            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            return;
+        }
+        if (TextUtils.isEmpty(simpleInfo.getLabelId())){
+            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            return;
+        }
+        simpleInfo.setActivityVisibility(select);//全部可见
+        simpleInfo.setActivityParticulars(backTheme);
+        simpleInfo.setNoticeUserIds(hucanUserIds);//指定谁可见
+        simpleInfo.setInvisibleUserIds(hu_no_canUserIds);//指定谁不可见
+        pd.show();
+        addActivity(simpleInfo);
     }
 
     public void setMap(Map<Integer, String> map) {
@@ -160,8 +185,8 @@ public class ContractedAct extends BaseActivity {
 
     @OnClick({R.id.tv_select, R.id.ll_theme_content, R.id.ll_select_tab, R.id.ll_start_time, R.id.ll_end_time, R.id.ll_theme, R.id.ll_hu_can, R.id.ll_hu_no_can, R.id.ll_tab, R.id.ll_hide, R.id.bt_plane})
     public void onClick(View v) {
-        Intent intent=new Intent();
-        Bundle bundle=new Bundle();
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.ll_tab://选择标签
                 selectTab();
@@ -206,13 +231,14 @@ public class ContractedAct extends BaseActivity {
             case R.id.ll_hu_can:
                 if (select == 1) {
                     intent = new Intent();
-                    bundle=new Bundle();
-                    String str3="hu_can";
+                    bundle = new Bundle();
+                    String str3 = "hu_can";
                     bundle.putString("can", str3);
-                    bundle.putString("canFlag","canFlag");
-                    if (!TextUtils.isEmpty(strUserIds)){
-                        bundle.putString("canUserIds",strUserIds);
+                    bundle.putString("canFlag", "canFlag");
+                    if (!TextUtils.isEmpty(strUserIds)) {
+                        bundle.putString("canUserIds", strUserIds);
                     }
+//                    bundle.putInt(AssignScanAct.CANTYPE,0);//能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 1);
@@ -220,14 +246,15 @@ public class ContractedAct extends BaseActivity {
                 break;
             case R.id.ll_hu_no_can:
                 if (select == 1) {
-                   intent = new Intent();
-                   bundle=new Bundle();
-                    String str4="hu_no_can";
+                    intent = new Intent();
+                    bundle = new Bundle();
+                    String str4 = "hu_no_can";
                     bundle.putString("can", str4);
-                    bundle.putString("canFlag","noCanFlag");
-                    if (!TextUtils.isEmpty(strUserNoIds)){
-                        bundle.putString("noCanUserIds",strUserNoIds);
+                    bundle.putString("canFlag", "noCanFlag");
+                    if (!TextUtils.isEmpty(strUserNoIds)) {
+                        bundle.putString("noCanUserIds", strUserNoIds);
                     }
+//                    bundle.putInt(AssignScanAct.CANTYPE,1);//不能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 2);
@@ -236,9 +263,9 @@ public class ContractedAct extends BaseActivity {
                 break;
             case R.id.ll_theme:
                 intent = new Intent();
-                if (backTheme!=null){
-                    bundle=new Bundle();
-                    bundle.putString("backTheme",backTheme);
+                if (backTheme != null) {
+                    bundle = new Bundle();
+                    bundle.putString("backTheme", backTheme);
                     intent.putExtras(bundle);
                 }
                 intent.setClass(this, EventdetailsAct.class);
@@ -250,11 +277,7 @@ public class ContractedAct extends BaseActivity {
                 imm.hideSoftInputFromWindow(et_theme.getWindowToken(), 0);
                 break;
             case R.id.bt_plane:
-                bt_plan.setEnabled(false);
                 initData();
-                pd.show();
-                addActivity(simpleInfo);
-
         }
     }
 
@@ -268,28 +291,27 @@ public class ContractedAct extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            if (data!=null){
-                Bundle bundle;
-                switch (requestCode){
-                    case 0:
-                        bundle = data.getBundleExtra("bundle2");
-                        backTheme = bundle.getString("detailsTheme");
-                        break;
-                    case 1://谁能看
-                        bundle=data.getBundleExtra("bundle3");
-                        hucanUserIds=bundle.getString("bundleIds");
-                        strUserIds=hucanUserIds;
-                        MyLogUtils.info(strUserIds+"最终谁能看id");
-                        break;
-                    case 2://谁不能看
-                        bundle=data.getBundleExtra("bundle3");
-                        hu_no_canUserIds=bundle.getString("bundleIds");
-                        strUserNoIds=hu_no_canUserIds;
-                        break;
-                }
-
+        if (data != null) {
+            Bundle bundle;
+            switch (requestCode) {
+                case 0:
+                    bundle = data.getBundleExtra("bundle2");
+                    backTheme = bundle.getString("detailsTheme");
+                    break;
+                case 1://谁能看
+                    bundle = data.getBundleExtra("bundle3");
+                    hucanUserIds = bundle.getString("bundleIds");
+                    strUserIds = hucanUserIds;
+                    MyLogUtils.info(strUserIds + "最终谁能看id");
+                    break;
+                case 2://谁不能看
+                    bundle = data.getBundleExtra("bundle3");
+                    hu_no_canUserIds = bundle.getString("bundleIds");
+                    strUserNoIds = hu_no_canUserIds;
+                    break;
             }
 
+        }
 
 
     }
@@ -304,18 +326,17 @@ public class ContractedAct extends BaseActivity {
         RequestManager.getScheduleManager().addActivity(simpleInfo, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                bt_plan.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 pd.dismiss();
-                bt_plan.setEnabled(true);
                 response.getData();
-                Intent intentRecevier=new Intent();
-//                intentRecevier.putExtra("state",1);
+                Intent intentRecevier = new Intent();
                 intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
+                intentRecevier.setAction(MineFrg.USER_INFO);
+                intentRecevier.setAction(TimeFrg.LISTORY_DATA);
                 sendBroadcast(intentRecevier);
                 MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
                 finish();

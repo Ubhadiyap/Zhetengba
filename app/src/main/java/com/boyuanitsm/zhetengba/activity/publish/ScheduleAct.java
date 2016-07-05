@@ -19,6 +19,8 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -137,6 +139,7 @@ public class ScheduleAct extends BaseActivity {
                     if (!TextUtils.isEmpty(hucanUserIds)){
                         bundle.putString("canUserIds",hucanUserIds);
                     }
+                    bundle.putInt(AssignScanAct.CANTYPE,0);//能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 3);
@@ -152,6 +155,7 @@ public class ScheduleAct extends BaseActivity {
                     if (!TextUtils.isEmpty(hu_no_canUserIds)){
                         bundle.putString("canUserIds",hu_no_canUserIds);
                     }
+                    bundle.putInt(AssignScanAct.CANTYPE,1);//不能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 4);
@@ -321,6 +325,8 @@ public class ScheduleAct extends BaseActivity {
                 Intent intentRecevier=new Intent();
                 intentRecevier.setAction(ConstantValue.DATA_CHANGE_KEY);
                 intentRecevier.setAction(ConstantValue.CAL_DATA_CHANGE_KEY);
+                intentRecevier.setAction(MineFrg.USER_INFO);
+                intentRecevier.setAction(TimeFrg.LISTORY_DATA);
                 sendBroadcast(intentRecevier);
                 finish();
             }

@@ -28,8 +28,8 @@ public class ChaTextAdapter extends BaseAdapter {
     private Context context;
     private List<ChannelTalkEntity> list;
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.mipmap.zanwutupian)
-            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
     public ChaTextAdapter(Context context){
@@ -72,9 +72,7 @@ public class ChaTextAdapter extends BaseAdapter {
             convertView.setTag(chaHolder);
         }
         if(list!=null&&list.size()>0) {
-            if(!TextUtils.isEmpty(list.get(position).getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),chaHolder.head,options);
-            }
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),chaHolder.head,options);
             if (!TextUtils.isEmpty(list.get(position).getUserName())){
                 chaHolder.tv_name.setText(list.get(position).getUserName());
             }else if(!TextUtils.isEmpty(list.get(position).getCommentUserId())) {

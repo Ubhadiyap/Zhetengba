@@ -82,10 +82,11 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     private int currentPos;//当前位置
     private int mMouthMargin;//设置月份间隙
     private List<String> timeList=new ArrayList<>();//存储时间
+    private MyPagerAdapter adapter;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.mipmap.zanwutupian)
-            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
@@ -112,25 +113,10 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
 //        findHistory();//获取事件轴
 
 
-        mMouthMargin= ZhetebaUtils.dip2px(mActivity, 5);
-        monthList = new ArrayList<>();
-        textViewList = new ArrayList<>();
-        moveToList=new ArrayList<>();
-        monthList= getCurrenMonth();
-
-        //填充titleList,titleLayout布局
-        for (int i = 0; i < monthList.size(); i++) {
-            if((monthList.get(i)+"").length()==1){
-                timeList.add("20160"+monthList.get(i));
-            }else{
-                timeList.add("2016"+monthList.get(i));
-            }
-
-            addTitleLayout(monthList.get(i).toString(),i);
-        }
-
+      initLayout();
+       MyPagerAdapter adapter= new MyPagerAdapter(getChildFragmentManager());
         //设置viewpager标签适配器
-        lvTimeAxis.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
+        lvTimeAxis.setAdapter(adapter);
         lvTimeAxis.setOnPageChangeListener(this);
 
         currentPos = getCurrentMonth()-1;
@@ -334,7 +320,6 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
             if (user != null) {
                if (!TextUtils.isEmpty(user.getIcon())){
                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImag);
-
                }
                 if (!TextUtils.isEmpty(user.getPetName())){
                     tv_name.setText(user.getPetName());
@@ -342,8 +327,38 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
                 }
             }
             getlable();//当修改兴趣标界面修改（添加，删除）签获得兴趣标签；
+            initLayout();
+            if (adapter==null){
+                adapter= new MyPagerAdapter(getChildFragmentManager());
 
+            }else {
+                adapter.notifyDataSetChanged();
+            }
+            lvTimeAxis.setAdapter(adapter);
+            lvTimeAxis.setOnPageChangeListener(MineFrg.this);
+            currentPos = getCurrentMonth()-1;
+            textViewList.get(currentPos).setTextColor(Color.parseColor("#e7e700"));//默认加载项，标签文字对应变色
+            lvTimeAxis.setCurrentItem(currentPos);
 
+        }
+    }
+
+    private void initLayout() {
+        mMouthMargin= ZhetebaUtils.dip2px(mActivity, 5);
+        monthList = new ArrayList<>();
+        textViewList = new ArrayList<>();
+        moveToList=new ArrayList<>();
+        monthList= getCurrenMonth();
+
+        //填充titleList,titleLayout布局
+        for (int i = 0; i < monthList.size(); i++) {
+            if((monthList.get(i)+"").length()==1){
+                timeList.add("20160"+monthList.get(i));
+            }else{
+                timeList.add("2016"+monthList.get(i));
+            }
+
+            addTitleLayout(monthList.get(i).toString(),i);
         }
     }
 
