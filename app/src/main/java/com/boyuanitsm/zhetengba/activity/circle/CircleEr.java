@@ -1,12 +1,10 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -32,7 +30,7 @@ public class CircleEr extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_share:
-              openActivity(ShareDialogAct.class);
+//              openActivity(ShareDialogAct.class);
         }
     }
 }

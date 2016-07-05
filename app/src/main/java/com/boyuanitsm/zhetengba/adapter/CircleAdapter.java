@@ -297,6 +297,7 @@ public class CircleAdapter extends BaseAdapter {
 //                ShareDialog dialog=new ShareDialog(context);
 //                dialog.show();
                 Intent intent = new Intent(context, ShareDialogAct.class);
+                intent.putExtra("type",4);
                 context.startActivity(intent);
             }
         });

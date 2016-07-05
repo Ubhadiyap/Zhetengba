@@ -222,6 +222,7 @@ public class CalAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     //开启分享界面
                     Intent intent=new Intent();
+                    intent.putExtra("type",2);
                     intent.setClass(context,ShareDialogAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
