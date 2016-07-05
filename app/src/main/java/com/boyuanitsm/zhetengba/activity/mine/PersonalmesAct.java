@@ -33,7 +33,6 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
-import com.bumptech.glide.util.Util;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -222,6 +221,8 @@ public class PersonalmesAct extends BaseActivity {
     private void instalData() {
         setTopTitle("个人资料");
         user = UserInfoDao.getUser();
+        cvPhoneNum.setIvArrow(false);//手机那行箭头隐藏
+        cvPhoneNum.setEnabled(false);//手机那行不可点击
         MyLogUtils.degug("user" + user);
         if (user != null) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, options);
@@ -244,8 +245,8 @@ public class PersonalmesAct extends BaseActivity {
 
         }
 
-        if (!(TextUtils.isEmpty(user.getPhone()))) {
-            cvPhoneNum.setNotesText(user.getPhone());
+        if (!(TextUtils.isEmpty(user.getUsername()))) {
+            cvPhoneNum.setNotesText(user.getUsername());
         }
         if (!(TextUtils.isEmpty(user.getEmail()))) {
             cvEmail.setNotesText(user.getEmail());
@@ -271,7 +272,7 @@ public class PersonalmesAct extends BaseActivity {
     }
 
 
-    @OnClick({R.id.rl_headIcon, R.id.cv_userName, R.id.cv_sex, R.id.cv_phoneNum, R.id.cv_email, R.id.cv_companyName, R.id.cv_companyAdd, R.id.cv_companyTel, R.id.cv_business, R.id.cv_homeTown})
+    @OnClick({R.id.rl_headIcon, R.id.cv_userName, R.id.cv_sex, R.id.cv_phoneNum,  R.id.cv_companyName,  R.id.cv_business, R.id.cv_homeTown})
     public void todo(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -288,31 +289,31 @@ public class PersonalmesAct extends BaseActivity {
 //                intent1.putExtra("user", user);
                 startActivityForResult(intent1, SEXMODIFY_GO);
                 break;
-            case R.id.cv_phoneNum://手机号码
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 2);
-                startActivity(intent);
-                break;
-            case R.id.cv_email://邮箱
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 3);
-                startActivity(intent);
-                break;
+//            case R.id.cv_phoneNum://手机号码不让修改
+//                intent = new Intent(this, EditAct.class);
+//                intent.putExtra(EditAct.USER_TYPE, 2);
+//                startActivity(intent);
+//                break;
+//            case R.id.cv_email://邮箱
+//                intent = new Intent(this, EditAct.class);
+//                intent.putExtra(EditAct.USER_TYPE, 3);
+//                startActivity(intent);
+//                break;
             case R.id.cv_companyName://公司名称
                 intent = new Intent(this, EditAct.class);
                 intent.putExtra(EditAct.USER_TYPE, 4);
                 startActivity(intent);
                 break;
-            case R.id.cv_companyAdd://公司地址
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 5);
-                startActivity(intent);
-                break;
-            case R.id.cv_companyTel://公司电话
-                intent = new Intent(this, EditAct.class);
-                intent.putExtra(EditAct.USER_TYPE, 6);
-                startActivity(intent);
-                break;
+//            case R.id.cv_companyAdd://公司地址
+//                intent = new Intent(this, EditAct.class);
+//                intent.putExtra(EditAct.USER_TYPE, 5);
+//                startActivity(intent);
+//                break;
+//            case R.id.cv_companyTel://公司电话
+//                intent = new Intent(this, EditAct.class);
+//                intent.putExtra(EditAct.USER_TYPE, 6);
+//                startActivity(intent);
+//                break;
             case R.id.cv_business://职务
                 intent = new Intent(this, EditAct.class);
                 intent.putExtra(EditAct.USER_TYPE, 7);
@@ -468,9 +469,9 @@ public class PersonalmesAct extends BaseActivity {
 //                if (user.getSex()!=null){
 //                    cvSex.setNotesText(user.getSex());
 //                }
-                if (user.getPhone() != null) {
-                    cvPhoneNum.setNotesText(user.getPhone());
-                }
+//                if (user.getPhone() != null) {
+//                    cvPhoneNum.setNotesText(user.getPhone());手机号不让修改
+//                }
                 if (user.getEmail() != null) {
                     cvEmail.setNotesText(user.getEmail());
                 }

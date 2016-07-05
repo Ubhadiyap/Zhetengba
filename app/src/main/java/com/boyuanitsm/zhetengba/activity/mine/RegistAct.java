@@ -180,8 +180,8 @@ public class RegistAct extends BaseActivity {
     private boolean isValidate() {
         phone = et_phone.getText().toString().trim();
         yzm = et_yzm.getText().toString().trim();
-        pwd = et_pwd.getText().toString().trim();
-        cpwd=et_cpwd.getText().toString().trim();
+        pwd = et_pwd.getText().toString();//.trim();
+        cpwd=et_cpwd.getText().toString();//.trim();
         if (TextUtils.isEmpty(phone)) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
             et_phone.requestFocus();
