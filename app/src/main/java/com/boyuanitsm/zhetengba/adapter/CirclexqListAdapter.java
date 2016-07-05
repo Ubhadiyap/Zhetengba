@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,11 @@ public class CirclexqListAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-
+    private DisplayImageOptions optionsImagh = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
 //    public CirclexqListAdapter(Context context, List<List<ImageInfo>> dateList) {
 //        this.context = context;
 //        this.dateList = dateList;
@@ -203,9 +208,7 @@ public class CirclexqListAdapter extends BaseAdapter {
         }
 
         if(list!=null&&list.size()>0){
-            if(!TextUtils.isEmpty(list.get(position).getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),viewHolder.ivChHead,optionsImag);
-            }
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),viewHolder.ivChHead,optionsImagh);
             if(!TextUtils.isEmpty(list.get(position).getUserName())){
                 viewHolder.tvChNiName.setText(list.get(position).getUserName());
             }else {
@@ -256,6 +259,9 @@ public class CirclexqListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                Bundle bundle=new Bundle();
+                bundle.putString("userId",list.get(position).getUserId());
+                intent.putExtras(bundle);
                 intent.setClass(context, PerpageAct.class);
                 //需要开启新task,否则会报错
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

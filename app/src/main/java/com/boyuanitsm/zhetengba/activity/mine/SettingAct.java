@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,12 +13,15 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.VersionDataEntity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.GeneralUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
@@ -44,12 +48,20 @@ public class SettingAct extends BaseActivity {
 //    private ToggleButton tbVerification;
     @ViewInject(R.id.iv_yz)
     private ImageView iv_yz;
+
+    private int select=1;//默认加我需要验证，0加我时不需要验证
+
+    private SharedPreferences sharedPrefrences;
+    private SharedPreferences.Editor editor;
+
     @ViewInject(R.id.cv_clearCache)
     private CommonView cv_clearCache;
-    private int select=0;//加我不需要验证
+//    private int select=0;//加我不需要验证
     private String totalCacheSize;
-    private String version;
+    private int version;
     private String platform;
+    GeneralUtils generalUtils;
+
 
     @Override
     public void setLayout() {
@@ -59,7 +71,37 @@ public class SettingAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("设置");
+
+        sharedPrefrences = this.getSharedPreferences("type",MODE_PRIVATE);//得到SharedPreferences，会生成user.xml
+        editor = sharedPrefrences.edit();
+
+        String typenum = sharedPrefrences.getString("typenum", null);
+        if(typenum!=null){
+            if(typenum.equals("1")){
+                iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+            }
+            if(typenum.equals("0")){
+                iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
+            }
+        }else {
+            iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+        }
+
+
+//        tbVerification.setIsSwitch(true);
+//        tbVerification.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
+//            @Override
+//            public void onToggle(boolean on) {
+//                if (on) {//添加我时需要验证
+//
+//                } else {//添加我时不需要验证
+//
+//                }
+//            }
+//        });
+
         initData();
+        generalUtils=new GeneralUtils();
     }
 
     private void initData() {
@@ -69,6 +111,7 @@ public class SettingAct extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -76,16 +119,22 @@ public class SettingAct extends BaseActivity {
     public void todo(View view) {
         switch (view.getId()) {
             case R.id.iv_yz:
-                if(select==0){
-                    select=1;
-                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
-                    MyToastUtils.showShortToast(SettingAct.this,select+"");
-                    return;
-                }
                 if(select==1){
                     select=0;
                     iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
-                    MyToastUtils.showShortToast(SettingAct.this, select + "");
+//                    MyToastUtils.showShortToast(SettingAct.this, select + "");
+                    ischeck();//默认进来不需要，点击后不需要
+                    editor.putString("typenum", "0");
+                    editor.commit();
+                    return;
+                }
+                if(select==0){
+                    select=1;
+                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+//                    MyToastUtils.showShortToast(SettingAct.this, select + "");
+                    ischeck();//需要
+                    editor.putString("typenum", "1");
+                    editor.commit();
                     return;
                 }
 
@@ -97,10 +146,11 @@ public class SettingAct extends BaseActivity {
                 openActivity(FeedbackAct.class);
                 break;
             case R.id.cv_checkUpdate://检查更新
-                version=ZtinfoUtils.getVersion(SettingAct.this);
-                findNewVersion(version, platform);
+                version=ZtinfoUtils.getAppVer(SettingAct.this);
+                MyLogUtils.degug("version"+version);
+                generalUtils.toVersion(SettingAct.this,version,0);
                 break;
-            case R.id.cv_clearCache://清楚缓存
+            case R.id.cv_clearCache://清除缓存
                 clearCache();
                 break;
             case R.id.llExit://退出
@@ -118,12 +168,12 @@ public class SettingAct extends BaseActivity {
     }
 
     /**
-     * 更新版本
-     * @param version
-     * @param platform
+<<<<<<< HEAD
+     * 添加好友默认是不需要添加状态，掉一次后台切换一次状态
      */
-    private void findNewVersion(String version,String platform) {
-        RequestManager.getUserManager().findNewApp(version, platform, new ResultCallback() {
+    private void ischeck() {
+//        RequestManager.getMessManager().isCheck(new ResultCallback<ResultBean<String>>()
+        RequestManager.getMessManager().isCheck(new ResultCallback() {
             @Override
             public void onError(int status, String errorMsg) {
 
@@ -131,6 +181,28 @@ public class SettingAct extends BaseActivity {
 
             @Override
             public void onResponse(Object response) {
+
+            }
+        });
+    }
+
+
+    /**检查版本更新
+     * @param version
+     * @param platform
+     */
+    private void findNewVersion(int version,String platform) {
+        RequestManager.getUserManager().findNewApp(version, platform, new ResultCallback<ResultBean<VersionDataEntity>>() {
+
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<VersionDataEntity> response) {
+
+
 
             }
         });
@@ -217,6 +289,7 @@ public class SettingAct extends BaseActivity {
         try {
             totalCacheSize = ZhetebaUtils.getTotalCacheSize(getApplicationContext());
             cv_clearCache.setNotesText(totalCacheSize);
+            cv_clearCache.setNotesTextSize(32);
         } catch (Exception e) {
             e.printStackTrace();
         }

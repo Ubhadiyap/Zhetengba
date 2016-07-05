@@ -238,6 +238,7 @@ public class ContractedAct extends BaseActivity {
                     if (!TextUtils.isEmpty(strUserIds)) {
                         bundle.putString("canUserIds", strUserIds);
                     }
+//                    bundle.putInt(AssignScanAct.CANTYPE,0);//能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 1);
@@ -253,6 +254,7 @@ public class ContractedAct extends BaseActivity {
                     if (!TextUtils.isEmpty(strUserNoIds)) {
                         bundle.putString("noCanUserIds", strUserNoIds);
                     }
+//                    bundle.putInt(AssignScanAct.CANTYPE,1);//不能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 2);

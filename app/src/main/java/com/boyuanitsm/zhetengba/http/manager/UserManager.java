@@ -157,9 +157,9 @@ public class UserManager extends RequestManager{
      * @param currentVersion
      * @param platform
      */
-    public void findNewApp(String currentVersion,String platform ,ResultCallback callback){
+    public void findNewApp(int currentVersion,String platform ,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
-        params.put("currentVersion",currentVersion);
+        params.put("currentVersion",currentVersion+"");
         params.put("platform",platform);
         doPost(IZtbUrl.FIND_NEW_APP,params,callback);
 

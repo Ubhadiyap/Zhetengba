@@ -287,6 +287,13 @@ public interface IZtbUrl {
     /*查找用户*/
     String FIND_USER_URL=BASE_URL+"message/login/findUserIcon.do";
 //    String ADD_GROUP_URL = BASE_URL + "message/login/addGroupChat.do";
+
+    /*设置里面添加好友需要验证/不需要验证*/
+    String ISCHECKED_URL=BASE_URL+"message/login/isChecked.do";
+    /*获取用户信息*/
+    String FINDUSERICON_URL=BASE_URL+"message/login/findUserIcon.do";
+
     //版本更新
     String FIND_NEW_APP=BASE_URL+"manager/unLogin/checkUpdrage.do";
+
 }

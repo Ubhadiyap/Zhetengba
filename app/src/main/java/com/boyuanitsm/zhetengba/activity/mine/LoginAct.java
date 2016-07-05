@@ -129,7 +129,7 @@ public class LoginAct extends BaseActivity {
      */
     private boolean isValidate() {
         currentUsername = usernameEditText.getText().toString().trim();
-        currentPassword = passwordEditText.getText().toString().trim();
+        currentPassword = passwordEditText.getText().toString();//.trim();
         if (TextUtils.isEmpty(currentUsername)) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
             usernameEditText.requestFocus();

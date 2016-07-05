@@ -19,7 +19,6 @@ import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
-import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -107,34 +106,34 @@ public class EditAct extends BaseActivity {
                   flag=true;
                 }
                 break;
-            case 2:
-                boolean isMobileNO = ZtinfoUtils.isMobileNO(content);
-                if (!isMobileNO) {
-                    MyToastUtils.showShortDebugToast(getApplicationContext(), "请输入正确的手机号吗");
-                    flag=false;
-                } else {
-                    if (!TextUtils.isEmpty(content)) {
-                        user.setPhone(content);
-                    } else {
-                        user.setPhone("");
-                    }
-                   flag=true;
-                }
-                break;
-            case 3:
-                boolean isEmail = ZtinfoUtils.isEmail(content);
-                if (!isEmail) {
-                    MyToastUtils.showShortDebugToast(getApplicationContext(), "请输入正确的邮箱号");
-                   flag=false;
-                } else {
-                    if (!(TextUtils.isEmpty(content))) {
-                        user.setEmail(content);
-                    } else {
-                        user.setEmail("");
-                    }
-                   flag=true;
-                }
-                break;
+//            case 2:
+//                boolean isMobileNO = ZtinfoUtils.isMobileNO(content);
+//                if (!isMobileNO) {
+//                    MyToastUtils.showShortDebugToast(getApplicationContext(), "请输入正确的手机号吗");
+//                    flag=false;
+//                } else {
+//                    if (!TextUtils.isEmpty(content)) {
+//                        user.setPhone(content);
+//                    } else {
+//                        user.setPhone("");
+//                    }
+//                   flag=true;
+//                }
+//                break;
+//            case 3:
+//                boolean isEmail = ZtinfoUtils.isEmail(content);
+//                if (!isEmail) {
+//                    MyToastUtils.showShortDebugToast(getApplicationContext(), "请输入正确的邮箱号");
+//                   flag=false;
+//                } else {
+//                    if (!(TextUtils.isEmpty(content))) {
+//                        user.setEmail(content);
+//                    } else {
+//                        user.setEmail("");
+//                    }
+//                   flag=true;
+//                }
+//                break;
             case 4:
                 if (!(TextUtils.isEmpty(content))) {
                     user.setCompanyName(content);
@@ -143,22 +142,22 @@ public class EditAct extends BaseActivity {
                 }
                 flag=true;
                 break;
-            case 5:
-                if (!(TextUtils.isEmpty(content))) {
-                    user.setCompanyAddr(content);
-                } else {
-                    user.setCompanyAddr("");
-                }
-                flag=true;
-                break;
-            case 6:
-                if (!(TextUtils.isEmpty(content))) {
-                    user.setCompanyPhone(content);
-                } else {
-                    user.setCompanyPhone("");
-                }
-                  flag=true;
-                break;
+//            case 5:
+//                if (!(TextUtils.isEmpty(content))) {
+//                    user.setCompanyAddr(content);
+//                } else {
+//                    user.setCompanyAddr("");
+//                }
+//                flag=true;
+//                break;
+//            case 6:
+//                if (!(TextUtils.isEmpty(content))) {
+//                    user.setCompanyPhone(content);
+//                } else {
+//                    user.setCompanyPhone("");
+//                }
+//                  flag=true;
+//                break;
             case 7:
                 if (!(TextUtils.isEmpty(content))) {
                     user.setJob(content);
@@ -198,17 +197,17 @@ public class EditAct extends BaseActivity {
                 cetEditInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(8)});
 
                 break;
-            case 2:
-                setTopTitle("手机号码");
-                if (user != null) {
-                    if (!(TextUtils.isEmpty(user.getPhone()))) {
-                        cetEditInfo.setText(user.getPhone());
-                    }
-                }
-                cetEditInfo.setHint("请输入手机号码");
-                cetEditInfo.setInputType(InputType.TYPE_CLASS_NUMBER);
-                cetEditInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
-                break;
+//            case 2:
+//                setTopTitle("手机号码");
+//                if (user != null) {
+//                    if (!(TextUtils.isEmpty(user.getPhone()))) {
+//                        cetEditInfo.setText(user.getPhone());
+//                    }
+//                }
+//                cetEditInfo.setHint("请输入手机号码");
+//                cetEditInfo.setInputType(InputType.TYPE_CLASS_NUMBER);
+//                cetEditInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
+//                break;
             case 3:
                 setTopTitle("邮箱");
                 if (user != null) {
