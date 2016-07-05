@@ -139,6 +139,7 @@ public class ScheduleAct extends BaseActivity {
                     if (!TextUtils.isEmpty(hucanUserIds)){
                         bundle.putString("canUserIds",hucanUserIds);
                     }
+                    bundle.putInt(AssignScanAct.CANTYPE,0);//能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 3);
@@ -154,6 +155,7 @@ public class ScheduleAct extends BaseActivity {
                     if (!TextUtils.isEmpty(hu_no_canUserIds)){
                         bundle.putString("canUserIds",hu_no_canUserIds);
                     }
+                    bundle.putInt(AssignScanAct.CANTYPE,1);//不能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 4);

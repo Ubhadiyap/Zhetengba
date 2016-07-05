@@ -36,7 +36,7 @@ public class ShareqrcodeAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("分享二维码");
+        setTopTitle("我的二维码");
         if (!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
             bitmap= ZhetebaUtils.createQRImage(UserInfoDao.getUser().getId());
         }

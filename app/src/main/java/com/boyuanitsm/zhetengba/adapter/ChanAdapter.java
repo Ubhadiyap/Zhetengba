@@ -59,7 +59,11 @@ public class ChanAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-
+    private DisplayImageOptions optionsImagh = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
     public ChanAdapter(Context context, List<List<ImageInfo>> dateList) {
         this.context = context;
         this.dateList = dateList;
@@ -196,7 +200,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setAdapter(adapter);
         }
         if (list != null) {
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.head, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.head, optionsImagh);
             if (!TextUtils.isEmpty(list.get(position).getUserName())) {
                 viewHolder.tv_ch_niName.setText(list.get(position).getUserName());
             } else {

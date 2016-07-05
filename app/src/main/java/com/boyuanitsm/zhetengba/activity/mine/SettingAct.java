@@ -12,12 +12,15 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.VersionDataEntity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.GeneralUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
@@ -48,8 +51,9 @@ public class SettingAct extends BaseActivity {
     private CommonView cv_clearCache;
     private int select=0;//加我不需要验证
     private String totalCacheSize;
-    private String version;
+    private int version;
     private String platform;
+    GeneralUtils generalUtils;
 
     @Override
     public void setLayout() {
@@ -60,6 +64,7 @@ public class SettingAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("设置");
         initData();
+        generalUtils=new GeneralUtils();
     }
 
     private void initData() {
@@ -97,10 +102,11 @@ public class SettingAct extends BaseActivity {
                 openActivity(FeedbackAct.class);
                 break;
             case R.id.cv_checkUpdate://检查更新
-                version=ZtinfoUtils.getVersion(SettingAct.this);
-                findNewVersion(version, platform);
+                version=ZtinfoUtils.getAppVer(SettingAct.this);
+                MyLogUtils.degug("version"+version);
+                generalUtils.toVersion(SettingAct.this,version,0);
                 break;
-            case R.id.cv_clearCache://清楚缓存
+            case R.id.cv_clearCache://清除缓存
                 clearCache();
                 break;
             case R.id.llExit://退出
@@ -122,15 +128,15 @@ public class SettingAct extends BaseActivity {
      * @param version
      * @param platform
      */
-    private void findNewVersion(String version,String platform) {
-        RequestManager.getUserManager().findNewApp(version, platform, new ResultCallback() {
+    private void findNewVersion(int version,String platform) {
+        RequestManager.getUserManager().findNewApp(version, platform, new ResultCallback<ResultBean<VersionDataEntity>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(Object response) {
+            public void onResponse(ResultBean<VersionDataEntity> response) {
 
             }
         });
@@ -217,6 +223,7 @@ public class SettingAct extends BaseActivity {
         try {
             totalCacheSize = ZhetebaUtils.getTotalCacheSize(getApplicationContext());
             cv_clearCache.setNotesText(totalCacheSize);
+            cv_clearCache.setNotesTextSize(32);
         } catch (Exception e) {
             e.printStackTrace();
         }

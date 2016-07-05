@@ -47,6 +47,10 @@ public class AssignScanAct extends BaseActivity {
     private String[] strUserIds;//c存取已经选择的用户id
     private int change=1;
 
+    public static final String CANTYPE="cantype";
+    private int type;//0 能看 1不能看
+    private String title;//右上方文字
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_who_can);
@@ -56,6 +60,18 @@ public class AssignScanAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+        type=bundle.getInt(CANTYPE,-1);
+        switch (type){
+            case 0:
+                title="确认";
+                break;
+            case 1:
+                title="完成";
+                break;
+            default:
+                title="发送";
+                break;
+        }
         final String str3 = bundle.getString("can");
         String str4 = bundle.getString("canUserIds");//谁能看
         MyLogUtils.info(str4+"返回的谁能看");
@@ -80,7 +96,7 @@ public class AssignScanAct extends BaseActivity {
         }
 
         setTopTitle("联系人");
-        setRight("发送", new View.OnClickListener() {
+        setRight(title, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 save(str3);
