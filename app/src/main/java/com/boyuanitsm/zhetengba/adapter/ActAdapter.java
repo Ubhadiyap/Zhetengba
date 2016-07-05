@@ -158,6 +158,9 @@ public class ActAdapter extends BaseAdapter {
         } else {
             viewHolder.tv_date.setText(strStart + "—" + strEnd);//活动时间；
         }
+//        if (!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
+//
+//        }
         if (UserInfoDao.getUser().getId().equals(infos.get(position).getUserId())){
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),viewHolder.iv_headphoto,optionsImag);
         }else {

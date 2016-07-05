@@ -151,6 +151,19 @@ public class UserManager extends RequestManager{
         doPost(IZtbUrl.ADDFEEDBACK_URL,params,callback);
     }
 
+    /**
+     * 当前版本
+     * 平台
+     * @param currentVersion
+     * @param platform
+     */
+    public void findNewApp(int currentVersion,String platform ,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("currentVersion",currentVersion+"");
+        params.put("platform",platform);
+        doPost(IZtbUrl.FIND_NEW_APP,params,callback);
+
+    }
 
 //    /**
 //     * 我的兴趣标签列表

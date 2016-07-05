@@ -7,20 +7,13 @@ package com.boyuanitsm.zhetengba.http;
 public interface IZtbUrl {
 
 
-   //基础地址
+    //基础地址
     //外网
 //    public static final String BASE_URL = "http://139.196.154.208:8010/zhetengba/";
-    //内网
+    //开发
     public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
-//    public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
-//        public static final String BASE_URL = "http://localhost:8080/zhetengba/";
-//public static final String BASE_URL = "http://172.16.6.251:8080/zhetengba/";
-
-
-
     //测试
-//    public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
-
+    // public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
     /**
      * =========完善信息接口==========
      **/
@@ -292,4 +285,6 @@ public interface IZtbUrl {
     /*查找用户*/
     String FIND_USER_URL=BASE_URL+"message/login/findUserIcon.do";
 //    String ADD_GROUP_URL = BASE_URL + "message/login/addGroupChat.do";
+    //版本更新
+    String FIND_NEW_APP=BASE_URL+"manager/unLogin/checkUpdrage.do";
 }

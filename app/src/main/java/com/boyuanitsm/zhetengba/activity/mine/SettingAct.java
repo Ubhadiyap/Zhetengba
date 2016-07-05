@@ -19,6 +19,9 @@ import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.hyphenate.EMCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -41,7 +44,12 @@ public class SettingAct extends BaseActivity {
 //    private ToggleButton tbVerification;
     @ViewInject(R.id.iv_yz)
     private ImageView iv_yz;
+    @ViewInject(R.id.cv_clearCache)
+    private CommonView cv_clearCache;
     private int select=0;//加我不需要验证
+    private String totalCacheSize;
+    private int version;
+    private String platform;
 
     @Override
     public void setLayout() {
@@ -51,6 +59,7 @@ public class SettingAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("设置");
+        initData();
 //        tbVerification.setIsSwitch(true);
 //        tbVerification.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
 //            @Override
@@ -62,6 +71,15 @@ public class SettingAct extends BaseActivity {
 //                }
 //            }
 //        });
+    }
+
+    private void initData() {
+        try {
+            totalCacheSize = ZhetebaUtils.getTotalCacheSize(getApplicationContext());
+            cv_clearCache.setNotesText(totalCacheSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -90,10 +108,10 @@ public class SettingAct extends BaseActivity {
                 openActivity(FeedbackAct.class);
                 break;
             case R.id.cv_checkUpdate://检查更新
-
+                findNewVersion(version, platform);
                 break;
             case R.id.cv_clearCache://清楚缓存
-
+                clearCache();
                 break;
             case R.id.llExit://退出
                 new MyAlertDialog(SettingAct.this).builder().setTitle("提示")
@@ -107,6 +125,25 @@ public class SettingAct extends BaseActivity {
 
                 break;
         }
+    }
+
+    /**
+     * 更新版本
+     * @param version
+     * @param platform
+     */
+    private void findNewVersion(int version,String platform) {
+        RequestManager.getUserManager().findNewApp(version, platform, new ResultCallback() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
     }
 
 
@@ -182,6 +219,19 @@ public class SettingAct extends BaseActivity {
 
     }
 
+    /**
+     * 清理缓存
+     */
+    private void clearCache() {
+        ZhetebaUtils.clearAllCache(getApplicationContext());
+        try {
+            totalCacheSize = ZhetebaUtils.getTotalCacheSize(getApplicationContext());
+            cv_clearCache.setNotesText(totalCacheSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        MyToastUtils.showShortToast(SettingAct.this, "已清除缓存");
+    }
 
 
 }
