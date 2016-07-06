@@ -12,6 +12,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -21,7 +22,11 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ErEntity;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.scan.CameraManager;
 import com.boyuanitsm.zhetengba.view.scan.CaptureActivityHandler;
@@ -268,15 +273,36 @@ public class ScanQrcodeAct extends BaseActivity implements Callback {
         inactivityTimer.onActivity();
 //        viewfinderView.drawResultBitmap(barcode);
         playBeepSoundAndVibrate();
-
-        MyToastUtils.showShortToast(getApplicationContext(), "扫描成功");
+        if (obj.getText().startsWith("{")&&obj.getText().endsWith("}")) {
+            ErEntity erEntity = GsonUtils.gsonToBean(obj.getText(), ErEntity.class);
+//        MyToastUtils.showShortToast(getApplicationContext(), "扫描成功"+obj.getText());
 //        scanResult(obj.getText());
-//        closeCamera();
-//        viewfinderView.setVisibility(View.GONE);
-//		Intent intent = new Intent(ScanQrcodeAct.this,SettlementAct.class);
-//		intent.putExtra("code", obj.getText());
-//		startActivity(intent);
-//		finish();
+            if (erEntity!=null) {
+                closeCamera();
+                viewfinderView.setVisibility(View.GONE);
+                if (erEntity.getType() == 0) {//圈子
+                    Intent intent = new Intent(ScanQrcodeAct.this, CirxqAct.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("type", 3);
+                    bundle.putString("circleId", erEntity.getId());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else if (erEntity.getType() == 1) {//个人主页
+                    Intent intent = new Intent(ScanQrcodeAct.this, PerpageAct.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userId", erEntity.getId());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                finish();
+            } else {
+                MyToastUtils.showShortToast(ScanQrcodeAct.this,"请扫描折腾吧提供的二维码！");
+                restartCamera();
+            }
+        } else {
+            MyToastUtils.showShortToast(ScanQrcodeAct.this,"请扫描折腾吧提供的二维码！");
+            restartCamera();
+        }
 
     }
 
@@ -323,8 +349,6 @@ public class ScanQrcodeAct extends BaseActivity implements Callback {
             mediaPlayer.seekTo(0);
         }
     };
-
-
     /**
      * 重新启动扫码
      */
