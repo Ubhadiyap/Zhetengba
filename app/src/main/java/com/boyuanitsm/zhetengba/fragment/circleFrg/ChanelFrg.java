@@ -67,6 +67,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     public void initData(Bundle savedInstanceState) {
         initView();        //初始化控件
         titleList = LabelInterestDao.getInterestLabel();        //设置间隙
+//        MyLogUtils.info("数据库中标签是否为空："+titleList.toString());
         if (titleList == null) {
             getMyLabels(-1);
         } else {
@@ -130,7 +131,8 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         textView.setText(title);
         textView.setTextSize(14);
         textView.setTextColor(Color.parseColor("#999999"));
-        textView.setTag(position);        //设置position Tag
+        textView.setTag(position);//设置position Tag
+        MyLogUtils.info("title：位置"+title+":"+position);
         textView.setOnClickListener(new posOnClickListener());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         mTitleMargin = ZtinfoUtils.dip2px(mActivity, 10);        //设置左右间隙
@@ -161,6 +163,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 intent.putExtra(CirclefbAct.TYPE, 0);
                 intent.putExtra("labelId", titleList.get(currentPos).getInterestId());
                 intent.putExtra("flag", currentPos);
+                MyLogUtils.info("发布时的位置：===="+currentPos);
                 startActivity(intent);
                 break;
             case R.id.ll_add:
@@ -174,10 +177,14 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             if ((int) view.getTag() == currentPos) {
+                MyLogUtils.info("Tag记录的位置"+view.getTag()+"curentPos的位置是："+currentPos);
                 return;
             }
             textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
+            MyLogUtils.info("Tag记录的位置" + view.getTag() + "curentPos的位置是：" + currentPos);
+
             currentPos = (int) view.getTag();
+
             page = 1;
             rows = 10;
             getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
@@ -302,7 +309,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                     pos = bundle.getInt("flag", currentPos);
                 }
             }
-            MyLogUtils.degug("pos:"+pos);
+            MyLogUtils.info("发布后传来的pos:"+pos+"当前位置currentPos:"+currentPos);
             if (titleList == null) {
                 getMyLabels(-1);
             } else {
