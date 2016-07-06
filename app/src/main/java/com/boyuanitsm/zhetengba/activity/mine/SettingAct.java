@@ -109,6 +109,7 @@ public class SettingAct extends BaseActivity {
         try {
             totalCacheSize = ZhetebaUtils.getTotalCacheSize(getApplicationContext());
             cv_clearCache.setNotesText(totalCacheSize);
+            cv_clearCache.setNotesTextSize(32);
         } catch (Exception e) {
             e.printStackTrace();
         }

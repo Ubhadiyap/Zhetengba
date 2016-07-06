@@ -112,7 +112,7 @@ public class CirxqAct extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv_label.setLayoutManager(linearLayoutManager);
         Intent intent=getIntent();
-        type=intent.getExtras().getInt("type");
+        type=intent.getExtras().getInt("type");//3扫码
         circleId=intent.getExtras().getString("circleId");
         if(type==0){
             //从收索里面进来(需要判断是否在圈子里面的)
@@ -142,13 +142,14 @@ public class CirxqAct extends BaseActivity {
                 isFresh(true);
             }
 
-        }
-        if(type==1){
+        } else if(type==1){
             //从圈子管理进来,或者从子圈子frg进来（已经在圈子里面的）
             getCircleDetail(circleId);
             getCircleMembers(circleId);
             getThisCircleTalks(circleId, page, rows);
             isFresh(true);
+        } else if (type==3){
+            getCircleDetail(circleId);//获取圈子详情，不在圈子里显示立即加入按钮
         }
 
         cir_fb.setOnClickListener(new View.OnClickListener() {
@@ -258,9 +259,7 @@ public class CirxqAct extends BaseActivity {
     private void setCircle(CircleEntity entity){
         if(entity!=null){
             setTopTitle(entity.getCircleName());
-            if(!TextUtils.isEmpty(entity.getCircleLogo())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getCircleLogo()),head,options);
-            }
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getCircleLogo()),head,options);
             if(!TextUtils.isEmpty(entity.getUserName())){
                 name.setText("圈主：" + entity.getUserName());
             }else {
@@ -277,6 +276,38 @@ public class CirxqAct extends BaseActivity {
                     isQuanzhu=true;
                 }else {
                     isQuanzhu=false;
+                }
+            }
+            if (type==3) {
+                if (!TextUtils.isEmpty(entity.getIsInCircle() + "")) {//0不在圈子
+                    if (entity.getIsInCircle() == 0) {
+                        IsInCircle = 0;
+                    } else if (entity.getIsInCircle() == 1) {
+                        IsInCircle = 1;
+                    }
+                }
+
+                if(IsInCircle==0){
+                    //不在圈子里面
+                    cir_fb.setVisibility(View.GONE);
+                    rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
+                    getCircleMembers(circleId);
+                    xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
+                    lv_cir.getRefreshableView().setAdapter(xqAdapter);
+                    isFresh(false);
+                    rl_jiaru.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            joInCircle(circleId);
+                        }
+                    });
+                }else if(IsInCircle==1){
+                    //在圈子里面
+                    cir_fb.setVisibility(View.VISIBLE);
+                    rl_jiaru.setVisibility(View.GONE);
+                    getCircleMembers(circleId);
+                    getThisCircleTalks(circleId, page, rows);
+                    isFresh(true);
                 }
             }
         }
