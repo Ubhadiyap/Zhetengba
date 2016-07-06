@@ -44,6 +44,7 @@ import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -95,7 +96,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private Button bt_plan;
     private Map<Integer, String> map;
     private boolean flag = true;
-    private int MIN_MARK = 1;
+    private int MIN_MARK = 2;
     private int MAX_MARK = 120;
     private Map<String, String> newMap = new HashMap<>();
     private List<ActivityLabel> list;
@@ -109,6 +110,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private String strUserNoIds;//用户存错谁不能见；
     private ProgressDialog pd;//缓冲弹出框
     private Date startDate,endDate;
+    private LocationClient locationClient;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -122,6 +124,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("发布中...");
         list = new ArrayList<ActivityLabel>();
+        position();
         getAcitivtyLabel();
         et_pp_num.addTextChangedListener(judgeEditNum());
         iv_friend.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +155,12 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             simpleInfo.setActivitySite(tv_select.getText().toString());//位置
         }
         if (!TextUtils.isEmpty(et_pp_num.getText().toString())) {
-            simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
+            if (Integer.parseInt(et_pp_num.getText().toString())<2){
+                MyToastUtils.showShortToast(ContractedAct.this,"邀约人数不得少于2人");
+                return;
+            }else {
+                simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
+            }
         } else {
             MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
             return;
@@ -426,7 +434,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (start > 0) {
-                    if (MIN_MARK != -1 && MAX_MARK != -1) {
+                    if (MIN_MARK != 1 && MAX_MARK != -1) {
                         int num = Integer.parseInt(s.toString());
                         if (num > MAX_MARK) {
                             s = String.valueOf(MAX_MARK);
@@ -458,8 +466,31 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             }
         };
     }
+    private void position() {
+        // 实例化定位服务，LocationClient类必须在主线程中声明
+        locationClient = new LocationClient(getApplicationContext());
+        locationClient.registerLocationListener(this);// 注册定位监听接口
+        /**
+         * LocationClientOption 该类用来设置定位SDK的定位方式。
+         */
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开GPRS
+        option.setAddrType("all");// 返回的定位结果包含地址信息
+        option.setCoorType("gcj02");// 返回的定位结果是百度经纬度,默认值gcj02
+        option.setPriority(LocationClientOption.GpsFirst); // 设置GPS优先
+        option.setScanSpan(0); // 设置发起定位请求的间隔时间为5000ms
+        option.disableCache(true);// 禁止启用缓存定位
+        locationClient.setLocOption(option); // 设置定位参数
+        locationClient.start();
+    }
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
-
+        LogUtils.i("定位回掉。。。。。。。。。。。。。。。");
+        if (bdLocation!=null){
+           tv_select.setText(bdLocation.getProvince()+bdLocation.getCity()+bdLocation.getDistrict()+bdLocation.getStreet());
+        }else {
+            tv_select.setHint("无法获取位置信息，请手动输入！");
+        }
+        locationClient.stop();
     }
 }

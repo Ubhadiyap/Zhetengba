@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -148,7 +149,8 @@ public class ActAdapter extends BaseAdapter {
                 viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
                 viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
             }
-            viewHolder.tv_join_num.setText(infos.get(position).getMemberNum() + "");//目前成员数量；
+
+        viewHolder.tv_join_num.setText(infos.get(position).getMemberNum() + "");//目前成员数量；
 
         viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber() + "");//邀约人数
         strStart = ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getStartTime()));
@@ -190,31 +192,40 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
         }
 //        if (infos.get(position).)
+        if (infos.get(position).getMemberNum()==infos.get(position).getInviteNumber()){
+            viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyToastUtils.showShortToast(context,"参加人数已满,请参加其他活动！");
+                }
+            });
+        }else {
+            viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    viewHolder.ll_join.setEnabled(false);
+                    if (infos.get(position).isJoin()) {
+                        final MyAlertDialog dialog=new MyAlertDialog(context);
+                        dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                stateCancelChange(position, viewHolder);
+                            }
+                        }).setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                viewHolder.ll_join.setEnabled(true);
+                            }
+                        }).show();
+                    } else {
+                        stateJionChange(position, viewHolder);
+                    }
 
-        viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewHolder.ll_join.setEnabled(false);
-                        if (infos.get(position).isJoin()) {
-                            final MyAlertDialog dialog=new MyAlertDialog(context);
-                           dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    stateCancelChange(position, viewHolder);
-                                }
-                            }).setNegativeButton("取消", new View.OnClickListener() {
-                               @Override
-                               public void onClick(View v) {
-                                   viewHolder.ll_join.setEnabled(true);
-                               }
-                           }).show();
-                        } else {
-                            stateJionChange(position, viewHolder);
-                        }
 
+                }
+            });
+        }
 
-            }
-        });
 
         viewHolder.ll_del.setOnClickListener(new View.OnClickListener() {
             @Override
