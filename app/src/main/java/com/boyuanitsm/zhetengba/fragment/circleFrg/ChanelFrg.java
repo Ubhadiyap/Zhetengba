@@ -87,7 +87,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private void initDate(final List<UserInterestInfo> titleList) {
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
-        if (titleList.size()<currentPos){
+        if (titleList.size()<=currentPos){
             currentPos=0;
         }
         if (titleList.size()>0) {
@@ -176,6 +176,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
+            MyLogUtils.degug("传过来的位置："+currentPos+"====点击位置："+(int)view.getTag());
             if ((int) view.getTag() == currentPos) {
                 MyLogUtils.info("Tag记录的位置"+view.getTag()+"curentPos的位置是："+currentPos);
                 return;
@@ -309,7 +310,11 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                     pos = bundle.getInt("flag", currentPos);
                 }
             }
-            MyLogUtils.info("发布后传来的pos:"+pos+"当前位置currentPos:"+currentPos);
+//<<<<<<< HEAD
+//            MyLogUtils.info("发布后传来的pos:"+pos+"当前位置currentPos:"+currentPos);
+//=======
+//            MyLogUtils.degug("pos:"+pos+"=======currentPos:"+currentPos);
+//>>>>>>> 3cd33de0409d39ab291540ece29d1fef6a03c927
             if (titleList == null) {
                 getMyLabels(-1);
             } else {
