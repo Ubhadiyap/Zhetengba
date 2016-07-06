@@ -175,14 +175,14 @@ public class SettingAct extends BaseActivity {
      */
     private void ischeck() {
 //        RequestManager.getMessManager().isCheck(new ResultCallback<ResultBean<String>>()
-        RequestManager.getMessManager().isCheck(new ResultCallback() {
+        RequestManager.getMessManager().isCheck(new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
             }
 
             @Override
-            public void onResponse(Object response) {
+            public void onResponse(ResultBean<String> response) {
 
             }
         });
