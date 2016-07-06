@@ -18,10 +18,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
+import com.boyuanitsm.zhetengba.activity.publish.ContractedAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
@@ -105,6 +108,7 @@ public class MainAct extends BaseActivity {
 
     private InviteMessgeDao inviteMessgeDao;
     private UserDao userDao;
+    private LocationClient locationClient;
 
     @Override
     public void setLayout() {
@@ -635,4 +639,22 @@ public class MainAct extends BaseActivity {
             showAccountRemovedDialog();
         }
     }
+    private void position() {
+        // 实例化定位服务，LocationClient类必须在主线程中声明
+        locationClient = new LocationClient(getApplicationContext());
+        locationClient.registerLocationListener(new ContractedAct());// 注册定位监听接口
+        /**
+         * LocationClientOption 该类用来设置定位SDK的定位方式。
+         */
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开GPRS
+        option.setAddrType("all");// 返回的定位结果包含地址信息
+        option.setCoorType("gcj02");// 返回的定位结果是百度经纬度,默认值gcj02
+        option.setPriority(LocationClientOption.GpsFirst); // 设置GPS优先
+        option.setScanSpan(0); // 设置发起定位请求的间隔时间为5000ms
+        option.disableCache(true);// 禁止启用缓存定位
+        locationClient.setLocOption(option); // 设置定位参数
+        locationClient.start();
+    }
+
 }

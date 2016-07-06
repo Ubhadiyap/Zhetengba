@@ -20,6 +20,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.location.Address;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
@@ -53,7 +58,7 @@ import java.util.Map;
  * 简约界面
  * Created by bitch-1 on 2016/5/3.
  */
-public class ContractedAct extends BaseActivity {
+public class ContractedAct extends BaseActivity implements BDLocationListener {
     @ViewInject(R.id.tv_select)
     private TextView tv_select_location;
     @ViewInject(R.id.et_theme)
@@ -452,5 +457,9 @@ public class ContractedAct extends BaseActivity {
                 }
             }
         };
+    }
+    @Override
+    public void onReceiveLocation(BDLocation bdLocation) {
+
     }
 }
