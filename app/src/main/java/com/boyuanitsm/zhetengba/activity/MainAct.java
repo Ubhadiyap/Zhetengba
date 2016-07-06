@@ -18,10 +18,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
+import com.boyuanitsm.zhetengba.activity.publish.ContractedAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
@@ -635,4 +638,6 @@ public class MainAct extends BaseActivity {
             showAccountRemovedDialog();
         }
     }
+
+
 }

@@ -30,8 +30,8 @@ public class CirmationAct extends BaseActivity {
     @ViewInject(R.id.notice)
     private EditText notice;//公告
     @ViewInject(R.id.com_ewm)
-    private CommonView com_ewm;//二维码
-    @ViewInject(R.id.com_jb)
+//    private CommonView com_ewm;//二维码
+//    @ViewInject(R.id.com_jb)
     private CommonView com_jb;//举报
     @ViewInject(R.id.tv_tc)
     private CommonView tv_tc;//退出按钮
@@ -65,15 +65,20 @@ public class CirmationAct extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.com_ewm,R.id.com_jb,R.id.tv_tc})
+    @OnClick({R.id.com_ewm,R.id.tv_tc})
     public void OnClick(View v){
         switch (v.getId()){
             case R.id.com_ewm://圈子二维码
-                openActivity(CircleEr.class);
+                Intent intent=new Intent(this,CircleEr.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("circleId", circleEntity.getId());
+                intent.putExtras(bundle);
+                startActivity(intent);
+//                openActivity(CircleEr.class);
                 break;
-            case R.id.com_jb://圈子举报
-
-                break;
+//            case R.id.com_jb://圈子举报
+//
+//                break;
             case R.id.tv_tc://圈子退出
             exitCircle(circleEntity.getId());
 //                Toast.makeText(getApplicationContext(),"hah",Toast.LENGTH_SHORT).show();

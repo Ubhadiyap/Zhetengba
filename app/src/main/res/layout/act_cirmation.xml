@@ -37,15 +37,15 @@
         android:layout_width="match_parent"
         android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>
 
-    <com.boyuanitsm.zhetengba.view.CommonView
-        android:id="@+id/com_jb"
-        app:desTextColor="#333333"
-        app:desTextSize="14sp"
-        android:layout_marginTop="15dp"
-        app:isShowCategoryImage="false"
-        app:desText="举报该群"
-        android:layout_width="match_parent"
-        android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>
+    <!--<com.boyuanitsm.zhetengba.view.CommonView-->
+        <!--android:id="@+id/com_jb"-->
+        <!--app:desTextColor="#333333"-->
+        <!--app:desTextSize="14sp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--app:isShowCategoryImage="false"-->
+        <!--app:desText="举报该群"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>-->
 
    <TextView
        android:id="@+id/tv_tc"

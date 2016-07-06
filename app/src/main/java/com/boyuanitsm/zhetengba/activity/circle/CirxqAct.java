@@ -112,7 +112,6 @@ public class CirxqAct extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv_label.setLayoutManager(linearLayoutManager);
         Intent intent=getIntent();
-
         type=intent.getExtras().getInt("type");
         circleId=intent.getExtras().getString("circleId");
         if(type==0){

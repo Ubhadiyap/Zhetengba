@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
-import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
@@ -207,6 +206,7 @@ public class PpfrgAdapter extends BaseAdapter {
                 //开启分享界面
                 Intent intent=new Intent();
                 intent.setClass(context,ShareDialogAct.class);
+                intent.putExtra("type",1);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

@@ -323,8 +323,6 @@ public class ScanQrcodeAct extends BaseActivity implements Callback {
             mediaPlayer.seekTo(0);
         }
     };
-
-
     /**
      * 重新启动扫码
      */

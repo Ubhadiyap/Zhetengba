@@ -21,6 +21,8 @@ import com.umeng.socialize.media.UMImage;
  * Created by bitch-1 on 2016/5/23.
  */
 public class ShareDialogAct extends BaseActivity {
+    private int type;
+    private String codeUrl;
 
     @Override
     public void setLayout() {
@@ -34,6 +36,20 @@ public class ShareDialogAct extends BaseActivity {
 //        params.width = (int) (defaultDisplay.getWidth() * 1.0);
 //        params.height=(int)(defaultDisplay.getHeight()*1.0);
 //        getWindow().setGravity(Gravity.BOTTOM);
+        type=getIntent().getExtras().getInt("type");
+        if(type==1){
+            codeUrl="http://172.16.6.253:8082/share_1 ";//活动分享链接
+        }
+        if(type==2){
+            codeUrl="http://172.16.6.253:8082/share_2 ";//档期分享链接
+        }
+        if(type==3){
+            codeUrl="http://172.16.6.253:8082/share_3   ";//下载链接
+        }
+        if(type==4){
+            codeUrl="http://www.baidu.com";//圈子动态链接暂时用百度链接
+            //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
+        }
 
         Window window = getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();
@@ -52,16 +68,17 @@ public class ShareDialogAct extends BaseActivity {
                new ShareAction(this)
                 .setPlatform(SHARE_MEDIA.QQ)
                     .setCallback(umShareListener)
-                    .withText("hello umeng video")
-                    .withTargetUrl("http://www.baidu.com")
+                    .withText("折腾吧")
+                    .withTargetUrl(codeUrl)
                     .withMedia(image)
+                       .withTitle("折腾吧")
                     .share();
                 break;
             case R.id.ll_weiboshare:
                 new ShareAction(this)
                         .setPlatform(SHARE_MEDIA.SINA)
                         .setCallback(umShareListener)
-                        .withText("hello umeng video")
+                        .withText("折腾吧"+codeUrl)
                         .withMedia(image)
                         .share();
                 break;
@@ -69,9 +86,10 @@ public class ShareDialogAct extends BaseActivity {
                 new ShareAction(this)
                         .setPlatform(SHARE_MEDIA.WEIXIN)
                         .setCallback(umShareListener)
-                        .withText("hello umeng video")
-                        .withTargetUrl("http://www.baidu.com")
+                        .withText("折腾吧")
+                        .withTargetUrl(codeUrl)
                         .withMedia(image)
+                        .withTitle("折腾吧")
                         .share();
                 break;
 
@@ -90,11 +108,13 @@ public class ShareDialogAct extends BaseActivity {
         @Override
         public void onResult(SHARE_MEDIA platform) {
             MyToastUtils.showShortToast(getApplicationContext(), "分享成功");
+            finish();
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
             MyToastUtils.showShortToast(getApplicationContext(), "分享失败");
+            finish();
         }
 
         @Override
