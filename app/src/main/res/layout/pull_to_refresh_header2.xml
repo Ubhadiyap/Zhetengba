@@ -61,8 +61,8 @@
                 android:id="@+id/pull_to_refresh_header_arrow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:src="@mipmap/xsearch_msg_pull_arrow_down" />
+                android:layout_gravity="center" />
+            <!--android:src="@mipmap/xsearch_msg_pull_arrow_down"-->
 
             <ProgressBar
                 android:id="@+id/pull_to_refresh_header_progressbar"

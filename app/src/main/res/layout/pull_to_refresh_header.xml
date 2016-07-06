@@ -54,8 +54,8 @@
             android:layout_toLeftOf="@id/pull_to_refresh_header_text"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@mipmap/xsearch_msg_pull_arrow_down" />
-        
+           />
+        <!--android:src="@mipmap/xsearch_msg_pull_arrow_down"-->
         <ProgressBar
             android:id="@+id/pull_to_refresh_header_progressbar"
             android:layout_width="28dip"

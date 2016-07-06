@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.view.refresh;
 
 import android.content.Context;
 import android.graphics.Matrix;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -40,7 +41,7 @@ public class RotateLoadingLayout extends LoadingLayout {
 	private TextView mHeaderTimeViewTitle;
 	/** 旋转的动画 */
 	private Animation mRotateAnimation;
-
+	private AnimationDrawable animationDrawable;
 	/**
 	 * 构造方法
 	 * 
@@ -77,20 +78,19 @@ public class RotateLoadingLayout extends LoadingLayout {
 		mHintTextView = (TextView) findViewById(R.id.pull_to_refresh_header_hint_textview);
 		mHeaderTimeView = (TextView) findViewById(R.id.pull_to_refresh_header_time);
 		mHeaderTimeViewTitle = (TextView) findViewById(R.id.pull_to_refresh_last_update_time_text);
-
 		mArrowImageView.setScaleType(ScaleType.CENTER);
-		mArrowImageView.setImageResource(R.mipmap.default_ptr_rotate);
-
+//		mArrowImageView.setImageResource(R.mipmap.default_ptr_rotate);
+		mArrowImageView.setBackgroundResource(R.drawable.update_loading_list);
 		float pivotValue = 0.5f; // SUPPRESS CHECKSTYLE
 		float toDegree = 720.0f; // SUPPRESS CHECKSTYLE
-		mRotateAnimation = new RotateAnimation(0.0f, toDegree,
-				Animation.RELATIVE_TO_SELF, pivotValue,
-				Animation.RELATIVE_TO_SELF, pivotValue);
-		mRotateAnimation.setFillAfter(true);
-		mRotateAnimation.setInterpolator(ANIMATION_INTERPOLATOR);
-		mRotateAnimation.setDuration(ROTATION_ANIMATION_DURATION);
-		mRotateAnimation.setRepeatCount(Animation.INFINITE);
-		mRotateAnimation.setRepeatMode(Animation.RESTART);
+//		mRotateAnimation = new RotateAnimation(0.0f, toDegree,
+//				Animation.RELATIVE_TO_SELF, pivotValue,
+//				Animation.RELATIVE_TO_SELF, pivotValue);
+//		mRotateAnimation.setFillAfter(true);
+//		mRotateAnimation.setInterpolator(ANIMATION_INTERPOLATOR);
+//		mRotateAnimation.setDuration(ROTATION_ANIMATION_DURATION);
+//		mRotateAnimation.setRepeatCount(Animation.INFINITE);
+//		mRotateAnimation.setRepeatMode(Animation.RESTART);
 	}
 
 	@Override
@@ -142,7 +142,13 @@ public class RotateLoadingLayout extends LoadingLayout {
 	@Override
 	protected void onRefreshing() {
 		resetRotation();
-		mArrowImageView.startAnimation(mRotateAnimation);
+		if (animationDrawable!=null){
+			animationDrawable.stop();
+		}
+		animationDrawable = (AnimationDrawable) mArrowImageView.getBackground();
+		animationDrawable.setOneShot(false);
+		animationDrawable.start();
+//		mArrowImageView.startAnimation(mRotateAnimation);
 		mHintTextView.setText(R.string.pull_to_refresh_header_hint_loading);
 	}
 
@@ -153,12 +159,12 @@ public class RotateLoadingLayout extends LoadingLayout {
 		// float angle = scale * 180f; // SUPPRESS CHECKSTYLE
 		// mArrowImageView.setRotation(angle);
 
-		if (null == mRotationHelper) {
-			mRotationHelper = new ImageViewRotationHelper(mArrowImageView);
-		}
-
-		float angle = scale * 180f; // SUPPRESS CHECKSTYLE
-		mRotationHelper.setRotation(angle);
+//		if (null == mRotationHelper) {
+//			mRotationHelper = new ImageViewRotationHelper(mArrowImageView);
+//		}
+//
+//		float angle = scale * 180f; // SUPPRESS CHECKSTYLE
+//		mRotationHelper.setRotation(angle);
 	}
 
 	/**
@@ -171,7 +177,7 @@ public class RotateLoadingLayout extends LoadingLayout {
 
 		mArrowImageView.clearAnimation();
 		// mArrowImageView.setRotation(0);
-		mRotationHelper.setRotation(0);
+//		mRotationHelper.setRotation(0);
 	}
 
 	/**
