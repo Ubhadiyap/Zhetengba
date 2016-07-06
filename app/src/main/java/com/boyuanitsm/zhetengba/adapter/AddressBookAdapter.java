@@ -19,6 +19,7 @@ import com.boyuanitsm.zhetengba.bean.PhoneInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -115,7 +116,13 @@ public class AddressBookAdapter extends BaseAdapter implements SectionIndexer{
             holder.btn_invate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    findUserByPhone(list.get(position).getPhoneNumber().toString());
+
+                    String phoneNum=list.get(position).getPhoneNumber().toString();
+                    if(phoneNum.equals(UserInfoDao.getUser().getUsername())){
+                        MyToastUtils.showShortToast(context,"不能加自己为好友");
+                    }else {
+                        findUserByPhone(phoneNum.replace("-", "").replace(" ", ""));
+                    }
                 }
             });
 

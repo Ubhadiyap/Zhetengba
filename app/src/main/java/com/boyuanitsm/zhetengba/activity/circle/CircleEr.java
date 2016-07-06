@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ErEntity;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -34,9 +36,14 @@ public class CircleEr extends BaseActivity implements View.OnClickListener {
             setTopTitle("圈子二维码");
         Bundle bundle=getIntent().getExtras();
         String circleId= bundle.getString("circleId");
+        ErEntity erEntity=new ErEntity();
         if (!TextUtils.isEmpty(circleId)){
-            bitmap= ZhetebaUtils.createQRImage(circleId);
+            erEntity.setType(0);//圈子二维码
+            erEntity.setId(circleId);
         }
+//        if (!TextUtils.isEmpty(circleId)){
+            bitmap= ZhetebaUtils.createQRImage(GsonUtils.bean2Json(erEntity));
+//        }
         iv_erm.setScaleType(ImageView.ScaleType.FIT_XY);
         iv_erm.setImageBitmap(bitmap);
     }
