@@ -86,7 +86,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private void initDate(final List<UserInterestInfo> titleList) {
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
-        if (titleList.size()<currentPos){
+        if (titleList.size()<=currentPos){
             currentPos=0;
         }
         if (titleList.size()>0) {
@@ -173,6 +173,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
+            MyLogUtils.degug("传过来的位置："+currentPos+"====点击位置："+(int)view.getTag());
             if ((int) view.getTag() == currentPos) {
                 return;
             }
@@ -302,7 +303,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                     pos = bundle.getInt("flag", currentPos);
                 }
             }
-            MyLogUtils.degug("pos:"+pos);
+            MyLogUtils.degug("pos:"+pos+"=======currentPos:"+currentPos);
             if (titleList == null) {
                 getMyLabels(-1);
             } else {
