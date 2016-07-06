@@ -33,6 +33,7 @@ public class EditAct extends BaseActivity {
     public static String USER_TYPE = "type";
     private UserInfo user;
     private boolean flag=true;
+    private int error;//用来区别名字修改时间昵称为空时吐司
 
     @Override
     public void setLayout() {
@@ -50,6 +51,9 @@ public class EditAct extends BaseActivity {
                    if (saveUserinfo()==true){
                        saveUser(user);
                    }else {
+                       if(error==1){
+                           MyToastUtils.showShortToast(EditAct.this,"昵称不能为空");
+                       }else
                        MyToastUtils.showShortToast(EditAct.this,"修改信息失败！");
                    }
 
@@ -100,10 +104,14 @@ public class EditAct extends BaseActivity {
                 if (user != null) {
                     if (!TextUtils.isEmpty(content)) {
                         user.setPetName(content);
+                        flag=true;
                     } else {
-                        user.setPetName("");
+                        MyToastUtils.showShortToast(EditAct.this,"昵称不能为空");
+                        cetEditInfo.requestFocus();
+                        flag=false;
+                        error=1;
                     }
-                  flag=true;
+
                 }
                 break;
 //            case 2:
