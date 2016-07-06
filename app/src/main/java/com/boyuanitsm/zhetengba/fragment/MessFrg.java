@@ -2,7 +2,9 @@ package com.boyuanitsm.zhetengba.fragment;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.mess.AddFriendsAct;
 import com.boyuanitsm.zhetengba.activity.mess.ContractsAct;
 import com.boyuanitsm.zhetengba.activity.mess.CreateGroupAct;
@@ -21,6 +24,7 @@ import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
+import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -129,6 +133,38 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                 errorText.setText(R.string.the_current_network);
             }
         }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.em_delete_message, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        boolean deleteMessage = false;
+        if (item.getItemId() == R.id.delete_message) {
+            deleteMessage = true;
+        } else if (item.getItemId() == R.id.delete_conversation) {
+            deleteMessage = false;
+        }
+        EMConversation tobeDeleteCons = conversationListView.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position);
+        if (tobeDeleteCons == null) {
+            return true;
+        }
+        try {
+            // 删除此会话
+            EMClient.getInstance().chatManager().deleteConversation(tobeDeleteCons.getUserName(), deleteMessage);
+            InviteMessgeDao inviteMessgeDao = new InviteMessgeDao(getActivity());
+            inviteMessgeDao.deleteMessage(tobeDeleteCons.getUserName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        refresh();
+
+        // 更新消息未读数
+        ((MainAct)getActivity()).updateUnreadLabel();
+        return true;
+    }
 
 
     /**
