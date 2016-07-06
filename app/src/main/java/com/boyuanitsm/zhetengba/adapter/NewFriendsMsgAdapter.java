@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +29,12 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.util.DateUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.util.Date;
 import java.util.List;
 
 //import com.hyphenate.easeui.widget.CircleImageView;
@@ -45,8 +48,9 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
     private InviteMessgeDao messgeDao;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.drawable.em_default_avatar)
-            .showImageOnFail(R.drawable.em_default_avatar).cacheInMemory(true).cacheOnDisk(true)
+            .showImageOnLoading(R.mipmap.userhead)
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
@@ -66,10 +70,12 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
             holder.reason = (TextView) convertView.findViewById(R.id.message);
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.agree = (Button) convertView.findViewById(R.id.agree);
-            holder.status = (Button) convertView.findViewById(R.id.user_state);
+            holder.tvStatus = (TextView) convertView.findViewById(R.id.tvState);
             holder.groupContainer = (LinearLayout) convertView.findViewById(R.id.ll_group);
             holder.groupname = (TextView) convertView.findViewById(R.id.tv_groupName);
-            // holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.refuse= (Button) convertView.findViewById(R.id.refuse);
+            holder.llState= (RelativeLayout) convertView.findViewById(R.id.llState);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -90,8 +96,8 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
         final InviteMessage msg = getItem(position);
         if (msg != null) {
-
-            holder.agree.setVisibility(View.INVISIBLE);
+            holder.llState.setVisibility(View.GONE);
+//            holder.agree.setVisibility(View.INVISIBLE);
 
             if (msg.getGroupId() != null) { // 显示群聊提示
                 holder.groupContainer.setVisibility(View.GONE);
@@ -103,22 +109,23 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
             holder.reason.setText(msg.getReason());
 
-            // holder.time.setText(DateUtils.getTimestampString(new
-            // Date(msg.getTime())));
+            holder.time.setText(DateUtils.getTimestampString(new
+                    Date(msg.getTime())));
             if (msg.getStatus() == InviteMessage.InviteMesageStatus.BEAGREED) {
-                holder.status.setVisibility(View.INVISIBLE);
+                holder.tvStatus.setVisibility(View.INVISIBLE);
                 holder.reason.setText(str1);
             } else if (msg.getStatus() == InviteMessage.InviteMesageStatus.BEINVITEED || msg.getStatus() == InviteMesageStatus.BEAPPLYED ||
                     msg.getStatus() == InviteMesageStatus.GROUPINVITATION) {
-                holder.agree.setVisibility(View.VISIBLE);
-                holder.agree.setEnabled(true);
-                holder.agree.setBackgroundResource(android.R.drawable.btn_default);
-                holder.agree.setText(str2);
+                holder.llState.setVisibility(View.VISIBLE);
+//                holder.agree.setVisibility(View.VISIBLE);
+//                holder.agree.setEnabled(true);
+//                holder.agree.setBackgroundResource(android.R.drawable.btn_default);
+//                holder.agree.setText(str2);
 
-                holder.status.setVisibility(View.VISIBLE);
-                holder.status.setEnabled(true);
-                holder.status.setBackgroundResource(android.R.drawable.btn_default);
-                holder.status.setText(str7);
+//                holder.status.setVisibility(View.VISIBLE);
+//                holder.status.setEnabled(true);
+//                holder.status.setBackgroundResource(android.R.drawable.btn_default);
+//                holder.status.setText(str7);
                 if (msg.getStatus() == InviteMesageStatus.BEINVITEED) {
                     if (msg.getReason() == null) {
                         // 如果没写理由
@@ -139,42 +146,42 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                     @Override
                     public void onClick(View v) {
                         // 同意别人发的好友请求
-                        addFriends(holder.agree, holder.status, msg);
+                        addFriends(holder.llState, holder.tvStatus, msg);
                     }
                 });
-                holder.status.setOnClickListener(new View.OnClickListener() {
+                holder.refuse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // 拒绝别人发的好友请求
-                        refuseInvitation(holder.agree, holder.status, msg);
+                        refuseInvitation(holder.llState, holder.tvStatus, msg);
                     }
                 });
             } else if (msg.getStatus() == InviteMesageStatus.AGREED) {
-                holder.status.setText(str5);
-                holder.status.setBackgroundDrawable(null);
-                holder.status.setEnabled(false);
+                holder.tvStatus.setText(str5);
+//                holder.status.setBackgroundDrawable(null);
+//                holder.status.setEnabled(false);
             } else if (msg.getStatus() == InviteMesageStatus.REFUSED) {
-                holder.status.setText(str6);
-                holder.status.setBackgroundDrawable(null);
-                holder.status.setEnabled(false);
+                holder.tvStatus.setText(str6);
+//                holder.status.setBackgroundDrawable(null);
+//                holder.status.setEnabled(false);
             } else if (msg.getStatus() == InviteMesageStatus.GROUPINVITATION_ACCEPTED) {
                 String str = msg.getGroupInviter() + str9 + msg.getGroupName();
                 holder.reason.setText(str);
-                holder.status.setBackgroundDrawable(null);
-                holder.status.setText("");
-                holder.status.setEnabled(false);
+//                holder.status.setBackgroundDrawable(null);
+                holder.tvStatus.setText("");
+//                holder.status.setEnabled(false);
             } else if (msg.getStatus() == InviteMesageStatus.GROUPINVITATION_DECLINED) {
                 String str = msg.getGroupInviter() + str10 + msg.getGroupName();
                 holder.reason.setText(str);
-                holder.status.setBackgroundDrawable(null);
-                holder.status.setEnabled(false);
-                holder.status.setText("");
+//                holder.status.setBackgroundDrawable(null);
+//                holder.status.setEnabled(false);
+                holder.tvStatus.setText("");
             }
-            if(ChatUserDao.findUserById(msg.getFrom())!=null){
-                EaseUser easeUser=ChatUserDao.findUserById(msg.getFrom());
+            if (ChatUserDao.findUserById(msg.getFrom()) != null) {
+                EaseUser easeUser = ChatUserDao.findUserById(msg.getFrom());
                 holder.name.setText(easeUser.getNick());
-                ImageLoader.getInstance().displayImage(easeUser.getAvatar(),holder.avator,optionsImag);
-            }else {
+                ImageLoader.getInstance().displayImage(easeUser.getAvatar(), holder.avator, optionsImag);
+            } else {
                 // 设置用户头像
                 getUser(msg.getFrom(), holder.avator, holder.name);
             }
@@ -245,10 +252,10 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
     /**
      * 拒绝好友请求或者群申请
      *
-     * @param buttonAgree
+     * @param
      * @param buttonRefuse
      */
-    private void refuseInvitation(final Button buttonAgree, final Button buttonRefuse, final InviteMessage msg) {
+    private void refuseInvitation(final RelativeLayout rlS, final TextView buttonRefuse, final InviteMessage msg) {
         final ProgressDialog pd = new ProgressDialog(context);
         String str1 = context.getResources().getString(R.string.Are_refuse_with);
         final String str2 = context.getResources().getString(R.string.Has_refused_to);
@@ -279,10 +286,10 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                         public void run() {
                             pd.dismiss();
                             buttonRefuse.setText(str2);
-                            buttonRefuse.setBackgroundDrawable(null);
-                            buttonRefuse.setEnabled(false);
-
-                            buttonAgree.setVisibility(View.INVISIBLE);
+//                            buttonRefuse.setBackgroundDrawable(null);
+//                            buttonRefuse.setEnabled(false);
+                              rlS.setVisibility(View.GONE);
+//                            buttonAgree.setVisibility(View.INVISIBLE);
                         }
                     });
                 } catch (final Exception e) {
@@ -305,13 +312,15 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
         TextView name;
         TextView reason;
         Button agree;
-        Button status;
+        Button refuse;
+        TextView tvStatus;
         LinearLayout groupContainer;
         TextView groupname;
-        // TextView time;
+        TextView time;
+        RelativeLayout llState;
     }
 
-    private void addFriends(final Button buttonAgree, final Button buttonRefuse, final InviteMessage msg) {
+    private void addFriends(final RelativeLayout rlS, final TextView buttonRefuse, final InviteMessage msg) {
         final ProgressDialog pd = new ProgressDialog(context);
         String str1 = context.getResources().getString(R.string.Are_agree_with);
         final String str2 = context.getResources().getString(R.string.Has_agreed_to);
@@ -338,11 +347,12 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                     @Override
                     public void run() {
                         pd.dismiss();
-                        buttonAgree.setText(str2);
-                        buttonAgree.setBackgroundDrawable(null);
-                        buttonAgree.setEnabled(false);
+                        buttonRefuse.setText(str2);
+                        rlS.setVisibility(View.GONE);
+//                        buttonAgree.setBackgroundDrawable(null);
+//                        buttonAgree.setEnabled(false);
 
-                        buttonRefuse.setVisibility(View.INVISIBLE);
+//                        buttonRefuse.setVisibility(View.INVISIBLE);
                     }
                 });
             }
@@ -350,7 +360,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
     }
 
 
-    private void getUser(final String personId,final CircleImageView cvHead,final TextView tvNick) {
+    private void getUser(final String personId, final CircleImageView cvHead, final TextView tvNick) {
         RequestManager.getMessManager().findUserByHId(personId, new ResultCallback<ResultBean<UserInfo>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -360,13 +370,13 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
             @Override
             public void onResponse(ResultBean<UserInfo> response) {
                 UserInfo userInfo = response.getData();
-                if(userInfo!=null){
-                    ChatUserBean chatUserBean=new ChatUserBean();
+                if (userInfo != null) {
+                    ChatUserBean chatUserBean = new ChatUserBean();
                     chatUserBean.setUserId(personId);
                     chatUserBean.setNick(userInfo.getPetName());
                     chatUserBean.setIcon(Uitls.imageFullUrl(userInfo.getIcon()));
                     ChatUserDao.saveUser(chatUserBean);
-                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userInfo.getIcon()),cvHead,optionsImag);
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userInfo.getIcon()), cvHead, optionsImag);
                     tvNick.setText(userInfo.getPetName());
                 }
             }

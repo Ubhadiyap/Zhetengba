@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -41,13 +42,12 @@ public class EventdetailsAct extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_ok:
-                str=feedback_et.getText().toString();
-                if (str.isEmpty()){
+                str=feedback_et.getText().toString().trim();
+                if (TextUtils.isEmpty(str)){
                     MyToastUtils.showShortToast(this,"输入内容不能为空");
                     return;
                 }else {
                     Intent intent=new Intent();
-//                intent.setClass(EventdetailsAct.this, ContractedAct.class);
                     Bundle bundle2=new Bundle();
                     bundle2.putString("detailsTheme",str);
                     intent.putExtra("bundle2",bundle2);
