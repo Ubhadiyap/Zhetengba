@@ -89,29 +89,32 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         if (titleList.size()<currentPos){
             currentPos=0;
         }
-        getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
-        for (int i = 0; i < titleList.size(); i++) {
-            addTitleLayout(titleList.get(i).getDictName(), i);
+        if (titleList.size()>0) {
+            getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+            for (int i = 0; i < titleList.size(); i++) {
+                addTitleLayout(titleList.get(i).getDictName(), i);
+            }
+            if (textViewList != null && textViewList.size() > 0) {
+                textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
+            }
+            LayoutHelperUtil.freshInit(vp_chan);
+            vp_chan.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+                @Override
+                public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                    vp_chan.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                    page = 1;
+                    getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+                }
+
+                @Override
+                public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                    page++;
+                    getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+                }
+            });
         }
 
-        if (textViewList != null && textViewList.size() > 0) {
-            textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
-        }
-        LayoutHelperUtil.freshInit(vp_chan);
-        vp_chan.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                vp_chan.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-                page = 1;
-                getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
-            }
 
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
-                getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
-            }
-        });
         currentPos = pos;
     }
 
@@ -284,9 +287,13 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            if (titleLayout!=null)
             titleLayout.removeAllViews();
+            if (textViewList!=null)
             textViewList.clear();
+            if (titleList!=null)
             titleList.clear();
+            if (datalist!=null)
             datalist.clear();
             titleList = LabelInterestDao.getInterestLabel();
             if (intent!=null) {
