@@ -2,10 +2,14 @@ package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +28,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -50,6 +55,8 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private EditText etComment;//评论内容
     @ViewInject(R.id.my_lv)
     private PullToRefreshListView my_lv;
+    @ViewInject(R.id.iv_chanel_comment)
+    private Button btnSend;
     private LinearLayout ll_two;
     private LinearLayout llphoto;
     private CustomImageView ng_one_image, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
@@ -57,8 +64,8 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private List<List<ImageInfo>> dataList;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.mipmap.zanwutupian)
-            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
     private String channelId;//频道说说id
@@ -104,6 +111,29 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
                 getCircleCommentsList(channelId,page,rows);
+            }
+        });
+
+        etComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s.toString().trim())){
+                    btnSend.setBackgroundResource(R.drawable.main_btn_nor);
+                    btnSend.setTextColor(Color.parseColor("#FFFFFF"));
+                }else {
+                    btnSend.setBackgroundColor(Color.parseColor("#f4f4f4"));
+                    btnSend.setTextColor(Color.parseColor("#999999"));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -247,7 +277,13 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             case R.id.ll_comment:
                 break;
             case R.id.iv_chanel_comment:
-                commentChannelTalk(channelId,null,etComment.getText().toString().trim());
+                if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
+                    btnSend.setEnabled(false);
+                    btnSend.setClickable(false);
+                    commentChannelTalk(channelId, null, etComment.getText().toString().trim());
+                }else {
+                    MyToastUtils.showShortToast(ChanelTextAct.this,"请输入评论内容！");
+                }
                 break;
         }
     }
@@ -262,7 +298,8 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                btnSend.setEnabled(true);
+                btnSend.setClickable(true);
             }
 
             @Override
@@ -270,7 +307,11 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 //重新获取评论列表，刷新评论数目，关闭键盘
                 ZtinfoUtils.hideSoftKeyboard(ChanelTextAct.this, etComment);
                 etComment.setText("");
+                commentNum.setText("评论" + response.getData());
+                page=1;
                 getCircleCommentsList(channelTalkId, page, rows);
+                btnSend.setEnabled(true);
+                btnSend.setClickable(true);
             }
         });
     }
@@ -278,7 +319,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private List<ChannelTalkEntity> datas=new ArrayList<>();
     //获取评论列表
     private void getCircleCommentsList(String channelTalkId, final int page, int rows){
-        dataList = new ArrayList<>();
+        list = new ArrayList<>();
         RequestManager.getTalkManager().getChannelCommentsList(channelTalkId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -291,7 +332,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 my_lv.onPullUpRefreshComplete();
                 my_lv.onPullDownRefreshComplete();
                 list=response.getData().getRows();
-                commentNum.setText("评论" + list.size());
                 if (list.size() == 0) {
                     if (page == 1) {
 
@@ -303,6 +343,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                     datas.clear();
                 }
                 datas.addAll(list);
+//                commentNum.setText("评论" + datas.size());
                 if (adapter==null) {
                     adapter = new ChaTextAdapter(ChanelTextAct.this, datas);
                     my_lv.getRefreshableView().setAdapter(adapter);

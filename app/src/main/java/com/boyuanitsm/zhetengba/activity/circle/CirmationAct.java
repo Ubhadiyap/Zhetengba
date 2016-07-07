@@ -51,17 +51,28 @@ public class CirmationAct extends BaseActivity {
         if(circleEntity!=null){
             if (!TextUtils.isEmpty(circleEntity.getCircleOwnerId())){
                 if (circleEntity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())){
-                    notice.requestFocus(circleEntity.getNotice().length());
                     notice.setEnabled(true);
+                    setRight("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!TextUtils.isEmpty(notice.getText().toString().trim())){
+                                addNotice(circleEntity.getId(),notice.getText().toString().trim());
+                            }else {
+                                MyToastUtils.showShortToast(CirmationAct.this,"请输入公告内容！");
+                            }
+                        }
+                    });
                 }else {
+                    setRight("",null);
                     notice.setEnabled(false);
                 }
             }
             if(!TextUtils.isEmpty(circleEntity.getNotice())) {
                 notice.setText(circleEntity.getNotice());
             }else {
-                notice.setText("暂无");
+                notice.setText("");
             }
+            notice.requestFocus(notice.getText().toString().trim().length());
         }
     }
 
@@ -86,6 +97,27 @@ public class CirmationAct extends BaseActivity {
                 break;
 
         }
+    }
+
+    /**
+     * 发布公告
+     * @param circleId
+     * @param notice
+     */
+    private void addNotice(String circleId ,String notice ){
+        RequestManager.getTalkManager().addNotice(circleId, notice, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                finish();//发布公告成功，详情界面公告与圈子管理界面刷新
+                sendBroadcast(new Intent(CirxqAct.DETAIL));
+                sendBroadcast(new Intent(CircleglAct.INTENTFLAG));
+            }
+        });
     }
 
     /**

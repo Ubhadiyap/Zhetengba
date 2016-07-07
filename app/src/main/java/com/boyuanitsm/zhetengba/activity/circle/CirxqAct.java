@@ -80,8 +80,8 @@ public class CirxqAct extends BaseActivity {
 
     private List<List<ImageInfo>> datalist;
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.mipmap.zanwutupian)
-            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
     private View headView;
@@ -262,14 +262,16 @@ public class CirxqAct extends BaseActivity {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getCircleLogo()),head,options);
             if(!TextUtils.isEmpty(entity.getUserName())){
                 name.setText("圈主：" + entity.getUserName());
-            }else {
+            }else if (!TextUtils.isEmpty(entity.getCircleOwnerId())){
                 String str=entity.getCircleOwnerId();
                 name.setText("圈主："+str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
+            }else {
+                name.setText("圈主：");
             }
             if(!TextUtils.isEmpty(entity.getNotice())){
                 notice.setText("公告："+entity.getNotice());
             }else {
-                notice.setText("公告：暂无");
+                notice.setText("公告：");
             }
             if (!TextUtils.isEmpty(entity.getCircleOwnerId())){
                 if(entity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())){
@@ -460,6 +462,10 @@ public class CirxqAct extends BaseActivity {
             receiverTalk=new MyBroadCastReceiverTalk();
             registerReceiver(receiverTalk,new IntentFilter(TALKS));
         }
+        if (receiverDetail==null){
+            receiverDetail=new MyBroadCastReceiverDetail();
+            registerReceiver(receiverDetail,new IntentFilter(DETAIL));
+        }
     }
 
     @Override
@@ -472,6 +478,10 @@ public class CirxqAct extends BaseActivity {
         if(receiverTalk!=null){
             unregisterReceiver(receiverTalk);
             receiverTalk=null;
+        }
+        if(receiverDetail!=null){
+            unregisterReceiver(receiverDetail);
+            receiverDetail=null;
         }
     }
 
@@ -493,6 +503,16 @@ public class CirxqAct extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             page=1;
             getThisCircleTalks(circleId,page,rows);
+        }
+    }
+
+    private MyBroadCastReceiverDetail receiverDetail;
+    public static final String DETAIL="detail_update";
+    private class MyBroadCastReceiverDetail extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getCircleDetail(circleId);
         }
     }
 
