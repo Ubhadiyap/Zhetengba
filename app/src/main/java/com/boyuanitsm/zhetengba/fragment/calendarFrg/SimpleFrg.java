@@ -140,7 +140,6 @@ public class SimpleFrg extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
                 if (views.size() != 0 && views.get(position) != null) {
-
                     for (int i = 0; i < views.size(); i++) {
                         if (i == position) {
                             views.get(i).setBackgroundResource(R.drawable.point_focus);

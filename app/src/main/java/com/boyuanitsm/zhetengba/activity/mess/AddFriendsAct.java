@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.activity.mess;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +24,11 @@ import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 /**
  * 添加好友
@@ -32,6 +38,7 @@ public class AddFriendsAct extends BaseActivity {
     private int READ_CONTACTS = 111;
     @ViewInject(R.id.cetSearch)
     private ClearEditText cetSearch;
+    private String codeUrl="http://172.16.6.253:8082/share_3" ;
 
 
 
@@ -69,6 +76,8 @@ public class AddFriendsAct extends BaseActivity {
 
     @OnClick({R.id.rlPhone, R.id.ivWx, R.id.ivQQ})
     public void onClick(View v) {
+        final UMImage image = new UMImage(AddFriendsAct.this,
+               BitmapFactory.decodeResource(getResources(), R.mipmap.logo));
         switch (v.getId()) {
             case R.id.rlPhone://手机联系人
                 if (Build.VERSION.SDK_INT >= 23) {
@@ -86,10 +95,25 @@ public class AddFriendsAct extends BaseActivity {
 
                 break;
             case R.id.ivWx:
+                new ShareAction(this)
+                        .setPlatform(SHARE_MEDIA.WEIXIN)
+                        .setCallback(umShareListener)
+                        .withText("折腾吧")
+                        .withTargetUrl(codeUrl)
+                        .withMedia(image)
+                        .withTitle("折腾吧")
+                        .share();
 
                 break;
             case R.id.ivQQ:
-
+                new ShareAction(this)
+                        .setPlatform(SHARE_MEDIA.QQ)
+                        .setCallback(umShareListener)
+                        .withText("折腾吧")
+                        .withTargetUrl(codeUrl)
+                        .withMedia(image)
+                        .withTitle("折腾吧")
+                        .share();
                 break;
         }
     }
@@ -135,7 +159,31 @@ public class AddFriendsAct extends BaseActivity {
             }
         });
     }
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            MyToastUtils.showShortToast(getApplicationContext(), "分享成功");
+            finish();
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            MyToastUtils.showShortToast(getApplicationContext(), "分享失败");
+            finish();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+//            MyToastUtils.showShortToast(getApplicationContext(), "分享取消");
+        }
+    };
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /** attention to this below ,must add this**/
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
 
 }

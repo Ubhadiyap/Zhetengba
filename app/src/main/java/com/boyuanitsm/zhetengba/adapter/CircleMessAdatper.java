@@ -121,7 +121,6 @@ public class CircleMessAdatper extends BaseAdapter {
                     holder1 = new Holder1();
                     convertView = View.inflate(context, R.layout.item_mess, null);
                     holder1.tv_huifu = (TextView) convertView.findViewById(R.id.tv_huifu);
-                    holder1.ll_reply = (LinearLayout) convertView.findViewById(R.id.ll_reply);
                     holder1.cv_head1 = (CircleImageView) convertView.findViewById(R.id.cv_head1);
                     holder1.niName1 = (TextView) convertView.findViewById(R.id.tv_niname);
                     holder1.createTime1 = (TextView) convertView.findViewById(R.id.tv_time);
@@ -157,7 +156,6 @@ public class CircleMessAdatper extends BaseAdapter {
                     holder2 = new Holder2();
                     convertView = View.inflate(context, R.layout.item_mess_one, null);
                     holder2.tv_qingqiu = (TextView) convertView.findViewById(R.id.tv_qingqiu);
-                    holder2.tv_beizhu = (TextView) convertView.findViewById(R.id.tv_beizhu);
                     holder2.cv_head2 = (CircleImageView) convertView.findViewById(R.id.cv_head2);
                     holder2.tv_petName = (TextView) convertView.findViewById(R.id.tv_petName);
                     holder2.tv_creatTime = (TextView) convertView.findViewById(R.id.tv_creatTime);
@@ -322,7 +320,6 @@ public class CircleMessAdatper extends BaseAdapter {
 
     static class Holder1 {
         private TextView tv_huifu;
-        private LinearLayout ll_reply;
         private CircleImageView cv_head1;
         private TextView niName1;
         private TextView createTime1;
@@ -332,7 +329,6 @@ public class CircleMessAdatper extends BaseAdapter {
 
     static class Holder2 {
         private TextView tv_qingqiu;
-        private TextView tv_beizhu;
         private Button bt_yes, bt_no;
         private CircleImageView cv_head2;
         private TextView tv_petName;
