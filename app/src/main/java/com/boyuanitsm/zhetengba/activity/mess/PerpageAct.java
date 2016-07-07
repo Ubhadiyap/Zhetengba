@@ -26,7 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
@@ -40,6 +39,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
+import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
@@ -48,10 +48,14 @@ import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -218,11 +222,37 @@ public class PerpageAct extends BaseActivity {
 //                    intent.putExtras(bundle);
 //                    startActivity(intent);
                 }else if (bt_message.getText().equals("发送消息")){
-                   Intent intent=new Intent(this, ChatActivity.class);
-                    Bundle bundle=new Bundle();
-                    bundle.putString("userId",userEntity.get(0).getId());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                    final Intent intent=new Intent(this, ChatActivity.class);
+                    final EaseUser easeUser=EaseUserUtils.getUserInfo(userEntity.get(0).getId());
+                    if(easeUser!=null&&easeUser.getNick().length()!=32){
+
+                        Bundle bundle=new Bundle();
+                        bundle.putString("userId",userEntity.get(0).getId());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }else{
+                        RequestManager.getMessManager().findUserByHId(userEntity.get(0).getId(), new ResultCallback<ResultBean<UserInfo>>() {
+                            @Override
+                            public void onError(int status, String errorMsg) {
+                                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
+                            }
+
+                            @Override
+                            public void onResponse(ResultBean<UserInfo> response) {
+                                UserInfo userInfo=response.getData();
+                                EaseUser easeUser1=new EaseUser(userInfo.getId());
+                                easeUser1.setNick(userInfo.getPetName());
+                                easeUser1.setInitialLetter(CharacterParserUtils.getInstance().getSelling(userInfo.getPetName()).substring(0, 1));
+                                easeUser1.setAvatar(Uitls.imageFullUrl(userInfo.getIcon()));
+                                DemoHelper.getInstance().saveContact(easeUser1);
+                                Bundle bundle=new Bundle();
+                                bundle.putString("userId", userEntity.get(0).getId());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+
                 }
 
                 break;
