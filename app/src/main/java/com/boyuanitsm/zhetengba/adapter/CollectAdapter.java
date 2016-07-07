@@ -170,26 +170,60 @@ public class CollectAdapter extends BaseAdapter {
                 }
             });
 
-            //参加活动
-            holder.ll_join.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(list.get(position).isJoin()){
-                        new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加").setPositiveButton("确认", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //掉取消参加活动的接口还没出来
-                                stateCancelChange(position,holder);
-                                MyToastUtils.showShortToast(context,"取消参加活动成功");
-                            }
-                        }).setNegativeButton("取消",null).show();
-                    }else {
-                        //参加活动
-                       stateChange(position, holder);
+            if (list.get(position).getMemberNum()==list.get(position).getInviteNumber()){
+                holder.ll_join.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MyToastUtils.showShortToast(context,"参加人数已满,请参加其他活动！");
                     }
-                }
+                });
+            }else {
+                holder.ll_join.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.ll_join.setEnabled(false);
+                        if (list.get(position).isJoin()) {
+                            final MyAlertDialog dialog = new MyAlertDialog(context);
+                            dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    stateCancelChange(position, holder);
+                                }
+                            }).setNegativeButton("取消", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    holder.ll_join.setEnabled(true);
+                                }
+                            }).show();
+                        } else {
+                            stateJionChange(position, holder);
+                        }
 
-            });
+
+                    }
+                });
+            }
+
+//            //参加活动
+//            holder.ll_join.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(list.get(position).isJoin()){
+//                        new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加").setPositiveButton("确认", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                //掉取消参加活动的接口还没出来
+//                                stateCancelChange(position,holder);
+//                                MyToastUtils.showShortToast(context,"取消参加活动成功");
+//                            }
+//                        }).setNegativeButton("取消",null).show();
+//                    }else {
+//                        //参加活动
+//                       stateChange(position, holder);
+//                    }
+//                }
+//
+//            });
 
         }
 
@@ -242,49 +276,30 @@ public class CollectAdapter extends BaseAdapter {
      * @param position
      * @param
      */
-    private void stateChange(final int position,  final ViewHolder holder) {
-        RequestManager.getScheduleManager().getRespondActivity(list.get(position).getId(), new ResultCallback<ResultBean<String>>() {
-            @Override
-            public void onError(int status, String errorMsg) {
-
-            }
-
-            @Override
-            public void onResponse(ResultBean<String> response) {
-                holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
-                holder.tv_text_jion.setText("取消参加");
-                holder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
-                flag = true;
-                if (list.get(position).getMemberNum() != null) {
-                    int i = list.get(position).getMemberNum();
-                    i = i + 1;
-                    holder.tv_join_num.setText(i + "");
-                    list.get(position).setJoin(true);
-                    list.get(position).setMemberNum(i);
-
-                }
-
-//                } else {
-//                    viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
-//                    viewHolder.tv_text_jion.setText("取消参加");
-//                    viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
-//                    if (infos.get(position).getMemberNum() != null) {
-//                        int i = infos.get(position).getMemberNum();
-//                        i = i + 1;
-//                        viewHolder.tv_join_num.setText(i + "");
-//                        infos.get(position).setMemberNum(i);
-//                        infos.get(position).setJoin(true);
-//                    } else {
-//                        int i = 0;
-//                        i = i + 1;
-//                        viewHolder.tv_join_num.setText(i + "");
-//                        infos.get(position).setMemberNum(i);
-//                        infos.get(position).setJoin(true);
-//                    }
+//    private void stateChange(final int position,  final ViewHolder holder) {
+//        RequestManager.getScheduleManager().getRespondActivity(list.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+//            @Override
+//            public void onError(int status, String errorMsg) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(ResultBean<String> response) {
+//                holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
+//                holder.tv_text_jion.setText("取消参加");
+//                holder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
+//                flag = true;
+//                if (list.get(position).getMemberNum() != null) {
+//                    int i = list.get(position).getMemberNum();
+//                    i = i + 1;
+//                    holder.tv_join_num.setText(i + "");
+//                    list.get(position).setJoin(true);
+//                    list.get(position).setMemberNum(i);
+//
 //                }
-            }
-        });
-    }
+//            }
+//        });
+//    }
 
     /**
      * 取消参加或响应活动接口
@@ -308,6 +323,48 @@ public class CollectAdapter extends BaseAdapter {
                 holder.tv_join_num.setText(i + "");
                 list.get(position).setJoin(false);
                 list.get(position).setMemberNum(i);
+            }
+        });
+    }
+    /**
+     * 参加或响应活动接口
+     *
+     * @param
+     */
+
+    private void stateJionChange(final int position, final ViewHolder viewHolder) {
+        RequestManager.getScheduleManager().getRespondActivity(list.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                viewHolder.ll_join.setEnabled(true);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                addGroup(list.get(position).getId());
+                viewHolder.ll_join.setEnabled(true);
+                int i = list.get(position).getMemberNum();
+                i = i + 1;
+                list.get(position).setMemberNum(i);
+                list.get(position).setJoin(true);
+                notifyDataSetChanged();
+            }
+        });
+    }
+    /**
+     *参加成功后，调用添加群组
+     * @param actId
+     */
+    private void addGroup(String actId) {
+        RequestManager.getScheduleManager().addHXGroup(actId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+
             }
         });
     }

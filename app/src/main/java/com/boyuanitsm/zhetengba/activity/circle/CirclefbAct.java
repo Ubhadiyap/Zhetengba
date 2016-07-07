@@ -220,7 +220,7 @@ public class CirclefbAct extends BaseActivity {
                 Intent intent=new Intent(ChanelFrg.MYLABELS);
                 Bundle bundle=new Bundle();
                 bundle.putInt("flag", flag);
-                intent.putExtras(intent);
+                intent.putExtras(bundle);
                 sendBroadcast(intent);
                 pd.dismiss();
                 setRightEnable(true);
