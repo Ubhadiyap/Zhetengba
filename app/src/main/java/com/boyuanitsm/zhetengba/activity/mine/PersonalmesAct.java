@@ -52,8 +52,6 @@ import java.util.Map;
  * Created by bitch-1 on 2016/5/3.
  */
 public class PersonalmesAct extends BaseActivity {
-    //    @ViewInject(R.id.cv_photo)
-//    private CircleImageView cv_photo;
     @ViewInject(R.id.iv_arrow)
     private ImageView iv_arrow;
     @ViewInject(R.id.rl_headIcon)

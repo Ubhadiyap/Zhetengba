@@ -178,14 +178,10 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         public void onClick(View view) {
             MyLogUtils.degug("传过来的位置："+currentPos+"====点击位置："+(int)view.getTag());
             if ((int) view.getTag() == currentPos) {
-                MyLogUtils.info("Tag记录的位置"+view.getTag()+"curentPos的位置是："+currentPos);
                 return;
             }
             textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
-            MyLogUtils.info("Tag记录的位置" + view.getTag() + "curentPos的位置是：" + currentPos);
-
             currentPos = (int) view.getTag();
-
             page = 1;
             rows = 10;
             getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
@@ -310,11 +306,6 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                     pos = bundle.getInt("flag", currentPos);
                 }
             }
-//<<<<<<< HEAD
-//            MyLogUtils.info("发布后传来的pos:"+pos+"当前位置currentPos:"+currentPos);
-//=======
-//            MyLogUtils.degug("pos:"+pos+"=======currentPos:"+currentPos);
-//>>>>>>> 3cd33de0409d39ab291540ece29d1fef6a03c927
             if (titleList == null) {
                 getMyLabels(-1);
             } else {

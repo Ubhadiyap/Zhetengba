@@ -195,7 +195,10 @@ public class LabelMangerAct extends BaseActivity {
                     LabelInterestDao.saveInterestLabel(userInterestInfo);
                 }
                 MyLogUtils.info(LabelInterestDao.getInterestLabel().toString());
-                sendBroadcast(new Intent(ChanelFrg.MYLABELS));
+                Intent intent=new Intent(ChanelFrg.MYLABELS);
+                Bundle bundle=new Bundle();
+                intent.putExtras(bundle);
+                sendBroadcast(intent);
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
                 sendBroadcast(new Intent(PerpageAct.PPLABELS));
                 finish();

@@ -42,6 +42,7 @@ import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
 import com.lidroid.xutils.util.LogUtils;
@@ -487,7 +488,11 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     public void onReceiveLocation(BDLocation bdLocation) {
         LogUtils.i("定位回掉。。。。。。。。。。。。。。。");
         if (bdLocation!=null){
-           tv_select.setText(bdLocation.getProvince()+bdLocation.getCity()+bdLocation.getDistrict()+bdLocation.getStreet());
+            if (ZhetebaUtils.isCity(bdLocation.getProvince())){
+                tv_select.setText(bdLocation.getCity() + bdLocation.getDistrict()+bdLocation.getStreet());
+            }else {
+                tv_select.setText(bdLocation.getProvince()+bdLocation.getCity() + bdLocation.getDistrict()+bdLocation.getStreet());
+            }
         }else {
             tv_select.setHint("无法获取位置信息，请手动输入！");
         }

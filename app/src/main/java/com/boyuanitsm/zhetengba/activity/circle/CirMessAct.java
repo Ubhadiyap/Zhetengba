@@ -28,19 +28,9 @@ import java.util.List;
 public class CirMessAct extends BaseActivity {
     @ViewInject(R.id.lv_cir_mess)//下拉刷新
     private PullToRefreshListView lv_cir_mess;
-    private PopupWindow mPopupWindow;
-    //    private int[] icons = {R.drawable.test_01};
-//    private List<ImageInfo> datalist=new ArrayList<>();
     @ViewInject(R.id.ll_reply)
-    private LinearLayout ll_reply;
-    @ViewInject(R.id.et_reply)
-    private EditText et_reply;
-    @ViewInject(R.id.bt_reply)
-    private Button bt_reply;
     private List<CircleInfo> list = new ArrayList<CircleInfo>();
-    private CircleInfo info;
     private CircleMessAdatper adapter;
-
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_mess);
