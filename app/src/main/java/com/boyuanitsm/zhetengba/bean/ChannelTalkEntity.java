@@ -21,6 +21,7 @@ public class ChannelTalkEntity implements Parcelable{
     private String channelContent;//频道说说内容
     private String channelImage;//频道图片
     private String remark;//备注
+    private String petName;//昵称
     /**
      * 用户姓名
      */
@@ -75,6 +76,7 @@ public class ChannelTalkEntity implements Parcelable{
         commentUserId = in.readString();
         commentTime = in.readString();
         commentContent = in.readString();
+        petName=in.readString();
     }
 
     @Override
@@ -100,6 +102,7 @@ public class ChannelTalkEntity implements Parcelable{
         dest.writeString(commentUserId);
         dest.writeString(commentTime);
         dest.writeString(commentContent);
+        dest.writeString(petName);
     }
 
     @Override
@@ -118,6 +121,18 @@ public class ChannelTalkEntity implements Parcelable{
             return new ChannelTalkEntity[size];
         }
     };
+
+    public String getPetName() {
+        return petName;
+    }
+
+    public void setPetName(String petName) {
+        this.petName = petName;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
+    }
 
     public String getFatherCommentId() {
         return fatherCommentId;

@@ -291,6 +291,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            page=1;
             if (titleLayout!=null)
             titleLayout.removeAllViews();
             if (textViewList!=null)

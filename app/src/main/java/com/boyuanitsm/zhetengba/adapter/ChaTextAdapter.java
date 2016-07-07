@@ -73,8 +73,11 @@ public class ChaTextAdapter extends BaseAdapter {
         }
         if(list!=null&&list.size()>0) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()),chaHolder.head,options);
-            if (!TextUtils.isEmpty(list.get(position).getUserName())){
-                chaHolder.tv_name.setText(list.get(position).getUserName());
+            if (!TextUtils.isEmpty(list.get(position).getPetName())){
+                chaHolder.tv_name.setText(list.get(position).getPetName());
+            } else if (!TextUtils.isEmpty(list.get(position).getUserName())){
+                String str=list.get(position).getUserName();
+                chaHolder.tv_name.setText(str.substring(0,3)+"***"+str.substring(str.length()-3,str.length()));
             }else if(!TextUtils.isEmpty(list.get(position).getCommentUserId())) {
                 String str=list.get(position).getCommentUserId();
                 chaHolder.tv_name.setText(str.substring(0, 3) + "***" + str.substring(str.length() - 3, str.length()));

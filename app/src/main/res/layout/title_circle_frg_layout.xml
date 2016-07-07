@@ -57,7 +57,7 @@
                     android:id="@+id/iv_quan"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:background="@drawable/quan"/>
+                    android:src="@mipmap/quan"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_newmes"
@@ -68,7 +68,7 @@
                     android:id="@+id/iv_newmes"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:background="@drawable/newmes"/>
+                    android:src="@mipmap/news"/>
             </LinearLayout>
 
         </LinearLayout>

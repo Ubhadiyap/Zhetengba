@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffffff"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +31,24 @@
         android:src="@mipmap/set"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"/>
+    <ImageView
+        android:id="@+id/iv_shareCode"
+        android:layout_below="@+id/iv_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/erweima"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"/>
+    <ImageView
+        android:id="@+id/iv_collection"
+        android:layout_below="@+id/iv_shareCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/collect"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,6 +63,8 @@
         android:orientation="horizontal">
         <com.boyuanitsm.zhetengba.view.CircleImageView
             android:id="@+id/iv_headIcon"
+            app:border_width="1px"
+            app:border_color="@color/viewfinder_laser"
             android:layout_width="55dp"
             android:layout_height="55dp"/>
         <LinearLayout
@@ -65,17 +86,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="小鱼儿"
+                        android:shadowColor="#fff"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="3"
                         android:textSize="14sp"
                         android:textColor="#fff"/>
                     <ImageView
-                        android:id="@+id/iv_shareCode"
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/er"
                         android:layout_marginLeft="10dp"/>
                 </LinearLayout>
                 <ImageView
-                    android:id="@+id/iv_collection"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
