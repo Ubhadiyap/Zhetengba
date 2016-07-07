@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#fff">
+    android:background="#ffffffff">
 <com.boyuanitsm.zhetengba.view.CustomImageView
     android:id="@+id/iv_chanel_pic"
     android:layout_width="83dp"

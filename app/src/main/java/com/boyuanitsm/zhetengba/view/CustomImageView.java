@@ -74,7 +74,8 @@ public class CustomImageView extends ImageView {
         if (!TextUtils.isEmpty(url)) {
             this.url = url;
             if (isAttachedToWindow) {
-                Picasso.with(getContext()).load(url).placeholder(new ColorDrawable(Color.parseColor("#f5f5f5"))).into(this);
+                Picasso.with(getContext()).load(url).placeholder(new ColorDrawable(Color.parseColor("#ffffff"))).into(this);
+//                #f5f5f5
             }
         }
     }
