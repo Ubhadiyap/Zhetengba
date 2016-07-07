@@ -2,11 +2,14 @@ package com.boyuanitsm.zhetengba.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
+import com.boyuanitsm.zhetengba.activity.mine.RegInfoAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.hyphenate.chat.EMClient;
@@ -17,6 +20,7 @@ import com.hyphenate.chat.EMClient;
 public class SplashAct extends BaseActivity {
 
     private static final int sleepTime = 2000;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_splash);
@@ -55,10 +59,17 @@ public class SplashAct extends BaseActivity {
                             e.printStackTrace();
                         }
                     }
-                    //进入主页面
-                    startActivity(new Intent(SplashAct.this, MainAct.class));
+                    //如果昵称为空说明用户没有走完善信息界面，所以进入app时不能进入主界面要进入完善信息界面
+                    if (UserInfoDao.getUser() != null) {
+                        if (TextUtils.isEmpty(UserInfoDao.getUser().getSex()) || UserInfoDao.getUser().getSex() == null) {
+                            startActivity(new Intent(SplashAct.this, RegInfoAct.class));
+                        } else {
+                            //进入主页面
+                            startActivity(new Intent(SplashAct.this, MainAct.class));
+                        }
+                    }
                     finish();
-                }else {
+                } else {
                     try {
                         Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
