@@ -64,8 +64,6 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     private RecyclerView rvLabel;//兴趣标签
     @ViewInject(R.id.iv_headIcon)
     private CircleImageView head;
-//    @ViewInject(R.id.rv_monthSelect)
-//    private RecyclerView rvMonthSelect;
     @ViewInject(R.id.tv_noLabel)
     private TextView tvNoLabel;
     @ViewInject(R.id.titleLayout)

@@ -49,10 +49,6 @@ public class MyPlaneAct extends BaseActivity {
         //初始化下拉刷新
         LayoutHelperUtil.freshInit(lv_my_plane);
         getMyTalks(page,rows);
-//        datalist=new ArrayList<>();
-//        initData();
-//        MyPlaneAdapter adapter=new MyPlaneAdapter(MyPlaneAct.this,datalist);
-//       lv_my_plane.getRefreshableView().setAdapter(adapter);
         lv_my_plane.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

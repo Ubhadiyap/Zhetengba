@@ -73,8 +73,6 @@ public class PerpageAct extends BaseActivity {
     private static final String TAG = "PerpageAct";
     @ViewInject(R.id.hlv_perpage)
     private HorizontalListView hlv_perpage;//水平listview
-    //    @ViewInject(R.id.vpS)
-//    private ViewPager vpS;//档期，圈子动态
     @ViewInject(R.id.rl_dangqi)
     private RelativeLayout rl_dangqi;
     @ViewInject(R.id.rl_dongtai)
@@ -91,7 +89,6 @@ public class PerpageAct extends BaseActivity {
     private CircleImageView cv_photo;
     @ViewInject(R.id.msv_scroll)//
     private ScrollView msv_scroll;
-
     @ViewInject(R.id.fra_main)
     private FrameLayout fra_main;
     @ViewInject(R.id.ll_tab)//标签
@@ -116,16 +113,11 @@ public class PerpageAct extends BaseActivity {
     private Button bt_message;
     @ViewInject(R.id.tv_cir)
     private TextView tv_cir;
-//    @ViewInject(R.id.tab_selcet)
-//    private PagerSlidingTabStrip tab_selcet;
-
     private String userId;
     private String PersonId;//通过这个调获取用户详情接口然后取到字段判断是否跳转到验证界面
     private FragmentManager manager;
     private Fragment ppagecalFrg, ppagedtFrg;//档期frg 圈子动态frg
-    private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
     private List<CircleEntity> circleEntity = new ArrayList<>();
-    private List<CircleEntity> circleTalkEntity = new ArrayList<>();
     private List<UserInfo> userEntity = new ArrayList<>();
     private List<UserInterestInfo> userInterestEntity = new ArrayList<>();
     private PersonalMain personalMain;
@@ -215,17 +207,10 @@ public class PerpageAct extends BaseActivity {
             case R.id.bt_message://加为好友
                 if (bt_message.getText().equals("加为好友")){
                     isValidation(userId);
-//                    Intent intent=new Intent(this,MessVerifyAct.class);
-//                    Bundle bundle=new Bundle();
-//                    bundle.putString("userName",userEntity.get(0).getPetName());
-//                    bundle.putString("userId",userEntity.get(0).getId());
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
                 }else if (bt_message.getText().equals("发送消息")){
                     final Intent intent=new Intent(this, ChatActivity.class);
                     final EaseUser easeUser=EaseUserUtils.getUserInfo(userEntity.get(0).getId());
                     if(easeUser!=null&&easeUser.getNick().length()!=32){
-
                         Bundle bundle=new Bundle();
                         bundle.putString("userId",userEntity.get(0).getId());
                         intent.putExtras(bundle);
@@ -254,10 +239,8 @@ public class PerpageAct extends BaseActivity {
                     }
 
                 }
-
                 break;
         }
-
 
     }
 
@@ -289,14 +272,7 @@ public class PerpageAct extends BaseActivity {
 
                         }
                     }
-
-
-
-
                 }
-
-
-
             }
         });
 
@@ -403,7 +379,7 @@ public class PerpageAct extends BaseActivity {
         //xoff,yoff基于anchor的左下角进行偏移。
         popupWindow.showAsDropDown(parent, xpos, 0);
         LinearLayout ll_schy = (LinearLayout) layout.findViewById(R.id.ll_schy);//删除好友
-        LinearLayout ll_xiugai = (LinearLayout) layout.findViewById(R.id.ll_xiugai);//修改备注
+//        LinearLayout ll_xiugai = (LinearLayout) layout.findViewById(R.id.ll_xiugai);//修改备注
 
         ll_schy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -418,17 +394,17 @@ public class PerpageAct extends BaseActivity {
             }
         });
 
-        ll_xiugai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditAct.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(EditAct.USER_TYPE, 8);
-                startActivity(intent);
-                popupWindow.dismiss();
-
-            }
-        });
+//        ll_xiugai.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), EditAct.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra(EditAct.USER_TYPE, 8);
+//                startActivity(intent);
+//                popupWindow.dismiss();
+//
+//            }
+//        });
     }
 
     /**
@@ -449,8 +425,6 @@ public class PerpageAct extends BaseActivity {
             public void onResponse(ResultBean<PersonalMain> response) {
                 personalMain = response.getData();
                 circleEntity = personalMain.getCircleEntity();
-                scheduleEntity = personalMain.getScheduleEntity();
-                circleTalkEntity = personalMain.getCircleTalkEntity();
                 userEntity = personalMain.getUserEntity();
                 instalData();
                 userInterestEntity = personalMain.getUserInterestEntity();
@@ -509,8 +483,6 @@ public class PerpageAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 Intent intent=new Intent();
-//                int state=0;
-//                intent.putExtra("state", state);
                 intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
                 intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
                 sendBroadcast(intent);
@@ -637,7 +609,6 @@ public class PerpageAct extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             getPersonalMain(userId);
             manager = getSupportFragmentManager();
-//        gv_perpage.setAdapter(new GridViewPerAdapter(PerpageAct.this));
             msv_scroll.smoothScrollTo(0, 0);
         }
     }

@@ -12,19 +12,19 @@
         android:orientation="vertical"
         android:background="@mipmap/ku"
         android:layout_width="65dp"
-        android:layout_height="65dp">
-        <LinearLayout
-            android:id="@+id/ll_xiugai"
-            android:gravity="center"
-            android:layout_marginTop="7dp"
-            android:layout_width="match_parent"
-            android:layout_height="30dp">
-            <TextView
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:text="@string/beizhu"
-               style="@style/tv_second" />
-        </LinearLayout>
+        android:layout_height="33dp">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_xiugai"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_marginTop="7dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="30dp">-->
+            <!--<TextView-->
+                <!--android:textSize="12sp"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:text="@string/beizhu"-->
+               <!--style="@style/tv_second" />-->
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/ll_schy"

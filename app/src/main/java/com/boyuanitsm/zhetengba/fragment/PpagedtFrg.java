@@ -37,7 +37,6 @@ public class PpagedtFrg extends BaseFragment {
     private List<CircleEntity> circleTalkEntity=new ArrayList<>();
     private PersonalMain personalMain;
     private String PAGEFRG_KEY="perpage_to_pagecalFrg";
-    private int i =0;
     private List<List<ImageInfo>> datalist=new ArrayList<>();
     @Override
     public View initView(LayoutInflater inflater) {
@@ -53,7 +52,6 @@ public class PpagedtFrg extends BaseFragment {
         List<UserInfo> userEntity = personalMain.getUserEntity();
         initImageData();
         lv_ppcal.setAdapter(new PpdtfrgAdapter(mActivity, circleTalkEntity, userEntity, datalist));
-            int lvHeight = ListViewUtil.MeasureListView(lv_ppcal);
     }
 
     /**
