@@ -86,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="小鱼儿"
-                        android:shadowColor="#fff"
+                        android:shadowColor="@color/sbc_header_text"
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="3"
