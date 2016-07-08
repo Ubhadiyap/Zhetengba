@@ -41,6 +41,7 @@ public class ChaTextAdapter extends BaseAdapter {
     }
     public void notifyChange(List<ChannelTalkEntity> list){
         this.list=list;
+        notifyDataSetChanged();
     }
     @Override
     public int getCount() {
