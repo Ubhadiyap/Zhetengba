@@ -50,6 +50,9 @@ public class ShareDialogAct extends BaseActivity {
             codeUrl="http://www.baidu.com";//圈子动态链接暂时用百度链接
             //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
         }
+        if(type==5){
+            codeUrl="http://www.baidu.com";//分享二维码暂时用百度代替
+        }
 
         Window window = getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();
