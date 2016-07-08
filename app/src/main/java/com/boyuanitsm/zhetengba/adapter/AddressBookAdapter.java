@@ -3,6 +3,8 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.bean.PhoneInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
@@ -193,7 +196,12 @@ public class AddressBookAdapter extends BaseAdapter implements SectionIndexer{
             public void onResponse(ResultBean<UserInfo> response) {
                 UserInfo userInfo=response.getData();
                 if(userInfo!=null&&!TextUtils.isEmpty(userInfo.getId())){
-                  addContact(userInfo.gethUsername(),null);
+//                  addContact(userInfo.gethUsername(),null);
+                    if("1".equals(userInfo.getRemark())){
+                        MyToastUtils.showShortToast(context,"已经是好友关系");
+                    }else {
+                        isValidation(userInfo);
+                    }
                 }else{
                    MyToastUtils.showShortToast(context,"此好友还没有注册，赶紧去邀请他注册吧");
                 }
@@ -259,5 +267,60 @@ public class AddressBookAdapter extends BaseAdapter implements SectionIndexer{
                 }
             }
         }).start();
+    }
+
+
+
+    /**点击加为好友按钮时候通过此接口返回获取字段判断是否需要验证
+     * 是否有需要验证
+     */
+    private void isValidation(final UserInfo userEntity) {
+        RequestManager.getMessManager().findUserIcon(userEntity.getId(), new ResultCallback<ResultBean<UserInfo>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(context,errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<UserInfo> response) {
+                UserInfo userinfo = response.getData();
+                if (userinfo != null) {
+                    if (userinfo.getUserType() != null) {
+                        String usertype = userinfo.getUserType();
+                        if (usertype.equals("1")) {
+                            Intent intent = new Intent(context, MessVerifyAct.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("userName", userEntity.getPetName());
+                            bundle.putString("userId", userEntity.getId());
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        } else {
+                            addfrend(userEntity.getId());
+                        }
+                    }
+
+                }
+
+            }
+        });
+
+    }
+
+
+    /**
+     *
+     */
+    private void addfrend(String friendId) {
+        RequestManager.getMessManager().aggreeFriend(friendId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                 MyToastUtils.showShortToast(context,errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(context, response.getMessage());
+            }
+        });
     }
 }

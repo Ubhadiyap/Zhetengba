@@ -63,8 +63,8 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
     private static final int MESSAGE_TYPE_SENT_VIDEO_CALL = 3;
     private static final int MESSAGE_TYPE_RECV_VIDEO_CALL = 4;
 
-    public static final String FIRE_ON="fire_on";
-    public static final String FIRE_CLOSE="fire_close";
+    public static final String FIRE_ON = "fire_on";
+    public static final String FIRE_CLOSE = "fire_close";
     /**
      * 是否为环信小助手
      */
@@ -106,7 +106,6 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
                 SpUtils.setRead(getContext(), isSwitch);
             }
         });
-
 
 
     }
@@ -192,7 +191,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
         if (SpUtils.getIsReadDestory(getContext()))
             message.setAttribute("fire", FIRE_ON);
         else
-            message.setAttribute("fire",FIRE_CLOSE);
+            message.setAttribute("fire", FIRE_CLOSE);
 
         message.setAttribute("nick", UserInfoDao.getUser().getPetName());
         message.setAttribute("icon", Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()));
@@ -230,12 +229,16 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
      */
     @Override
     public void onAvatarClick(String username) {
-        if(chatType == Constant.CHATTYPE_GROUP) {
+        if (!username.equals(UserInfoDao.getUser().getId())) {
             //头像点击事件
             Intent intent = new Intent(getActivity(), PerpageAct.class);
             intent.putExtra("userId", username);
+            if (chatType == Constant.CHATTYPE_SINGLE) {
+                intent.putExtra("chat_type", 1);
+            }
             startActivity(intent);
         }
+
     }
 
     @Override

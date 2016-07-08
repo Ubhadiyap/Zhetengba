@@ -148,6 +148,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
 			exitBtn.setVisibility(View.GONE);
 			deleteBtn.setVisibility(View.VISIBLE);
+			rl_switch_block_groupmsg.setVisibility(View.GONE);
 		}
 
 		groupChangeListener = new GroupChangeListener();
@@ -1023,15 +1024,17 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 					List<ChatUserBean> chatList=new ArrayList<ChatUserBean>();
 					for (UserInfo friendsBean : datas){
-						ChatUserBean chatUserBean=new ChatUserBean();
-						chatUserBean.setUserId(friendsBean.getId());
-						chatUserBean.setIcon(Uitls.imageFullUrl(friendsBean.getIcon()));
-						if(TextUtils.isEmpty(friendsBean.getPetName())){
-							chatUserBean.setNick(friendsBean.getUsername());
-						}else{
-							chatUserBean.setNick(friendsBean.getPetName());
+						if(friendsBean!=null) {
+							ChatUserBean chatUserBean = new ChatUserBean();
+							chatUserBean.setUserId(friendsBean.getId());
+							chatUserBean.setIcon(Uitls.imageFullUrl(friendsBean.getIcon()));
+							if (TextUtils.isEmpty(friendsBean.getPetName())) {
+								chatUserBean.setNick(friendsBean.getUsername());
+							} else {
+								chatUserBean.setNick(friendsBean.getPetName());
+							}
+							chatList.add(chatUserBean);
 						}
-						chatList.add(chatUserBean);
 					}
 					if(chatList.size()>0)
 					ChatUserDao.saveUserList(chatList);
