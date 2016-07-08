@@ -64,6 +64,7 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
                     MyToastUtils.showShortToast(this,"圈子名称不能为空");
                     return;
                 }else {
+                    tv_creat.setEnabled(false);
                     circleEntity.setCircleName(et_cir_name.getText().toString().trim());
                     circleEntity.setNotice(etNotes.getText().toString().trim());
                     addCircle(circleEntity, personIds);
@@ -91,11 +92,13 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
         RequestManager.getTalkManager().addCircle(entity, personIds, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                tv_creat.setEnabled(true);
                 MyToastUtils.showShortToast(CreatCirAct.this,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                tv_creat.setEnabled(true);
                 finish();
                 sendBroadcast(new Intent(CircleglAct.INTENTFLAG));
             }

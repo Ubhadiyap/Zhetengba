@@ -132,6 +132,8 @@
             </RelativeLayout>
 
             <ImageView
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:src="@mipmap/date"
                 android:layout_width="22dp"
                 android:layout_height="22dp"

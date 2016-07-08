@@ -107,6 +107,8 @@ public class RotateLoadingLayout extends LoadingLayout {
 				.setVisibility(TextUtils.isEmpty(label) ? View.INVISIBLE
 						: View.VISIBLE);
 		mHeaderTimeView.setText(label);
+		mHeaderTimeView.setVisibility(GONE);
+		mHeaderTimeViewTitle.setVisibility(GONE);
 	}
 
 	@Override

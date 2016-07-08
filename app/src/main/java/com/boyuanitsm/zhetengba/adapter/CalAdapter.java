@@ -141,6 +141,15 @@ public class CalAdapter extends BaseAdapter {
 //            calHolder.tv_time_cal.setText(ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getStartTime())) + "—" + ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getEndTime())));
             if (!TextUtils.isEmpty(list.get(position).getDictName())) {
                 calHolder.tv_state.setText(list.get(position).getDictName());//标签名称
+                if (list.get(position).getDictName().equals("闲来无事")){
+                    calHolder.tv_state.setBackgroundResource(R.drawable.rdbt_xl_check);
+                }else if (list.get(position).getDictName().equals("百无聊懒")){
+                    calHolder.tv_state.setBackgroundResource(R.drawable.rdbt_bw_check);
+                }else if (list.get(position).getDictName().equals("闲的要死")){
+                    calHolder.tv_state.setBackgroundResource(R.drawable.rdbt_wl_check);
+                }else if (list.get(position).getDictName().equals("无聊至极")){
+                    calHolder.tv_state.setBackgroundResource(R.drawable.rdbt_ys_check);
+                }
             }
 
 //        if (list.get(position).)//是否关注

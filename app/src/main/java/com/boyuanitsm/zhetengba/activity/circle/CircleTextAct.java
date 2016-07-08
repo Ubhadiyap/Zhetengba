@@ -355,6 +355,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 getCircleCommentsList(circleTalkId, page, rows);
                 btnSend.setEnabled(true);
                 btnSend.setClickable(true);
+                sendBroadcast(new Intent(CirFrg.ALLTALKS));
+                sendBroadcast(new Intent(CirxqAct.TALKS));
             }
         });
     }
@@ -392,7 +394,6 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 }else {
                     adapter.notifyChange(datas);
                 }
-                sendBroadcast(new Intent(CirFrg.ALLTALKS));
             }
         });
     }

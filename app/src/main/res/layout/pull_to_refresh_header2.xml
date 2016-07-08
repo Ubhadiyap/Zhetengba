@@ -28,6 +28,7 @@
                 android:textSize="14dp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/pull_to_refresh_last_update_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
                 android:textSize="@dimen/picture_pull_to_refresh_last_update_time_text_size" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/pull_to_refresh_header_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

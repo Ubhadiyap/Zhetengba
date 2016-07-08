@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.util.ArrayList;
@@ -57,6 +60,10 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private List<List<ImageInfo>> datalist;
     private List<ChannelTalkEntity> datas = new ArrayList<>();;
 
+    LinearLayout llnoList;
+    ImageView ivAnim;
+    TextView noMsg;
+    private AnimationDrawable animationDrawable;
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.chanel_frg, null);
@@ -79,6 +86,9 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private void initView() {
         titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
         vp_chan = (PullToRefreshListView) view.findViewById(R.id.vp_chan);
+        llnoList= (LinearLayout) view.findViewById(R.id.noList);
+        ivAnim= (ImageView) view.findViewById(R.id.ivAnim);
+        noMsg= (TextView) view.findViewById(R.id.noMsg);
     }
 
     /***
@@ -227,6 +237,10 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             public void onError(int status, String errorMsg) {
                 vp_chan.onPullUpRefreshComplete();
                 vp_chan.onPullDownRefreshComplete();
+                llnoList.setVisibility(View.VISIBLE);
+                ivAnim.setImageResource(R.drawable.loadfail_list);
+                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                animationDrawable.start();
             }
 
             @Override
@@ -236,10 +250,14 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 channelTalkEntityList = response.getData().getRows();
                 if (channelTalkEntityList.size() == 0) {
                     if (page == 1) {
-
+                        llnoList.setVisibility(View.VISIBLE);
+                        ivAnim.setImageResource(R.mipmap.planeno);
+                        noMsg.setText("暂无内容");
                     } else {
                         vp_chan.setHasMoreData(false);
                     }
+                }else {
+                    llnoList.setVisibility(View.GONE);
                 }
                 if (page == 1) {
                     datas.clear();
