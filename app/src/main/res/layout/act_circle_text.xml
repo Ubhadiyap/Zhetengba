@@ -38,6 +38,8 @@
         android:layout_alignParentBottom="true"
         android:background="#f4f4f6"
         android:gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="horizontal">
 
         <EditText
@@ -60,12 +62,14 @@
 
         <Button
             android:id="@+id/iv_chanel_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:background="@null"
             android:text="发送"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
             android:textColor="#999999"
             android:textSize="14sp" />
     </LinearLayout>

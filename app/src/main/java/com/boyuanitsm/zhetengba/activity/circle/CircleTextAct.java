@@ -2,10 +2,14 @@ package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +31,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -54,6 +59,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private LinearLayout ll_cir_comment;
     @ViewInject(R.id.my_lv)
     private PullToRefreshListView my_lv;
+    @ViewInject(R.id.iv_chanel_comment)
+    private Button btnSend;
 //    private ScrollView sl_chanel;
     private LinearLayout ll_two;
 //    @ViewInject(R.id.llphoto)
@@ -64,8 +71,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private List<List<ImageInfo>> dataList ;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.mipmap.zanwutupian)
-            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
@@ -141,6 +148,29 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
                 getCircleCommentsList(circleId,page,rows);
+            }
+        });
+
+        etComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s.toString().trim())){
+                    btnSend.setBackgroundResource(R.drawable.main_btn_nor);
+                    btnSend.setTextColor(Color.parseColor("#FFFFFF"));
+                }else {
+                    btnSend.setBackgroundColor(Color.parseColor("#f4f4f4"));
+                    btnSend.setTextColor(Color.parseColor("#999999"));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -288,7 +318,13 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_chanel_comment:
-                commentCircleTalk(circleId,null,etComment.getText().toString().trim());
+                if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
+                    btnSend.setEnabled(false);
+                    btnSend.setClickable(false);
+                    commentCircleTalk(circleId, null, etComment.getText().toString().trim());
+                }else {
+                    MyToastUtils.showShortToast(CircleTextAct.this,"请输入评论内容！");
+                }
                 break;
 
         }
@@ -305,7 +341,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         RequestManager.getTalkManager().commentCircleTalk(circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                btnSend.setEnabled(true);
+                btnSend.setClickable(true);
             }
 
             @Override
@@ -313,15 +350,18 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 //重新获取评论列表，刷新评论数目，关闭键盘
                 ZtinfoUtils.hideSoftKeyboard(CircleTextAct.this, etComment);
                 etComment.setText("");
+                commentNum.setText("评论"+response.getData());
+                page=1;
                 getCircleCommentsList(circleTalkId, page, rows);
-//                commentNum.setText("评论"+"");
+                btnSend.setEnabled(true);
+                btnSend.setClickable(true);
             }
         });
     }
     private List<CircleEntity> datas=new ArrayList<>();
     //获取评论列表
     private void getCircleCommentsList(String circleTalkId, final int page, int rows){
-        dataList = new ArrayList<>();
+        list = new ArrayList<>();
         RequestManager.getTalkManager().getCircleCommentsList(circleTalkId, page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -334,7 +374,6 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 my_lv.onPullUpRefreshComplete();
                 my_lv.onPullDownRefreshComplete();
                 list=response.getData().getRows();
-                commentNum.setText("评论"+list.size());
                 if (list.size() == 0) {
                     if (page == 1) {
 
@@ -346,6 +385,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                     datas.clear();
                 }
                 datas.addAll(list);
+//                commentNum.setText("评论"+datas.size());
                 if (adapter==null) {
                     adapter = new CircleTextAdapter(CircleTextAct.this, datas);//评论列表
                     my_lv.getRefreshableView().setAdapter(adapter);

@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.adapter;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,7 +22,9 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -118,11 +121,9 @@ public class PpdtfrgAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
 //            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()),optionsImag);
-//            itemList.get(0).setWidth(bitmap.getWidth());
-//            itemList.get(0).setHeight(bitmap.getHeight());
-//            LayoutHelperUtil.handlerOneImage(context,itemList.get(0),viewHolder.iv_oneimage);
-//            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()), optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
+            itemList.get(0).setWidth(200);
+            itemList.get(0).setHeight(200);
+            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -134,8 +135,6 @@ public class PpdtfrgAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
-//            viewHolder.iv_two_one.setImageUrl(itemList.get(0).getUrl());
-
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_two_one, optionsImag);
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(1).getUrl()), viewHolder.iv_two_two, optionsImag);
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(2).getUrl()), viewHolder.iv_two_three, optionsImag);
@@ -176,6 +175,8 @@ public class PpdtfrgAdapter extends BaseAdapter {
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context, 255), ActionBar.LayoutParams.WRAP_CONTENT);
+            viewHolder.iv_ch_image.setLayoutParams(params);
             viewHolder.iv_ch_image.setNumColumns(3);
             PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
             viewHolder.iv_ch_image.setAdapter(adapter);
@@ -183,9 +184,6 @@ public class PpdtfrgAdapter extends BaseAdapter {
         }
 
         if(circleTalkEntityList!=null){
-//            if(!TextUtils.isEmpty(list.get(position).getUserId())){
-//                viewHolder.tvChNiName.setText(list.get(position).getUserId());
-//            }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCreateTime())){
                 viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleTalkEntityList.get(position).getCreateTime())));
             }
@@ -213,17 +211,10 @@ public class PpdtfrgAdapter extends BaseAdapter {
                     viewHolder.cnum.setText(circleTalkEntityList.get(position).getCommentCounts()+"");
                 }
             }
-//            if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getSharedCounts()+"")){
-//                viewHolder.snum.setText(circleTalkEntityList.get(position).getSharedCounts()+"");
-//            }else {
-//                viewHolder.snum.setText("0");
-//            }
             if (circleTalkEntityList.get(position).getLiked()==1){
                 viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan_b));
-//                flag=true;
             }else if (circleTalkEntityList.get(position).getLiked()==0){
                 viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan));
-//                flag=false;
             }
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleTalkEntityList.get(position).getUserIcon()),viewHolder.ivChHead,optionsImagh);
             if (!TextUtils.isEmpty(circleTalkEntityList.get(position).getUserSex())){
@@ -328,7 +319,6 @@ public class PpdtfrgAdapter extends BaseAdapter {
         private TextView tv_content;
         private TextView znum;
         private TextView cnum;
-        private TextView snum;
         private ImageView zimg;
 
     }

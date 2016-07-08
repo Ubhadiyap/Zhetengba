@@ -77,17 +77,14 @@ public class CircleglAct extends BaseActivity {
         lv_circlegl.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
         lv_circlegl.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv_circlegl.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-//        lv_circlegl.getRefreshableView().setAdapter(new CircleglAdapter(this,list));
         lv_circlegl.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CircleglAct.this, CirxqAct.class);
                 Bundle bundle1=new Bundle();
                 bundle1.putString("circleId", datas.get(position).getId());
-//                intent.putExtra("circleId", datas.get(position).getId());
                 if (str.equals("圈子管理")){
                     bundle1.putInt("type", 1);
-//                    intent.putExtra("type",1);
                 }else if (str.equals("TA的圈子")){
                     bundle1.putInt("type",0);
                     bundle1.putInt("isincircle",datas.get(position).getIsInCircle());

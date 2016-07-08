@@ -170,11 +170,9 @@ public class SettingAct extends BaseActivity {
     }
 
     /**
-<<<<<<< HEAD
      * 添加好友默认是不需要添加状态，掉一次后台切换一次状态
      */
     private void ischeck() {
-//        RequestManager.getMessManager().isCheck(new ResultCallback<ResultBean<String>>()
         RequestManager.getMessManager().isCheck(new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {

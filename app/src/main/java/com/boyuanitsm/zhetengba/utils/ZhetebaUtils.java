@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Surface;
@@ -972,5 +973,21 @@ public class ZhetebaUtils {
             }
         }
         return dir.delete();
+    }
+
+    /**
+     * 判断是否为直辖市
+     * @param str
+     * @return
+     */
+    public static boolean isCity(String str){
+        boolean flag=false;
+        String[] citys={"上海市","北京"};
+        for (int i=0;i<citys.length;i++){
+            if (TextUtils.equals(str,citys[i])){
+                flag=true;
+            }
+        }
+        return flag;
     }
 }

@@ -12,6 +12,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.hyphenate.chat.EMClient;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -49,7 +50,12 @@ public class MessVerifyAct extends BaseActivity {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.tvSend://发送请求
-                addContact(etReason.getText().toString().trim());
+                if (!TextUtils.isEmpty(etReason.getText().toString().trim())){
+                    addContact(etReason.getText().toString().trim());
+                }else {
+                    MyToastUtils.showShortToast(MessVerifyAct.this,"输入内容不能空，请重新输入！");
+                    return;
+                }
                 break;
         }
     }

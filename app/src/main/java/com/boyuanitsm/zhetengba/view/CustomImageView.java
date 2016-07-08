@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 /**
+ * 自定义imageview实现点击变暗效果。
  * Created by xiaoke on 2016/5/9.
  */
 public class CustomImageView extends ImageView {
@@ -37,7 +38,7 @@ public class CustomImageView extends ImageView {
                 Drawable drawable=getDrawable();
                 if(drawable!=null) {
                     drawable.mutate().setColorFilter(Color.GRAY,
-                            PorterDuff.Mode.MULTIPLY);
+                            PorterDuff.Mode.MULTIPLY);//实现图片点击时变暗。
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -74,7 +75,9 @@ public class CustomImageView extends ImageView {
         if (!TextUtils.isEmpty(url)) {
             this.url = url;
             if (isAttachedToWindow) {
-                Picasso.with(getContext()).load(url).placeholder(new ColorDrawable(Color.parseColor("#f5f5f5"))).into(this);
+                //new ColorDrawable(Color.parseColor("#ffffff"))图片异步加载，加载失败时占位图片
+                Picasso.with(getContext()).load(url).placeholder(new ColorDrawable(Color.parseColor("#ffffff"))).into(this);
+//                #f5f5f5
             }
         }
     }

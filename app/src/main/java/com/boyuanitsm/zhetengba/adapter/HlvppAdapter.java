@@ -70,17 +70,16 @@ public class HlvppAdapter extends BaseAdapter {
         if(position==4){
             cir_pagehand.setImageResource(R.mipmap.cirxq_more);
             tv_more.setText("更多");
-            ll_quanzi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(context, CircleglAct.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                }
-            });
+//            ll_quanzi.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent=new Intent(context, CircleglAct.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(intent);
+//                }
+//            });
         }else {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleEntityList.get(position).getCircleLogo()),cir_pagehand,optionsImag);
-
         }
         return view;
     }

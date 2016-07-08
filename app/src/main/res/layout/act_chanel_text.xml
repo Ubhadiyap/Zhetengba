@@ -217,6 +217,8 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:background="#f4f4f6">
         <EditText
             android:paddingLeft="10dp"
@@ -241,9 +243,11 @@
             android:textColor="#999999"
             android:layout_gravity="center"
             android:id="@+id/iv_chanel_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:layout_marginRight="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
             android:background="@null"
             />
     </LinearLayout>

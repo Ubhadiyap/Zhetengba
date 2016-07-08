@@ -33,12 +33,6 @@ public class LayoutHelperUtil {
         int totalWidth;
         int imageWidth;
         int imageHeight;
-        // 图片缓存 默认 等
-       DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(R.mipmap.zanwutupian)
-                .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
-                .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
-                .bitmapConfig(Bitmap.Config.ARGB_8888 ).build();//RGB_565
         ScreenTools screentools = ScreenTools.instance(context);
         totalWidth = screentools.getScreenWidth() - screentools.dip2px(80);
         imageWidth = screentools.dip2px(image.getWidth());
@@ -61,7 +55,6 @@ public class LayoutHelperUtil {
         imageView.setClickable(true);
         imageView.setImageUrl(Uitls.imageFullUrl(image.getUrl()));
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(image.getUrl()),imageView,optionsImag);
 
     }
     public static void freshInit(PullToRefreshListView listView){

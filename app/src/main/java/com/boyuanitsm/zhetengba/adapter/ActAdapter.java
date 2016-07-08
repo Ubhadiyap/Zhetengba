@@ -33,6 +33,7 @@ import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,12 +194,39 @@ public class ActAdapter extends BaseAdapter {
         }
 //        if (infos.get(position).)
         if (infos.get(position).getMemberNum()==infos.get(position).getInviteNumber()){
-            viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyToastUtils.showShortToast(context,"参加人数已满,请参加其他活动！");
-                }
-            });
+            if (!infos.get(position).isJoin()){
+                viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MyToastUtils.showShortToast(context,"参加人数已满,请参加其他活动！");
+                    }
+                });
+            }else{
+                viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        viewHolder.ll_join.setEnabled(false);
+                        if (infos.get(position).isJoin()) {
+                            final MyAlertDialog dialog=new MyAlertDialog(context);
+                            dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    stateCancelChange(position, viewHolder);
+                                }
+                            }).setNegativeButton("取消", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    viewHolder.ll_join.setEnabled(true);
+                                }
+                            }).show();
+                        } else {
+                            stateJionChange(position, viewHolder);
+                        }
+
+
+                    }
+                });
+            }
         }else {
             viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
                 @Override
