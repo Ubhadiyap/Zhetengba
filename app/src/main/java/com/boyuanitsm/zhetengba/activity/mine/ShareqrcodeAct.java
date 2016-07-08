@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,7 +12,6 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ErEntity;
-import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -55,8 +55,11 @@ public class ShareqrcodeAct extends BaseActivity {
     @OnClick({R.id.tv_shareer})
     public void OnClick(View v){
         switch (v.getId()){
-            case R.id.tv_shareer:
-                openActivity(ShareDialogAct.class);
+           case R.id.tv_shareer:
+               Intent intent=new Intent(ShareqrcodeAct.this,ShareDialogAct.class);
+               intent.putExtra("type",5);
+//                openActivity(ShareDialogAct.class);
+               startActivity(intent);
                 break;
         }
     }
