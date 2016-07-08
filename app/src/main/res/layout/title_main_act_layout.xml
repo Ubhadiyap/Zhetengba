@@ -4,19 +4,22 @@
     android:layout_height="48dp"
     android:background="@color/main_color">
 
-    <LinearLayout
-        android:id="@+id/ll_title_border"
-        android:layout_width="137dp"
-        android:layout_height="27dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="@drawable/bg_circle_stroke_yes_white">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_title_border"-->
+        <!--android:layout_width="137dp"-->
+        <!--android:layout_height="27dp"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:background="@drawable/bg_circle_stroke_yes_white">-->
 <RadioGroup
     android:id="@+id/rg_simple"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="136dp"
+    android:layout_height="27dp"
+    android:layout_centerInParent="true"
+    android:gravity="center"
+    android:orientation="horizontal">
+    <!--android:background="@drawable/bg_circle_stroke_yes_white"-->
     <RadioButton
         android:id="@+id/rb_simple"
         style="@style/MainAct_Title_TextView"
@@ -29,13 +32,11 @@
         style="@style/MainAct_Title_TextView"
         android:id="@+id/rb_calendar"
         android:clickable="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:text="@string/title_calen"
         android:background="@drawable/title_picchange_cal"/>
 </RadioGroup>
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 <LinearLayout
     android:id="@+id/ll_friend"
     android:orientation="horizontal"

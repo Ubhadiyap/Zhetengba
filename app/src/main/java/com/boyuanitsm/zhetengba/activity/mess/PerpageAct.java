@@ -121,15 +121,16 @@ public class PerpageAct extends BaseActivity {
     private List<UserInfo> userEntity = new ArrayList<>();
     private List<UserInterestInfo> userInterestEntity = new ArrayList<>();
     private PersonalMain personalMain;
-    private String PAGEFRG_KEY="perpage_to_pagecalFrg";
-        private Boolean flag;
-    private int state=1,state1=1;//1,增加
+    private String PAGEFRG_KEY = "perpage_to_pagecalFrg";
+    private Boolean flag;
+    private int state = 1, state1 = 1;//1,增加
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_perpage);
@@ -146,25 +147,25 @@ public class PerpageAct extends BaseActivity {
 
     /**
      * 用户信息初始化
+     *
      * @param userEntity
      */
     private void initUserData(List<UserInfo> userEntity) {
-        if (!TextUtils.isEmpty(userEntity.get(0).getPetName())){
+        if (!TextUtils.isEmpty(userEntity.get(0).getPetName())) {
             tv_niName.setText("昵称：" + userEntity.get(0).getPetName());
-        }else {
+        } else {
             tv_niName.setText("暂无昵称");
         }
-        if (!TextUtils.isEmpty(userEntity.get(0).getSex())){
-            if (userEntity.get(0).getSex().equals(1+"")){
+        if (!TextUtils.isEmpty(userEntity.get(0).getSex())) {
+            if (userEntity.get(0).getSex().equals(1 + "")) {
                 tv_cir.setText("他的圈子");
-            }else if (userEntity.get(0).getSex().equals(0+"")){
+            } else if (userEntity.get(0).getSex().equals(0 + "")) {
                 tv_cir.setText("她的圈子");
             }
         }
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), cv_photo, optionsImag);
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), cv_photo, optionsImag);
 
     }
-
 
 
     /**
@@ -186,8 +187,7 @@ public class PerpageAct extends BaseActivity {
     }
 
 
-
-    @OnClick({R.id.rl_dangqi, R.id.rl_dongtai, R.id.iv_set, R.id.cv_photo,R.id.bt_message})
+    @OnClick({R.id.rl_dangqi, R.id.rl_dongtai, R.id.iv_set, R.id.cv_photo, R.id.bt_message})
     public void OnClick(View v) {
         switch (v.getId()) {
             case R.id.rl_dangqi://档期
@@ -205,42 +205,42 @@ public class PerpageAct extends BaseActivity {
                 showPopupWindow(view);
                 break;
             case R.id.bt_message://加为好友
-                if (bt_message.getText().equals("加为好友")){
+                if (bt_message.getText().equals("加为好友")) {
                     isValidation(userId);
-                }else if (bt_message.getText().equals("发送消息")){
-                    final Intent intent=new Intent(this, ChatActivity.class);
-                    final EaseUser easeUser=EaseUserUtils.getUserInfo(userEntity.get(0).getId());
-                    if(getIntent().getIntExtra("chat_type",0)==1){
+                } else if (bt_message.getText().equals("发送消息")) {
+                    final Intent intent = new Intent(this, ChatActivity.class);
+                    final EaseUser easeUser = EaseUserUtils.getUserInfo(userEntity.get(0).getId());
+                    if (getIntent().getIntExtra("chat_type", 0) == 1) {
                         finish();
-                    }else{
+                    } else {
 
-                    if(easeUser!=null&&easeUser.getNick().length()!=32){
-                        Bundle bundle=new Bundle();
-                        bundle.putString("userId",userEntity.get(0).getId());
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }else{
-                        RequestManager.getMessManager().findUserByHId(userEntity.get(0).getId(), new ResultCallback<ResultBean<UserInfo>>() {
-                            @Override
-                            public void onError(int status, String errorMsg) {
-                                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
-                            }
+                        if (easeUser != null && easeUser.getNick().length() != 32) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("userId", userEntity.get(0).getId());
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        } else {
+                            RequestManager.getMessManager().findUserByHId(userEntity.get(0).getId(), new ResultCallback<ResultBean<UserInfo>>() {
+                                @Override
+                                public void onError(int status, String errorMsg) {
+                                    MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
+                                }
 
-                            @Override
-                            public void onResponse(ResultBean<UserInfo> response) {
-                                UserInfo userInfo=response.getData();
-                                EaseUser easeUser1=new EaseUser(userInfo.getId());
-                                easeUser1.setNick(userInfo.getPetName());
-                                easeUser1.setInitialLetter(CharacterParserUtils.getInstance().getSelling(userInfo.getPetName()).substring(0, 1));
-                                easeUser1.setAvatar(Uitls.imageFullUrl(userInfo.getIcon()));
-                                DemoHelper.getInstance().saveContact(easeUser1);
-                                Bundle bundle=new Bundle();
-                                bundle.putString("userId", userEntity.get(0).getId());
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                            }
-                        });
-                    }
+                                @Override
+                                public void onResponse(ResultBean<UserInfo> response) {
+                                    UserInfo userInfo = response.getData();
+                                    EaseUser easeUser1 = new EaseUser(userInfo.getId());
+                                    easeUser1.setNick(userInfo.getPetName());
+                                    easeUser1.setInitialLetter(CharacterParserUtils.getInstance().getSelling(userInfo.getPetName()).substring(0, 1));
+                                    easeUser1.setAvatar(Uitls.imageFullUrl(userInfo.getIcon()));
+                                    DemoHelper.getInstance().saveContact(easeUser1);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("userId", userEntity.get(0).getId());
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
 
                     }
 
@@ -251,7 +251,8 @@ public class PerpageAct extends BaseActivity {
 
     }
 
-    /**点击加为好友按钮时候通过此接口返回获取字段判断是否需要验证
+    /**
+     * 点击加为好友按钮时候通过此接口返回获取字段判断是否需要验证
      * 是否有需要验证
      */
     private void isValidation(String personId) {
@@ -263,18 +264,18 @@ public class PerpageAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<UserInfo> response) {
-                UserInfo userinfo=response.getData();
-                if(userinfo!=null){
-                    if(userinfo.getUserType()!=null){
-                        String usertype=userinfo.getUserType();
-                        if(usertype.equals("1")){
-                            Intent intent=new Intent(PerpageAct.this,MessVerifyAct.class);
-                            Bundle bundle=new Bundle();
-                            bundle.putString("userName",userEntity.get(0).getPetName());
-                            bundle.putString("userId",userEntity.get(0).getId());
+                UserInfo userinfo = response.getData();
+                if (userinfo != null) {
+                    if (userinfo.getUserType() != null) {
+                        String usertype = userinfo.getUserType();
+                        if (usertype.equals("1")) {
+                            Intent intent = new Intent(PerpageAct.this, MessVerifyAct.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("userName", userEntity.get(0).getPetName());
+                            bundle.putString("userId", userEntity.get(0).getId());
                             intent.putExtras(bundle);
                             startActivity(intent);
-                        }else {
+                        } else {
                             addfrend(userEntity.get(0).getId());
 
                         }
@@ -307,18 +308,18 @@ public class PerpageAct extends BaseActivity {
     /**
      * 点击头像跳转个人资料
      */
-    private void setOnclikListener(){
-       cv_photo.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent intentPerson = new Intent();
-               intentPerson.setClass(PerpageAct.this, PersonalmesAct.class);
-               Bundle bundlePerson = new Bundle();
-               bundlePerson.putParcelable(PAGEFRG_KEY, personalMain);
-               intentPerson.putExtras(bundlePerson);
-               startActivity(intentPerson);
-           }
-       });
+    private void setOnclikListener() {
+        cv_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentPerson = new Intent();
+                intentPerson.setClass(PerpageAct.this, PersonalmesAct.class);
+                Bundle bundlePerson = new Bundle();
+                bundlePerson.putParcelable(PAGEFRG_KEY, personalMain);
+                intentPerson.putExtras(bundlePerson);
+                startActivity(intentPerson);
+            }
+        });
 
     }
 
@@ -331,21 +332,21 @@ public class PerpageAct extends BaseActivity {
         switch (position) {
             case 0://档期frg
                 setTab(0);
-                    if (state==1) {
-                        transaction.add(R.id.fra_main, ppagecalFrg);
-                        transaction.show(ppagecalFrg);
-                        state=2;
-                } else if (state==2){
+                if (state == 1) {
+                    transaction.add(R.id.fra_main, ppagecalFrg);
+                    transaction.show(ppagecalFrg);
+                    state = 2;
+                } else if (state == 2) {
                     transaction.show(ppagecalFrg);
                 }
                 break;
             case 1://圈子动态frg
                 setTab(1);
-                if (state1==1) {
+                if (state1 == 1) {
                     transaction.add(R.id.fra_main, ppagedtFrg);
                     transaction.show(ppagedtFrg);
-                    state1=2;
-                } else if (state1==2){
+                    state1 = 2;
+                } else if (state1 == 2) {
                     transaction.show(ppagedtFrg);
                 }
                 break;
@@ -382,7 +383,7 @@ public class PerpageAct extends BaseActivity {
         WindowManager manager = (WindowManager) getSystemService(PerpageAct.this.WINDOW_SERVICE);
         @SuppressWarnings("deprecation")
         //获取xoff
-         int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
         //xoff,yoff基于anchor的左下角进行偏移。
         popupWindow.showAsDropDown(parent, xpos, 0);
         LinearLayout ll_schy = (LinearLayout) layout.findViewById(R.id.ll_schy);//删除好友
@@ -420,8 +421,8 @@ public class PerpageAct extends BaseActivity {
      * @param id
      */
     private void getPersonalMain(String id) {
-        ppagecalFrg=new PpagecalFrg();
-        ppagedtFrg=new PpagedtFrg();
+        ppagecalFrg = new PpagecalFrg();
+        ppagedtFrg = new PpagedtFrg();
         RequestManager.getScheduleManager().getPersonalMain(id, new ResultCallback<ResultBean<PersonalMain>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -444,9 +445,9 @@ public class PerpageAct extends BaseActivity {
                 hlv_perpage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent=new Intent(PerpageAct.this, CircleglAct.class);
-                        Bundle bundle=new Bundle();
-                        bundle.putString("PPuserId",userEntity.get(0).getId());
+                        Intent intent = new Intent(PerpageAct.this, CircleglAct.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("PPuserId", userEntity.get(0).getId());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
@@ -456,18 +457,23 @@ public class PerpageAct extends BaseActivity {
     }
 
     private void instalData() {
-        if (userEntity!=null){
-            flag=userEntity.get(0).isFriend();
+        if (userEntity != null) {
+            flag = userEntity.get(0).isFriend();
         }
-        if (UserInfoDao.getUser().getId().equals(userId)){
+        if (UserInfoDao.getUser().getId().equals(userId)) {
             ll_add_riend.setVisibility(View.VISIBLE);//档期frg
             iv_set.setVisibility(View.GONE);
             bt_message.setVisibility(View.GONE);
-        }else  if (flag){
+            msv_scroll.setPadding(0, 0, 0, 0);
+        } else if (flag) {
+            msv_scroll.setPadding(0, 0, 0, 45);
+            bt_message.setVisibility(View.VISIBLE);
             ll_add_riend.setVisibility(View.VISIBLE);
             iv_set.setVisibility(View.VISIBLE);
             bt_message.setText("发送消息");
-        }else{
+        } else {
+            msv_scroll.setPadding(0, 0, 0, 45);
+            bt_message.setVisibility(View.VISIBLE);
             bt_message.setText("加为好友");
             iv_set.setVisibility(View.GONE);
             ll_add_riend.setVisibility(View.GONE);
@@ -478,9 +484,10 @@ public class PerpageAct extends BaseActivity {
 
     /**
      * 删除好友接口
+     *
      * @param friendId
      */
-    private void deleteFriendPer(String friendId){
+    private void deleteFriendPer(String friendId) {
         RequestManager.getMessManager().deleteFriend(friendId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -489,7 +496,7 @@ public class PerpageAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
                 intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
                 sendBroadcast(intent);
@@ -502,12 +509,12 @@ public class PerpageAct extends BaseActivity {
      * 请求档期数据
      */
     private void toPageCalFrg() {
-            Intent intent=new Intent();
-            Bundle bundle=new Bundle();
-            bundle.putParcelable(PAGEFRG_KEY, personalMain);
-            intent.putExtras(bundle);
-            ppagecalFrg.setArguments(bundle);
-            ppagedtFrg.setArguments(bundle);
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(PAGEFRG_KEY, personalMain);
+        intent.putExtras(bundle);
+        ppagecalFrg.setArguments(bundle);
+        ppagedtFrg.setArguments(bundle);
 
 
     }
@@ -521,8 +528,10 @@ public class PerpageAct extends BaseActivity {
         view_dangqi.setBackgroundColor(Color.parseColor("#cdcdcd"));
         view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
     }
+
     /**
      * 兴趣标签初始化
+     *
      * @param str
      */
     private void iniTab(List<UserInterestInfo> str, final String useId) {
@@ -566,7 +575,7 @@ public class PerpageAct extends BaseActivity {
             tv_tab2.setText(str.get(1).getDictName());
             tv_tab3.setText(str.get(2).getDictName());
             tv_tab4.setText(str.get(3).getDictName());
-        }else if (str.size()>4){
+        } else if (str.size() > 4) {
             ll_tab.setVisibility(View.VISIBLE);
             tv_tab1.setVisibility(View.VISIBLE);
             tv_tab2.setVisibility(View.VISIBLE);
@@ -591,11 +600,12 @@ public class PerpageAct extends BaseActivity {
             });
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        if (receiverTalk==null){
-            receiverTalk=new MyBroadCastReceiverTalk();
+        if (receiverTalk == null) {
+            receiverTalk = new MyBroadCastReceiverTalk();
             registerReceiver(receiverTalk, new IntentFilter(PPLABELS));
         }
     }
@@ -603,13 +613,15 @@ public class PerpageAct extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(receiverTalk!=null){
+        if (receiverTalk != null) {
             unregisterReceiver(receiverTalk);
-            receiverTalk=null;
+            receiverTalk = null;
         }
     }
+
     private MyBroadCastReceiverTalk receiverTalk;
-    public static final String PPLABELS ="perpage_update";
+    public static final String PPLABELS = "perpage_update";
+
     private class MyBroadCastReceiverTalk extends BroadcastReceiver {
 
         @Override

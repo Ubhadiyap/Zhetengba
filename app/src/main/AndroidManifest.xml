@@ -606,6 +606,14 @@
             android:value="b80846c99d049f7e15fada5f" />
         <!--  </>值来自开发者平台取得的AppKey-->
 
+        <!-- 百度地图所需的service -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="QpVNC1N6WGaZWlYv4BNHCSdCLssyz7KV" />
     </application>
 
 

@@ -9,7 +9,7 @@ public interface IZtbUrl {
 
     //基础地址
     //外网
-//    public static final String BASE_URL = "http://139.196.154.208:8010/zhetengba/";
+//    public static final String BASE_URL = "http://139.196.154.208:8033/zhetengba/";
     //开发
     public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
 //    public static final String BASE_URL = "http://172.16.6.196:8080/zhetengba/";
