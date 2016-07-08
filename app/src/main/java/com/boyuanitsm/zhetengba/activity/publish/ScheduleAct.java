@@ -179,6 +179,11 @@ public class ScheduleAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
+                        Date nowday = new Date();
+                        if (date.getTime() < nowday.getTime()) {
+                            MyToastUtils.showShortToast(ScheduleAct.this, "开始时间不能小于当前时间！");
+                            return;
+                        }
                         startDate=date;
                         String time=ZhetebaUtils.compareTime(ScheduleAct.this,date.getTime());
                         cet_start.setText(time);
@@ -194,6 +199,10 @@ public class ScheduleAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
+                        if (date.getTime() < startDate.getTime()) {
+                            MyToastUtils.showShortToast(ScheduleAct.this, "结束时间不能小于开始时间！");
+                            return;
+                        }
                         endDate=date;
                         String time= ZhetebaUtils.compareTime(ScheduleAct.this, date.getTime());
                         cet_end.setText(time);
@@ -230,6 +239,11 @@ public class ScheduleAct extends BaseActivity {
     //初始化对象数据
     private void initDate(ScheduleInfo scheduleInfo) {
         if (!TextUtils.isEmpty(cet_end.getText().toString())&&!TextUtils.isEmpty(cet_start.getText().toString())){
+            Date nowday = new Date();
+            if (startDate.getTime() < nowday.getTime()) {
+                MyToastUtils.showShortToast(ScheduleAct.this, "开始时间不能小于当前时间！");
+                return;
+            }
                 Long times=endDate.getTime()-startDate.getTime();
                 if (times>0){
                     scheduleInfo.setStartTime(cet_start.getText().toString());

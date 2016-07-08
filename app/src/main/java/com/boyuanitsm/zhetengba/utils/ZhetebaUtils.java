@@ -121,7 +121,7 @@ public class ZhetebaUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Long nowss = new Date().getTime();
         Long times = datess - nowss;
-        if (times > 0) {
+        if (times >= 0) {
             return format.format(new Date(datess));
         } else {
             MyToastUtils.showShortToast(context, "时间不得小于当前时间，请重新选择！");

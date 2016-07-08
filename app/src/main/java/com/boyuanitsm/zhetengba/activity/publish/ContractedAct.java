@@ -172,9 +172,14 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             return;
         }
        if (!TextUtils.isEmpty(et_start.getText())&&!TextUtils.isEmpty(et_end.getText())){
+           Date nowday = new Date();
+           if (startDate.getTime() < nowday.getTime()) {
+               MyToastUtils.showShortToast(ContractedAct.this, "开始时间不能小于当前时间！");
+               return;
+           }
            Long times=endDate.getTime()-startDate.getTime();
            if (times>0){
-                simpleInfo.setStartTime(et_start.getText().toString());
+               simpleInfo.setStartTime(et_start.getText().toString());
                simpleInfo.setEndTime(et_end.getText().toString());
            }else {
                MyToastUtils.showShortToast(ContractedAct.this,"开始时间不得大于结束时间，请重新选择！");
@@ -216,6 +221,12 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
+                        //比较当前时间与选择时间，当前时间大于选择时间直接赋值，否则不赋值
+                        Date nowday = new Date();
+                        if (date.getTime() < nowday.getTime()) {
+                            MyToastUtils.showShortToast(ContractedAct.this, "开始时间不能小于当前时间！");
+                            return;
+                        }
                         MyLogUtils.info(date + "date是多少");
                         startDate=date;
                        String time= ZhetebaUtils.compareTime(ContractedAct.this, date.getTime());
@@ -235,6 +246,10 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
+                        if (date.getTime() < startDate.getTime()) {
+                            MyToastUtils.showShortToast(ContractedAct.this, "结束时间不能小于开始时间！");
+                            return;
+                        }
                         endDate=date;
                         String time=ZhetebaUtils.compareTime(ContractedAct.this,date.getTime());
                         et_end.setText(time);
