@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +16,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
@@ -31,6 +35,7 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -47,11 +52,19 @@ public class CirFrg extends Fragment {
     private CircleAdapter adapter;
     private int page=1;
     private int rows=10;
+    LinearLayout llnoList;
+
+    ImageView ivAnim;
+    TextView noMsg;
+    private AnimationDrawable animationDrawable;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.cir_frg, null);
         getAllCircleTalk(page, rows);
         lv_cir = (PullToRefreshListView) view.findViewById(R.id.lv_cir);
+        llnoList= (LinearLayout) view.findViewById(R.id.noList);
+        ivAnim= (ImageView) view.findViewById(R.id.ivAnim);
+        noMsg= (TextView) view.findViewById(R.id.noMsg);
 //        initData();
 //        datalist=new ArrayList<>();
         LayoutHelperUtil.freshInit(lv_cir);
@@ -87,20 +100,33 @@ public class CirFrg extends Fragment {
             public void onError(int status, String errorMsg) {
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
+                llnoList.setVisibility(View.VISIBLE);
+                ivAnim.setImageResource(R.drawable.loadfail_list);
+                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                animationDrawable.start();
+                noMsg.setText("加载失败");
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
+                if (animationDrawable!=null){
+                    animationDrawable.stop();
+                    animationDrawable=null;
+                }
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
                 circleEntityList=response.getData().getRows();
                 if (circleEntityList.size() == 0) {
                     if (page == 1) {
-
+                        llnoList.setVisibility(View.VISIBLE);
+                        ivAnim.setImageResource(R.mipmap.planeno);
+                        noMsg.setText("暂无内容");
                     } else {
                         lv_cir.setHasMoreData(false);
                     }
                     return;
+                }else {
+                    llnoList.setVisibility(View.GONE);
                 }
                 if(page==1){
                     datas.clear();
