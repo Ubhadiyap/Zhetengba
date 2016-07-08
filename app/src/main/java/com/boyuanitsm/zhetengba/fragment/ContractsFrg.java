@@ -13,11 +13,11 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mess.NewFriendsMsgActivity;
+import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.FriendsBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
-import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.chat.act.MyGroupAct;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.db.UserDao;
@@ -160,7 +160,10 @@ public class ContractsFrg extends EaseContactListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String username = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
                 // demo中直接进入聊天页面，实际一般是进入用户详情页
-                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+//                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+                Intent intent = new Intent(getActivity(), PerpageAct.class);
+                intent.putExtra("userId", username);
+                startActivity(intent);
             }
         });
 
