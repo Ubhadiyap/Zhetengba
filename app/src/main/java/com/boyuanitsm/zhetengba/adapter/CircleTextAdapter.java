@@ -41,6 +41,7 @@ public class CircleTextAdapter extends BaseAdapter {
     }
     public void notifyChange(List<CircleEntity> list){
         this.list=list;
+        notifyDataSetChanged();
     }
     @Override
     public int getCount() {

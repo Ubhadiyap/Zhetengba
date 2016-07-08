@@ -121,13 +121,13 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
             convertView.setTag(viewHolder);
         }
-        viewHolder.llphoto.setVisibility(View.VISIBLE);
-        if (itemList.isEmpty() || itemList.isEmpty()) {
+        if (itemList.isEmpty()) {
             viewHolder.llphoto.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
         } else if (itemList.size() == 1) {
+            viewHolder.llphoto.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
@@ -142,6 +142,7 @@ public class MyPlaneAdapter extends BaseAdapter {
                 }
             });
         } else if (itemList.size() == 4) {
+            viewHolder.llphoto.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
@@ -182,6 +183,7 @@ public class MyPlaneAdapter extends BaseAdapter {
             });
 
         } else {
+            viewHolder.llphoto.setVisibility(View.VISIBLE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
@@ -190,7 +192,6 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setNumColumns(3);
             PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
             viewHolder.iv_ch_image.setAdapter(adapter);
-
         }
 
         if (list != null) {
@@ -346,7 +347,6 @@ public class MyPlaneAdapter extends BaseAdapter {
         private TextView tv_content;
         private TextView znum;
         private TextView cnum;
-        private TextView snum;
 
     }
 

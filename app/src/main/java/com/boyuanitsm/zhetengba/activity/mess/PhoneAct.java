@@ -68,7 +68,7 @@ public class PhoneAct extends BaseActivity {
         });
         list = filledData(GetPhoneNumberUtils.getNumber(getApplicationContext()));
         Collections.sort(list, pinyinComparator);
-        adapter = new AddressBookAdapter(list, getApplicationContext());
+        adapter = new AddressBookAdapter(list, this);
         lv_addressbook.setAdapter(adapter);
         lv_addressbook.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

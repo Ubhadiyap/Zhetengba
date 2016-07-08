@@ -210,6 +210,10 @@ public class PerpageAct extends BaseActivity {
                 }else if (bt_message.getText().equals("发送消息")){
                     final Intent intent=new Intent(this, ChatActivity.class);
                     final EaseUser easeUser=EaseUserUtils.getUserInfo(userEntity.get(0).getId());
+                    if(getIntent().getIntExtra("chat_type",0)==1){
+                        finish();
+                    }else{
+
                     if(easeUser!=null&&easeUser.getNick().length()!=32){
                         Bundle bundle=new Bundle();
                         bundle.putString("userId",userEntity.get(0).getId());
@@ -237,6 +241,9 @@ public class PerpageAct extends BaseActivity {
                             }
                         });
                     }
+
+                    }
+
 
                 }
                 break;

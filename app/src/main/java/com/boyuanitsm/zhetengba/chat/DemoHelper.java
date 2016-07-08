@@ -594,7 +594,7 @@ public class DemoHelper {
                 MyLogUtils.info("获取对象为空，EaseUserUtils.getUserInfo(inviter)+inviter是多少："+inviter);
                 return;
             }else {
-                msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + " " + st3));
+                msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + "" + st3));
 
             }
             msg.setStatus(EMMessage.Status.SUCCESS);
