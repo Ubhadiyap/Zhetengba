@@ -61,6 +61,7 @@ public class MyReceiver extends BroadcastReceiver {
 						Gson gson = new Gson();
                         flag=2+"";
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
+                        circleInfo.setIsAgree(0);
 						CircleMessDao.saveCircleMess(circleInfo);
 						MyLogUtils.info(CircleMessDao.getCircleUser().toString()+"数据库内容");
 					}else{

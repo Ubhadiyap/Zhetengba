@@ -246,10 +246,10 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        if (date.getTime() < startDate.getTime()) {
-                            MyToastUtils.showShortToast(ContractedAct.this, "结束时间不能小于开始时间！");
-                            return;
-                        }
+//                        if (date.getTime() < startDate.getTime()) {
+//                            MyToastUtils.showShortToast(ContractedAct.this, "结束时间不能小于开始时间！");
+//                            return;
+//                        }
                         endDate=date;
                         String time=ZhetebaUtils.compareTime(ContractedAct.this,date.getTime());
                         et_end.setText(time);
@@ -503,10 +503,14 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     public void onReceiveLocation(BDLocation bdLocation) {
         LogUtils.i("定位回掉。。。。。。。。。。。。。。。");
         if (bdLocation!=null){
-            if (ZhetebaUtils.isCity(bdLocation.getProvince())){
-                tv_select.setText(bdLocation.getCity() + bdLocation.getDistrict()+bdLocation.getStreet());
+            if (!TextUtils.isEmpty(bdLocation.getProvince())&&!TextUtils.isEmpty(bdLocation.getDistrict())&&!TextUtils.isEmpty(bdLocation.getStreet())){
+                if (ZhetebaUtils.isCity(bdLocation.getProvince())){
+                    tv_select.setText(bdLocation.getCity() + bdLocation.getDistrict()+bdLocation.getStreet());
+                }else {
+                    tv_select.setText(bdLocation.getProvince()+bdLocation.getCity() + bdLocation.getDistrict()+bdLocation.getStreet());
+                }
             }else {
-                tv_select.setText(bdLocation.getProvince()+bdLocation.getCity() + bdLocation.getDistrict()+bdLocation.getStreet());
+                tv_select.setHint("无法获取位置信息，请手动输入！");
             }
         }else {
             tv_select.setHint("无法获取位置信息，请手动输入！");
