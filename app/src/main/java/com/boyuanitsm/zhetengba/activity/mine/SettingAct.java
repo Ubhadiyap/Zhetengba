@@ -13,6 +13,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.VersionDataEntity;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
@@ -62,6 +63,10 @@ public class SettingAct extends BaseActivity {
     private int version;
     private String platform;
     GeneralUtils generalUtils;
+    private String type;//调取判断是否需要验证的接口返回的type 1需要 0不需要
+    private UserInfo user;
+    private ProgressDialog pd;
+
 
 
     @Override
@@ -72,16 +77,19 @@ public class SettingAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("设置");
+        pd = new ProgressDialog(this);
+//        ischeck();
 
-        sharedPrefrences = this.getSharedPreferences("type",MODE_PRIVATE);//得到SharedPreferences，会生成user.xml
-        editor = sharedPrefrences.edit();
-
-        String typenum = sharedPrefrences.getString("typenum", null);
-        if(typenum!=null){
-            if(typenum.equals("1")){
+//        sharedPrefrences = this.getSharedPreferences("type",MODE_PRIVATE);//得到SharedPreferences，会生成user.xml
+//        editor = sharedPrefrences.edit();
+//          String usertype = sharedPrefrences.getString("typenum", null);
+        user=UserInfoDao.getUser();
+        String usertype=user.getUserType();
+        if(user!=null&&usertype!=null){
+            if(usertype.equals("1")){
                 iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
-            }
-            if(typenum.equals("0")){
+            }else //if(usertype.equals("0"))
+            {
                 iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
             }
         }else {
@@ -121,24 +129,31 @@ public class SettingAct extends BaseActivity {
     public void todo(View view) {
         switch (view.getId()) {
             case R.id.iv_yz:
-                if(select==1){
-                    select=0;
-                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
-//                    MyToastUtils.showShortToast(SettingAct.this, select + "");
-                    ischeck();//默认进来不需要，点击后不需要
-                    editor.putString("typenum", "0");
-                    editor.commit();
-                    return;
-                }
-                if(select==0){
-                    select=1;
-                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
-//                    MyToastUtils.showShortToast(SettingAct.this, select + "");
-                    ischeck();//需要
-                    editor.putString("typenum", "1");
-                    editor.commit();
-                    return;
-                }
+                pd.setMessage("缓冲中.......");
+                pd.setCanceledOnTouchOutside(false);
+                pd.show();
+//                iv_yz.setEnabled(false);//点击第一下掉成功后允许点击第二下
+                ischeck();
+//                if(select==1){//需要验证时候的状态
+//                    select=0;
+//                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
+//                    iv_yz.setEnabled(false);
+////                    MyToastUtils.showShortToast(SettingAct.this, select + "");
+//                    ischeck();//默认进来不需要，点击后不需要
+////                    editor.putString("typenum", "0");
+////                    editor.commit();
+//                    return;
+//                }
+//                if(select==0){
+//                    select=1;
+//                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+////                    MyToastUtils.showShortToast(SettingAct.this, select + "");
+//                    iv_yz.setEnabled(false);
+//                    ischeck();//需要
+////                    editor.putString("typenum", "1");
+////                    editor.commit();
+//                    return;
+//                }
 
                 break;
             case R.id.cv_about://关于
@@ -176,11 +191,29 @@ public class SettingAct extends BaseActivity {
         RequestManager.getMessManager().isCheck(new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(SettingAct.this,errorMsg);
 
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+//                iv_yz.setEnabled(true);
+                pd.dismiss();
+                type=response.getData();
+                if(type.equals("1")){
+                    user.setUserType("1");
+                    UserInfoDao.updateUser(user);
+                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+                    return;
+                }
+                if(type.equals("0")) {
+                    user.setUserType("0");
+                    UserInfoDao.updateUser(user);
+                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
+                    return;
+                }
+
+
 
             }
         });
@@ -262,7 +295,7 @@ public class SettingAct extends BaseActivity {
      * 登出
      */
     private void loginOut(){
-        final ProgressDialog pd = new ProgressDialog(this);
+//        pd = new ProgressDialog(this);
         String st = getResources().getString(R.string.Are_logged_out);
         pd.setMessage(st);
         pd.setCanceledOnTouchOutside(false);
