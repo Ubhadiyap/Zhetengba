@@ -49,7 +49,7 @@ public class ChanAdapter extends BaseAdapter {
     private List<ChannelTalkEntity> list = new ArrayList<>();
     private String channelId;//说说id
     private LinearLayout ll_like;
-    int clickPos=0;
+    int clickPos = 0;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
@@ -61,6 +61,7 @@ public class ChanAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
+
     public ChanAdapter(Context context, List<List<ImageInfo>> dateList) {
         this.context = context;
         this.dateList = dateList;
@@ -126,13 +127,13 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
             convertView.setTag(viewHolder);
         }
-        viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
         if (itemList.isEmpty() || itemList.isEmpty()) {
             viewHolder.ll_ch_image.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
         } else if (itemList.size() == 1) {
+            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
@@ -147,6 +148,7 @@ public class ChanAdapter extends BaseAdapter {
                 }
             });
         } else if (itemList.size() == 4) {
+            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
@@ -161,7 +163,6 @@ public class ChanAdapter extends BaseAdapter {
                     dialog.show();
                 }
             });
-
             viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -187,10 +188,11 @@ public class ChanAdapter extends BaseAdapter {
             });
 
         } else {
+            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context,255), ActionBar.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context, 255), ActionBar.LayoutParams.WRAP_CONTENT);
             viewHolder.iv_ch_image.setLayoutParams(params);
             viewHolder.iv_ch_image.setNumColumns(3);
             PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
@@ -287,7 +289,7 @@ public class ChanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ShareDialogAct.class);
-                intent.putExtra("type",4);
+                intent.putExtra("type", 4);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

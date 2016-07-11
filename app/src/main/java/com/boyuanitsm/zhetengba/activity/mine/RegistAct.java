@@ -84,7 +84,7 @@ public class RegistAct extends BaseActivity {
                 progressShow = false;
             }
         });
-        pd.setMessage("注册中。。。");
+        pd.setMessage("注册中...");
 //
         register_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -160,6 +160,7 @@ public class RegistAct extends BaseActivity {
 
             case R.id.tv_zc://注册
                 if(isValidate()) {
+                    pd.show();
 //                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
                     toRegister(phone, yzm, pwd);
                 }
@@ -303,6 +304,7 @@ public class RegistAct extends BaseActivity {
             @Override
 
             public void onResponse(ResultBean<UserBean> response) {
+                pd.dismiss();
                 UserBean userBean=response.getData();
                 login(userBean);
 
