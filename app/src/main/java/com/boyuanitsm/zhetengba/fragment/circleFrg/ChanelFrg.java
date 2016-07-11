@@ -257,6 +257,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 vp_chan.onPullDownRefreshComplete();
                 llnoList.setVisibility(View.VISIBLE);
                 ivAnim.setImageResource(R.drawable.loadfail_list);
+                noMsg.setText("加载数据失败...");
                 animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
                 animationDrawable.start();
             }
