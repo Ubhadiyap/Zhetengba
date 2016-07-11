@@ -78,8 +78,8 @@ public class CreateGroupAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(),"请选择群时限");
                     return;
                 }
-                String[] members = getToBeAddMembers().toArray(new String[0]);
-                if(members==null||members.length==0){
+                List<String> members = getToBeAddMembers();
+                if(members==null||members.size()==0){
                     MyToastUtils.showShortToast(getApplicationContext(),"请至少选择一个好友");
                     return;
                 }
@@ -208,11 +208,11 @@ public class CreateGroupAct extends BaseActivity {
         });
     }
 
-    private String getPersonIds(String[] members){
+    private String getPersonIds(List<String> members){
         String personsId="";
-        if(members!=null&&members.length>0){
+        if(members!=null&&members.size()>0){
             for(String member:members){
-                personsId=member+",";
+                personsId=personsId+member+",";
             }
             return personsId.substring(0,personsId.length()-1);
         }

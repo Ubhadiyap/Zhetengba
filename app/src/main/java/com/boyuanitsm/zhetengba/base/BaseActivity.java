@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.lidroid.xutils.ViewUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 基础Activity
@@ -95,5 +96,14 @@ public abstract class BaseActivity extends FragmentActivity {
      */
     public void goback(View view) {
         finish();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

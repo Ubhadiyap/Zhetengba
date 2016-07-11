@@ -1090,9 +1090,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 			@Override
 			public void onResponse(ResultBean<String> response) {
+				progressDialog.dismiss();
 				runOnUiThread(new Runnable() {
 					public void run() {
-						progressDialog.dismiss();
+
 						setResult(RESULT_OK);
 						finish();
 						if (ChatActivity.activityInstance != null)

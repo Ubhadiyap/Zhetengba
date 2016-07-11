@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -26,7 +27,6 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
-import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
@@ -37,7 +37,6 @@ import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
-import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
@@ -87,6 +86,8 @@ public class RegInfoAct extends BaseActivity {
 
     private String photoSavePath;
     private String photoSaveName;
+
+    private ProgressDialog pd;
     Uri imageUri = null;
     public static final int PHOTOZOOM = 0;
     public static final int PHOTOTAKE = 1;
@@ -111,6 +112,7 @@ public class RegInfoAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         setTopTitle("注册信息");
         datamap = new HashMap<>();
+        pd=new ProgressDialog(RegInfoAct.this);
 //        userInfo=new UserInfo();
         user = UserInfoDao.getUser();
         MyLogUtils.info("测试user" + user);
@@ -130,6 +132,12 @@ public class RegInfoAct extends BaseActivity {
 
             }
         });
+
+        photoSavePath = Environment.getExternalStorageDirectory().getPath() + "/ClipHeadPhoto/cache/";
+        File tempFile = new File(photoSavePath);
+        if (!tempFile.exists()) {
+            tempFile.mkdirs();
+        }
 
     }
 
@@ -190,6 +198,8 @@ public class RegInfoAct extends BaseActivity {
                     }
 
                 }
+                pd.setMessage("完善中....");
+                pd.show();
                 doPerfect(user, lableid,idlist);
 //                addInterestLabel(lableid,idlist);
 
@@ -216,6 +226,7 @@ public class RegInfoAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                pd.dismiss();
                 if (idlist.size()>0){
                     for (int i=0;i<idlist.size();i++){
                         UserInterestInfo userInterestInfo=new UserInterestInfo();
@@ -316,7 +327,7 @@ public class RegInfoAct extends BaseActivity {
                 }
                 uri = data.getData();
                 Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap(this, uri);
-                File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImg(userbitmap, 100, 100), "user_head.png");
+                File user_head =MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
                 intent = new Intent(this, ClipActivity.class);
                 intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.png");
                 startActivityForResult(intent, IMAGE_COMPLETE);
@@ -332,9 +343,11 @@ public class RegInfoAct extends BaseActivity {
                 break;
 
             case IMAGE_COMPLETE:// 完成
-                temppath = data.getStringExtra("path");
-                iv_icon.setImageBitmap(MyBitmapUtils.LoadBigImg(temppath, 120, 120));
-                toloadfile(temppath);
+                if(data!=null) {
+                    temppath = data.getStringExtra("path");
+                    iv_icon.setImageBitmap(MyBitmapUtils.LoadBigImg(temppath, 120, 120));
+                    toloadfile(temppath);
+                }
                 break;
 
         }
