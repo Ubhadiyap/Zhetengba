@@ -89,7 +89,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("频道正文");
+        setTopTitle("广场正文");
         headView=getLayoutInflater().inflate(R.layout.hannel_headerview,null);
         assignView(headView);
         channelTalkEntity=getIntent().getParcelableExtra("channelEntity");
@@ -98,7 +98,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         my_lv.getRefreshableView().addHeaderView(headView);
         setChannel(channelTalkEntity);
         getCircleCommentsList(channelId, page, rows);
-
         my_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

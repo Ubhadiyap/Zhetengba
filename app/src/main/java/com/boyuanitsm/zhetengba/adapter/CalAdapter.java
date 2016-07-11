@@ -104,7 +104,7 @@ public class CalAdapter extends BaseAdapter {
         }
 //        MyLogUtils.info(UserInfoDao.getUser().getId());
         if (!UserInfoDao.getUser().getId().equals(list.get(position).getCreatePersonId())){
-            calHolder.ll_guanzhu.setVisibility(View.VISIBLE);
+            calHolder.ll_guanzhu.setVisibility(View.GONE);//关注暂时注掉
             calHolder.ll_yue.setVisibility(View.VISIBLE);
             calHolder.ll_cal_guanzhu_del.setVisibility(View.GONE);
             calHolder.ll_cal_share.setVisibility(View.GONE);

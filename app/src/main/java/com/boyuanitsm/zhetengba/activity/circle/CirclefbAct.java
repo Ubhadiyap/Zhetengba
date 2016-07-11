@@ -81,7 +81,6 @@ public class CirclefbAct extends BaseActivity {
         pd=new ProgressDialog(CirclefbAct.this);
         pd.setMessage("发布中...");
         pd.setCanceledOnTouchOutside(false);
-
         isShow=getIntent().getBooleanExtra("isShow", false);
         circleId=getIntent().getStringExtra("circleId");
         labelId=getIntent().getStringExtra("labelId");
@@ -94,10 +93,10 @@ public class CirclefbAct extends BaseActivity {
             public void onClick(View v) {
                 setRightEnable(false);
                 content=etContent.getText().toString().trim();
-                pd.show();
                 switch (type){
                     case 0:
                         if(!TextUtils.isEmpty(content)) {
+                            pd.show();
                             channelTalkEntity.setLabelId(labelId);
                             channelTalkEntity.setChannelContent(content);
                             if (selecteds.size()>0) {
@@ -106,19 +105,33 @@ public class CirclefbAct extends BaseActivity {
                                 addChannelTalk(channelTalkEntity);
                             }
                         }else {
-                            MyToastUtils.showShortToast(CirclefbAct.this,"请输入频道说说内容");
+                            if (selecteds.size()>0) {
+                                pd.show();
+                                upLoadImg(selecteds);
+                            }else {
+                                MyToastUtils.showShortToast(CirclefbAct.this,"频道说说内容不能为空！");
+                                return;
+                            }
+
                         }
                        break;
                     default:
                         if(!TextUtils.isEmpty(content)) {
+                            pd.show();
                             entity.setTalkContent(content);
                             if (selecteds.size()>0) {
                                 upLoadImg(selecteds);
                             }else {
                                 addCircleTalk(entity, circleId);
                             }
-                        }else {
-                            MyToastUtils.showShortToast(CirclefbAct.this,"请输入圈子说说内容");
+                        }else  {
+                            if (selecteds.size()>0) {
+                                pd.show();
+                                upLoadImg(selecteds);
+                            }else {
+                                MyToastUtils.showShortToast(CirclefbAct.this, "圈子说说内容不能空！");
+                                return;
+                            }
                         }
                         break;
                 }

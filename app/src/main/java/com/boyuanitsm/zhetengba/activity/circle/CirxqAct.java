@@ -222,12 +222,14 @@ public class CirxqAct extends BaseActivity {
                 public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                     lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                     page=1;
+                    getCircleMembers(circleId);
                     getThisCircleTalks(circleId,page,rows);
                 }
 
                 @Override
                 public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                     page++;
+                    getCircleMembers(circleId);
                     getThisCircleTalks(circleId,page,rows);
                 }
             });

@@ -32,6 +32,7 @@ import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.hyphenate.EMCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.Set;
 
@@ -324,6 +325,8 @@ public class SettingAct extends BaseActivity {
             totalCacheSize = ZhetebaUtils.getTotalCacheSize(getApplicationContext());
             cv_clearCache.setNotesText(totalCacheSize);
             cv_clearCache.setNotesTextSize(30);
+            ImageLoader.getInstance().clearDiskCache();//清理图片缓存
+            ImageLoader.getInstance().clearMemoryCache();//清理图片缓存
         } catch (Exception e) {
             e.printStackTrace();
         }

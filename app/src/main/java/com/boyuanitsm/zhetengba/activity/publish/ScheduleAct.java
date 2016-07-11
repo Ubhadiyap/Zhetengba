@@ -172,7 +172,7 @@ public class ScheduleAct extends BaseActivity {
 
             case R.id.view_start://开始时间
                 TimeDialog startDialog = new TimeDialog(ScheduleAct.this, TimeDialog.Type.ALL);
-                startDialog.setRange(getCurrentYear() - 50, getCurrentYear());
+                startDialog.setRange(getCurrentYear(), getCurrentYear());
                 startDialog.builder();
                 startDialog.show();
                 startDialog.setOnTimeSelectListener(new TimeDialog.OnTimeSelectListener() {
@@ -192,7 +192,7 @@ public class ScheduleAct extends BaseActivity {
                 break;
             case R.id.view_end://结束时间
                 final TimeDialog endDialog = new TimeDialog(ScheduleAct.this, TimeDialog.Type.ALL);
-                endDialog.setRange(getCurrentYear() - 50, getCurrentYear());
+                endDialog.setRange(getCurrentYear(), getCurrentYear());
                 endDialog.builder();
                 endDialog.show();
                 endDialog.setOnTimeSelectListener(new TimeDialog.OnTimeSelectListener() {

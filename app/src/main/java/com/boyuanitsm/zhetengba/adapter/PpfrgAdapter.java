@@ -97,7 +97,7 @@ public class PpfrgAdapter extends BaseAdapter {
             convertView.setTag(calHolder);
         }
         if (!UserInfoDao.getUser().getId().equals(scheduleEntity.get(position).getCreatePersonId())){
-            calHolder.ll_guanzhu.setVisibility(View.VISIBLE);
+            calHolder.ll_guanzhu.setVisibility(View.GONE);
             calHolder.ll_yue.setVisibility(View.VISIBLE);
             calHolder.ll_cal_guanzhu_del.setVisibility(View.GONE);
             calHolder.ll_cal_share.setVisibility(View.GONE);
