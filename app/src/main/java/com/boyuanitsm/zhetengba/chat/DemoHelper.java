@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.FriendsBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -594,7 +595,8 @@ public class DemoHelper {
                 MyLogUtils.info("获取对象为空，EaseUserUtils.getUserInfo(inviter)+inviter是多少："+inviter);
                 return;
             }else {
-                msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + "" + st3));
+//                msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + "" + st3));
+                msg.addBody(new EMTextMessageBody("欢迎进入群聊"));
 
             }
             msg.setStatus(EMMessage.Status.SUCCESS);
@@ -773,7 +775,19 @@ public class DemoHelper {
             @Override
             public void onMessageReceived(List<EMMessage> messages) {
                 for (EMMessage message : messages) {
-                    EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
+                    ChatUserBean chatUserBean = new ChatUserBean();
+                    chatUserBean.setUserId(message.getFrom());
+                    MyLogUtils.info("这个人发送消息来了：" + message.getFrom());
+                    try {
+                        chatUserBean.setNick(message.getStringAttribute("nick"));
+                        chatUserBean.setIcon(message.getStringAttribute("icon"));
+                        MyLogUtils.info("这个头像："+message.getStringAttribute("nick")+"++昵称："+message.getStringAttribute("icon"));
+//                    MyToastUtils.showShortToast(getApplication(),message.getStringAttribute("nick")+":"+message.getStringAttribute("icon"));
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                    }
+                    ChatUserDao.saveUser(chatUserBean);
+
                     //应用在后台，不需要刷新UI,通知栏提示新消息
                     if (!easeUI.hasForegroundActivies()) {
                         getNotifier().onNewMsg(message);

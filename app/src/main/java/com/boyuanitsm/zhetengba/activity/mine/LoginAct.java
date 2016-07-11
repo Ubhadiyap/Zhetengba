@@ -259,7 +259,6 @@ public class LoginAct extends BaseActivity {
                         JSONObject  json = new JSONObject(errorMsg);
                         JSONObject data = json.getJSONObject("data");
                         UserBean userBean = mGson.fromJson(data.toString(), UserBean.class);
-                        MyLogUtils.info("要死人啦"+userBean);
                         login(userBean, 0);
                         JPushInterface.setAlias(LoginAct.this, userBean.getUser().getId(), new TagAliasCallback() {
                             @Override

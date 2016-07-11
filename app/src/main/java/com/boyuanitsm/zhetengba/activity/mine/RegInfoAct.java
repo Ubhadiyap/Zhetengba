@@ -26,7 +26,6 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
-import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
@@ -37,7 +36,6 @@ import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
-import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
@@ -130,6 +128,12 @@ public class RegInfoAct extends BaseActivity {
 
             }
         });
+
+        photoSavePath = Environment.getExternalStorageDirectory().getPath() + "/ClipHeadPhoto/cache/";
+        File tempFile = new File(photoSavePath);
+        if (!tempFile.exists()) {
+            tempFile.mkdirs();
+        }
 
     }
 
@@ -316,7 +320,7 @@ public class RegInfoAct extends BaseActivity {
                 }
                 uri = data.getData();
                 Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap(this, uri);
-                File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImg(userbitmap, 100, 100), "user_head.png");
+                File user_head =MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
                 intent = new Intent(this, ClipActivity.class);
                 intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.png");
                 startActivityForResult(intent, IMAGE_COMPLETE);
@@ -332,9 +336,11 @@ public class RegInfoAct extends BaseActivity {
                 break;
 
             case IMAGE_COMPLETE:// 完成
-                temppath = data.getStringExtra("path");
-                iv_icon.setImageBitmap(MyBitmapUtils.LoadBigImg(temppath, 120, 120));
-                toloadfile(temppath);
+                if(data!=null) {
+                    temppath = data.getStringExtra("path");
+                    iv_icon.setImageBitmap(MyBitmapUtils.LoadBigImg(temppath, 120, 120));
+                    toloadfile(temppath);
+                }
                 break;
 
         }
