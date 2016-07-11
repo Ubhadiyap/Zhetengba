@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
@@ -21,6 +22,7 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,19 +50,34 @@ public class MyPlaneAct extends BaseActivity {
         lv_my_plane= (PullToRefreshListView) findViewById(R.id.lv_my_plane);
         //初始化下拉刷新
         LayoutHelperUtil.freshInit(lv_my_plane);
-        getMyTalks(page,rows);
+        getMyTalks(page, rows);
+        lv_my_plane.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState==SCROLL_STATE_TOUCH_SCROLL||scrollState==SCROLL_STATE_IDLE){
+                    ImageLoader.getInstance().resume();
+                }else {
+                    ImageLoader.getInstance().pause();
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
         lv_my_plane.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 lv_my_plane.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-                page=1;
-                getMyTalks(page,rows);
+                page = 1;
+                getMyTalks(page, rows);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getMyTalks(page,rows);
+                getMyTalks(page, rows);
             }
         });
     }

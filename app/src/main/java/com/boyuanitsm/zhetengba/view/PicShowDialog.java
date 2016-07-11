@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.view;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -19,7 +20,9 @@ import com.boyuanitsm.zhetengba.view.photoView.PhotoView;
 import com.boyuanitsm.zhetengba.view.photoView.PhotoViewAttacher;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +33,10 @@ import java.util.List;
  */
 public class PicShowDialog extends Dialog {
     private Context context;
-    private View view;
-    private List<PhotoView> list;
     private List<ImageInfo> imageInfos;
     private PhotoView pv;
     private MyViewPager vp;
     private List<View> views = new ArrayList<View>();
-    private LayoutAnimationController lac;
     private LinearLayout ll_point;
     private ViewPagerAdapter pageAdapter;
     private int position;
@@ -44,6 +44,7 @@ public class PicShowDialog extends Dialog {
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.zanwutupian)
+            .showImageOnLoading(R.mipmap.banner_loading)
             .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
@@ -151,10 +152,10 @@ public class PicShowDialog extends Dialog {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             View view =View.inflate(context, R.layout.item_pic_show, null);
-            PhotoView photoView = (PhotoView) view.findViewById(R.id.pic_pv);
-            ImageLoader.getInstance().displayImage(Uitls.imageBigFullUrl(imageInfos.get(position).getUrl()),photoView,optionsImag);
+            final PhotoView photoView = (PhotoView) view.findViewById(R.id.pic_pv);
+            ImageLoader.getInstance().displayImage(Uitls.imageBigFullUrl(imageInfos.get(position).getUrl()), photoView, optionsImag);
             photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(View view, float x, float y) {

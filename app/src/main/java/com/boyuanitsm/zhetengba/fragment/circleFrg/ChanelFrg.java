@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -35,6 +36,7 @@ import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +111,22 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
             }
             LayoutHelperUtil.freshInit(vp_chan);
+            //快速滚动时停止加载图片
+            vp_chan.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    if (scrollState == SCROLL_STATE_IDLE || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+                        ImageLoader.getInstance().resume();
+                    } else {
+                        ImageLoader.getInstance().pause();
+                    }
+                }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                }
+            });
             vp_chan.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
                 @Override
                 public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

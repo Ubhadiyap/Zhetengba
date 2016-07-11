@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -68,7 +69,21 @@ public class CirFrg extends Fragment {
 //        initData();
 //        datalist=new ArrayList<>();
         LayoutHelperUtil.freshInit(lv_cir);
+        lv_cir.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState==SCROLL_STATE_IDLE||scrollState==SCROLL_STATE_TOUCH_SCROLL){
+                    ImageLoader.getInstance().resume();
+                }else {
+                    ImageLoader.getInstance().pause();
+                }
+            }
 
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
         lv_cir.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

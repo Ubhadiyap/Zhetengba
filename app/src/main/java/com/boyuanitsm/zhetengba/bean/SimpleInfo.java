@@ -34,12 +34,23 @@ public class SimpleInfo implements Parcelable{
     private String userIcon;//用户头像
     private String userSex;//用户性别；
     private boolean follow;//是否关注；
-    private boolean join;//是否参加；
+    private boolean joining;//是否参加；
     private String noticeUserIds;//指定谁看；“aa,bb,cc”
     private String invisibleUserIds;//不让谁看
     private boolean colleagues;//是否同事
     private boolean friend;//false 是否好友
     private int joinCount;//一起参加次数
+    public boolean isJoining() {
+        return joining;
+    }
+
+    public void setJoining(boolean joining) {
+        this.joining = joining;
+    }
+
+    public static Creator<SimpleInfo> getCREATOR() {
+        return CREATOR;
+    }
 
     public String getActivityParticulars() {
         return activityParticulars;
@@ -241,13 +252,7 @@ public class SimpleInfo implements Parcelable{
         this.follow = follow;
     }
 
-    public boolean isJoin() {
-        return join;
-    }
 
-    public void setJoin(boolean join) {
-        this.join = join;
-    }
 
     public String getNoticeUserIds() {
         return noticeUserIds;
@@ -289,6 +294,9 @@ public class SimpleInfo implements Parcelable{
         this.joinCount = joinCount;
     }
 
+    public SimpleInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -321,15 +329,12 @@ public class SimpleInfo implements Parcelable{
         dest.writeString(this.userIcon);
         dest.writeString(this.userSex);
         dest.writeByte(this.follow ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.join ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.joining ? (byte) 1 : (byte) 0);
         dest.writeString(this.noticeUserIds);
         dest.writeString(this.invisibleUserIds);
         dest.writeByte(this.colleagues ? (byte) 1 : (byte) 0);
         dest.writeByte(this.friend ? (byte) 1 : (byte) 0);
         dest.writeInt(this.joinCount);
-    }
-
-    public SimpleInfo() {
     }
 
     protected SimpleInfo(Parcel in) {
@@ -358,7 +363,7 @@ public class SimpleInfo implements Parcelable{
         this.userIcon = in.readString();
         this.userSex = in.readString();
         this.follow = in.readByte() != 0;
-        this.join = in.readByte() != 0;
+        this.joining = in.readByte() != 0;
         this.noticeUserIds = in.readString();
         this.invisibleUserIds = in.readString();
         this.colleagues = in.readByte() != 0;

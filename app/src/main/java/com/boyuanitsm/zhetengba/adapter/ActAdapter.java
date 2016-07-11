@@ -182,7 +182,7 @@ public class ActAdapter extends BaseAdapter {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getIcon()), viewHolder.iv_actdetial, optionsImagd);//详情icon
         }
 //        返回状态判断是否参加，
-        if (infos.get(position).isJoin()) {
+        if (infos.get(position).isJoining()) {
             viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
             viewHolder.tv_text_jion.setText("取消参加");
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
@@ -194,7 +194,7 @@ public class ActAdapter extends BaseAdapter {
         }
 //        if (infos.get(position).)
         if (infos.get(position).getMemberNum()==infos.get(position).getInviteNumber()){
-            if (!infos.get(position).isJoin()){
+            if (!infos.get(position).isJoining()){
                 viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -206,7 +206,7 @@ public class ActAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         viewHolder.ll_join.setEnabled(false);
-                        if (infos.get(position).isJoin()) {
+                        if (infos.get(position).isJoining()) {
                             final MyAlertDialog dialog=new MyAlertDialog(context);
                             dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
                                 @Override
@@ -232,7 +232,7 @@ public class ActAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     viewHolder.ll_join.setEnabled(false);
-                    if (infos.get(position).isJoin()) {
+                    if (infos.get(position).isJoining()) {
                         final MyAlertDialog dialog=new MyAlertDialog(context);
                         dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
@@ -364,7 +364,7 @@ public class ActAdapter extends BaseAdapter {
                     int i = infos.get(position).getMemberNum();
                     i = i + 1;
                     infos.get(position).setMemberNum(i);
-                    infos.get(position).setJoin(true);
+                    infos.get(position).setJoining(true);
                     notifyDataSetChanged();
             }
         });
@@ -389,7 +389,7 @@ public class ActAdapter extends BaseAdapter {
                 viewHolder.ll_join.setEnabled(true);
                 int i = infos.get(position).getMemberNum();
                 i = i - 1;
-                infos.get(position).setJoin(false);
+                infos.get(position).setJoining(false);
                 infos.get(position).setMemberNum(i);
                 notifyDataSetChanged();
             }
