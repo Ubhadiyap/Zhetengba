@@ -42,6 +42,7 @@
                 android:text="QQ"/>
         </LinearLayout>
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_weiboshare"
             android:layout_marginLeft="37dp"
             android:gravity="center_horizontal"
