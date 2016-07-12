@@ -61,11 +61,13 @@ public class MyReceiver extends BroadcastReceiver {
 						Gson gson = new Gson();
                         flag=2+"";
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
+                        circleInfo.setIsAgree(0);
 						CircleMessDao.saveCircleMess(circleInfo);
 						MyLogUtils.info(CircleMessDao.getCircleUser().toString()+"数据库内容");
 					}else{
                         Gson gson=new Gson();
                        ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
+                        activityMess.setIsAgree(0);
                         ActivityMessDao.saveCircleMess(activityMess);
                         MyLogUtils.info(ActivityMessDao.getCircleUser().toString()+"活动数据库内容");
                     }

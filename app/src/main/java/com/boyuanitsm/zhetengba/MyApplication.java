@@ -55,7 +55,7 @@ public class MyApplication extends Application{
         //微信 appid appsecret
         PlatformConfig.setSinaWeibo("3921700954","04b48b094faeb16683c32669824ebdad");
         //新浪微博 appkey appsecret
-        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setQQZone("1105535488", "xuPkxYELgurLPqvZ");
 
     }
 

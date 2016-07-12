@@ -51,6 +51,14 @@ public class CircleMessDao extends TemplateDAO<CircleInfo, String> {
     }
 
     /**
+     * 删除某一项
+     * @param circleId
+     */
+  public static void delCir(String circleId){
+      getDao().delete(circleId);
+  }
+
+    /**
      * 更新用户
      *
      * @param circleInfo
@@ -61,13 +69,14 @@ public class CircleMessDao extends TemplateDAO<CircleInfo, String> {
         values.put("user_icon", circleInfo.getUserIcon());
         values.put("pet_name", circleInfo.getPetName());
         values.put("create_time", circleInfo.getCreateTime());
-        values.put("mess_type", circleInfo.getMesstype());
-        values.put("mess_state", circleInfo.getMessageState());
-        values.put("circle_ame", circleInfo.getCircleName());
+        values.put("messtype", circleInfo.getMesstype());
+        values.put("message_state", circleInfo.getMessageState());
+        values.put("circle_name", circleInfo.getCircleName());
         values.put("comment_content", circleInfo.getCommentContent());
         values.put("comment_talk", circleInfo.getCommentTalk());
-        values.put("cicle_id", circleInfo.getCircleId());
-        db.update(getDao().getTableName(), values, "userId=?", new String[]{circleInfo.getUserId()});
+        values.put("circle_id", circleInfo.getCircleId());
+        values.put("is_agree",circleInfo.getIsAgree());
+        db.update(getDao().getTableName(), values, "user_id=?", new String[]{circleInfo.getUserId()});
     }
 
 }
