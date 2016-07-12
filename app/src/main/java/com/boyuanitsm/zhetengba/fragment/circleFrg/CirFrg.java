@@ -119,7 +119,7 @@ public class CirFrg extends Fragment {
                 ivAnim.setImageResource(R.drawable.loadfail_list);
                 animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
                 animationDrawable.start();
-                noMsg.setText("加载失败");
+                noMsg.setText("加载失败...");
             }
 
             @Override
