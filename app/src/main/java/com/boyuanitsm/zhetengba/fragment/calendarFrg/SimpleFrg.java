@@ -89,7 +89,7 @@ public class SimpleFrg extends BaseFragment {
                 }else if (state==2) {
                     getFriendOrAllAcitvity(page,rows,state+"");//获取我的列表
                 }
-
+                getBanner();
             }
 
             @Override
@@ -102,6 +102,7 @@ public class SimpleFrg extends BaseFragment {
                 }else if (state==2){
                     getFriendOrAllAcitvity(page,rows,state+"");//获取我的
                 }
+                getBanner();
             }
         });
         //设置简约listview的headerview：item_viewpager_act.xml
@@ -255,7 +256,7 @@ public class SimpleFrg extends BaseFragment {
             public void onResponse(ResultBean<DataBean<SimpleInfo>> response) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
-                list=new ArrayList<SimpleInfo>();
+                list = new ArrayList<SimpleInfo>();
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
@@ -280,25 +281,6 @@ public class SimpleFrg extends BaseFragment {
             }
         });
 
-    }
-
-    /**
-     * 获取活动详情
-     *
-     * @param activityId
-     */
-    private void getActivityDetials(String activityId) {
-        RequestManager.getScheduleManager().getActivityDetials(activityId, new ResultCallback<ResultBean<SimpleInfo>>() {
-            @Override
-            public void onError(int status, String errorMsg) {
-
-            }
-
-            @Override
-            public void onResponse(ResultBean<SimpleInfo> response) {
-                SimpleInfo simpleInfo = response.getData();
-            }
-        });
     }
 
     /***

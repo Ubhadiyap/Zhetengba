@@ -984,7 +984,7 @@ public class ZhetebaUtils {
      */
     public static boolean isCity(String str){
         boolean flag=false;
-        String[] citys={"上海市","北京"};
+        String[] citys={"上海市","北京市","天津市","重庆市"};
         for (int i=0;i<citys.length;i++){
             if (TextUtils.equals(str,citys[i])){
                 flag=true;

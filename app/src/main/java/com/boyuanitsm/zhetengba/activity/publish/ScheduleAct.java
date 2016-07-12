@@ -199,10 +199,10 @@ public class ScheduleAct extends BaseActivity {
                     @SuppressLint("SimpleDateFormat")
                     @Override
                     public void onTimeSelect(Date date) {
-                        if (date.getTime() < startDate.getTime()) {
-                            MyToastUtils.showShortToast(ScheduleAct.this, "结束时间不能小于开始时间！");
-                            return;
-                        }
+//                        if (date.getTime() < startDate.getTime()) {
+//                            MyToastUtils.showShortToast(ScheduleAct.this, "结束时间不能小于开始时间！");
+//                            return;
+//                        }
                         endDate=date;
                         String time= ZhetebaUtils.compareTime(ScheduleAct.this, date.getTime());
                         cet_end.setText(time);
