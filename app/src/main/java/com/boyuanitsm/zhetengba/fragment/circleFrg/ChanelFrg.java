@@ -240,6 +240,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 if (animationDrawable!=null){
                     animationDrawable.stop();
                     animationDrawable=null;
+                    llnoList.setVisibility(View.GONE);
                 }
                 titleList = response.getData();
                 initDate(titleList);
@@ -264,6 +265,9 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             public void onError(int status, String errorMsg) {
                 vp_chan.onPullUpRefreshComplete();
                 vp_chan.onPullDownRefreshComplete();
+                if (adapter!=null){
+                    adapter.notifyChange(datalist,channelTalkEntityList);
+                }
                 llnoList.setVisibility(View.VISIBLE);
                 ivAnim.setImageResource(R.drawable.loadfail_list);
                 noMsg.setText("加载数据失败...");

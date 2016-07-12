@@ -229,19 +229,20 @@ public class SimpleFrg extends BaseFragment {
         RequestManager.getScheduleManager().getBanner(new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                noList.setVisibility(View.VISIBLE);
-                ivAnim.setImageResource(R.drawable.loadfail_list);
-                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                animationDrawable.start();
-                noMsg.setText("加载失败...");
+//                noList.setVisibility(View.VISIBLE);
+//                ivAnim.setImageResource(R.drawable.loadfail_list);
+//                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+//                animationDrawable.start();
+//                noMsg.setText("加载失败...");
             }
 
             @Override
             public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
-                if (animationDrawable!=null){
-                    animationDrawable.stop();
-                    animationDrawable=null;
-                }
+//                if (animationDrawable!=null){
+//                    animationDrawable.stop();
+//                    animationDrawable=null;
+//                    noList.setVisibility(View.GONE);
+//                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
                 viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
@@ -262,11 +263,15 @@ public class SimpleFrg extends BaseFragment {
      * @param row
      */
     private void getActivityList(final int page, int row) {
+        list = new ArrayList<SimpleInfo>();
         RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
+                if (adapter!=null){
+                    adapter.update(list);
+                }
                 noList.setVisibility(View.VISIBLE);
                 ivAnim.setImageResource(R.drawable.loadfail_list);
                 animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
@@ -279,10 +284,10 @@ public class SimpleFrg extends BaseFragment {
                 if (animationDrawable!=null){
                     animationDrawable.stop();
                     animationDrawable=null;
+                    noList.setVisibility(View.GONE);
                 }
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
-                list = new ArrayList<SimpleInfo>();
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {

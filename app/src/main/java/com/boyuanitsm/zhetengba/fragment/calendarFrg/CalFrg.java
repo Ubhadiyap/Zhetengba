@@ -53,8 +53,8 @@ public class CalFrg extends BaseFragment {
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
     private MyPageAdapter pageAdapter;
     private LinearLayout ll_point;
-    private List<ScheduleInfo> list=new ArrayList<>();
-    private List<ScheduleInfo> datas=new ArrayList<>();
+    private List<ScheduleInfo> list;
+    private List<ScheduleInfo> datas;
     private List<LabelBannerInfo> bannerInfoList;
     private CalAdapter adapter;
     private int page=1,rows=10;
@@ -171,11 +171,16 @@ public class CalFrg extends BaseFragment {
      * @param rows
      */
     private void getScheduleList(final int page,int rows){
+        list=new ArrayList<>();
+        datas=new ArrayList<>();
         RequestManager.getScheduleManager().getScheduleList(page, rows, new ResultCallback<ResultBean<DataBean<ScheduleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
+                if (adapter!=null){
+                    adapter.update(list);
+                }
                 noList.setVisibility(View.VISIBLE);
                 ivAnim.setImageResource(R.drawable.loadfail_list);
                 animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
@@ -190,6 +195,7 @@ public class CalFrg extends BaseFragment {
                 if (animationDrawable!=null){
                     animationDrawable.stop();
                     animationDrawable=null;
+                    noList.setVisibility(View.GONE);
                 }
                 list = response.getData().getRows();
                 if (list.size() == 0) {
@@ -240,6 +246,7 @@ public class CalFrg extends BaseFragment {
                 if (animationDrawable!=null){
                     animationDrawable.stop();
                     animationDrawable=null;
+                    noList.setVisibility(View.GONE);
                 }
                 list = response.getData().getRows();
                 if (list.size() == 0) {
@@ -275,19 +282,19 @@ public class CalFrg extends BaseFragment {
         RequestManager.getScheduleManager().getScheduleBanner(new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                noList.setVisibility(View.VISIBLE);
-                ivAnim.setImageResource(R.drawable.loadfail_list);
-                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                animationDrawable.start();
-                noMsg.setText("加载失败...");
+//                noList.setVisibility(View.VISIBLE);
+//                ivAnim.setImageResource(R.drawable.loadfail_list);
+//                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+//                animationDrawable.start();
+//                noMsg.setText("加载失败...");
             }
 
             @Override
             public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
-                if (animationDrawable!=null){
-                    animationDrawable.stop();
-                    animationDrawable=null;
-                }
+//                if (animationDrawable!=null){
+//                    animationDrawable.stop();
+//                    animationDrawable=null;
+//                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
                 vp_loop_calen = (LoopViewPager) view.findViewById(R.id.vp_loop_act);

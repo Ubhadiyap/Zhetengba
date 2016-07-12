@@ -27,6 +27,7 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -46,7 +47,7 @@ public class CirclefbAct extends BaseActivity {
     private MyGridView gv_qzfb;
     private CircleEntity entity;
     @ViewInject(R.id.etContent)
-    private EditText etContent;
+    private CanotEmojEditText etContent;
     private String content;
     private StringBuilder imgStr;//图片地址
     private ProgressDialog pd;

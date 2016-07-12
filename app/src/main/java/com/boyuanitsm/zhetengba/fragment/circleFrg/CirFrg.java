@@ -115,6 +115,9 @@ public class CirFrg extends Fragment {
             public void onError(int status, String errorMsg) {
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
+                if (adapter!=null){
+                    adapter.notifyChange(datalist,circleEntityList);
+                }
                 llnoList.setVisibility(View.VISIBLE);
                 ivAnim.setImageResource(R.drawable.loadfail_list);
                 animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
@@ -127,6 +130,7 @@ public class CirFrg extends Fragment {
                 if (animationDrawable!=null){
                     animationDrawable.stop();
                     animationDrawable=null;
+                    llnoList.setVisibility(View.GONE);
                 }
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
