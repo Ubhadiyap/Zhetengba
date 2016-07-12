@@ -26,13 +26,12 @@
 
 
 
-        <ImageView
+        <com.hyphenate.easeui.widget.CircleImageView
             android:id="@+id/avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="center_vertical"
-            android:scaleType="fitXY"
-            android:src="@drawable/em_default_avatar" />
+            android:src="@drawable/userhead" />
 
         <TextView
             android:id="@+id/name"
