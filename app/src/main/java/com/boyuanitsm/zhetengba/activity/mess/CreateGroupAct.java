@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +24,7 @@ import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.boyuanitsm.zhetengba.widget.DialogChoseDate;
 import com.hyphenate.easeui.adapter.EaseContactAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.widget.CircleImageView;
 import com.hyphenate.easeui.widget.EaseSidebar;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -257,7 +257,7 @@ public class CreateGroupAct extends BaseActivity {
             final String username = getItem(position).getUsername();
             // 选择框checkbox
             final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
-            ImageView avatarView = (ImageView) view.findViewById(R.id.avatar);
+            CircleImageView avatarView = (CircleImageView) view.findViewById(R.id.avatar);
             TextView nameView = (TextView) view.findViewById(R.id.name);
 
             if (checkBox != null) {
