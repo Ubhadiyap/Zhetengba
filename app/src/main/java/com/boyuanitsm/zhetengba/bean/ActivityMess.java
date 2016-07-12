@@ -31,7 +31,16 @@ public class ActivityMess implements Parcelable {
     private String activityId;
     @Column
     private String scheduleId;
+    @Column
+    private int isAgree;//0默认，1同意，2拒绝
 
+    public int getIsAgree() {
+        return isAgree;
+    }
+
+    public void setIsAgree(int isAgree) {
+        this.isAgree = isAgree;
+    }
 
     public String getActivityId() {
         return activityId;
@@ -148,6 +157,7 @@ public class ActivityMess implements Parcelable {
         dest.writeString(this.messtype);
         dest.writeString(this.activityId);
         dest.writeString(this.scheduleId);
+        dest.writeInt(this.isAgree);
     }
 
     protected ActivityMess(Parcel in) {
@@ -161,6 +171,7 @@ public class ActivityMess implements Parcelable {
         this.messtype = in.readString();
         this.activityId = in.readString();
         this.scheduleId = in.readString();
+        this.isAgree = in.readInt();
     }
 
     public static final Creator<ActivityMess> CREATOR = new Creator<ActivityMess>() {

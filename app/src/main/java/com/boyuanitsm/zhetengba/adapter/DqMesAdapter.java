@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -95,6 +96,22 @@ public class DqMesAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(list.get(position).getCreateTime())) {
             viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTime())));
         }
+        if (list.get(position).getIsAgree()==1){
+            viewHolder.tvAccept.setText("已接受");
+            viewHolder.tvRefuse.setText("拒绝");
+            viewHolder.tvAccept.setEnabled(false);
+            viewHolder.tvRefuse.setEnabled(false);
+        }else if(list.get(position).getIsAgree()==2){
+            viewHolder.tvAccept.setText("接受");
+            viewHolder.tvRefuse.setText("已拒绝");
+            viewHolder.tvAccept.setEnabled(false);
+            viewHolder.tvRefuse.setEnabled(false);
+        }else {
+            viewHolder.tvAccept.setText("接受");
+            viewHolder.tvRefuse.setText("拒绝");
+            viewHolder.tvAccept.setEnabled(true);
+            viewHolder.tvRefuse.setEnabled(true);
+        }
         viewHolder.tvAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +129,9 @@ public class DqMesAdapter extends BaseAdapter {
                     public void onResponse(ResultBean<String> response) {
                         viewHolder.tvAccept.setClickable(false);
                         viewHolder.tvRefuse.setClickable(false);
+                        list.get(position).setIsAgree(1);
+                        notifyDataSetChanged();
+                        ActivityMessDao.updateCircleUser(list.get(position));
                         viewHolder.tvAccept.setText("已接受");
                         MyToastUtils.showShortToast(context, "已经同意！");
 
@@ -135,6 +155,9 @@ public class DqMesAdapter extends BaseAdapter {
                     public void onResponse(ResultBean<String> response) {
                         viewHolder.tvAccept.setClickable(false);
                         viewHolder.tvRefuse.setClickable(false);
+                        list.get(position).setIsAgree(2);
+                        notifyDataSetChanged();
+                        ActivityMessDao.updateCircleUser(list.get(position));
                         viewHolder.tvRefuse.setText("已拒绝");
                         MyToastUtils.showShortToast(context, "已经拒绝！");
                     }

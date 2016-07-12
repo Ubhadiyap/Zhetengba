@@ -67,6 +67,7 @@ public class MyReceiver extends BroadcastReceiver {
 					}else{
                         Gson gson=new Gson();
                        ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
+                        activityMess.setIsAgree(0);
                         ActivityMessDao.saveCircleMess(activityMess);
                         MyLogUtils.info(ActivityMessDao.getCircleUser().toString()+"活动数据库内容");
                     }

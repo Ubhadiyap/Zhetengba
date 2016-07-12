@@ -99,6 +99,7 @@ public class CalFrg extends BaseFragment {
                 } else if (state == 2) {
                     getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
+                getScheduleBanner();
             }
 
             @Override
@@ -111,6 +112,7 @@ public class CalFrg extends BaseFragment {
                 } else if (state == 2) {
                     getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
+                getScheduleBanner();
             }
         });
 
