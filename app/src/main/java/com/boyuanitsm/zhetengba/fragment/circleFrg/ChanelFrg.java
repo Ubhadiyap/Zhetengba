@@ -97,10 +97,13 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
      * 填充数据
      */
     private void initDate(final List<UserInterestInfo> titleList) {
+        MyLogUtils.info(currentPos+"刷新位置信息。。。。");
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
         if (titleList.size()<=currentPos){
             currentPos=0;
+        }else {
+            currentPos = pos;
         }
         if (titleList.size()>0) {
             getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
@@ -132,6 +135,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                     vp_chan.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                     page = 1;
+                    MyLogUtils.info(currentPos+"刷新位置信息。。。。");
                     getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
                 }
 
@@ -142,9 +146,6 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 }
             });
         }
-
-
-        currentPos = pos;
     }
 
     /***
@@ -266,6 +267,10 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             public void onResponse(ResultBean<DataBean<ChannelTalkEntity>> response) {
                 vp_chan.onPullUpRefreshComplete();
                 vp_chan.onPullDownRefreshComplete();
+                if (animationDrawable!=null){
+                    animationDrawable.stop();
+                    animationDrawable=null;
+                }
                 channelTalkEntityList = response.getData().getRows();
                 if (channelTalkEntityList.size() == 0) {
                     if (page == 1) {

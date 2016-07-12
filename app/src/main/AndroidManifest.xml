@@ -459,7 +459,7 @@
         <!-- ###################添加UmengAppkey###################### -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="578367a867e58e2c0e002761"></meta-data>
+            android:value="578350cee0f55ac26f003292"></meta-data>
 
         <!--加好友验证界面-->
         <activity

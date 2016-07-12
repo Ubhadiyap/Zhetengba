@@ -58,18 +58,19 @@ public class ActivityMessDao  extends TemplateDAO<ActivityMess,String> {
      *
      * @param circleInfo
      */
-//    public static void updateCircleUser(CircleInfo circleInfo) {
-//        SQLiteDatabase db=getDao().getWritableDatabase();
-//        ContentValues values=new ContentValues();
-//        values.put("user_icon",circleInfo.getUserIcon());
-//        values.put("pet_name",circleInfo.getPetName());
-//        values.put("create_time",circleInfo.getCreateTime());
-//        values.put("mess_type",circleInfo.getMesstype());
-//        values.put("mess_state",circleInfo.getMessageState());
-//        values.put("circle_ame",circleInfo.getCircleName());
-//        values.put("comment_content",circleInfo.getCommentContent());
-//        values.put("comment_talk",circleInfo.getCommentTalk());
-//        values.put("cicle_id",circleInfo.getCircleId());
-//        db.update(getDao().getTableName(), values, "userId=?", new String[]{circleInfo.getUserId()});
-//    }
+    public static void updateCircleUser(ActivityMess circleInfo) {
+        SQLiteDatabase db=getDao().getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put("user_icon",circleInfo.getUserIcon());
+        values.put("pet_name",circleInfo.getPetName());
+        values.put("create_time",circleInfo.getCreateTime());
+        values.put("messtype",circleInfo.getMesstype());
+        values.put("message",circleInfo.getMessage());
+        values.put("type",circleInfo.getType());
+        values.put("activity_theme",circleInfo.getActivityTheme());
+        values.put("activity_id",circleInfo.getActivityId());
+        values.put("schedule_id",circleInfo.getScheduleId());
+        values.put("is_agree",circleInfo.getIsAgree());
+        db.update(getDao().getTableName(), values, "user_id=?", new String[]{circleInfo.getUserId()});
+    }
 }
