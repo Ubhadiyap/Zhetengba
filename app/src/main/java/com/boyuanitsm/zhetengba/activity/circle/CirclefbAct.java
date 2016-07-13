@@ -108,6 +108,7 @@ public class CirclefbAct extends BaseActivity {
                         }else {
                             if (selecteds.size()>0) {
                                 pd.show();
+                                channelTalkEntity.setLabelId(labelId);
                                 upLoadImg(selecteds);
                             }else {
                                 MyToastUtils.showShortToast(CirclefbAct.this,"频道说说内容不能为空！");

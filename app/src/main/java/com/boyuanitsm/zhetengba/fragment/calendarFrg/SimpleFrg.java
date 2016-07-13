@@ -98,7 +98,7 @@ public class SimpleFrg extends BaseFragment {
                 }else if (state==2) {
                     getFriendOrAllAcitvity(page,rows,state+"");//获取我的列表
                 }
-                getBanner();
+//                getBanner();
             }
 
             @Override
@@ -111,7 +111,7 @@ public class SimpleFrg extends BaseFragment {
                 }else if (state==2){
                     getFriendOrAllAcitvity(page,rows,state+"");//获取我的
                 }
-                getBanner();
+//                getBanner();
             }
         });
         //设置简约listview的headerview：item_viewpager_act.xml
@@ -295,6 +295,7 @@ public class SimpleFrg extends BaseFragment {
                     } else {
                         lv_act.setHasMoreData(false);
                     }
+                    return;
                 }
                 if (page == 1) {
                     datas.clear();

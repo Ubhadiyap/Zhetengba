@@ -259,7 +259,6 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private void getChannelTalks(String lableId, final int page, int rows) {
         channelTalkEntityList = new ArrayList<>();
         datalist = new ArrayList<>();
-
         RequestManager.getTalkManager().getChannelTalks(lableId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {

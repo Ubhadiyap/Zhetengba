@@ -164,9 +164,11 @@ public class CalAdapter extends BaseAdapter {
             if (list.get(position).isAgreeAbout()){
                 calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
                 calHolder.tv_cal_yh.setText("邀约成功");
+                calHolder.ll_yue.setEnabled(false);
             }else{
                 calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
                 calHolder.tv_cal_yh.setText("约Ta");
+                calHolder.ll_yue.setEnabled(true);
             }
 
 //        calHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {

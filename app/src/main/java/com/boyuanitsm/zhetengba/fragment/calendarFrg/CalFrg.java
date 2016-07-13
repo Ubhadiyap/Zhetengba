@@ -54,7 +54,7 @@ public class CalFrg extends BaseFragment {
     private MyPageAdapter pageAdapter;
     private LinearLayout ll_point;
     private List<ScheduleInfo> list;
-    private List<ScheduleInfo> datas;
+    private List<ScheduleInfo> datas=new ArrayList<>();
     private List<LabelBannerInfo> bannerInfoList;
     private CalAdapter adapter;
     private int page=1,rows=10;
@@ -108,7 +108,7 @@ public class CalFrg extends BaseFragment {
                 } else if (state == 2) {
                     getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
-                getScheduleBanner();
+//                getScheduleBanner();
             }
 
             @Override
@@ -121,7 +121,7 @@ public class CalFrg extends BaseFragment {
                 } else if (state == 2) {
                     getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
-                getScheduleBanner();
+//                getScheduleBanner();
             }
         });
 
@@ -172,7 +172,6 @@ public class CalFrg extends BaseFragment {
      */
     private void getScheduleList(final int page,int rows){
         list=new ArrayList<>();
-        datas=new ArrayList<>();
         RequestManager.getScheduleManager().getScheduleList(page, rows, new ResultCallback<ResultBean<DataBean<ScheduleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -255,7 +254,6 @@ public class CalFrg extends BaseFragment {
                     } else {
                         lv_calen.setHasMoreData(false);
                     }
-                    return;
                 }
                 if (page == 1) {
                     datas.clear();
