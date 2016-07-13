@@ -219,6 +219,8 @@ public class ChanAdapter extends BaseAdapter {
             }
             if (!TextUtils.isEmpty(list.get(position).getChannelContent())) {
                 viewHolder.tv_content.setText(list.get(position).getChannelContent());
+            }else {
+                viewHolder.ll_content.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
                 if (0 == list.get(position).getLiked()) {//未点赞

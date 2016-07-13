@@ -12,7 +12,6 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -26,8 +25,7 @@ import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ErEntity;
 import com.boyuanitsm.zhetengba.utils.GsonUtils;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.boyuanitsm.zhetengba.view.scan.CameraManager;
 import com.boyuanitsm.zhetengba.view.scan.CaptureActivityHandler;
 import com.boyuanitsm.zhetengba.view.scan.InactivityTimer;
@@ -156,7 +154,7 @@ public class ScanQrcodeAct extends BaseActivity implements Callback {
 
     /**
      * 中文乱码
-     * <p/>
+     * <p>
      * 暂时解决大部分的中文乱码 但是还有部分的乱码无法解决 .
      *
      * @return
@@ -266,20 +264,19 @@ public class ScanQrcodeAct extends BaseActivity implements Callback {
 
     /**
      * txtResult.setText(obj.getBarcodeFormat().toString() + ":" + obj.getText());
-     * <p/>
+     * <p>
      * obj.getText()这个就是二维码扫描出来之后的URL地址。
      */
     public void handleDecode(Result obj, Bitmap barcode) {
         inactivityTimer.onActivity();
 //        viewfinderView.drawResultBitmap(barcode);
         playBeepSoundAndVibrate();
-        if (obj.getText().startsWith("{")&&obj.getText().endsWith("}")) {
+        if (obj.getText().startsWith("{") && obj.getText().endsWith("}")) {
             ErEntity erEntity = GsonUtils.gsonToBean(obj.getText(), ErEntity.class);
 //        MyToastUtils.showShortToast(getApplicationContext(), "扫描成功"+obj.getText());
 //        scanResult(obj.getText());
-            if (erEntity!=null) {
-                closeCamera();
-                viewfinderView.setVisibility(View.GONE);
+            if (erEntity != null) {
+
                 if (erEntity.getType() == 0) {//圈子
                     Intent intent = new Intent(ScanQrcodeAct.this, CirxqAct.class);
                     Bundle bundle = new Bundle();
@@ -296,15 +293,31 @@ public class ScanQrcodeAct extends BaseActivity implements Callback {
                 }
                 finish();
             } else {
-                MyToastUtils.showShortToast(ScanQrcodeAct.this,"请扫描折腾吧提供的二维码！");
-                restartCamera();
+                showErrorDialog();
+//                MyToastUtils.showShortToast(ScanQrcodeAct.this, "请扫描折腾吧提供的二维码！");
+
             }
         } else {
-            MyToastUtils.showShortToast(ScanQrcodeAct.this,"请扫描折腾吧提供的二维码！");
-            restartCamera();
+            showErrorDialog();
+//            MyToastUtils.showShortToast(ScanQrcodeAct.this,"请扫描折腾吧提供的二维码！");
+//            restartCamera();
         }
+        closeCamera();
+        viewfinderView.setVisibility(View.GONE);
 
     }
+
+    private void showErrorDialog() {
+        final MyAlertDialog dialog = new MyAlertDialog(this);
+        dialog.builder().setTitle("提示").setMsg("请扫描折腾吧提供的二维码！").setCancelable(false).
+                setPositiveButton("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restartCamera();
+            }
+        }).show();
+    }
+
 
     private void initBeepSound() {
         if (playBeep && mediaPlayer == null) {
@@ -349,6 +362,7 @@ public class ScanQrcodeAct extends BaseActivity implements Callback {
             mediaPlayer.seekTo(0);
         }
     };
+
     /**
      * 重新启动扫码
      */

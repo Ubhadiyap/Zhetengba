@@ -13,7 +13,6 @@
  */
 package com.boyuanitsm.zhetengba.chat.act;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,10 +42,12 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
+import com.boyuanitsm.zhetengba.view.SafeDialog;
 import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -80,7 +81,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	private Button deleteBtn;
 	private EMGroup group;
 	private GridAdapter adapter;
-	private ProgressDialog progressDialog;
+	private SafeDialog progressDialog;
 	private TextView tvTime;
 
 	private RelativeLayout rl_switch_block_groupmsg;
@@ -97,6 +98,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	private EaseSwitchButton switchButton;
     private GroupChangeListener groupChangeListener;
     private RelativeLayout searchLayout;
+
+	private boolean type;//true 为自建群, false 为活动群
 
 	@Override
 	public void setLayout() {
@@ -135,7 +138,6 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		searchLayout = (RelativeLayout) findViewById(R.id.rl_search);
 
 		tvTitle.setText("对话管理");
-		findGroupInfo();//查找群信息
 		idText.setText(groupId);
 		if (group.getOwner() == null || "".equals(group.getOwner())
 				|| !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
@@ -157,7 +159,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
 //		+ "(" + group.getAffiliationsCount() + st
 		//获取群成员列表
-		getGroupMembers(groupId);
+		findGroupInfo();//查找群信息
 
 		// 设置OnTouchListener
 		userGridview.setOnTouchListener(new OnTouchListener() {
@@ -201,7 +203,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		
 		if (resultCode == RESULT_OK) {
 			if (progressDialog == null) {
-				progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+				progressDialog = new SafeDialog(GroupDetailsActivity.this);
 				progressDialog.setMessage(st1);
 				progressDialog.setCanceledOnTouchOutside(false);
 			}
@@ -261,7 +263,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 
     protected void addUserToBlackList(final String username) {
-        final ProgressDialog pd = new ProgressDialog(this);
+        final SafeDialog pd = new SafeDialog(this);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage(getString(R.string.Are_moving_to_blacklist));
         pd.show();
@@ -309,7 +311,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onClick(int which) {
 				if (progressDialog == null) {
-					progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+					progressDialog = new SafeDialog(GroupDetailsActivity.this);
 					progressDialog.setCanceledOnTouchOutside(false);
 				}
 				progressDialog.setMessage("正在退出群聊");
@@ -333,7 +335,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onClick(int which) {
 				if (progressDialog == null) {
-					progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+					progressDialog = new SafeDialog(GroupDetailsActivity.this);
 					progressDialog.setCanceledOnTouchOutside(false);
 				}
 				progressDialog.setMessage("正在解散群聊...");
@@ -513,7 +515,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		String personsId="";
 		if(members!=null&&members.length>0){
 			for(String member:members){
-				personsId=member+",";
+				personsId=personsId+member+",";;
 			}
 			return personsId.substring(0,personsId.length()-1);
 		}
@@ -563,7 +565,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		if(switchButton.isSwitchOpen()){
 			EMLog.d(TAG, "change to unblock group msg");
 			if (progressDialog == null) {
-		        progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+		        progressDialog = new SafeDialog(GroupDetailsActivity.this);
 		        progressDialog.setCanceledOnTouchOutside(false);
 		    }
 			progressDialog.setMessage(getString(R.string.Is_unblock));
@@ -596,7 +598,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			final String st9 = getResources().getString(R.string.group_of_shielding);
 			EMLog.d(TAG, "change to block group msg");
 			if (progressDialog == null) {
-		        progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+		        progressDialog = new SafeDialog(GroupDetailsActivity.this);
 		        progressDialog.setCanceledOnTouchOutside(false);
 		    }
 			progressDialog.setMessage(st8);
@@ -693,7 +695,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			    holder.imageView.setImageResource(R.mipmap.group_add);
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_add_btn, 0, 0);
 				// 如果不是创建者或者没有相应权限
-				if (!group.isAllowInvites() && !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
+				if (type==false&&!group.isAllowInvites() && !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
 					// if current user is not group admin, hide add/remove btn
 					convertView.setVisibility(View.INVISIBLE);
 				} else {
@@ -766,7 +768,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					 * @param username
 					 */
 					protected void deleteMembersFromGroup(final String username) {
-						final ProgressDialog deleteDialog = new ProgressDialog(GroupDetailsActivity.this);
+						final SafeDialog deleteDialog = new SafeDialog(GroupDetailsActivity.this);
 						deleteDialog.setMessage(st13);
 						deleteDialog.setCanceledOnTouchOutside(false);
 						deleteDialog.show();
@@ -1116,10 +1118,15 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 			@Override
 			public void onResponse(ResultBean<GroupBean> response) {
+				//获取群成员列表
+
               GroupBean groupBean=response.getData();
 				if(groupBean!=null){
 					tvTime.setText("还剩"+groupBean.getReminderDays()+"天");
+					type=groupBean.isType();
+					MyLogUtils.info("是否自建群："+groupBean.isType());
 				}
+				getGroupMembers(groupId);
 			}
 		});
 	}

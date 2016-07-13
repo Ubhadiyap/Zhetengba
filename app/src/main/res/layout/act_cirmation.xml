@@ -51,6 +51,6 @@
        android:id="@+id/tv_tc"
        android:background="@drawable/red_but_select"
        android:layout_marginTop="15dp"
-       android:text="退出该群"
+       android:text="退出该圈子"
       style="@style/com_button"/>
 </LinearLayout>
