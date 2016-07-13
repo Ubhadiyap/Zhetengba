@@ -43,16 +43,16 @@ public class ShareDialogAct extends BaseActivity {
         if(type==2){
             codeUrl="http://172.16.6.253:8082/share_2 ";//档期分享链接
         }
-        if(type==3){
-            codeUrl="http://172.16.6.253:8082/share_3   ";//下载链接
-        }
+//        if(type==3){
+//            codeUrl="http://172.16.6.253:8082/share_3   ";//下载链接
+//        }
         if(type==4){
             codeUrl="http://www.baidu.com";//圈子动态链接暂时用百度链接
             //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
         }
-        if(type==5){
-            codeUrl="http://www.baidu.com";//分享二维码暂时用百度代替
-        }
+//        if(type==5){
+//            codeUrl="http://www.baidu.com";//分享二维码暂时用百度代替
+//        }
 
         Window window = getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();
@@ -65,7 +65,7 @@ public class ShareDialogAct extends BaseActivity {
     @OnClick({R.id.ll_qqshare,R.id.ll_weiboshare,R.id.ll_weixinshare,R.id.ll_cancel_share})
     public void OnClick(View v){
         final UMImage image = new UMImage(ShareDialogAct.this,
-                BitmapFactory.decodeResource(getResources(), R.mipmap.logo));
+                BitmapFactory.decodeResource(getResources(), R.drawable.logo));
         switch (v.getId()){
             case R.id.ll_qqshare://qq分享
                new ShareAction(this)
