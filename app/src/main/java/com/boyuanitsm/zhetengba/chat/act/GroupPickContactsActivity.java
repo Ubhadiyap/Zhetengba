@@ -163,7 +163,7 @@ public class GroupPickContactsActivity extends BaseActivity {
 				
 				if (checkBox != null) {
 				    if(exitingMembers != null && exitingMembers.contains(username)){
-	                    checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_gray_selector);
+	                    checkBox.setButtonDrawable(R.mipmap.check_grey);
 	                }else{
 	                    checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
 	                }
