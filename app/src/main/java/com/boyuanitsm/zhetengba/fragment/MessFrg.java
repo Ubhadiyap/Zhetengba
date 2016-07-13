@@ -1,6 +1,9 @@
 package com.boyuanitsm.zhetengba.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -53,6 +56,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
 
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -63,6 +67,23 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                 Intent intent = new Intent(getContext(), ContractsAct.class);
                 getActivity().startActivity(intent);
                 break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(receiver==null){
+            receiver=new UpdateBroadCastReceiver();
+            getContext().registerReceiver(receiver,new IntentFilter(UPDATE_CONTRACT));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(receiver!=null){
+            getContext().unregisterReceiver(receiver);
         }
     }
 
@@ -210,6 +231,17 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             }
         });
 
+    }
+
+
+    public static final String UPDATE_CONTRACT="com.update.contract";
+    private UpdateBroadCastReceiver receiver;
+
+    class UpdateBroadCastReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+             refresh();
+        }
     }
 }
 
