@@ -71,6 +71,11 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private List<List<ImageInfo>> dataList ;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.tum)
+            .showImageOnFail(R.mipmap.tum).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
+    private DisplayImageOptions optionshead = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
@@ -178,7 +183,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private void setCircleEntity(CircleEntity entity){
         if(entity!=null){
             if (!TextUtils.isEmpty(entity.getUserIcon())){
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getUserIcon()),head,optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(entity.getUserIcon()),head,optionshead);
             }
             if (!TextUtils.isEmpty(entity.getUserSex())){
                 if (entity.getUserSex().equals(1+"")){

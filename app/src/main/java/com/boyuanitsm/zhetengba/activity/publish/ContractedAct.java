@@ -43,6 +43,7 @@ import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
 import com.lidroid.xutils.util.LogUtils;
@@ -64,7 +65,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     @ViewInject(R.id.tv_select)
     private TextView tv_select_location;
     @ViewInject(R.id.et_theme)
-    private EditText et_theme;//主题名称
+    private CanotEmojEditText et_theme;//主题名称
     @ViewInject(R.id.ll_theme_content)
     private LinearLayout ll_theme_content;
     @ViewInject(R.id.gv_tab)
@@ -90,7 +91,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     @ViewInject(R.id.ll_tab)//选择标签
     private LinearLayout ll_tab;
     @ViewInject(R.id.tv_select)//地点
-    private EditText tv_select;
+    private CanotEmojEditText tv_select;
     @ViewInject(R.id.iv_friend)//按钮
     private ImageView iv_friend;
     @ViewInject(R.id.bt_plane)
