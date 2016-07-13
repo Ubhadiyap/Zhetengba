@@ -228,11 +228,20 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         RequestManager.getScheduleManager().selectMyLabels(null, limitNum, new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                llnoList.setVisibility(View.VISIBLE);
+                ivAnim.setImageResource(R.drawable.loadfail_list);
+                noMsg.setText("加载失败..");
+                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                animationDrawable.start();
             }
 
             @Override
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
+                if (animationDrawable!=null){
+                    animationDrawable.stop();
+                    animationDrawable=null;
+                    llnoList.setVisibility(View.GONE);
+                }
                 titleList = response.getData();
                 initDate(titleList);
             }
@@ -256,6 +265,9 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             public void onError(int status, String errorMsg) {
                 vp_chan.onPullUpRefreshComplete();
                 vp_chan.onPullDownRefreshComplete();
+                if (adapter!=null){
+                    adapter.notifyChange(datalist,channelTalkEntityList);
+                }
                 llnoList.setVisibility(View.VISIBLE);
                 ivAnim.setImageResource(R.drawable.loadfail_list);
                 noMsg.setText("加载数据失败...");

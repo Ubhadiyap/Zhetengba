@@ -16,6 +16,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -29,7 +30,7 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
     @ViewInject(R.id.tv_creat)//创建圈子
     private TextView tv_creat;
     @ViewInject(R.id.et_cir_name)//建立圈子名称
-    private EditText et_cir_name;
+    private CanotEmojEditText et_cir_name;
     @ViewInject(R.id.etNotes)
     private EditText etNotes;//圈子公告
     private String personIds;//邀请成员id

@@ -19,7 +19,7 @@
             android:textSize="16sp"
             android:text="名称:"
             style="@style/tv_second" />
-        <EditText
+        <com.boyuanitsm.zhetengba.view.CanotEmojEditText
             android:id="@+id/et_cir_name"
             android:gravity="center_vertical"
             android:layout_marginLeft="15dp"

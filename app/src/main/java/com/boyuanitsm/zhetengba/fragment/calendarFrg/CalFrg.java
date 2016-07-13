@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
@@ -51,14 +53,18 @@ public class CalFrg extends BaseFragment {
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
     private MyPageAdapter pageAdapter;
     private LinearLayout ll_point;
-    private List<ScheduleInfo> list=new ArrayList<>();
-    private List<ScheduleInfo> datas=new ArrayList<>();
+    private List<ScheduleInfo> list;
+    private List<ScheduleInfo> datas;
     private List<LabelBannerInfo> bannerInfoList;
     private CalAdapter adapter;
     private int page=1,rows=10;
     private int state=1;
     private boolean flag=true;
     private IntentFilter filter;
+    private LinearLayout noList;
+    private ImageView ivAnim;
+    private TextView noMsg;
+    private AnimationDrawable animationDrawable;
     //    广播接收者更新档期数据
     private BroadcastReceiver calFriendChangeRecevier=new BroadcastReceiver() {
         @Override
@@ -86,6 +92,9 @@ public class CalFrg extends BaseFragment {
         //塞入item_loop_viewpager_calen，到viewpager   :view1
         viewHeader_calen = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_calen = (PullToRefreshListView) view.findViewById(R.id.lv_calen);
+        noList = (LinearLayout) view.findViewById(R.id.noList);
+        ivAnim = (ImageView) view.findViewById(R.id.ivAnim);
+        noMsg = (TextView) view.findViewById(R.id.noMsg);
         //下拉刷新初始化
         LayoutHelperUtil.freshInit(lv_calen);
         lv_calen.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -162,17 +171,32 @@ public class CalFrg extends BaseFragment {
      * @param rows
      */
     private void getScheduleList(final int page,int rows){
+        list=new ArrayList<>();
+        datas=new ArrayList<>();
         RequestManager.getScheduleManager().getScheduleList(page, rows, new ResultCallback<ResultBean<DataBean<ScheduleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
+                if (adapter!=null){
+                    adapter.update(list);
+                }
+                noList.setVisibility(View.VISIBLE);
+                ivAnim.setImageResource(R.drawable.loadfail_list);
+                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                animationDrawable.start();
+                noMsg.setText("加载失败...");
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<ScheduleInfo>> response) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
+                if (animationDrawable!=null){
+                    animationDrawable.stop();
+                    animationDrawable=null;
+                    noList.setVisibility(View.GONE);
+                }
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
@@ -208,12 +232,22 @@ public class CalFrg extends BaseFragment {
             public void onError(int status, String errorMsg) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
+                noList.setVisibility(View.VISIBLE);
+                ivAnim.setImageResource(R.drawable.loadfail_list);
+                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                animationDrawable.start();
+                noMsg.setText("加载失败...");
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<ScheduleInfo>> response) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
+                if (animationDrawable!=null){
+                    animationDrawable.stop();
+                    animationDrawable=null;
+                    noList.setVisibility(View.GONE);
+                }
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
@@ -248,11 +282,19 @@ public class CalFrg extends BaseFragment {
         RequestManager.getScheduleManager().getScheduleBanner(new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+//                noList.setVisibility(View.VISIBLE);
+//                ivAnim.setImageResource(R.drawable.loadfail_list);
+//                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+//                animationDrawable.start();
+//                noMsg.setText("加载失败...");
             }
 
             @Override
             public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
+//                if (animationDrawable!=null){
+//                    animationDrawable.stop();
+//                    animationDrawable=null;
+//                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
                 vp_loop_calen = (LoopViewPager) view.findViewById(R.id.vp_loop_act);

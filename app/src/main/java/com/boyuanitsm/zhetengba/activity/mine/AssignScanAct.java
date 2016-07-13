@@ -4,7 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,14 +28,18 @@ import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.hyphenate.easeui.adapter.EaseContactAdapter;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 指定谁能看,不能看
@@ -46,11 +54,31 @@ public class AssignScanAct extends BaseActivity {
     private boolean isSignleChecked = false;
     private String[] strUserIds;//c存取已经选择的用户id
     private int change=1;
+    @ViewInject(R.id.cetSearch)
+    private ClearEditText cetSearch;//搜索
 
     public static final String CANTYPE="cantype";
     private int type;//0 能看 1不能看
     private String title;//右上方文字
+    List<EaseUser> alluserList;
+    private String etContent;
 
+    private Handler myHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.arg1==0){
+                alluserList.clear();
+                Collection<EaseUser> values = DemoHelper.getInstance().getContactList().values();
+                for (EaseUser user:values){
+                    if (user.getNick().contains(etContent)){
+                        alluserList.add(user);
+                    }
+                }
+                sortList(alluserList);
+            }
+        }
+    };
     @Override
     public void setLayout() {
         setContentView(R.layout.act_who_can);
@@ -105,11 +133,44 @@ public class AssignScanAct extends BaseActivity {
         });
 
         // 获取好友列表
-        final List<EaseUser> alluserList = new ArrayList<EaseUser>();
+        alluserList = new ArrayList<EaseUser>();
         for (EaseUser user : DemoHelper.getInstance().getContactList().values()) {
 //            if (!user.getUsername().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getUsername().equals(Constant.GROUP_USERNAME) & !user.getUsername().equals(Constant.CHAT_ROOM) & !user.getUsername().equals(Constant.CHAT_ROBOT))
                 alluserList.add(user);
         }
+
+
+        sortList(alluserList);
+        cetSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                etContent=s.toString().trim();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Message message=new Message();
+                        message.arg1=0;
+                        myHandler.sendMessage(message);
+                    }
+                }).start();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+
+    private void sortList(final List<EaseUser> alluserList){
         // 对list进行排序
         Collections.sort(alluserList, new Comparator<EaseUser>() {
             @Override
@@ -141,9 +202,7 @@ public class AssignScanAct extends BaseActivity {
 
             }
         });
-
     }
-
     private void save(String str3) {
         Intent intent = new Intent();
         Bundle bundle3 = new Bundle();//谁能看

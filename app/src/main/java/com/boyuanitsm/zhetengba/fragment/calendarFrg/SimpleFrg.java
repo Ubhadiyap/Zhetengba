@@ -4,13 +4,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
@@ -39,7 +42,6 @@ import java.util.List;
 public class SimpleFrg extends BaseFragment {
     private PullToRefreshListView lv_act;
     private View view;
-    private ListView lv_calen;
     private View viewHeader_act;
     private ActAdapter adapter;
     private LoopViewPager viewPager;
@@ -54,6 +56,10 @@ public class SimpleFrg extends BaseFragment {
     private int rows = 10;
     private int state=1;
     private IntentFilter filter;
+    private LinearLayout noList;
+    private ImageView ivAnim;
+    private TextView noMsg;
+    private AnimationDrawable animationDrawable;
     private BroadcastReceiver DteChangeRecevier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -76,6 +82,9 @@ public class SimpleFrg extends BaseFragment {
     public void initData(Bundle savedInstanceState) {
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
+         noList = (LinearLayout) view.findViewById(R.id.noList);
+        ivAnim = (ImageView) view.findViewById(R.id.ivAnim);
+        noMsg = (TextView) view.findViewById(R.id.noMsg);
         //刷新初始化
         LayoutHelperUtil.freshInit(lv_act);
         lv_act.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -220,11 +229,20 @@ public class SimpleFrg extends BaseFragment {
         RequestManager.getScheduleManager().getBanner(new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+//                noList.setVisibility(View.VISIBLE);
+//                ivAnim.setImageResource(R.drawable.loadfail_list);
+//                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+//                animationDrawable.start();
+//                noMsg.setText("加载失败...");
             }
 
             @Override
             public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
+//                if (animationDrawable!=null){
+//                    animationDrawable.stop();
+//                    animationDrawable=null;
+//                    noList.setVisibility(View.GONE);
+//                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
                 viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
@@ -245,18 +263,31 @@ public class SimpleFrg extends BaseFragment {
      * @param row
      */
     private void getActivityList(final int page, int row) {
+        list = new ArrayList<SimpleInfo>();
         RequestManager.getScheduleManager().getActivityList(page, row, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
+                if (adapter!=null){
+                    adapter.update(list);
+                }
+                noList.setVisibility(View.VISIBLE);
+                ivAnim.setImageResource(R.drawable.loadfail_list);
+                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                animationDrawable.start();
+                noMsg.setText("加载失败...");
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<SimpleInfo>> response) {
+                if (animationDrawable!=null){
+                    animationDrawable.stop();
+                    animationDrawable=null;
+                    noList.setVisibility(View.GONE);
+                }
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
-                list = new ArrayList<SimpleInfo>();
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
