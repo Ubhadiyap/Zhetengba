@@ -280,7 +280,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         }
     }
 
-    @OnClick({R.id.iv_shareCode,R.id.iv_setting,R.id.iv_headIcon,R.id.iv_collection,R.id.tv_noLabel})
+    @OnClick({R.id.iv_shareCode,R.id.iv_setting,R.id.iv_headIcon,R.id.iv_collection,R.id.tv_noLabel,R.id.iv_bg})
     public void todo(View view){
         switch (view.getId()){
             case R.id.iv_shareCode://二维码
