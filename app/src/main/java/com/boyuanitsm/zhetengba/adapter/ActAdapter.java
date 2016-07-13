@@ -320,7 +320,8 @@ public class ActAdapter extends BaseAdapter {
         viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(infos.get(position).getId());
+                viewHolder.iv_actdetial.setEnabled(false);
+                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
             }
         });
         //展示个人资料
@@ -457,22 +458,22 @@ public class ActAdapter extends BaseAdapter {
     /***
      * 设置条目点击显示活动详情dialog
      * 1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
-     *
-     * @param
+     *  @param
      * @param activityId
+     * @param iv_actdetial
      */
-    private void showDialog(String activityId) {
+    private void showDialog(String activityId, final CircleImageView iv_actdetial) {
         RequestManager.getScheduleManager().getActivityDetials(activityId, new ResultCallback<ResultBean<SimpleInfo>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                iv_actdetial.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<SimpleInfo> response) {
                 SimpleInfo simpleInfo = response.getData();
                 activityDetail(simpleInfo);
-
+                iv_actdetial.setEnabled(true);
             }
         });
 
