@@ -24,6 +24,8 @@ public class ShareDialogAct extends BaseActivity {
     private int type;
     private String codeUrl;
 
+    private String content;//分享文本内容
+
     @Override
     public void setLayout() {
         setContentView(R.layout.dialog_share);
@@ -39,15 +41,18 @@ public class ShareDialogAct extends BaseActivity {
         type=getIntent().getExtras().getInt("type");
         if(type==1){
             codeUrl="http://172.16.6.253:8082/share_1 ";//活动分享链接
+            content="我在折腾吧发布了一个“会友”，快来围观吧!";
         }
         if(type==2){
             codeUrl="http://172.16.6.253:8082/share_2 ";//档期分享链接
+            content="我在折腾吧发布了一个“有空”，快来围观吧!";
         }
 //        if(type==3){
 //            codeUrl="http://172.16.6.253:8082/share_3   ";//下载链接
 //        }
         if(type==4){
             codeUrl="http://www.baidu.com";//圈子动态链接暂时用百度链接
+            content="我在折腾吧发布了一个“动态”，快来围观吧!";
             //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
         }
 //        if(type==5){
@@ -71,7 +76,7 @@ public class ShareDialogAct extends BaseActivity {
                new ShareAction(this)
                 .setPlatform(SHARE_MEDIA.QQ)
                     .setCallback(umShareListener)
-                    .withText("折腾吧")
+                    .withText(content)
                     .withTargetUrl(codeUrl)
                     .withMedia(image)
                        .withTitle("折腾吧")
@@ -81,7 +86,7 @@ public class ShareDialogAct extends BaseActivity {
                 new ShareAction(this)
                         .setPlatform(SHARE_MEDIA.SINA)
                         .setCallback(umShareListener)
-                        .withText("折腾吧"+codeUrl)
+                        .withText(content+codeUrl)
                         .withMedia(image)
                         .share();
                 break;
@@ -89,7 +94,7 @@ public class ShareDialogAct extends BaseActivity {
                 new ShareAction(this)
                         .setPlatform(SHARE_MEDIA.WEIXIN)
                         .setCallback(umShareListener)
-                        .withText("折腾吧")
+                        .withText(content)
                         .withTargetUrl(codeUrl)
                         .withMedia(image)
                         .withTitle("折腾吧")
