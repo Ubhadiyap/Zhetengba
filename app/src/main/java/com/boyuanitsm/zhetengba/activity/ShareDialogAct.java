@@ -40,11 +40,11 @@ public class ShareDialogAct extends BaseActivity {
 //        getWindow().setGravity(Gravity.BOTTOM);
         type=getIntent().getExtras().getInt("type");
         if(type==1){
-            codeUrl="http://172.16.6.253:8082/share_1 ";//活动分享链接
+            codeUrl="http://172.16.6.253:8082/share_1";//活动分享链接
             content="我在折腾吧发布了一个“会友”，快来围观吧!";
         }
         if(type==2){
-            codeUrl="http://172.16.6.253:8082/share_2 ";//档期分享链接
+            codeUrl="http://172.16.6.253:8082/share_2";//档期分享链接
             content="我在折腾吧发布了一个“有空”，快来围观吧!";
         }
 //        if(type==3){
@@ -73,7 +73,7 @@ public class ShareDialogAct extends BaseActivity {
                 BitmapFactory.decodeResource(getResources(), R.drawable.logo));
         switch (v.getId()){
             case R.id.ll_qqshare://qq分享
-               new ShareAction(this)
+               new ShareAction(ShareDialogAct.this)
                 .setPlatform(SHARE_MEDIA.QQ)
                     .setCallback(umShareListener)
                     .withText(content)
@@ -83,15 +83,15 @@ public class ShareDialogAct extends BaseActivity {
                     .share();
                 break;
             case R.id.ll_weiboshare:
-                new ShareAction(this)
+                new ShareAction(ShareDialogAct.this)
                         .setPlatform(SHARE_MEDIA.SINA)
                         .setCallback(umShareListener)
-                        .withText(content+codeUrl)
+                        .withText(content + codeUrl)
                         .withMedia(image)
                         .share();
                 break;
             case R.id.ll_weixinshare:
-                new ShareAction(this)
+                new ShareAction(ShareDialogAct.this)
                         .setPlatform(SHARE_MEDIA.WEIXIN)
                         .setCallback(umShareListener)
                         .withText(content)
@@ -117,6 +117,7 @@ public class ShareDialogAct extends BaseActivity {
         public void onResult(SHARE_MEDIA platform) {
             MyToastUtils.showShortToast(getApplicationContext(), "分享成功");
             finish();
+
         }
 
         @Override

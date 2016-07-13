@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -42,6 +43,7 @@ public class FrogetpwdAct extends BaseActivity {
     private EditText et_yzm;//验证码
 
     private String phone,yzm,pwd,cpwd;//手机号，验证码，密码，确认密码
+    private ProgressDialog pd;
 
 
     private int i = 60;
@@ -56,6 +58,8 @@ public class FrogetpwdAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("忘记密码");
+        pd=new ProgressDialog(FrogetpwdAct.this);
+        pd.setCanceledOnTouchOutside(false);
     }
 
     @OnClick({R.id.code_tv,R.id.tv_frogettj})
@@ -84,6 +88,8 @@ public class FrogetpwdAct extends BaseActivity {
 
             case R.id.tv_frogettj://提交
                  if(isValidate()){
+                     pd.setMessage("提交中...");
+                     pd.show();
                      frogetpwd(phone,yzm, pwd);
                  }
 
@@ -207,6 +213,7 @@ public class FrogetpwdAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                pd.dismiss();
                 MyToastUtils.showShortToast(FrogetpwdAct.this,"密码修改成功，请重新登录！");
                 openActivity(LoginAct.class);
             }
