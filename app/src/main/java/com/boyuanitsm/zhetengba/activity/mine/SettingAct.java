@@ -87,13 +87,13 @@ public class SettingAct extends BaseActivity {
         String usertype=user.getUserType();
         if(user!=null&&usertype!=null){
             if(usertype.equals("1")){
-                iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+                iv_yz.setImageResource(R.drawable.switch_on);
             }else //if(usertype.equals("0"))
             {
-                iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
+                iv_yz.setImageResource(R.drawable.switch_off);
             }
         }else {
-            iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+            iv_yz.setImageResource(R.drawable.switch_on);
         }
 
 

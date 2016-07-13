@@ -25,7 +25,7 @@ public class GroupBean implements Parcelable {
 
     private String id;
     private String groupOwnerId;
-    private String type;//true 为自建群, false 为活动群
+    private boolean type;//true 为自建群, false 为活动群
     private String activityId;
     private String groupName;
     private String createTime;
@@ -51,11 +51,11 @@ public class GroupBean implements Parcelable {
         this.groupOwnerId = groupOwnerId;
     }
 
-    public String getType() {
+    public boolean isType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(boolean type) {
         this.type = type;
     }
 
@@ -123,6 +123,7 @@ public class GroupBean implements Parcelable {
         this.reminderDays = reminderDays;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -132,7 +133,7 @@ public class GroupBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeString(this.groupOwnerId);
-        dest.writeString(this.type);
+        dest.writeByte(type ? (byte) 1 : (byte) 0);
         dest.writeString(this.activityId);
         dest.writeString(this.groupName);
         dest.writeString(this.createTime);
@@ -149,7 +150,7 @@ public class GroupBean implements Parcelable {
     protected GroupBean(Parcel in) {
         this.id = in.readString();
         this.groupOwnerId = in.readString();
-        this.type = in.readString();
+        this.type = in.readByte() != 0;
         this.activityId = in.readString();
         this.groupName = in.readString();
         this.createTime = in.readString();
@@ -160,7 +161,7 @@ public class GroupBean implements Parcelable {
         this.reminderDays = in.readString();
     }
 
-    public static final Parcelable.Creator<GroupBean> CREATOR = new Parcelable.Creator<GroupBean>() {
+    public static final Creator<GroupBean> CREATOR = new Creator<GroupBean>() {
         public GroupBean createFromParcel(Parcel source) {
             return new GroupBean(source);
         }

@@ -42,6 +42,7 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -98,6 +99,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
     private GroupChangeListener groupChangeListener;
     private RelativeLayout searchLayout;
 
+	private boolean type;//true 为自建群, false 为活动群
+
 	@Override
 	public void setLayout() {
 		// 获取传过来的groupid
@@ -135,7 +138,6 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		searchLayout = (RelativeLayout) findViewById(R.id.rl_search);
 
 		tvTitle.setText("对话管理");
-		findGroupInfo();//查找群信息
 		idText.setText(groupId);
 		if (group.getOwner() == null || "".equals(group.getOwner())
 				|| !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
@@ -157,7 +159,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
 //		+ "(" + group.getAffiliationsCount() + st
 		//获取群成员列表
-		getGroupMembers(groupId);
+		findGroupInfo();//查找群信息
 
 		// 设置OnTouchListener
 		userGridview.setOnTouchListener(new OnTouchListener() {
@@ -513,7 +515,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		String personsId="";
 		if(members!=null&&members.length>0){
 			for(String member:members){
-				personsId=member+",";
+				personsId=personsId+member+",";;
 			}
 			return personsId.substring(0,personsId.length()-1);
 		}
@@ -693,7 +695,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			    holder.imageView.setImageResource(R.mipmap.group_add);
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_add_btn, 0, 0);
 				// 如果不是创建者或者没有相应权限
-				if (!group.isAllowInvites() && !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
+				if (type==false&&!group.isAllowInvites() && !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
 					// if current user is not group admin, hide add/remove btn
 					convertView.setVisibility(View.INVISIBLE);
 				} else {
@@ -1116,10 +1118,15 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 			@Override
 			public void onResponse(ResultBean<GroupBean> response) {
+				//获取群成员列表
+
               GroupBean groupBean=response.getData();
 				if(groupBean!=null){
 					tvTime.setText("还剩"+groupBean.getReminderDays()+"天");
+					type=groupBean.isType();
+					MyLogUtils.info("是否自建群："+groupBean.isType());
 				}
+				getGroupMembers(groupId);
 			}
 		});
 	}
