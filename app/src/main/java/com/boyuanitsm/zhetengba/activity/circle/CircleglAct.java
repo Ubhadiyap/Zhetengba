@@ -130,6 +130,7 @@ public class CircleglAct extends BaseActivity {
     private List<CircleEntity> datas=new ArrayList<>();
     //获取圈子列表
     private void getCircleList(String userId,final int page,int rows){
+        list=new ArrayList<>();
         RequestManager.getTalkManager().myCircleList(userId,page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -148,7 +149,6 @@ public class CircleglAct extends BaseActivity {
                     } else {
                         lv_circlegl.setHasMoreData(false);
                     }
-                    return;
                 }
                 if(page==1){
                     datas.clear();

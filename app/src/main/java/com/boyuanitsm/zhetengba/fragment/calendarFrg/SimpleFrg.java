@@ -53,7 +53,7 @@ public class SimpleFrg extends BaseFragment {
     private List<SimpleInfo> list;//活动对象集合
     private List<SimpleInfo> datas = new ArrayList<>();
     private int page = 1;
-    private int rows = 10;
+    private int rows = 20;
     private int state=1;
     private IntentFilter filter;
     private LinearLayout noList;
@@ -295,7 +295,6 @@ public class SimpleFrg extends BaseFragment {
                     } else {
                         lv_act.setHasMoreData(false);
                     }
-                    return;
                 }
                 if (page == 1) {
                     datas.clear();

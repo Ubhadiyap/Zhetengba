@@ -603,7 +603,8 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="b80846c99d049f7e15fada5f" />
+            android:value="f0da3849ddbb042808145088" />
+        <!--//b80846c99d049f7e15fada5f-->
         <!--  </>值来自开发者平台取得的AppKey-->
 
         <!-- 百度地图所需的service -->

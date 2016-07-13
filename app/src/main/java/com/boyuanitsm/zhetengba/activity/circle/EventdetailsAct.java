@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -17,7 +18,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  */
 public class EventdetailsAct extends BaseActivity implements View.OnClickListener {
     @ViewInject(R.id.feedback_et)
-    private EditText feedback_et;
+    private CanotEmojEditText feedback_et;
     private  String str;
     @Override
     public void setLayout() {
