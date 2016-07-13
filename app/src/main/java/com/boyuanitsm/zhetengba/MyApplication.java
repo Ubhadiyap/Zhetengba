@@ -51,9 +51,9 @@ public class MyApplication extends Application{
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);
         //分享配置
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        PlatformConfig.setWeixin("wxd53b5a1592bb3d7f", "1c0fdd73d727488cbbd1bd49c8896f74");
         //微信 appid appsecret
-        PlatformConfig.setSinaWeibo("3921700954","04b48b094faeb16683c32669824ebdad");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
         //新浪微博 appkey appsecret
         PlatformConfig.setQQZone("1105535488", "xuPkxYELgurLPqvZ");
 
