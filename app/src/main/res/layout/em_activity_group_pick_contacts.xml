@@ -67,7 +67,9 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="@android:color/transparent"
-            android:clickable="true" />
+            android:clickable="true"
+            android:visibility="gone"
+            />
 
         <TextView
             android:id="@+id/floating_header"

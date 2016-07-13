@@ -13,7 +13,6 @@
  */
 package com.boyuanitsm.zhetengba.chat.act;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,6 +46,7 @@ import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
+import com.boyuanitsm.zhetengba.view.SafeDialog;
 import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -80,7 +80,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	private Button deleteBtn;
 	private EMGroup group;
 	private GridAdapter adapter;
-	private ProgressDialog progressDialog;
+	private SafeDialog progressDialog;
 	private TextView tvTime;
 
 	private RelativeLayout rl_switch_block_groupmsg;
@@ -201,7 +201,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		
 		if (resultCode == RESULT_OK) {
 			if (progressDialog == null) {
-				progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+				progressDialog = new SafeDialog(GroupDetailsActivity.this);
 				progressDialog.setMessage(st1);
 				progressDialog.setCanceledOnTouchOutside(false);
 			}
@@ -261,7 +261,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 
     protected void addUserToBlackList(final String username) {
-        final ProgressDialog pd = new ProgressDialog(this);
+        final SafeDialog pd = new SafeDialog(this);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage(getString(R.string.Are_moving_to_blacklist));
         pd.show();
@@ -309,7 +309,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onClick(int which) {
 				if (progressDialog == null) {
-					progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+					progressDialog = new SafeDialog(GroupDetailsActivity.this);
 					progressDialog.setCanceledOnTouchOutside(false);
 				}
 				progressDialog.setMessage("正在退出群聊");
@@ -333,7 +333,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onClick(int which) {
 				if (progressDialog == null) {
-					progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+					progressDialog = new SafeDialog(GroupDetailsActivity.this);
 					progressDialog.setCanceledOnTouchOutside(false);
 				}
 				progressDialog.setMessage("正在解散群聊...");
@@ -563,7 +563,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		if(switchButton.isSwitchOpen()){
 			EMLog.d(TAG, "change to unblock group msg");
 			if (progressDialog == null) {
-		        progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+		        progressDialog = new SafeDialog(GroupDetailsActivity.this);
 		        progressDialog.setCanceledOnTouchOutside(false);
 		    }
 			progressDialog.setMessage(getString(R.string.Is_unblock));
@@ -596,7 +596,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			final String st9 = getResources().getString(R.string.group_of_shielding);
 			EMLog.d(TAG, "change to block group msg");
 			if (progressDialog == null) {
-		        progressDialog = new ProgressDialog(GroupDetailsActivity.this);
+		        progressDialog = new SafeDialog(GroupDetailsActivity.this);
 		        progressDialog.setCanceledOnTouchOutside(false);
 		    }
 			progressDialog.setMessage(st8);
@@ -766,7 +766,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					 * @param username
 					 */
 					protected void deleteMembersFromGroup(final String username) {
-						final ProgressDialog deleteDialog = new ProgressDialog(GroupDetailsActivity.this);
+						final SafeDialog deleteDialog = new SafeDialog(GroupDetailsActivity.this);
 						deleteDialog.setMessage(st13);
 						deleteDialog.setCanceledOnTouchOutside(false);
 						deleteDialog.show();

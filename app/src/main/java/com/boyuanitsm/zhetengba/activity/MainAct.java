@@ -10,7 +10,6 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -523,14 +522,15 @@ public class MainAct extends BaseActivity {
         super.onSaveInstanceState(outState);
     }
 
-    //返回退出
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if ((currentTime - touchTime) >= WAITTIME) {
+            Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+            touchTime = currentTime;
+        } else {
             moveTaskToBack(false);
-            return true;
         }
-        return super.onKeyDown(keyCode, event);
     }
 
 
