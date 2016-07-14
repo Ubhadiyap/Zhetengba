@@ -54,12 +54,12 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <EditText
+                    <com.boyuanitsm.zhetengba.view.CanotEmojEditText
                         android:id="@+id/et_pickname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:lines="1"
+                        android:singleLine="true"
                         android:background="@null"
                         android:hint="快给自己选个高大上的名字吧"
                         android:textColorHint="#cdcdcd"

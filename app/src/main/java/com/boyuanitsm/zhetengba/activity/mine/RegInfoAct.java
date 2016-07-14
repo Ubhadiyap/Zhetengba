@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -37,6 +36,7 @@ import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
@@ -57,7 +57,7 @@ import java.util.Map;
  */
 public class RegInfoAct extends BaseActivity {
     @ViewInject(R.id.et_pickname)
-    private EditText et_pickname;
+    private CanotEmojEditText et_pickname;
     @ViewInject(R.id.boy_rd)
     private RadioButton boy_rd;
     @ViewInject(R.id.gvxq)
