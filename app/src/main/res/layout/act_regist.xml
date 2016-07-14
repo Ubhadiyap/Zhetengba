@@ -175,8 +175,7 @@
 
 
     <TextView
-        android:enabled="false"
-        android:background="@drawable/com_dybtn_hui"
+        android:background="@drawable/com_dybtn_select"
         android:layout_height="40dp"
         android:layout_width="match_parent"
         android:gravity="center"

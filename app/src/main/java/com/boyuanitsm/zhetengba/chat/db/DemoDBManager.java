@@ -95,6 +95,16 @@ public class DemoDBManager {
             db.delete(UserDao.TABLE_NAME, UserDao.COLUMN_NAME_ID + " = ?", new String[]{username});
         }
     }
+
+    /**
+     * 删除所有
+     */
+    synchronized public void deleteAllContract(){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if(db.isOpen()){
+            db.delete(UserDao.TABLE_NAME,null,null);
+        }
+    }
     
     /**
      * 保存一个联系人

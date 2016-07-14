@@ -27,6 +27,10 @@ public class DemoModel {
         return true;
     }
 
+    public void deleteAllFriends(){
+        UserDao dao = new UserDao(context);
+        dao.deletetAllContract();
+    }
     public Map<String, EaseUser> getContactList() {
         UserDao dao = new UserDao(context);
         return dao.getContactList();
