@@ -163,13 +163,13 @@ public class AddFriendsAct extends BaseActivity {
         @Override
         public void onResult(SHARE_MEDIA platform) {
             MyToastUtils.showShortToast(getApplicationContext(), "分享成功");
-            finish();
+
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
             MyToastUtils.showShortToast(getApplicationContext(), "分享失败");
-            finish();
+
         }
 
         @Override
