@@ -5,72 +5,86 @@
     android:background="@color/main_color">
 
     <!--<LinearLayout-->
-        <!--android:id="@+id/ll_title_border"-->
-        <!-- -->
-        <!--android:orientation="horizontal"-->
-        <!--android:background="@drawable/bg_circle_stroke_yes_white">-->
+    <!--android:id="@+id/ll_title_border"-->
+    <!-- -->
+    <!--android:orientation="horizontal"-->
+    <!--android:background="@drawable/bg_circle_stroke_yes_white">-->
     <RadioGroup
         android:id="@+id/rg_cir"
-        android:orientation="horizontal"
         android:layout_width="136dp"
         android:layout_height="27dp"
         android:layout_centerInParent="true"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <RadioButton
             android:id="@+id/rb_chanel"
             style="@style/MainAct_Title_TextView"
-            android:text="@string/title_chanel"
-            android:clickable="true"
-            android:checked="true"
             android:background="@drawable/title_picchange_calen"
-            />
+            android:checked="true"
+            android:clickable="true"
+            android:text="@string/title_chanel" />
+
         <RadioButton
-            style="@style/MainAct_Title_TextView"
             android:id="@+id/rb_circle"
+            style="@style/MainAct_Title_TextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/title_circle"
+            android:background="@drawable/title_picchange_cal"
             android:clickable="true"
-            android:background="@drawable/title_picchange_cal"/>
+            android:text="@string/title_circle" />
     </RadioGroup>
 
     <!--</LinearLayout>-->
     <RelativeLayout
-        android:layout_marginLeft="59dp"
-       android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
         android:layout_width="wrap_content"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="59dp"
+        android:layout_marginRight="15dp">
+
         <LinearLayout
-            android:layout_centerInParent="true"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:id="@+id/ll_quan"
-                android:gravity="center"
                 android:layout_width="30dp"
-                android:layout_height="40dp">
+                android:layout_height="40dp"
+                android:gravity="center">
+
                 <ImageView
                     android:id="@+id/iv_quan"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/quan"/>
+                    android:src="@mipmap/quan" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_newmes"
-                android:gravity="center"
-                android:layout_marginLeft="10dp"
                 android:layout_width="30dp"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center">
+
                 <ImageView
                     android:id="@+id/iv_newmes"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/news"/>
+                    android:src="@mipmap/news" />
             </LinearLayout>
-
         </LinearLayout>
     </RelativeLayout>
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_new_red"
+        android:layout_alignParentRight="true"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="18dp"
+        android:background="@drawable/point_red" />
 </RelativeLayout>

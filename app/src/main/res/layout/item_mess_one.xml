@@ -22,8 +22,7 @@
             <com.boyuanitsm.zhetengba.view.CircleImageView
                 android:id="@+id/cv_head2"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/test_user2" />
+                android:layout_height="50dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -45,7 +44,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Maike"
                     android:textColor="@color/one_color"
                     android:textSize="16sp" />
 
@@ -65,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="请求加入足球圈组"
                 android:textColor="#333333"
                 android:textSize="14sp" />
         </LinearLayout>

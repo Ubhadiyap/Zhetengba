@@ -34,6 +34,7 @@ import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -82,7 +83,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
     @ViewInject(R.id.et_comment)
-    private EditText etComment;
+    private CanotEmojEditText etComment;
     private String circleId;//说说id
     private CircleEntity entity;//说说实体
 

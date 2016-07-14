@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.CollectionBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -147,7 +149,7 @@ public class CollectAdapter extends BaseAdapter {
 
             }
             //是已经响应了还是没响应
-            if (list.get(position).isJoin()) {
+            if (list.get(position).isJoining()) {
                 //已经响应了
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
                 holder.tv_text_jion.setText("取消参加");
@@ -189,7 +191,7 @@ public class CollectAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         holder.ll_join.setEnabled(false);
-                        if (list.get(position).isJoin()) {
+                        if (list.get(position).isJoining()) {
                             final MyAlertDialog dialog = new MyAlertDialog(context);
                             dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
                                 @Override
@@ -271,6 +273,7 @@ public class CollectAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 list.remove(dex);
                 notifyDataSetChanged();
+                context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
             }
         });
     }
@@ -327,8 +330,10 @@ public class CollectAdapter extends BaseAdapter {
                 int i = list.get(position).getMemberNum();
                 i = i - 1;
                 holder.tv_join_num.setText(i + "");
-                list.get(position).setJoin(false);
+                list.get(position).setJoining(false);
                 list.get(position).setMemberNum(i);
+                context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+
             }
         });
     }
@@ -353,7 +358,8 @@ public class CollectAdapter extends BaseAdapter {
                 int i = list.get(position).getMemberNum();
                 i = i + 1;
                 list.get(position).setMemberNum(i);
-                list.get(position).setJoin(true);
+                list.get(position).setJoining(true);
+                context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
                 notifyDataSetChanged();
             }
         });

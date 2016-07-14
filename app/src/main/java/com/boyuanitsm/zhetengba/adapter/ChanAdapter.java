@@ -48,7 +48,6 @@ public class ChanAdapter extends BaseAdapter {
     private List<List<ImageInfo>> dateList = new ArrayList<>();
     private List<ChannelTalkEntity> list = new ArrayList<>();
     private String channelId;//说说id
-    private LinearLayout ll_like;
     int clickPos = 0;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -106,7 +105,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.zimg = (ImageView) convertView.findViewById(R.id.zimg);
             viewHolder.sex = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
             viewHolder.head = (CircleImageView) convertView.findViewById(R.id.iv_ch_head);
-            ll_like = (LinearLayout) convertView.findViewById(R.id.ll_like);
+            viewHolder.ll_like = (LinearLayout) convertView.findViewById(R.id.ll_like);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_answer = (LinearLayout) convertView.findViewById(R.id.ll_answer);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
@@ -218,6 +217,7 @@ public class ChanAdapter extends BaseAdapter {
                 viewHolder.tv_time.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTiem())));
             }
             if (!TextUtils.isEmpty(list.get(position).getChannelContent())) {
+                viewHolder.ll_content.setVisibility(View.VISIBLE);
                 viewHolder.tv_content.setText(list.get(position).getChannelContent());
             }else {
                 viewHolder.ll_content.setVisibility(View.GONE);
@@ -273,16 +273,16 @@ public class ChanAdapter extends BaseAdapter {
             }
         });
         //点赞
-        ll_like.setOnClickListener(new View.OnClickListener() {
+        viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ll_like.setEnabled(false);
+                viewHolder.ll_like.setEnabled(false);
                 clickPos = position;
                 channelId = list.get(position).getId();
                 if (0 == list.get(position).getLiked()) {
-                    addChannelLike(channelId);
+                    addChannelLike(channelId,viewHolder.ll_like);
                 } else if (1 == list.get(position).getLiked()) {
-                    removeChannelLike(channelId);
+                    removeChannelLike(channelId,viewHolder.ll_like);
                 }
             }
         });
@@ -330,6 +330,7 @@ public class ChanAdapter extends BaseAdapter {
         private CustomImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
         private LinearLayout ll_user, ll_content, ll_ch_image;
         private RelativeLayout ll_date;
+        private LinearLayout ll_like;
         private TextView znum;
         private TextView cnum;
 
@@ -340,8 +341,9 @@ public class ChanAdapter extends BaseAdapter {
      * 点赞
      *
      * @param channelId
+     * @param ll_like
      */
-    private void addChannelLike(String channelId) {
+    private void addChannelLike(String channelId, final LinearLayout ll_like) {
         RequestManager.getTalkManager().addChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -366,8 +368,9 @@ public class ChanAdapter extends BaseAdapter {
      * 取消点赞
      *
      * @param channelId
+     * @param ll_like
      */
-    private void removeChannelLike(String channelId) {
+    private void removeChannelLike(String channelId, final LinearLayout ll_like) {
         RequestManager.getTalkManager().removeChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {

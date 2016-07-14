@@ -62,7 +62,7 @@ public class CollectionBean implements Parcelable {
     private String userIcon;//用户头像
     private String userSex;//用户性别；
     private boolean follow;//是否关注；
-    private boolean join;//是否参加；
+    private boolean joining;//是否参加；
     private boolean colleagues;//是否同事
     private boolean friend;//false 是否好友
     private Integer joinCount;//一起活动次数
@@ -73,47 +73,20 @@ public class CollectionBean implements Parcelable {
     private String	timeLength;// '时限(仅群有此字段,活动时为NULL)',
     private Boolean	 type ;//'类型(默认0:活动,1:群)',
 
+    public boolean isJoining() {
+        return joining;
+    }
+
+    public void setJoining(boolean joining) {
+        this.joining = joining;
+    }
+
+    public static Creator<CollectionBean> getCREATOR() {
+        return CREATOR;
+    }
+
     public CollectionBean() {
     }
-
-    protected CollectionBean(Parcel in) {
-        id = in.readString();
-        userId = in.readString();
-        labelId = in.readString();
-        activityTheme = in.readString();
-        activitySite = in.readString();
-        activityParticulars = in.readString();
-        startTime = in.readString();
-        endTime = in.readString();
-        icon = in.readString();
-        createTime = in.readString();
-        createPersonId = in.readString();
-        modifyPersonId = in.readString();
-        modifyTime = in.readString();
-        remark = in.readString();
-        userNm = in.readString();
-        userIcon = in.readString();
-        userSex = in.readString();
-        follow = in.readByte() != 0;
-        join = in.readByte() != 0;
-        colleagues = in.readByte() != 0;
-        friend = in.readByte() != 0;
-        noticeUserIds = in.readString();
-        invisibleUserIds = in.readString();
-        timeLength = in.readString();
-    }
-
-    public static final Creator<CollectionBean> CREATOR = new Creator<CollectionBean>() {
-        @Override
-        public CollectionBean createFromParcel(Parcel in) {
-            return new CollectionBean(in);
-        }
-
-        @Override
-        public CollectionBean[] newArray(int size) {
-            return new CollectionBean[size];
-        }
-    };
 
     public String getActivityParticulars() {
         return activityParticulars;
@@ -243,14 +216,6 @@ public class CollectionBean implements Parcelable {
         this.isValid = isValid;
     }
 
-    public boolean isJoin() {
-        return join;
-    }
-
-    public void setJoin(boolean join) {
-        this.join = join;
-    }
-
     public Integer getJoinCount() {
         return joinCount;
     }
@@ -370,29 +335,82 @@ public class CollectionBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(userId);
-        dest.writeString(labelId);
-        dest.writeString(activityTheme);
-        dest.writeString(activitySite);
-        dest.writeString(activityParticulars);
-        dest.writeString(startTime);
-        dest.writeString(endTime);
-        dest.writeString(icon);
-        dest.writeString(createTime);
-        dest.writeString(createPersonId);
-        dest.writeString(modifyPersonId);
-        dest.writeString(modifyTime);
-        dest.writeString(remark);
-        dest.writeString(userNm);
-        dest.writeString(userIcon);
-        dest.writeString(userSex);
-        dest.writeByte((byte) (follow ? 1 : 0));
-        dest.writeByte((byte) (join ? 1 : 0));
-        dest.writeByte((byte) (colleagues ? 1 : 0));
-        dest.writeByte((byte) (friend ? 1 : 0));
-        dest.writeString(noticeUserIds);
-        dest.writeString(invisibleUserIds);
-        dest.writeString(timeLength);
+        dest.writeString(this.id);
+        dest.writeString(this.userId);
+        dest.writeString(this.labelId);
+        dest.writeString(this.activityTheme);
+        dest.writeString(this.activitySite);
+        dest.writeString(this.activityParticulars);
+        dest.writeString(this.startTime);
+        dest.writeString(this.endTime);
+        dest.writeValue(this.inviteNumber);
+        dest.writeValue(this.activityVisibility);
+        dest.writeValue(this.followNum);
+        dest.writeValue(this.memberNum);
+        dest.writeValue(this.isValid);
+        dest.writeString(this.icon);
+        dest.writeString(this.createTime);
+        dest.writeString(this.createPersonId);
+        dest.writeString(this.modifyPersonId);
+        dest.writeString(this.modifyTime);
+        dest.writeString(this.remark);
+        dest.writeString(this.userNm);
+        dest.writeString(this.userIcon);
+        dest.writeString(this.userSex);
+        dest.writeByte(this.follow ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.joining ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.colleagues ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.friend ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.joinCount);
+        dest.writeString(this.noticeUserIds);
+        dest.writeString(this.invisibleUserIds);
+        dest.writeString(this.timeLength);
+        dest.writeValue(this.type);
     }
+
+    protected CollectionBean(Parcel in) {
+        this.id = in.readString();
+        this.userId = in.readString();
+        this.labelId = in.readString();
+        this.activityTheme = in.readString();
+        this.activitySite = in.readString();
+        this.activityParticulars = in.readString();
+        this.startTime = in.readString();
+        this.endTime = in.readString();
+        this.inviteNumber = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.activityVisibility = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.followNum = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.memberNum = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.isValid = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.icon = in.readString();
+        this.createTime = in.readString();
+        this.createPersonId = in.readString();
+        this.modifyPersonId = in.readString();
+        this.modifyTime = in.readString();
+        this.remark = in.readString();
+        this.userNm = in.readString();
+        this.userIcon = in.readString();
+        this.userSex = in.readString();
+        this.follow = in.readByte() != 0;
+        this.joining = in.readByte() != 0;
+        this.colleagues = in.readByte() != 0;
+        this.friend = in.readByte() != 0;
+        this.joinCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.noticeUserIds = in.readString();
+        this.invisibleUserIds = in.readString();
+        this.timeLength = in.readString();
+        this.type = (Boolean) in.readValue(Boolean.class.getClassLoader());
+    }
+
+    public static final Creator<CollectionBean> CREATOR = new Creator<CollectionBean>() {
+        @Override
+        public CollectionBean createFromParcel(Parcel source) {
+            return new CollectionBean(source);
+        }
+
+        @Override
+        public CollectionBean[] newArray(int size) {
+            return new CollectionBean[size];
+        }
+    };
 }

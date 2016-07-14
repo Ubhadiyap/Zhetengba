@@ -47,7 +47,6 @@ public class CircleAdapter extends BaseAdapter {
     private List<List<ImageInfo>> dateList;
     private List<CircleEntity> list;
     ViewHolder viewHolder = null;
-    private LinearLayout ll_like;
     int clickPos;
 
     // 图片缓存 默认 等
@@ -108,7 +107,7 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.ivChGendar = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
             viewHolder.zimg = (ImageView) convertView.findViewById(R.id.zimg);
             viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
-            ll_like= (LinearLayout) convertView.findViewById(R.id.like);
+            viewHolder.ll_like= (LinearLayout) convertView.findViewById(R.id.like);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             viewHolder.llphoto = (LinearLayout) convertView.findViewById(R.id.llphoto);
@@ -280,15 +279,15 @@ public class CircleAdapter extends BaseAdapter {
             }
         });
         //点赞
-        ll_like.setOnClickListener(new View.OnClickListener() {
+        viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ll_like.setEnabled(false);
+                viewHolder.ll_like.setEnabled(false);
                 clickPos=position;
                 if (0==list.get(position).getLiked()){
-                    addCircleLike(list.get(position).getId());
+                    addCircleLike(list.get(position).getId(),viewHolder.ll_like);
                 }else if (1==list.get(position).getLiked()){
-                    removeCircleLike(list.get(position).getId());
+                    removeCircleLike(list.get(position).getId(),viewHolder.ll_like);
                 }
             }
         });
@@ -349,14 +348,16 @@ public class CircleAdapter extends BaseAdapter {
         private TextView znum;
         private TextView cnum;
         private TextView snum;
+        private LinearLayout ll_like;
 
     }
 
     /**
      * 圈子说说点赞
      * @param circleTalkId
+     * @param ll_like
      */
-    private void addCircleLike(String circleTalkId ){
+    private void addCircleLike(String circleTalkId, final LinearLayout ll_like){
         RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -378,8 +379,9 @@ public class CircleAdapter extends BaseAdapter {
     /**
      * 取消圈子说说点赞
      * @param circleTalkId
+     * @param ll_like
      */
-    private void removeCircleLike(String circleTalkId ){
+    private void removeCircleLike(String circleTalkId, final LinearLayout ll_like){
         RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {

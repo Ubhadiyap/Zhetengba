@@ -466,13 +466,13 @@ public class PerpageAct extends BaseActivity {
             bt_message.setVisibility(View.GONE);
             msv_scroll.setPadding(0, 0, 0, 0);
         } else if (flag) {
-            msv_scroll.setPadding(0, 0, 0, 45);
+            msv_scroll.setPadding(0, 0, 0, 80);
             bt_message.setVisibility(View.VISIBLE);
             ll_add_riend.setVisibility(View.VISIBLE);
             iv_set.setVisibility(View.VISIBLE);
             bt_message.setText("发送消息");
         } else {
-            msv_scroll.setPadding(0, 0, 0, 45);
+            msv_scroll.setPadding(0, 0, 0, 80);
             bt_message.setVisibility(View.VISIBLE);
             bt_message.setText("加为好友");
             iv_set.setVisibility(View.GONE);

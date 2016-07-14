@@ -51,8 +51,8 @@ public class PpdtfrgAdapter extends BaseAdapter {
     private String circleId;//说说id
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.mipmap.zanwutupian)
-            .showImageOnFail(R.mipmap.zanwutupian).cacheInMemory(true).cacheOnDisk(true)
+            .showImageForEmptyUri(R.mipmap.tum)
+            .showImageOnFail(R.mipmap.tum).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
     private DisplayImageOptions optionsImagh = new DisplayImageOptions.Builder()
@@ -107,6 +107,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
             viewHolder.iv_two_three = (ImageView) convertView.findViewById(R.id.iv_two_three);
             viewHolder.iv_two_four = (ImageView) convertView.findViewById(R.id.iv_two_four);
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
+            viewHolder.llphoto= (LinearLayout) convertView.findViewById(R.id.llphoto);
             viewHolder.znum= (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum= (TextView) convertView.findViewById(R.id.cnum);
            viewHolder.zimg= (ImageView) convertView.findViewById(R.id.zimg);
@@ -116,11 +117,12 @@ public class PpdtfrgAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
+            viewHolder.llphoto.setVisibility(View.GONE);
         } else if (itemList.size()== 1) {
+            viewHolder.llphoto.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-//            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(itemList.get(0).getUrl()),optionsImag);
             itemList.get(0).setWidth(200);
             itemList.get(0).setHeight(200);
             LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
@@ -132,6 +134,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
                 }
             });
         } else if (itemList.size() == 4) {
+            viewHolder.llphoto.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
@@ -172,6 +175,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
             });
 
         } else {
+            viewHolder.llphoto.setVisibility(View.VISIBLE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
@@ -321,6 +325,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
         private TextView znum;
         private TextView cnum;
         private ImageView zimg;
+        private LinearLayout llphoto;
 
     }
     /**

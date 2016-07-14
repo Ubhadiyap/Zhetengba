@@ -54,6 +54,8 @@ public class ScheduleAct extends BaseActivity {
     private List<LabelBannerInfo> listLabel = new ArrayList<>();//档期标签集合；
     private ScheduleInfo scheduleInfo;
     private Date startDate,endDate;
+    private String strUserIds;//用于存储指定谁可见用户ids；
+    private String strUserNoIds;//用户存错谁不能见；
     private String hucanUserIds,hu_no_canUserIds;
 
     private ProgressDialog pd;//缓冲弹出框
@@ -144,8 +146,8 @@ public class ScheduleAct extends BaseActivity {
                     String str3="cal_hu_can";
                     bundle.putString("can",str3);
                     bundle.putString("canFlag","CalcanFlag");
-                    if (!TextUtils.isEmpty(hucanUserIds)){
-                        bundle.putString("canUserIds",hucanUserIds);
+                    if (!TextUtils.isEmpty(strUserIds)){
+                        bundle.putString("canUserIds",strUserIds);
                     }
                     bundle.putInt(AssignScanAct.CANTYPE,0);//能看
                     intent.putExtras(bundle);
@@ -160,8 +162,8 @@ public class ScheduleAct extends BaseActivity {
                     String str4="cal_hu_no_can";
                     bundle.putString("can",str4);
                     bundle.putString("canFlag","CalnocanFlag");
-                    if (!TextUtils.isEmpty(hu_no_canUserIds)){
-                        bundle.putString("canUserIds",hu_no_canUserIds);
+                    if (!TextUtils.isEmpty(strUserNoIds)){
+                        bundle.putString("canUserIds",strUserNoIds);
                     }
                     bundle.putInt(AssignScanAct.CANTYPE,1);//不能看
                     intent.putExtras(bundle);
@@ -227,10 +229,12 @@ public class ScheduleAct extends BaseActivity {
                 case 3://谁能看
                     bundle=data.getBundleExtra("bundle3");
                     hucanUserIds=bundle.getString("bundleIds");
+                    strUserIds = hucanUserIds;
                     break;
                 case 4://谁不能看
                     bundle=data.getBundleExtra("bundle3");
                     hu_no_canUserIds=bundle.getString("bundleIds");
+                    strUserNoIds = hu_no_canUserIds;
                     break;
             }
         }

@@ -144,12 +144,17 @@ public class CircleMessAdatper extends BaseAdapter {
                     }
                     ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()), holder1.iv_icon, optionsImag);
                     if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentTalk())) {
+                        holder1.tv_talk.setVisibility(View.VISIBLE);
                         holder1.tv_talk.setText(circleInfoList.get(position).getCommentTalk());
+                    }else {
+                        holder1.tv_talk.setVisibility(View.GONE);
                     }
                     if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
-                        holder1.tv_huifu.setText("评论“我”：" + circleInfoList.get(position).getCommentContent());
+                        if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentContent())){
+                            holder1.tv_huifu.setText("评论“我”：" + circleInfoList.get(position).getCommentContent());
+                        }
                     } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
-                        holder1.tv_huifu.setText("赞了“我”的状态!");
+                        holder1.tv_huifu.setText("赞了“我”的说说!");
                     }
                     convertView.setTag(holder1);
                     break;

@@ -223,12 +223,12 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                     @Override
                     public void onTimeSelect(Date date) {
                         //比较当前时间与选择时间，当前时间大于选择时间直接赋值，否则不赋值
-                        Date nowday = new Date();
-                        if (date.getTime() < nowday.getTime()) {
-                            MyToastUtils.showShortToast(ContractedAct.this, "开始时间不能小于当前时间！");
-                            return;
-                        }
-                        MyLogUtils.info(date + "date是多少");
+//                        Date nowday = new Date();
+//                        if (date.getTime() < nowday.getTime()) {
+//                            MyToastUtils.showShortToast(ContractedAct.this, "开始时间不能小于当前时间！");
+//                            return;
+//                        }
+//                        MyLogUtils.info(date + "date是多少");
                         startDate=date;
                        String time= ZhetebaUtils.compareTime(ContractedAct.this, date.getTime());
                         MyLogUtils.info(time+"time是多少");
@@ -253,7 +253,8 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
 //                        }
                         endDate=date;
                         String time=ZhetebaUtils.compareTime(ContractedAct.this,date.getTime());
-                        et_end.setText(time);
+                            et_end.setText(time);
+
                     }
                 });
 

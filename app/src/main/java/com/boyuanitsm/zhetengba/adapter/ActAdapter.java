@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
@@ -310,6 +311,7 @@ public class ActAdapter extends BaseAdapter {
                         infos.get(position).setFollowNum(noticNum);
                         viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
                         viewHolder.ll_guanzhu.setClickable(false);
+                        context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
                         notifyDataSetChanged();
                         MyToastUtils.showShortToast(context, "已关注");
                     }
@@ -366,7 +368,8 @@ public class ActAdapter extends BaseAdapter {
                     i = i + 1;
                     infos.get(position).setMemberNum(i);
                     infos.get(position).setJoining(true);
-                    notifyDataSetChanged();
+                context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+                notifyDataSetChanged();
             }
         });
     }
@@ -392,6 +395,7 @@ public class ActAdapter extends BaseAdapter {
                 i = i - 1;
                 infos.get(position).setJoining(false);
                 infos.get(position).setMemberNum(i);
+                context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
                 notifyDataSetChanged();
             }
         });

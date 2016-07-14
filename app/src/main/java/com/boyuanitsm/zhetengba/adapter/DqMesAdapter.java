@@ -90,7 +90,7 @@ public class DqMesAdapter extends BaseAdapter {
             viewHolder.tv_name.setText(list.get(position).getPetName());
         }
         if (!TextUtils.isEmpty(list.get(position).getMessage())) {
-            viewHolder.tv_second.setText(list.get(position).getMessage().substring(list.get(position).getPetName().length()));
+            viewHolder.tv_second.setText(list.get(position).getMessage().substring(list.get(position).getPetName().length())+"活动！");
         }
 
         if (!TextUtils.isEmpty(list.get(position).getCreateTime())) {

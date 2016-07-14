@@ -142,7 +142,6 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
                 if (interestList!=null&&interestList.size()>0){
                     rvLabel.setVisibility(View.VISIBLE);
                     tvNoLabel.setVisibility(View.GONE);
-
                     //标签recyclerview
                     //设置适配器
                     recycleviewAdp = new RecycleviewAdp(getContext(),interestList);
