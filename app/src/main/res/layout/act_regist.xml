@@ -28,6 +28,7 @@
         android:layout_height="65dp"
         android:inputType="number"
         android:maxLength="11"
+        android:paddingLeft="5dp"
         />
 </LinearLayout>
     <View
@@ -59,7 +60,7 @@
             android:layout_height="65dp"
             android:layout_weight="1"
             android:background="@null"
-
+            android:paddingLeft="5dp"
             />
 
         <TextView
@@ -98,11 +99,12 @@
             android:textSize="16sp"
             android:textColor="#333333"
             android:layout_marginLeft="10dp"
-            android:hint="   4-24位字母和数字"
+            android:hint="4-24位字母和数字"
             android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:singleLine="true"
+            android:paddingLeft="5dp"
             />
     </LinearLayout>
     <View
@@ -131,11 +133,12 @@
             android:textSize="16sp"
             android:textColor="#333333"
             android:layout_marginLeft="10dp"
-            android:hint="   4-24位字母和数字"
+            android:hint="4-24位字母和数字"
             android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:singleLine="true"
+            android:paddingLeft="5dp"
             />
     </LinearLayout>
     <View
@@ -153,14 +156,20 @@
     <CheckBox
         android:id="@+id/register_cb"
         android:layout_gravity="center_vertical"
-        android:button="@null"
-        android:background="@drawable/check_box"
-        android:layout_width="10dp"
-        android:layout_height="10dp" />
+        android:button="@drawable/check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="用户协议"
+        android:textColor="#999999"
+        android:textSize="10sp"
+        android:checked="true"
+        android:paddingStart="3dp"
+        />
         <TextView
             android:layout_marginLeft="5dp"
             android:textColor="#999999"
             android:text="用户协议"
+            android:visibility="gone"
             style="@style/tv_second"/>
     </LinearLayout>
 

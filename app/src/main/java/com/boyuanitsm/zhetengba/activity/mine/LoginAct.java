@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
@@ -67,6 +68,7 @@ public class LoginAct extends BaseActivity {
             return;
         }
         setContentView(R.layout.login);
+        AppManager.getAppManager().addActivity(this);
         usernameEditText = (EditText) findViewById(R.id.etPhone);
         passwordEditText = (EditText) findViewById(R.id.etPwd);
         // 如果用户名改变，清空密码

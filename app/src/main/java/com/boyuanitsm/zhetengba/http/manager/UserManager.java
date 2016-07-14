@@ -1,5 +1,7 @@
 package com.boyuanitsm.zhetengba.http.manager;
 
+import android.text.TextUtils;
+
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -197,33 +199,40 @@ public class UserManager extends RequestManager{
     public void perfect(UserInfo userInfo,String labelIds,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("labelIds",labelIds);
-        Gson gson = new Gson();
-        String json = gson.toJson(userInfo);
-        try {
-            JSONObject obj = new JSONObject(json);
-            if ((obj.toString()).indexOf("createTime") != -1) {
-                obj.remove("createTime");
-            }
-            if ((obj.toString()).indexOf("username") != -1) {
-                obj.remove("username");
-            }
-            if ((obj.toString()).indexOf("modifyTime") != -1) {
-                obj.remove("modifyTime");
-            }
-            if ((obj.toString()).indexOf("password") != -1) {
-                obj.remove("password");
-            }
-            if ((obj.toString()).indexOf("icon") != -1) {
-                obj.remove("icon");
-            }
-            Iterator<String> it = obj.keys();
-            while (it.hasNext()) {
-                String key = it.next();
-                params.put(key, String.valueOf(obj.get(key)));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        params.put("petName",userInfo.getPetName());
+        if(!TextUtils.isEmpty(userInfo.getSex()))
+        params.put("sex",userInfo.getSex());
+
+//        Gson gson = new Gson();
+//        String json = gson.toJson(userInfo);
+//        try {
+//            JSONObject obj = new JSONObject(json);
+//            if ((obj.toString()).indexOf("createTime") != -1) {
+//                obj.remove("createTime");
+//            }
+//            if ((obj.toString()).indexOf("username") != -1) {
+//                obj.remove("username");
+//            }
+//            if ((obj.toString()).indexOf("modifyTime") != -1) {
+//                obj.remove("modifyTime");
+//            }
+//            if ((obj.toString()).indexOf("password") != -1) {
+//                obj.remove("password");
+//            }
+//            if ((obj.toString()).indexOf("icon") != -1) {
+//                obj.remove("icon");
+//            }
+//            if ((obj.toString()).indexOf("id") != -1) {
+//                obj.remove("id");
+//            }
+//            Iterator<String> it = obj.keys();
+//            while (it.hasNext()) {
+//                String key = it.next();
+//                params.put(key, String.valueOf(obj.get(key)));
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         doPost(IZtbUrl.PERFECT_URL, params, callback);
 
 
