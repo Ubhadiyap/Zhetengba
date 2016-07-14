@@ -203,13 +203,13 @@ public class SettingAct extends BaseActivity {
                 if(type.equals("1")){
                     user.setUserType("1");
                     UserInfoDao.updateUser(user);
-                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
+                    iv_yz.setImageResource(R.drawable.switch_on);
                     return;
                 }
                 if(type.equals("0")) {
                     user.setUserType("0");
                     UserInfoDao.updateUser(user);
-                    iv_yz.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
+                    iv_yz.setImageResource(R.drawable.switch_off);
                     return;
                 }
 
