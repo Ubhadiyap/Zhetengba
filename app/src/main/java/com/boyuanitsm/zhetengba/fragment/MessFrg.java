@@ -240,9 +240,14 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
     class UpdateBroadCastReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
+//            if (intent.getStringExtra("update_focus").equals("point_remove")){
+//                tvUnReaNum.setVisibility(View.GONE);
+//                return;
+//            }
              refresh();
         }
     }
+
 }
 
 

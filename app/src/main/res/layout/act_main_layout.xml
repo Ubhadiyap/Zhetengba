@@ -97,17 +97,17 @@
 
         <TextView
             android:id="@+id/unread_msg_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/em_unread_count_bg"
-            android:layout_marginLeft="120dp"
+            android:layout_marginLeft="110dp"
             android:gravity="center"
             android:text="7"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:visibility="visible" />
     </FrameLayout>
 </FrameLayout>

@@ -14,6 +14,8 @@ import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.CircleMessDao;
+import com.boyuanitsm.zhetengba.fragment.MessFrg;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.google.gson.Gson;
 
@@ -84,8 +86,12 @@ public class MyReceiver extends BroadcastReceiver {
                 Intent i=new Intent();
                 if (TextUtils.equals(type,"2")){
                     i.setClass(context, CirMessAct.class);
+                    context.sendBroadcast(new Intent(CircleFrg.UPFOCUS));
                 }else {
                     i.setClass(context, DqMesAct.class);
+//                    Intent intentPoint=new Intent(MessFrg.UPDATE_CONTRACT);
+//                    intentPoint.putExtra("update_focus","point_remove");
+//                    context.sendBroadcast(intentPoint);
                 }
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(i);

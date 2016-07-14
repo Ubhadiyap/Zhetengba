@@ -1,5 +1,9 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -109,6 +113,33 @@ public class MyColleitionAct extends BaseActivity {
         });
 
 
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk==null){
+            receiverTalk=new MyBroadCastReceiverTalk();
+            registerReceiver(receiverTalk, new IntentFilter(COLLECTION));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(receiverTalk!=null){
+          unregisterReceiver(receiverTalk);
+            receiverTalk=null;
+        }
+    }
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String COLLECTION="collection_update";
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            page=1;
+            findgzPortsMsg(page, rows);
+        }
     }
 
 }

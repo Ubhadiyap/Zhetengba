@@ -1,6 +1,9 @@
 package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +19,11 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.CircleInfo;
+import com.boyuanitsm.zhetengba.bean.CircleMessInfo;
+import com.boyuanitsm.zhetengba.db.CircleMessDao;
+
+import java.util.List;
 
 /**
  * 圈子界面
@@ -34,7 +42,7 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
     private RadioGroup rg_cir;
     private LinearLayout ll_quan;
     private LinearLayout ll_newmes;
-
+    private ImageView iv_new_red;
 
 
     @Override
@@ -51,6 +59,7 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
         iv_newmes = (ImageView) view.findViewById(R.id.iv_newmes);
         ll_quan = (LinearLayout) view.findViewById(R.id.ll_quan);
         ll_newmes = (LinearLayout) view.findViewById(R.id.ll_newmes);
+        iv_new_red = (ImageView) view.findViewById(R.id.iv_new_red);
         rg_cir = (RadioGroup) view.findViewById(R.id.rg_cir);
         childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
@@ -58,6 +67,12 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
         rg_cir.setOnCheckedChangeListener(this);
         ll_newmes.setOnClickListener(this);
         ll_quan.setOnClickListener(this);
+        List<CircleInfo> list= CircleMessDao.getCircleUser();
+        if (list!=null&&list.size()>0){
+            iv_new_red.setVisibility(View.VISIBLE);
+        }else {
+            iv_new_red.setVisibility(View.GONE);
+        }
     }
 
     /***
@@ -99,6 +114,7 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
                 break;
             case R.id.ll_newmes:
                 //跳转至圈子消息
+                iv_new_red.setVisibility(View.GONE);
                 intent.setClass(mActivity, CirMessAct.class);
                 startActivity(intent);
                 break;
@@ -133,5 +149,33 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
                 break;
         }
         fragmentTransaction.commit();
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk==null){
+            receiverTalk=new MyBroadCastReceiverTalk();
+            getActivity().registerReceiver(receiverTalk, new IntentFilter(UPFOCUS));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(receiverTalk!=null){
+            getActivity().unregisterReceiver(receiverTalk);
+            receiverTalk=null;
+        }
+    }
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String UPFOCUS="circle_point_update";
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+          iv_new_red.setVisibility(View.GONE);
+        }
     }
 }
