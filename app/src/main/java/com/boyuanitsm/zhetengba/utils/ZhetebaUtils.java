@@ -127,7 +127,7 @@ public class ZhetebaUtils {
             return format.format(new Date(datess));
         } else {
             MyToastUtils.showShortToast(context, "时间不得小于当前时间，请重新选择！");
-            return format.format(new Date(nowss));
+            return "";
         }
     }
     /**
