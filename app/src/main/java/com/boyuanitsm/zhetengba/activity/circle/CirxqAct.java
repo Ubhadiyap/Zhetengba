@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.AppManager;
-import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.adapter.CirclexqListAdapter;
@@ -26,7 +25,6 @@ import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
-import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -122,7 +120,7 @@ public class CirxqAct extends BaseActivity {
                 cir_fb.setVisibility(View.GONE);
                 rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
                 getCircleDetail(circleId);
-                getCircleMembers(circleId);
+                getCircleMembers(circleId,IsInCircle);
                 xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
                 lv_cir.getRefreshableView().setAdapter(xqAdapter);
                 isFresh(false);
@@ -137,7 +135,7 @@ public class CirxqAct extends BaseActivity {
                 cir_fb.setVisibility(View.VISIBLE);
                 rl_jiaru.setVisibility(View.GONE);
                 getCircleDetail(circleId);
-                getCircleMembers(circleId);
+                getCircleMembers(circleId, IsInCircle);
                 getThisCircleTalks(circleId, page, rows);
                 isFresh(true);
             }
@@ -145,7 +143,7 @@ public class CirxqAct extends BaseActivity {
         } else if(type==1){
             //从圈子管理进来,或者从子圈子frg进来（已经在圈子里面的）
             getCircleDetail(circleId);
-            getCircleMembers(circleId);
+            getCircleMembers(circleId, IsInCircle);
             getThisCircleTalks(circleId, page, rows);
             isFresh(true);
         } else if (type==3){
@@ -180,12 +178,12 @@ public class CirxqAct extends BaseActivity {
         RequestManager.getTalkManager().sendRequestJoinCircle(circleId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(CirxqAct.this,errorMsg);
+                MyToastUtils.showShortToast(CirxqAct.this, errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(CirxqAct.this,"申请成功，等待圈主响应");
+                MyToastUtils.showShortToast(CirxqAct.this, "申请成功，等待圈主响应");
                 finish();
 
 
@@ -222,14 +220,14 @@ public class CirxqAct extends BaseActivity {
                 public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                     lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                     page=1;
-                    getCircleMembers(circleId);
+                    getCircleMembers(circleId, 1);
                     getThisCircleTalks(circleId,page,rows);
                 }
 
                 @Override
                 public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                     page++;
-                    getCircleMembers(circleId);
+                    getCircleMembers(circleId, 1);
                     getThisCircleTalks(circleId,page,rows);
                 }
             });
@@ -249,8 +247,8 @@ public class CirxqAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<CircleEntity> response) {
-                circleEntity=response.getData();
-                if (circleEntity!=null) {
+                circleEntity = response.getData();
+                if (circleEntity != null) {
                     setCircle(circleEntity);
                 }
             }
@@ -295,7 +293,7 @@ public class CirxqAct extends BaseActivity {
                     //不在圈子里面
                     cir_fb.setVisibility(View.GONE);
                     rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
-                    getCircleMembers(circleId);
+                    getCircleMembers(circleId, 0);
                     xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
                     lv_cir.getRefreshableView().setAdapter(xqAdapter);
                     isFresh(false);
@@ -309,7 +307,7 @@ public class CirxqAct extends BaseActivity {
                     //在圈子里面
                     cir_fb.setVisibility(View.VISIBLE);
                     rl_jiaru.setVisibility(View.GONE);
-                    getCircleMembers(circleId);
+                    getCircleMembers(circleId, 1);
                     getThisCircleTalks(circleId, page, rows);
                     isFresh(true);
                 }
@@ -318,9 +316,9 @@ public class CirxqAct extends BaseActivity {
     }
 
     //获取圈子人员
-    private void getCircleMembers(final String circleId){
+    private void getCircleMembers(final String circleId, final int isInCircle){
         userList=new ArrayList<>();
-        RequestManager.getTalkManager().myCircleMember(circleId,1,10, new ResultCallback<ResultBean<DataBean<MemberEntity>>>() {
+        RequestManager.getTalkManager().myCircleMember(circleId, 1, 10, new ResultCallback<ResultBean<DataBean<MemberEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
@@ -328,26 +326,30 @@ public class CirxqAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<DataBean<MemberEntity>> response) {
-                userList=response.getData().getRows();
-                adapter=new CirxqAdapter(CirxqAct.this,userList);
+                userList = response.getData().getRows();
+                adapter = new CirxqAdapter(CirxqAct.this, userList);
                 rv_label.setAdapter(adapter);
                 adapter.setOnItemClickListener(new CirxqAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        if (isInCircle == 0) {
+                            MyToastUtils.showShortToast(CirxqAct.this,"未在圈子里，无法查看，请申请加入！");
+                            return;
+                        }
                         if (userList.size() <= 4) {
                             if (position == userList.size()) {
-                                Intent  intent = new Intent();
-                                Bundle bundle=new Bundle();
-                                String str3="circleFriend";
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                String str3 = "circleFriend";
                                 bundle.putString("can", str3);
                                 intent.putExtras(bundle);
                                 intent.setClass(CirxqAct.this, AssignScanAct.class);
                                 startActivityForResult(intent, 6);
-                            }else {
-                                if (position == (userList.size()+1)) {
+                            } else {
+                                if (position == (userList.size() + 1)) {
                                     Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
                                     intent.putExtra("circleId", circleId);
-                                    intent.putExtra("isQuanzhu",isQuanzhu);
+                                    intent.putExtra("isQuanzhu", isQuanzhu);
                                     startActivity(intent);
                                 }
                             }
@@ -355,12 +357,12 @@ public class CirxqAct extends BaseActivity {
                             if (position == 5) {
                                 Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
                                 intent.putExtra("circleId", circleId);
-                                intent.putExtra("isQuanzhu",isQuanzhu);
+                                intent.putExtra("isQuanzhu", isQuanzhu);
                                 startActivity(intent);
                             } else if (position == 4) {
-                                Intent  intent = new Intent();
-                                Bundle bundle=new Bundle();
-                                String str3="circleFriend";
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                String str3 = "circleFriend";
                                 bundle.putString("can", str3);
                                 intent.putExtras(bundle);
                                 intent.setClass(CirxqAct.this, AssignScanAct.class);
@@ -493,7 +495,7 @@ public class CirxqAct extends BaseActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            getCircleMembers(circleId);
+            getCircleMembers(circleId, IsInCircle);
         }
     }
 

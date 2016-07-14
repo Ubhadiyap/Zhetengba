@@ -15,6 +15,7 @@
             android:id="@+id/iv_sysmes"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="@mipmap/userhead"
             android:layout_gravity="center_vertical"/>
 
         <LinearLayout

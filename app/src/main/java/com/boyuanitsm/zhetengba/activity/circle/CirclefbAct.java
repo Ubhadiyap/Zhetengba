@@ -129,6 +129,7 @@ public class CirclefbAct extends BaseActivity {
                         }else  {
                             if (selecteds.size()>0) {
                                 pd.show();
+                                entity.setTalkContent("");
                                 upLoadImg(selecteds);
                             }else {
                                 MyToastUtils.showShortToast(CirclefbAct.this, "圈子说说内容不能空！");

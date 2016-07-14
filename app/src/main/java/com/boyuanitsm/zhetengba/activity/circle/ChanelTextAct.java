@@ -31,6 +31,7 @@ import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -52,7 +53,7 @@ import java.util.List;
  */
 public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     @ViewInject(R.id.et_comment)
-    private EditText etComment;//评论内容
+    private CanotEmojEditText etComment;//评论内容
     @ViewInject(R.id.my_lv)
     private PullToRefreshListView my_lv;
     @ViewInject(R.id.iv_chanel_comment)
