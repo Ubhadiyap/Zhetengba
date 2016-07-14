@@ -33,7 +33,6 @@ import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -274,6 +273,7 @@ public class ActAdapter extends BaseAdapter {
                 //开启分享界面
                 Intent intent = new Intent();
                 intent.putExtra("type",1);
+                intent.putExtra("id",infos.get(position).getId());
                 intent.setClass(context, ShareDialogAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

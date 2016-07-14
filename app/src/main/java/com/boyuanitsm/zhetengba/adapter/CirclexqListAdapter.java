@@ -275,6 +275,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ShareDialogAct.class);
                 intent.putExtra("type", 4);
+                intent.putExtra("id",list.get(position).getId());
                 context.startActivity(intent);
             }
         });

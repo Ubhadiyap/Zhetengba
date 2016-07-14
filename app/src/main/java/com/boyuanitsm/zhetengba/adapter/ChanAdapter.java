@@ -292,6 +292,7 @@ public class ChanAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ShareDialogAct.class);
                 intent.putExtra("type", 4);
+                intent.putExtra("id",list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

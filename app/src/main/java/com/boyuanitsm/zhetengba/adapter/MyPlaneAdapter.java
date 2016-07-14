@@ -299,6 +299,7 @@ public class MyPlaneAdapter extends BaseAdapter {
 //                dialog.show();
                 Intent intent = new Intent(context, ShareDialogAct.class);
                 intent.putExtra("type",4);
+                intent.putExtra("id",list.get(position).getId());
                 context.startActivity(intent);
             }
         });
