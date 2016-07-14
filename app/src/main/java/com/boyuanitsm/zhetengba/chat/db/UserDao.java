@@ -66,6 +66,13 @@ public class UserDao {
 	public void deleteContact(String username){
 	    DemoDBManager.getInstance().deleteContact(username);
 	}
+
+	/**
+	 * 删除所有联系人
+	 */
+	public void deletetAllContract(){
+		DemoDBManager.getInstance().deleteAllContract();
+	}
 	
 	/**
 	 * 保存一个联系人

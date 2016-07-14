@@ -988,6 +988,7 @@ public class DemoHelper {
      * @param
      */
     public void updateContactList(List<EaseUser> contactInfoList) {
+        contactList.clear();
         for (EaseUser u : contactInfoList) {
             contactList.put(u.getUsername(), u);
         }
