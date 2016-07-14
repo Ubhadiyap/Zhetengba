@@ -39,6 +39,7 @@
                     android:id="@+id/notice"
                     style="@style/tv_second"
                     android:layout_marginTop="10dp"
+                    android:singleLine="true"
                     android:textColor="#999999" />
 
             </LinearLayout>

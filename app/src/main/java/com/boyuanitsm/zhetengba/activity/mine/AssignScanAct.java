@@ -245,16 +245,16 @@ public class AssignScanAct extends BaseActivity {
      * @return
      */
     private List<String> getToBeAddMembers() {
-        List<String> members = new ArrayList<String>();
+//        List<String> members = new ArrayList<String>();
         int length = contactAdapter.isCheckedArray.length;
         for (int i = 0; i < length; i++) {
             String username = contactAdapter.getItem(i).getUsername();
             if (contactAdapter.isCheckedArray[i]&&!idList.contains(username)) {
-                members.add(username);
+                idList.add(username);
             }
         }
 
-        return members;
+        return idList;
     }
 
 
