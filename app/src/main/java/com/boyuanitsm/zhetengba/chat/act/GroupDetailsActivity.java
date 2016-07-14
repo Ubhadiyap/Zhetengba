@@ -695,7 +695,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			    holder.imageView.setImageResource(R.mipmap.group_add);
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_add_btn, 0, 0);
 				// 如果不是创建者或者没有相应权限
-				if (type==false&&!group.isAllowInvites() && !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
+				if (!group.isAllowInvites() && !group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
 					// if current user is not group admin, hide add/remove btn
 					convertView.setVisibility(View.INVISIBLE);
 				} else {
@@ -711,6 +711,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 						@Override
 						public void onClick(View v) {
 							EMLog.d(TAG, st11);
+							if(type==false){
+								MyToastUtils.showShortToast(getApplicationContext(),"此群为活动群，不能添加成员");
+								return;
+							}
 							// 进入选人页面
 							startActivityForResult(
 									(new Intent(GroupDetailsActivity.this, GroupPickContactsActivity.class).putExtra("groupId", groupId)),

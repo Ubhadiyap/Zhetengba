@@ -208,6 +208,7 @@ public class FrogetpwdAct extends BaseActivity {
             @Override
             public void onError(int status, String errorMsg) {
                 MyToastUtils.showShortToast(FrogetpwdAct.this,errorMsg);
+                pd.dismiss();
 
             }
 

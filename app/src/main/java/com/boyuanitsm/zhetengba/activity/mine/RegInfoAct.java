@@ -221,6 +221,7 @@ public class RegInfoAct extends BaseActivity {
         RequestManager.getUserManager().perfect(user, labelIds, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                pd.dismiss();
                 MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 

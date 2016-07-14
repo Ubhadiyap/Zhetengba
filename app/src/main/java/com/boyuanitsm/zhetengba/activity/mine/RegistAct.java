@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -66,6 +67,8 @@ public class RegistAct extends BaseActivity {
 
     private static final String TAG = "RegAct";
     private ProgressDialog pd;
+
+    private boolean isValidate=false;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_regist);
@@ -80,7 +83,6 @@ public class RegistAct extends BaseActivity {
         pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                Log.d(TAG, "EMClient.getInstance().onCancel");
                 progressShow = false;
             }
         });
@@ -89,21 +91,19 @@ public class RegistAct extends BaseActivity {
         register_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked&&isValidate){
                     tv_zc.setEnabled(true);
                     tv_zc.setBackgroundResource(R.drawable.com_dybtn_select);
-
-
                 }else {
                     tv_zc.setBackgroundResource(R.drawable.com_dybtn_hui);
                     tv_zc.setEnabled(false);
                 }
             }
         });
-//        et_phone.addTextChangedListener(textWatcher);
-//        et_yzm.addTextChangedListener(textWatcher);
-//        et_pwd.addTextChangedListener(textWatcher);
-//        et_cpwd.addTextChangedListener(textWatcher);
+        et_phone.addTextChangedListener(textWatcher);
+        et_yzm.addTextChangedListener(textWatcher);
+        et_pwd.addTextChangedListener(textWatcher);
+        et_cpwd.addTextChangedListener(textWatcher);
 
     }
 
@@ -124,10 +124,12 @@ public class RegistAct extends BaseActivity {
             yzm = et_yzm.getText().toString().trim();
             pwd = et_pwd.getText().toString().trim();
             cpwd=et_cpwd.getText().toString().trim();
-            if(!TextUtils.isEmpty(phone)&&!TextUtils.isEmpty(yzm)&&!TextUtils.isEmpty(pwd)&&!TextUtils.isEmpty(cpwd)){
+            if(!TextUtils.isEmpty(phone)&&!TextUtils.isEmpty(yzm)&&!TextUtils.isEmpty(pwd)&&!TextUtils.isEmpty(cpwd)&&register_cb.isChecked()){
+                isValidate=true;
                 tv_zc.setEnabled(true);
                 tv_zc.setBackgroundResource(R.drawable.com_dybtn_select);
             }else {
+                isValidate=false;
                 tv_zc.setBackgroundResource(R.drawable.com_dybtn_hui);
                 tv_zc.setEnabled(false);
             }
@@ -291,10 +293,6 @@ public class RegistAct extends BaseActivity {
     public void toRegister(final String username,String captcha,String password){
         RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<UserBean>>() {
 
-//    public void toRegister(String username,String captcha,String password){
-//        pd.show();
-//        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<UserBean> >() {
-
             @Override
             public void onError(int status, String errorMsg) {
                 pd.dismiss();
@@ -304,13 +302,8 @@ public class RegistAct extends BaseActivity {
             @Override
 
             public void onResponse(ResultBean<UserBean> response) {
-                pd.dismiss();
                 UserBean userBean=response.getData();
                 login(userBean);
-
-//            public void onResponse(ResultBean<UserBean>  response) {
-//                UserBean userBean = response.getData();
-//                login(userBean);
             }
         });
 
@@ -400,6 +393,7 @@ public class RegistAct extends BaseActivity {
                 DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(userBean.getUser().getIcon()));
                 UserInfoDao.saveUser(userBean.getUser());
                 openActivity(RegInfoAct.class);
+                AppManager.getAppManager().finishActivity(LoginAct.class);
                 // 进入主页面
 //                Intent intent = new Intent(RegistAct.this,
 //                        MainAct.class);
