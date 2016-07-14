@@ -51,7 +51,7 @@ public class ShareDialogAct extends BaseActivity {
 //            codeUrl="http://172.16.6.253:8082/share_3   ";//下载链接
 //        }
         if(type==4){
-            codeUrl="http://www.baidu.com";//圈子动态链接暂时用百度链接
+            codeUrl="http://172.16.6.253:8082/channelText";//圈子动态链接
             content="我在折腾吧发布了一个“动态”，快来围观吧!";
             //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
         }
