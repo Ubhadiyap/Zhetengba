@@ -21,10 +21,12 @@ import com.umeng.socialize.media.UMImage;
  * Created by bitch-1 on 2016/5/23.
  */
 public class ShareDialogAct extends BaseActivity {
-    private int type;
+    private int type;//从不同界面调出的分享，需要分享的链接不一样，用来区分codeUrl
     private String codeUrl;
 
     private String content;//分享文本内容
+    private String id;//需要拼接的id
+
 
     @Override
     public void setLayout() {
@@ -38,21 +40,23 @@ public class ShareDialogAct extends BaseActivity {
 //        params.width = (int) (defaultDisplay.getWidth() * 1.0);
 //        params.height=(int)(defaultDisplay.getHeight()*1.0);
 //        getWindow().setGravity(Gravity.BOTTOM);
-        type=getIntent().getExtras().getInt("type");
-        if(type==1){
-            codeUrl="http://172.16.6.253:8082/share_1";//活动分享链接
-            content="我在折腾吧发布了一个“会友”，快来围观吧!";
+
+        type = getIntent().getExtras().getInt("type");//区分要分享的链接
+        id=getIntent().getExtras().getString("id");//区分要拼接到链接里面的id
+        if (type == 1) {//表示要分享的是活动
+            codeUrl = "http://172.16.6.253:8082/share_1?id="+id;//活动分享链接
+            content = "我在折腾吧发布了一个“会友”，快来围观吧!";
         }
-        if(type==2){
-            codeUrl="http://172.16.6.253:8082/share_2";//档期分享链接
-            content="我在折腾吧发布了一个“有空”，快来围观吧!";
+        if (type == 2) {//表示要分享的是档期
+            codeUrl = "http://172.16.6.253:8082/share_2?id="+id;//档期分享链接
+            content = "我在折腾吧发布了一个“有空”，快来围观吧!";
         }
 //        if(type==3){
 //            codeUrl="http://172.16.6.253:8082/share_3   ";//下载链接
 //        }
-        if(type==4){
-            codeUrl="http://172.16.6.253:8082/channelText";//圈子动态链接
-            content="我在折腾吧发布了一个“动态”，快来围观吧!";
+        if (type == 4) {//表示要分享的是圈子动态
+            codeUrl = "http://172.16.6.253:8082/channelText?id="+id;//圈子动态链接
+            content = "我在折腾吧发布了一个“动态”，快来围观吧!";
             //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
         }
 //        if(type==5){
@@ -67,20 +71,20 @@ public class ShareDialogAct extends BaseActivity {
         window.setAttributes(layoutParams);
     }
 
-    @OnClick({R.id.ll_qqshare,R.id.ll_weiboshare,R.id.ll_weixinshare,R.id.ll_cancel_share})
-    public void OnClick(View v){
+    @OnClick({R.id.ll_qqshare, R.id.ll_weiboshare, R.id.ll_weixinshare, R.id.ll_cancel_share})
+    public void OnClick(View v) {
         final UMImage image = new UMImage(ShareDialogAct.this,
                 BitmapFactory.decodeResource(getResources(), R.drawable.logo));
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_qqshare://qq分享
-               new ShareAction(ShareDialogAct.this)
-                .setPlatform(SHARE_MEDIA.QQ)
-                    .setCallback(umShareListener)
-                    .withText(content)
-                    .withTargetUrl(codeUrl)
-                    .withMedia(image)
-                       .withTitle("折腾吧")
-                    .share();
+                new ShareAction(ShareDialogAct.this)
+                        .setPlatform(SHARE_MEDIA.QQ)
+                        .setCallback(umShareListener)
+                        .withText(content)
+                        .withTargetUrl(codeUrl)
+                        .withMedia(image)
+                        .withTitle("折腾吧")
+                        .share();
                 break;
             case R.id.ll_weiboshare:
                 new ShareAction(ShareDialogAct.this)
@@ -106,12 +110,11 @@ public class ShareDialogAct extends BaseActivity {
                 break;
 
 
-
         }
 
 
-
     }
+
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onResult(SHARE_MEDIA platform) {
@@ -131,7 +134,6 @@ public class ShareDialogAct extends BaseActivity {
 //            MyToastUtils.showShortToast(getApplicationContext(), "分享取消");
         }
     };
-
 
 
     @Override

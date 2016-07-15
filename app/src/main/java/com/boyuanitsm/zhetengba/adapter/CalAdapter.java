@@ -234,6 +234,7 @@ public class CalAdapter extends BaseAdapter {
                     //开启分享界面
                     Intent intent=new Intent();
                     intent.putExtra("type",2);
+                    intent.putExtra("id",list.get(position).getScheduleId());
                     intent.setClass(context,ShareDialogAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

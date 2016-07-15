@@ -206,7 +206,8 @@ public class PpfrgAdapter extends BaseAdapter {
                 //开启分享界面
                 Intent intent=new Intent();
                 intent.setClass(context,ShareDialogAct.class);
-                intent.putExtra("type",1);
+                intent.putExtra("type", 1);
+                intent.putExtra("id",scheduleEntity.get(position).getScheduleId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

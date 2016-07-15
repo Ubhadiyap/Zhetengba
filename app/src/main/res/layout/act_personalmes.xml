@@ -134,7 +134,7 @@
                     app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
 
-                <View style="@style/view_line" />
+                <View style="@style/view_line"/>
 
 
                 <com.boyuanitsm.zhetengba.view.CommonView
@@ -150,7 +150,7 @@
                     app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
 
-                <View style="@style/view_line" />
+                <!--<View style="@style/view_line" />-->
 
 
                 <com.boyuanitsm.zhetengba.view.CommonView
@@ -166,7 +166,7 @@
                     app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
 
-                <View style="@style/view_line" />
+                <!--<View style="@style/view_line" />-->
 
                 <com.boyuanitsm.zhetengba.view.CommonView
                     android:id="@+id/cv_business"
