@@ -54,14 +54,15 @@ public class ShareDialogAct extends BaseActivity {
 //        if(type==3){
 //            codeUrl="http://172.16.6.253:8082/share_3   ";//下载链接
 //        }
-        if (type == 4) {//表示要分享的是圈子动态
-            codeUrl = "http://172.16.6.253:8082/channelText?id="+id;//圈子动态链接
+        if (type == 4) {//表示要分享的是频道动态
+            codeUrl = "http://172.16.6.253:8082/channelText?id="+id;//频道动态链接
             content = "我在折腾吧发布了一个“动态”，快来围观吧!";
             //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
         }
-//        if(type==5){
-//            codeUrl="http://www.baidu.com";//分享二维码暂时用百度代替
-//        }
+        if(type==5){
+            codeUrl="http://172.16.6.253:8082/circle?id="+id;//圈子动态
+            content="我在折腾吧发布了一个“圈子动态”，快来围观吧!";
+        }
 
         Window window = getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();

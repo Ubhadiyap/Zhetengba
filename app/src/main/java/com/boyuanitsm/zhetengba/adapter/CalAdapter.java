@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 档期 listview适配器
+ * 首页有空 listview适配器
  * Created by xiaoke on 2016/4/27.
  */
 public class CalAdapter extends BaseAdapter {
