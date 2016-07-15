@@ -40,6 +40,7 @@ import com.boyuanitsm.zhetengba.bean.GroupBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
@@ -87,7 +88,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	private RelativeLayout rl_switch_block_groupmsg;
 
 	public static GroupDetailsActivity instance;
-	
+
 	String st = "";
 	// 清空所有聊天记录
 	private RelativeLayout clearAllHistory;
@@ -200,7 +201,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		String st5 = getResources().getString(R.string.is_modify_the_group_name);
 		final String st6 = getResources().getString(R.string.Modify_the_group_name_successful);
 		final String st7 = getResources().getString(R.string.change_the_group_name_failed_please);
-		
+
 		if (resultCode == RESULT_OK) {
 			if (progressDialog == null) {
 				progressDialog = new SafeDialog(GroupDetailsActivity.this);
@@ -230,7 +231,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				if(!TextUtils.isEmpty(returnData)){
 					progressDialog.setMessage(st5);
 					progressDialog.show();
-					
+
 					new Thread(new Runnable() {
 						public void run() {
 							try {
@@ -242,7 +243,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 										Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
 									}
 								});
-								
+
 							} catch (HyphenateException e) {
 								e.printStackTrace();
 								runOnUiThread(new Runnable() {
@@ -296,13 +297,13 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		List<String> members = new ArrayList<String>();
         members.addAll(group.getMembers());
         adapter.addAll(members);
-        
+
         adapter.notifyDataSetChanged();
 	}
-	
+
 	/**
 	 * 点击退出群组按钮
-	 * 
+	 *
 	 * @param view
 	 */
 	public void exitGroup(View view) {
@@ -326,7 +327,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	/**
 	 * 点击解散群组按钮
-	 * 
+	 *
 	 * @param view
 	 */
 	public void exitDeleteGroup(View view) {
@@ -364,7 +365,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	/**
 	 * 退出群组
-	 * 
+	 *
 	 * @param
 	 */
 	private void exitGrop() {
@@ -377,6 +378,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 			@Override
 			public void onResponse(ResultBean<String> response) {
+				sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
 				progressDialog.dismiss();
 				setResult(RESULT_OK);
 				finish();
@@ -411,7 +413,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	/**
 	 * 解散群组
-	 * 
+	 *
 	 * @param
 	 */
 	private void deleteGrop() {
@@ -422,6 +424,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					EMClient.getInstance().groupManager().destroyGroup(groupId);
 					runOnUiThread(new Runnable() {
 						public void run() {
+							sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
 							progressDialog.dismiss();
 							setResult(RESULT_OK);
 							finish();
@@ -443,7 +446,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	/**
 	 * 增加群成员
-	 * 
+	 *
 	 * @param newmembers
 	 */
 	private void addMembersToGroup(final String[] newmembers) {
@@ -533,7 +536,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		case R.id.clear_all_history: // 清空聊天记录
 			String st9 = getResources().getString(R.string.sure_to_empty_this);
 			new EaseAlertDialog(GroupDetailsActivity.this, null, st9, null, new AlertDialogUser() {
-                
+
                 @Override
                 public void onResult(boolean confirmed, Bundle bundle) {
                     if(confirmed){
@@ -541,16 +544,16 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                     }
                 }
             }, true).show();
-			
+
 			break;
 
 //		case R.id.rl_blacklist: // 黑名单列表
 //			startActivity(new Intent(GroupDetailsActivity.this, GroupBlacklistActivity.class).putExtra("groupId", groupId));
 //			break;
-
-		case R.id.rl_change_group_name:
-			startActivityForResult(new Intent(this, EditActivity.class).putExtra("data", group.getGroupName()), REQUEST_CODE_EDIT_GROUPNAME);
-			break;
+            /*修改群名称*/
+//		case R.id.rl_change_group_name:
+//			startActivityForResult(new Intent(this, EditActivity.class).putExtra("data", group.getGroupName()), REQUEST_CODE_EDIT_GROUPNAME);
+//			break;
 //		case R.id.rl_search:
 //            startActivity(new Intent(this, GroupSearchMessageActivity.class).putExtra("groupId", groupId));
 //
@@ -588,11 +591,11 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		                        Toast.makeText(getApplicationContext(), R.string.remove_group_of,Toast.LENGTH_SHORT).show();
 		                    }
 		                });
-		                
+
 		            }
 		        }
 		    }).start();
-			
+
 		} else {
 			String st8 = getResources().getString(R.string.group_is_blocked);
 			final String st9 = getResources().getString(R.string.group_of_shielding);
@@ -622,7 +625,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		                    }
 		                });
 		            }
-		            
+
 		        }
 		    }).start();
 		}
@@ -630,9 +633,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 	/**
 	 * 群组成员gridadapter
-	 * 
+	 *
 	 * @author admin_new
-	 * 
+	 *
 	 */
 	private class GridAdapter extends ArrayAdapter<String> {
 
@@ -768,7 +771,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 					/**
 					 * 删除群成员
-					 * 
+					 *
 					 * @param username
 					 */
 					protected void deleteMembersFromGroup(final String username) {
@@ -854,7 +857,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					        return true;
 						if (group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
 							new EaseAlertDialog(GroupDetailsActivity.this, null, st15, null, new AlertDialogUser() {
-                                
+
                                 @Override
                                 public void onResult(boolean confirmed, Bundle bundle) {
                                     if(confirmed){
@@ -862,7 +865,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                                     }
                                 }
                             }, true).show();
-							
+
 						}
 						return false;
 					}
@@ -882,7 +885,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			public void run() {
 				try {
 				    EMClient.getInstance().groupManager().getGroupFromServer(groupId);
-					
+
 					runOnUiThread(new Runnable() {
 						public void run() {
 							((TextView) findViewById(R.id.group_name)).setText(group.getGroupName());
@@ -935,40 +938,40 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		super.onDestroy();
 		instance = null;
 	}
-	
+
 	private static class ViewHolder{
 	    CircleImageView imageView;
 	    TextView textView;
 	    ImageView badgeDeleteView;
 	}
-    
+
     private class GroupChangeListener implements EMGroupChangeListener {
 
 		@Override
 		public void onInvitationReceived(String groupId, String groupName,
 				String inviter, String reason) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onApplicationReceived(String groupId, String groupName,
 				String applyer, String reason) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onApplicationAccept(String groupId, String groupName,
 				String accepter) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onApplicationDeclined(String groupId, String groupName,
 				String decliner, String reason) {
-			
+
 		}
 
 		@Override
@@ -980,36 +983,36 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				public void run() {
 					refreshMembers();
 				}
-        		
+
         	});
-			
+
 		}
 
 		@Override
 		public void onInvitationDeclined(String groupId, String invitee,
 				String reason) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onUserRemoved(String groupId, String groupName) {
 			finish();
-			
+
 		}
 
 		@Override
 		public void onGroupDestroy(String groupId, String groupName) {
 			finish();
-			
+
 		}
 
         @Override
         public void onAutoAcceptInvitationFromGroup(String groupId, String inviter, String inviteMessage) {
             // TODO Auto-generated method stub
-            
+
         }
-    	
+
     }
 
 	/**
@@ -1097,6 +1100,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onResponse(ResultBean<String> response) {
 				progressDialog.dismiss();
+				sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
 				runOnUiThread(new Runnable() {
 					public void run() {
 

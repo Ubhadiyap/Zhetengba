@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
@@ -36,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 简约界面
+ * 会友界面
  * Created by xiaoke on 2016/4/24.
  */
 public class SimpleFrg extends BaseFragment {
