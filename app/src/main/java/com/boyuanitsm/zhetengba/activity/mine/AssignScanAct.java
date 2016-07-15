@@ -49,7 +49,7 @@ public class AssignScanAct extends BaseActivity {
     private ProgressDialog progressDialog;
     @ViewInject(R.id.list)
     private ListView listView;
-    private List<String> idList = new ArrayList<>();//存取用户名list
+    private List<String> idList=new ArrayList<>();//存取用户名list
     private PickContactAdapter contactAdapter;
     private boolean isSignleChecked = false;
     private String[] strUserIds;//c存取已经选择的用户id
@@ -106,7 +106,6 @@ public class AssignScanAct extends BaseActivity {
         String str5 = bundle.getString("noCanUserIds");//谁不能看
         String canflag = bundle.getString("canFlag");//判断点击进入的标志
         if (!TextUtils.isEmpty(str4)) {
-
             if (canflag.equals("canFlag") || canflag.equals("CalcanFlag")) {
                 strUserIds = ZtinfoUtils.convertStrToArray(str4);
                 for (int i=0;i<strUserIds.length;i++){
