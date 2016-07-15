@@ -107,7 +107,7 @@ public class ContractsFrg extends EaseContactListFragment {
                                 EaseUser easeUser = new EaseUser(friendsBean.getId());
                                 if (!TextUtils.isEmpty(friendsBean.getPetName())) {
                                     easeUser.setNick(friendsBean.getPetName());
-                                    easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0, 1));
+                                    easeUser.setInitialLetter(CharacterParserUtils.getInstance().getSelling(friendsBean.getPetName()).substring(0, 1).toLowerCase());
                                 } else {
                                     easeUser.setNick(friendsBean.getUsername());
                                     easeUser.setInitialLetter("#");

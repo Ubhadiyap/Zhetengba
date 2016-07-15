@@ -371,9 +371,7 @@ public class RegistAct extends BaseActivity {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "login: onSuccess");
-                if (!RegistAct.this.isFinishing() && pd.isShowing()) {
-                    pd.dismiss();
-                }
+
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
                 EMClient.getInstance().groupManager().loadAllGroups();
@@ -389,6 +387,10 @@ public class RegistAct extends BaseActivity {
                 DemoHelper.getInstance().getUserProfileManager().setNickName(userBean.getUser().getUsername());
                 DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(userBean.getUser().getIcon()));
                 UserInfoDao.saveUser(userBean.getUser());
+
+                if (!RegistAct.this.isFinishing() && pd.isShowing()) {
+                    pd.dismiss();
+                }
                 openActivity(RegInfoAct.class);
                 AppManager.getAppManager().finishActivity(LoginAct.class);
                 // 进入主页面

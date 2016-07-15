@@ -188,9 +188,7 @@ public class LoginAct extends BaseActivity {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "login: onSuccess");
-                if (!LoginAct.this.isFinishing() && pd.isShowing()) {
-                    pd.dismiss();
-                }
+
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
                 EMClient.getInstance().groupManager().loadAllGroups();
@@ -206,6 +204,11 @@ public class LoginAct extends BaseActivity {
                 DemoHelper.getInstance().getUserProfileManager().setNickName(userBean.getUser().getPetName());
                 DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(userBean.getUser().getIcon()));
                 UserInfoDao.saveUser(userBean.getUser());
+
+                if (!LoginAct.this.isFinishing() && pd.isShowing()) {
+                    pd.dismiss();
+                }
+
                 if(type==0){
                     //进入完善信息界面
                     Intent intent=new Intent(LoginAct.this,RegInfoAct.class);
