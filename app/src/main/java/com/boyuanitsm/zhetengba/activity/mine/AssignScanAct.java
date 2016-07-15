@@ -197,7 +197,14 @@ public class AssignScanAct extends BaseActivity {
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
                 String strUserId = alluserList.get(position).getUsername();
                 checkBox.toggle();
-                change=2;
+                if (checkBox.isChecked()) {
+                    change = 2;
+                }else {
+                    change=0;
+                    if (idList.contains(strUserId)){
+                        idList.remove(strUserId);
+                    }
+                }
 
             }
         });

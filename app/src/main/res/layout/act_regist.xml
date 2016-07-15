@@ -154,22 +154,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <CheckBox
+        android:gravity="center_vertical"
         android:id="@+id/register_cb"
         android:layout_gravity="center_vertical"
         android:button="@drawable/check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="用户协议"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:textColor="#999999"
-        android:textSize="10sp"
         android:checked="true"
-        android:paddingStart="3dp"
         />
         <TextView
-            android:layout_marginLeft="5dp"
+            android:id="@+id/tv_userCommod"
             android:textColor="#999999"
             android:text="用户协议"
-            android:visibility="gone"
             style="@style/tv_second"/>
     </LinearLayout>
 

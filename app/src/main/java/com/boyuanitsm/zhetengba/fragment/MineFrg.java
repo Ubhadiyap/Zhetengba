@@ -117,7 +117,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         lvTimeAxis.setAdapter(adapter);
         lvTimeAxis.setOnPageChangeListener(this);
 
-        currentPos = getCurrentMonth()-1;
+        currentPos =0;
         textViewList.get(currentPos).setTextColor(Color.parseColor("#e7e700"));//默认加载项，标签文字对应变色
         lvTimeAxis.setCurrentItem(currentPos);
 
@@ -208,7 +208,8 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
      */
     private List<Integer> getCurrenMonth(){
         int month = getCurrentMonth() ;
-            for (int i=1;i<=month;i++){
+            monthList.add(month);
+            for (int i=1;i<=month-1;i++){
                 monthList.add(i);
             }
         return monthList;
