@@ -97,6 +97,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     public void initData(Bundle savedInstanceState) {
 
         //设置布局管理器
+        //恢复原来，不报错。
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         //设置横向
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
