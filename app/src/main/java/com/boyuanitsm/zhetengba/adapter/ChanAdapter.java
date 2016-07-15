@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 频道listview适配器
+ * 发现广场listview适配器
  * Created by xiaoke on 2016/5/3.
  */
 public class ChanAdapter extends BaseAdapter {

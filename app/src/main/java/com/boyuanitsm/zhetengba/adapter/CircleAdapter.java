@@ -39,7 +39,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.List;
 
 /**
- * 圈子列表适配器
+ * 发现圈子列表适配器
  * Created by xiaoke on 2016/5/4.
  */
 public class CircleAdapter extends BaseAdapter {
@@ -298,7 +298,7 @@ public class CircleAdapter extends BaseAdapter {
 //                ShareDialog dialog=new ShareDialog(context);
 //                dialog.show();
                 Intent intent = new Intent(context, ShareDialogAct.class);
-                intent.putExtra("type",4);
+                intent.putExtra("type",5);
                 intent.putExtra("id",list.get(position).getId());
                 context.startActivity(intent);
             }
