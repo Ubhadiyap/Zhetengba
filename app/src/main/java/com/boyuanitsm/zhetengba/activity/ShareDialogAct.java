@@ -44,23 +44,23 @@ public class ShareDialogAct extends BaseActivity {
         type = getIntent().getExtras().getInt("type");//区分要分享的链接
         id=getIntent().getExtras().getString("id");//区分要拼接到链接里面的id
         if (type == 1) {//表示要分享的是活动
-            codeUrl = "http://172.16.6.253:8082/share_1?id="+id;//活动分享链接
+            codeUrl = "http://139.196.154.208:8086/share_1?id="+id;//活动分享链接
             content = "我在折腾吧发布了一个“会友”，快来围观吧!";
         }
         if (type == 2) {//表示要分享的是档期
-            codeUrl = "http://172.16.6.253:8082/share_2?id="+id;//档期分享链接
+            codeUrl = "http://139.196.154.208:8086/share_2?id="+id;//档期分享链接
             content = "我在折腾吧发布了一个“有空”，快来围观吧!";
         }
 //        if(type==3){
 //            codeUrl="http://172.16.6.253:8082/share_3   ";//下载链接
 //        }
         if (type == 4) {//表示要分享的是频道动态
-            codeUrl = "http://172.16.6.253:8082/channelText?id="+id;//频道动态链接
+            codeUrl = "http://139.196.154.208:8086/channelText?id="+id;//频道动态链接
             content = "我在折腾吧发布了一个“动态”，快来围观吧!";
             //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
         }
         if(type==5){
-            codeUrl="http://172.16.6.253:8082/circle?id="+id;//圈子动态
+            codeUrl="http://139.196.154.208:8086/circle?id="+id;//圈子动态
             content="我在折腾吧发布了一个“圈子动态”，快来围观吧!";
         }
 

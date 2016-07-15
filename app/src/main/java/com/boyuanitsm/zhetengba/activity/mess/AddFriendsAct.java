@@ -38,7 +38,7 @@ public class AddFriendsAct extends BaseActivity {
     private int READ_CONTACTS = 111;
     @ViewInject(R.id.cetSearch)
     private ClearEditText cetSearch;
-    private String codeUrl="http://172.16.6.253:8082/share_3" ;
+    private String codeUrl="http://139.196.154.208:8086/share_3" ;
 
 
 
