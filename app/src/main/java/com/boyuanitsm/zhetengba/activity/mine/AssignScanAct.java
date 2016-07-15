@@ -104,6 +104,7 @@ public class AssignScanAct extends BaseActivity {
         String str4 = bundle.getString("canUserIds");//谁能看
         MyLogUtils.info(str4+"返回的谁能看");
         String str5 = bundle.getString("noCanUserIds");//谁不能看
+        MyLogUtils.info(str5+"返回的谁不能看");
         String canflag = bundle.getString("canFlag");//判断点击进入的标志
         if (!TextUtils.isEmpty(str4)) {
             if (canflag.equals("canFlag") || canflag.equals("CalcanFlag")) {
@@ -111,6 +112,7 @@ public class AssignScanAct extends BaseActivity {
                 for (int i=0;i<strUserIds.length;i++){
                     idList.add(strUserIds[i]);
                 }
+                MyLogUtils.info(idList.toString()+"返回谁能看集合");
             }
 
         } else if (!TextUtils.isEmpty(str5)) {
@@ -119,6 +121,7 @@ public class AssignScanAct extends BaseActivity {
                 for (int i=0;i<strUserIds.length;i++){
                     idList.add(strUserIds[i]);
                 }
+                MyLogUtils.info(idList.toString()+"返回谁不能看集合");
             }
         }
 
@@ -242,6 +245,7 @@ public class AssignScanAct extends BaseActivity {
         }else if (str3.equals("circleFriend")){
             setResult(6,intent);
         }
+        //发送广播给前一个界面，当前type=0是能看，让前一界面不能看的设置为不可点击
     }
 
 
@@ -275,7 +279,6 @@ public class AssignScanAct extends BaseActivity {
             super(context, resource, users);
             isCheckedArray = new boolean[users.size()];
         }
-
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             View view = super.getView(position, convertView, parent);

@@ -42,6 +42,7 @@ public class CircleglAct extends BaseActivity {
     private int page=1;
     private int rows=10;
     private CircleglAdapter adapter;
+    private String ppuserId;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circlegl);
@@ -51,13 +52,14 @@ public class CircleglAct extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
+        ppuserId=UserInfoDao.getUser().getId();
         if (bundle!=null){
-            String ppuserId=bundle.getString("PPuserId");
+            ppuserId=bundle.getString("PPuserId");
             if (!TextUtils.isEmpty(ppuserId)) {
                 if (ppuserId.equals(UserInfoDao.getUser().getId())) {
                     str="圈子管理";
                     setTopTitle(str);
-                    getCircleList(null, page, rows);
+                    getCircleList(ppuserId, page, rows);
                 } else {
                     str="TA的圈子";
                     setTopTitle(str);
@@ -100,13 +102,13 @@ public class CircleglAct extends BaseActivity {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 lv_circlegl.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                 page=1;
-                getCircleList(null,page,rows);
+                getCircleList(ppuserId,page,rows);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getCircleList(null,page,rows);
+                getCircleList(ppuserId,page,rows);
             }
         });
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CommonView;
@@ -163,7 +165,8 @@ public class ScheduleAct extends BaseActivity {
                     bundle.putString("can",str4);
                     bundle.putString("canFlag","CalnocanFlag");
                     if (!TextUtils.isEmpty(strUserNoIds)){
-                        bundle.putString("canUserIds",strUserNoIds);
+                        bundle.putString("noCanUserIds",strUserNoIds);
+                        MyLogUtils.info(strUserNoIds+"传入下页面用户id");
                     }
                     bundle.putInt(AssignScanAct.CANTYPE,1);//不能看
                     intent.putExtras(bundle);
@@ -230,11 +233,19 @@ public class ScheduleAct extends BaseActivity {
                     bundle=data.getBundleExtra("bundle3");
                     hucanUserIds=bundle.getString("bundleIds");
                     strUserIds = hucanUserIds;
+                    if (!TextUtils.isEmpty(strUserIds)){
+                        ll_hu_can.setEnabled(true);
+                        ll_hu_no_can.setEnabled(false);
+                    }
                     break;
                 case 4://谁不能看
                     bundle=data.getBundleExtra("bundle3");
                     hu_no_canUserIds=bundle.getString("bundleIds");
                     strUserNoIds = hu_no_canUserIds;
+                    if (!TextUtils.isEmpty(strUserNoIds)){
+                        ll_hu_can.setEnabled(false);
+                        ll_hu_no_can.setEnabled(true);
+                    }
                     break;
             }
         }
