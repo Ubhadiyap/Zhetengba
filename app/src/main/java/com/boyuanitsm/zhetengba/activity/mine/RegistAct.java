@@ -99,6 +99,7 @@ public class RegistAct extends BaseActivity {
                 }
             }
         });
+
 //        et_phone.addTextChangedListener(textWatcher);
 //        et_yzm.addTextChangedListener(textWatcher);
 //        et_pwd.addTextChangedListener(textWatcher);
@@ -134,7 +135,7 @@ public class RegistAct extends BaseActivity {
         }
     };
 
-    @OnClick({R.id.tv_code,R.id.tv_zc})
+    @OnClick({R.id.tv_code,R.id.tv_zc,R.id.tv_xy})
     public void OnClick(View v){
         switch (v.getId()){
             case R.id.tv_code://发送验证码
@@ -155,6 +156,11 @@ public class RegistAct extends BaseActivity {
                 }
                 sendSms(phone, "true");
                 break;
+            case R.id.tv_xy://注册协议
+                openActivity(WebAct.class);
+
+                break;
+
 
 
             case R.id.tv_zc://注册

@@ -39,6 +39,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.List;
 
 /**
+ * 发现/铃铛图标/我的发布是陪你器
  * Created by xiaoke on 2016/5/19.
  */
 public class MyPlaneAdapter extends BaseAdapter {
@@ -298,7 +299,7 @@ public class MyPlaneAdapter extends BaseAdapter {
 //                ShareDialog dialog=new ShareDialog(context);
 //                dialog.show();
                 Intent intent = new Intent(context, ShareDialogAct.class);
-                intent.putExtra("type",4);
+                intent.putExtra("type",5);
                 intent.putExtra("id",list.get(position).getId());
                 context.startActivity(intent);
             }

@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 首页简约：listview适配器.
+ * 首页会友：listview适配器.
  * 设置条目点击
  * Created by xiaoke on 2016/4/25.
  */

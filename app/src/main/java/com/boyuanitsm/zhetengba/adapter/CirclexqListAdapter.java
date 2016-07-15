@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 圈子列表适配器
+ * 圈子详情圈子动态适配器
  * Created by xiaoke on 2016/5/4.
  */
 public class CirclexqListAdapter extends BaseAdapter {
@@ -274,7 +274,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ShareDialogAct.class);
-                intent.putExtra("type", 4);
+                intent.putExtra("type", 5);
                 intent.putExtra("id",list.get(position).getId());
                 context.startActivity(intent);
             }
