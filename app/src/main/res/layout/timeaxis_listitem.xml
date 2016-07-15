@@ -9,7 +9,7 @@
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="27dp"
-        android:background="#ffffC0" />
+        android:background="#9cd8bb" />
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
@@ -17,14 +17,14 @@
         android:layout_marginTop="35dp"
         android:text="7"
         android:textSize="16dp"
-        android:textColor="#fff"/>
+        android:textColor="#666666"/>
     <View
         android:id="@+id/view_2"
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_below="@+id/image"
         android:layout_marginLeft="27dp"
-        android:background="#ffffC0" />
+        android:background="#9cd8bb" />
     <ImageView
         android:id="@+id/image"
         android:layout_marginTop="30dp"

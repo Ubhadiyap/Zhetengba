@@ -103,11 +103,13 @@ public class DqMesAdapter extends BaseAdapter {
         if (list.get(position).getIsAgree()==1){
             viewHolder.tvAccept.setText("已接受");
             viewHolder.tvRefuse.setText("拒绝");
+            viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
             viewHolder.tvAccept.setEnabled(false);
             viewHolder.tvRefuse.setEnabled(false);
         }else if(list.get(position).getIsAgree()==2){
             viewHolder.tvAccept.setText("接受");
             viewHolder.tvRefuse.setText("已拒绝");
+            viewHolder.tvAccept.setBackgroundColor(Color.GRAY);
             viewHolder.tvAccept.setEnabled(false);
             viewHolder.tvRefuse.setEnabled(false);
         }else {
@@ -137,6 +139,7 @@ public class DqMesAdapter extends BaseAdapter {
                         notifyDataSetChanged();
                         ActivityMessDao.updateCircleUser(list.get(position));
                         viewHolder.tvAccept.setText("已接受");
+                        viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
                         MyToastUtils.showShortToast(context, "已经同意！");
 
                     }
@@ -163,6 +166,7 @@ public class DqMesAdapter extends BaseAdapter {
                         notifyDataSetChanged();
                         ActivityMessDao.updateCircleUser(list.get(position));
                         viewHolder.tvRefuse.setText("已拒绝");
+                        viewHolder.tvAccept.setBackgroundColor(Color.GRAY);
                         MyToastUtils.showShortToast(context, "已经拒绝！");
                     }
                 });

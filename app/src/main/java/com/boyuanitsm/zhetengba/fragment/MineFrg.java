@@ -116,9 +116,8 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         //设置viewpager标签适配器
         lvTimeAxis.setAdapter(adapter);
         lvTimeAxis.setOnPageChangeListener(this);
-
         currentPos =0;
-        textViewList.get(currentPos).setTextColor(Color.parseColor("#e7e700"));//默认加载项，标签文字对应变色
+        textViewList.get(currentPos).setTextColor(Color.parseColor("#ff7e84"));//默认加载项，标签文字对应变色
         lvTimeAxis.setCurrentItem(currentPos);
 
     }
@@ -173,7 +172,7 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         //设置title
         textView.setTextSize(12);
         textView.setText(month + "月");
-        textView.setTextColor(Color.parseColor("#ffffff"));
+        textView.setTextColor(Color.parseColor("#58b487"));
 
         //设置position Tag
         textView.setTag(position);
@@ -224,9 +223,9 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     @Override
     public void onPageSelected(int position) {
         //当前位置textview 文字选中变色
-        textViewList.get(currentPos).setTextColor(Color.parseColor("#ffffff"));
+        textViewList.get(currentPos).setTextColor(Color.parseColor("#58b487"));
         textViewList.get(currentPos).setTextSize(12);
-        textViewList.get(position).setTextColor(Color.parseColor("#e7e700"));
+        textViewList.get(position).setTextColor(Color.parseColor("#ff7e84"));
         textViewList.get(position).setTextSize(14);
         currentPos = position;
         hslv_chanel.scrollTo((int) moveToList.get(position), 0);
@@ -272,9 +271,9 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
                 return;
             }
             textViewList.get(currentPos).setTextSize(12);
-            textViewList.get(currentPos).setTextColor(Color.parseColor("#ffffff"));
+            textViewList.get(currentPos).setTextColor(Color.parseColor("#58b487"));
             currentPos = (int) view.getTag();
-            textViewList.get(currentPos).setTextColor(Color.parseColor("#e7e700"));
+            textViewList.get(currentPos).setTextColor(Color.parseColor("#ff7e84"));
 //            textViewList.get(currentPos).setTextSize(14);
             lvTimeAxis.setCurrentItem(currentPos);
         }
