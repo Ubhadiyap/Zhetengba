@@ -70,7 +70,7 @@ public class ScheduleAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         scheduleInfo=new ScheduleInfo();
-        setTopTitle("有空");
+        setTopTitle("档期");
         pd=new ProgressDialog(ScheduleAct.this);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("发布中....");

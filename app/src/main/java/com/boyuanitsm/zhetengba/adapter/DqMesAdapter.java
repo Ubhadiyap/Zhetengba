@@ -45,6 +45,10 @@ public class DqMesAdapter extends BaseAdapter {
         this.context = context;
         this.list = list;
     }
+    public void notifyDataChange(List<ActivityMess> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {

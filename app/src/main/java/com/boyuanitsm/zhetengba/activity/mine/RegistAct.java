@@ -59,7 +59,6 @@ public class RegistAct extends BaseActivity {
     private CheckBox register_cb;
     @ViewInject(R.id.tv_zc)
     private TextView tv_zc;
-
     private String phone, yzm,pwd,cpwd;//手机号，验证码，确认的密码
     private int i = 60;
     private Timer timer;
@@ -134,6 +133,7 @@ public class RegistAct extends BaseActivity {
 
         }
     };
+
 
     @OnClick({R.id.tv_code,R.id.tv_zc,R.id.tv_xy})
     public void OnClick(View v){

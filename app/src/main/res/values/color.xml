@@ -2,7 +2,7 @@
 <resources>
     <!-- 主色调-->
     <color name="main_color">#52c791</color>
-     <!-- 背景颜色-->
+    <!-- 背景颜色-->
     <color name="bg_color">#f4f4f4</color>
 
     <!--话题颜色-->
@@ -24,7 +24,7 @@
     <!--自定义通用控件点击颜色-->
     <color name="item_focus_color">#e7e7e7</color>
 
-<!--dialog-窗体背景-->
+    <!--dialog-窗体背景-->
     <color name="dialog_act">#cfcfcf</color>
     <!--发布，圆形-->
     <color name="plan_red">#FB8BA8</color>
@@ -57,7 +57,7 @@
     <color name="actionsheet_gray">#8F8F8F</color>
     <!--灰色字-->
     <color name="tv_gray">#999a9a</color>
-
+    <color name="delete_red">#FF3a31</color>
     <!-- 自定义 dialog弹出框颜色 -->
     <color name="trans">#00000000</color>
     <color name="black">#000000</color>
@@ -94,7 +94,7 @@
     <color name="viewfinder_laser">#ffff0000</color>
     <color name="viewfinder_mask">#60000000</color>
 
-  <!--时间选着器里面颜色样式直接copy过来的-->
+    <!--时间选着器里面颜色样式直接copy过来的-->
     <color name="blue_nor">#17a4e6</color>
     <color name="blue_pressd">#0097D3</color>
     <color name="gray">#CACACA</color>
