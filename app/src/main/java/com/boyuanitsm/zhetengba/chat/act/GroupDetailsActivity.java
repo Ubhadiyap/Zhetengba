@@ -464,8 +464,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 			@Override
 			public void onResponse(ResultBean<String> response) {
-				updateGroup();
 				progressDialog.dismiss();
+				updateGroup();
+				refreshMembers();
+
 
 //				new Thread(new Runnable() {
 //					@Override
@@ -796,7 +798,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 								isInDeleteMode = false;
 								deleteDialog.dismiss();
 								updateGroup();
-//								refreshMembers();
+								refreshMembers();
 //								new Thread(new Runnable() {
 //									@Override
 //									public void run() {
