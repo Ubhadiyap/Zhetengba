@@ -28,6 +28,8 @@ public class ShareDialogAct extends BaseActivity {
     private String id;//需要拼接的id
 
 
+
+
     @Override
     public void setLayout() {
         setContentView(R.layout.dialog_share);
