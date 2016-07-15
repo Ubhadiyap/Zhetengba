@@ -53,6 +53,14 @@ public class ActivityMessDao  extends TemplateDAO<ActivityMess,String> {
     public static void delAll(){
         getDao().deleteAll();
     }
+
+    /**
+     * 删除某一项
+     * @param circleId
+     */
+    public static void delCir(String circleId){
+        getDao().delete(circleId);
+    }
     /**
      * 更新用户
      *

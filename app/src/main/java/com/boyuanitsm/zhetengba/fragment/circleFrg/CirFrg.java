@@ -143,7 +143,7 @@ public class CirFrg extends Fragment {
                     } else {
                         lv_cir.setHasMoreData(false);
                     }
-                    return;
+//                    return;
                 }else {
                     llnoList.setVisibility(View.GONE);
                 }

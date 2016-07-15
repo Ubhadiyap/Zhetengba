@@ -12,6 +12,8 @@ import com.leaf.library.db.annotation.Table;
 @Table(name="activity_label")
 public class ActivityMess implements Parcelable {
     @Column
+    private String id;
+    @Column
    private  String userId;
     @Column
     private  String  petName;
@@ -33,6 +35,14 @@ public class ActivityMess implements Parcelable {
     private String scheduleId;
     @Column
     private int isAgree;//0默认，1同意，2拒绝
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public int getIsAgree() {
         return isAgree;
@@ -147,6 +157,7 @@ public class ActivityMess implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
         dest.writeString(this.userId);
         dest.writeString(this.petName);
         dest.writeString(this.message);
@@ -161,6 +172,7 @@ public class ActivityMess implements Parcelable {
     }
 
     protected ActivityMess(Parcel in) {
+        this.id = in.readString();
         this.userId = in.readString();
         this.petName = in.readString();
         this.message = in.readString();
