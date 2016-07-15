@@ -11,5 +11,5 @@
         android:duration="400"></item>
     <item
         android:drawable="@mipmap/loadfail_04"
-        android:duration="400"></item>
+        android:duration="1000"></item>
 </animation-list>
