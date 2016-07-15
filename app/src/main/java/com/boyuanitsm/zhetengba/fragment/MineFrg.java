@@ -50,6 +50,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -112,14 +113,17 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
 //        findHistory();//获取事件轴
 
 
+        if (titleLayout!=null){
+            titleLayout.removeAllViews();
+        }
       initLayout();
        MyPagerAdapter adapter= new MyPagerAdapter(getChildFragmentManager());
         //设置viewpager标签适配器
         lvTimeAxis.setAdapter(adapter);
         lvTimeAxis.setOnPageChangeListener(this);
         currentPos =0;
-        textViewList.get(currentPos).setTextColor(Color.parseColor("#ff7e84"));//默认加载项，标签文字对应变色
-        lvTimeAxis.setCurrentItem(currentPos);
+        textViewList.get(0).setTextColor(Color.parseColor("#ff7e84"));//默认加载项，标签文字对应变色
+        lvTimeAxis.setCurrentItem(0);
 
     }
 
@@ -208,10 +212,10 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
      */
     private List<Integer> getCurrenMonth(){
         int month = getCurrentMonth() ;
-            monthList.add(month);
-            for (int i=1;i<=month-1;i++){
+            for (int i=1;i<=month;i++){
                 monthList.add(i);
             }
+        Collections.reverse(monthList);
         return monthList;
     }
 
@@ -325,7 +329,10 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
                 }
             }
             getlable();//当修改兴趣标界面修改（添加，删除）签获得兴趣标签；
-            initLayout();
+//            if (titleLayout!=null){
+//                titleLayout.removeAllViews();
+//            }
+//            initLayout();
             if (adapter==null){
                 adapter= new MyPagerAdapter(getChildFragmentManager());
 
@@ -334,9 +341,9 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
             }
             lvTimeAxis.setAdapter(adapter);
             lvTimeAxis.setOnPageChangeListener(MineFrg.this);
-            currentPos = getCurrentMonth()-1;
-            textViewList.get(currentPos).setTextColor(Color.parseColor("#e7e700"));//默认加载项，标签文字对应变色
-            lvTimeAxis.setCurrentItem(currentPos);
+            currentPos = 0;
+            textViewList.get(0).setTextColor(Color.parseColor("#ff7e84"));//默认加载项，标签文字对应变色
+            lvTimeAxis.setCurrentItem(0);
 
         }
     }
@@ -347,7 +354,9 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         textViewList = new ArrayList<>();
         moveToList=new ArrayList<>();
         monthList= getCurrenMonth();
-
+        if (titleLayout!=null){
+            titleLayout.removeAllViews();
+        }
         //填充titleList,titleLayout布局
         for (int i = 0; i < monthList.size(); i++) {
             if((monthList.get(i)+"").length()==1){

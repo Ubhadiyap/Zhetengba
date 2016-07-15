@@ -234,8 +234,7 @@ public class ScheduleAct extends BaseActivity {
                     hucanUserIds=bundle.getString("bundleIds");
                     strUserIds = hucanUserIds;
                     if (!TextUtils.isEmpty(strUserIds)){
-                        ll_hu_can.setEnabled(true);
-                        ll_hu_no_can.setEnabled(false);
+                        bundle.putString("canUserIds", strUserIds);
                     }
                     break;
                 case 4://谁不能看
@@ -243,8 +242,7 @@ public class ScheduleAct extends BaseActivity {
                     hu_no_canUserIds=bundle.getString("bundleIds");
                     strUserNoIds = hu_no_canUserIds;
                     if (!TextUtils.isEmpty(strUserNoIds)){
-                        ll_hu_can.setEnabled(false);
-                        ll_hu_no_can.setEnabled(true);
+                        bundle.putString("noCanUserIds", strUserNoIds);
                     }
                     break;
             }

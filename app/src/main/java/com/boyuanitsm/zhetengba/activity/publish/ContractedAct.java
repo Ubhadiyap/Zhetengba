@@ -113,7 +113,6 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private ProgressDialog pd;//缓冲弹出框
     private Date startDate,endDate;
     private LocationClient locationClient;
-    private int clickPos=2;//为2时都可以选择
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -326,7 +325,6 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             Bundle bundle;
-            clickPos=2;
             switch (requestCode) {
                 case 0:
                     bundle = data.getBundleExtra("bundle2");
