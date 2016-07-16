@@ -270,7 +270,6 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                     if (!TextUtils.isEmpty(strUserIds)) {
                         bundle.putString("canUserIds", strUserIds);
                     }
-//                    bundle.putInt(AssignScanAct.CANTYPE,0);//能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 1);

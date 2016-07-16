@@ -56,7 +56,6 @@ public class AssignScanAct extends BaseActivity {
     private int change=1;
     @ViewInject(R.id.cetSearch)
     private ClearEditText cetSearch;//搜索
-
     public static final String CANTYPE="cantype";
     private int type;//0 能看 1不能看
     private String title;//右上方文字

@@ -99,6 +99,7 @@ public class DqMesAct extends BaseActivity {
 
     private void updateActivityMessDao() {
         ActivityMessDao.delAll();
+        Collections.reverse(list);
         for (int i=0;i<list.size();i++){
             ActivityMessDao.saveCircleMess(list.get(i));
         }
