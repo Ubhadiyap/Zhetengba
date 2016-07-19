@@ -320,7 +320,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="消息免打扰"
+                    android:text="是否接收群消息"
                     android:textColor="#333333"
                     android:textSize="16sp"
                     android:typeface="serif" />
@@ -331,7 +331,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    app:switchStatus="close" />
+                    app:switchStatus="open" />
             </RelativeLayout>
 
             <TextView

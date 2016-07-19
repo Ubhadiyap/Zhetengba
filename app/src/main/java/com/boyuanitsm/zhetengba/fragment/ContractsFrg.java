@@ -21,6 +21,7 @@ import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.MyGroupAct;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.db.UserDao;
+import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -116,9 +117,11 @@ public class ContractsFrg extends EaseContactListFragment {
                                 easeUser.setAvatar(IZtbUrl.BASE_URL + friendsBean.getIcon());
 //                                        easeUser.setAvatar("http://172.16.6.253:8089/zhetengba/userIcon/90017a421ee84e0db5c6d53e55c03c50.png");
                                 uList.add(easeUser);
+
                             }
                         }
                         DemoHelper.getInstance().updateContactList(uList);
+                        ChatUserDao.updateUsers(uList);
 //                        userDao.saveContactList(uList);
                     }
                 }
