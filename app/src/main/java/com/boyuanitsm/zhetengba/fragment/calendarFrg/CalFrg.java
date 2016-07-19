@@ -58,7 +58,7 @@ public class CalFrg extends BaseFragment {
     private List<LabelBannerInfo> bannerInfoList;
     private CalAdapter adapter;
     private int page=1,rows=10;
-    private int state=1;
+    private int state=0;
     private boolean flag=true;
     private IntentFilter filter;
     private LinearLayout noList;
@@ -250,7 +250,7 @@ public class CalFrg extends BaseFragment {
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
-                      adapter.update(list);  //没有数据
+//                      adapter.update(list);  //没有数据
                     } else {
                         lv_calen.setHasMoreData(false);
                     }

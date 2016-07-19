@@ -53,7 +53,7 @@ public class SimpleFrg extends BaseFragment {
     private List<SimpleInfo> datas = new ArrayList<>();
     private int page = 1;
     private int rows = 20;
-    private int state=1;
+    private int state=0;
     private IntentFilter filter;
     private LinearLayout noList;
     private ImageView ivAnim;
@@ -337,7 +337,7 @@ public class SimpleFrg extends BaseFragment {
                 //获取到的list没有数据时
                 if (list.size() == 0) {
                     if (page == 1) {
-                        adapter.update(list); //第一页就没有数据，表示全部无数据
+//                        adapter.update(list); //第一页就没有数据，表示全部无数据
                     } else {
                         //无更多数据
                         lv_act.setHasMoreData(false);

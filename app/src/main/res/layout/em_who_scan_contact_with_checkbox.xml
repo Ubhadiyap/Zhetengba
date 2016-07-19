@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:focusable="false"
+            android:clickable="false"
             android:button="@drawable/em_checkbox_bg_selector" />
 
     </LinearLayout>

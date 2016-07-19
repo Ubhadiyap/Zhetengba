@@ -367,6 +367,7 @@
 
                     <TextView
                         style="@style/simple_text2"
+                        android:id="@+id/tv_hu_can"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="指定谁看" />
@@ -403,6 +404,7 @@
 
                     <TextView
                         style="@style/simple_text2"
+                        android:id="@+id/tv_hu_no_can"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="不让谁看" />

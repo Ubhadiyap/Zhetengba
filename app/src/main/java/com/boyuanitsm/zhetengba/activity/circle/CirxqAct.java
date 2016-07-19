@@ -69,13 +69,9 @@ public class CirxqAct extends BaseActivity {
     private TextView name;//圈主名
     private TextView notice;//公告
     private TextView qzzl;//圈子资料
-
     private RelativeLayout rl_jiaru;
-
     private int page=1;
     private int rows=10;
-
-
     private List<List<ImageInfo>> datalist;
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -342,6 +338,7 @@ public class CirxqAct extends BaseActivity {
                                 Bundle bundle = new Bundle();
                                 String str3 = "circleFriend";
                                 bundle.putString("can", str3);
+                                bundle.putString("circleId",circleId);
                                 intent.putExtras(bundle);
                                 intent.setClass(CirxqAct.this, AssignScanAct.class);
                                 startActivityForResult(intent, 6);
@@ -364,6 +361,7 @@ public class CirxqAct extends BaseActivity {
                                 Bundle bundle = new Bundle();
                                 String str3 = "circleFriend";
                                 bundle.putString("can", str3);
+                                bundle.putString("circleId",circleId);
                                 intent.putExtras(bundle);
                                 intent.setClass(CirxqAct.this, AssignScanAct.class);
                                 startActivityForResult(intent, 6);
@@ -381,7 +379,9 @@ public class CirxqAct extends BaseActivity {
         if (data!=null&&resultCode==6){
             Bundle bundle=data.getBundleExtra("bundle3");
             personIds= bundle.getString("bundleIds");
-            inviteFriendToCircle(circleId,personIds);
+            if (!TextUtils.isEmpty(personIds)){
+                inviteFriendToCircle(circleId,personIds);
+            }
         }
     }
 

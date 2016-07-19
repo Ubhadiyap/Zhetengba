@@ -111,6 +111,7 @@
             ></View>
 
         <com.boyuanitsm.zhetengba.view.CommonView
+            android:visibility="gone"
             android:id="@+id/cv_clearCache"
             app:desTextColor="#333333"
             app:desTextSize="14sp"

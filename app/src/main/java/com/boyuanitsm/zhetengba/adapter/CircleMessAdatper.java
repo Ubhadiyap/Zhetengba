@@ -184,21 +184,25 @@ public class CircleMessAdatper extends BaseAdapter {
                     });
                     if (circleInfoList.get(position).getIsAgree()==1){
                         holder2.bt_yes.setText("已同意");
+                        holder2.bt_no.setBackgroundColor(Color.GRAY);
                         holder2.bt_yes.setEnabled(false);
                         holder2.bt_no.setEnabled(false);
                     }else if (circleInfoList.get(position).getIsAgree()==2){
                         holder2.bt_yes.setText("同意");
                         holder2.bt_no.setText("已拒绝");
+                        holder2.bt_yes.setBackgroundColor(Color.GRAY);
                         holder2.bt_yes.setEnabled(false);
                         holder2.bt_no.setEnabled(false);
                     }else if (circleInfoList.get(position).getIsAgree()==3){
                         holder2.bt_yes.setText("已加入");
                         holder2.bt_no.setText("拒绝");
+                        holder2.bt_no.setBackgroundColor(Color.GRAY);
                         holder2.bt_yes.setEnabled(false);
                         holder2.bt_no.setEnabled(false);
                     }else if (circleInfoList.get(position).getIsAgree()==4){
                         holder2.bt_yes.setText("同意");
                         holder2.bt_no.setText("已拒绝");
+                        holder2.bt_yes.setBackgroundColor(Color.GRAY);
                         holder2.bt_yes.setEnabled(false);
                         holder2.bt_no.setEnabled(false);
                     }else if (circleInfoList.get(position).getIsAgree()==0){
@@ -227,6 +231,7 @@ public class CircleMessAdatper extends BaseAdapter {
                                     public void onResponse(ResultBean<String> response) {
                                         if (TextUtils.equals(response.getData(),"1")){
                                             finalHolder.bt_yes.setText("已同意");
+                                            finalHolder.bt_no.setBackgroundColor(Color.GRAY);
                                             finalHolder.bt_yes.setEnabled(false);
                                             finalHolder.bt_no.setEnabled(false);
                                             circleInfoList.get(position).setIsAgree(1);
@@ -256,6 +261,7 @@ public class CircleMessAdatper extends BaseAdapter {
                                     @Override
                                     public void onResponse(ResultBean<String> response) {
                                         finalHolder.bt_no.setText("已拒绝");
+                                        finalHolder.bt_yes.setBackgroundColor(Color.GRAY);
                                         finalHolder.bt_yes.setEnabled(false);
                                         finalHolder.bt_no.setEnabled(false);
                                         circleInfoList.get(position).setIsAgree(2);
@@ -286,6 +292,7 @@ public class CircleMessAdatper extends BaseAdapter {
                                     @Override
                                     public void onResponse(ResultBean<String> response) {
                                         finalHolder.bt_yes.setText("已加入");
+                                        finalHolder.bt_no.setBackgroundColor(Color.GRAY);
                                         finalHolder.bt_yes.setEnabled(false);
                                         finalHolder.bt_no.setEnabled(false);
                                         circleInfoList.get(position).setIsAgree(3);
@@ -311,6 +318,7 @@ public class CircleMessAdatper extends BaseAdapter {
                                     @Override
                                     public void onResponse(ResultBean<String> response) {
                                         finalHolder.bt_no.setText("已拒绝");
+                                        finalHolder.bt_yes.setBackgroundColor(Color.GRAY);
                                         finalHolder.bt_no.setEnabled(false);
                                         finalHolder.bt_yes.setEnabled(false);
                                         circleInfoList.get(position).setIsAgree(4);

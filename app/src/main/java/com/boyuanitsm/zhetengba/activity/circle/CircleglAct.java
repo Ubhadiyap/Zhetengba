@@ -41,6 +41,7 @@ public class CircleglAct extends BaseActivity {
     private List<CircleEntity> list;
     private int page=1;
     private int rows=10;
+    private int flag=1;//1是圈子管理，2是他人圈子
     private CircleglAdapter adapter;
     private String ppuserId;
     @Override
@@ -59,15 +60,18 @@ public class CircleglAct extends BaseActivity {
                 if (ppuserId.equals(UserInfoDao.getUser().getId())) {
                     str="圈子管理";
                     setTopTitle(str);
-                    getCircleList(ppuserId, page, rows);
+                    flag=1;
+                    getCircleList(null, page, rows);
                 } else {
                     str="TA的圈子";
                     setTopTitle(str);
+                    flag=2;
                     getCircleList(ppuserId, page, rows);
                 }
             }
         }else {
             str="圈子管理";
+            flag=1;
             setTopTitle(str);
             getCircleList(null,page,rows);
         }
@@ -102,13 +106,21 @@ public class CircleglAct extends BaseActivity {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 lv_circlegl.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                 page=1;
-                getCircleList(ppuserId,page,rows);
+                if (flag==1){
+                    getCircleList(null,page,rows);
+                }else if (flag==2){
+                    getCircleList(ppuserId,page,rows);
+                }
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getCircleList(ppuserId,page,rows);
+                if (flag==1){
+                    getCircleList(null,page,rows);
+                }else if (flag==2){
+                    getCircleList(ppuserId,page,rows);
+                }
             }
         });
 

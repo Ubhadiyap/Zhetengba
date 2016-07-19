@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
@@ -49,10 +50,14 @@ public class ScheduleAct extends BaseActivity {
     private EditText cet_end;
     @ViewInject(R.id.tv_plane)
     private TextView tv_plane;
+    @ViewInject(R.id.ll_hu_can)
+    private CommonView ll_hu_can;
+    @ViewInject(R.id.ll_hu_no_can)
+    private CommonView ll_hu_no_can;
     private ImageView iv_button;
     private int select=1;
+    private int clickTemp = 0;//1是谁能看，2是谁不能看
     private TextView tv_xlws, tv_bwln, tv_wlzj, tv_xdys;//闲来无事，百无聊赖，无聊至极，闲的要死
-    private CommonView ll_hu_can, ll_hu_no_can;
     private List<LabelBannerInfo> listLabel = new ArrayList<>();//档期标签集合；
     private ScheduleInfo scheduleInfo;
     private Date startDate,endDate;
@@ -102,12 +107,16 @@ public class ScheduleAct extends BaseActivity {
                     ll_hu_no_can.setEnabled(true);
                     select = 2;
                     scheduleInfo.setScheduleVisibility(2);
+                    clickTemp = 0;
+                    changeHuCan();
                 } else {
                     ll_hu_can.setEnabled(false);
                     ll_hu_no_can.setEnabled(false);
                     iv_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
                     select = 1;
                     scheduleInfo.setScheduleVisibility(1);
+                    clickTemp = 0;
+                    changeHuCan();
                 }
             }
         });
@@ -151,10 +160,12 @@ public class ScheduleAct extends BaseActivity {
                     if (!TextUtils.isEmpty(strUserIds)){
                         bundle.putString("canUserIds",strUserIds);
                     }
-                    bundle.putInt(AssignScanAct.CANTYPE,0);//能看
+                    bundle.putInt(AssignScanAct.CANTYPE, 0);//能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 3);
+                    clickTemp = 2;
+                    changeHuCan();
                 }
                 break;
             case R.id.ll_hu_no_can:
@@ -168,10 +179,12 @@ public class ScheduleAct extends BaseActivity {
                         bundle.putString("noCanUserIds",strUserNoIds);
                         MyLogUtils.info(strUserNoIds+"传入下页面用户id");
                     }
-                    bundle.putInt(AssignScanAct.CANTYPE,1);//不能看
+                    bundle.putInt(AssignScanAct.CANTYPE, 1);//不能看
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 4);
+                    clickTemp =1;
+                    changeHuCan();
                 }
                 break;
 
@@ -270,8 +283,16 @@ public class ScheduleAct extends BaseActivity {
         return;
     }
 //        scheduleInfo.setScheduleVisibility(select);
-        scheduleInfo.setNoticeUserIds(hucanUserIds);
-        scheduleInfo.setInvisibleUserIds(hu_no_canUserIds);
+        if (select==2){
+            if (clickTemp==2){
+                scheduleInfo.setNoticeUserIds(hucanUserIds);//指定谁可见
+            }else if (clickTemp==1){
+                scheduleInfo.setInvisibleUserIds(hu_no_canUserIds);//指定谁不可见
+
+            }
+        }
+//        scheduleInfo.setNoticeUserIds(hucanUserIds);
+//        scheduleInfo.setInvisibleUserIds(hu_no_canUserIds);
         pd.show();
         addSchedule(scheduleInfo);
     }
@@ -291,7 +312,21 @@ public class ScheduleAct extends BaseActivity {
 
 
     }
-
+    /**
+     * 指定谁能看，谁不能看，
+     */
+    private void changeHuCan() {
+        if (clickTemp == 0) {
+            ll_hu_can.setDesTextColor(Color.parseColor("#333333"));
+            ll_hu_no_can.setDesTextColor(Color.parseColor("#333333"));
+        }else if (clickTemp==1){
+            ll_hu_can.setDesTextColor(Color.parseColor("#999999"));
+            ll_hu_no_can.setDesTextColor(Color.parseColor("#333333"));
+        }else if (clickTemp==2){
+            ll_hu_can.setDesTextColor(Color.parseColor("#333333"));
+            ll_hu_no_can.setDesTextColor(Color.parseColor("#999999"));
+        }
+    }
 
     /**
      * 当点击四个状态时候选中样式

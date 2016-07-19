@@ -54,12 +54,19 @@ public class ActivityMessDao  extends TemplateDAO<ActivityMess,String> {
         getDao().deleteAll();
     }
 
+//    /**
+//     * 删除某一项
+//     * @param circleId
+//     */
+//    public static void delCir(String circleId){
+//        getDao().delete(circleId);
+//    }
     /**
-     * 删除某一项
-     * @param circleId
+     * 删除其中一条消息
      */
-    public static void delCir(String circleId){
-        getDao().delete(circleId);
+    public static void deleteMes(String createTime){
+        SQLiteDatabase db=getDao().getWritableDatabase();
+        db.delete(getDao().getTableName(), "create_time=?", new String[]{createTime});
     }
     /**
      * 更新用户

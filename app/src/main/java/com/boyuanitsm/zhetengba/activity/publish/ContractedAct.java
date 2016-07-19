@@ -96,6 +96,10 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private ImageView iv_friend;
     @ViewInject(R.id.bt_plane)
     private Button bt_plan;
+    @ViewInject(R.id.tv_hu_no_can)
+    private TextView tv_hu_no_can;
+    @ViewInject(R.id.tv_hu_can)
+    private TextView tv_hu_can;
     private Map<Integer, String> map;
     private boolean flag = true;
     private int MIN_MARK = 2;
@@ -104,6 +108,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private List<ActivityLabel> list;
     private GvTbAdapter adapter;
     private int select = 0;//好友可见；0全部可见
+    private int clickTemp = 0;//1是谁能看，2是谁不能看
     private SimpleInfo simpleInfo = new SimpleInfo();
     private String backTheme;
     private String hucanUserIds;
@@ -111,8 +116,9 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private String strUserIds;//用于存储指定谁可见用户ids；
     private String strUserNoIds;//用户存错谁不能见；
     private ProgressDialog pd;//缓冲弹出框
-    private Date startDate,endDate;
+    private Date startDate, endDate;
     private LocationClient locationClient;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -135,13 +141,33 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                 if (select == 1) {
                     iv_friend.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
                     select = 0;
+                    clickTemp = 0;
+                    changeHuCan();
                 } else {
                     iv_friend.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
                     select = 1;
+                    clickTemp = 0;
+                    changeHuCan();
                 }
             }
         });
 
+    }
+
+    /**
+     * 指定谁能看，谁不能看，
+     */
+    private void changeHuCan() {
+        if (clickTemp == 0) {
+            tv_hu_can.setTextColor(Color.parseColor("#333333"));
+            tv_hu_no_can.setTextColor(Color.parseColor("#333333"));
+        }else if (clickTemp==1){
+           tv_hu_can.setTextColor(Color.parseColor("#999999"));
+            tv_hu_no_can.setTextColor(Color.parseColor("#333333"));
+        }else if (clickTemp==2){
+            tv_hu_can.setTextColor(Color.parseColor("#333333"));
+            tv_hu_no_can.setTextColor(Color.parseColor("#999999"));
+        }
     }
 
     /**
@@ -158,10 +184,10 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             simpleInfo.setActivitySite(tv_select.getText().toString());//位置
         }
         if (!TextUtils.isEmpty(et_pp_num.getText().toString())) {
-            if (Integer.parseInt(et_pp_num.getText().toString())<2){
-                MyToastUtils.showShortToast(ContractedAct.this,"邀约人数不得少于2人");
+            if (Integer.parseInt(et_pp_num.getText().toString()) < 2) {
+                MyToastUtils.showShortToast(ContractedAct.this, "邀约人数不得少于2人");
                 return;
-            }else {
+            } else {
                 simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
             }
         } else {
@@ -169,32 +195,38 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             return;
         }
 
-        if (TextUtils.isEmpty(simpleInfo.getLabelId())){
+        if (TextUtils.isEmpty(simpleInfo.getLabelId())) {
             MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
             return;
         }
-       if (!TextUtils.isEmpty(et_start.getText())&&!TextUtils.isEmpty(et_end.getText())){
-           Date nowday = new Date();
-           if (startDate.getTime() < nowday.getTime()) {
-               MyToastUtils.showShortToast(ContractedAct.this, "开始时间不能小于当前时间！");
-               return;
-           }
-           Long times=endDate.getTime()-startDate.getTime();
-           if (times>0){
-               simpleInfo.setStartTime(et_start.getText().toString());
-               simpleInfo.setEndTime(et_end.getText().toString());
-           }else {
-               MyToastUtils.showShortToast(ContractedAct.this,"开始时间不得大于结束时间，请重新选择！");
-               return;
-           }
-       }else {
-           MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
-           return;
-       }
+        if (!TextUtils.isEmpty(et_start.getText()) && !TextUtils.isEmpty(et_end.getText())) {
+            Date nowday = new Date();
+            if (startDate.getTime() < nowday.getTime()) {
+                MyToastUtils.showShortToast(ContractedAct.this, "开始时间不能小于当前时间！");
+                return;
+            }
+            Long times = endDate.getTime() - startDate.getTime();
+            if (times > 0) {
+                simpleInfo.setStartTime(et_start.getText().toString());
+                simpleInfo.setEndTime(et_end.getText().toString());
+            } else {
+                MyToastUtils.showShortToast(ContractedAct.this, "开始时间不得大于结束时间，请重新选择！");
+                return;
+            }
+        } else {
+            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            return;
+        }
         simpleInfo.setActivityVisibility(select);//全部可见
         simpleInfo.setActivityParticulars(backTheme);
-        simpleInfo.setNoticeUserIds(hucanUserIds);//指定谁可见
-        simpleInfo.setInvisibleUserIds(hu_no_canUserIds);//指定谁不可见
+      if (select==1){
+          if (clickTemp==2){
+              simpleInfo.setNoticeUserIds(hucanUserIds);//指定谁可见
+          }else if (clickTemp==1){
+              simpleInfo.setInvisibleUserIds(hu_no_canUserIds);//指定谁不可见
+
+          }
+        }
         pd.show();
         addActivity(simpleInfo);
     }
@@ -230,9 +262,9 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
 //                            return;
 //                        }
 //                        MyLogUtils.info(date + "date是多少");
-                        startDate=date;
-                       String time= ZhetebaUtils.compareTime(ContractedAct.this, date.getTime());
-                        MyLogUtils.info(time+"time是多少");
+                        startDate = date;
+                        String time = ZhetebaUtils.compareTime(ContractedAct.this, date.getTime());
+                        MyLogUtils.info(time + "time是多少");
                         et_start.setText(time);
                     }
                 });
@@ -252,9 +284,9 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
 //                            MyToastUtils.showShortToast(ContractedAct.this, "结束时间不能小于开始时间！");
 //                            return;
 //                        }
-                        endDate=date;
-                        String time=ZhetebaUtils.compareTime(ContractedAct.this,date.getTime());
-                            et_end.setText(time);
+                        endDate = date;
+                        String time = ZhetebaUtils.compareTime(ContractedAct.this, date.getTime());
+                        et_end.setText(time);
 
                     }
                 });
@@ -273,6 +305,10 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 1);
+                    clickTemp = 2;
+                    changeHuCan();
+//                    ll_hu_no_can.setEnabled(true);
+//                    tv_hu_no_can.setTextColor(Color.parseColor("#999999"));
                 }
                 break;
             case R.id.ll_hu_no_can:
@@ -289,6 +325,11 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                     intent.putExtras(bundle);
                     intent.setClass(this, AssignScanAct.class);
                     startActivityForResult(intent, 2);
+                    clickTemp = 1;
+                    changeHuCan();
+//                    ll_hu_can.setEnabled(false);
+//                    ll_hu_no_can.setEnabled(true);
+//                    tv_hu_can.setTextColor(Color.parseColor("#999999"));
                 }
 
                 break;
@@ -483,6 +524,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             }
         };
     }
+
     private void position() {
         // 实例化定位服务，LocationClient类必须在主线程中声明
         locationClient = new LocationClient(getApplicationContext());
@@ -500,20 +542,21 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         locationClient.setLocOption(option); // 设置定位参数
         locationClient.start();
     }
+
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
         LogUtils.i("定位回掉。。。。。。。。。。。。。。。");
-        if (bdLocation!=null){
-            if (!TextUtils.isEmpty(bdLocation.getProvince())&&!TextUtils.isEmpty(bdLocation.getDistrict())&&!TextUtils.isEmpty(bdLocation.getStreet())){
-                if (ZhetebaUtils.isCity(bdLocation.getProvince())){
-                    tv_select.setText(bdLocation.getCity() + bdLocation.getDistrict()+bdLocation.getStreet());
-                }else {
-                    tv_select.setText(bdLocation.getProvince()+bdLocation.getCity() + bdLocation.getDistrict()+bdLocation.getStreet());
+        if (bdLocation != null) {
+            if (!TextUtils.isEmpty(bdLocation.getProvince()) && !TextUtils.isEmpty(bdLocation.getDistrict()) && !TextUtils.isEmpty(bdLocation.getStreet())) {
+                if (ZhetebaUtils.isCity(bdLocation.getProvince())) {
+                    tv_select.setText(bdLocation.getCity() + bdLocation.getDistrict() + bdLocation.getStreet());
+                } else {
+                    tv_select.setText(bdLocation.getProvince() + bdLocation.getCity() + bdLocation.getDistrict() + bdLocation.getStreet());
                 }
-            }else {
+            } else {
                 tv_select.setHint("无法获取位置信息，请手动输入！");
             }
-        }else {
+        } else {
             tv_select.setHint("无法获取位置信息，请手动输入！");
         }
         locationClient.stop();

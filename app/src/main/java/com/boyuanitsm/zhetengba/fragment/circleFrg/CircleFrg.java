@@ -29,7 +29,7 @@ import java.util.List;
  * 圈子界面
  * Created by xiaoke on 2016/5/2.
  */
-public class CircleFrg extends BaseFragment implements View.OnClickListener,RadioGroup.OnCheckedChangeListener{
+public class CircleFrg extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private View view;
     private FragmentManager childFragmentManager;
     private ChanelFrg chanelFrg;
@@ -67,21 +67,22 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
         rg_cir.setOnCheckedChangeListener(this);
         ll_newmes.setOnClickListener(this);
         ll_quan.setOnClickListener(this);
-        List<CircleInfo> list= CircleMessDao.getCircleUser();
-        if (list!=null&&list.size()>0){
-            iv_new_red.setVisibility(View.VISIBLE);
-        }else {
-            iv_new_red.setVisibility(View.GONE);
-        }
+//        List<CircleInfo> list= CircleMessDao.getCircleUser();
+//        if (list!=null&&list.size()>0){
+//            iv_new_red.setVisibility(View.VISIBLE);
+//        }else {
+//            iv_new_red.setVisibility(View.GONE);
+//        }
     }
 
     /***
      * 默认展示页面
+     *
      * @param fragmentTransaction
      */
     private void defaultChildShow(FragmentTransaction fragmentTransaction) {
         hideChildFragment(fragmentTransaction);
-        if ( chanelFrg== null) {
+        if (chanelFrg == null) {
             chanelFrg = new ChanelFrg();
             fragmentTransaction.add(R.id.fl_circle, chanelFrg);
         } else {
@@ -89,12 +90,14 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
         }
         fragmentTransaction.commit();
     }
+
     /***
      * 隐藏子页面
+     *
      * @param fragmentTransaction
      */
     private void hideChildFragment(FragmentTransaction fragmentTransaction) {
-        if ( chanelFrg!= null) {
+        if (chanelFrg != null) {
             fragmentTransaction.hide(chanelFrg);
         }
         if (cirFrg != null) {
@@ -105,8 +108,8 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
 
     @Override
     public void onClick(View v) {
-        Intent intent=new Intent();
-        switch (v.getId()){
+        Intent intent = new Intent();
+        switch (v.getId()) {
             case R.id.ll_quan:
                 //跳转至圈子管理
                 intent.setClass(mActivity, CircleglAct.class);
@@ -128,9 +131,9 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         hideChildFragment(fragmentTransaction);
-        switch (rg_cir.getCheckedRadioButtonId()){
+        switch (rg_cir.getCheckedRadioButtonId()) {
             case R.id.rb_chanel:
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left,R.anim.slide_out_to_right);
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 if (chanelFrg == null) {
                     chanelFrg = new ChanelFrg();
                     fragmentTransaction.add(R.id.fl_circle, chanelFrg);
@@ -139,11 +142,11 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
                 }
                 break;
             case R.id.rb_circle:
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right,R.anim.slide_out_to_left);
-                if (cirFrg==null){
-                    cirFrg=new CirFrg();
-                    fragmentTransaction.add(R.id.fl_circle,cirFrg);
-                }else {
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                if (cirFrg == null) {
+                    cirFrg = new CirFrg();
+                    fragmentTransaction.add(R.id.fl_circle, cirFrg);
+                } else {
                     fragmentTransaction.show(cirFrg);
                 }
                 break;
@@ -155,8 +158,8 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
     @Override
     public void onStart() {
         super.onStart();
-        if (receiverTalk==null){
-            receiverTalk=new MyBroadCastReceiverTalk();
+        if (receiverTalk == null) {
+            receiverTalk = new MyBroadCastReceiverTalk();
             getActivity().registerReceiver(receiverTalk, new IntentFilter(UPFOCUS));
         }
     }
@@ -164,18 +167,33 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener,Radi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(receiverTalk!=null){
+        if (receiverTalk != null) {
             getActivity().unregisterReceiver(receiverTalk);
-            receiverTalk=null;
+            receiverTalk = null;
         }
     }
+
     private MyBroadCastReceiverTalk receiverTalk;
-    public static final String UPFOCUS="circle_point_update";
+    public static final String UPFOCUS = "circle_point_update";
+
     private class MyBroadCastReceiverTalk extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-          iv_new_red.setVisibility(View.GONE);
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                switch (bundle.getInt("pointGone")) {
+                    case 1:
+                        iv_new_red.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        iv_new_red.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        iv_new_red.setVisibility(View.GONE);
+                        break;
+                }
+            }
         }
     }
 }

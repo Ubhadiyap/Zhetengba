@@ -51,6 +51,12 @@ public class CircleMessDao extends TemplateDAO<CircleInfo, String> {
     }
 
     /**
+     * 清空数据库
+     */
+    public static void dellAll(){
+        getDao().deleteAll();
+    }
+    /**
      * 删除某一项
      * @param circleId
      */

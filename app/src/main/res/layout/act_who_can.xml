@@ -44,6 +44,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
     <com.boyuanitsm.zhetengba.widget.ClearEditText
+        android:visibility="gone"
         android:id="@+id/cetSearch"
         android:layout_width="match_parent"
         android:layout_height="45dp"

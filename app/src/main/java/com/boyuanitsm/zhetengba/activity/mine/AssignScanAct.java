@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.activity.mine;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,7 +21,11 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.CircleppAct;
+import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
+import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -61,7 +66,8 @@ public class AssignScanAct extends BaseActivity {
     private String title;//右上方文字
     List<EaseUser> alluserList;
     private String etContent;
-
+    private List<MemberEntity> userList;
+    private int isInCircle=0;
     private Handler myHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -123,6 +129,34 @@ public class AssignScanAct extends BaseActivity {
                 MyLogUtils.info(idList.toString()+"返回谁不能看集合");
             }
         }
+        if (!TextUtils.isEmpty(str3)){
+            if (TextUtils.equals(str3,"circleFriend")){
+                String circleId = bundle.getString("circleId");
+                if (!TextUtils.isEmpty(circleId)){
+                    getCircleMembers(circleId);
+                }
+            }else {
+                // 获取好友列表
+                alluserList = new ArrayList<EaseUser>();
+                for (EaseUser user : DemoHelper.getInstance().getContactList().values()) {
+//            if (!user.getUsername().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getUsername().equals(Constant.GROUP_USERNAME) & !user.getUsername().equals(Constant.CHAT_ROOM) & !user.getUsername().equals(Constant.CHAT_ROBOT))
+                    alluserList.add(user);
+                }
+
+
+                sortList(alluserList);
+            }
+        }else {
+            // 获取好友列表
+            alluserList = new ArrayList<EaseUser>();
+            for (EaseUser user : DemoHelper.getInstance().getContactList().values()) {
+//            if (!user.getUsername().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getUsername().equals(Constant.GROUP_USERNAME) & !user.getUsername().equals(Constant.CHAT_ROOM) & !user.getUsername().equals(Constant.CHAT_ROBOT))
+                alluserList.add(user);
+            }
+
+
+            sortList(alluserList);
+        }
 
         setTopTitle("联系人");
         setRight(title, new View.OnClickListener() {
@@ -133,15 +167,7 @@ public class AssignScanAct extends BaseActivity {
             }
         });
 
-        // 获取好友列表
-        alluserList = new ArrayList<EaseUser>();
-        for (EaseUser user : DemoHelper.getInstance().getContactList().values()) {
-//            if (!user.getUsername().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getUsername().equals(Constant.GROUP_USERNAME) & !user.getUsername().equals(Constant.CHAT_ROOM) & !user.getUsername().equals(Constant.CHAT_ROBOT))
-                alluserList.add(user);
-        }
 
-
-        sortList(alluserList);
         cetSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -170,6 +196,41 @@ public class AssignScanAct extends BaseActivity {
 
     }
 
+    /**
+     * 调用圈子成员列表，已经圈子里的设置成灰色
+     * @param circleId
+     */
+    private void getCircleMembers(String circleId) {
+        userList=new ArrayList<>();
+        RequestManager.getTalkManager().myCircleMember(circleId, 1, 10, new ResultCallback<ResultBean<DataBean<MemberEntity>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<MemberEntity>> response) {
+                userList = response.getData().getRows();
+                if (userList!=null&&userList.size()>0){
+                    for (int i=0;i<userList.size();i++){
+                        idList.add(userList.get(i).getId());
+                    }
+                }
+                isInCircle=1;//在圈子里
+                // 获取好友列表
+                alluserList = new ArrayList<EaseUser>();
+                for (EaseUser user : DemoHelper.getInstance().getContactList().values()) {
+//            if (!user.getUsername().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getUsername().equals(Constant.GROUP_USERNAME) & !user.getUsername().equals(Constant.CHAT_ROOM) & !user.getUsername().equals(Constant.CHAT_ROBOT))
+                    alluserList.add(user);
+                }
+
+
+                sortList(alluserList);
+            }
+        });
+
+        }
+
 
     private void sortList(final List<EaseUser> alluserList){
         // 对list进行排序
@@ -196,18 +257,8 @@ public class AssignScanAct extends BaseActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
-                String strUserId = alluserList.get(position).getUsername();
+                final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
                 checkBox.toggle();
-                if (checkBox.isChecked()) {
-                    change = 2;
-                }else {
-                    change=0;
-                    if (idList.contains(strUserId)){
-                        idList.remove(strUserId);
-                    }
-                }
-
             }
         });
     }
@@ -215,16 +266,14 @@ public class AssignScanAct extends BaseActivity {
         Intent intent = new Intent();
         Bundle bundle3 = new Bundle();//谁能看
         String userIds = null;
-        if (change==2){
-            idList=getToBeAddMembers();
-        }
-        if (idList.size() != 0) {
-            if (idList.size() == 1) {
-                userIds = idList.get(0);
-            } else if (idList.size()>1){
-                userIds = idList.get(0);
-                for (int i = 1; i < idList.size(); i++) {
-                    userIds = userIds + "," + idList.get(i);
+        List<String>  resultList=getToBeAddMembers();
+        if (resultList.size() != 0) {
+            if (resultList.size() == 1) {
+                userIds = resultList.get(0);
+            } else if (resultList.size()>1){
+                userIds = resultList.get(0);
+                for (int i = 1; i < resultList.size(); i++) {
+                    userIds = userIds + "," + resultList.get(i);
                 }
             }
         }
@@ -254,16 +303,15 @@ public class AssignScanAct extends BaseActivity {
      * @return
      */
     private List<String> getToBeAddMembers() {
-//        List<String> members = new ArrayList<String>();
+        List<String> members = new ArrayList<String>();
         int length = contactAdapter.isCheckedArray.length;
         for (int i = 0; i < length; i++) {
             String username = contactAdapter.getItem(i).getUsername();
-            if (contactAdapter.isCheckedArray[i]&&!idList.contains(username)) {
-                idList.add(username);
+            if (contactAdapter.isCheckedArray[i]) {
+                members.add(username);
             }
         }
-
-        return idList;
+        return members;
     }
 
 
@@ -273,7 +321,6 @@ public class AssignScanAct extends BaseActivity {
     private class PickContactAdapter extends EaseContactAdapter {
 
         private boolean[] isCheckedArray;
-
         public PickContactAdapter(Context context, int resource, List<EaseUser> users) {
             super(context, resource, users);
             isCheckedArray = new boolean[users.size()];
@@ -281,28 +328,34 @@ public class AssignScanAct extends BaseActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
-//			if (position > 0) {
             final String username = getItem(position).getUsername();
             // 选择框checkbox
             final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
-            ImageView avatarView = (ImageView) view.findViewById(R.id.avatar);
-            TextView nameView = (TextView) view.findViewById(R.id.name);
             if (checkBox!=null){
                 if (idList!=null&&idList.contains(username)){
-                    checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
-                    checkBox.setChecked(true);
+                    if (isInCircle==1){
+                        checkBox.setChecked(true);
+                        isCheckedArray[position]=false;
+                        checkBox.setButtonDrawable(R.mipmap.check_grey);
+                        checkBox.setEnabled(false);
+                    }else {
+                        checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
+                        checkBox.setEnabled(true);
+                        checkBox.setChecked(true);
+                        isCheckedArray[position]=true;
+                    }
                 }else {
                     checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
+                    checkBox.setChecked(false);
+                    isCheckedArray[position]=false;
                 }
 
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         isCheckedArray[position] = isChecked;
-
                     }
                 });
-                contactAdapter.notifyDataSetChanged();
             }
             return view;
         }

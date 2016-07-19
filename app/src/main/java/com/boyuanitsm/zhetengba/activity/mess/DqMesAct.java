@@ -47,16 +47,16 @@ public class DqMesAct extends BaseActivity {
         notifyData();
         adapter=new DqMesAdapter(this,list);
         lvDqMes.setAdapter(adapter);
-        setRight("清空", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (list != null && list.size() > 0) {
-                    list.clear();
-                    adapter.notifyDataSetChanged();
-                    ActivityMessDao.delAll();
-                }
-            }
-        });
+//        setRight("清空", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (list != null && list.size() > 0) {
+//                    list.clear();
+//                    adapter.notifyDataSetChanged();
+//                    ActivityMessDao.delAll();
+//                }
+//            }
+//        });
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -84,10 +84,10 @@ public class DqMesAct extends BaseActivity {
                     case 0:
 //                        MyToastUtils.showShortToast(MsgAct.this, position + "");
                         // delete
+                        ActivityMessDao.deleteMes(list.get(position).getCreateTime());
                         list.remove(position);
                         adapter.notifyDataChange(list);
-//                        ActivityMessDao.delCir(list.get(position).getId());
-                        updateActivityMessDao();
+//                        updateActivityMessDao();
                         break;
                 }
                 // false : close the menu; true : not close the menu
@@ -97,13 +97,13 @@ public class DqMesAct extends BaseActivity {
         lvDqMes.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
     }
 
-    private void updateActivityMessDao() {
-        ActivityMessDao.delAll();
-        Collections.reverse(list);
-        for (int i=0;i<list.size();i++){
-            ActivityMessDao.saveCircleMess(list.get(i));
-        }
-    }
+//    private void updateActivityMessDao() {
+//        ActivityMessDao.delAll();
+//        Collections.reverse(list);
+//        for (int i=0;i<list.size();i++){
+//            ActivityMessDao.saveCircleMess(list.get(i));
+//        }
+//    }
 
     private void notifyData() {
         list=new ArrayList<>();
