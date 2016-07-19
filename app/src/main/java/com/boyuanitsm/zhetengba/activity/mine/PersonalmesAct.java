@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.IconFilePath;
@@ -94,10 +93,17 @@ public class PersonalmesAct extends BaseActivity {
     private List<UserInfo> userEntity = new ArrayList<>();
     // 图片缓存 默认 等
 
-    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+    private DisplayImageOptions optionsg = new DisplayImageOptions.Builder()
 
-            .showImageForEmptyUri(R.mipmap.userhead)
-            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
+            .showImageForEmptyUri(R.mipmap.userg)
+            .showImageOnFail(R.mipmap.userg).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
+
+    private DisplayImageOptions optionsb = new DisplayImageOptions.Builder()
+
+            .showImageForEmptyUri(R.mipmap.userb)
+            .showImageOnFail(R.mipmap.userb).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
@@ -151,19 +157,22 @@ public class PersonalmesAct extends BaseActivity {
         if (!TextUtils.isEmpty(userEntity.get(0).getPetName())) {
             cvUserName.setNotesText(userEntity.get(0).getPetName());
         }
-        if (!TextUtils.isEmpty(userEntity.get(0).getIcon())) {
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, options);
-        }
+//        if (!TextUtils.isEmpty(userEntity.get(0).getIcon())) {
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, options);
+//        }
 
         if (!TextUtils.isEmpty(userEntity.get(0).getSex())) {
             if (userEntity.get(0).getSex().equals(1+"")){
                 cvSex.setNotesText("男");
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, optionsb);
             }else if (userEntity.get(0).getSex().equals(0+"")){
                 cvSex.setNotesText("女");
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, optionsg);
             }
 
         }else {
             cvSex.setNotesText("男");
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, optionsb);
         }
 
         if (!TextUtils.isEmpty(userEntity.get(0).getPhone())) {
@@ -224,7 +233,7 @@ public class PersonalmesAct extends BaseActivity {
         cvPhoneNum.setEnabled(false);//手机那行不可点击
         MyLogUtils.degug("user" + user);
         if (user != null) {
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, options);
+
             if (!(TextUtils.isEmpty(user.getPetName()))) {
                 MyLogUtils.degug("hah" + user);
                 MyLogUtils.degug(user.getPetName());
@@ -234,12 +243,15 @@ public class PersonalmesAct extends BaseActivity {
             if (!(TextUtils.isEmpty(user.getSex()))) {
                 if (user.getSex().equals("0")) {
                     cvSex.setNotesText("女");
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsg);
                 }
                 if (user.getSex().equals("1")) {
                     cvSex.setNotesText("男");
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsb);
                 }
             }else{
                 cvSex.setNotesText("男");
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsb);
             }
 
         }
@@ -442,7 +454,11 @@ public class PersonalmesAct extends BaseActivity {
             public void onResponse(ResultBean<IconFilePath> response) {
                 user.setIcon(response.getData().getIconFilePath());
                 UserInfoDao.updateUser(user);
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, options);
+                if(UserInfoDao.getUser().getSex()!=null&&!TextUtils.isEmpty(UserInfoDao.getUser().getSex())&&UserInfoDao.getUser().getSex().equals("0")){
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, optionsg);
+                }else {
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, optionsb);
+                }
                 DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(response.getData().getIconFilePath()));
 
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
