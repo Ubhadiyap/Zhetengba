@@ -69,6 +69,16 @@ public class ChatUserDao extends TemplateDAO<ChatUserBean, String> {
         db.update(getDao().getTableName(), values, "user_id=?", new String[]{userInfo.getUserId()});
     }
 
+    public static void updateUsers(List<EaseUser> users){
+        SQLiteDatabase db = getDao().getWritableDatabase();
+        ContentValues values = new ContentValues();
+        for(int i=0;i<users.size();i++){
+            values.put("nick", users.get(i).getNick());
+            values.put("icon",  users.get(i).getAvatar());
+            db.update(getDao().getTableName(), values, "user_id=?", new String[]{users.get(i).getUsername()});
+        }
+    }
+
 
     /**
      * 获取用户

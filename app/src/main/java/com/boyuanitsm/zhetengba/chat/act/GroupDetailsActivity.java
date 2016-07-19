@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.GroupBean;
@@ -184,7 +185,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 		clearAllHistory.setOnClickListener(this);
 		blacklistLayout.setOnClickListener(this);
-		changeGroupNameLayout.setOnClickListener(this);
+		if(type==true) {
+			changeGroupNameLayout.setOnClickListener(this);
+		}
 		rl_switch_block_groupmsg.setOnClickListener(this);
 		searchLayout.setOnClickListener(this);
 	}
@@ -553,9 +556,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 //			startActivity(new Intent(GroupDetailsActivity.this, GroupBlacklistActivity.class).putExtra("groupId", groupId));
 //			break;
             /*修改群名称*/
-//		case R.id.rl_change_group_name:
-//			startActivityForResult(new Intent(this, EditActivity.class).putExtra("data", group.getGroupName()), REQUEST_CODE_EDIT_GROUPNAME);
-//			break;
+		case R.id.rl_change_group_name:
+			startActivityForResult(new Intent(this, EditActivity.class).putExtra("data", group.getGroupName()), REQUEST_CODE_EDIT_GROUPNAME);
+			break;
 //		case R.id.rl_search:
 //            startActivity(new Intent(this, GroupSearchMessageActivity.class).putExtra("groupId", groupId));
 //
@@ -581,7 +584,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		                EMClient.getInstance().groupManager().unblockGroupMessage(groupId);
 		                runOnUiThread(new Runnable() {
 		                    public void run() {
-		                    	switchButton.closeSwitch();
+		                    	switchButton.openSwitch();
 		                        progressDialog.dismiss();
 		                    }
 		                });
@@ -614,7 +617,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		                EMClient.getInstance().groupManager().blockGroupMessage(groupId);
 		                runOnUiThread(new Runnable() {
 		                    public void run() {
-		                    	switchButton.openSwitch();
+		                    	switchButton.closeSwitch();
 		                        progressDialog.dismiss();
 		                    }
 		                });
@@ -767,6 +770,11 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							// Intent(GroupDetailsActivity.this,
 							// ChatActivity.class).putExtra("userId",
 							// user.getUsername()));
+							if(!EMClient.getInstance().getCurrentUser().equals(username)) {
+								Intent intent = new Intent(GroupDetailsActivity.this, PerpageAct.class);
+								intent.putExtra("userId", username);
+								startActivity(intent);
+							}
 
 						}
 					}
@@ -906,9 +914,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							// update block
 							EMLog.d(TAG, "group msg is blocked:" + group.isMsgBlocked());
 							if (group.isMsgBlocked()) {
-								switchButton.openSwitch();
+								switchButton.closeSwitch();
 							} else {
-							    switchButton.closeSwitch();
+							    switchButton.openSwitch();
 							}
 						}
 					});
