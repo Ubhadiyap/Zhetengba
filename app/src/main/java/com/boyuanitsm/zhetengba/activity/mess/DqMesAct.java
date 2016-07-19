@@ -9,7 +9,11 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.DqMesAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
+import com.boyuanitsm.zhetengba.bean.DataBean;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenu;
@@ -30,7 +34,12 @@ public class DqMesAct extends BaseActivity {
     @ViewInject(R.id.lvDqMes)
     private SwipeMenuListView lvDqMes;
     private DqMesAdapter adapter;//档期消息适配器
-    private List<ActivityMess> list;
+    private List<ActivityMess> list;//极光接收的集合；
+    private List<ActivityMess> agreeList;//后台返回的同意拒绝操作list
+    private List<ActivityMess> datas=new ArrayList<>();
+    private int page=-1;
+    private int rows=-1;
+    private String type=0+"";
     @Override
     public void setLayout() {
         setContentView(R.layout.act_dq_mes);
@@ -45,6 +54,7 @@ public class DqMesAct extends BaseActivity {
 //            Collections.reverse(list);
 //        }
         notifyData();
+        getDqMess(type, page, rows);
         adapter=new DqMesAdapter(this,list);
         lvDqMes.setAdapter(adapter);
 //        setRight("清空", new View.OnClickListener() {
@@ -84,6 +94,7 @@ public class DqMesAct extends BaseActivity {
                     case 0:
 //                        MyToastUtils.showShortToast(MsgAct.this, position + "");
                         // delete
+
                         ActivityMessDao.deleteMes(list.get(position).getCreateTime());
                         list.remove(position);
                         adapter.notifyDataChange(list);
@@ -95,15 +106,8 @@ public class DqMesAct extends BaseActivity {
             }
         });
         lvDqMes.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
-    }
 
-//    private void updateActivityMessDao() {
-//        ActivityMessDao.delAll();
-//        Collections.reverse(list);
-//        for (int i=0;i<list.size();i++){
-//            ActivityMessDao.saveCircleMess(list.get(i));
-//        }
-//    }
+    }
 
     private void notifyData() {
         list=new ArrayList<>();
@@ -118,5 +122,46 @@ public class DqMesAct extends BaseActivity {
             adapter.notifyDataChange(list);
         }
 
+    }
+
+    /**
+     * 调用档期消息，需要操作的接口
+     * type,0档期，1是圈子
+     * @param type
+     * @param page
+     * @param rows
+     */
+    private void getDqMess(String type, final int page,int rows){
+        agreeList=new ArrayList<>();
+        RequestManager.getScheduleManager().findMyInviteMsg(type, page, rows, new ResultCallback<ResultBean<DataBean<ActivityMess>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<ActivityMess>> response) {
+                agreeList=response.getData().getRows();
+                MyLogUtils.info(agreeList.toString()+"返回集合");
+                list=new ArrayList<>();
+                list = ActivityMessDao.getCircleUser();
+                if (list!=null&&list.size() > 0) {
+                    Collections.reverse(list);
+                    if (agreeList!=null&&agreeList.size()>0){
+                        for (int i=0;i<agreeList.size();i++){
+                            list.add(agreeList.get(i));
+                        }
+                    }
+                }else if (agreeList!=null&&agreeList.size()>0){
+                    list=agreeList;
+                }
+                if (adapter == null) {
+                    adapter = new DqMesAdapter(DqMesAct.this, list);
+                    lvDqMes.setAdapter(adapter);
+                } else {
+                    adapter.notifyDataChange(list);
+                }
+            }
+        });
     }
 }

@@ -75,6 +75,7 @@ public class DqMesAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         switch (list.get(position).getType()){
             case 0+"":
                 viewHolder.llInvitation.setVisibility(View.GONE);
@@ -87,6 +88,15 @@ public class DqMesAdapter extends BaseAdapter {
                 }else {
                     viewHolder.llInvitation.setVisibility(View.GONE);
                 }
+                default:
+                    if (!TextUtils.isEmpty(list.get(position).getMsgType())&&TextUtils.equals(list.get(position).getMsgType(),0+"")){
+                        if (!TextUtils.isEmpty(list.get(position).getMsgState())&&TextUtils.equals(list.get(position).getMsgState(),0+"")){
+                            viewHolder.llInvitation.setVisibility(View.VISIBLE);
+
+                        }
+                    }else {
+                        viewHolder.llInvitation.setVisibility(View.GONE);
+                    }
                 break;
         }
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.civhead, optionsImag);
@@ -95,18 +105,20 @@ public class DqMesAdapter extends BaseAdapter {
         }
         if (!TextUtils.isEmpty(list.get(position).getMessage())) {
             viewHolder.tv_second.setText(list.get(position).getMessage().substring(list.get(position).getPetName().length())+"活动！");
+        }else if (!TextUtils.isEmpty(list.get(position).getMsgContent())){
+            viewHolder.tv_second.setText(list.get(position).getMsgContent());
         }
 
         if (!TextUtils.isEmpty(list.get(position).getCreateTime())) {
             viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTime())));
         }
-        if (list.get(position).getIsAgree()==1){
+        if (TextUtils.equals(list.get(position).getHandleResult(),0+"")){
             viewHolder.tvAccept.setText("已接受");
             viewHolder.tvRefuse.setText("拒绝");
             viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
             viewHolder.tvAccept.setEnabled(false);
             viewHolder.tvRefuse.setEnabled(false);
-        }else if(list.get(position).getIsAgree()==2){
+        }else if(TextUtils.equals(list.get(position).getHandleResult(),1+"")){
             viewHolder.tvAccept.setText("接受");
             viewHolder.tvRefuse.setText("已拒绝");
             viewHolder.tvAccept.setBackgroundColor(Color.GRAY);

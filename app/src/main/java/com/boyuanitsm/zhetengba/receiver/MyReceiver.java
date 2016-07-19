@@ -72,8 +72,17 @@ public class MyReceiver extends BroadcastReceiver {
                         context.sendBroadcast(intentPointGone);
 					}else{
                         Gson gson=new Gson();
-                       ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
+                        ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
                         activityMess.setIsAgree(0);
+                        if (!TextUtils.isEmpty(activityMess.getType())){
+                            if (TextUtils.equals(activityMess.getType(),1+"")){
+                                if (!TextUtils.isEmpty(activityMess.getMesstype())){
+                                    if (TextUtils.equals(activityMess.getMesstype(),1+"")){
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                         activityMess.setId(activityMess.getUserId());
                         ActivityMessDao.saveCircleMess(activityMess);
                     }
