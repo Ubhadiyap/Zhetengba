@@ -99,4 +99,5 @@
     <color name="blue_pressd">#0097D3</color>
     <color name="gray">#CACACA</color>
     <color name="tv_blue_pressd">#8DDBFF</color>
+    <color name="blue_item_pre">#FF65CE9E</color>
 </resources>
