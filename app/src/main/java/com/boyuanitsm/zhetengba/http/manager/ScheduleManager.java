@@ -214,6 +214,31 @@ public class ScheduleManager extends RequestManager {
     }
 
     /**
+     * 邀请消息接口
+     * @param type
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void findMyInviteMsg(String type,int page,int rows,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("type",type);
+        params.put("page",page+"");
+        params.put("rows",rows+"");
+        doPost(IZtbUrl.INVITE_MSG_URL,params,callback);
+    }
+
+    /**
+     * 删除消息接口
+     * @param id
+     * @param callback
+     */
+    public void deleteMsg(String id,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("id",id);
+        doPost(IZtbUrl.DEL_MSG_URL,params,callback);
+    }
+    /**
      * 档期显示（好友/全部）接口,返回Schedule集合
      * state 1是全部，0是好友；
      * @param page

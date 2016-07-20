@@ -63,6 +63,15 @@ public class MyReceiver extends BroadcastReceiver {
 						Gson gson = new Gson();
                         flag=2+"";
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
+                        if (!TextUtils.isEmpty(circleInfo.getType())){
+                            if (TextUtils.equals(circleInfo.getType(),2+"")){
+                                if (!TextUtils.isEmpty(circleInfo.getMesstype())){
+                                    if (TextUtils.equals(circleInfo.getMesstype(),1+"")){
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                         circleInfo.setIsAgree(0);
 						CircleMessDao.saveCircleMess(circleInfo);
                         Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
@@ -72,9 +81,17 @@ public class MyReceiver extends BroadcastReceiver {
                         context.sendBroadcast(intentPointGone);
 					}else{
                         Gson gson=new Gson();
-                       ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
+                        ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
                         activityMess.setIsAgree(0);
-                        activityMess.setId(activityMess.getUserId());
+                        if (!TextUtils.isEmpty(activityMess.getType())){
+                            if (TextUtils.equals(activityMess.getType(),1+"")){
+                                if (!TextUtils.isEmpty(activityMess.getMesstype())){
+                                    if (TextUtils.equals(activityMess.getMesstype(),1+"")){
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                         ActivityMessDao.saveCircleMess(activityMess);
                     }
 				} catch (JSONException e) {

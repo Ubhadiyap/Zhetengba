@@ -144,6 +144,9 @@
         <activity
             android:name=".activity.mine.FeedbackAct"
             android:screenOrientation="portrait"></activity>
+        <!--消息提醒界面-->
+        <activity android:name=".activity.mine.NewxxAct"
+            android:screenOrientation="portrait"></activity>
         <!--我的收藏-->
         <activity
             android:name=".activity.mine.MyColleitionAct"
@@ -293,9 +296,11 @@
         </receiver>
 
         <!-- 设置环信应用的appkey -->
+        <!--测试：wbsj19900625#zheteng-->
+       <!--正式： hseb2016#zhetengba-->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="hseb2016#zhetengba" />
+            android:value="wbsj19900625#zheteng" />
         <!-- 声明sdk所需的service -->
         <service
             android:name="com.hyphenate.chat.EMChatService"

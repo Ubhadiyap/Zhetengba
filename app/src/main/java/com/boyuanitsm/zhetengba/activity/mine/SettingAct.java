@@ -126,7 +126,7 @@ public class SettingAct extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_yz,R.id.cv_about, R.id.cv_feedback, R.id.cv_checkUpdate, R.id.cv_clearCache, R.id.llExit})
+    @OnClick({R.id.iv_yz,R.id.cv_about, R.id.cv_feedback, R.id.cv_checkUpdate, R.id.cv_clearCache, R.id.llExit,R.id.cv_newxx})
     public void todo(View view) {
         switch (view.getId()) {
             case R.id.iv_yz:
@@ -181,6 +181,9 @@ public class SettingAct extends BaseActivity {
                             }
                         }).setNegativeButton("取消", null).show();
 
+                break;
+            case R.id.cv_newxx://新消息提醒界面
+                openActivity(NewxxAct.class);
                 break;
         }
     }
