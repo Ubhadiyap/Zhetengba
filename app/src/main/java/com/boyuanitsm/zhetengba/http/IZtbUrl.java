@@ -297,6 +297,8 @@ public interface IZtbUrl {
     /*获取用户信息*/
     String FINDUSERICON_URL=BASE_URL+"message/login/findUserIcon.do";
 
+    String UPDATE_GROUPNAME_URL=BASE_URL+"message/login/modifyGroupName.do";
+
     //版本更新
     String FIND_NEW_APP=BASE_URL+"manager/unLogin/checkUpdrage.do";
 

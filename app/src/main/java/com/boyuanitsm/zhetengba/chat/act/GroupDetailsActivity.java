@@ -42,6 +42,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.frg.ChatFragment;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
+import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -248,6 +249,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							Intent intent=new Intent(ChatFragment.UPDATE_GROUP_NAME);
 							intent.putExtra("groupName",returnData);
                             sendBroadcast(intent);
+							sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
 //							new Thread(new Runnable() {
 //								@Override
 //								public void run() {
