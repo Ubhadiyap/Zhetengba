@@ -1,7 +1,10 @@
 package com.boyuanitsm.zhetengba.chat.frg;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.media.ThumbnailUtils;
@@ -359,6 +362,34 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
             return null;
         }
 
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(receiver!=null){
+            getActivity().unregisterReceiver(receiver);
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(receiver==null){
+            receiver=new UpdateGReceiver();
+            getActivity().registerReceiver(receiver,new IntentFilter(UPDATE_GROUP_NAME));
+        }
+    }
+
+    private UpdateGReceiver receiver;
+    public static final String UPDATE_GROUP_NAME="com.update.groupname";
+    class UpdateGReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            titleBar.setTitle(intent.getStringExtra("groupName"));
+        }
     }
 
 }

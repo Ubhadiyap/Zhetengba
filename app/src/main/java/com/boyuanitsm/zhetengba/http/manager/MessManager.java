@@ -193,4 +193,16 @@ public class MessManager extends RequestManager{
 
     }
 
+    /**
+     * 修改群名称
+     * @param hgroupid
+     * @param newGroupName
+     */
+    public void updateGName(String hgroupid,String newGroupName,ResultCallback callback){
+        Map<String,String>map=new HashMap();
+        map.put("hgroupid",hgroupid);
+        map.put("newGroupName",newGroupName);
+        doPost(IZtbUrl.UPDATE_GROUPNAME_URL, map, callback);
+    }
+
 }
