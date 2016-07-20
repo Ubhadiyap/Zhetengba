@@ -58,8 +58,8 @@ public class DqMesAct extends BaseActivity {
 //        }
 //        notifyData();
         getDqMess(type, page, rows);
-        adapter=new DqMesAdapter(this,list);
-        lvDqMes.setAdapter(adapter);
+//        adapter=new DqMesAdapter(this,list);
+//        lvDqMes.setAdapter(adapter);
 //        setRight("清空", new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -99,12 +99,14 @@ public class DqMesAct extends BaseActivity {
                         // delete
                         if (!TextUtils.isEmpty(list.get(position).getMsgType())){
                             datas=ActivityMessDao.getCircleUser();
-                          for (int i=0;i<datas.size();i++){
-                              //删除之前，判断，是否在数据库，如果在，则从数据库中删除，并调删除接口。
-                              if (TextUtils.equals(datas.get(i).getId(),list.get(position).getId())){
-                                  ActivityMessDao.deleteMes(list.get(position).getCreateTime());
-                              }
-                          }
+                            if (datas!=null&&datas.size()>0){
+                                for (int i=0;i<datas.size();i++){
+                                    //删除之前，判断，是否在数据库，如果在，则从数据库中删除，并调删除接口。
+                                    if (TextUtils.equals(datas.get(i).getId(),list.get(position).getId())){
+                                        ActivityMessDao.deleteMes(list.get(position).getCreateTime());
+                                    }
+                                }
+                            }
                             deleteMsg(list.get(position).getId());
                         }else {
                             ActivityMessDao.deleteMes(list.get(position).getCreateTime());

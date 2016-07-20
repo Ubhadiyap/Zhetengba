@@ -44,7 +44,6 @@ import java.util.List;
 public class CirMessAct extends BaseActivity {
     @ViewInject(R.id.lv_cir_mess)//下拉刷新
     private SwipeMenuListView lv_cir_mess;
-    @ViewInject(R.id.ll_reply)
     private List<CircleInfo> list = new ArrayList<CircleInfo>();
     private List<CircleInfo> datas=new ArrayList<>();
     private List<CircleInfo> agreeList;
@@ -68,21 +67,13 @@ public class CirMessAct extends BaseActivity {
                 openActivity(MyPlaneAct.class);
             }
         });
-        //初始化刷新列表
-//        list = CircleMessDao.getCircleUser();
-//        if (list != null && list.size() > 0) {
-//            Collections.reverse(list);
-//        }
-//        adapter = new CircleMessAdatper(CirMessAct.this, list);
-//        lv_cir_mess.setAdapter(adapter);
-        getDqMess(type,page,rows);
+        getDqMess(type, page, rows);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
                 switch (menu.getViewType()) {
                     case 0:
-                        SwipeMenuItem deleteItem = new SwipeMenuItem(
-                                getApplicationContext());
+                        SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
                         deleteItem.setBackground(R.color.plan_green);
                         deleteItem.setWidth(ZhetebaUtils.dip2px(CirMessAct.this, 80));
                         deleteItem.setTitle("删除");
@@ -100,18 +91,18 @@ public class CirMessAct extends BaseActivity {
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-//                        MyToastUtils.showShortToast(MsgAct.this, position + "");
-                        // delete
-                        if (!TextUtils.isEmpty(list.get(position).getMsgType())){
-                            datas=CircleMessDao.getCircleUser();
-                            for (int i=0;i<datas.size();i++) {
-                                //删除之前，判断，是否在数据库，如果在，则从数据库中删除，并调删除接口。
-                                if (TextUtils.equals(datas.get(i).getId(), list.get(position).getId())) {
-                                    ActivityMessDao.deleteMes(list.get(position).getCreateTime());
+                        if (!TextUtils.isEmpty(list.get(position).getMsgType())) {
+                            datas = CircleMessDao.getCircleUser();
+                            if (datas!=null&&datas.size()>0){
+                                for (int i = 0; i < datas.size(); i++) {
+                                    //删除之前，判断，是否在数据库，如果在，则从数据库中删除，并调删除接口。
+                                    if (TextUtils.equals(datas.get(i).getId(), list.get(position).getId())) {
+                                        CircleMessDao.delCir(list.get(position).getCreateTime());
+                                    }
                                 }
-                                deleteMsg(list.get(position).getId());
                             }
-                        }else {
+                            deleteMsg(list.get(position).getId());
+                        } else {
                             CircleMessDao.delCir(list.get(position).getCreateTime());
                         }
                         list.remove(position);
@@ -124,6 +115,8 @@ public class CirMessAct extends BaseActivity {
             }
         });
         lv_cir_mess.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+        lv_cir_mess.smoothOpenMenu(0);
+
     }
 
     /**

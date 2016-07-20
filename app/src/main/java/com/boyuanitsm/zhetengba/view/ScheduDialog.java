@@ -100,8 +100,7 @@ public class ScheduDialog extends Dialog {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(context,"邀约完成");
-
+                MyToastUtils.showShortToast(context,response.getMessage());
             }
         });
     }
