@@ -182,44 +182,44 @@ public class CircleMessAdatper extends BaseAdapter {
                             context.startActivity(intent);
                         }
                     });
-                    if (circleInfoList.get(position).getIsAgree()==1){
+                    if (TextUtils.equals(circleInfoList.get(position).getHandleResult(),1+"")){
                         holder2.bt_yes.setText("已同意");
                         holder2.bt_no.setBackgroundColor(Color.GRAY);
                         holder2.bt_yes.setEnabled(false);
                         holder2.bt_no.setEnabled(false);
-                    }else if (circleInfoList.get(position).getIsAgree()==2){
+                    }else if (TextUtils.equals(circleInfoList.get(position).getHandleResult(),2+"")){
                         holder2.bt_yes.setText("同意");
                         holder2.bt_no.setText("已拒绝");
                         holder2.bt_yes.setBackgroundColor(Color.GRAY);
                         holder2.bt_yes.setEnabled(false);
                         holder2.bt_no.setEnabled(false);
-                    }else if (circleInfoList.get(position).getIsAgree()==3){
-                        holder2.bt_yes.setText("已加入");
-                        holder2.bt_no.setText("拒绝");
-                        holder2.bt_no.setBackgroundColor(Color.GRAY);
-                        holder2.bt_yes.setEnabled(false);
-                        holder2.bt_no.setEnabled(false);
-                    }else if (circleInfoList.get(position).getIsAgree()==4){
-                        holder2.bt_yes.setText("同意");
-                        holder2.bt_no.setText("已拒绝");
-                        holder2.bt_yes.setBackgroundColor(Color.GRAY);
-                        holder2.bt_yes.setEnabled(false);
-                        holder2.bt_no.setEnabled(false);
-                    }else if (circleInfoList.get(position).getIsAgree()==0){
+                    }else{
                         holder2.bt_yes.setText("同意");
                         holder2.bt_no.setText("拒绝");
                         holder2.bt_yes.setEnabled(true);
                         holder2.bt_no.setEnabled(true);
                     }
+//                    else if (circleInfoList.get(position).getIsAgree()==3){
+//                        holder2.bt_yes.setText("已加入");
+//                        holder2.bt_no.setText("拒绝");
+//                        holder2.bt_no.setBackgroundColor(Color.GRAY);
+//                        holder2.bt_yes.setEnabled(false);
+//                        holder2.bt_no.setEnabled(false);
+//                    }else if (circleInfoList.get(position).getIsAgree()==4){
+//                        holder2.bt_yes.setText("同意");
+//                        holder2.bt_no.setText("已拒绝");
+//                        holder2.bt_yes.setBackgroundColor(Color.GRAY);
+//                        holder2.bt_yes.setEnabled(false);
+//                        holder2.bt_no.setEnabled(false);
                     final Holder2 finalHolder = holder2;
-                    if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
-                        holder2.tv_qingqiu.setText("请求加入" + circleInfoList.get(position).getCircleName());
+                    if (circleInfoList.get(position).getMsgState().equals(0 + "")) {
+                        holder2.tv_qingqiu.setText(circleInfoList.get(position).getMsgContent());
                         holder2.bt_yes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 finalHolder.bt_yes.setEnabled(false);
                                 finalHolder.bt_no.setEnabled(false);
-                                RequestManager.getTalkManager().sendAgreeCircleResp(circleInfoList.get(position).getCircleId(), circleInfoList.get(position).getUserId(), new ResultCallback<ResultBean<String>>() {
+                                RequestManager.getTalkManager().sendAgreeCircleResp(circleInfoList.get(position).getTypeId(), circleInfoList.get(position).getSender(), new ResultCallback<ResultBean<String>>() {
                                     @Override
                                     public void onError(int status, String errorMsg) {
                                         finalHolder.bt_yes.setEnabled(false);
@@ -234,14 +234,15 @@ public class CircleMessAdatper extends BaseAdapter {
                                             finalHolder.bt_no.setBackgroundColor(Color.GRAY);
                                             finalHolder.bt_yes.setEnabled(false);
                                             finalHolder.bt_no.setEnabled(false);
-                                            circleInfoList.get(position).setIsAgree(1);
-                                            CircleMessDao.updateCircleUser(circleInfoList.get(position));
-                                            MyToastUtils.showShortToast(context, "同意" + circleInfoList.get(position).getPetName() + "加入" + circleInfoList.get(position).getCircleName());
+                                            circleInfoList.get(position).setHandleResult(1 + "");
+                                            CircleMessDao.saveCircleMess(circleInfoList.get(position));
+//                                            CircleMessDao.updateCircleUser(circleInfoList.get(position));
+                                            MyToastUtils.showShortToast(context, "已同意");
                                         }else if (TextUtils.equals(response.getData(),"-1")){
                                             circleInfoList.remove(position);
                                             notifyDataSetChanged();
-                                            CircleMessDao.delCir(circleInfoList.get(position).getUserId());
-                                            MyToastUtils.showShortToast(context, "您已同意"+circleInfoList.get(position).getPetName()+"加入" + circleInfoList.get(position).getCircleName() + ",请勿重复操作！");
+//                                            CircleMessDao.delCir(circleInfoList.get(position).getUserId());
+                                            MyToastUtils.showShortToast(context, "已同意,请勿重复操作！");
                                         }
                                     }
                                 });
@@ -252,7 +253,7 @@ public class CircleMessAdatper extends BaseAdapter {
                             public void onClick(View v) {
                                 finalHolder.bt_yes.setEnabled(false);
                                 finalHolder.bt_no.setEnabled(false);
-                                RequestManager.getTalkManager().qingRefuseCircleResp(circleInfoList.get(position).getCircleId(), circleInfoList.get(position).getUserId(), new ResultCallback<ResultBean<String>>() {
+                                RequestManager.getTalkManager().qingRefuseCircleResp(circleInfoList.get(position).getTypeId(), circleInfoList.get(position).getSender(), new ResultCallback<ResultBean<String>>() {
                                     @Override
                                     public void onError(int status, String errorMsg) {
 
@@ -264,9 +265,10 @@ public class CircleMessAdatper extends BaseAdapter {
                                         finalHolder.bt_yes.setBackgroundColor(Color.GRAY);
                                         finalHolder.bt_yes.setEnabled(false);
                                         finalHolder.bt_no.setEnabled(false);
-                                        circleInfoList.get(position).setIsAgree(2);
-                                        CircleMessDao.updateCircleUser(circleInfoList.get(position));
-                                        MyToastUtils.showShortToast(context, "拒绝" + circleInfoList.get(position).getPetName() + "加入" + circleInfoList.get(position).getCircleName());
+                                        circleInfoList.get(position).setHandleResult(2 + "");
+                                        CircleMessDao.saveCircleMess(circleInfoList.get(position));
+//                                        CircleMessDao.updateCircleUser(circleInfoList.get(position));
+                                        MyToastUtils.showShortToast(context, "已拒绝");
 
                                     }
                                 });
@@ -275,14 +277,14 @@ public class CircleMessAdatper extends BaseAdapter {
                         });
 //                        holder2.tv_beizhu.setText("备注：你好，我是李宇春");
                     } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
-                        holder2.tv_qingqiu.setText("邀请你加入" + circleInfoList.get(position).getCircleName());
+                        holder2.tv_qingqiu.setText( circleInfoList.get(position).getMsgContent());
                         holder2.bt_yes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 finalHolder.bt_yes.setEnabled(false);
                                 finalHolder.bt_no.setEnabled(false);
                                 //同意加入
-                                RequestManager.getTalkManager().sendAgreeCircleInviteMsg(circleInfoList.get(position).getCircleId(), new ResultCallback<ResultBean<String>>() {
+                                RequestManager.getTalkManager().sendAgreeCircleInviteMsg(circleInfoList.get(position).getTypeId(), new ResultCallback<ResultBean<String>>() {
                                     @Override
                                     public void onError(int status, String errorMsg) {
                                         finalHolder.bt_yes.setEnabled(false);
@@ -297,7 +299,7 @@ public class CircleMessAdatper extends BaseAdapter {
                                         finalHolder.bt_no.setEnabled(false);
                                         circleInfoList.get(position).setIsAgree(3);
                                         CircleMessDao.updateCircleUser(circleInfoList.get(position));
-                                        MyToastUtils.showShortToast(context, "已加入" + circleInfoList.get(position).getCircleName());
+                                        MyToastUtils.showShortToast(context, "已加入");
                                     }
                                 });
                             }
@@ -323,7 +325,7 @@ public class CircleMessAdatper extends BaseAdapter {
                                         finalHolder.bt_yes.setEnabled(false);
                                         circleInfoList.get(position).setIsAgree(4);
                                         CircleMessDao.updateCircleUser(circleInfoList.get(position));
-                                        MyToastUtils.showShortToast(context, "已拒绝加入" + circleInfoList.get(position).getCircleName());
+                                        MyToastUtils.showShortToast(context, "已拒绝");
                                     }
                                 });
                             }

@@ -58,10 +58,11 @@ public class CircleMessDao extends TemplateDAO<CircleInfo, String> {
     }
     /**
      * 删除某一项
-     * @param circleId
+     * @param createTime
      */
-  public static void delCir(String circleId){
-      getDao().delete(circleId);
+  public static void delCir(String createTime){
+      SQLiteDatabase db=getDao().getWritableDatabase();
+      db.delete(getDao().getTableName(), "create_time=?", new String[]{createTime});
   }
 
     /**

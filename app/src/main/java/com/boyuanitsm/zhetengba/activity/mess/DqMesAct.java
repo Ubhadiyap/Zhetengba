@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.activity.mess;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 
@@ -21,6 +22,8 @@ import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuCreator;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuItem;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +56,7 @@ public class DqMesAct extends BaseActivity {
 //        if (list!=null&&list.size() > 0) {
 //            Collections.reverse(list);
 //        }
-        notifyData();
+//        notifyData();
         getDqMess(type, page, rows);
         adapter=new DqMesAdapter(this,list);
         lvDqMes.setAdapter(adapter);
@@ -94,8 +97,19 @@ public class DqMesAct extends BaseActivity {
                     case 0:
 //                        MyToastUtils.showShortToast(MsgAct.this, position + "");
                         // delete
+                        if (!TextUtils.isEmpty(list.get(position).getMsgType())){
+                            datas=ActivityMessDao.getCircleUser();
+                          for (int i=0;i<datas.size();i++){
+                              //删除之前，判断，是否在数据库，如果在，则从数据库中删除，并调删除接口。
+                              if (TextUtils.equals(datas.get(i).getId(),list.get(position).getId())){
+                                  ActivityMessDao.deleteMes(list.get(position).getCreateTime());
+                              }
+                          }
+                            deleteMsg(list.get(position).getId());
+                        }else {
+                            ActivityMessDao.deleteMes(list.get(position).getCreateTime());
+                        }
 
-                        ActivityMessDao.deleteMes(list.get(position).getCreateTime());
                         list.remove(position);
                         adapter.notifyDataChange(list);
 //                        updateActivityMessDao();
@@ -109,20 +123,38 @@ public class DqMesAct extends BaseActivity {
 
     }
 
-    private void notifyData() {
-        list=new ArrayList<>();
-        list = ActivityMessDao.getCircleUser();
-        if (list!=null&&list.size() > 0) {
-            Collections.reverse(list);
-        }
-        if (adapter == null) {
-            adapter = new DqMesAdapter(this, list);
-            lvDqMes.setAdapter(adapter);
-        } else {
-            adapter.notifyDataChange(list);
+    /**
+     * 删除消息接口
+     * @param id
+     */
+    private void deleteMsg(String id) {
+    RequestManager.getScheduleManager().deleteMsg(id, new ResultCallback<ResultBean<String>>() {
+        @Override
+        public void onError(int status, String errorMsg) {
+
         }
 
+        @Override
+        public void onResponse(ResultBean<String> response) {
+
+        }
+    });
     }
+
+//    private void notifyData() {
+//        list=new ArrayList<>();
+//        list = ActivityMessDao.getCircleUser();
+//        if (list!=null&&list.size() > 0) {
+//            Collections.reverse(list);
+//        }
+//        if (adapter == null) {
+//            adapter = new DqMesAdapter(this, list);
+//            lvDqMes.setAdapter(adapter);
+//        } else {
+//            adapter.notifyDataChange(list);
+//        }
+
+//    }
 
     /**
      * 调用档期消息，需要操作的接口
@@ -146,10 +178,12 @@ public class DqMesAct extends BaseActivity {
                 list=new ArrayList<>();
                 list = ActivityMessDao.getCircleUser();
                 if (list!=null&&list.size() > 0) {
-                    Collections.reverse(list);
+                    Collections.reverse(list);//时间排一下序
                     if (agreeList!=null&&agreeList.size()>0){
                         for (int i=0;i<agreeList.size();i++){
                             list.add(agreeList.get(i));
+                            //只有操作的数据才存放数据库，返回的数据均未作处理。
+//                            ActivityMessDao.saveCircleMess(agreeList.get(i));
                         }
                     }
                 }else if (agreeList!=null&&agreeList.size()>0){

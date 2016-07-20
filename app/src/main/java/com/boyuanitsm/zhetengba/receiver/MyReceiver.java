@@ -63,6 +63,15 @@ public class MyReceiver extends BroadcastReceiver {
 						Gson gson = new Gson();
                         flag=2+"";
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
+                        if (!TextUtils.isEmpty(circleInfo.getType())){
+                            if (TextUtils.equals(circleInfo.getType(),2+"")){
+                                if (!TextUtils.isEmpty(circleInfo.getMesstype())){
+                                    if (TextUtils.equals(circleInfo.getMesstype(),1+"")){
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                         circleInfo.setIsAgree(0);
 						CircleMessDao.saveCircleMess(circleInfo);
                         Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
@@ -83,7 +92,6 @@ public class MyReceiver extends BroadcastReceiver {
                                 }
                             }
                         }
-                        activityMess.setId(activityMess.getUserId());
                         ActivityMessDao.saveCircleMess(activityMess);
                     }
 				} catch (JSONException e) {

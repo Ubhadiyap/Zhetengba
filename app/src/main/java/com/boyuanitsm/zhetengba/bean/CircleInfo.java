@@ -13,6 +13,8 @@ import com.leaf.library.db.annotation.Table;
 @Table(name="circle_talbe")
 public class CircleInfo implements Parcelable{
     @Column
+    private String id;
+    @Column
     private String userId;//用户id主键
     @Column
     private String userIcon;//用户头像
@@ -36,19 +38,34 @@ public class CircleInfo implements Parcelable{
     private String type;
    @Column
    private int isAgree;//0是默认值，1是已经同意，2是已经拒绝,3是已加入，4是已拒绝
-
-    public int getIsAgree() {
-        return isAgree;
-    }
-
-    public void setIsAgree(int isAgree) {
-        this.isAgree = isAgree;
-    }
+    @Column
+    private String msgContent;//消息内容
+    @Column
+    private String msgState;//消息状态：0:未读, 1:未处理, 2:已处理
+    @Column
+    private String sender;//发送者id；
+    @Column
+    private String receiver;//接收者id；
+    @Column
+    private String handleTime;//处理时间
+    @Column
+    private String handleResult;//处理结果，0是同意，1是拒绝
+    @Column
+    private boolean isValid;//是否有效
+    @Column
+    private String userSex;//用户性别
+    @Column
+    private String requestToJoin;//0.请求加入，1.邀请加入
+    @Column
+    private String msgType;//0档期，1，圈子
+    @Column
+    private String typeId;//活动时，档期id,圈子时，圈子id，
 
     @Override
     public String toString() {
         return "CircleInfo{" +
-                "userId='" + userId + '\'' +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
                 ", userIcon='" + userIcon + '\'' +
                 ", petName='" + petName + '\'' +
                 ", createTime='" + createTime + '\'' +
@@ -59,7 +76,123 @@ public class CircleInfo implements Parcelable{
                 ", commentTalk='" + commentTalk + '\'' +
                 ", circleId='" + circleId + '\'' +
                 ", type='" + type + '\'' +
+                ", isAgree=" + isAgree +
+                ", msgContent='" + msgContent + '\'' +
+                ", msgState='" + msgState + '\'' +
+                ", sender='" + sender + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", handleTime='" + handleTime + '\'' +
+                ", handleResult='" + handleResult + '\'' +
+                ", isValid=" + isValid +
+                ", userSex='" + userSex + '\'' +
+                ", requestToJoin='" + requestToJoin + '\'' +
+                ", msgType='" + msgType + '\'' +
+                ", typeId='" + typeId + '\'' +
                 '}';
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getMsgContent() {
+        return msgContent;
+    }
+
+    public void setMsgContent(String msgContent) {
+        this.msgContent = msgContent;
+    }
+
+    public String getMsgState() {
+        return msgState;
+    }
+
+    public void setMsgState(String msgState) {
+        this.msgState = msgState;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public String getHandleTime() {
+        return handleTime;
+    }
+
+    public void setHandleTime(String handleTime) {
+        this.handleTime = handleTime;
+    }
+
+    public String getHandleResult() {
+        return handleResult;
+    }
+
+    public void setHandleResult(String handleResult) {
+        this.handleResult = handleResult;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    public String getRequestToJoin() {
+        return requestToJoin;
+    }
+
+    public void setRequestToJoin(String requestToJoin) {
+        this.requestToJoin = requestToJoin;
+    }
+
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
+    public int getIsAgree() {
+        return isAgree;
+    }
+
+    public void setIsAgree(int isAgree) {
+        this.isAgree = isAgree;
     }
 
     public String getType() {
@@ -176,6 +309,17 @@ public class CircleInfo implements Parcelable{
         dest.writeString(this.circleId);
         dest.writeString(this.type);
         dest.writeInt(this.isAgree);
+        dest.writeString(this.msgContent);
+        dest.writeString(this.msgState);
+        dest.writeString(this.sender);
+        dest.writeString(this.receiver);
+        dest.writeString(this.handleTime);
+        dest.writeString(this.handleResult);
+        dest.writeByte(this.isValid ? (byte) 1 : (byte) 0);
+        dest.writeString(this.userSex);
+        dest.writeString(this.requestToJoin);
+        dest.writeString(this.msgType);
+        dest.writeString(this.typeId);
     }
 
     protected CircleInfo(Parcel in) {
@@ -191,6 +335,17 @@ public class CircleInfo implements Parcelable{
         this.circleId = in.readString();
         this.type = in.readString();
         this.isAgree = in.readInt();
+        this.msgContent = in.readString();
+        this.msgState = in.readString();
+        this.sender = in.readString();
+        this.receiver = in.readString();
+        this.handleTime = in.readString();
+        this.handleResult = in.readString();
+        this.isValid = in.readByte() != 0;
+        this.userSex = in.readString();
+        this.requestToJoin = in.readString();
+        this.msgType = in.readString();
+        this.typeId = in.readString();
     }
 
     public static final Creator<CircleInfo> CREATOR = new Creator<CircleInfo>() {

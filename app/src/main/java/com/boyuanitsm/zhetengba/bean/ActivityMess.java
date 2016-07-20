@@ -54,9 +54,9 @@ public class ActivityMess implements Parcelable {
     @Column
     private String requestToJoin;//0.请求加入，1.邀请加入
     @Column
-    private String msgType;
+    private String msgType;//0档期，1，圈子
     @Column
-    private String typeId;
+    private String typeId;//活动时，档期id,圈子时，圈子id，
 
 
     public String getTypeId() {
