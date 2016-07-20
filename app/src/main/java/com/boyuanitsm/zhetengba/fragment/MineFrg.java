@@ -41,7 +41,6 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyViewPager;
-import com.hyphenate.util.Utils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -83,9 +82,15 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
     private List<String> timeList=new ArrayList<>();//存储时间
     private MyPagerAdapter adapter;
     // 图片缓存 默认 等
-    private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.mipmap.userhead)
-            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
+    private DisplayImageOptions optionsImagb = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.userb)
+            .showImageOnFail(R.mipmap.userb).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
+
+    private DisplayImageOptions optionsImagg = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.userg)
+            .showImageOnFail(R.mipmap.userg).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
@@ -106,8 +111,21 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         if (!TextUtils.isEmpty(UserInfoDao.getUser().getPetName())){
             tv_name.setText(UserInfoDao.getUser().getPetName());
         }
-        MyLogUtils.info(UserInfoDao.getUser().getIcon()+"图片地址");
-        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImag);
+        if (!TextUtils.isEmpty(UserInfoDao.getUser().getSex())&&UserInfoDao.getUser().getSex()!=null){
+            if(UserInfoDao.getUser().getSex().equals("0")){//女孩
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImagg);
+
+            }else {
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImagb);
+
+            }
+
+        }else {
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImagb);
+
+        }
+        MyLogUtils.info(UserInfoDao.getUser().getIcon() + "图片地址");
+//        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImab);
         getlable();//获得兴趣标签；
 
 //        findHistory();//获取事件轴
@@ -318,10 +336,15 @@ public class MineFrg extends BaseFragment implements ViewPager.OnPageChangeListe
         @Override
         public void onReceive(Context context, Intent intent) {
           UserInfo  user= UserInfoDao.getUser();
+            String sex=user.getSex();
             MyLogUtils.degug(user.getPetName());
             if (user != null) {
                if (!TextUtils.isEmpty(user.getIcon())){
-                   ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImag);
+                   if(sex!=null&&!TextUtils.isEmpty(sex)&&sex.equals("0")){
+                   ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImagg);}
+                   else {
+                       ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),head,optionsImagb);
+                   }
                }
                 if (!TextUtils.isEmpty(user.getPetName())){
                     tv_name.setText(user.getPetName());

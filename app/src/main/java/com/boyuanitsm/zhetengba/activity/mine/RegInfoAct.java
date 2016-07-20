@@ -124,9 +124,11 @@ public class RegInfoAct extends BaseActivity {
                 switch (group.getCheckedRadioButtonId()) {
                     case R.id.girl_rd:
                         sex = "0";
+                        iv_icon.setImageResource(R.mipmap.userg);
                         break;
                     case R.id.boy_rd:
                         sex = "1";
+                        iv_icon.setImageResource(R.mipmap.userb);
                         break;
                 }
 

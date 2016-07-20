@@ -63,6 +63,15 @@
 
             />
     </RelativeLayout>
+    <com.boyuanitsm.zhetengba.view.CommonView
+        android:layout_marginTop="15dp"
+        android:id="@+id/cv_newxx"
+        app:desTextColor="#333333"
+        app:desTextSize="14sp"
+        app:isShowCategoryImage="false"
+        app:desText="新消息提醒"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>
 
     <LinearLayout
         android:background="@color/white"
@@ -70,6 +79,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
         <com.boyuanitsm.zhetengba.view.CommonView
             android:id="@+id/cv_about"
             app:desTextColor="#333333"
@@ -111,7 +122,6 @@
             ></View>
 
         <com.boyuanitsm.zhetengba.view.CommonView
-            android:visibility="gone"
             android:id="@+id/cv_clearCache"
             app:desTextColor="#333333"
             app:desTextSize="14sp"

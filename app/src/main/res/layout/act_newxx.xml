@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    >
+    <include layout="@layout/title_act_layout"></include>
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="震动"
+            android:textColor="#333333"
+            />
+
+        <ImageView
+            android:src="@drawable/switch_off"
+            android:id="@+id/iv_zd"
+            android:layout_width="56dp"
+            android:layout_height="41dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="45dp"
+            android:text="档期消息震动"
+            android:textColor="#333333"
+            />
+
+        <ImageView
+            android:src="@drawable/switch_off"
+            android:id="@+id/iv_dqzd"
+            android:layout_width="56dp"
+            android:layout_height="41dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="45dp"
+            android:text="聊天消息震动"
+            android:textColor="#333333"
+            />
+
+        <ImageView
+            android:src="@drawable/switch_off"
+            android:id="@+id/iv_ltzd"
+            android:layout_width="56dp"
+            android:layout_height="41dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="45dp"
+            android:text="圈子消息震动"
+            android:textColor="#333333"
+            />
+
+        <ImageView
+            android:src="@drawable/switch_off"
+            android:id="@+id/iv_qzzd"
+            android:layout_width="56dp"
+            android:layout_height="41dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            style="@style/tv_second"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="声音"
+            android:textColor="#333333"
+            />
+
+        <ImageView
+            android:src="@drawable/switch_on"
+            android:id="@+id/iv_sy"
+            android:layout_width="56dp"
+            android:layout_height="41dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+
+
+
+
+
+</LinearLayout>
