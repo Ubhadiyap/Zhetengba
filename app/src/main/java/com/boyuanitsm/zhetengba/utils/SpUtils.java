@@ -18,10 +18,22 @@ public class SpUtils {
     private static final String COOKIE="cookie";
 
 
+    private static final String MESS_SP="mess_sp";
+    private static final String ZD="zd";
+    private static final String VOICE="voice";
+
     public static SharedPreferences getSp(Context context) {
         return context.getSharedPreferences(ZTB_SP, Context.MODE_PRIVATE);
     }
 
+    /**
+     * 获取消息Sp
+     * @param context
+     * @return
+     */
+    public static SharedPreferences getMessSp(Context context) {
+        return context.getSharedPreferences(MESS_SP, Context.MODE_PRIVATE);
+    }
 
 
     /**
@@ -78,5 +90,32 @@ public class SpUtils {
      */
     public static String getCookie(Context context){
         return getSp(context).getString(COOKIE, "");
+    }
+
+
+    /**
+     * 设置震动
+     * @param context
+     * @param zd 0  开启 1关闭
+     */
+    public static void setZd(Context context,int zd){
+        getMessSp(context).edit().putInt(ZD,zd);
+    }
+
+    public static int getZd(Context context){
+        return getMessSp(context).getInt(ZD,0);
+    }
+
+    /**
+     * 设置声音
+     * @param context
+     * @param voice 0  开启 1关闭
+     */
+    public static void setVoice(Context context,int voice){
+        getMessSp(context).edit().putInt(VOICE,voice);
+    }
+
+    public static int getVoice(Context context){
+        return getMessSp(context).getInt(VOICE,0);
     }
 }

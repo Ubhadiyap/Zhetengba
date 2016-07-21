@@ -46,6 +46,11 @@ public class ActivityMessDao  extends TemplateDAO<ActivityMess,String> {
         }
 
     }
+    public static ActivityMess getInfo(String id){
+        SQLiteDatabase db=getDao().getWritableDatabase();
+
+       return getDao().get(id);
+    }
 
     /**
      * 删除所有

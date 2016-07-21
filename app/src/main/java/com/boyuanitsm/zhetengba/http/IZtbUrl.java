@@ -9,10 +9,10 @@ public interface IZtbUrl {
 
     //基础地址
     //外网
-    public static final String BASE_URL = "http://139.196.154.208:8033/zhetengba/";
+//    public static final String BASE_URL = "http://139.196.154.208:8033/zhetengba/";
     //开发
-//    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
-//    public static final String BASE_URL = "http://172.16.6.196:8080/zhetengba/";
+    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.251:8080/zhetengba/";
 //    public static final String BASE_URL = "http://172.16.5.246:8080/zhetengba/";
     //测试
 //     public static final String BASE_URL = "http://172.16.6.253:8090/zhetengba/";
@@ -241,6 +241,10 @@ public interface IZtbUrl {
     String AGREE_ACTIVITY_URL=BASE_URL+"message/login/sendAgreeActivityResp.do";
     //档期拒绝
     String REFUSE_ACTIVITY_URL=BASE_URL+"message/login/sendRefuseActivityResp.do";
+    //消息邀请接口
+    String INVITE_MSG_URL=BASE_URL+"inviteMsg/login/findMyInviteMsg.do";
+    //删除消息接口
+    String DEL_MSG_URL=BASE_URL+"inviteMsg/login/delInviteMsg.do";
 //    //个人主页接口
 //
 //    public static  final  String PERSONAL_HOME_PAGE_URL=BASE_URL+"schedule/login/findPersonalByUserId.do";
@@ -292,6 +296,8 @@ public interface IZtbUrl {
     String ISCHECKED_URL=BASE_URL+"message/login/isChecked.do";
     /*获取用户信息*/
     String FINDUSERICON_URL=BASE_URL+"message/login/findUserIcon.do";
+
+    String UPDATE_GROUPNAME_URL=BASE_URL+"message/login/modifyGroupName.do";
 
     //版本更新
     String FIND_NEW_APP=BASE_URL+"manager/unLogin/checkUpdrage.do";

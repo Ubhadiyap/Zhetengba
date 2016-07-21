@@ -63,18 +63,35 @@ public class MyReceiver extends BroadcastReceiver {
 						Gson gson = new Gson();
                         flag=2+"";
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
+                        if (!TextUtils.isEmpty(circleInfo.getType())){
+                            if (TextUtils.equals(circleInfo.getType(),2+"")){
+                                if (!TextUtils.isEmpty(circleInfo.getMesstype())){
+                                    if (TextUtils.equals(circleInfo.getMesstype(),1+"")){
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                         circleInfo.setIsAgree(0);
 						CircleMessDao.saveCircleMess(circleInfo);
-                        Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
-                        Bundle bundlePointGone=new Bundle();
-                        bundlePointGone.putInt("pointGone",2);//1表示点开通知，2表示消息红点展示
-                        intentPointGone.putExtras(bundlePointGone);
-                        context.sendBroadcast(intentPointGone);
+//                        Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
+//                        Bundle bundlePointGone=new Bundle();
+//                        bundlePointGone.putInt("pointGone",2);//1表示点开通知，2表示消息红点展示
+//                        intentPointGone.putExtras(bundlePointGone);
+//                        context.sendBroadcast(intentPointGone);
 					}else{
                         Gson gson=new Gson();
-                       ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
+                        ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
                         activityMess.setIsAgree(0);
-                        activityMess.setId(activityMess.getUserId());
+                        if (!TextUtils.isEmpty(activityMess.getType())){
+                            if (TextUtils.equals(activityMess.getType(),1+"")){
+                                if (!TextUtils.isEmpty(activityMess.getMesstype())){
+                                    if (TextUtils.equals(activityMess.getMesstype(),1+"")){
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                         ActivityMessDao.saveCircleMess(activityMess);
                     }
 				} catch (JSONException e) {
@@ -90,11 +107,11 @@ public class MyReceiver extends BroadcastReceiver {
                 Intent i=new Intent();
                 if (TextUtils.equals(type,"2")){
                     i.setClass(context, CirMessAct.class);
-                    Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
-                    Bundle bundlePointGone=new Bundle();
-                    bundlePointGone.putInt("pointGone",1);//1表示点开通知，消息红点消失
-                    intentPointGone.putExtras(bundlePointGone);
-                    context.sendBroadcast(intentPointGone);
+//                    Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
+//                    Bundle bundlePointGone=new Bundle();
+//                    bundlePointGone.putInt("pointGone",1);//1表示点开通知，消息红点消失
+//                    intentPointGone.putExtras(bundlePointGone);
+//                    context.sendBroadcast(intentPointGone);
                 }else {
                     i.setClass(context, DqMesAct.class);
 //                    Intent intentPoint=new Intent(MessFrg.UPDATE_CONTRACT);

@@ -121,7 +121,7 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener, Rad
                 break;
             case R.id.ll_newmes:
                 //跳转至圈子消息
-                iv_new_red.setVisibility(View.GONE);
+//                iv_new_red.setVisibility(View.GONE);
                 intent.setClass(mActivity, CirMessAct.class);
                 startActivity(intent);
                 break;
@@ -211,48 +211,5 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener, Rad
                 break;
         }
         fragmentTransaction.commit();
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (receiverTalk == null) {
-            receiverTalk = new MyBroadCastReceiverTalk();
-            getActivity().registerReceiver(receiverTalk, new IntentFilter(UPFOCUS));
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (receiverTalk != null) {
-            getActivity().unregisterReceiver(receiverTalk);
-            receiverTalk = null;
-        }
-    }
-
-    private MyBroadCastReceiverTalk receiverTalk;
-    public static final String UPFOCUS = "circle_point_update";
-
-    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                switch (bundle.getInt("pointGone")) {
-                    case 1:
-                        iv_new_red.setVisibility(View.GONE);
-                        break;
-                    case 2:
-                        iv_new_red.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                        iv_new_red.setVisibility(View.GONE);
-                        break;
-                }
-            }
-        }
     }
 }

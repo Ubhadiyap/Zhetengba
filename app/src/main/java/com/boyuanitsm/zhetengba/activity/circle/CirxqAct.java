@@ -115,6 +115,7 @@ public class CirxqAct extends BaseActivity {
                 //不在圈子里面
                 cir_fb.setVisibility(View.GONE);
                 rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
+                qzzl.setEnabled(false);//圈子资料不可点击
                 getCircleDetail(circleId);
                 getCircleMembers(circleId,0);
                 xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
@@ -130,6 +131,7 @@ public class CirxqAct extends BaseActivity {
                 //在圈子里面
                 cir_fb.setVisibility(View.VISIBLE);
                 rl_jiaru.setVisibility(View.GONE);
+                qzzl.setEnabled(true);
                 getCircleDetail(circleId);
                 getCircleMembers(circleId, 1);
                 getThisCircleTalks(circleId, page, rows);
@@ -138,6 +140,7 @@ public class CirxqAct extends BaseActivity {
 
         } else if(type==1){
             //从圈子管理进来,或者从子圈子frg进来（已经在圈子里面的）
+            qzzl.setEnabled(true);
             getCircleDetail(circleId);
             getCircleMembers(circleId, 1);
             getThisCircleTalks(circleId, page, rows);
@@ -289,6 +292,7 @@ public class CirxqAct extends BaseActivity {
                     //不在圈子里面
                     cir_fb.setVisibility(View.GONE);
                     rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
+                    qzzl.setEnabled(false);
                     getCircleMembers(circleId, 0);
                     xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
                     lv_cir.getRefreshableView().setAdapter(xqAdapter);
@@ -301,6 +305,7 @@ public class CirxqAct extends BaseActivity {
                     });
                 }else if(IsInCircle==1){
                     //在圈子里面
+                    qzzl.setEnabled(true);
                     cir_fb.setVisibility(View.VISIBLE);
                     rl_jiaru.setVisibility(View.GONE);
                     getCircleMembers(circleId, 1);
