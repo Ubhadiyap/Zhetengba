@@ -157,12 +157,12 @@ public class CircleMessAdatper extends BaseAdapter {
         } else {
             holder1.tv_talk.setVisibility(View.GONE);
         }
-        if (!TextUtils.isEmpty(circleInfoList.get(position).getMsgState())){
-            if (circleInfoList.get(position).getMsgState().equals(0 + "")) {
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getMessageState())){
+            if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
                 if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentContent())) {
                     holder1.tv_huifu.setText("评论“我”：" + circleInfoList.get(position).getCommentContent());
                 }
-            } else if (circleInfoList.get(position).getMsgState().equals(1 + "")) {
+            } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
                 holder1.tv_huifu.setText("赞了“我”的说说!");
             }
         }
@@ -199,8 +199,8 @@ public class CircleMessAdatper extends BaseAdapter {
             holder1.bt_yes.setEnabled(true);
             holder1.bt_no.setEnabled(true);
         }
-        if (!TextUtils.isEmpty(circleInfoList.get(position).getMsgState())){
-        if (circleInfoList.get(position).getMsgState().equals(0 + "")) {
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getMessageState())){
+        if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
             holder1.tv_qingqiu.setText(circleInfoList.get(position).getMsgContent());
             final Holder1 finalHolder = holder1;
             holder1.bt_yes.setOnClickListener(new View.OnClickListener() {
@@ -265,7 +265,7 @@ public class CircleMessAdatper extends BaseAdapter {
                 }
             });
 //                        holder2.tv_beizhu.setText("备注：你好，我是李宇春");
-        } else if (circleInfoList.get(position).getMsgState().equals(1 + "")) {
+        } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
             holder1.tv_qingqiu.setText(circleInfoList.get(position).getMsgContent());
             final Holder1 finalHolder1 = holder1;
             holder1.bt_yes.setOnClickListener(new View.OnClickListener() {

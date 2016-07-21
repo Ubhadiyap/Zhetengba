@@ -263,7 +263,6 @@
                 android:gravity="center">
                 <com.boyuanitsm.zhetengba.view.CircleImageView
                     android:id="@+id/cv_head3"
-                    android:background="@drawable/test_user"
                     android:layout_width="50dp"
                     android:layout_height="50dp" />
             </LinearLayout>

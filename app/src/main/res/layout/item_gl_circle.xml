@@ -11,8 +11,7 @@
         android:layout_height="match_parent">
         <com.boyuanitsm.zhetengba.view.CircleImageView
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/test_user"/>
+            android:layout_height="50dp"/>
         <LinearLayout
             android:layout_gravity="center_vertical"
             android:layout_weight="1"

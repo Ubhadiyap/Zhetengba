@@ -1,8 +1,11 @@
 package com.boyuanitsm.zhetengba.activity.mess;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -25,9 +28,15 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 档期消息
@@ -39,10 +48,12 @@ public class DqMesAct extends BaseActivity {
     private DqMesAdapter adapter;//档期消息适配器
     private List<ActivityMess> list;//极光接收的集合；
     private List<ActivityMess> agreeList;//后台返回的同意拒绝操作list
-    private List<ActivityMess> datas=new ArrayList<>();
-    private int page=-1;
-    private int rows=-1;
-    private String type=0+"";
+    private List<ActivityMess> datas = new ArrayList<>();
+    private int page = -1;
+    private int rows = -1;
+    private String type = 0 + "";
+    private ProgressDialog progressDialog;
+    private boolean progressShow;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_dq_mes);
@@ -51,6 +62,10 @@ public class DqMesAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("档期消息");
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("数据加载中...");
+        progressDialog.show();
 //        list= ActivityMessDao.getCircleUser();
 //        MyLogUtils.info(list + "档期消息信息");
 //        if (list!=null&&list.size() > 0) {
@@ -97,18 +112,18 @@ public class DqMesAct extends BaseActivity {
                     case 0:
 //                        MyToastUtils.showShortToast(MsgAct.this, position + "");
                         // delete
-                        if (!TextUtils.isEmpty(list.get(position).getMsgType())){
-                            datas=ActivityMessDao.getCircleUser();
-                            if (datas!=null&&datas.size()>0){
-                                for (int i=0;i<datas.size();i++){
+                        if (!TextUtils.isEmpty(list.get(position).getMsgType())) {
+                            datas = ActivityMessDao.getCircleUser();
+                            if (datas != null && datas.size() > 0) {
+                                for (int i = 0; i < datas.size(); i++) {
                                     //删除之前，判断，是否在数据库，如果在，则从数据库中删除，并调删除接口。
-                                    if (TextUtils.equals(datas.get(i).getId(),list.get(position).getId())){
+                                    if (TextUtils.equals(datas.get(i).getId(), list.get(position).getId())) {
                                         ActivityMessDao.deleteMes(list.get(position).getCreateTime());
                                     }
                                 }
                             }
                             deleteMsg(list.get(position).getId());
-                        }else {
+                        } else {
                             ActivityMessDao.deleteMes(list.get(position).getCreateTime());
                         }
 
@@ -127,20 +142,21 @@ public class DqMesAct extends BaseActivity {
 
     /**
      * 删除消息接口
+     *
      * @param id
      */
     private void deleteMsg(String id) {
-    RequestManager.getScheduleManager().deleteMsg(id, new ResultCallback<ResultBean<String>>() {
-        @Override
-        public void onError(int status, String errorMsg) {
+        RequestManager.getScheduleManager().deleteMsg(id, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
 
-        }
+            }
 
-        @Override
-        public void onResponse(ResultBean<String> response) {
+            @Override
+            public void onResponse(ResultBean<String> response) {
 
-        }
-    });
+            }
+        });
     }
 
 //    private void notifyData() {
@@ -161,12 +177,13 @@ public class DqMesAct extends BaseActivity {
     /**
      * 调用档期消息，需要操作的接口
      * type,0档期，1是圈子
+     *
      * @param type
      * @param page
      * @param rows
      */
-    private void getDqMess(String type, final int page,int rows){
-        agreeList=new ArrayList<>();
+    private void getDqMess(String type, final int page, int rows) {
+        agreeList = new ArrayList<>();
         RequestManager.getScheduleManager().findMyInviteMsg(type, page, rows, new ResultCallback<ResultBean<DataBean<ActivityMess>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -175,21 +192,24 @@ public class DqMesAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<DataBean<ActivityMess>> response) {
-                agreeList=response.getData().getRows();
-                MyLogUtils.info(agreeList.toString()+"返回集合");
-                list=new ArrayList<>();
+                progressDialog.dismiss();
+                agreeList = response.getData().getRows();
+                MyLogUtils.info(agreeList.toString() + "返回集合");
+                list = new ArrayList<>();
                 list = ActivityMessDao.getCircleUser();
-                if (list!=null&&list.size() > 0) {
+                if (list != null && list.size() > 0) {
                     Collections.reverse(list);//时间排一下序
-                    if (agreeList!=null&&agreeList.size()>0){
-                        for (int i=0;i<agreeList.size();i++){
+                    if (agreeList != null && agreeList.size() > 0) {
+                        for (int i = 0; i < agreeList.size(); i++) {
                             list.add(agreeList.get(i));
                             //只有操作的数据才存放数据库，返回的数据均未作处理。
 //                            ActivityMessDao.saveCircleMess(agreeList.get(i));
                         }
+                        SortClass sort = new SortClass();
+                        Collections.sort(list, sort);
                     }
-                }else if (agreeList!=null&&agreeList.size()>0){
-                    list=agreeList;
+                } else if (agreeList != null && agreeList.size() > 0) {
+                    list = agreeList;
                 }
                 if (adapter == null) {
                     adapter = new DqMesAdapter(DqMesAct.this, list);
@@ -199,5 +219,18 @@ public class DqMesAct extends BaseActivity {
                 }
             }
         });
+    }
+
+    /**
+     * 时间降序
+     * 排序
+     */
+    public class SortClass implements Comparator {
+        public int compare(Object arg0, Object arg1) {
+            ActivityMess user0 = (ActivityMess) arg0;
+            ActivityMess user1 = (ActivityMess) arg1;
+            int flag = user1.getCreateTime().compareTo(user0.getCreateTime());//升序直接将user0,user1互换
+            return flag;
+        }
     }
 }

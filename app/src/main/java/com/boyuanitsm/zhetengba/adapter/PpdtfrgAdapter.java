@@ -187,7 +187,22 @@ public class PpdtfrgAdapter extends BaseAdapter {
 
         }
 
+//        if (userInfoList.get(position).isFriend()){
+//            viewHolder.ll_like.setEnabled(true);
+//            viewHolder.ll_share.setEnabled(true);
+//            viewHolder.ll_comment.setEnabled(true);
+//        }else {
+//            viewHolder.ll_like.setEnabled(false);
+//            viewHolder.ll_share.setEnabled(false);
+//            viewHolder.ll_comment.setEnabled(false);
+//        }
         if(circleTalkEntityList!=null){
+            //圈子个人动态都不可点击
+            viewHolder.ll_like.setEnabled(false);
+            viewHolder.ll_share.setEnabled(false);
+            viewHolder.ll_comment.setEnabled(false);
+            viewHolder.tv_content.setEnabled(false);
+            viewHolder.tv_cir_name.setEnabled(false);
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCreateTime())){
                 viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleTalkEntityList.get(position).getCreateTime())));
             }
