@@ -74,11 +74,11 @@ public class MyReceiver extends BroadcastReceiver {
                         }
                         circleInfo.setIsAgree(0);
 						CircleMessDao.saveCircleMess(circleInfo);
-                        Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
-                        Bundle bundlePointGone=new Bundle();
-                        bundlePointGone.putInt("pointGone",2);//1表示点开通知，2表示消息红点展示
-                        intentPointGone.putExtras(bundlePointGone);
-                        context.sendBroadcast(intentPointGone);
+//                        Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
+//                        Bundle bundlePointGone=new Bundle();
+//                        bundlePointGone.putInt("pointGone",2);//1表示点开通知，2表示消息红点展示
+//                        intentPointGone.putExtras(bundlePointGone);
+//                        context.sendBroadcast(intentPointGone);
 					}else{
                         Gson gson=new Gson();
                         ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
@@ -107,11 +107,11 @@ public class MyReceiver extends BroadcastReceiver {
                 Intent i=new Intent();
                 if (TextUtils.equals(type,"2")){
                     i.setClass(context, CirMessAct.class);
-                    Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
-                    Bundle bundlePointGone=new Bundle();
-                    bundlePointGone.putInt("pointGone",1);//1表示点开通知，消息红点消失
-                    intentPointGone.putExtras(bundlePointGone);
-                    context.sendBroadcast(intentPointGone);
+//                    Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
+//                    Bundle bundlePointGone=new Bundle();
+//                    bundlePointGone.putInt("pointGone",1);//1表示点开通知，消息红点消失
+//                    intentPointGone.putExtras(bundlePointGone);
+//                    context.sendBroadcast(intentPointGone);
                 }else {
                     i.setClass(context, DqMesAct.class);
 //                    Intent intentPoint=new Intent(MessFrg.UPDATE_CONTRACT);
