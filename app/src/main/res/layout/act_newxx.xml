@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
@@ -20,16 +21,27 @@
             android:textColor="#333333"
             />
 
-        <ImageView
-            android:src="@drawable/switch_off"
-            android:id="@+id/iv_zd"
+        <com.boyuanitsm.zhetengba.widget.ToggleButton
+            android:id="@+id/tbZd"
             android:layout_width="56dp"
-            android:layout_height="41dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            app:onColor="#57dc77"
+            app:offColor="#ffffff"
+            app:borderWidth="1px"
+            app:offBorderColor="#eaeaea"
+
             />
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/llZd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
     <RelativeLayout
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -40,17 +52,20 @@
             style="@style/tv_second"
             android:layout_centerVertical="true"
             android:layout_marginLeft="45dp"
-            android:text="档期消息震动"
+            android:text="档期圈子消息震动"
             android:textColor="#333333"
             />
-
-        <ImageView
-            android:src="@drawable/switch_off"
-            android:id="@+id/iv_dqzd"
+        <com.boyuanitsm.zhetengba.widget.ToggleButton
+            android:id="@+id/tbCZd"
             android:layout_width="56dp"
-            android:layout_height="41dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            app:onColor="#57dc77"
+            app:offColor="#ffffff"
+            app:borderWidth="1px"
+            app:offBorderColor="#eaeaea"
+
             />
     </RelativeLayout>
 
@@ -68,13 +83,17 @@
             android:textColor="#333333"
             />
 
-        <ImageView
-            android:src="@drawable/switch_off"
-            android:id="@+id/iv_ltzd"
+        <com.boyuanitsm.zhetengba.widget.ToggleButton
+            android:id="@+id/tbChatZd"
             android:layout_width="56dp"
-            android:layout_height="41dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            app:onColor="#57dc77"
+            app:offColor="#ffffff"
+            app:borderWidth="1px"
+            app:offBorderColor="#eaeaea"
+
             />
     </RelativeLayout>
 
@@ -82,7 +101,8 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="41dp"
-        android:paddingRight="15dp">
+        android:paddingRight="15dp"
+        android:visibility="gone">
 
         <TextView
             style="@style/tv_second"
@@ -92,16 +112,19 @@
             android:textColor="#333333"
             />
 
-        <ImageView
-            android:src="@drawable/switch_off"
-            android:id="@+id/iv_qzzd"
+        <com.boyuanitsm.zhetengba.widget.ToggleButton
             android:layout_width="56dp"
-            android:layout_height="41dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            app:onColor="#57dc77"
+            app:offColor="#ffffff"
+            app:borderWidth="1px"
+            app:offBorderColor="#eaeaea"
+
             />
     </RelativeLayout>
-
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_marginTop="15dp"
@@ -118,13 +141,17 @@
             android:textColor="#333333"
             />
 
-        <ImageView
-            android:src="@drawable/switch_on"
-            android:id="@+id/iv_sy"
+        <com.boyuanitsm.zhetengba.widget.ToggleButton
+            android:id="@+id/tbVoice"
             android:layout_width="56dp"
-            android:layout_height="41dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            app:onColor="#57dc77"
+            app:offColor="#ffffff"
+            app:borderWidth="1px"
+            app:offBorderColor="#eaeaea"
+
             />
     </RelativeLayout>
 
