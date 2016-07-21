@@ -40,6 +40,7 @@ import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.GroupBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
+import com.boyuanitsm.zhetengba.chat.frg.ChatFragment;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -185,9 +186,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 		clearAllHistory.setOnClickListener(this);
 		blacklistLayout.setOnClickListener(this);
-		if(type==true) {
-			changeGroupNameLayout.setOnClickListener(this);
-		}
+
 		rl_switch_block_groupmsg.setOnClickListener(this);
 		searchLayout.setOnClickListener(this);
 	}
@@ -234,30 +233,63 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				if(!TextUtils.isEmpty(returnData)){
 					progressDialog.setMessage(st5);
 					progressDialog.show();
-
-					new Thread(new Runnable() {
-						public void run() {
-							try {
-								EMClient.getInstance().groupManager().changeGroupName(groupId, returnData);
-								runOnUiThread(new Runnable() {
-									public void run() {
-										((TextView) findViewById(R.id.group_name)).setText(returnData );
-										progressDialog.dismiss();
-										Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
-									}
-								});
-
-							} catch (HyphenateException e) {
-								e.printStackTrace();
-								runOnUiThread(new Runnable() {
-									public void run() {
-										progressDialog.dismiss();
-										Toast.makeText(getApplicationContext(), st7, Toast.LENGTH_SHORT).show();
-									}
-								});
-							}
+					RequestManager.getMessManager().updateGName(groupId, returnData, new ResultCallback<ResultBean<String>>() {
+						@Override
+						public void onError(int status, String errorMsg) {
+							progressDialog.dismiss();
+							Toast.makeText(getApplicationContext(), st7, Toast.LENGTH_SHORT).show();
 						}
-					}).start();
+
+						@Override
+						public void onResponse(ResultBean<String> response) {
+							((TextView) findViewById(R.id.group_name)).setText(returnData);
+							progressDialog.dismiss();
+							updateGroup();
+							Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
+							Intent intent=new Intent(ChatFragment.UPDATE_GROUP_NAME);
+							intent.putExtra("groupName",returnData);
+                            sendBroadcast(intent);
+
+//							new Thread(new Runnable() {
+//								@Override
+//								public void run() {
+//									try {
+//										EMClient.getInstance().groupManager().changeGroupName(groupId, returnData);
+//									} catch (HyphenateException e) {
+//										e.printStackTrace();
+//									}
+//								}
+//							}).start();
+
+
+						}
+					});
+
+
+
+//					new Thread(new Runnable() {
+//						public void run() {
+//							try {
+//								EMClient.getInstance().groupManager().changeGroupName(groupId, returnData);
+//								runOnUiThread(new Runnable() {
+//									public void run() {
+//										((TextView) findViewById(R.id.group_name)).setText(returnData );
+//										progressDialog.dismiss();
+//										Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
+//									}
+//								});
+//
+//							} catch (HyphenateException e) {
+//								e.printStackTrace();
+//								runOnUiThread(new Runnable() {
+//									public void run() {
+//										progressDialog.dismiss();
+//										Toast.makeText(getApplicationContext(), st7, Toast.LENGTH_SHORT).show();
+//									}
+//								});
+//							}
+//						}
+//					}).start();
 				}
 				break;
 			default:
@@ -570,7 +602,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void toggleBlockGroup() {
-		if(switchButton.isSwitchOpen()){
+		if(!switchButton.isSwitchOpen()){
 			EMLog.d(TAG, "change to unblock group msg");
 			if (progressDialog == null) {
 		        progressDialog = new SafeDialog(GroupDetailsActivity.this);
@@ -1143,6 +1175,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					tvTime.setText("还剩"+groupBean.getReminderDays()+"天");
 					type=groupBean.isType();
 					MyLogUtils.info("是否自建群："+groupBean.isType());
+				}
+				if(type==true) {
+					changeGroupNameLayout.setOnClickListener(GroupDetailsActivity.this);
 				}
 				getGroupMembers(groupId);
 			}
