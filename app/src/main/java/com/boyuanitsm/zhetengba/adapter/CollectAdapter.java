@@ -324,6 +324,7 @@ public class CollectAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                holder.ll_join.setEnabled(true);
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
                 holder.tv_text_jion.setText("参加");
                 holder.tv_join_num.setTextColor(Color.parseColor("#999999"));
