@@ -63,7 +63,7 @@ public class CirxqAct extends BaseActivity {
     private List<MemberEntity> userList;//圈子成员集合
     private List<CircleEntity> circleEntityList;//该圈子说说列表
     private String personIds;//存储邀请用户id
-    private int IsInCircle;//从收索圈子进来后的判断条件看是否在圈子里面 0不在，1在；
+    private int IsInCircle=3;//从收索圈子进来后的判断条件看是否在圈子里面 0不在，1在；
     private int type;//类型
     private CircleImageView head;//头像
     private TextView name;//圈主名
@@ -328,54 +328,57 @@ public class CirxqAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<DataBean<MemberEntity>> response) {
                 userList = response.getData().getRows();
-                adapter = new CirxqAdapter(CirxqAct.this, userList);
+                adapter = new CirxqAdapter(CirxqAct.this, userList,isInCircle);
                 rv_label.setAdapter(adapter);
-                adapter.setOnItemClickListener(new CirxqAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        if (isInCircle == 0) {
-                            MyToastUtils.showShortToast(CirxqAct.this,"未在圈子里，无法查看，请申请加入！");
-                            return;
-                        }
-                        if (userList.size() <= 4) {
-                            if (position == userList.size()) {
-                                Intent intent = new Intent();
-                                Bundle bundle = new Bundle();
-                                String str3 = "circleFriend";
-                                bundle.putString("can", str3);
-                                bundle.putString("circleId",circleId);
-                                intent.putExtras(bundle);
-                                intent.setClass(CirxqAct.this, AssignScanAct.class);
-                                startActivityForResult(intent, 6);
+                if (isInCircle != 0) {
+                    adapter.setOnItemClickListener(new CirxqAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+//                            if (isInCircle == 0) {
+//                                MyToastUtils.showShortToast(CirxqAct.this, "未在圈子里，无法查看，请申请加入！");
+//                                return;
+//                            }
+                            if (userList.size() <= 4) {
+                                if (position == userList.size()) {
+                                    Intent intent = new Intent();
+                                    Bundle bundle = new Bundle();
+                                    String str3 = "circleFriend";
+                                    bundle.putString("can", str3);
+                                    bundle.putString("circleId", circleId);
+                                    intent.putExtras(bundle);
+                                    intent.setClass(CirxqAct.this, AssignScanAct.class);
+                                    startActivityForResult(intent, 6);
+                                } else {
+                                    if (position == (userList.size() + 1)) {
+                                        Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
+                                        intent.putExtra("circleId", circleId);
+                                        intent.putExtra("isQuanzhu", isQuanzhu);
+                                        startActivity(intent);
+                                    }
+                                }
                             } else {
-                                if (position == (userList.size() + 1)) {
+                                if (position == 5) {
                                     Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
                                     intent.putExtra("circleId", circleId);
                                     intent.putExtra("isQuanzhu", isQuanzhu);
                                     startActivity(intent);
+                                } else if (position == 4) {
+                                    Intent intent = new Intent();
+                                    Bundle bundle = new Bundle();
+                                    String str3 = "circleFriend";
+                                    bundle.putString("can", str3);
+                                    bundle.putString("circleId", circleId);
+                                    intent.putExtras(bundle);
+                                    intent.setClass(CirxqAct.this, AssignScanAct.class);
+                                    startActivityForResult(intent, 6);
                                 }
                             }
-                        } else {
-                            if (position == 5) {
-                                Intent intent = new Intent(CirxqAct.this, CircleppAct.class);
-                                intent.putExtra("circleId", circleId);
-                                intent.putExtra("isQuanzhu", isQuanzhu);
-                                startActivity(intent);
-                            } else if (position == 4) {
-                                Intent intent = new Intent();
-                                Bundle bundle = new Bundle();
-                                String str3 = "circleFriend";
-                                bundle.putString("can", str3);
-                                bundle.putString("circleId",circleId);
-                                intent.putExtras(bundle);
-                                intent.setClass(CirxqAct.this, AssignScanAct.class);
-                                startActivityForResult(intent, 6);
-                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
+
     }
 
     @Override

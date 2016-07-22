@@ -3,13 +3,19 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -43,6 +49,9 @@ public class CalAdapter extends BaseAdapter {
     private List<ScheduleInfo> list;
     private String strStart,strEnd;
     private List<SimpleInfo> simpleInfos;
+    private int index;
+    private PopupWindow popupWindow;
+
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -53,6 +62,7 @@ public class CalAdapter extends BaseAdapter {
     public CalAdapter(Context context, List<ScheduleInfo> list) {
         this.context = context;
         this.list = list;
+
     }
 
     public void update(List<ScheduleInfo> datas) {
@@ -76,7 +86,8 @@ public class CalAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position,   View convertView, ViewGroup parent) {
+        index=position;
         final CalHolder calHolder;
         if (convertView != null && convertView.getTag() != null) {
             calHolder = (CalHolder) convertView.getTag();
@@ -97,22 +108,74 @@ public class CalAdapter extends BaseAdapter {
             calHolder.tv_cal_yh = (TextView) convertView.findViewById(R.id.tv_cal_yh);
             calHolder.ll_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu);
             calHolder.ll_yue = (LinearLayout) convertView.findViewById(R.id.ll_yue);
-            calHolder.ll_name = (LinearLayout) convertView.findViewById(R.id.ll_name);
+            calHolder.ll_name = (RelativeLayout) convertView.findViewById(R.id.ll_name);
             calHolder.ll_cal_guanzhu_del=(LinearLayout)convertView.findViewById(R.id.ll_guanzhu_del);
             calHolder.ll_cal_share=(LinearLayout)convertView.findViewById(R.id.ll_yue_share);
+            calHolder.iv_bag= (ImageView) convertView.findViewById(R.id.iv_bag);
+            calHolder.rl_main= (LinearLayout) convertView.findViewById(R.id.rl_main);
             convertView.setTag(calHolder);
         }
 //        MyLogUtils.info(UserInfoDao.getUser().getId());
-        if (!UserInfoDao.getUser().getId().equals(list.get(position).getCreatePersonId())){
+        if (!UserInfoDao.getUser().getId().equals(list.get(position).getCreatePersonId())){//用户id不得与创建id
             calHolder.ll_guanzhu.setVisibility(View.GONE);//关注暂时注掉
             calHolder.ll_yue.setVisibility(View.VISIBLE);
             calHolder.ll_cal_guanzhu_del.setVisibility(View.GONE);
             calHolder.ll_cal_share.setVisibility(View.GONE);
+            if (list.get(position).isAgreeAbout()){
+                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
+                calHolder.tv_cal_yh.setText("邀约成功");
+                calHolder.ll_yue.setEnabled(false);
+                calHolder.iv_bag.setImageResource(R.mipmap.yue);
+            }else{
+                if (list.get(position).getDictName().equals("闲来无事")){
+                    calHolder.iv_bag.setImageResource(R.mipmap.lv);
+                }else if (list.get(position).getDictName().equals("百无聊懒")){
+                    calHolder.iv_bag.setImageResource(R.mipmap.huang);
+                }else if (list.get(position).getDictName().equals("闲的要死")){
+                    calHolder.iv_bag.setImageResource(R.mipmap.hong);
+                }else if (list.get(position).getDictName().equals("无聊至极")){
+                    calHolder.iv_bag.setImageResource(R.mipmap.lan);
+                }
+
+                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
+                calHolder.tv_cal_yh.setText("约Ta");
+                calHolder.ll_yue.setEnabled(true);
+                calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        calHolder.iv_bag.setEnabled(false);
+                        simpleInfos=new ArrayList<SimpleInfo>();
+                        RequestManager.getScheduleManager().findMatchingActivities(list.get(position).getScheduleId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+                            @Override
+                            public void onError(int status, String errorMsg) {
+                                calHolder.iv_bag.setClickable(true);
+                            }
+
+                            @Override
+                            public void onResponse(ResultBean<List<SimpleInfo>> response) {
+                                simpleInfos = response.getData();
+                                ScheduDialog dialog = new ScheduDialog(context, simpleInfos, list.get(position).getScheduleId());
+                                dialog.show();
+                                calHolder.iv_bag.setClickable(true);
+//                            calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger_b, null));
+                            }
+                        });
+                    }
+                });
+            }
+
         }else {
             calHolder.ll_guanzhu.setVisibility(View.GONE);
             calHolder.ll_yue.setVisibility(View.GONE);
             calHolder.ll_cal_guanzhu_del.setVisibility(View.VISIBLE);
             calHolder.ll_cal_share.setVisibility(View.VISIBLE);
+            calHolder.iv_bag.setImageResource(R.mipmap.bmore);
+            calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showPopupWindow(calHolder.rl_main,position);
+                }
+            });
         }
         if (list != null) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), calHolder.iv_icon, optionsImag);//用户头像；
@@ -161,15 +224,7 @@ public class CalAdapter extends BaseAdapter {
             } else {
                 calHolder.tv_gzcal_num.setVisibility(View.GONE);
             }
-            if (list.get(position).isAgreeAbout()){
-                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
-                calHolder.tv_cal_yh.setText("邀约成功");
-                calHolder.ll_yue.setEnabled(false);
-            }else{
-                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
-                calHolder.tv_cal_yh.setText("约Ta");
-                calHolder.ll_yue.setEnabled(true);
-            }
+
 
 //        calHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -215,19 +270,19 @@ public class CalAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
-            calHolder.ll_cal_guanzhu_del.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //调用删除此活动接口,刷新数据；
-                            removeSchuldel(list.get(position).getScheduleId(), position);
-                        }
-                    }).setNegativeButton("取消", null).show();
-
-                }
-            });
+//            calHolder.ll_cal_guanzhu_del.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            //调用删除此活动接口,刷新数据；
+//                            removeSchuldel(list.get(position).getScheduleId(), position);
+//                        }
+//                    }).setNegativeButton("取消", null).show();
+//
+//                }
+//            });
             calHolder.ll_cal_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -242,6 +297,56 @@ public class CalAdapter extends BaseAdapter {
             });
         }
         return convertView;
+    }
+
+    /**
+     *
+     */
+    private void showPopupWindow(View parent, final int position) {
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
+                R.layout.popuwindowsxx_dialog, null);
+
+        // 实例化popupWindow
+         popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
+        //控制键盘是否可以获得焦点
+        popupWindow.setFocusable(true);
+        //设置popupWindow弹出窗体的背景
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        WindowManager manager = (WindowManager)context. getSystemService(context.WINDOW_SERVICE);
+        @SuppressWarnings("deprecation")
+        //获取xoff
+                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+        //xoff,yoff基于anchor的左下角进行偏移。
+        popupWindow.showAsDropDown(parent, xpos, -25);
+
+        LinearLayout iv_shanc= (LinearLayout) layout.findViewById(R.id.iv_shanc);
+        LinearLayout iv_fenxiang= (LinearLayout) layout.findViewById(R.id.iv_fenxiang);
+
+        iv_shanc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //调用删除此活动接口,刷新数据；
+                        removeSchuldel(list.get(position).getScheduleId(), position);
+                    }
+                }).setNegativeButton("取消", null).show();
+            }
+        });
+
+        iv_fenxiang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.putExtra("type",2);
+                intent.putExtra("id",list.get(position).getScheduleId());
+                intent.setClass(context,ShareDialogAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
 
@@ -261,9 +366,11 @@ public class CalAdapter extends BaseAdapter {
         public int cal_gznum = 0;//默认关注人数0
         public LinearLayout ll_guanzhu;//关注
         public LinearLayout ll_yue;//约TA
-        private LinearLayout ll_name;//个人昵称
+        private RelativeLayout ll_name;//个人昵称
         private LinearLayout ll_cal_guanzhu_del;
         private LinearLayout ll_cal_share;
+        private ImageView iv_bag;//档期列表右边的
+        private LinearLayout rl_main;//item大布局
     }
     /***
      * 删除档期
@@ -279,11 +386,14 @@ public class CalAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                popupWindow.dismiss();
                 MyToastUtils.showShortToast(context, "删除档期成功！");
                 list.remove(position);
                 notifyDataSetChanged();
             }
         });
     }
+
+
 
 }

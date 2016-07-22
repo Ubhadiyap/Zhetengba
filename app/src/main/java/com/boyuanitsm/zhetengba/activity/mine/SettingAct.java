@@ -168,9 +168,9 @@ public class SettingAct extends BaseActivity {
                 MyLogUtils.degug("version"+version);
                 generalUtils.toVersion(SettingAct.this,version,0);
                 break;
-            case R.id.cv_clearCache://清除缓存
-                clearCache();
-                break;
+//            case R.id.cv_clearCache://清除缓存
+//                clearCache();
+//                break;
             case R.id.llExit://退出
                 new MyAlertDialog(SettingAct.this).builder().setTitle("提示")
                         .setMsg("确认退出吗？")

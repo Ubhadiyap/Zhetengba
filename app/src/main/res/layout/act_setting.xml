@@ -118,10 +118,12 @@
             android:layout_width="match_parent"
             android:layout_height="41dp"></com.boyuanitsm.zhetengba.view.CommonView>
         <View
+            android:visibility="gone"
             style="@style/view_line"
             ></View>
 
         <com.boyuanitsm.zhetengba.view.CommonView
+            android:visibility="gone"
             android:id="@+id/cv_clearCache"
             app:desTextColor="#333333"
             app:desTextSize="14sp"

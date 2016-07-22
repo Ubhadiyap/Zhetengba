@@ -1,5 +1,7 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,6 +37,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -51,6 +54,7 @@ public class CirMessAct extends BaseActivity {
     private String type=1+"";
     private int page=-1;
     private int rows=-1;
+    private ProgressDialog progressDialog;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_mess);
@@ -59,6 +63,10 @@ public class CirMessAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子消息");
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("数据加载中...");
+        progressDialog.show();
         setRight("我的发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,17 +170,20 @@ public class CirMessAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<DataBean<CircleInfo>> response) {
+                progressDialog.dismiss();
                 agreeList=response.getData().getRows();
                 MyLogUtils.info(agreeList.toString() + "返回集合");
                 list=new ArrayList<>();
                 list = CircleMessDao.getCircleUser();
                 if (list!=null&&list.size() > 0) {
-                    Collections.reverse(list);
+//                    Collections.reverse(list);
                     if (agreeList!=null&&agreeList.size()>0){
                         for (int i=0;i<agreeList.size();i++){
                             list.add(agreeList.get(i));
                         }
                     }
+                    SortClass sort = new SortClass();
+                    Collections.sort(list, sort);
                 }else if (agreeList!=null&&agreeList.size()>0){
                     list=agreeList;
                 }
@@ -184,5 +195,17 @@ public class CirMessAct extends BaseActivity {
                 }
             }
         });
+    }
+    /**
+     * 时间降序
+     * 排序
+     */
+    public class SortClass implements Comparator {
+        public int compare(Object arg0, Object arg1) {
+            CircleInfo user0 = (CircleInfo) arg0;
+            CircleInfo user1 = (CircleInfo) arg1;
+            int flag = user1.getCreateTime().compareTo(user0.getCreateTime());//升序直接将user0,user1互换
+            return flag;
+        }
     }
 }
