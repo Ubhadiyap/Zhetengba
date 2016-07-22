@@ -189,7 +189,7 @@ public class ActAdapter extends BaseAdapter {
 
         } else {
             viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
-            viewHolder.tv_text_jion.setText("参加");
+            viewHolder.tv_text_jion.setText("响应");
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
         }
 //        if (infos.get(position).)

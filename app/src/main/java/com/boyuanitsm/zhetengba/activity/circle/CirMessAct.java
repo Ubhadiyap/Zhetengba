@@ -176,14 +176,14 @@ public class CirMessAct extends BaseActivity {
                 list=new ArrayList<>();
                 list = CircleMessDao.getCircleUser();
                 if (list!=null&&list.size() > 0) {
-                    Collections.reverse(list);
+//                    Collections.reverse(list);
                     if (agreeList!=null&&agreeList.size()>0){
                         for (int i=0;i<agreeList.size();i++){
                             list.add(agreeList.get(i));
                         }
-                        SortClass sort = new SortClass();
-                        Collections.sort(list, sort);
                     }
+                    SortClass sort = new SortClass();
+                    Collections.sort(list, sort);
                 }else if (agreeList!=null&&agreeList.size()>0){
                     list=agreeList;
                 }
@@ -202,8 +202,8 @@ public class CirMessAct extends BaseActivity {
      */
     public class SortClass implements Comparator {
         public int compare(Object arg0, Object arg1) {
-            ActivityMess user0 = (ActivityMess) arg0;
-            ActivityMess user1 = (ActivityMess) arg1;
+            CircleInfo user0 = (CircleInfo) arg0;
+            CircleInfo user1 = (CircleInfo) arg1;
             int flag = user1.getCreateTime().compareTo(user0.getCreateTime());//升序直接将user0,user1互换
             return flag;
         }

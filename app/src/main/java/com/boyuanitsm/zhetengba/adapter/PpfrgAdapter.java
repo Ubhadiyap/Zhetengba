@@ -164,7 +164,7 @@ public class PpfrgAdapter extends BaseAdapter {
             calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showPopupWindow(calHolder.rl_main);
+                    showPopupWindow(calHolder.rl_main,position);
                 }
             });
         }
@@ -312,7 +312,7 @@ public class PpfrgAdapter extends BaseAdapter {
         });
     }
 
-    private void showPopupWindow(View parent ) {
+    private void showPopupWindow(View parent, final int position) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
                 R.layout.popuwindowsxx_dialog, null);
 
@@ -339,7 +339,7 @@ public class PpfrgAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         //调用删除此活动接口,刷新数据；
-                        removeSchuldel(scheduleEntity.get(index).getScheduleId(), index);
+                        removeSchuldel(scheduleEntity.get(position).getScheduleId(), position);
                     }
                 }).setNegativeButton("取消", null).show();
             }
@@ -350,7 +350,7 @@ public class PpfrgAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent=new Intent();
                 intent.putExtra("type",2);
-                intent.putExtra("id",scheduleEntity.get(index).getScheduleId());
+                intent.putExtra("id",scheduleEntity.get(position).getScheduleId());
                 intent.setClass(context,ShareDialogAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

@@ -205,9 +205,9 @@ public class DqMesAct extends BaseActivity {
                             //只有操作的数据才存放数据库，返回的数据均未作处理。
 //                            ActivityMessDao.saveCircleMess(agreeList.get(i));
                         }
-                        SortClass sort = new SortClass();
-                        Collections.sort(list, sort);
                     }
+                    SortClass sort = new SortClass();
+                    Collections.sort(list, sort);
                 } else if (agreeList != null && agreeList.size() > 0) {
                     list = agreeList;
                 }

@@ -173,7 +173,7 @@ public class CalAdapter extends BaseAdapter {
             calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showPopupWindow(calHolder.rl_main);
+                    showPopupWindow(calHolder.rl_main,position);
                 }
             });
         }
@@ -270,19 +270,19 @@ public class CalAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
-            calHolder.ll_cal_guanzhu_del.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //调用删除此活动接口,刷新数据；
-                            removeSchuldel(list.get(position).getScheduleId(), position);
-                        }
-                    }).setNegativeButton("取消", null).show();
-
-                }
-            });
+//            calHolder.ll_cal_guanzhu_del.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            //调用删除此活动接口,刷新数据；
+//                            removeSchuldel(list.get(position).getScheduleId(), position);
+//                        }
+//                    }).setNegativeButton("取消", null).show();
+//
+//                }
+//            });
             calHolder.ll_cal_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -302,7 +302,7 @@ public class CalAdapter extends BaseAdapter {
     /**
      *
      */
-    private void showPopupWindow(View parent ) {
+    private void showPopupWindow(View parent, final int position) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
                 R.layout.popuwindowsxx_dialog, null);
 
@@ -329,7 +329,7 @@ public class CalAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         //调用删除此活动接口,刷新数据；
-                        removeSchuldel(list.get(index).getScheduleId(), index);
+                        removeSchuldel(list.get(position).getScheduleId(), position);
                     }
                 }).setNegativeButton("取消", null).show();
             }
@@ -340,7 +340,7 @@ public class CalAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent=new Intent();
                 intent.putExtra("type",2);
-                intent.putExtra("id",list.get(index).getScheduleId());
+                intent.putExtra("id",list.get(position).getScheduleId());
                 intent.setClass(context,ShareDialogAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
