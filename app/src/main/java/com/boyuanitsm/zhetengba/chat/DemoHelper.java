@@ -531,7 +531,7 @@ public class DemoHelper {
         @Override
         public void onUserRemoved(String groupId, String groupName) {
             //TODO 提示用户被T了，demo省略此步骤
-            broadcastManager.sendBroadcast(new Intent(Constant.ACTION_GROUP_CHANAGED));
+//            broadcastManager.sendBroadcast(new Intent(Constant.ACTION_GROUP_CHANAGED));
         }
 
         @Override
