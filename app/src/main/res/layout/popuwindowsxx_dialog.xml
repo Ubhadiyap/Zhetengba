@@ -19,7 +19,7 @@
             android:layout_width="70dp"
             android:layout_height="30dp">
             <ImageView
-                android:src="@drawable/share"
+                android:src="@drawable/del2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             

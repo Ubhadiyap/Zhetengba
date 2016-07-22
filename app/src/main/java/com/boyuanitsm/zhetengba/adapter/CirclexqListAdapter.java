@@ -241,6 +241,7 @@ public class CirclexqListAdapter extends BaseAdapter {
                 if (list.get(position).getCommentCounts() == 0) {
                     viewHolder.cnum.setVisibility(View.GONE);
                 } else {
+                    viewHolder.cnum.setVisibility(View.VISIBLE);
                     viewHolder.cnum.setText(list.get(position).getCommentCounts() + "");
                 }
             }
