@@ -116,6 +116,7 @@ public class PpfrgAdapter extends BaseAdapter {
                 calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
                 calHolder.tv_cal_yh.setText("邀约成功");
                 calHolder.ll_yue.setEnabled(false);
+                calHolder.iv_bag.setEnabled(false);
                 calHolder.iv_bag.setImageResource(R.mipmap.yue);
             }else{
                 if (scheduleEntity.get(position).getDictName().equals("闲来无事")){
@@ -131,6 +132,7 @@ public class PpfrgAdapter extends BaseAdapter {
                 calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
                 calHolder.tv_cal_yh.setText("约Ta");
                 calHolder.ll_yue.setEnabled(true);
+                calHolder.iv_bag.setEnabled(true);
                 calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
