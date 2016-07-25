@@ -324,6 +324,7 @@ public class CollectAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                delGroup(list.get(position).getId());
                 holder.ll_join.setEnabled(true);
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
                 holder.tv_text_jion.setText("参加");
@@ -334,6 +335,25 @@ public class CollectAdapter extends BaseAdapter {
                 list.get(position).setJoining(false);
                 list.get(position).setMemberNum(i);
                 context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+
+            }
+        });
+    }
+
+    /**
+     * 退出群聊
+     * @param activityId
+     */
+    private void delGroup(String activityId) {
+
+        RequestManager.getScheduleManager().deleGroup(activityId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
 
             }
         });

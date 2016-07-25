@@ -177,13 +177,13 @@ public class GeneralUtils {
 			BufferedInputStream bis = new BufferedInputStream(is);
 			byte[] buffer = new byte[1024];
 			int len;
-			int total = 0;
+			long total = 0;
 			while ((len = bis.read(buffer)) != -1) {
-				fos.write(buffer, 0, len);
 				total += len;
-				int prop = (total * 100 / conn.getContentLength());
+				int prop = (int) (total * 100 / conn.getContentLength());
 				//获取当前下载量
 				pd.setProgress(prop);
+				fos.write(buffer, 0, len);
 			}
 			fos.close();
 			bis.close();

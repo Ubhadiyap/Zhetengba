@@ -194,8 +194,20 @@ public class PpfrgAdapter extends BaseAdapter {
         }
 
 //        calHolder.tv_time_cal.setText(ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getStartTime()))+ "—" + ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getEndTime())));
-        if (!TextUtils.isEmpty(scheduleEntity.get(position).getDictName())){
+//        if (!TextUtils.isEmpty(scheduleEntity.get(position).getDictName())){
+//            calHolder.tv_state.setText(scheduleEntity.get(position).getDictName());//标签名称
+//        }
+        if (!TextUtils.isEmpty(scheduleEntity.get(position).getDictName())) {
             calHolder.tv_state.setText(scheduleEntity.get(position).getDictName());//标签名称
+            if (scheduleEntity.get(position).getDictName().equals("闲来无事")){
+                calHolder.tv_state.setBackgroundResource(R.drawable.rdbt_xl_check);
+            }else if (scheduleEntity.get(position).getDictName().equals("百无聊懒")){
+                calHolder.tv_state.setBackgroundResource(R.drawable.rdbt_bw_check);
+            }else if (scheduleEntity.get(position).getDictName().equals("闲的要死")){
+                calHolder.tv_state.setBackgroundResource(R.drawable.rdbt_wl_check);
+            }else if (scheduleEntity.get(position).getDictName().equals("无聊至极")){
+                calHolder.tv_state.setBackgroundResource(R.drawable.rdbt_ys_check);
+            }
         }
 
 //        if (list.get(position).)是否关注

@@ -122,9 +122,7 @@ public class CalAdapter extends BaseAdapter {
             calHolder.ll_cal_guanzhu_del.setVisibility(View.GONE);
             calHolder.ll_cal_share.setVisibility(View.GONE);
             if (list.get(position).isAgreeAbout()){
-                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger_b));
-                calHolder.tv_cal_yh.setText("邀约成功");
-                calHolder.ll_yue.setEnabled(false);
+                calHolder.tv_cal_yh.setText("邀约完成，等待对方同意");
                 calHolder.iv_bag.setImageResource(R.mipmap.yue);
                 calHolder.iv_bag.setEnabled(false);
             }else{
@@ -137,10 +135,6 @@ public class CalAdapter extends BaseAdapter {
                 }else if (list.get(position).getDictName().equals("无聊至极")){
                     calHolder.iv_bag.setImageResource(R.mipmap.lan);
                 }
-
-                calHolder.iv_cal_yh.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.finger));
-                calHolder.tv_cal_yh.setText("约Ta");
-                calHolder.ll_yue.setEnabled(true);
                 calHolder.iv_bag.setEnabled(true);
                 calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
                     @Override

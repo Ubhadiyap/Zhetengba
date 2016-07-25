@@ -53,7 +53,6 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
         rlAdd.setOnClickListener(this);
         rlContract.setOnClickListener(this);
-
     }
 
 
