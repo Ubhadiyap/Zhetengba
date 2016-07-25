@@ -82,11 +82,11 @@ public class CirMessAct extends BaseActivity {
                 switch (menu.getViewType()) {
                     case 0:
                         SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                        deleteItem.setBackground(R.color.plan_green);
+                        deleteItem.setBackground(R.color.delete_red);
                         deleteItem.setWidth(ZhetebaUtils.dip2px(CirMessAct.this, 80));
                         deleteItem.setTitle("删除");
                         deleteItem.setTitleSize(14);
-                        deleteItem.setTitleColor(Color.parseColor("#ffffff"));
+                        deleteItem.setTitleColor(Color.WHITE);
                         menu.addMenuItem(deleteItem);
                         break;
                 }

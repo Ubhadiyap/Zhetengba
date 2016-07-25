@@ -152,12 +152,12 @@ public class CollectAdapter extends BaseAdapter {
             if (list.get(position).isJoining()) {
                 //已经响应了
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
-                holder.tv_text_jion.setText("取消参加");
+                holder.tv_text_jion.setText("取消响应");
                 holder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
             } else {
                 //没有响应
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
-                holder.tv_text_jion.setText("参加");
+                holder.tv_text_jion.setText("响应");
                 holder.tv_join_num.setTextColor(Color.parseColor("#999999"));
             }
             //用户图片

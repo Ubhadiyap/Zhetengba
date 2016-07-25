@@ -184,7 +184,7 @@ public class ActAdapter extends BaseAdapter {
 //        返回状态判断是否参加，
         if (infos.get(position).isJoining()) {
             viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
-            viewHolder.tv_text_jion.setText("取消参加");
+            viewHolder.tv_text_jion.setText("取消响应");
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
 
         } else {
