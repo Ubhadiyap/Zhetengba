@@ -324,6 +324,7 @@ public class CollectAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                delGroup(list.get(position).getId());
                 holder.ll_join.setEnabled(true);
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));
                 holder.tv_text_jion.setText("参加");
@@ -373,6 +374,24 @@ public class CollectAdapter extends BaseAdapter {
      */
     private void addGroup(String actId) {
         RequestManager.getScheduleManager().addHXGroup(actId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+
+            }
+        });
+    }
+
+    /**
+     * 移除群组
+     * @param activityId
+     */
+    private void delGroup(String activityId){
+        RequestManager.getScheduleManager().deleGroup(activityId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
