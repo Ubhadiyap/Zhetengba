@@ -667,8 +667,8 @@ public class DemoHelper {
             msg.setStatus(InviteMesageStatus.BEINVITEED);
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
-//            broadcastManager.sendBroadcast(new Intent(MessFrg.UPDATE_POINT));
-            MyLogUtils.degug("换新发广播");
+            appContext.sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+            MyLogUtils.info("换新发广播");
         }
 
         @Override
