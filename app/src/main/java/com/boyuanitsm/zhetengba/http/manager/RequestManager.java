@@ -97,7 +97,7 @@ public class RequestManager {
                                 }else {//失败
                                     callback.onError(status, jsonObject.getString("message"));
                                 }
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
