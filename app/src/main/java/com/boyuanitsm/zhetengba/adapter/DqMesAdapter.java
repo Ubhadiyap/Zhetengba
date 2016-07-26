@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +128,8 @@ public class DqMesAdapter extends BaseAdapter {
         } else {
             viewHolder.tvAccept.setText("接受");
             viewHolder.tvRefuse.setText("拒绝");
+            viewHolder.tvAccept.setBackgroundResource(R.drawable.com_btn_select);
+            viewHolder.tvRefuse.setBackgroundResource(R.drawable.com_btn_select);
             viewHolder.tvAccept.setEnabled(true);
             viewHolder.tvRefuse.setEnabled(true);
         }
@@ -149,10 +152,18 @@ public class DqMesAdapter extends BaseAdapter {
                         viewHolder.tvRefuse.setClickable(false);
                         list.get(position).setHandleResult(0 + "");
                         notifyDataSetChanged();
+                        if (TextUtils.equals(response.getData(),"-3")){
+                            MyToastUtils.showShortToast(context, response.getMessage());
+                            viewHolder.tvAccept.setText("已接受");
+                            viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
+                            list.remove(position);
+                            return;
+                        }
                         ActivityMessDao.saveCircleMess(list.get(position));
                         viewHolder.tvAccept.setText("已接受");
                         viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
-                        MyToastUtils.showShortToast(context, "已经同意！");
+                        MyToastUtils.showShortToast(context, response.getMessage());
+
 
                     }
                 });
@@ -175,11 +186,19 @@ public class DqMesAdapter extends BaseAdapter {
                         viewHolder.tvAccept.setClickable(false);
                         viewHolder.tvRefuse.setClickable(false);
                         list.get(position).setHandleResult(1 + "");
+                        if (TextUtils.equals(response.getData(),"0")){
+                            MyToastUtils.showShortToast(context, response.getMessage());
+                            viewHolder.tvAccept.setText("已拒绝");
+                            viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
+                            list.remove(position);
+                            notifyDataSetChanged();
+                            return;
+                        }
                         notifyDataSetChanged();
                         ActivityMessDao.saveCircleMess(list.get(position));
                         viewHolder.tvRefuse.setText("已拒绝");
                         viewHolder.tvAccept.setBackgroundColor(Color.GRAY);
-                        MyToastUtils.showShortToast(context, "已经拒绝！");
+                        MyToastUtils.showShortToast(context, response.getMessage());
                     }
                 });
             }

@@ -341,6 +341,25 @@ public class CollectAdapter extends BaseAdapter {
     }
 
     /**
+     * 退出群聊
+     * @param activityId
+     */
+    private void delGroup(String activityId) {
+
+        RequestManager.getScheduleManager().deleGroup(activityId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+
+            }
+        });
+    }
+
+    /**
      * 参加或响应活动接口
      *
      * @param

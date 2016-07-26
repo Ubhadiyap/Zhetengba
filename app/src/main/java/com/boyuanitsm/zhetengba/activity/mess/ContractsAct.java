@@ -9,6 +9,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 
 /**
  * 联系人
@@ -43,5 +44,6 @@ public class ContractsAct extends BaseActivity {
     protected void onResume() {
         super.onResume();
         sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+        MyLogUtils.degug("contracts发送广播");
     }
 }

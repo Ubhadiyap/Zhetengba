@@ -140,13 +140,16 @@ public class CirmationAct extends BaseActivity {
                     if (circleEntity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())) {
                         AppManager.getAppManager().finishActivity(CirxqAct.class);
                         MyToastUtils.showShortToast(CirmationAct.this,"圈子已经解散！");
+                    }else {
+                        MyToastUtils.showShortToast(CirmationAct.this,response.getMessage());
                     }
+                }else {
+                    MyToastUtils.showShortToast(CirmationAct.this, response.getMessage());
                 }
                 finish();
                 sendBroadcast(new Intent(CircleglAct.INTENTFLAG));
                 sendBroadcast(new Intent(CirFrg.ALLTALKS));
-                sendBroadcast(new Intent(CirxqAct.DETAIL));
-                sendBroadcast(new Intent(CirxqAct.MEMBERXQ));
+                sendBroadcast(new Intent(CirxqAct.FINISH));
             }
         });
     }

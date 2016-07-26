@@ -416,6 +416,10 @@ public class MainAct extends BaseActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 int count = getUnreadAddressCountTotal();
+//                InviteMessgeDao inviteMessgeDao=new InviteMessgeDao(MainAct.this);
+//                if (inviteMessgeDao.getUnreadMessagesCount()>0){
+//                    sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+//                }
                 if (count > 0) {
 //					unreadAddressLable.setText(String.valueOf(count));
 //                    unreadAddressLable.setVisibility(View.VISIBLE);

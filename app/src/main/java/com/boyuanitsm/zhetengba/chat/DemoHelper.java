@@ -30,6 +30,7 @@ import com.boyuanitsm.zhetengba.chat.receiver.CallReceiver;
 import com.boyuanitsm.zhetengba.chat.utils.PreferenceManager;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
+import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
@@ -666,6 +667,8 @@ public class DemoHelper {
             msg.setStatus(InviteMesageStatus.BEINVITEED);
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+            appContext.sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+            MyLogUtils.info("换新发广播");
         }
 
         @Override
@@ -684,6 +687,7 @@ public class DemoHelper {
             msg.setStatus(InviteMesageStatus.BEAGREED);
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+            broadcastManager.sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
         }
 
         @Override
