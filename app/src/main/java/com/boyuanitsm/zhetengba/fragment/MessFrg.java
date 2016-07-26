@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Pair;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -35,8 +36,10 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.util.NetUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 消息页面
@@ -258,6 +261,41 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             }else {
                 iv_new_red.setVisibility(View.GONE);
             }
+
+
+
+            // 获取所有会话，包括陌生人
+            Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
+            // 过滤掉messages size为0的conversation
+            /**
+             * 如果在排序过程中有新消息收到，lastMsgTime会发生变化
+             * 影响排序过程，Collection.sort会产生异常
+             * 保证Conversation在Sort过程中最后一条消息的时间不变
+             * 避免并发问题
+             */
+            List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
+            synchronized (conversations) {
+                for (EMConversation conversation : conversations.values()) {
+                    if (conversation.getAllMessages().size() != 0) {
+                        //if(conversation.getType() != EMConversationType.ChatRoom){
+                        sortList.add(new Pair<Long, EMConversation>(conversation.getLastMessage().getMsgTime(), conversation));
+                        //}
+                    }
+                }
+            }
+            for (Pair<Long, EMConversation> sortItem : sortList) {
+                EMConversation em=sortItem.second;
+                if(em.getType() == EMConversation.EMConversationType.GroupChat){
+                    if(EMClient.getInstance().groupManager().getGroup(em.getUserName())==null){
+//                    // 删除此会话
+                        EMClient.getInstance().chatManager().deleteConversation(em.getUserName(),true);
+                        InviteMessgeDao imsDao = new InviteMessgeDao(getActivity());
+                        imsDao.deleteMessage(em.getUserName());
+                    }
+                }
+            }
+
+
              refresh();
         }
     }
