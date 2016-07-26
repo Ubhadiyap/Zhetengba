@@ -13,6 +13,7 @@
  */
 package com.boyuanitsm.zhetengba.activity.mess;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -21,6 +22,7 @@ import com.boyuanitsm.zhetengba.adapter.NewFriendsMsgAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
+import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.List;
@@ -47,6 +49,7 @@ public class NewFriendsMsgActivity extends BaseActivity {
 		NewFriendsMsgAdapter adapter = new NewFriendsMsgAdapter(this, 1, msgs);
 		listView.setAdapter(adapter);
 		dao.saveUnreadMessageCount(0);
+		sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
 	}
 
 

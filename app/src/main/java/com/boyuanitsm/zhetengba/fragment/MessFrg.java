@@ -29,6 +29,7 @@ import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
@@ -53,6 +54,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
         rlAdd.setOnClickListener(this);
         rlContract.setOnClickListener(this);
+
     }
 
 
@@ -70,20 +72,26 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         if(receiver==null){
             receiver=new UpdateBroadCastReceiver();
             getContext().registerReceiver(receiver,new IntentFilter(UPDATE_CONTRACT));
         }
+//        if (receiverpoint==null){
+//            receiverpoint=new UpdatePointBroadCastReceiver();
+//            getContext().registerReceiver(receiverpoint,new IntentFilter(UPDATE_POINT));
+//        }
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         if(receiver!=null){
             getContext().unregisterReceiver(receiver);
         }
+//        if(receiverpoint!=null){
+//            getContext().unregisterReceiver(receiverpoint);
+//        }
     }
 
     @Override
@@ -102,6 +110,7 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             tvmessage.setText("暂无新消息");
             tvUnReaNum.setVisibility(View.GONE);
         }
+
         registerForContextMenu(conversationListView);
        rlDq.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -180,7 +189,6 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             e.printStackTrace();
         }
         refresh();
-
         // 更新消息未读数
         ((MainAct)getActivity()).updateUnreadLabel();
         return true;
@@ -243,9 +251,31 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
 //                tvUnReaNum.setVisibility(View.GONE);
 //                return;
 //            }
+            MyLogUtils.degug("接收到广播");
+            InviteMessgeDao inviteMessgeDao=new InviteMessgeDao(mActivity);
+            if (inviteMessgeDao.getUnreadMessagesCount()>0){
+                iv_new_red.setVisibility(View.VISIBLE);
+            }else {
+                iv_new_red.setVisibility(View.GONE);
+            }
              refresh();
         }
     }
+//    public static final String UPDATE_POINT="com.update.point";
+//    private UpdatePointBroadCastReceiver receiverpoint;
+//
+//    class UpdatePointBroadCastReceiver extends BroadcastReceiver{
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            MyLogUtils.degug("接收到广播");
+//            InviteMessgeDao inviteMessgeDao=new InviteMessgeDao(mActivity);
+//            if (inviteMessgeDao.getUnreadMessagesCount()>0){
+//                iv_new_red.setVisibility(View.VISIBLE);
+//            }else {
+//                iv_new_red.setVisibility(View.GONE);
+//            }
+//        }
+//    }
 
 }
 

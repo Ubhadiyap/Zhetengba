@@ -478,6 +478,10 @@ public class CirxqAct extends BaseActivity {
             receiverDetail=new MyBroadCastReceiverDetail();
             registerReceiver(receiverDetail,new IntentFilter(DETAIL));
         }
+        if (receiverFinish==null){
+            receiverFinish=new MyBroadCastReceiverFinish();
+            registerReceiver(receiverFinish,new IntentFilter(FINISH));
+        }
     }
 
     @Override
@@ -494,6 +498,10 @@ public class CirxqAct extends BaseActivity {
         if(receiverDetail!=null){
             unregisterReceiver(receiverDetail);
             receiverDetail=null;
+        }
+        if (receiverFinish!=null){
+            unregisterReceiver(receiverFinish);
+            receiverFinish=null;
         }
     }
 
@@ -514,7 +522,7 @@ public class CirxqAct extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             page=1;
-            getThisCircleTalks(circleId,page,rows);
+            getThisCircleTalks(circleId, page, rows);
         }
     }
 
@@ -528,5 +536,14 @@ public class CirxqAct extends BaseActivity {
         }
     }
 
+    private MyBroadCastReceiverFinish receiverFinish;
+    public static final String FINISH="finish_update";
+    private class MyBroadCastReceiverFinish extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    }
 }
 
