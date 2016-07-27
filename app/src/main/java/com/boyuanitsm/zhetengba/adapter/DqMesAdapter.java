@@ -116,13 +116,13 @@ public class DqMesAdapter extends BaseAdapter {
         if (TextUtils.equals(list.get(position).getHandleResult(), 0 + "")) {
             viewHolder.tvAccept.setText("已接受");
             viewHolder.tvRefuse.setText("拒绝");
-            viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
+            viewHolder.tvRefuse.setBackgroundResource(R.drawable.bg_circle_stroke_gray2);
             viewHolder.tvAccept.setEnabled(false);
             viewHolder.tvRefuse.setEnabled(false);
         } else if (TextUtils.equals(list.get(position).getHandleResult(), 1 + "")) {
             viewHolder.tvAccept.setText("接受");
             viewHolder.tvRefuse.setText("已拒绝");
-            viewHolder.tvAccept.setBackgroundColor(Color.GRAY);
+            viewHolder.tvAccept.setBackgroundResource(R.drawable.bg_circle_stroke_gray2);
             viewHolder.tvAccept.setEnabled(false);
             viewHolder.tvRefuse.setEnabled(false);
         } else {
@@ -151,19 +151,15 @@ public class DqMesAdapter extends BaseAdapter {
                         viewHolder.tvAccept.setClickable(false);
                         viewHolder.tvRefuse.setClickable(false);
                         list.get(position).setHandleResult(0 + "");
-                        notifyDataSetChanged();
                         if (TextUtils.equals(response.getData(),"-3")){
                             MyToastUtils.showShortToast(context, response.getMessage());
-                            viewHolder.tvAccept.setText("已接受");
-                            viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
                             list.remove(position);
+                            notifyDataSetChanged();
                             return;
                         }
                         ActivityMessDao.saveCircleMess(list.get(position));
-                        viewHolder.tvAccept.setText("已接受");
-                        viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
                         MyToastUtils.showShortToast(context, response.getMessage());
-
+                        notifyDataSetChanged();
 
                     }
                 });
@@ -188,17 +184,13 @@ public class DqMesAdapter extends BaseAdapter {
                         list.get(position).setHandleResult(1 + "");
                         if (TextUtils.equals(response.getData(),"0")){
                             MyToastUtils.showShortToast(context, response.getMessage());
-                            viewHolder.tvAccept.setText("已拒绝");
-                            viewHolder.tvRefuse.setBackgroundColor(Color.GRAY);
                             list.remove(position);
                             notifyDataSetChanged();
                             return;
                         }
-                        notifyDataSetChanged();
                         ActivityMessDao.saveCircleMess(list.get(position));
-                        viewHolder.tvRefuse.setText("已拒绝");
-                        viewHolder.tvAccept.setBackgroundColor(Color.GRAY);
                         MyToastUtils.showShortToast(context, response.getMessage());
+                        notifyDataSetChanged();
                     }
                 });
             }

@@ -68,7 +68,6 @@ public class MainAct extends BaseActivity {
     private MyRadioButton rb_mes;
     //    // 未读消息textview
     private TextView unreadLabel;
-    private final static int[] icons = {R.drawable.menu_ticket_b, R.drawable.menu_chat_b, R.drawable.menu_loop_b, R.drawable.menu_me_b};
 
     protected static final String TAG = "MainActivity";
     // 当前fragment的index
@@ -564,12 +563,6 @@ public class MainAct extends BaseActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
-                            @Override
-                            public void gotResult(int i, String s, Set<String> set) {
-
-                            }
-                        });
                         UserInfoDao.deleteUser();
                         ActivityMessDao.delAll();
                         LabelInterestDao.delAll();
@@ -637,6 +630,12 @@ public class MainAct extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent.getBooleanExtra(Constant.ACCOUNT_CONFLICT, false) && !isConflictDialogShow) {
+            JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
+                @Override
+                public void gotResult(int i, String s, Set<String> set) {
+
+                }
+            });
             showConflictDialog();
         } else if (intent.getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
             showAccountRemovedDialog();

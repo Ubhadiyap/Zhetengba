@@ -66,26 +66,7 @@ public class DqMesAct extends BaseActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("数据加载中...");
         progressDialog.show();
-//        list= ActivityMessDao.getCircleUser();
-//        MyLogUtils.info(list + "档期消息信息");
-//        if (list!=null&&list.size() > 0) {
-//            Collections.reverse(list);
-//        }
-//        notifyData();
         getDqMess(type, page, rows);
-//        adapter=new DqMesAdapter(this,list);
-//        lvDqMes.setAdapter(adapter);
-//        setRight("清空", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (list != null && list.size() > 0) {
-//                    list.clear();
-//                    adapter.notifyDataSetChanged();
-//                    ActivityMessDao.delAll();
-//                }
-//            }
-//        });
-
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
@@ -110,8 +91,6 @@ public class DqMesAct extends BaseActivity {
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-//                        MyToastUtils.showShortToast(MsgAct.this, position + "");
-                        // delete
                         if (!TextUtils.isEmpty(list.get(position).getMsgType())) {
                             datas = ActivityMessDao.getCircleUser();
                             if (datas != null && datas.size() > 0) {
@@ -129,7 +108,6 @@ public class DqMesAct extends BaseActivity {
 
                         list.remove(position);
                         adapter.notifyDataChange(list);
-//                        updateActivityMessDao();
                         break;
                 }
                 // false : close the menu; true : not close the menu
@@ -158,21 +136,6 @@ public class DqMesAct extends BaseActivity {
             }
         });
     }
-
-//    private void notifyData() {
-//        list=new ArrayList<>();
-//        list = ActivityMessDao.getCircleUser();
-//        if (list!=null&&list.size() > 0) {
-//            Collections.reverse(list);
-//        }
-//        if (adapter == null) {
-//            adapter = new DqMesAdapter(this, list);
-//            lvDqMes.setAdapter(adapter);
-//        } else {
-//            adapter.notifyDataChange(list);
-//        }
-
-//    }
 
     /**
      * 调用档期消息，需要操作的接口

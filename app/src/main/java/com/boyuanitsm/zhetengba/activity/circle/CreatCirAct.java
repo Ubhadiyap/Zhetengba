@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,6 +36,7 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
     private EditText etNotes;//圈子公告
     private String personIds;//邀请成员id
     private CircleEntity circleEntity;//圈子实体
+    private ProgressDialog progressDialog;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_creatcir);
@@ -45,7 +47,8 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
     public void init(Bundle savedInstanceState) {
         setTopTitle("建立圈子");
         circleEntity=new CircleEntity();
-
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
     }
     @OnClick({R.id.tv_ask,R.id.tv_creat})
     @Override
@@ -65,6 +68,7 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
                     MyToastUtils.showShortToast(this,"圈子名称不能为空");
                     return;
                 }else {
+                    progressDialog.show();
                     tv_creat.setEnabled(false);
                     circleEntity.setCircleName(et_cir_name.getText().toString().trim());
                     circleEntity.setNotice(etNotes.getText().toString().trim());
@@ -94,12 +98,14 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
             @Override
             public void onError(int status, String errorMsg) {
                 tv_creat.setEnabled(true);
+                progressDialog.dismiss();
                 MyToastUtils.showShortToast(CreatCirAct.this,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 tv_creat.setEnabled(true);
+                progressDialog.dismiss();
                 finish();
                 sendBroadcast(new Intent(CircleglAct.INTENTFLAG));
             }
