@@ -7,10 +7,17 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,6 +34,7 @@ import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
+import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -34,7 +42,7 @@ import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
-import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -60,12 +68,14 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private ArrayList<Integer> moveToList;//设置textview宽高集合
     private List<ChannelTalkEntity> channelTalkEntityList;
     private List<List<ImageInfo>> datalist;
-    private List<ChannelTalkEntity> datas = new ArrayList<>();;
-
+    private List<ChannelTalkEntity> datas = new ArrayList<>();
+    private ViewPager viewPager;
+    private HorizontalScrollView hslv_chanel;
     LinearLayout llnoList;
     ImageView ivAnim;
     TextView noMsg;
     private AnimationDrawable animationDrawable;
+
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.chanel_frg, null);
@@ -75,74 +85,73 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     @Override
     public void initData(Bundle savedInstanceState) {
         initView();        //初始化控件
-        titleList = LabelInterestDao.getInterestLabel();        //设置间隙
+//        titleList = LabelInterestDao.getInterestLabel();        //设置间隙
 //        MyLogUtils.info("数据库中标签是否为空："+titleList.toString());
-        if (titleList == null) {
+//        if (titleList == null) {
             getMyLabels(-1);
-        } else {
-            initDate(titleList);
-        }
+//        } else {
+//            LogUtils.i("初始"+titleList.size());
+//            initDate(titleList);
+//        }
         MyLogUtils.info(titleList.toString());
     }
 
     private void initView() {
         titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
-        vp_chan = (PullToRefreshListView) view.findViewById(R.id.vp_chan);
-        llnoList= (LinearLayout) view.findViewById(R.id.noList);
-        ivAnim= (ImageView) view.findViewById(R.id.ivAnim);
-        noMsg= (TextView) view.findViewById(R.id.noMsg);
+//        vp_chan = (PullToRefreshListView) view.findViewById(R.id.vp_chan);
+        viewPager = (ViewPager) view.findViewById(R.id.vp_chanel);
+        hslv_chanel = (HorizontalScrollView) view.findViewById(R.id.hslv_chanel);
     }
+
 
     /***
      * 填充数据
      */
     private void initDate(final List<UserInterestInfo> titleList) {
-        MyLogUtils.info(currentPos+"刷新位置信息。。。。");
+        MyLogUtils.info(currentPos + "刷新位置信息。。。。");
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
-        if (titleList.size()<=currentPos){
-            currentPos=0;
-        }else {
+        if (titleList.size() <= currentPos) {
+            currentPos = 0;
+        } else {
             currentPos = pos;
         }
-        if (titleList.size()>0) {
-            getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+        if (titleList.size() > 0) {
+//            if (pageAdapter == null) {
+                LogUtils.i("适配器初始"+titleList.size());
+              ChanelPageAdapter  pageAdapter = new ChanelPageAdapter(getChildFragmentManager());
+                viewPager.setAdapter(pageAdapter);
+//            } else {
+//                LogUtils.i("适配器刷新" + titleList.size());
+//                pageAdapter.notifyDataSetChanged();
+//            }
+
+//            getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
             for (int i = 0; i < titleList.size(); i++) {
                 addTitleLayout(titleList.get(i).getDictName(), i);
             }
             if (textViewList != null && textViewList.size() > 0) {
                 textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));//默认加载项，标签文字对应变色
             }
-            LayoutHelperUtil.freshInit(vp_chan);
-            //快速滚动时停止加载图片
-            vp_chan.setOnScrollListener(new AbsListView.OnScrollListener() {
+            viewPager.setCurrentItem(currentPos);//默认加载条目
+            viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {//滑动监听
                 @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState) {
-                    if (scrollState == SCROLL_STATE_IDLE || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-                        ImageLoader.getInstance().resume();
-                    } else {
-                        ImageLoader.getInstance().pause();
-                    }
+                public void onPageScrolled(int i, float v, int i1) {
+
                 }
 
                 @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                }
-            });
-            vp_chan.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-                @Override
-                public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                    vp_chan.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-                    page = 1;
-                    MyLogUtils.info(currentPos+"刷新位置信息。。。。");
-                    getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+                public void onPageSelected(int i) {
+                    //当前位置textview 文字选中变色
+                    textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
+                    textViewList.get(i).setTextColor(Color.parseColor("#52C791"));
+                    currentPos = i;
+                    hslv_chanel.scrollTo((int) moveToList.get(i), 0);
                 }
 
                 @Override
-                public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                    page++;
-                    getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+                public void onPageScrollStateChanged(int i) {
+
                 }
             });
         }
@@ -161,7 +170,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         textView.setTextSize(14);
         textView.setTextColor(Color.parseColor("#999999"));
         textView.setTag(position);//设置position Tag
-        MyLogUtils.info("title：位置"+title+":"+position);
+        MyLogUtils.info("title：位置" + title + ":" + position);
         textView.setOnClickListener(new posOnClickListener());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         mTitleMargin = ZtinfoUtils.dip2px(mActivity, 10);        //设置左右间隙
@@ -192,7 +201,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 intent.putExtra(CirclefbAct.TYPE, 0);
                 intent.putExtra("labelId", titleList.get(currentPos).getInterestId());
                 intent.putExtra("flag", currentPos);
-                MyLogUtils.info("发布时的位置：===="+currentPos);
+                MyLogUtils.info("发布时的位置：====" + currentPos);
                 startActivity(intent);
                 break;
             case R.id.ll_add:
@@ -205,7 +214,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
-            MyLogUtils.degug("传过来的位置："+currentPos+"====点击位置："+(int)view.getTag());
+            MyLogUtils.degug("传过来的位置：" + currentPos + "====点击位置：" + (int) view.getTag());
             if ((int) view.getTag() == currentPos) {
                 return;
             }
@@ -213,8 +222,30 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             currentPos = (int) view.getTag();
             page = 1;
             rows = 10;
-            getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+            viewPager.setCurrentItem(currentPos);
             textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));
+        }
+    }
+
+    class ChanelPageAdapter extends FragmentStatePagerAdapter {
+
+        public ChanelPageAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            LogUtils.i("适配器" + titleList.size());
+            return titleList == null ? 0 : titleList.size();
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            ChanelItemFrg chanelfrg = new ChanelItemFrg();
+            Bundle bundle = new Bundle();
+            bundle.putString(ChanelItemFrg.TITLE_LIST, titleList.get(i).getInterestId());
+            chanelfrg.setArguments(bundle);
+            return chanelfrg;
         }
     }
 
@@ -228,93 +259,23 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         RequestManager.getScheduleManager().selectMyLabels(null, limitNum, new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                llnoList.setVisibility(View.VISIBLE);
-                ivAnim.setImageResource(R.drawable.loadfail_list);
-                noMsg.setText("加载失败..");
-                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                animationDrawable.start();
+//                llnoList.setVisibility(View.VISIBLE);
+//                ivAnim.setImageResource(R.drawable.loadfail_list);
+//                noMsg.setText("加载失败..");
+//                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+//                animationDrawable.start();
             }
 
             @Override
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
-                if (animationDrawable!=null){
-                    animationDrawable.stop();
-                    animationDrawable=null;
-                    llnoList.setVisibility(View.GONE);
-                }
+//                if (animationDrawable != null) {
+//                    animationDrawable.stop();
+//                    animationDrawable = null;
+//                    llnoList.setVisibility(View.GONE);
+//                }
                 titleList = response.getData();
+                LogUtils.i("请求接口"+titleList.size());
                 initDate(titleList);
-            }
-        });
-    }
-
-
-    /**
-     * 获取频道说说列表
-     *
-     * @param lableId
-     * @param page
-     * @param rows
-     */
-    private void getChannelTalks(String lableId, final int page, int rows) {
-        channelTalkEntityList = new ArrayList<>();
-        datalist = new ArrayList<>();
-        RequestManager.getTalkManager().getChannelTalks(lableId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
-            @Override
-            public void onError(int status, String errorMsg) {
-                vp_chan.onPullUpRefreshComplete();
-                vp_chan.onPullDownRefreshComplete();
-                if (adapter!=null){
-                    adapter.notifyChange(datalist,channelTalkEntityList);
-                }
-                llnoList.setVisibility(View.VISIBLE);
-                ivAnim.setImageResource(R.drawable.loadfail_list);
-                noMsg.setText("加载数据失败...");
-                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                animationDrawable.start();
-            }
-
-            @Override
-            public void onResponse(ResultBean<DataBean<ChannelTalkEntity>> response) {
-                vp_chan.onPullUpRefreshComplete();
-                vp_chan.onPullDownRefreshComplete();
-                if (animationDrawable!=null){
-                    animationDrawable.stop();
-                    animationDrawable=null;
-                }
-                channelTalkEntityList = response.getData().getRows();
-                if (channelTalkEntityList.size() == 0) {
-                    if (page == 1) {
-                        llnoList.setVisibility(View.VISIBLE);
-                        ivAnim.setImageResource(R.mipmap.planeno);
-                        noMsg.setText("暂无内容");
-                    } else {
-                        vp_chan.setHasMoreData(false);
-                    }
-                }else {
-                    llnoList.setVisibility(View.GONE);
-                }
-                if (page == 1) {
-                    datas.clear();
-                }
-                datas.addAll(channelTalkEntityList);
-                for (int j = 0; j < datas.size(); j++) {
-                    List<ImageInfo> itemList = new ArrayList<>();
-                    //将图片地址转化成数组
-                    if (!TextUtils.isEmpty(datas.get(j).getChannelImage())) {
-                        String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getChannelImage());
-                        for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(urlList[i], 1624, 914));
-                        }
-                    }
-                    datalist.add(itemList);
-                }
-                if (adapter == null) {
-                    adapter = new ChanAdapter(mActivity, datalist, datas);
-                    vp_chan.getRefreshableView().setAdapter(adapter);
-                } else {
-                    adapter.notifyChange(datalist, datas);
-                }
             }
         });
     }
@@ -344,27 +305,28 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            page=1;
-            if (titleLayout!=null)
-            titleLayout.removeAllViews();
-            if (textViewList!=null)
-            textViewList.clear();
-            if (titleList!=null)
-            titleList.clear();
-            if (datalist!=null)
-            datalist.clear();
-            titleList = LabelInterestDao.getInterestLabel();
-            if (intent!=null) {
-                Bundle bundle=intent.getExtras();
-                if (bundle!=null) {
+            page = 1;
+            if (titleLayout != null)
+                titleLayout.removeAllViews();
+            if (textViewList != null)
+                textViewList.clear();
+            if (titleList != null)
+                titleList.clear();
+            if (datalist != null)
+                datalist.clear();
+//            titleList = LabelInterestDao.getInterestLabel();
+            LogUtils.i("广播后"+titleList.size());
+            if (intent != null) {
+                Bundle bundle = intent.getExtras();
+                if (bundle != null) {
                     pos = bundle.getInt("flag", currentPos);
                 }
             }
-            if (titleList == null) {
+//            if (titleList == null) {
                 getMyLabels(-1);
-            } else {
-                initDate(titleList);
-            }
+//            } else {
+//                initDate(titleList);
+//            }
         }
     }
 

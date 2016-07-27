@@ -163,4 +163,5 @@ public class UserInterestInfo implements Parcelable{
             return new UserInterestInfo[size];
         }
     };
+
 }

@@ -71,34 +71,15 @@
             android:background="@color/common_bg"
             android:orientation="vertical">
 
-            <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
-                android:id="@+id/vp_chan"
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_chanel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
+                android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+            <!--<com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView-->
+                <!--android:id="@+id/vp_chan"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>-->
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/noList"
-        android:visibility="gone"
-        android:layout_centerInParent="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ImageView
-            android:id="@+id/ivAnim"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            android:id="@+id/noMsg"
-            android:textSize="16sp"
-            android:textColor="#999999"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="加载失败"/>
     </LinearLayout>
 
 </RelativeLayout>

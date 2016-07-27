@@ -25,6 +25,7 @@ import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -359,6 +360,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 Bundle bundle=new Bundle();
                 intent.putExtras(bundle);
                 sendBroadcast(intent);
+                sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
             }
         });
     }

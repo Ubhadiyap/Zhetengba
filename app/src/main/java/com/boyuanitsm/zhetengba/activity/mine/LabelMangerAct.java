@@ -1,9 +1,11 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -15,6 +17,7 @@ import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.adapter.LabelGVadapter;
 import com.boyuanitsm.zhetengba.adapter.LabelGvMyadapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
@@ -22,6 +25,7 @@ import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
@@ -29,6 +33,8 @@ import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -53,6 +59,8 @@ public class LabelMangerAct extends BaseActivity {
     private String labelids;//接口传入参数
     private String userId;//用户Id
     private LabelInterestDao labelInterestDao;
+    private ProgressDialog dialog;
+    private int isShow=0;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_labelmana2);
@@ -61,6 +69,10 @@ public class LabelMangerAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
 //        labelInterestDao=new LabelInterestDao(LabelMangerAct.this);
+        dialog=new ProgressDialog(this);
+        dialog.setMessage("数据加载中...");
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         if (bundle!=null){
@@ -96,18 +108,27 @@ public class LabelMangerAct extends BaseActivity {
         setRight("完成", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (mylist == null) {
                     MyToastUtils.showShortToast(LabelMangerAct.this, "至少选择一个兴趣标签");
-                } else if (mylist.size() == 1) {
-                    labelids = mylist.get(0).getInterestId();
-                    addInterestLabel(labelids,mylist);
-                } else if (mylist.size() > 1) {
-                    labelids = mylist.get(0).getInterestId();
-                    for (int i = 1; i < mylist.size(); i++) {
-                        labelids = labelids + "," + mylist.get(i).getInterestId();
+                }else {
+//                    List<UserInterestInfo> interestLabel = LabelInterestDao.getInterestLabel();
+//                    if (compare(interestLabel,mylist)){
+//                        MyToastUtils.showShortToast(LabelMangerAct.this,"您的标签未改变，无需提交！");
+//                        return;
+//                    }
+                    if (mylist.size() == 1) {
+                        labelids = mylist.get(0).getInterestId();
+                        addInterestLabel(labelids, mylist);
+                    } else if (mylist.size() > 1) {
+                        labelids = mylist.get(0).getInterestId();
+                        for (int i = 1; i < mylist.size(); i++) {
+                            labelids = labelids + "," + mylist.get(i).getInterestId();
+                        }
+                        addInterestLabel(labelids, mylist);
                     }
-                    addInterestLabel(labelids, mylist);
                 }
+
 
             }
         });
@@ -188,19 +209,21 @@ public class LabelMangerAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 LabelInterestDao.delAll();
-                for (int i=0;i<mylist.size();i++){
-                    UserInterestInfo userInterestInfo=new UserInterestInfo();
+                for (int i = 0; i < mylist.size(); i++) {
+                    UserInterestInfo userInterestInfo = new UserInterestInfo();
                     userInterestInfo.setInterestId(mylist.get(i).getInterestId());
                     userInterestInfo.setDictName(mylist.get(i).getDictName());
+//                    userInterestInfo.setCreateTiem(mylist.get(i).getCreateTiem());
                     LabelInterestDao.saveInterestLabel(userInterestInfo);
                 }
                 MyLogUtils.info(LabelInterestDao.getInterestLabel().toString());
-                Intent intent=new Intent(ChanelFrg.MYLABELS);
-                Bundle bundle=new Bundle();
+                Intent intent = new Intent(ChanelFrg.MYLABELS);
+                Bundle bundle = new Bundle();
                 intent.putExtras(bundle);
                 sendBroadcast(intent);
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
                 sendBroadcast(new Intent(PerpageAct.PPLABELS));
+//                sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
                 finish();
             }
         });
@@ -218,6 +241,9 @@ public class LabelMangerAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
                 mylist = response.getData();
                 myadapter = new LabelGvMyadapter(LabelMangerAct.this, mylist);
                 gv1.setAdapter(myadapter);
@@ -238,6 +264,9 @@ public class LabelMangerAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
                 mylist = response.getData();
                 myadapter = new LabelGvMyadapter(LabelMangerAct.this, mylist);
                 gv1.setAdapter(myadapter);
@@ -245,5 +274,29 @@ public class LabelMangerAct extends BaseActivity {
         });
     }
 
+//    private  boolean compare(List<UserInterestInfo> a, List<UserInterestInfo> b) {
+//        if (a.size() != b.size())
+//            return false;
+//        SortClass sort=new SortClass();
+//        Collections.sort(a,sort);
+//        Collections.sort(b,sort);
+//        for (int i = 0; i < a.size(); i++) {
+//            if (!a.get(i).getDictName().equals(b.get(i).getDictName()))
+//                return false;
+//        }
+//        return true;
+//    }
 
+//    /**
+//     * 时间降序
+//     * 排序
+//     */
+//    public class SortClass implements Comparator {
+//        public int compare(Object arg0, Object arg1) {
+//            UserInterestInfo user0 = (UserInterestInfo) arg0;
+//            UserInterestInfo user1 = (UserInterestInfo) arg1;
+//            int flag = user1.getCreateTiem().compareTo(user0.getCreateTiem());//升序直接将user0,user1互换
+//            return flag;
+//        }
+//    }
 }
