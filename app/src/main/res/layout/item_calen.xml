@@ -110,146 +110,146 @@
         </LinearLayout>
     </LinearLayout>
     <!--原来写的全部隐藏最好不要删掉，因为删掉后可能有写控件找不到而报错-->
-    <LinearLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@id/rl_main"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+    <!--<LinearLayout-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="15dp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:layout_below="@id/rl_main"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:orientation="horizontal">-->
 
-        <LinearLayout
-            android:id="@+id/ll_guanzhu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/act_layer_right"
-            android:paddingLeft="55dp">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_guanzhu"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/act_layer_right"-->
+            <!--android:paddingLeft="55dp">-->
 
-            <LinearLayout
-                android:id="@+id/ll_cal_guanzhu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_cal_guanzhu"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
 
-                <ImageView
-                    android:id="@+id/iv_cal_guanzhu"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:background="@drawable/collect_b" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_cal_guanzhu"-->
+                    <!--android:layout_width="18dp"-->
+                    <!--android:layout_height="18dp"-->
+                    <!--android:background="@drawable/collect_b" />-->
 
-                <TextView
-                    android:id="@+id/tv_cal_text_guanzhu"
-                    style="@style/MainAct_simple_Text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:text="关注" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_cal_text_guanzhu"-->
+                    <!--style="@style/MainAct_simple_Text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="关注" />-->
 
-                <TextView
-                    android:id="@+id/tv_gzcal_num"
-                    style="@style/MainAct_simple_Text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp" />
-            </LinearLayout>
-        </LinearLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_gzcal_num"-->
+                    <!--style="@style/MainAct_simple_Text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="5dp" />-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/ll_guanzhu_del"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/act_layer_right"
-            android:paddingLeft="55dp">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_guanzhu_del"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/act_layer_right"-->
+            <!--android:paddingLeft="55dp">-->
 
-            <LinearLayout
-                android:id="@+id/ll_cal_guanzhu_del"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_cal_guanzhu_del"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
 
-                <ImageView
-                    android:id="@+id/iv_cal_guanzhu_del"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:background="@drawable/delsimple" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_cal_guanzhu_del"-->
+                    <!--android:layout_width="18dp"-->
+                    <!--android:layout_height="18dp"-->
+                    <!--android:background="@drawable/delsimple" />-->
 
-                <TextView
-                    android:id="@+id/tv_cal_text_guanzhu_del"
-                    style="@style/MainAct_simple_Text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:text="删除" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_cal_text_guanzhu_del"-->
+                    <!--style="@style/MainAct_simple_Text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="删除" />-->
 
-            </LinearLayout>
-        </LinearLayout>
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/ll_yue_share"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="50dp">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_yue_share"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:paddingLeft="50dp">-->
 
-            <LinearLayout
-                android:id="@+id/ll_yh_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_yh_share"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
 
-                android:orientation="horizontal">
+                <!--android:orientation="horizontal">-->
 
-                <ImageView
-                    android:id="@+id/iv_cal_yh_share"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:background="@drawable/simple_share" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_cal_yh_share"-->
+                    <!--android:layout_width="18dp"-->
+                    <!--android:layout_height="18dp"-->
+                    <!--android:background="@drawable/simple_share" />-->
 
-                <TextView
-                    android:id="@+id/tv_cal_yh_share"
-                    style="@style/MainAct_simple_Text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:text="分享" />
-            </LinearLayout>
-        </LinearLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_cal_yh_share"-->
+                    <!--style="@style/MainAct_simple_Text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="分享" />-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/ll_yue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_yue"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center">-->
 
-            <LinearLayout
-                android:id="@+id/ll_yh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_yh"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal">-->
 
-                <ImageView
-                    android:id="@+id/iv_cal_yh"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:background="@drawable/bottom_picchange_finger" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_cal_yh"-->
+                    <!--android:layout_width="18dp"-->
+                    <!--android:layout_height="18dp"-->
+                    <!--android:background="@drawable/bottom_picchange_finger" />-->
 
-                <TextView
-                    android:id="@+id/tv_cal_yh"
-                    style="@style/MainAct_simple_Text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:text="约Ta" />
-            </LinearLayout>
-        </LinearLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_cal_yh"-->
+                    <!--style="@style/MainAct_simple_Text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="约Ta" />-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
     
     <ImageView
         android:id="@+id/iv_bag"

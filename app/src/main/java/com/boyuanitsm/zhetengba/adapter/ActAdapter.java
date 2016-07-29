@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
@@ -46,7 +49,6 @@ import java.util.List;
 public class ActAdapter extends BaseAdapter {
     private Context context;
     private List<SimpleInfo> infos = new ArrayList<>();
-    private boolean flag = true;//true参加
     private String strStart, strEnd;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -287,45 +289,114 @@ public class ActAdapter extends BaseAdapter {
         if (infos.get(position).isFollow()) {
             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//已关注
             viewHolder.tv_text_guanzhu.setText("已关注");
-            viewHolder.ll_guanzhu.setClickable(false);
+            viewHolder.ll_guanzhu.setEnabled(false);
         } else {
             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));//默认图标
             viewHolder.tv_text_guanzhu.setText("关注");
-            viewHolder.ll_guanzhu.setClickable(true);
+            viewHolder.ll_guanzhu.setEnabled(true);
         }
-        viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
+        viewHolder.ll_guanzhu.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                // 调用关注接口
-                RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
-                    @Override
-                    public void onError(int status, String errorMsg) {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        switch (v.getId()) {
+                            case R.id.ll_guanzhu:
+                                viewHolder.iv_simple_guanzhu.setAlpha(0.5f);
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        switch (v.getId()) {
+                            case R.id.ll_guanzhu://点赞
+                                viewHolder.iv_simple_guanzhu.setAlpha(1.0f);
+                                //接口调用
+                                RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+                                    @Override
+                                    public void onError(int status, String errorMsg) {
 
-                    }
+                                    }
 
-                    @Override
-                    public void onResponse(ResultBean<String> response) {
-                        infos.get(position).setFollow(true);
-                        int noticNum = infos.get(position).getFollowNum();
-                        noticNum = noticNum + 1;
-                        infos.get(position).setFollowNum(noticNum);
-                        viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
-                        viewHolder.ll_guanzhu.setClickable(false);
-                        context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
-                        notifyDataSetChanged();
-                        MyToastUtils.showShortToast(context, "已关注");
-                    }
-                });
+                                    @Override
+                                    public void onResponse(ResultBean<String> response) {
+                                        infos.get(position).setFollow(true);
+                                        int noticNum = infos.get(position).getFollowNum();
+                                        noticNum = noticNum + 1;
+                                        infos.get(position).setFollowNum(noticNum);
+                                        viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+                                        viewHolder.ll_guanzhu.setClickable(false);
+                                        context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+                                        notifyDataSetChanged();
+                                        MyToastUtils.showShortToast(context, "已关注");
+                                    }
+                                });
+                                break;
+                        }
+                        break;
 
+                }
+
+                return true;
             }
         });
-        viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
+//        viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 调用关注接口
+//                RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+//                    @Override
+//                    public void onError(int status, String errorMsg) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onResponse(ResultBean<String> response) {
+//                        infos.get(position).setFollow(true);
+//                        int noticNum = infos.get(position).getFollowNum();
+//                        noticNum = noticNum + 1;
+//                        infos.get(position).setFollowNum(noticNum);
+//                        viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+//                        viewHolder.ll_guanzhu.setClickable(false);
+//                        context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+//                        notifyDataSetChanged();
+//                        MyToastUtils.showShortToast(context, "已关注");
+//                    }
+//                });
+//
+//            }
+//        });
+        viewHolder.iv_actdetial.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                viewHolder.iv_actdetial.setEnabled(false);
-                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        switch (v.getId()) {
+                            case R.id.iv_actdetial:
+                                viewHolder.iv_actdetial.setAlpha(0.5f);
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        switch (v.getId()) {
+                            case R.id.iv_actdetial://点赞
+                                viewHolder.iv_actdetial.setAlpha(1.0f);
+                                //接口调用
+                                viewHolder.iv_actdetial.setEnabled(false);
+                                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
+                                break;
+                        }
+                        break;
+                }
+                return true;
             }
         });
+//        viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                viewHolder.iv_actdetial.setEnabled(false);
+//                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
+//            }
+//        });
         //展示个人资料
         View.OnClickListener listener1 = new View.OnClickListener() {
             @Override
@@ -357,19 +428,33 @@ public class ActAdapter extends BaseAdapter {
         RequestManager.getScheduleManager().getRespondActivity(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                    viewHolder.ll_join.setEnabled(true);
+                viewHolder.ll_join.setEnabled(true);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                    addGroup(infos.get(position).getId());
+                if (TextUtils.equals(response.getData(), 1 + "")) {
                     viewHolder.ll_join.setEnabled(true);
                     int i = infos.get(position).getMemberNum();
                     i = i + 1;
                     infos.get(position).setMemberNum(i);
                     infos.get(position).setJoining(true);
-                context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
-                notifyDataSetChanged();
+                    context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+                    notifyDataSetChanged();
+                    addGroup(infos.get(position).getId());
+                } else if (TextUtils.equals(response.getData(), 0 + "")) {
+                    infos.remove(position);
+                    viewHolder.ll_join.setEnabled(true);
+                    notifyDataSetChanged();
+                    MyToastUtils.showShortToast(context, response.getMessage());
+                } else if (TextUtils.equals(response.getData(), -1 + "")) {
+                    viewHolder.ll_join.setEnabled(true);
+                    MyToastUtils.showShortToast(context, response.getMessage());
+                } else if (TextUtils.equals(response.getData(), -2 + "")) {
+                    viewHolder.ll_join.setEnabled(true);
+                    MyToastUtils.showShortToast(context, response.getMessage());
+                }
+
             }
         });
     }
@@ -389,14 +474,28 @@ public class ActAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                delGroup(infos.get(position).getId());
-                viewHolder.ll_join.setEnabled(true);
-                int i = infos.get(position).getMemberNum();
-                i = i - 1;
-                infos.get(position).setJoining(false);
-                infos.get(position).setMemberNum(i);
-                context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
-                notifyDataSetChanged();
+                if (TextUtils.equals(response.getData(),0+"")){
+                    viewHolder.ll_join.setEnabled(true);
+                    infos.remove(position);
+                    notifyDataSetChanged();
+                    MyToastUtils.showShortToast(context,"此条活动已被删除！");
+                    return;
+                }else if (TextUtils.equals(response.getData(),1+"")){
+                    viewHolder.ll_join.setEnabled(true);
+                    int i = infos.get(position).getMemberNum();
+                    i = i - 1;
+                    infos.get(position).setJoining(false);
+                    infos.get(position).setMemberNum(i);
+                    context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+                    notifyDataSetChanged();
+                    delGroup(infos.get(position).getId());
+                }else if (TextUtils.equals(response.getData(),-2+"")){
+                    viewHolder.ll_join.setEnabled(true);
+                    MyToastUtils.showShortToast(context,response.getMessage());
+                }else {
+                    viewHolder.ll_join.setEnabled(true);
+                }
+
             }
         });
     }

@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="62dp"
         app:statusImage="@mipmap/new_f"
-        app:statusImage_height="40dp"
-        app:statusImage_width="40dp"
+        app:statusImage_height="43dp"
+        app:statusImage_width="43dp"
         app:desText="新的好友"
         app:desTextSize="14sp"
 
@@ -49,8 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="62dp"
         app:statusImage="@mipmap/qun_avatar"
-        app:statusImage_height="40dp"
-        app:statusImage_width="40dp"
+        app:statusImage_height="43dp"
+        app:statusImage_width="43dp"
         app:desText="我的群聊"
         app:desTextSize="14sp"
         ></com.boyuanitsm.zhetengba.view.CommonView>

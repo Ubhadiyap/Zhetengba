@@ -47,11 +47,11 @@
             <TextView
                 android:id="@+id/tv_qzzl"
                 style="@style/tv_second"
-                android:layout_height="15dp"
+                android:layout_height="16dp"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/tv_qz"
                 android:background="@drawable/com_dybtn_nor"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="圈子资料"

@@ -10,6 +10,7 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -38,6 +39,7 @@ import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.hyphenate.EMContactListener;
@@ -260,7 +262,12 @@ public class MainAct extends BaseActivity {
                 MyLogUtils.info("这个人发送消息来了："+message.getFrom());
                 try {
                     chatUserBean.setNick(message.getStringAttribute("nick"));
-                    chatUserBean.setIcon(message.getStringAttribute("icon"));
+                    String userIcon=message.getStringAttribute("icon");
+                    if (userIcon.startsWith("http")){
+                        chatUserBean.setIcon(message.getStringAttribute("icon"));
+                    }else {
+                        chatUserBean.setIcon(Uitls.imageFullUrl(userIcon));
+                    }
                     MyLogUtils.info("这个头像："+message.getStringAttribute("nick")+"++昵称："+message.getStringAttribute("icon"));
 //                    MyToastUtils.showShortToast(getApplication(),message.getStringAttribute("nick")+":"+message.getStringAttribute("icon"));
                 } catch (HyphenateException e) {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -44,7 +45,6 @@ import java.util.List;
 public class CirclexqListAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList = new ArrayList<>();
-
     private List<CircleEntity> list = new ArrayList<>();
     int clickPos;
     // 图片缓存 默认 等
@@ -108,6 +108,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
             viewHolder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_share);
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
+            viewHolder.iv_comment = (ImageView) convertView.findViewById(R.id.iv_comment);
             viewHolder.llphoto = (LinearLayout) convertView.findViewById(R.id.llphoto);
             viewHolder.iv_ch_image = (MyGridView) convertView.findViewById(R.id.iv_ch_image);
             viewHolder.iv_oneimage = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
@@ -121,6 +122,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
             viewHolder.znum = (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
+            viewHolder.iv_share= (ImageView) convertView.findViewById(R.id.iv_share);
             convertView.setTag(viewHolder);
         }
         viewHolder.llphoto.setVisibility(View.VISIBLE);
@@ -260,40 +262,126 @@ public class CirclexqListAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-        //点赞
-        viewHolder.like.setOnClickListener(new View.OnClickListener() {
+        final ViewHolder finalViewHolder = viewHolder;
+        viewHolder.like.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                clickPos = position;
-                if (0 == list.get(position).getLiked()) {
-                    addCircleLike(list.get(position).getId());
-                } else if (1 == list.get(position).getLiked()) {
-                    removeCircleLike(list.get(position).getId());
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        switch (v.getId()) {
+                            case R.id.like:
+                                finalViewHolder.zimg.setAlpha(0.5f);
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        switch (v.getId()) {
+                            case R.id.like://点赞
+                                finalViewHolder.zimg.setAlpha(1.0f);
+                                //接口调用
+                                clickPos = position;
+                                if (0 == list.get(position).getLiked()) {
+                                    addCircleLike(list.get(position).getId());
+                                } else if (1 == list.get(position).getLiked()) {
+                                    removeCircleLike(list.get(position).getId());
+                                }
+                                break;
+                        }
+                        break;
                 }
+                return true;
+            }
+        });
+//        //点赞
+//        viewHolder.like.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clickPos = position;
+//                if (0 == list.get(position).getLiked()) {
+//                    addCircleLike(list.get(position).getId());
+//                } else if (1 == list.get(position).getLiked()) {
+//                    removeCircleLike(list.get(position).getId());
+//                }
+//            }
+//        });
+
+        viewHolder.ll_share.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        switch (v.getId()){
+                            case R.id.ll_share:
+                                finalViewHolder.iv_share.setAlpha(0.5f);
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        switch (v.getId()){
+                            case R.id.ll_share:
+                                finalViewHolder.iv_share.setAlpha(1.0f);
+                                Intent intent = new Intent(context, ShareDialogAct.class);
+                                intent.putExtra("type", 5);
+                                intent.putExtra("id",list.get(position).getId());
+                                context.startActivity(intent);
+                                break;
+                        }
+                        break;
+                }
+                return true;
             }
         });
         //分享对话框
-        viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ShareDialogAct.class);
-                intent.putExtra("type", 5);
-                intent.putExtra("id",list.get(position).getId());
-                context.startActivity(intent);
-            }
-        });
+//        viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, ShareDialogAct.class);
+//                intent.putExtra("type", 5);
+//                intent.putExtra("id",list.get(position).getId());
+//                context.startActivity(intent);
+//            }
+//        });
         //评论
-        viewHolder.ll_comment.setOnClickListener(new View.OnClickListener() {
+        viewHolder.ll_comment.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context, CircleTextAct.class);
-                intent.putExtra("circleEntity", list.get(position));
-                intent.putExtra("circleId", list.get(position).getId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        switch (v.getId()) {
+                            case R.id.ll_comment:
+                                finalViewHolder.iv_comment.setAlpha(0.5f);
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        switch (v.getId()) {
+                            case R.id.ll_comment://点赞
+                                finalViewHolder.iv_comment.setAlpha(1.0f);
+                                //接口调用
+                                Intent intent = new Intent();
+                                intent.setClass(context, CircleTextAct.class);
+                                intent.putExtra("circleEntity", list.get(position));
+                                intent.putExtra("circleId", list.get(position).getId());
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                                break;
+                        }
+                        break;
+                }
+                return true;
             }
         });
+//        viewHolder.ll_comment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setClass(context, CircleTextAct.class);
+//                intent.putExtra("circleEntity", list.get(position));
+//                intent.putExtra("circleId", list.get(position).getId());
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+//            }
+//        });
         viewHolder.tv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -328,6 +416,7 @@ public class CirclexqListAdapter extends BaseAdapter {
         private TextView znum;
         private TextView cnum;
         private TextView snum;
+        private ImageView iv_comment,iv_share;
 
     }
 

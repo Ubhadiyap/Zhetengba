@@ -784,7 +784,13 @@ public class DemoHelper {
                     MyLogUtils.info("这个人发送消息来了：" + message.getFrom());
                     try {
                         chatUserBean.setNick(message.getStringAttribute("nick"));
-                        chatUserBean.setIcon(message.getStringAttribute("icon"));
+                        String userIcon=message.getStringAttribute("icon");
+                        if (userIcon.startsWith("http")){
+                            chatUserBean.setIcon(userIcon);
+                        }else {
+                            chatUserBean.setIcon(Uitls.imageFullUrl(userIcon));
+                        }
+//                        chatUserBean.setIcon(message.getStringAttribute("icon"));
                         MyLogUtils.info("这个头像："+message.getStringAttribute("nick")+"++昵称："+message.getStringAttribute("icon"));
 //                    MyToastUtils.showShortToast(getApplication(),message.getStringAttribute("nick")+":"+message.getStringAttribute("icon"));
                     } catch (HyphenateException e) {

@@ -175,8 +175,8 @@ public class PersonalmesAct extends BaseActivity {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), head, optionsb);
         }
 
-        if (!TextUtils.isEmpty(userEntity.get(0).getPhone())) {
-            cvPhoneNum.setNotesText(userEntity.get(0).getPhone());
+        if (!TextUtils.isEmpty(userEntity.get(0).getUsername())) {
+            cvPhoneNum.setNotesText(userEntity.get(0).getUsername());
 
         }
         if (!(TextUtils.isEmpty(userEntity.get(0).getEmail()))) {

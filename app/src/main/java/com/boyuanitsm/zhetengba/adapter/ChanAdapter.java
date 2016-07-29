@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,6 +19,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -48,6 +50,7 @@ public class ChanAdapter extends BaseAdapter {
     private List<List<ImageInfo>> dateList = new ArrayList<>();
     private List<ChannelTalkEntity> list = new ArrayList<>();
     private String channelId;//说说id
+    private boolean image_record_out;
     int clickPos = 0;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -272,20 +275,70 @@ public class ChanAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-        //点赞
-        viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
+
+        viewHolder.ll_like.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                viewHolder.ll_like.setEnabled(false);
-                clickPos = position;
-                channelId = list.get(position).getId();
-                if (0 == list.get(position).getLiked()) {
-                    addChannelLike(channelId,viewHolder.ll_like);
-                } else if (1 == list.get(position).getLiked()) {
-                    removeChannelLike(channelId,viewHolder.ll_like);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        switch (v.getId()) {
+                            case R.id.ll_like:
+                                image_record_out = false;
+                                viewHolder.zimg.setAlpha(0.5f);
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        switch (v.getId()){
+                            case R.id.ll_like:
+                                int x = (int) event.getX();
+                                int y = (int) event.getY();
+                                if (x < 0 || y < 0 || x > viewHolder.zimg.getWidth() || y >viewHolder.zimg.getHeight()) {
+                                    image_record_out = true;
+                                }
+                                break;
+                        }
+                    case MotionEvent.ACTION_UP:
+                        switch (v.getId()) {
+                            case R.id.ll_like://点赞
+                                viewHolder.zimg.setAlpha(1.0f);
+                                //接口调用
+                                viewHolder.ll_like.setEnabled(false);
+                                clickPos = position;
+                                channelId = list.get(position).getId();
+                                if (0 == list.get(position).getLiked()) {
+                                    addChannelLike(channelId,viewHolder.ll_like);
+                                } else if (1 == list.get(position).getLiked()) {
+                                    removeChannelLike(channelId,viewHolder.ll_like);
+                                }
+                                break;
+                        }
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        switch (v.getId()) {
+                            case R.id.ll_guanzhu:
+                                viewHolder.zimg.setAlpha(1.0f);
+                                break;
+                        }
                 }
+                return true;
             }
         });
+
+//        //点赞
+//        viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                viewHolder.ll_like.setEnabled(false);
+//                clickPos = position;
+//                channelId = list.get(position).getId();
+//                if (0 == list.get(position).getLiked()) {
+//                    addChannelLike(channelId,viewHolder.ll_like);
+//                } else if (1 == list.get(position).getLiked()) {
+//                    removeChannelLike(channelId,viewHolder.ll_like);
+//                }
+//            }
+//        });
         //分享对话框
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -178,6 +178,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/act_layer_right">
             <ImageView
+                android:id="@+id/iv_comment"
                 style="@style/Chanel_Small_Image"
                 android:background="@drawable/comment"/>
             <TextView
@@ -194,6 +195,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/iv_share"
                 style="@style/Chanel_Small_Image"
                 android:background="@drawable/share"/>
             <TextView

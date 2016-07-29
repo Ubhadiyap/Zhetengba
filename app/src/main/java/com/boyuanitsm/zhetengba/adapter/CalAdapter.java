@@ -99,33 +99,17 @@ public class CalAdapter extends BaseAdapter {
             calHolder.iv_gen = (ImageView) convertView.findViewById(R.id.iv_gen);
             calHolder.tv_time_cal = (TextView) convertView.findViewById(R.id.tv_time_cal);
             calHolder.tv_state = (TextView) convertView.findViewById(R.id.tv_state);
-            calHolder.ll_cal_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_cal_guanzhu);
-            calHolder.iv_cal_guanzhu = (ImageView) convertView.findViewById(R.id.iv_cal_guanzhu);
-            calHolder.tv_cal_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_cal_text_guanzhu);
-            calHolder.tv_gzcal_num = (TextView) convertView.findViewById(R.id.tv_gzcal_num);
             calHolder.ll_yh = (LinearLayout) convertView.findViewById(R.id.ll_yh);
-            calHolder.iv_cal_yh = (ImageView) convertView.findViewById(R.id.iv_cal_yh);
-            calHolder.tv_cal_yh = (TextView) convertView.findViewById(R.id.tv_cal_yh);
-            calHolder.ll_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu);
-            calHolder.ll_yue = (LinearLayout) convertView.findViewById(R.id.ll_yue);
-            calHolder.ll_name = (RelativeLayout) convertView.findViewById(R.id.ll_name);
-            calHolder.ll_cal_guanzhu_del=(LinearLayout)convertView.findViewById(R.id.ll_guanzhu_del);
-            calHolder.ll_cal_share=(LinearLayout)convertView.findViewById(R.id.ll_yue_share);
             calHolder.iv_bag= (ImageView) convertView.findViewById(R.id.iv_bag);
             calHolder.rl_main= (LinearLayout) convertView.findViewById(R.id.rl_main);
             convertView.setTag(calHolder);
         }
-//        MyLogUtils.info(UserInfoDao.getUser().getId());
         if (!UserInfoDao.getUser().getId().equals(list.get(position).getCreatePersonId())){//用户id不得与创建id
-            calHolder.ll_guanzhu.setVisibility(View.GONE);//关注暂时注掉
-            calHolder.ll_yue.setVisibility(View.VISIBLE);
-            calHolder.ll_cal_guanzhu_del.setVisibility(View.GONE);
-            calHolder.ll_cal_share.setVisibility(View.GONE);
             if (list.get(position).isAgreeAbout()){
-                calHolder.tv_cal_yh.setText("邀约完成，等待对方同意");
                 calHolder.iv_bag.setImageResource(R.mipmap.yue);
                 calHolder.iv_bag.setEnabled(false);
             }else{
+                calHolder.iv_bag.setEnabled(true);
                 if (list.get(position).getDictName().equals("闲来无事")){
                     calHolder.iv_bag.setImageResource(R.mipmap.lv);
                 }else if (list.get(position).getDictName().equals("百无聊懒")){
@@ -135,7 +119,6 @@ public class CalAdapter extends BaseAdapter {
                 }else if (list.get(position).getDictName().equals("无聊至极")){
                     calHolder.iv_bag.setImageResource(R.mipmap.lan);
                 }
-                calHolder.iv_bag.setEnabled(true);
                 calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -153,7 +136,6 @@ public class CalAdapter extends BaseAdapter {
                                 ScheduDialog dialog = new ScheduDialog(context, simpleInfos, list.get(position).getScheduleId());
                                 dialog.show();
                                 calHolder.iv_bag.setClickable(true);
-//                            calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger_b, null));
                             }
                         });
                     }
@@ -161,10 +143,6 @@ public class CalAdapter extends BaseAdapter {
             }
 
         }else {
-            calHolder.ll_guanzhu.setVisibility(View.GONE);
-            calHolder.ll_yue.setVisibility(View.GONE);
-            calHolder.ll_cal_guanzhu_del.setVisibility(View.VISIBLE);
-            calHolder.ll_cal_share.setVisibility(View.VISIBLE);
             calHolder.iv_bag.setImageResource(R.mipmap.bmore);
             calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -211,47 +189,6 @@ public class CalAdapter extends BaseAdapter {
                 }
             }
 
-//        if (list.get(position).)//是否关注
-            calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));
-            calHolder.tv_cal_text_guanzhu.setText("关注");
-            if (list.get(position).getFollowNum() != 0) {
-                calHolder.tv_gzcal_num.setVisibility(View.VISIBLE);
-                calHolder.tv_gzcal_num.setText(list.get(position).getFollowNum() + "");
-            } else {
-                calHolder.tv_gzcal_num.setVisibility(View.GONE);
-            }
-
-
-//        calHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                calHolder.iv_cal_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));
-//            }
-//        });
-//        calHolder.tv_cal_text_guanzhu.setText("1");
-            calHolder.ll_yue.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    calHolder.ll_yue.setClickable(false);
-                    simpleInfos=new ArrayList<SimpleInfo>();
-                    RequestManager.getScheduleManager().findMatchingActivities(list.get(position).getScheduleId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
-                        @Override
-                        public void onError(int status, String errorMsg) {
-                            calHolder.ll_yue.setClickable(true);
-                        }
-
-                        @Override
-                        public void onResponse(ResultBean<List<SimpleInfo>> response) {
-                            calHolder.ll_yue.setClickable(true);
-                            simpleInfos= response.getData();
-                            ScheduDialog dialog=new ScheduDialog(context,simpleInfos,list.get(position).getScheduleId());
-                            dialog.show();
-//                            calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger_b, null));
-                        }
-                    });
-
-                }
-            });
             //点击头像昵称进入个人主页
             calHolder.iv_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -262,31 +199,6 @@ public class CalAdapter extends BaseAdapter {
                     bundle.putBoolean("friend",list.get(position).isFriend());
                     intent.putExtras(bundle);
                     intent.setClass(context, PerpageAct.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                }
-            });
-//            calHolder.ll_cal_guanzhu_del.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            //调用删除此活动接口,刷新数据；
-//                            removeSchuldel(list.get(position).getScheduleId(), position);
-//                        }
-//                    }).setNegativeButton("取消", null).show();
-//
-//                }
-//            });
-            calHolder.ll_cal_share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //开启分享界面
-                    Intent intent=new Intent();
-                    intent.putExtra("type",2);
-                    intent.putExtra("id",list.get(position).getScheduleId());
-                    intent.setClass(context,ShareDialogAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
@@ -352,19 +264,7 @@ public class CalAdapter extends BaseAdapter {
         public ImageView iv_gen;//性别
         public TextView tv_time_cal;//活动日期
         public TextView tv_state;//状态
-        public LinearLayout ll_cal_guanzhu;//关注数量
-        public ImageView iv_cal_guanzhu;//关注图标
-        public TextView tv_cal_text_guanzhu;//关注文本
-        public TextView tv_gzcal_num;//关注数量设置
         public LinearLayout ll_yh;//约会
-        public ImageView iv_cal_yh;//参加头像
-        public TextView tv_cal_yh;//参加数量
-        public int cal_gznum = 0;//默认关注人数0
-        public LinearLayout ll_guanzhu;//关注
-        public LinearLayout ll_yue;//约TA
-        private RelativeLayout ll_name;//个人昵称
-        private LinearLayout ll_cal_guanzhu_del;
-        private LinearLayout ll_cal_share;
         private ImageView iv_bag;//档期列表右边的
         private LinearLayout rl_main;//item大布局
     }

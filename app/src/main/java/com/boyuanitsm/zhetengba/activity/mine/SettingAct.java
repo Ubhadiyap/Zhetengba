@@ -266,6 +266,7 @@ public class SettingAct extends BaseActivity {
 
                             }
                         });
+                        JPushInterface.clearAllNotifications(getApplicationContext());
                         // 重新显示登陆页面
                         AppManager.getAppManager().finishActivity(MainAct.class);
                         finish();

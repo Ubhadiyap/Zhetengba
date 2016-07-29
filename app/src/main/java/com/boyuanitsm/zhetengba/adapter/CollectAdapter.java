@@ -324,6 +324,13 @@ public class CollectAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                if (TextUtils.equals(response.getData(),0+"")){
+                    holder.ll_join.setEnabled(true);
+                    list.remove(position);
+                    notifyDataSetChanged();
+                    MyToastUtils.showShortToast(context,"此条活动已被删除！");
+                    return;
+                }
                 delGroup(list.get(position).getId());
                 holder.ll_join.setEnabled(true);
                 holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));

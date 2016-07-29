@@ -13,6 +13,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.boyuanitsm.zhetengba.MyApplication;
+import com.boyuanitsm.zhetengba.chat.db.UserDao;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.util.VolleyErrorHelper;
 import com.boyuanitsm.zhetengba.utils.GsonUtils;
@@ -122,6 +124,10 @@ public class RequestManager {
                 HashMap localHashMap = new HashMap();
                 if (!TextUtils.isEmpty(SpUtils.getCookie(MyApplication.getInstance())))
                     localHashMap.put("Cookie", SpUtils.getCookie(MyApplication.getInstance()));
+                if (UserInfoDao.getUser()!=null){
+                    localHashMap.put("userName", UserInfoDao.getUser().getUsername());
+                }
+                MyLogUtils.info("cookie======="+SpUtils.getCookie(MyApplication.getInstance()));
                 return localHashMap;
             }
 
