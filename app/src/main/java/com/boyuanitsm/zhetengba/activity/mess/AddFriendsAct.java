@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -38,7 +39,7 @@ public class AddFriendsAct extends BaseActivity {
     private int READ_CONTACTS = 111;
     @ViewInject(R.id.cetSearch)
     private ClearEditText cetSearch;
-    private String codeUrl="http://139.196.154.208:8086/share_3" ;
+    private String codeUrl= IZtbUrl.SHARE_URL+"/share_3" ;
 
 
 

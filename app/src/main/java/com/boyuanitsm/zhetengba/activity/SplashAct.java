@@ -52,13 +52,13 @@ public class SplashAct extends BaseActivity {
                     EMClient.getInstance().chatManager().loadAllConversations();
                     long costTime = System.currentTimeMillis() - start;
                     //等待sleeptime时长
-                    if (sleepTime - costTime > 0) {
+//                    if (sleepTime - costTime > 0) {
                         try {
-                            Thread.sleep(sleepTime - costTime);
+                            Thread.sleep(2000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    }
+//                    }
                     //如果昵称为空说明用户没有走完善信息界面，所以进入app时不能进入主界面要进入完善信息界面
                     if (UserInfoDao.getUser() != null) {
                         if (TextUtils.isEmpty(UserInfoDao.getUser().getSex()) || UserInfoDao.getUser().getSex() == null) {
