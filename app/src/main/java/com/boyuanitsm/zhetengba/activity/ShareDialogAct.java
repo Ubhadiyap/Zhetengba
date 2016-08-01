@@ -51,7 +51,7 @@ public class ShareDialogAct extends BaseActivity {
             content = "我在折腾吧发布了一个“会友”，快来围观吧!";
         }
         if (type == 2) {//表示要分享的是档期
-            codeUrl = "http://139.196.154.208:8086/share_2?id="+id;//档期分享链接
+            codeUrl = IZtbUrl.SHARE_URL+"/share_2?id="+id;//档期分享链接
             content = "我在折腾吧发布了一个“有空”，快来围观吧!";
         }
 //        if(type==3){
