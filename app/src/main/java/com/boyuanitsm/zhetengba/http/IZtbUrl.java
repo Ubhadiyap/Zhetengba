@@ -302,4 +302,9 @@ public interface IZtbUrl {
     //版本更新
     String FIND_NEW_APP=BASE_URL+"manager/unLogin/checkUpdrage.do";
 
+    //正式地址域名
+    String SHARE_URL="http://hseb.net.cn/h5";
+    //测试分享地址
+//    String SHARE_URL="http://139.196.154.208:8086";
+
 }
