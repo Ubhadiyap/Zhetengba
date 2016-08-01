@@ -2,7 +2,9 @@ package com.boyuanitsm.zhetengba.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -53,6 +55,8 @@ public class LayoutHelperUtil {
         layoutparams.width = imageWidth;
         imageView.setLayoutParams(layoutparams);
         imageView.setClickable(true);
+//        Bitmap bitmap=MyBitmapUtils.LoadBigImg(Uitls.imageFullUrl(image.getUrl()),imageWidth,imageHeight);
+//        imageView.setImageBitmap(bitmap);
         imageView.setImageUrl(Uitls.imageFullUrl(image.getUrl()));
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 

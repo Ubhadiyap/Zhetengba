@@ -157,7 +157,7 @@ public class CirFrg extends Fragment {
                     if(!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
                         final String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
                             for (int i = 0; i < urlList.length; i++) {
-                                itemList.add(new ImageInfo(urlList[i], 1624, 914));
+                                itemList.add(new ImageInfo(urlList[i], 120, 120));
                         }
 
                     }

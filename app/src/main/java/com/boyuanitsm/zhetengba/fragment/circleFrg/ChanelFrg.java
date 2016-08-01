@@ -27,6 +27,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CirclefbAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
+import com.boyuanitsm.zhetengba.adapter.ChanelPageAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
@@ -69,6 +70,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private List<ChannelTalkEntity> channelTalkEntityList;
     private List<List<ImageInfo>> datalist;
     private List<ChannelTalkEntity> datas = new ArrayList<>();
+//    private ChanelPageAdapter pageAdapter;
     private ViewPager viewPager;
     private HorizontalScrollView hslv_chanel;
     LinearLayout llnoList;
@@ -118,12 +120,12 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         }
         if (titleList.size() > 0) {
 //            if (pageAdapter == null) {
-                LogUtils.i("适配器初始"+titleList.size());
-              ChanelPageAdapter  pageAdapter = new ChanelPageAdapter(getChildFragmentManager());
+//                LogUtils.i("适配器初始"+titleList.size());
+            ChanelPageAdapter  pageAdapter = new ChanelPageAdapter(getChildFragmentManager(),mActivity,titleList);
                 viewPager.setAdapter(pageAdapter);
 //            } else {
 //                LogUtils.i("适配器刷新" + titleList.size());
-//                pageAdapter.notifyDataSetChanged();
+//                pageAdapter.updata(mActivity,titleList);
 //            }
 
 //            getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
@@ -227,27 +229,28 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    class ChanelPageAdapter extends FragmentStatePagerAdapter {
-
-        public ChanelPageAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public int getCount() {
-            LogUtils.i("适配器" + titleList.size());
-            return titleList == null ? 0 : titleList.size();
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            ChanelItemFrg chanelfrg = new ChanelItemFrg();
-            Bundle bundle = new Bundle();
-            bundle.putString(ChanelItemFrg.TITLE_LIST, titleList.get(i).getInterestId());
-            chanelfrg.setArguments(bundle);
-            return chanelfrg;
-        }
-    }
+//    class ChanelPageAdapter extends FragmentStatePagerAdapter {
+//        private List<UserInterestInfo> list=new ArrayList<>();
+//        public ChanelPageAdapter(FragmentManager fm, List<UserInterestInfo> titleList) {
+//            super(fm);
+//            this.list=titleList;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            LogUtils.i("适配器" + list.size());
+//            return list == null ? 0 : list.size();
+//        }
+//
+//        @Override
+//        public Fragment getItem(int i) {
+//            ChanelItemFrg chanelfrg = new ChanelItemFrg();
+//            Bundle bundle = new Bundle();
+//            bundle.putString(ChanelItemFrg.TITLE_LIST, list.get(i).getInterestId());
+//            chanelfrg.setArguments(bundle);
+//            return chanelfrg;
+//        }
+//    }
 
     /**
      * 获取我的兴趣标签

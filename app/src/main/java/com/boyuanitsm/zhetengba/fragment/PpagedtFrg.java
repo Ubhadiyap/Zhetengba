@@ -64,7 +64,7 @@ public class PpagedtFrg extends BaseFragment {
             if(!TextUtils.isEmpty(circleTalkEntity.get(j).getTalkImage())) {
                 String[] urlList = ZtinfoUtils.convertStrToArray(circleTalkEntity.get(j).getTalkImage());
                 for (int i = 0; i < urlList.length; i++) {
-                    itemList.add(new ImageInfo(urlList[i], 1624, 914));
+                    itemList.add(new ImageInfo(urlList[i], 120, 120));
                 }
             }
             datalist.add(itemList);

@@ -162,7 +162,7 @@ public class ChanelItemFrg extends BaseFragment {
                     if (!TextUtils.isEmpty(datas.get(j).getChannelImage())) {
                         String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getChannelImage());
                         for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(urlList[i], 200, 200));
+                            itemList.add(new ImageInfo(urlList[i], 120, 120));
                         }
                     }
                     datalist.add(itemList);

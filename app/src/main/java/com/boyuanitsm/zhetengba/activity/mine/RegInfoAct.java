@@ -329,7 +329,7 @@ public class RegInfoAct extends BaseActivity {
                     return;
                 }
                 uri = data.getData();
-                Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap(this, uri);
+                Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap2(this, uri);
                 File user_head =MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
                 intent = new Intent(this, ClipActivity.class);
                 intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.png");

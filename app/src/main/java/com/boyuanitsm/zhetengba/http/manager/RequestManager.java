@@ -127,7 +127,7 @@ public class RequestManager {
                 if (UserInfoDao.getUser()!=null){
                     localHashMap.put("userName", UserInfoDao.getUser().getUsername());
                 }
-                MyLogUtils.info("cookie======="+SpUtils.getCookie(MyApplication.getInstance()));
+//                MyLogUtils.info("cookie======="+SpUtils.getCookie(MyApplication.getInstance()));
                 return localHashMap;
             }
 

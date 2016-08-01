@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -91,6 +93,7 @@ public class CirclefbAct extends BaseActivity {
         setRight("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pd.show();
                 setRightEnable(false);
                 content=etContent.getText().toString().trim();
                 switch (type){
@@ -110,6 +113,7 @@ public class CirclefbAct extends BaseActivity {
                                 channelTalkEntity.setLabelId(labelId);
                                 upLoadImg(selecteds);
                             }else {
+                                pd.dismiss();
                                 MyToastUtils.showShortToast(CirclefbAct.this,"频道说说内容不能为空！");
                                 return;
                             }
@@ -131,6 +135,7 @@ public class CirclefbAct extends BaseActivity {
                                 entity.setTalkContent("");
                                 upLoadImg(selecteds);
                             }else {
+                                pd.dismiss();
                                 MyToastUtils.showShortToast(CirclefbAct.this, "圈子说说内容不能空！");
                                 return;
                             }
@@ -232,11 +237,11 @@ public class CirclefbAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                Intent intent=new Intent(ChanelFrg.MYLABELS);
-                Bundle bundle=new Bundle();
-                bundle.putInt("flag", flag);
-                intent.putExtras(bundle);
-                sendBroadcast(intent);
+//                Intent intent=new Intent(ChanelFrg.MYLABELS);
+//                Bundle bundle=new Bundle();
+//                bundle.putInt("flag", flag);
+//                intent.putExtras(bundle);
+//                sendBroadcast(intent);
                 sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
                 pd.dismiss();
                 setRightEnable(true);
@@ -249,14 +254,17 @@ public class CirclefbAct extends BaseActivity {
     private void upLoadImg(List<ImageBean> selecteds){
         Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
         for (int i = 0; i < selecteds.size(); i++) {
-            FileBody fb = new FileBody(new File(selecteds.get(i).getPath()));
+            Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
+            File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
+            FileBody fb = new FileBody(file);
+//            FileBody fb = new FileBody(new File(selecteds.get(i).getPath()));
             fileMaps.put(i+"", fb);
         }
         strList=new ArrayList<>();
         RequestManager.getTalkManager().upLoadImg(fileMaps, new ResultCallback<ResultBean<ImgBean<String>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                    pd.dismiss();
             }
 
             @Override

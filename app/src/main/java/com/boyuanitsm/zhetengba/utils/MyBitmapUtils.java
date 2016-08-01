@@ -1,6 +1,8 @@
 package com.boyuanitsm.zhetengba.utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,6 +14,7 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -226,11 +229,22 @@ public class MyBitmapUtils {
 			float scale = Math.max(scaleWidth, scaleHeight);
 			opts.inSampleSize = (int) scale;
 			WeakReference<Bitmap> weak = new WeakReference<Bitmap>(BitmapFactory.decodeFile(path, opts));
-			Bitmap bMapRotate = Bitmap.createBitmap(weak.get(), 0, 0, weak.get().getWidth(), weak.get().getHeight(), null, true);
-			if (bMapRotate != null) {
-				return bMapRotate;
+
+			int degree = getExifOrientation(path);
+			if (degree == 90 || degree == 180 || degree == 270) {
+				// Roate preview icon according to exif orientation
+				Matrix matrix = new Matrix();
+				matrix.postRotate(degree);
+				return Bitmap.createBitmap(weak.get(), 0, 0, weak.get().getWidth(), weak.get().getHeight(), matrix, true);
+			} else {
+				// do not need roate the icon,default
+				return Bitmap.createBitmap(weak.get(), 0, 0, weak.get().getWidth(), weak.get().getHeight(), null, true);
 			}
-			return null;
+//			Bitmap bMapRotate = Bitmap.createBitmap(weak.get(), 0, 0, weak.get().getWidth(), weak.get().getHeight(), null, true);
+//			if (bMapRotate != null) {
+//				return bMapRotate;
+//			}
+//			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -313,5 +327,77 @@ public class MyBitmapUtils {
 			e.printStackTrace();
 		}
 		return f;
+	}
+
+	// 根据路径获得图片并压缩，返回bitmap用于显示
+	public static Bitmap getSmallBitmap(String filePath) {
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(filePath, options);
+
+		// Calculate inSampleSize
+		options.inSampleSize = calculateInSampleSize(options, 480, 800);
+
+		// Decode bitmap with inSampleSize set
+		options.inJustDecodeBounds = false;
+		// 摆正
+		Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+		int degree = getExifOrientation(filePath);
+		if (degree == 90 || degree == 180 || degree == 270) {
+			// Roate preview icon according to exif orientation
+			Matrix matrix = new Matrix();
+			matrix.postRotate(degree);
+			return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+		} else {
+			// do not need roate the icon,default
+			return bitmap;
+		}
+	}
+	//计算图片的缩放值
+	public static int calculateInSampleSize(BitmapFactory.Options options,int reqWidth, int reqHeight) {
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+
+		if (height > reqHeight || width > reqWidth) {
+			final int heightRatio = Math.round((float) height/ (float) reqHeight);
+			final int widthRatio = Math.round((float) width / (float) reqWidth);
+			inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+		}
+		return inSampleSize;
+	}
+	/**
+	 * 根据uri获取bitmap
+	 * @param context
+	 * @param uri
+	 * @return
+	 */
+	public static Bitmap decodeUriAsBitmap2(Context context, Uri uri) {
+		if (context == null || uri == null)
+			return null;
+		return getSmallBitmap(getRealFilePath(context, uri));
+	}
+
+	public static String getRealFilePath( final Context context, final Uri uri ) {
+		if ( null == uri ) return null;
+		final String scheme = uri.getScheme();
+		String data = null;
+		if ( scheme == null )
+			data = uri.getPath();
+		else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+			data = uri.getPath();
+		} else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+			Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
+			if ( null != cursor ) {
+				if ( cursor.moveToFirst() ) {
+					int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
+					if ( index > -1 ) {
+						data = cursor.getString( index );
+					}
+				}
+				cursor.close();
+			}
+		}
+		return data;
 	}
 }
