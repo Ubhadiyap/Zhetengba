@@ -95,6 +95,8 @@ public class CalFrg extends BaseFragment {
         noList = (LinearLayout) view.findViewById(R.id.noList);
         ivAnim = (ImageView) view.findViewById(R.id.ivAnim);
         noMsg = (TextView) view.findViewById(R.id.noMsg);
+        vp_loop_calen = (LoopViewPager) viewHeader_calen.findViewById(R.id.vp_loop_act);
+        ll_point = (LinearLayout) viewHeader_calen.findViewById(R.id.ll_point);
         //下拉刷新初始化
         LayoutHelperUtil.freshInit(lv_calen);
         lv_calen.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -108,7 +110,7 @@ public class CalFrg extends BaseFragment {
                 } else if (state == 2) {
                     getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
-//                getScheduleBanner();
+                getScheduleBanner();
             }
 
             @Override
@@ -121,7 +123,7 @@ public class CalFrg extends BaseFragment {
                 } else if (state == 2) {
                     getFriendAllSchudle(page, rows, state + "");//我的列表获取；
                 }
-//                getScheduleBanner();
+                getScheduleBanner();
             }
         });
 
@@ -136,6 +138,9 @@ public class CalFrg extends BaseFragment {
         }
         //档期轮播图片展示
         getScheduleBanner();
+        vp_loop_calen.setAuto(true);
+        //设置监听
+        vp_loop_calen.setOnPageChangeListener(getListener());
 
     }
     public static final String CAL_DATA_CHANGE_KEY="cal_data_change_fragment";
@@ -295,13 +300,8 @@ public class CalFrg extends BaseFragment {
 //                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
-                vp_loop_calen = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
-                ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
                 //设置viewpager适配/轮播效果
                 initMyPageAdapter(bannerInfoList);
-                vp_loop_calen.setAuto(true);
-                //设置监听
-                vp_loop_calen.setOnPageChangeListener(getListener());
             }
         });
     }

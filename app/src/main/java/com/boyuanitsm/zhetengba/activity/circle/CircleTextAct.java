@@ -207,7 +207,10 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 time.setText(ZtinfoUtils.timeChange(Long.parseLong(entity.getCreateTime())));
             }
             if(!TextUtils.isEmpty(entity.getTalkContent())){
+                content.setVisibility(View.VISIBLE);
                 content.setText(entity.getTalkContent());
+            }else {
+                content.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(entity.getCommentCounts()+"")){
                 commentNum.setText("评论"+entity.getCommentCounts());

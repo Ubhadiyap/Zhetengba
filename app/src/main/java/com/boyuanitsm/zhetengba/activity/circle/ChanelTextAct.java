@@ -167,7 +167,10 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 time.setText(ZtinfoUtils.timeChange(Long.parseLong(entity.getCreateTiem())));
             }
             if(!TextUtils.isEmpty(entity.getChannelContent())){
+                content.setVisibility(View.VISIBLE);
                 content.setText(entity.getChannelContent());
+            }else {
+                content.setVisibility(View.GONE);
             }
             if(!TextUtils.isEmpty(entity.getCommentCounts()+"")){
                 commentNum.setText("评论"+entity.getCommentCounts());

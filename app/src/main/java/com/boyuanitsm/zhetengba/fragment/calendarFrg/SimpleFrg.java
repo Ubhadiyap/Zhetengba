@@ -84,33 +84,35 @@ public class SimpleFrg extends BaseFragment {
          noList = (LinearLayout) view.findViewById(R.id.noList);
         ivAnim = (ImageView) view.findViewById(R.id.ivAnim);
         noMsg = (TextView) view.findViewById(R.id.noMsg);
+        viewPager = (LoopViewPager) viewHeader_act.findViewById(R.id.vp_loop_act);
+        ll_point = (LinearLayout) viewHeader_act.findViewById(R.id.ll_point);
         //刷新初始化
         LayoutHelperUtil.freshInit(lv_act);
         lv_act.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
-                if (state==0) {
+                if (state == 0) {
                     getFriendOrAllAcitvity(page, rows, state + "");//好友列表获取；
-                } else if (state==1){
+                } else if (state == 1) {
                     getActivityList(page, rows);//全部列表获取；
-                }else if (state==2) {
-                    getFriendOrAllAcitvity(page,rows,state+"");//获取我的列表
+                } else if (state == 2) {
+                    getFriendOrAllAcitvity(page, rows, state + "");//获取我的列表
                 }
-//                getBanner();
+                getBanner();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                if (state==0) {
+                if (state == 0) {
                     getFriendOrAllAcitvity(page, rows, state + "");//好友列表获取；
-                } else if (state==1){
+                } else if (state == 1) {
                     getActivityList(page, rows);//全部列表获取；
-                }else if (state==2){
-                    getFriendOrAllAcitvity(page,rows,state+"");//获取我的
+                } else if (state == 2) {
+                    getFriendOrAllAcitvity(page, rows, state + "");//获取我的
                 }
-//                getBanner();
+                getBanner();
             }
         });
         //设置简约listview的headerview：item_viewpager_act.xml
@@ -124,6 +126,9 @@ public class SimpleFrg extends BaseFragment {
         }
         //首页活动轮播图片展示
         getBanner();
+        viewPager.setAuto(true);
+        //设置监听
+        viewPager.setOnPageChangeListener(getListener());
 
     }
 
@@ -244,13 +249,8 @@ public class SimpleFrg extends BaseFragment {
 //                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
-                viewPager = (LoopViewPager) view.findViewById(R.id.vp_loop_act);
-                ll_point = (LinearLayout) view.findViewById(R.id.ll_point);
                 //设置viewpager适配/轮播效果
                 initMyPageAdapter(bannerInfoList);
-                viewPager.setAuto(true);
-                //设置监听
-                viewPager.setOnPageChangeListener(getListener());
             }
         });
     }

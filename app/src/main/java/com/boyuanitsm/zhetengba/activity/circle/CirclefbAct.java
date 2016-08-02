@@ -27,6 +27,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -258,6 +259,7 @@ public class CirclefbAct extends BaseActivity {
             File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
             FileBody fb = new FileBody(file);
 //            FileBody fb = new FileBody(new File(selecteds.get(i).getPath()));
+            MyLogUtils.info("文件大小"+fb.getContentLength());
             fileMaps.put(i+"", fb);
         }
         strList=new ArrayList<>();
