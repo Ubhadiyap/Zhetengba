@@ -3,10 +3,10 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#ffffffff">
+    android:background="#ffffff">
 <com.boyuanitsm.zhetengba.view.CustomImageView
     android:id="@+id/iv_chanel_pic"
     android:layout_width="83dp"
-    android:scaleType="fitXY"
+    android:scaleType="centerCrop"
     android:layout_height="83dp" />
 </LinearLayout>

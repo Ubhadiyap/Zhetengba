@@ -54,6 +54,7 @@ public class CircleAdapter extends BaseAdapter {
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.tum)
+            .showImageOnLoading(R.mipmap.tum)
             .showImageOnFail(R.mipmap.tum).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();

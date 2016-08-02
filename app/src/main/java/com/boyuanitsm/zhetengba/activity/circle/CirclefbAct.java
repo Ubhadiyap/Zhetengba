@@ -99,7 +99,7 @@ public class CirclefbAct extends BaseActivity {
                 switch (type){
                     case 0:
                         if(!TextUtils.isEmpty(content)) {
-                            pd.show();
+//                            pd.show();
                             channelTalkEntity.setLabelId(labelId);
                             channelTalkEntity.setChannelContent(content);
                             if (selecteds.size()>0) {
@@ -109,7 +109,7 @@ public class CirclefbAct extends BaseActivity {
                             }
                         }else {
                             if (selecteds.size()>0) {
-                                pd.show();
+//                                pd.show();
                                 channelTalkEntity.setLabelId(labelId);
                                 upLoadImg(selecteds);
                             }else {
@@ -122,7 +122,7 @@ public class CirclefbAct extends BaseActivity {
                        break;
                     default:
                         if(!TextUtils.isEmpty(content)) {
-                            pd.show();
+//                            pd.show();
                             entity.setTalkContent(content);
                             if (selecteds.size()>0) {
                                 upLoadImg(selecteds);
@@ -131,7 +131,7 @@ public class CirclefbAct extends BaseActivity {
                             }
                         }else  {
                             if (selecteds.size()>0) {
-                                pd.show();
+//                                pd.show();
                                 entity.setTalkContent("");
                                 upLoadImg(selecteds);
                             }else {

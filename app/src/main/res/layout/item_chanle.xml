@@ -107,14 +107,14 @@
                     <com.boyuanitsm.zhetengba.view.CustomImageView
                         android:id="@+id/iv_two_one"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         android:layout_width="83dp"
                         android:layout_height="83dp" />
                     <com.boyuanitsm.zhetengba.view.CustomImageView
                         android:layout_marginLeft="3dp"
                         android:id="@+id/iv_two_two"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         android:layout_width="83dp"
                         android:layout_height="83dp" />
                 </LinearLayout>
@@ -125,14 +125,14 @@
                     <com.boyuanitsm.zhetengba.view.CustomImageView
                         android:id="@+id/iv_two_three"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         android:layout_width="83dp"
                         android:layout_height="83dp" />
                     <com.boyuanitsm.zhetengba.view.CustomImageView
                         android:layout_marginLeft="3dp"
                         android:id="@+id/iv_two_four"
                         android:layout_weight="1"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         android:layout_width="83dp"
                         android:layout_height="83dp" />
                 </LinearLayout>
@@ -140,6 +140,7 @@
             <com.boyuanitsm.zhetengba.view.CustomImageView
                 android:visibility="gone"
                 android:id="@+id/iv_oneimage"
+                android:scaleType="centerCrop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
