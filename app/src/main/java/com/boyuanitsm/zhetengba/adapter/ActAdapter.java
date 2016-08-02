@@ -1,6 +1,5 @@
 package com.boyuanitsm.zhetengba.adapter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
-import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
@@ -277,6 +275,7 @@ public class ActAdapter extends BaseAdapter {
                 Intent intent = new Intent();
                 intent.putExtra("type",1);
                 intent.putExtra("id",infos.get(position).getId());
+                intent.putExtra("activitytheme",infos.get(position).getActivityTheme());
                 intent.setClass(context, ShareDialogAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

@@ -27,6 +27,7 @@ public class ShareDialogAct extends BaseActivity {
 
     private String content;//分享文本内容
     private String id;//需要拼接的id
+    private String theme;//会友名称
 
 
 
@@ -46,13 +47,16 @@ public class ShareDialogAct extends BaseActivity {
 
         type = getIntent().getExtras().getInt("type");//区分要分享的链接
         id=getIntent().getExtras().getString("id");//区分要拼接到链接里面的id
+        theme=getIntent().getExtras().getString("activitytheme");
         if (type == 1) {//表示要分享的是活动
             codeUrl = IZtbUrl.SHARE_URL+"/share_1?id="+id;//活动分享链接
-            content = "我在折腾吧发布了一个“会友”，快来围观吧!";
+//            content = "我发布了，快来围观吧!";
+            content="我发布了"+"\""+theme+"\""+"的会友信息，快来响应吧";
+
         }
         if (type == 2) {//表示要分享的是档期
             codeUrl = IZtbUrl.SHARE_URL+"/share_2?id="+id;//档期分享链接
-            content = "我在折腾吧发布了一个“有空”，快来围观吧!";
+            content = "我发布了我的档期，快来约我吧";
         }
 //        if(type==3){
 //            codeUrl="http://172.16.6.253:8082/share_3   ";//下载链接
