@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -71,7 +73,6 @@ public class CirclefbAct extends BaseActivity {
     private String labelId;//频道标签id
     private int flag;
     private List<String> strList;
-
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circlefb);
@@ -81,9 +82,6 @@ public class CirclefbAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle(UserInfoDao.getUser().getPetName());
-        pd=new ProgressDialog(CirclefbAct.this);
-        pd.setMessage("发布中...");
-        pd.setCanceledOnTouchOutside(false);
         isShow=getIntent().getBooleanExtra("isShow", false);
         circleId=getIntent().getStringExtra("circleId");
         labelId=getIntent().getStringExtra("labelId");

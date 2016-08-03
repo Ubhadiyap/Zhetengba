@@ -215,7 +215,7 @@ public class MyBitmapUtils {
 			BitmapFactory.Options opts = new BitmapFactory.Options();
 			// 设置为ture只获取图片大小
 			opts.inJustDecodeBounds = true;
-			opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
+			opts.inPreferredConfig = Bitmap.Config.RGB_565;
 			// 返回为空
 			BitmapFactory.decodeFile(path, opts);
 			int width = opts.outWidth;
@@ -318,7 +318,7 @@ public class MyBitmapUtils {
 		}
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		int options=80;
+		int options=90;
 		bitmap.compress(Bitmap.CompressFormat.PNG,options, baos);
 		while (baos.toByteArray().length / 1024 > 100) {
 			baos.reset();
