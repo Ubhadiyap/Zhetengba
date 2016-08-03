@@ -52,7 +52,7 @@ public class SimpleFrg extends BaseFragment {
     private List<SimpleInfo> list;//活动对象集合
     private List<SimpleInfo> datas = new ArrayList<>();
     private int page = 1;
-    private int rows = 20;
+    private int rows = 10;
     private int state=0;
     private IntentFilter filter;
     private LinearLayout noList;

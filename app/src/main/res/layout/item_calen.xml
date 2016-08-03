@@ -252,7 +252,15 @@
     <!--</LinearLayout>-->
     
     <ImageView
-        android:id="@+id/iv_bag"
+    android:id="@+id/iv_bag"
+    android:layout_marginRight="15dp"
+    android:layout_centerVertical="true"
+    android:layout_alignParentRight="true"
+    android:layout_width="50dp"
+    android:layout_height="50dp" />
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_bag2"
         android:layout_marginRight="15dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"

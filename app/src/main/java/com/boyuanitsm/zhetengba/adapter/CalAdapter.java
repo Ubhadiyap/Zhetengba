@@ -101,10 +101,13 @@ public class CalAdapter extends BaseAdapter {
             calHolder.tv_state = (TextView) convertView.findViewById(R.id.tv_state);
             calHolder.ll_yh = (LinearLayout) convertView.findViewById(R.id.ll_yh);
             calHolder.iv_bag= (ImageView) convertView.findViewById(R.id.iv_bag);
+            calHolder.iv_bag2= (ImageView) convertView.findViewById(R.id.iv_bag2);
             calHolder.rl_main= (LinearLayout) convertView.findViewById(R.id.rl_main);
             convertView.setTag(calHolder);
         }
         if (!UserInfoDao.getUser().getId().equals(list.get(position).getCreatePersonId())){//用户id不得与创建id
+            calHolder.iv_bag.setVisibility(View.VISIBLE);
+            calHolder.iv_bag2.setVisibility(View.GONE);
             if (list.get(position).isAgreeAbout()){
                 calHolder.iv_bag.setImageResource(R.mipmap.yue);
                 calHolder.iv_bag.setEnabled(false);
@@ -119,38 +122,40 @@ public class CalAdapter extends BaseAdapter {
                 }else if (list.get(position).getDictName().equals("无聊至极")){
                     calHolder.iv_bag.setImageResource(R.mipmap.lan);
                 }
-                calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        calHolder.iv_bag.setEnabled(false);
-                        simpleInfos=new ArrayList<SimpleInfo>();
-                        RequestManager.getScheduleManager().findMatchingActivities(list.get(position).getScheduleId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
-                            @Override
-                            public void onError(int status, String errorMsg) {
-                                calHolder.iv_bag.setClickable(true);
-                            }
-
-                            @Override
-                            public void onResponse(ResultBean<List<SimpleInfo>> response) {
-                                simpleInfos = response.getData();
-                                ScheduDialog dialog = new ScheduDialog(context, simpleInfos, list.get(position).getScheduleId());
-                                dialog.show();
-                                calHolder.iv_bag.setClickable(true);
-                            }
-                        });
-                    }
-                });
             }
 
         }else {
-            calHolder.iv_bag.setImageResource(R.mipmap.bmore);
-            calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showPopupWindow(calHolder.rl_main,position);
-                }
-            });
+            calHolder.iv_bag2.setVisibility(View.VISIBLE);
+            calHolder.iv_bag.setVisibility(View.GONE);
+            calHolder.iv_bag2.setImageResource(R.mipmap.bmore);
         }
+        calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                        calHolder.iv_bag.setEnabled(false);
+                simpleInfos=new ArrayList<SimpleInfo>();
+                RequestManager.getScheduleManager().findMatchingActivities(list.get(position).getScheduleId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+                    @Override
+                    public void onError(int status, String errorMsg) {
+                        calHolder.iv_bag.setClickable(true);
+                    }
+
+                    @Override
+                    public void onResponse(ResultBean<List<SimpleInfo>> response) {
+                        simpleInfos = response.getData();
+                        ScheduDialog dialog = new ScheduDialog(context, simpleInfos, list.get(position).getScheduleId());
+                        dialog.show();
+                        calHolder.iv_bag.setClickable(true);
+                    }
+                });
+            }
+        });
+        calHolder.iv_bag2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupWindow(calHolder.rl_main,position);
+            }
+        });
         if (list != null) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), calHolder.iv_icon, optionsImag);//用户头像；
 //        calHolder.iv_icon.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_user));
@@ -265,7 +270,7 @@ public class CalAdapter extends BaseAdapter {
         public TextView tv_time_cal;//活动日期
         public TextView tv_state;//状态
         public LinearLayout ll_yh;//约会
-        private ImageView iv_bag;//档期列表右边的
+        private ImageView iv_bag,iv_bag2;//档期列表右边的
         private LinearLayout rl_main;//item大布局
     }
     /***
