@@ -87,7 +87,8 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     public void setRightEnable(boolean flag){
-        tvRight.setEnabled(flag);
+//        rlRight= (RelativeLayout) findViewById(R.id.rlRight);
+        rlRight.setEnabled(flag);
     }
     /**
      * 返回

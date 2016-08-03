@@ -23,13 +23,11 @@ import com.boyuanitsm.zhetengba.bean.ImageBean;
 import com.boyuanitsm.zhetengba.bean.ImgBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -73,6 +71,7 @@ public class CirclefbAct extends BaseActivity {
     private String labelId;//频道标签id
     private int flag;
     private List<String> strList;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circlefb);
@@ -86,13 +85,15 @@ public class CirclefbAct extends BaseActivity {
         circleId=getIntent().getStringExtra("circleId");
         labelId=getIntent().getStringExtra("labelId");
         type=getIntent().getIntExtra(TYPE, 1);
-        flag=getIntent().getIntExtra("flag",0);
+        flag=getIntent().getIntExtra("flag", 0);
         entity=new CircleEntity();
+        pd=new ProgressDialog(CirclefbAct.this);
+        pd.setMessage("发布中...");
+        pd.setCanceledOnTouchOutside(false);
         channelTalkEntity=new ChannelTalkEntity();
         setRight("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyLogUtils.degug("pd.show");
                 pd.show();
                 setRightEnable(false);
                 content=etContent.getText().toString().trim();
@@ -105,6 +106,7 @@ public class CirclefbAct extends BaseActivity {
                             if (selecteds.size()>0) {
                                 upLoadImg(selecteds);
                             }else {
+                                pd.show();
                                 addChannelTalk(channelTalkEntity);
                             }
                         }else {
@@ -127,6 +129,7 @@ public class CirclefbAct extends BaseActivity {
                             if (selecteds.size()>0) {
                                 upLoadImg(selecteds);
                             }else {
+                                pd.show();
                                 addCircleTalk(entity, circleId);
                             }
                         }else  {
@@ -232,6 +235,7 @@ public class CirclefbAct extends BaseActivity {
         RequestManager.getTalkManager().addChannelTalk(channelTalkEntity, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                pd.dismiss();
                 setRightEnable(true);
             }
 
@@ -251,39 +255,59 @@ public class CirclefbAct extends BaseActivity {
     }
 
     //上传图片
-    private void upLoadImg(List<ImageBean> selecteds){
-        Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
-        for (int i = 0; i < selecteds.size(); i++) {
-            Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
-            File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
-            FileBody fb = new FileBody(file);
-//            FileBody fb = new FileBody(new File(selecteds.get(i).getPath()));
-            MyLogUtils.info("文件大小"+fb.getContentLength());
-            fileMaps.put(i+"", fb);
+    private void upLoadImg(final List<ImageBean> selecteds){
+        pd.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
+                for (int i = 0; i < selecteds.size(); i++) {
+                    Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
+                    File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
+                    FileBody fb = new FileBody(file);
+//            MyLogUtils.info("文件大小"+fb.getContentLength());
+                    fileMaps.put(i+"", fb);
+                }
+                Message message=handler.obtainMessage();
+                message.obj=fileMaps;
+                handler.sendMessage(message);
+            }
+        }).start();
+
+    }
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Map<String, FileBody> fileMaps= (Map<String, FileBody>) msg.obj;
+            toUpLoadImage(fileMaps);
         }
-        strList=new ArrayList<>();
+    };
+
+    private void toUpLoadImage(Map<String, FileBody> fileMaps){
         RequestManager.getTalkManager().upLoadImg(fileMaps, new ResultCallback<ResultBean<ImgBean<String>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                    pd.dismiss();
+                pd.dismiss();
             }
 
             @Override
             public void onResponse(ResultBean<ImgBean<String>> response) {
-                strList=response.getData().getBigImgPaths();
-                imgStr=new StringBuilder();
-                if (strList.size()>0){
-                    if (strList.size()==1){
+                strList = response.getData().getBigImgPaths();
+                imgStr = new StringBuilder();
+                if (strList.size() > 0) {
+                    if (strList.size() == 1) {
                         imgStr.append(strList.get(0));
-                    }else {
-                        for (int i=0;i<strList.size();i++){
+                    } else {
+                        for (int i = 0; i < strList.size(); i++) {
                             imgStr.append(strList.get(i));
                             imgStr.append(",");
                         }
-                       imgStr.deleteCharAt(imgStr.length()-1);
+                        imgStr.deleteCharAt(imgStr.length() - 1);
                     }
                 }
-                switch (type){
+                switch (type) {
                     case 0:
                         channelTalkEntity.setChannelImage(imgStr.toString());
                         addChannelTalk(channelTalkEntity);
