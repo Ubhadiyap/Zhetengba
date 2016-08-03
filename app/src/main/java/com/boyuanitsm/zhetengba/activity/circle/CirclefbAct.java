@@ -94,6 +94,7 @@ public class CirclefbAct extends BaseActivity {
         setRight("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyLogUtils.degug("pd.show");
                 pd.show();
                 setRightEnable(false);
                 content=etContent.getText().toString().trim();

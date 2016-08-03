@@ -477,12 +477,15 @@ public class PerpageAct extends BaseActivity {
             ll_add_riend.setVisibility(View.VISIBLE);
             iv_set.setVisibility(View.VISIBLE);
             bt_message.setText("发送消息");
+            cv_photo.setEnabled(true);
+
         } else {
             msv_scroll.setPadding(0, 0, 0, 80);
             bt_message.setVisibility(View.VISIBLE);
             bt_message.setText("加为好友");
             iv_set.setVisibility(View.GONE);
             ll_add_riend.setVisibility(View.GONE);
+            cv_photo.setEnabled(false);
         }
         manager = getSupportFragmentManager();
         msv_scroll.smoothScrollTo(0, 0);

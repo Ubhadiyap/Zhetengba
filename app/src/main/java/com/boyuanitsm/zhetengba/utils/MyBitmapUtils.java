@@ -335,6 +335,38 @@ public class MyBitmapUtils {
 		}
 		return f;
 	}
+	/**
+	 * 保存图片
+	 * @param bitmap
+	 * @param file
+	 * @return
+	 */
+	public static File saveBitmap2(final Bitmap bitmap,final String file){
+		final File f = new File(Environment.getExternalStorageDirectory()+"/"+file);
+		if (!f.exists()) {
+			f.getParentFile().mkdirs();
+		}else{
+			f.delete();
+		}
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		int options=80;
+		bitmap.compress(Bitmap.CompressFormat.PNG,90, baos);
+//		while (baos.toByteArray().length / 1024 > 100) {
+//			baos.reset();
+//			options -= 10;
+//			bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
+//		}
+		try {
+			FileOutputStream fos = new FileOutputStream(f);
+			fos.write(baos.toByteArray());
+			fos.flush();
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return f;
+	}
 
 	// 根据路径获得图片并压缩，返回bitmap用于显示
 	public static Bitmap getSmallBitmap(String filePath) {
