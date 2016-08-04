@@ -17,6 +17,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -271,6 +272,7 @@ public class CollectAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(context,response.getMessage());
                 list.remove(dex);
                 notifyDataSetChanged();
                 context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
@@ -278,36 +280,6 @@ public class CollectAdapter extends BaseAdapter {
         });
     }
 
-
-    /**
-     * 参加活动
-     * @param position
-     * @param
-     */
-//    private void stateChange(final int position,  final ViewHolder holder) {
-//        RequestManager.getScheduleManager().getRespondActivity(list.get(position).getId(), new ResultCallback<ResultBean<String>>() {
-//            @Override
-//            public void onError(int status, String errorMsg) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(ResultBean<String> response) {
-//                holder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
-//                holder.tv_text_jion.setText("取消参加");
-//                holder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
-//                flag = true;
-//                if (list.get(position).getMemberNum() != null) {
-//                    int i = list.get(position).getMemberNum();
-//                    i = i + 1;
-//                    holder.tv_join_num.setText(i + "");
-//                    list.get(position).setJoin(true);
-//                    list.get(position).setMemberNum(i);
-//
-//                }
-//            }
-//        });
-//    }
 
     /**
      * 取消参加或响应活动接口
@@ -328,7 +300,7 @@ public class CollectAdapter extends BaseAdapter {
                     holder.ll_join.setEnabled(true);
                     list.remove(position);
                     notifyDataSetChanged();
-                    MyToastUtils.showShortToast(context,"此条活动已被删除！");
+                    MyToastUtils.showShortToast(context,response.getMessage());
                     return;
                 }
                 delGroup(list.get(position).getId());
@@ -341,6 +313,7 @@ public class CollectAdapter extends BaseAdapter {
                 holder.tv_join_num.setText(i + "");
                 list.get(position).setJoining(false);
                 list.get(position).setMemberNum(i);
+                MyToastUtils.showShortToast(context,response.getMessage());
                 context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
 
             }
@@ -387,6 +360,7 @@ public class CollectAdapter extends BaseAdapter {
                 i = i + 1;
                 list.get(position).setMemberNum(i);
                 list.get(position).setJoining(true);
+                MyToastUtils.showShortToast(context,response.getMessage());
                 context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
                 notifyDataSetChanged();
             }
@@ -411,23 +385,5 @@ public class CollectAdapter extends BaseAdapter {
             }
         });
     }
-
-    /**
-     * 移除群组
-     * @param activityId
-     */
-//    private void delGroup(String activityId){
-//        RequestManager.getScheduleManager().deleGroup(activityId, new ResultCallback<ResultBean<String>>() {
-//            @Override
-//            public void onError(int status, String errorMsg) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(ResultBean<String> response) {
-//
-//            }
-//        });
-//    }
 
 }
