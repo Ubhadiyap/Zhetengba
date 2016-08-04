@@ -111,6 +111,16 @@ public class ZhetebaUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(new Date());
     }
+    /**
+     * 获取当前时间转化成秒
+     *
+     * @return
+     */
+    public static int getCurrentTime2ss() {
+        Date date=new Date();
+        long scond=date.getTime()/1000;
+        return  new Long(scond).intValue();
+    }
 
     /**
      * 与当前时间对比

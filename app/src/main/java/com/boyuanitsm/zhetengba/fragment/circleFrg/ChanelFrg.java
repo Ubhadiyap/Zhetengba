@@ -69,6 +69,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private ArrayList<Integer> moveToList;//设置textview宽高集合
     private List<ChannelTalkEntity> channelTalkEntityList;
     private List<List<ImageInfo>> datalist;
+    private List<ChanelItemFrg> fragments;
     private List<ChannelTalkEntity> datas = new ArrayList<>();
 //    private ChanelPageAdapter pageAdapter;
     private ViewPager viewPager;
@@ -113,6 +114,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         MyLogUtils.info(currentPos + "刷新位置信息。。。。");
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
+        fragments=new ArrayList<>();
         if (titleList.size() <= currentPos) {
             currentPos = 0;
         } else {
@@ -228,29 +230,6 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
             textViewList.get(currentPos).setTextColor(Color.parseColor("#52C791"));
         }
     }
-
-//    class ChanelPageAdapter extends FragmentStatePagerAdapter {
-//        private List<UserInterestInfo> list=new ArrayList<>();
-//        public ChanelPageAdapter(FragmentManager fm, List<UserInterestInfo> titleList) {
-//            super(fm);
-//            this.list=titleList;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            LogUtils.i("适配器" + list.size());
-//            return list == null ? 0 : list.size();
-//        }
-//
-//        @Override
-//        public Fragment getItem(int i) {
-//            ChanelItemFrg chanelfrg = new ChanelItemFrg();
-//            Bundle bundle = new Bundle();
-//            bundle.putString(ChanelItemFrg.TITLE_LIST, list.get(i).getInterestId());
-//            chanelfrg.setArguments(bundle);
-//            return chanelfrg;
-//        }
-//    }
 
     /**
      * 获取我的兴趣标签

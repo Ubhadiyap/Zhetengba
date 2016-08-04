@@ -53,6 +53,7 @@ public class ChanelItemFrg extends BaseFragment {
     public static final String TITLE_LIST = "title_list";
     private String labelId;
     private ProgressDialog progressDialog;
+    private int commentPosition=0;
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.item_vp_chanel, null);
@@ -66,10 +67,6 @@ public class ChanelItemFrg extends BaseFragment {
         llnoList = (LinearLayout) view.findViewById(R.id.noList);
         ivAnim = (ImageView) view.findViewById(R.id.ivAnim);
         noMsg = (TextView) view.findViewById(R.id.noMsg);
-//        progressDialog=new ProgressDialog(mActivity);
-//        progressDialog.setMessage("数据加载中...");
-//        progressDialog.setCanceledOnTouchOutside(false);
-//        progressDialog.show();
         LayoutHelperUtil.freshInit(vp_chan);
         //快速滚动时停止加载图片
         inistal(labelId);
@@ -120,7 +117,7 @@ public class ChanelItemFrg extends BaseFragment {
      * @param page
      * @param rows
      */
-    private void getChannelTalks(String lableId, final int page, int rows) {
+    private void getChannelTalks(final String lableId, final int page, int rows) {
         channelTalkEntityList = new ArrayList<>();
         datalist = new ArrayList<>();
         RequestManager.getTalkManager().getChannelTalks(lableId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
@@ -180,11 +177,14 @@ public class ChanelItemFrg extends BaseFragment {
                     datalist.add(itemList);
                 }
                 if (adapter == null) {
+                    MyLogUtils.info("adapter==null===labelId是"+lableId);
                     adapter = new ChanAdapter(mActivity, datalist, datas);
                     vp_chan.getRefreshableView().setAdapter(adapter);
                 } else {
+                    MyLogUtils.info("adapter!!!!==null====labelId是"+lableId);
                     adapter.notifyChange(datalist, datas);
                 }
+//                vp_chan.getRefreshableView().setSelection(commentPosition);
             }
         });
     }
