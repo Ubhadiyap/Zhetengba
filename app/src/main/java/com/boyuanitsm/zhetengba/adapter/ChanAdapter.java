@@ -19,7 +19,6 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
-import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -33,6 +32,7 @@ import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
+import com.boyuanitsm.zhetengba.view.GcDialog;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -129,6 +129,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_ch_image = (LinearLayout) convertView.findViewById(R.id.ll_ch_image);
             viewHolder.znum = (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
+            viewHolder.rl_xia= (RelativeLayout) convertView.findViewById(R.id.rl_xia);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
@@ -268,6 +269,7 @@ public class ChanAdapter extends BaseAdapter {
         };
         viewHolder.ll_content.setOnClickListener(listener);
         viewHolder.ll_date.setOnClickListener(listener);
+
         //点击跳转圈友主页
         viewHolder.ll_user.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,6 +280,16 @@ public class ChanAdapter extends BaseAdapter {
                 intent.putExtras(bundle);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+            }
+        });
+
+        viewHolder.rl_xia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GcDialog gcDialog=new GcDialog(context);
+                gcDialog.builder().show();
+
+
             }
         });
 
@@ -390,6 +402,7 @@ public class ChanAdapter extends BaseAdapter {
         private LinearLayout ll_like;
         private TextView znum;
         private TextView cnum;
+        private RelativeLayout rl_xia;
 
 
     }
