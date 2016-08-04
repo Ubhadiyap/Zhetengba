@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -51,6 +52,7 @@ public class ChanelItemFrg extends BaseFragment {
     private ChanAdapter adapter;
     public static final String TITLE_LIST = "title_list";
     private String labelId;
+    private ProgressDialog progressDialog;
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.item_vp_chanel, null);
@@ -64,6 +66,10 @@ public class ChanelItemFrg extends BaseFragment {
         llnoList = (LinearLayout) view.findViewById(R.id.noList);
         ivAnim = (ImageView) view.findViewById(R.id.ivAnim);
         noMsg = (TextView) view.findViewById(R.id.noMsg);
+//        progressDialog=new ProgressDialog(mActivity);
+//        progressDialog.setMessage("数据加载中...");
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.show();
         LayoutHelperUtil.freshInit(vp_chan);
         //快速滚动时停止加载图片
         inistal(labelId);
@@ -125,6 +131,9 @@ public class ChanelItemFrg extends BaseFragment {
                 if (adapter != null) {
                     adapter.notifyChange(datalist, channelTalkEntityList);
                 }
+//                if (progressDialog.isShowing()){
+//                    progressDialog.dismiss();
+//                }
                 llnoList.setVisibility(View.VISIBLE);
                 ivAnim.setImageResource(R.drawable.loadfail_list);
                 noMsg.setText("加载数据失败...");
@@ -136,6 +145,9 @@ public class ChanelItemFrg extends BaseFragment {
             public void onResponse(ResultBean<DataBean<ChannelTalkEntity>> response) {
                 vp_chan.onPullUpRefreshComplete();
                 vp_chan.onPullDownRefreshComplete();
+//                if (progressDialog.isShowing()){
+//                    progressDialog.dismiss();
+//                }
                 if (animationDrawable != null) {
                     animationDrawable.stop();
                     animationDrawable = null;

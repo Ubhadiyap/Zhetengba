@@ -57,7 +57,7 @@ public class CalFrg extends BaseFragment {
     private List<ScheduleInfo> datas=new ArrayList<>();
     private List<LabelBannerInfo> bannerInfoList;
     private CalAdapter adapter;
-    private int page=1,rows=20;
+    private int page=1,rows=10;
     private int state=0;
     private boolean flag=true;
     private IntentFilter filter;

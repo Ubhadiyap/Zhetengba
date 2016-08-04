@@ -387,7 +387,8 @@
         <!--裁剪头像页面-->
         <activity
             android:name=".activity.mine.ClipActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"></activity>
         <!--活动详情-->
         <activity
             android:name=".activity.circle.EventdetailsAct"

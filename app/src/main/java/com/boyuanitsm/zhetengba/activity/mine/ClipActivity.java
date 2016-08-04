@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.view.crop.ClipImageLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -46,6 +47,7 @@ public class ClipActivity extends BaseActivity {
 		loadingDialog = new ProgressDialog(this);
 		loadingDialog.setTitle("请稍后...");
 		path = getIntent().getStringExtra("path");
+		MyLogUtils.info("裁剪查找地址："+path);
 		if (TextUtils.isEmpty(path) || !(new File(path).exists())) {
 			Toast.makeText(this, "图片加载失败", Toast.LENGTH_SHORT).show();
 			return;
@@ -72,6 +74,7 @@ public class ClipActivity extends BaseActivity {
 							+ "/ClipHeadPhoto/cache/"
 							+ System.currentTimeMillis() + ".png";
 					MyBitmapUtils.savePhotoToSDCard(bitmap, path);
+					MyLogUtils.info("拍照图片地址是："+path);
 					loadingDialog.dismiss();
 					Intent intent = new Intent();
 					intent.putExtra("path", path);

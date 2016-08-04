@@ -389,6 +389,7 @@ public class PersonalmesAct extends BaseActivity {
                 File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
                 intent = new Intent(this, ClipActivity.class);
                 intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.png");
+                MyLogUtils.info("拍照图片地址是：" + Environment.getExternalStorageDirectory() + "/" + "user_head.png");
                 startActivityForResult(intent, IMAGE_COMPLETE);
                 break;
             case PHOTOTAKE:// 拍照
@@ -398,6 +399,7 @@ public class PersonalmesAct extends BaseActivity {
                 String path = photoSavePath + photoSaveName;
                 Intent intent2 = new Intent(this, ClipActivity.class);
                 intent2.putExtra("path", path);
+                MyLogUtils.info("拍照地址是=====："+path);
                 startActivityForResult(intent2, IMAGE_COMPLETE);
                 break;
 

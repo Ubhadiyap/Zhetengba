@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -80,7 +81,7 @@ public class CirxqAct extends BaseActivity {
             .bitmapConfig(Bitmap.Config.RGB_565).build();
     private View headView;
     private CirclexqListAdapter xqAdapter;
-
+    private ProgressDialog progressDialog;
     private boolean isQuanzhu=false;
     @Override
     public void setLayout() {
@@ -91,6 +92,10 @@ public class CirxqAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("");
+        progressDialog=new ProgressDialog(CirxqAct.this);
+        progressDialog.setMessage("数据加载中...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         headView=getLayoutInflater().inflate(R.layout.xqhead_view,null);
         head= (CircleImageView) headView.findViewById(R.id.head);//头像
         name= (TextView) headView.findViewById(R.id.tv_qz);//圈主名
@@ -246,6 +251,9 @@ public class CirxqAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<CircleEntity> response) {
+                if (progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
                 circleEntity = response.getData();
                 if (circleEntity != null) {
                     setCircle(circleEntity);
@@ -327,6 +335,9 @@ public class CirxqAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<DataBean<MemberEntity>> response) {
+                if (progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
                 userList = response.getData().getRows();
                 adapter = new CirxqAdapter(CirxqAct.this, userList,isInCircle);
                 rv_label.setAdapter(adapter);
@@ -408,6 +419,9 @@ public class CirxqAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
+                if (progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
                 circleEntityList = response.getData().getRows();

@@ -215,7 +215,7 @@ public class MyBitmapUtils {
 			BitmapFactory.Options opts = new BitmapFactory.Options();
 			// 设置为ture只获取图片大小
 			opts.inJustDecodeBounds = true;
-			opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
+			opts.inPreferredConfig = Bitmap.Config.RGB_565;
 			// 返回为空
 			BitmapFactory.decodeFile(path, opts);
 			int width = opts.outWidth;
@@ -318,13 +318,45 @@ public class MyBitmapUtils {
 		}
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		int options=80;
+		int options=90;
 		bitmap.compress(Bitmap.CompressFormat.PNG,options, baos);
 		while (baos.toByteArray().length / 1024 > 100) {
 			baos.reset();
 			options -= 10;
 			bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
 		}
+		try {
+			FileOutputStream fos = new FileOutputStream(f);
+			fos.write(baos.toByteArray());
+			fos.flush();
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return f;
+	}
+	/**
+	 * 保存图片
+	 * @param bitmap
+	 * @param file
+	 * @return
+	 */
+	public static File saveBitmap2(final Bitmap bitmap,final String file){
+		final File f = new File(Environment.getExternalStorageDirectory()+"/"+file);
+		if (!f.exists()) {
+			f.getParentFile().mkdirs();
+		}else{
+			f.delete();
+		}
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		int options=80;
+		bitmap.compress(Bitmap.CompressFormat.PNG,90, baos);
+//		while (baos.toByteArray().length / 1024 > 100) {
+//			baos.reset();
+//			options -= 10;
+//			bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
+//		}
 		try {
 			FileOutputStream fos = new FileOutputStream(f);
 			fos.write(baos.toByteArray());

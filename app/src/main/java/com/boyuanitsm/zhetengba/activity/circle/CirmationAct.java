@@ -36,7 +36,7 @@ public class CirmationAct extends BaseActivity {
 //    @ViewInject(R.id.com_jb)
     private CommonView com_jb;//举报
     @ViewInject(R.id.tv_tc)
-    private CommonView tv_tc;//退出按钮
+    private TextView tv_tc;//退出按钮
 
     private CircleEntity circleEntity;
 
@@ -57,16 +57,18 @@ public class CirmationAct extends BaseActivity {
                     setRight("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (!TextUtils.isEmpty(notice.getText().toString().trim())){
-                                addNotice(circleEntity.getId(),notice.getText().toString().trim());
-                            }else {
-                                MyToastUtils.showShortToast(CirmationAct.this,"请输入公告内容！");
+                            if (!TextUtils.isEmpty(notice.getText().toString().trim())) {
+                                addNotice(circleEntity.getId(), notice.getText().toString().trim());
+                            } else {
+                                MyToastUtils.showShortToast(CirmationAct.this, "请输入公告内容！");
                             }
                         }
                     });
+                    tv_tc.setText("解散圈子");
                 }else {
                     setRight("",null);
                     notice.setEnabled(false);
+                    tv_tc.setText("退出圈子");
                 }
             }
             if(!TextUtils.isEmpty(circleEntity.getNotice())) {
