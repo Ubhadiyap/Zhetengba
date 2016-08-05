@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.CalAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
@@ -27,13 +29,17 @@ import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
@@ -65,6 +71,7 @@ public class CalFrg extends BaseFragment {
     private ImageView ivAnim;
     private TextView noMsg;
     private AnimationDrawable animationDrawable;
+    private ACache aCache;
     //    广播接收者更新档期数据
     private BroadcastReceiver calFriendChangeRecevier=new BroadcastReceiver() {
         @Override
@@ -99,6 +106,7 @@ public class CalFrg extends BaseFragment {
         ll_point = (LinearLayout) viewHeader_calen.findViewById(R.id.ll_point);
         //下拉刷新初始化
         LayoutHelperUtil.freshInit(lv_calen);
+         aCache=ACache.get(mActivity);
         lv_calen.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -182,23 +190,35 @@ public class CalFrg extends BaseFragment {
             public void onError(int status, String errorMsg) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
-                if (adapter!=null){
-                    adapter.update(list);
+                String strList = aCache.getAsString("AllCal");
+                List<ScheduleInfo> infos = new ArrayList<ScheduleInfo>();
+                Gson gson = new Gson();
+                infos = gson.fromJson(strList, new TypeToken<List<ScheduleInfo>>() {
+                }.getType());
+                if (infos != null && infos.size() > 0) {
+                    if (adapter == null) {
+                        //设置简约listview的条目
+                        adapter = new CalAdapter(mActivity, infos);
+                        lv_calen.getRefreshableView().setAdapter(adapter);
+                    } else {
+                        adapter.update(infos);
+                    }
+                } else {
+                    noList.setVisibility(View.VISIBLE);
+                    ivAnim.setImageResource(R.drawable.loadfail_list);
+                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                    animationDrawable.start();
+                    noMsg.setText("加载失败...");
                 }
-                noList.setVisibility(View.VISIBLE);
-                ivAnim.setImageResource(R.drawable.loadfail_list);
-                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                animationDrawable.start();
-                noMsg.setText("加载失败...");
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<ScheduleInfo>> response) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
-                if (animationDrawable!=null){
+                if (animationDrawable != null) {
                     animationDrawable.stop();
-                    animationDrawable=null;
+                    animationDrawable = null;
                     noList.setVisibility(View.GONE);
                 }
                 list = response.getData().getRows();
@@ -213,13 +233,15 @@ public class CalFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                    if (adapter == null) {
-                        //设置简约listview的条目
-                        adapter = new CalAdapter(mActivity,datas);
-                        lv_calen.getRefreshableView().setAdapter(adapter);
-                    } else {
-                        adapter.update(datas);
-                    }
+                Gson gson = new Gson();
+                aCache.put("AllCal", gson.toJson(datas));
+                if (adapter == null) {
+                    //设置简约listview的条目
+                    adapter = new CalAdapter(mActivity, datas);
+                    lv_calen.getRefreshableView().setAdapter(adapter);
+                } else {
+                    adapter.update(datas);
+                }
             }
         });
     }
@@ -230,17 +252,38 @@ public class CalFrg extends BaseFragment {
      * @param rows
      * @param state
      */
-    private void getFriendAllSchudle(final int page,int rows,String state){
+    private void getFriendAllSchudle(final int page,int rows, final String state){
         RequestManager.getScheduleManager().getScheduleFriend(page, rows, state, new ResultCallback<ResultBean<DataBean<ScheduleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
-                noList.setVisibility(View.VISIBLE);
-                ivAnim.setImageResource(R.drawable.loadfail_list);
-                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                animationDrawable.start();
-                noMsg.setText("加载失败...");
+                String strList=null;
+                if (TextUtils.equals(state,0+"")){
+                     strList=aCache.getAsString("FriendCal");
+
+                }else if (TextUtils.equals(state,2+"")){
+                    strList=aCache.getAsString("MyCal");
+                }
+                List<ScheduleInfo> infos=new ArrayList<ScheduleInfo>();
+                Gson gson=new Gson();
+                infos= gson.fromJson(strList,new TypeToken<List<ScheduleInfo>>(){}.getType());
+                if (infos!=null&&infos.size()>0){
+                    if (adapter == null) {
+                        //设置简约listview的条目
+                        adapter = new CalAdapter(mActivity, infos);
+                        lv_calen.getRefreshableView().setAdapter(adapter);
+                    } else {
+                        adapter.update(infos);
+                    }
+                }else {
+                    noList.setVisibility(View.VISIBLE);
+                    ivAnim.setImageResource(R.drawable.loadfail_list);
+                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                    animationDrawable.start();
+                    noMsg.setText("加载失败...");
+                }
+
             }
 
             @Override
@@ -264,7 +307,12 @@ public class CalFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-
+                Gson gson=new Gson();
+                if (TextUtils.equals(state,0+"")){
+                    aCache.put("FriendCal", gson.toJson(datas));
+                }else if (TextUtils.equals(state,2+"")){
+                    aCache.put("MyCal",gson.toJson(datas));
+                }
                     if (adapter == null) {
                         //设置简约listview的条目
                         adapter = new CalAdapter(mActivity, datas);
@@ -272,8 +320,6 @@ public class CalFrg extends BaseFragment {
                     } else {
                         adapter.update(datas);
                     }
-
-
             }
         });
     }
@@ -290,6 +336,11 @@ public class CalFrg extends BaseFragment {
 //                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
 //                animationDrawable.start();
 //                noMsg.setText("加载失败...");
+                String bannerList= aCache.getAsString("CalBanner");
+                Gson gson=new Gson();
+                List<LabelBannerInfo> bannerInfos= gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
+                }.getType());
+                initMyPageAdapter(bannerInfos);
             }
 
             @Override
@@ -300,6 +351,8 @@ public class CalFrg extends BaseFragment {
 //                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
+                Gson gson=new Gson();
+                aCache.put("CalBanner", gson.toJson(bannerInfoList));
                 //设置viewpager适配/轮播效果
                 initMyPageAdapter(bannerInfoList);
             }

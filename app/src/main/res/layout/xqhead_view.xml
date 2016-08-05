@@ -69,7 +69,9 @@
                 android:id="@+id/notice"
                 style="@style/tv_second"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="40dp"
                 android:text=""
+                android:singleLine="true"
                 android:textColor="#333333"
                 android:textSize="12sp" />
         </RelativeLayout>

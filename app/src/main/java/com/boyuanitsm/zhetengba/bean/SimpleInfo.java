@@ -43,38 +43,38 @@ public class SimpleInfo implements Parcelable{
 
     @Override
     public String toString() {
-        return "SimpleInfo{" +
-                "activityParticulars='" + activityParticulars + '\'' +
-                ", activitySite='" + activitySite + '\'' +
-                ", activityTheme='" + activityTheme + '\'' +
-                ", activityVisibility=" + activityVisibility +
-                ", createPersonId='" + createPersonId + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", followNum=" + followNum +
-                ", icon='" + icon + '\'' +
-                ", id='" + id + '\'' +
-                ", inviteNumber=" + inviteNumber +
-                ", isValid=" + isValid +
-                ", labelId='" + labelId + '\'' +
-                ", memberNum=" + memberNum +
-                ", modifyPersonId='" + modifyPersonId + '\'' +
-                ", modifyTimeCOMMENT='" + modifyTimeCOMMENT + '\'' +
-                ", remark='" + remark + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", timeLength='" + timeLength + '\'' +
-                ", type=" + type +
-                ", userId='" + userId + '\'' +
-                ", userNm='" + userNm + '\'' +
-                ", userIcon='" + userIcon + '\'' +
-                ", userSex='" + userSex + '\'' +
-                ", follow=" + follow +
-                ", joining=" + joining +
-                ", noticeUserIds='" + noticeUserIds + '\'' +
-                ", invisibleUserIds='" + invisibleUserIds + '\'' +
-                ", colleagues=" + colleagues +
-                ", friend=" + friend +
-                ", joinCount=" + joinCount +
+        return "{" +
+                "activityParticulars"+"："+"\'" + activityParticulars + '\'' +
+                ", activitySite" +"："+"\'" + activitySite + '\'' +
+                ", activityTheme" +"："+"\'" + activityTheme + '\'' +
+                ", activityVisibility" + "：" +activityVisibility +
+                ", createPersonId" +"："+"\'" +createPersonId + '\'' +
+                ", createTime" + "："+"\'" +createTime + '\'' +
+                ", endTime" + "："+"\'" +endTime + '\'' +
+                ", followNum=" +"：" + followNum +
+                ", icon" +"："+"\'" + icon + '\'' +
+                ", id" +"："+"\'" + id + '\'' +
+                ", inviteNumber" + "：" +inviteNumber +
+                ", isValid" + "："+isValid +
+                ", labelId" + "："+"\'" +labelId + '\'' +
+                ", memberNum" +"："+ memberNum +
+                ", modifyPersonId" +"："+"\'" + modifyPersonId + '\'' +
+                ", modifyTimeCOMMENT" +"："+"\'" + modifyTimeCOMMENT + '\'' +
+                ", remark" +"："+"\'" + remark + '\'' +
+                ", startTime" + "："+"\'" +startTime + '\'' +
+                ", timeLength" + "："+"\'" +timeLength + '\'' +
+                ", type" + "：" +type +
+                ", userId" + "："+"\'" +userId + '\'' +
+                ", userNm" + "："+"\'" +userNm + '\'' +
+                ", userIcon" + "："+"\'" +userIcon + '\'' +
+                ", userSex" + "："+"\'" +userSex + '\'' +
+                ", follow" +"："+ follow +
+                ", joining" + "：" +joining +
+                ", noticeUserIds" +"："+"\'" + noticeUserIds + '\'' +
+                ", invisibleUserIds'" +"："+ invisibleUserIds + '\'' +
+                ", colleagues" + "："+colleagues +
+                ", friend" + "："+friend +
+                ", joinCount" +"：" + joinCount +
                 '}';
     }
 

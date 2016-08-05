@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
 
 /**
  * Created by bitch-1 on 2016/8/4.

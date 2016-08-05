@@ -36,7 +36,9 @@ import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -248,6 +250,11 @@ public class SimpleFrg extends BaseFragment {
 //                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
 //                animationDrawable.start();
 //                noMsg.setText("加载失败...");
+                String bannerList= aCache.getAsString("SimpleBanner");
+                Gson gson=new Gson();
+               List<LabelBannerInfo> bannerInfos= gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
+                }.getType());
+                initMyPageAdapter(bannerInfos);
             }
 
             @Override
@@ -259,6 +266,8 @@ public class SimpleFrg extends BaseFragment {
 //                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
+                Gson gson=new Gson();
+                aCache.put("SimpleBanner", gson.toJson(bannerInfoList));
                 //设置viewpager适配/轮播效果
                 initMyPageAdapter(bannerInfoList);
             }
@@ -278,14 +287,25 @@ public class SimpleFrg extends BaseFragment {
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
-                if (adapter!=null){
-                    adapter.update(list);
+                String strList = aCache.getAsString("AllsimpleInfoList");
+                List<SimpleInfo> infos=new ArrayList<SimpleInfo>();
+                Gson gson=new Gson();
+                infos= gson.fromJson(strList,new TypeToken<List<SimpleInfo>>(){}.getType());
+                if (infos!=null&&infos.size()>0){
+                    if (adapter == null) {
+                        //设置简约listview的条目
+                        adapter = new ActAdapter(mActivity, infos);
+                        lv_act.getRefreshableView().setAdapter(adapter);
+                    } else {
+                        adapter.update(infos);
+                    }
+                }else {
+                    noList.setVisibility(View.VISIBLE);
+                    ivAnim.setImageResource(R.drawable.loadfail_list);
+                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                    animationDrawable.start();
+                    noMsg.setText("加载失败...");
                 }
-                noList.setVisibility(View.VISIBLE);
-                ivAnim.setImageResource(R.drawable.loadfail_list);
-                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                animationDrawable.start();
-                noMsg.setText("加载失败...");
             }
 
             @Override
@@ -309,7 +329,9 @@ public class SimpleFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                MyLogUtils.info("datas数据是："+datas.toString());
+                Gson gson=new Gson();
+                aCache.put("AllsimpleInfoList", gson.toJson(datas));
+                MyLogUtils.info("datas数据是：" + datas.toString());
                 if (adapter == null) {
                     //设置简约listview的条目
                     adapter = new ActAdapter(mActivity, datas);
@@ -331,13 +353,37 @@ public class SimpleFrg extends BaseFragment {
      * @param rows
      * @param state
      */
-    private void getFriendOrAllAcitvity(final int page, int rows, String state) {
+    private void getFriendOrAllAcitvity(final int page, int rows, final String state) {
         list=new ArrayList<SimpleInfo>();
         RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
+                String strList=null;
+                if (TextUtils.equals(state,0+"")){
+                    strList= aCache.getAsString("FriendsimpleInfoList");
+                }else if (TextUtils.equals(state,2+"")){
+                    strList = aCache.getAsString("AllsimpleInfoList");
+                }
+                List<SimpleInfo> infos=new ArrayList<SimpleInfo>();
+                Gson gson=new Gson();
+                infos= gson.fromJson(strList,new TypeToken<List<SimpleInfo>>(){}.getType());
+                if (infos!=null&&infos.size()>0){
+                    if (adapter == null) {
+                        //设置简约listview的条目
+                        adapter = new ActAdapter(mActivity, infos);
+                        lv_act.getRefreshableView().setAdapter(adapter);
+                    } else {
+                        adapter.update(infos);
+                    }
+                }else {
+                    noList.setVisibility(View.VISIBLE);
+                    ivAnim.setImageResource(R.drawable.loadfail_list);
+                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+                    animationDrawable.start();
+                    noMsg.setText("加载失败...");
+                }
             }
 
             @Override
@@ -345,6 +391,7 @@ public class SimpleFrg extends BaseFragment {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
                 list = response.getData().getRows();
+
                 //获取到的list没有数据时
                 if (list.size() == 0) {
                     if (page == 1) {
@@ -358,6 +405,13 @@ public class SimpleFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
+                if (TextUtils.equals(state,0+"")){
+                    Gson gson=new Gson();
+                    aCache.put("FriendsimpleInfoList", gson.toJson(datas));
+                }else if (TextUtils.equals(state,2+"")){
+                    Gson gson=new Gson();
+                    aCache.put("MysimpleInfoList", gson.toJson(datas));
+                }
                 if (adapter == null) {
                     //设置简约listview的条目
                     adapter = new ActAdapter(mActivity, datas);

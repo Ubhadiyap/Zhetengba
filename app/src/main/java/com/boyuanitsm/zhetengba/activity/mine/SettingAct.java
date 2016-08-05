@@ -22,6 +22,7 @@ import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.GeneralUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -67,6 +68,7 @@ public class SettingAct extends BaseActivity {
     private String type;//调取判断是否需要验证的接口返回的type 1需要 0不需要
     private UserInfo user;
     private ProgressDialog pd;
+    private ACache aCache;
 
 
 
@@ -85,6 +87,7 @@ public class SettingAct extends BaseActivity {
 //        editor = sharedPrefrences.edit();
 //          String usertype = sharedPrefrences.getString("typenum", null);
         user=UserInfoDao.getUser();
+        aCache=ACache.get(SettingAct.this);
         String usertype=user.getUserType();
         if(user!=null&&usertype!=null){
             if(usertype.equals("1")){
@@ -259,6 +262,7 @@ public class SettingAct extends BaseActivity {
                         LabelInterestDao.delAll();//清理数据库
                         ActivityMessDao.delAll();
                         CircleMessDao.dellAll();
+                        aCache.clear();//清楚缓存
 //                        ChatUserDao.deleteUser();
                         JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {
                             @Override
