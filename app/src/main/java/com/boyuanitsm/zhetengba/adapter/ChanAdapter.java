@@ -22,6 +22,7 @@ import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -50,6 +51,7 @@ public class ChanAdapter extends BaseAdapter {
     private List<List<ImageInfo>> dateList = new ArrayList<>();
     private List<ChannelTalkEntity> list = new ArrayList<>();
     private String channelId;//说说id
+    private String userid;
     private boolean image_record_out;
     int clickPos = 0;
     // 图片缓存 默认 等
@@ -74,6 +76,7 @@ public class ChanAdapter extends BaseAdapter {
         this.context = context;
         this.dateList = dateList;
         this.list = list;
+        userid= UserInfoDao.getUser().getId();
     }
 
     public void notifyChange(List<List<ImageInfo>> dateList, List<ChannelTalkEntity> list) {
@@ -283,7 +286,7 @@ public class ChanAdapter extends BaseAdapter {
         viewHolder.rl_xia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GcDialog gcDialog=new GcDialog(context);
+                GcDialog gcDialog=new GcDialog(context,userid,list.get(position).getCreatePersonId(),list.get(position).getId());
                 gcDialog.builder().show();
 
 

@@ -460,4 +460,15 @@ public class TalkManager extends RequestManager{
         map.put("circleId",circleId);
         doPost(IZtbUrl.JOINCIRCLE_URL,map,callback);
     }
+
+    /**
+     * 删除说说接口
+     * @param talkId
+     * @param callback
+     */
+    public void deleteTalk(String talkId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("talkId",talkId);
+        doPost(IZtbUrl.DELETETALK, map, callback);
+    }
 }
