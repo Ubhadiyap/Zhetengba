@@ -307,4 +307,10 @@ public interface IZtbUrl {
     //测试分享地址
 //    String SHARE_URL="http://139.196.154.208:8086";
 
+
+    /**
+     * 删除说说接口
+     */
+    String DELETETALK =BASE_URL+ "talk/login/deleteTalk.do";
+
 }

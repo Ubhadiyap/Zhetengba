@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 /**
  * Created by bitch-1 on 2016/8/4.
@@ -21,10 +25,15 @@ public class GcDialog implements View.OnClickListener {
     private Context context;
     private Dialog dialog;
     private Display display;
+    private String userid,creatid;
+    private String takeid;
     private TextView tv_sc,tv_jb,tv_qx;
 
-    public GcDialog(Context context) {
+    public GcDialog(Context context,String userid,String creatid,String takeid) {
         this.context=context;
+        this.userid=userid;
+        this.creatid=creatid;
+        this.takeid=takeid;
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         display = windowManager.getDefaultDisplay();
     }
@@ -38,6 +47,11 @@ public class GcDialog implements View.OnClickListener {
         tv_sc= (TextView) view.findViewById(R.id.tv_sc);
         tv_jb= (TextView) view.findViewById(R.id.tv_jb);
         tv_qx= (TextView) view.findViewById(R.id.tv_qx);
+        if(userid.equals(creatid)){
+            tv_sc.setVisibility(View.VISIBLE);
+        }else {
+            tv_sc.setVisibility(View.GONE);
+        }
         tv_sc.setOnClickListener(this);
         tv_jb.setOnClickListener(this);
         tv_qx.setOnClickListener(this);
@@ -66,6 +80,7 @@ public class GcDialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_sc://删除
+                deleat(takeid);
 
                 break;
 
@@ -78,6 +93,24 @@ public class GcDialog implements View.OnClickListener {
                 break;
         }
 
+    }
+
+    private void deleat(String takeid) {
+        RequestManager.getTalkManager().deleteTalk(takeid, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(context,"删除成功");
+                dialog.dismiss();
+                context.sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
+//                dialog.dismiss();
+
+            }
+        });
     }
 }
 
