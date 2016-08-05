@@ -26,6 +26,7 @@ import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -249,9 +250,11 @@ public class ChanAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(list.get(position).getCommentCounts() + "")) {
                 if (list.get(position).getCommentCounts() == 0) {
                     viewHolder.cnum.setVisibility(View.GONE);
+                    MyLogUtils.info("getCommentCounts===="+list.get(position).getCommentCounts());
                 } else {
                     viewHolder.cnum.setVisibility(View.VISIBLE);
                     viewHolder.cnum.setText(list.get(position).getCommentCounts() + "");
+                    MyLogUtils.info("Counts====" + list.get(position).getCommentCounts());
                 }
             }
         }
@@ -373,7 +376,6 @@ public class ChanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-
                 intent.setClass(context, ChanelTextAct.class);
                 intent.putExtra("channelEntity", list.get(position));
                 intent.putExtra("channelId", list.get(position).getId());

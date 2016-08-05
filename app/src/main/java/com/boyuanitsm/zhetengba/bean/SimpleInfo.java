@@ -40,6 +40,44 @@ public class SimpleInfo implements Parcelable{
     private boolean colleagues;//是否同事
     private boolean friend;//false 是否好友
     private int joinCount;//一起参加次数
+
+    @Override
+    public String toString() {
+        return "SimpleInfo{" +
+                "activityParticulars='" + activityParticulars + '\'' +
+                ", activitySite='" + activitySite + '\'' +
+                ", activityTheme='" + activityTheme + '\'' +
+                ", activityVisibility=" + activityVisibility +
+                ", createPersonId='" + createPersonId + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", followNum=" + followNum +
+                ", icon='" + icon + '\'' +
+                ", id='" + id + '\'' +
+                ", inviteNumber=" + inviteNumber +
+                ", isValid=" + isValid +
+                ", labelId='" + labelId + '\'' +
+                ", memberNum=" + memberNum +
+                ", modifyPersonId='" + modifyPersonId + '\'' +
+                ", modifyTimeCOMMENT='" + modifyTimeCOMMENT + '\'' +
+                ", remark='" + remark + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", timeLength='" + timeLength + '\'' +
+                ", type=" + type +
+                ", userId='" + userId + '\'' +
+                ", userNm='" + userNm + '\'' +
+                ", userIcon='" + userIcon + '\'' +
+                ", userSex='" + userSex + '\'' +
+                ", follow=" + follow +
+                ", joining=" + joining +
+                ", noticeUserIds='" + noticeUserIds + '\'' +
+                ", invisibleUserIds='" + invisibleUserIds + '\'' +
+                ", colleagues=" + colleagues +
+                ", friend=" + friend +
+                ", joinCount=" + joinCount +
+                '}';
+    }
+
     public boolean isJoining() {
         return joining;
     }

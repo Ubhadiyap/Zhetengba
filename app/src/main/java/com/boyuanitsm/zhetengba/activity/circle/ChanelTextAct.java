@@ -322,6 +322,11 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 getCircleCommentsList(channelTalkId, page, rows);
                 btnSend.setEnabled(true);
                 btnSend.setClickable(true);
+//                Intent intent=new Intent(ChanelFrg.MYLABELS);
+//                Bundle bundle=new Bundle();
+//                intent.putExtras(bundle);
+//                sendBroadcast(intent);
+                sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
             }
         });
     }
@@ -360,11 +365,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 }else {
                     adapter.notifyChange(datas);
                 }
-                Intent intent=new Intent(ChanelFrg.MYLABELS);
-                Bundle bundle=new Bundle();
-                intent.putExtras(bundle);
-                sendBroadcast(intent);
-                sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
             }
         });
     }

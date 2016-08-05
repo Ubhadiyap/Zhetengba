@@ -8,6 +8,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,11 +26,18 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.ACache;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +59,7 @@ public class SimpleFrg extends BaseFragment {
     private List<LabelBannerInfo> bannerInfoList;
     private List<SimpleInfo> list;//活动对象集合
     private List<SimpleInfo> datas = new ArrayList<>();
+    private ACache aCache;
     private int page = 1;
     private int rows = 10;
     private int state=0;
@@ -88,6 +97,7 @@ public class SimpleFrg extends BaseFragment {
         ll_point = (LinearLayout) viewHeader_act.findViewById(R.id.ll_point);
         //刷新初始化
         LayoutHelperUtil.freshInit(lv_act);
+       aCache=ACache.get(mActivity);
         lv_act.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -299,6 +309,7 @@ public class SimpleFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
+                MyLogUtils.info("datas数据是："+datas.toString());
                 if (adapter == null) {
                     //设置简约listview的条目
                     adapter = new ActAdapter(mActivity, datas);

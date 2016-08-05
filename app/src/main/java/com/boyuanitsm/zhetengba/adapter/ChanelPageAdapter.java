@@ -31,7 +31,6 @@ public class ChanelPageAdapter extends FragmentStatePagerAdapter {
     }
     @Override
     public int getCount() {
-        LogUtils.i("适配器" + list.size());
         return list == null ? 0 : list.size();
     }
 
@@ -43,4 +42,5 @@ public class ChanelPageAdapter extends FragmentStatePagerAdapter {
         chanelfrg.setArguments(bundle);
         return chanelfrg;
     }
+
 }
