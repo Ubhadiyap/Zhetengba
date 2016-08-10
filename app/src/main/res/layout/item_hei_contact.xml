@@ -34,7 +34,7 @@
             <ImageView
                 android:id="@+id/iv_sex"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/female"
+                android:src="@mipmap/gfemale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -59,7 +59,7 @@
                 android:layout_height="25dp"
                 android:layout_width="70dp"
                 android:gravity="center"
-                android:id="@+id/num"
+                android:id="@+id/tv_hf"
                 android:textColor="#fff"
                 android:textSize="14sp"
                 android:text="恢复"

@@ -312,5 +312,12 @@ public interface IZtbUrl {
      * 删除说说接口
      */
     String DELETETALK =BASE_URL+ "talk/login/deleteTalk.do";
+    //添加到黑名单接口
+    String ADDBLACKLIST_URL =BASE_URL+ "message/login/addBlackList.do";
+   //获取黑名单列表
+    String FINDBLACKLIST_URL =BASE_URL+"message/login/findBlackList.do";
+   //删除黑名单
+    String REMOVEBLACKLIST_URL =BASE_URL+"message/login/removeBlackList.do";
+
 
 }

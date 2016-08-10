@@ -507,4 +507,35 @@ public class ScheduleManager extends RequestManager {
         params.put("scheduleId",scheduleId);
         doPost(IZtbUrl.REFUSE_ACTIVITY_URL,params,callback);
     }
+
+    /**
+     * 添加黑名单接口
+     * @param friendId
+     * @param callback
+     */
+    public void addblackList(String friendId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("friendId",friendId);
+        doPost(IZtbUrl.ADDBLACKLIST_URL,params,callback);
+    }
+
+
+    /**获取黑名单列表
+     * @param callback
+     */
+    public void findBlackList(ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        doPost(IZtbUrl.FINDBLACKLIST_URL,params,callback);
+    }
+
+    /**
+     *删除黑名单
+     * @param friendId
+     * @param callback
+     */
+    public void removeBlack(String friendId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("friendId",friendId);
+        doPost(IZtbUrl.REMOVEBLACKLIST_URL,params,callback);
+    }
 }
