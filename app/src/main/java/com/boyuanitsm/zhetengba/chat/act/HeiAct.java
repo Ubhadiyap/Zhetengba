@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.chat.act;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.FriendsBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.adapter.HeiAdapter;
+import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -73,7 +75,7 @@ public class HeiAct extends BaseActivity {
                 switch (index) {
                     case 0:
                         //向左滑动，删除操作
-                        deleteFriendPer(list.get(position).getId());
+                        deleteFriendPer(list,position);
                         break;
                 }
                 // false : close the menu; true : not close the menu
@@ -98,9 +100,9 @@ public class HeiAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<DataBean<FriendsBean>> response) {
-                list=response.getData().getRows();
-                if(list.size()!=0){
-                    adapter=new HeiAdapter(HeiAct.this,list);
+                list = response.getData().getRows();
+                if (list.size() != 0) {
+                    adapter = new HeiAdapter(HeiAct.this, list);
                     lv_hei.setAdapter(adapter);
                 }
 
@@ -113,10 +115,10 @@ public class HeiAct extends BaseActivity {
     /**
      * 删除好友接口
      *
-     * @param friendId
+     * @param listFriend
      */
-    private void deleteFriendPer(String friendId) {
-        RequestManager.getMessManager().deleteFriend(friendId, new ResultCallback<ResultBean<String>>() {
+    private void deleteFriendPer(final List<FriendsBean> listFriend, final int position) {
+        RequestManager.getMessManager().deleteFriend(listFriend.get(position).getId(), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
@@ -124,12 +126,15 @@ public class HeiAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                listFriend.remove(position);
+                if (adapter== null) {
+                    adapter = new HeiAdapter(HeiAct.this, list);
+                    lv_hei.setAdapter(adapter);
+                }else {
+                    adapter.upData(listFriend);
+                }
+                sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
                 MyToastUtils.showShortToast(HeiAct.this,"删除好友成功");
-//                Intent intent = new Intent();
-//                intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
-//                intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
-//                sendBroadcast(intent);
-//                finish();
             }
         });
     }

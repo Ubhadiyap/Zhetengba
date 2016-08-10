@@ -42,6 +42,7 @@ import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
 import com.boyuanitsm.zhetengba.fragment.PpagedtFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
@@ -448,6 +449,9 @@ public class PerpageAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
+                sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
                 finish();
 
             }
@@ -542,6 +546,7 @@ public class PerpageAct extends BaseActivity {
                 intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
                 intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
                 sendBroadcast(intent);
+                sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
                 finish();
             }
         });

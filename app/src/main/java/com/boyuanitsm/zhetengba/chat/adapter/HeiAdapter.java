@@ -1,6 +1,7 @@
 package com.boyuanitsm.zhetengba.chat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.FriendsBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -42,9 +44,13 @@ public class HeiAdapter extends BaseAdapter {
         this.context=context;
         this.list = list;
     }
+    public void upData(List<FriendsBean> list){
+            this.list=list;
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
-        return list.size();
+        return  list==null?0: list.size();
     }
 
     @Override
@@ -90,7 +96,7 @@ public class HeiAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //恢复好友
-                removeBlack(list.get(position).getId());
+                removeBlack(list.get(position).getId(),position);
             }
         });
 
@@ -114,7 +120,7 @@ public class HeiAdapter extends BaseAdapter {
     /**
      * 恢复黑名单
      */
-    private void removeBlack(String friendId) {
+    private void removeBlack(String friendId, final int position) {
         RequestManager.getScheduleManager().removeBlack(friendId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -123,6 +129,9 @@ public class HeiAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                list.remove(position);
+                notifyDataSetChanged();
+                context.sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
                 MyToastUtils.showShortToast(context,"恢复好友成功");
 
             }

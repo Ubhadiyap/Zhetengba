@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_marginTop="5dp"
         android:layout_marginRight="20dp"
+        android:paddingTop="5dp"
         android:layout_gravity="right"
         android:orientation="vertical"
         android:background="@mipmap/ku"
@@ -30,7 +31,7 @@
             android:id="@+id/ll_schy"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="33dp">
+            android:layout_height="30dp">
             <TextView
                 android:textSize="12sp"
                 android:textColor="@color/white"
@@ -41,7 +42,7 @@
             android:id="@+id/ll_hei"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="33dp">
+            android:layout_height="30dp">
             <TextView
                 android:textSize="12sp"
                 android:textColor="@color/white"
