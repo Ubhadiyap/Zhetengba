@@ -29,12 +29,13 @@
                     android:layout_height="match_parent"
                     android:scrollbars="none">
 
-                    <LinearLayout
+                    <com.boyuanitsm.zhetengba.view.bounScrollView.ViewPagerIndicator
                         android:id="@+id/titleLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:orientation="horizontal" />
+
 
                 </com.boyuanitsm.zhetengba.view.bounScrollView.BounceScrollView>
             </LinearLayout
