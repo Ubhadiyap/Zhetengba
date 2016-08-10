@@ -414,6 +414,10 @@ public class PerpageAct extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         //加入黑名单接口
+                        addBlack(userEntity.get(0).getId());
+
+
+
                     }
                 }).setNegativeButton("取消",null).show();
             }
@@ -429,6 +433,25 @@ public class PerpageAct extends BaseActivity {
 //
 //            }
 //        });
+    }
+
+    /**
+     * 添加到黑名单
+     * @param friendId
+     */
+    private void addBlack(String friendId) {
+        RequestManager.getScheduleManager().addblackList(friendId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                finish();
+
+            }
+        });
     }
 
     /**

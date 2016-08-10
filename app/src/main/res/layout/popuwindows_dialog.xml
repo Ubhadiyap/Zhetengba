@@ -11,7 +11,7 @@
         android:layout_gravity="right"
         android:orientation="vertical"
         android:background="@mipmap/ku"
-        android:layout_width="65dp"
+        android:layout_width="70dp"
         android:layout_height="66dp">
         <!--<LinearLayout-->
             <!--android:id="@+id/ll_xiugai"-->
@@ -28,9 +28,9 @@
 
         <LinearLayout
             android:id="@+id/ll_schy"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="33dp">
             <TextView
                 android:textSize="12sp"
                 android:textColor="@color/white"
@@ -41,7 +41,7 @@
             android:id="@+id/ll_hei"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="33dp">
             <TextView
                 android:textSize="12sp"
                 android:textColor="@color/white"

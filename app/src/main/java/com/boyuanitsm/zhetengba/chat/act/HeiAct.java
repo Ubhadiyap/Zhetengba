@@ -3,19 +3,25 @@ package com.boyuanitsm.zhetengba.chat.act;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
+import com.boyuanitsm.zhetengba.bean.FriendsBean;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.adapter.HeiAdapter;
-import com.boyuanitsm.zhetengba.db.ActivityMessDao;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
-import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenu;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuCreator;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuItem;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xiaoke on 2016/8/9.
@@ -24,6 +30,8 @@ public class HeiAct extends BaseActivity {
     @ViewInject(R.id.lv_hei)
     private SwipeMenuListView lv_hei;
     private ProgressDialog progressDialog;
+    private List<FriendsBean>list=new ArrayList<>();//返回来的黑名单列表
+    private HeiAdapter adapter;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_heimingdan);
@@ -32,13 +40,14 @@ public class HeiAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("黑名单");
+        findBlackList();//获取黑名单列表
 //        progressDialog = new ProgressDialog(this);
 //        progressDialog.setCanceledOnTouchOutside(false);
 //        progressDialog.setMessage("数据加载中...");
 //        progressDialog.show();
         //调用接口
-        HeiAdapter adapter=new HeiAdapter(this);
-        lv_hei.setAdapter(adapter);
+
+//        lv_hei.setAdapter(adapter);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
@@ -64,6 +73,7 @@ public class HeiAct extends BaseActivity {
                 switch (index) {
                     case 0:
                         //向左滑动，删除操作
+                        deleteFriendPer(list.get(position).getId());
                         break;
                 }
                 // false : close the menu; true : not close the menu
@@ -72,4 +82,59 @@ public class HeiAct extends BaseActivity {
         });
         lv_hei.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
     }
+
+
+
+
+    /**
+     * 获取黑名单列表
+     */
+    private void findBlackList() {
+        RequestManager.getScheduleManager().findBlackList(new ResultCallback<ResultBean<DataBean<FriendsBean>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<FriendsBean>> response) {
+                list=response.getData().getRows();
+                if(list.size()!=0){
+                    adapter=new HeiAdapter(HeiAct.this,list);
+                    lv_hei.setAdapter(adapter);
+                }
+
+            }
+        });
+
+    }
+
+
+    /**
+     * 删除好友接口
+     *
+     * @param friendId
+     */
+    private void deleteFriendPer(String friendId) {
+        RequestManager.getMessManager().deleteFriend(friendId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(HeiAct.this,"删除好友成功");
+//                Intent intent = new Intent();
+//                intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
+//                intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
+//                sendBroadcast(intent);
+//                finish();
+            }
+        });
+    }
+
+
+
+
 }
