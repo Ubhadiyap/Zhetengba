@@ -51,9 +51,12 @@ public class ChanelItemFrg extends BaseFragment {
     private int rows=10;
     private ChanAdapter adapter;
     public static final String TITLE_LIST = "title_list";
+    public static final String CURRENT_POS="currentPos";
     private String labelId;
     private ProgressDialog progressDialog;
     private int commentPosition=0;
+    private int currentPos;
+    private boolean isVisable;
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.item_vp_chanel, null);
@@ -63,6 +66,7 @@ public class ChanelItemFrg extends BaseFragment {
     @Override
     public void initData(Bundle savedInstanceState) {
         labelId= getArguments().getString(TITLE_LIST);
+        currentPos= getArguments().getInt(CURRENT_POS);
         vp_chan = (PullToRefreshListView) view.findViewById(R.id.vp_chan);
         llnoList = (LinearLayout) view.findViewById(R.id.noList);
         ivAnim = (ImageView) view.findViewById(R.id.ivAnim);
@@ -71,6 +75,12 @@ public class ChanelItemFrg extends BaseFragment {
         //快速滚动时停止加载图片
         inistal(labelId);
         getChannelTalks(labelId, page, rows);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        isVisable=isVisibleToUser;
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     /**
@@ -194,7 +204,32 @@ public class ChanelItemFrg extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             labelId = getArguments().getString(TITLE_LIST);
-            getChannelTalks(labelId, page, rows);
+            Bundle bundle=  intent.getExtras();
+            if (bundle!=null&&datas.size()>0&&isVisable){
+                    String tag=bundle.getString("tag");
+                    if (!TextUtils.isEmpty(tag)){
+                        if (TextUtils.equals("comTag",tag)){
+                            int cposition=bundle.getInt("ComtPosition");
+                            int cNum=bundle.getInt("ComtNum");
+                            datas.get(cposition).setCommentCounts(cNum);
+                        }else if (TextUtils.equals("delTag",tag)){
+                            int position= bundle.getInt("DelPosition");
+                            MyLogUtils.info("datas内数据===="+datas.toString()+""+position);
+                            datas.remove(position);
+                            datalist.remove(position);
+                        }
+                        if (adapter == null) {
+                            adapter = new ChanAdapter(mActivity, datalist, datas);
+                            vp_chan.getRefreshableView().setAdapter(adapter);
+                        } else {
+                            adapter.notifyChange(datalist, datas);
+                        }
+                    }
+            }else {
+                page=1;
+                getChannelTalks(labelId,page,rows);
+            }
+
         }
     }
     @Override
@@ -202,9 +237,11 @@ public class ChanelItemFrg extends BaseFragment {
         super.onStart();
         if (myReceiver==null) {
             myReceiver = new MyReceiver();
+            MyLogUtils.info("广播接收，刷新数据");
             getActivity().registerReceiver(myReceiver, new IntentFilter(TALK_LIST));
         }
     }
+
 
     @Override
     public void onDestroy() {

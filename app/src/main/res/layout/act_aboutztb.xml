@@ -47,8 +47,9 @@
             <TextView
                 style="@style/tv_second"
                 android:layout_marginTop="15dp"
-                android:text="Shanghai Co., Ltd. produced toss it"
                 android:textColor="#999999" />
+
+            <!--android:text="Shanghai Co., Ltd. produced toss it"-->
 
         </LinearLayout>
 

@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:background="@mipmap/ku"
         android:layout_width="65dp"
-        android:layout_height="33dp">
+        android:layout_height="66dp">
         <!--<LinearLayout-->
             <!--android:id="@+id/ll_xiugai"-->
             <!--android:gravity="center"-->
@@ -28,7 +28,7 @@
 
         <LinearLayout
             android:id="@+id/ll_schy"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="30dp">
             <TextView
@@ -37,7 +37,17 @@
                 android:text="删除好友"
                 style="@style/tv_second" />
         </LinearLayout>
-
+        <LinearLayout
+            android:id="@+id/ll_hei"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <TextView
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:text="加入黑名单"
+                style="@style/tv_second" />
+        </LinearLayout>
 
     </LinearLayout>
 

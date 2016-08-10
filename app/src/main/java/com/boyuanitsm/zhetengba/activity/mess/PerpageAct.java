@@ -394,7 +394,7 @@ public class PerpageAct extends BaseActivity {
         popupWindow.showAsDropDown(parent, xpos, 0);
         LinearLayout ll_schy = (LinearLayout) layout.findViewById(R.id.ll_schy);//删除好友
 //        LinearLayout ll_xiugai = (LinearLayout) layout.findViewById(R.id.ll_xiugai);//修改备注
-
+        LinearLayout ll_hei=(LinearLayout) layout.findViewById(R.id.ll_hei);//加入黑名单
         ll_schy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -407,7 +407,17 @@ public class PerpageAct extends BaseActivity {
 
             }
         });
-
+        ll_hei.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MyAlertDialog(PerpageAct.this).builder().setTitle("提示").setMsg("确定加入黑名单").setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //加入黑名单接口
+                    }
+                }).setNegativeButton("取消",null).show();
+            }
+        });
 //        ll_xiugai.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

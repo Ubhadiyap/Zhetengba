@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <com.boyuanitsm.zhetengba.view.CircleImageView
+            android:id="@+id/iv_hand"
+            android:layout_gravity="center_vertical"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/userhead"/>
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_hand"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_name"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:text="Lake"
+                style="@style/tv_second"/>
+            <ImageView
+                android:id="@+id/iv_sex"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!--<com.boyuanitsm.zhetengba.view.HorizontalListView-->
+                <!--android:id="@+id/hlv_cirpp"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="20dp"></com.boyuanitsm.zhetengba.view.HorizontalListView>-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_renshu"
+            android:layout_marginRight="23dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_height="25dp"
+                android:layout_width="70dp"
+                android:gravity="center"
+                android:id="@+id/num"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:text="恢复"
+                android:background="@drawable/bg_circle_stroke_green"/>
+
+            <!--<TextView-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:textColor="#999999"-->
+                <!--android:textSize="12sp"-->
+                <!--android:text="共同圈子"-->
+                <!--style="@style/tv_second"/>-->
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_shanchu"
+            android:visibility="gone"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/del"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <View
+        android:layout_marginLeft="15dp"
+        android:background="#e1e1e1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"></View>
+
+</LinearLayout>

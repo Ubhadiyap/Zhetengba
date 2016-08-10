@@ -305,6 +305,12 @@ public class ActAdapter extends BaseAdapter {
                                 break;
                         }
                         break;
+                    case MotionEvent.ACTION_MOVE:
+                        switch (v.getId()){
+                            case R.id.ll_guanzhu:
+                                viewHolder.iv_simple_guanzhu.setAlpha(1.0f);
+                                break;
+                        }
                     case MotionEvent.ACTION_UP:
                         switch (v.getId()) {
                             case R.id.ll_guanzhu://点赞
@@ -338,32 +344,6 @@ public class ActAdapter extends BaseAdapter {
                 return true;
             }
         });
-//        viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 调用关注接口
-//                RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
-//                    @Override
-//                    public void onError(int status, String errorMsg) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onResponse(ResultBean<String> response) {
-//                        infos.get(position).setFollow(true);
-//                        int noticNum = infos.get(position).getFollowNum();
-//                        noticNum = noticNum + 1;
-//                        infos.get(position).setFollowNum(noticNum);
-//                        viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
-//                        viewHolder.ll_guanzhu.setClickable(false);
-//                        context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
-//                        notifyDataSetChanged();
-//                        MyToastUtils.showShortToast(context, "已关注");
-//                    }
-//                });
-//
-//            }
-//        });
         viewHolder.iv_actdetial.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -375,6 +355,12 @@ public class ActAdapter extends BaseAdapter {
                                 break;
                         }
                         break;
+                    case MotionEvent.ACTION_MOVE:
+                        switch (v.getId()){
+                            case R.id.iv_actdetial:
+                                viewHolder.iv_actdetial.setAlpha(1.0f);
+                                break;
+                        }
                     case MotionEvent.ACTION_UP:
                         switch (v.getId()) {
                             case R.id.iv_actdetial://点赞
@@ -389,13 +375,6 @@ public class ActAdapter extends BaseAdapter {
                 return true;
             }
         });
-//        viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                viewHolder.iv_actdetial.setEnabled(false);
-//                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
-//            }
-//        });
         //展示个人资料
         View.OnClickListener listener1 = new View.OnClickListener() {
             @Override

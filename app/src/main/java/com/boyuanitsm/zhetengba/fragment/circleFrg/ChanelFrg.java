@@ -7,20 +7,11 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -30,22 +21,20 @@ import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 import com.boyuanitsm.zhetengba.adapter.ChanelPageAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
-import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
-import com.boyuanitsm.zhetengba.db.LabelInterestDao;
-import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
-import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
+import com.boyuanitsm.zhetengba.view.bounScrollView.BounceScrollView;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +60,14 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     private List<List<ImageInfo>> datalist;
     private List<ChanelItemFrg> fragments;
     private List<ChannelTalkEntity> datas = new ArrayList<>();
-//    private ChanelPageAdapter pageAdapter;
+    //    private ChanelPageAdapter pageAdapter;
     private ViewPager viewPager;
-    private HorizontalScrollView hslv_chanel;
+    private BounceScrollView hslv_chanel;
     LinearLayout llnoList;
     ImageView ivAnim;
     TextView noMsg;
     private AnimationDrawable animationDrawable;
+    private ACache aCache;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -88,14 +78,8 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
     @Override
     public void initData(Bundle savedInstanceState) {
         initView();        //初始化控件
-//        titleList = LabelInterestDao.getInterestLabel();        //设置间隙
-//        MyLogUtils.info("数据库中标签是否为空："+titleList.toString());
-//        if (titleList == null) {
-            getMyLabels(-1);
-//        } else {
-//            LogUtils.i("初始"+titleList.size());
-//            initDate(titleList);
-//        }
+        aCache = ACache.get(mActivity);
+        getMyLabels(-1);
         MyLogUtils.info(titleList.toString());
     }
 
@@ -103,9 +87,11 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         titleLayout = (LinearLayout) view.findViewById(R.id.titleLayout);
 //        vp_chan = (PullToRefreshListView) view.findViewById(R.id.vp_chan);
         viewPager = (ViewPager) view.findViewById(R.id.vp_chanel);
-        hslv_chanel = (HorizontalScrollView) view.findViewById(R.id.hslv_chanel);
+        hslv_chanel = (BounceScrollView) view.findViewById(R.id.hslv_chanel);
     }
 
+
+    private int preItem = 0;
 
     /***
      * 填充数据
@@ -114,23 +100,15 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         MyLogUtils.info(currentPos + "刷新位置信息。。。。");
         textViewList = new ArrayList<>();
         moveToList = new ArrayList<>();
-        fragments=new ArrayList<>();
+        fragments = new ArrayList<>();
         if (titleList.size() <= currentPos) {
             currentPos = 0;
         } else {
             currentPos = pos;
         }
         if (titleList.size() > 0) {
-//            if (pageAdapter == null) {
-//                LogUtils.i("适配器初始"+titleList.size());
-            ChanelPageAdapter  pageAdapter = new ChanelPageAdapter(getChildFragmentManager(),mActivity,titleList);
-                viewPager.setAdapter(pageAdapter);
-//            } else {
-//                LogUtils.i("适配器刷新" + titleList.size());
-//                pageAdapter.updata(mActivity,titleList);
-//            }
-
-//            getChannelTalks(titleList.get(currentPos).getInterestId(), page, rows);
+            ChanelPageAdapter pageAdapter = new ChanelPageAdapter(getChildFragmentManager(), mActivity, titleList, currentPos);
+            viewPager.setAdapter(pageAdapter);
             for (int i = 0; i < titleList.size(); i++) {
                 addTitleLayout(titleList.get(i).getDictName(), i);
             }
@@ -150,7 +128,29 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                     textViewList.get(currentPos).setTextColor(Color.parseColor("#999999"));
                     textViewList.get(i).setTextColor(Color.parseColor("#52C791"));
                     currentPos = i;
-                    hslv_chanel.scrollTo((int) moveToList.get(i), 0);
+                    if (i == preItem) {
+                        //不作处理
+                        MyLogUtils.degug("没有移动");
+                        return;
+                    }
+                    if (i > preItem) {
+                        //从左向右滑
+                        MyLogUtils.degug("从左向右滑");
+                        if (i > titleList.size()/2) {
+                            hslv_chanel.scrollTo((int) moveToList.get(i), 0);
+                        }
+                        preItem = i;
+                        return;
+                    }
+                    if (i < preItem) {
+                        //从右向左滑
+                        if (i < titleList.size()/2) {
+                            hslv_chanel.scrollTo((int) moveToList.get(i), 0);
+                        }
+                        MyLogUtils.degug("从右向左滑");
+                        preItem = i;
+                        return;
+                    }
                 }
 
                 @Override
@@ -177,7 +177,7 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         MyLogUtils.info("title：位置" + title + ":" + position);
         textView.setOnClickListener(new posOnClickListener());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        mTitleMargin = ZtinfoUtils.dip2px(mActivity, 10);        //设置左右间隙
+        mTitleMargin = ZtinfoUtils.dip2px(mActivity, 5);        //设置左右间隙
         params.leftMargin = ZtinfoUtils.dip2px(mActivity, mTitleMargin);
         params.rightMargin = ZtinfoUtils.dip2px(mActivity, mTitleMargin);
         titleLayout.addView(textView, params);
@@ -241,22 +241,18 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
         RequestManager.getScheduleManager().selectMyLabels(null, limitNum, new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-//                llnoList.setVisibility(View.VISIBLE);
-//                ivAnim.setImageResource(R.drawable.loadfail_list);
-//                noMsg.setText("加载失败..");
-//                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-//                animationDrawable.start();
+                String str = aCache.getAsString("titleList");
+                Gson gson = new Gson();
+                titleList = gson.fromJson(str, new TypeToken<List<UserInterestInfo>>() {
+                }.getType());
+                initDate(titleList);
             }
 
             @Override
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
-//                if (animationDrawable != null) {
-//                    animationDrawable.stop();
-//                    animationDrawable = null;
-//                    llnoList.setVisibility(View.GONE);
-//                }
                 titleList = response.getData();
-                LogUtils.i("请求接口"+titleList.size());
+                Gson gson = new Gson();
+                aCache.put("titleList", gson.toJson(titleList));
                 initDate(titleList);
             }
         });
@@ -296,19 +292,14 @@ public class ChanelFrg extends BaseFragment implements View.OnClickListener {
                 titleList.clear();
             if (datalist != null)
                 datalist.clear();
-//            titleList = LabelInterestDao.getInterestLabel();
-            LogUtils.i("广播后"+titleList.size());
+            LogUtils.i("广播后" + titleList.size());
             if (intent != null) {
                 Bundle bundle = intent.getExtras();
                 if (bundle != null) {
                     pos = bundle.getInt("flag", currentPos);
                 }
             }
-//            if (titleList == null) {
-                getMyLabels(-1);
-//            } else {
-//                initDate(titleList);
-//            }
+            getMyLabels(-1);
         }
     }
 

@@ -19,11 +19,13 @@ import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserBean;
+import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
@@ -31,11 +33,14 @@ import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
@@ -57,7 +62,8 @@ public class LoginAct extends BaseActivity {
 
     private ProgressDialog pd;
     private String zheTeBaId;
-
+    private ACache aCache;
+    private List<UserInterestInfo> titleList;
     @Override
     public void setLayout() {
         // 如果登录成功过，直接进入主页面
@@ -102,7 +108,7 @@ public class LoginAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-
+        aCache=ACache.get(LoginAct.this);
 
     }
 
@@ -258,10 +264,10 @@ public class LoginAct extends BaseActivity {
         RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<UserBean>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                if(601==status){
+                if (601 == status) {
                     try {
                         Gson mGson = new Gson();
-                        JSONObject  json = new JSONObject(errorMsg);
+                        JSONObject json = new JSONObject(errorMsg);
                         JSONObject data = json.getJSONObject("data");
                         UserBean userBean = mGson.fromJson(data.toString(), UserBean.class);
                         login(userBean, 0);
@@ -275,7 +281,7 @@ public class LoginAct extends BaseActivity {
                         e.printStackTrace();
                     }
 
-                }else {
+                } else {
                     MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
                 }
                 pd.dismiss();
@@ -284,8 +290,9 @@ public class LoginAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<UserBean> response) {
                 UserBean userBean = response.getData();
-                login(userBean,1);
-                MyLogUtils.info(userBean.getUser().getId()+"id是");
+                login(userBean, 1);
+                getMyLabels(-1);//获取兴趣标签存入本地。
+                MyLogUtils.info(userBean.getUser().getId() + "id是");
                 JPushInterface.setAlias(LoginAct.this, userBean.getUser().getId(), new TagAliasCallback() {
                     @Override
                     public void gotResult(int i, String s, Set<String> set) {
@@ -295,5 +302,19 @@ public class LoginAct extends BaseActivity {
             }
         });
     }
+    private void getMyLabels(int limitNum) {
+        titleList = new ArrayList<>();
+        RequestManager.getScheduleManager().selectMyLabels(null, limitNum, new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+            }
 
+            @Override
+            public void onResponse(ResultBean<List<UserInterestInfo>> response) {
+                titleList = response.getData();
+                Gson gson=new Gson();
+               aCache.put("titleList",gson.toJson(titleList));
+            }
+        });
+    }
 }

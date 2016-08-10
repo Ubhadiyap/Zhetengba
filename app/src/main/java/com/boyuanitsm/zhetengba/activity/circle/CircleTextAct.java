@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -27,12 +28,14 @@ import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -108,7 +111,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private List<CircleEntity> list;
     CircleTextAdapter adapter;
     private View headerView;
-
+    private int position;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_text);
@@ -121,6 +124,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         assignView(headerView);
         entity=getIntent().getParcelableExtra("circleEntity");
         circleId=getIntent().getStringExtra("circleId");
+         position=getIntent().getIntExtra("CirCommentPosition",position);
         LayoutHelperUtil.freshInit(my_lv);
         my_lv.getRefreshableView().addHeaderView(headerView);
         setCircleEntity(entity);
@@ -207,10 +211,9 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 time.setText(ZtinfoUtils.timeChange(Long.parseLong(entity.getCreateTime())));
             }
             if(!TextUtils.isEmpty(entity.getTalkContent())){
-                content.setVisibility(View.VISIBLE);
                 content.setText(entity.getTalkContent());
             }else {
-                content.setVisibility(View.GONE);
+                content.setText("");
             }
             if (!TextUtils.isEmpty(entity.getCommentCounts()+"")){
                 commentNum.setText("评论"+entity.getCommentCounts());
@@ -260,8 +263,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             iv_ch_image.setVisibility(View.GONE);
             iv_oneimage.setVisibility(View.VISIBLE);
 //            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(singleList.get(0).getUrl()),optionsImag);
-            singleList.get(0).setWidth(200);
-            singleList.get(0).setHeight(200);
+            singleList.get(0).setWidth(120);
+            singleList.get(0).setHeight(120);
             LayoutHelperUtil.handlerOneImage(CircleTextAct.this, singleList.get(0), iv_oneimage);
 //ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()),iv_oneimage,optionsImag);
 //            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), iv_oneimage);
@@ -317,6 +320,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             iv_oneimage.setVisibility(View.GONE);
             ll_two.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(CircleTextAct.this, 255), ActionBar.LayoutParams.WRAP_CONTENT);
+            iv_ch_image.setLayoutParams(params);
             iv_ch_image.setNumColumns(3);
             PicGdAdapter adapter = new PicGdAdapter(CircleTextAct.this, singleList);
             iv_ch_image.setAdapter(adapter);
@@ -365,7 +370,12 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 getCircleCommentsList(circleTalkId, page, rows);
                 btnSend.setEnabled(true);
                 btnSend.setClickable(true);
-                sendBroadcast(new Intent(CirFrg.ALLTALKS));
+                Intent intent=new Intent(CirFrg.ALLTALKS);
+                Bundle bundle=new Bundle();
+                bundle.putInt("CirCommentPosition", position);
+                bundle.putInt("CirComtNum", Integer.parseInt(response.getData()));
+                intent.putExtras(bundle);
+                sendBroadcast(intent);
                 sendBroadcast(new Intent(CirxqAct.TALKS));
             }
         });

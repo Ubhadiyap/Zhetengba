@@ -208,6 +208,8 @@ public class PpdtfrgAdapter extends BaseAdapter {
             }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getTalkContent())){
                 viewHolder.tv_content.setText(circleTalkEntityList.get(position).getTalkContent());
+            }else {
+                viewHolder.tv_content.setText("");
             }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCircleName())){
                 viewHolder.tv_cir_name.setText(circleTalkEntityList.get(position).getCircleName());
@@ -250,30 +252,30 @@ public class PpdtfrgAdapter extends BaseAdapter {
                 viewHolder.tvChNiName.setText("暂无昵称");
             }
         }
-        //点击用户头像，进入用户圈子主页
-        viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-               intent.putExtra("circleId", circleTalkEntityList.get(position).getCircleId());
-                intent.setClass(context, CirxqAct.class);
-                //需要开启新task,否则会报错
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
-        //点击户外圈进入圈子主页
-        viewHolder.tv_cir_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context, CirxqAct.class);
-                intent.putExtra("circleId", circleTalkEntityList.get(position).getCircleId());
-                //需要开启新task,否则会报错
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
+//        //点击用户头像，进入用户圈子主页
+//        viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//               intent.putExtra("circleId", circleTalkEntityList.get(position).getCircleId());
+//                intent.setClass(context, CirxqAct.class);
+//                //需要开启新task,否则会报错
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+//            }
+//        });
+//        //点击户外圈进入圈子主页
+//        viewHolder.tv_cir_name.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setClass(context, CirxqAct.class);
+//                intent.putExtra("circleId", circleTalkEntityList.get(position).getCircleId());
+//                //需要开启新task,否则会报错
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+//            }
+//        });
         //点赞
         viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -37,6 +37,7 @@ import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
+import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
@@ -106,6 +107,7 @@ public class MainAct extends BaseActivity {
 
     private InviteMessgeDao inviteMessgeDao;
     private UserDao userDao;
+    private ACache aCache;
 
     @Override
     public void setLayout() {
@@ -134,6 +136,7 @@ public class MainAct extends BaseActivity {
         AppManager.getAppManager().addActivity(this);
         rb_mes = (MyRadioButton) findViewById(R.id.rb_mes);
         unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
+        aCache=ACache.get(MainAct.this);
         //获取frg的管理器
         fragmentManager = getSupportFragmentManager();
         //获取事物
@@ -573,6 +576,7 @@ public class MainAct extends BaseActivity {
                         UserInfoDao.deleteUser();
                         ActivityMessDao.delAll();
                         LabelInterestDao.delAll();
+                        aCache.clear();
                         dialog.dismiss();
                         conflictBuilder = null;
                         finish();

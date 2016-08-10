@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
@@ -32,6 +33,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
@@ -197,8 +199,21 @@ public class CirFrg extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            page=1;
-            getAllCircleTalk(page, rows);
+            Bundle bundle=  intent.getExtras();
+            if (bundle!=null&&datas.size()>0){
+                        int cposition=bundle.getInt("CirCommentPosition");
+                        int cNum=bundle.getInt("CirComtNum");
+                        datas.get(cposition).setCommentCounts(cNum);
+                if(adapter==null) {
+                    adapter=new CircleAdapter(getContext(),datalist,datas);
+                    lv_cir.getRefreshableView().setAdapter(adapter);
+                }else {
+                    adapter.notifyChange(datalist,datas);
+                }
+                }else {
+                page=1;
+                getAllCircleTalk(page,rows);
+            }
         }
     }
 }

@@ -299,22 +299,16 @@ public class SimpleFrg extends BaseFragment {
                     } else {
                         adapter.update(infos);
                     }
-                }else {
-                    noList.setVisibility(View.VISIBLE);
-                    ivAnim.setImageResource(R.drawable.loadfail_list);
-                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                    animationDrawable.start();
-                    noMsg.setText("加载失败...");
                 }
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<SimpleInfo>> response) {
-                if (animationDrawable!=null){
-                    animationDrawable.stop();
-                    animationDrawable=null;
-                    noList.setVisibility(View.GONE);
-                }
+//                if (animationDrawable!=null){
+//                    animationDrawable.stop();
+//                    animationDrawable=null;
+//                    noList.setVisibility(View.GONE);
+//                }
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
                 list = response.getData().getRows();
@@ -377,12 +371,12 @@ public class SimpleFrg extends BaseFragment {
                     } else {
                         adapter.update(infos);
                     }
-                }else {
-                    noList.setVisibility(View.VISIBLE);
-                    ivAnim.setImageResource(R.drawable.loadfail_list);
-                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                    animationDrawable.start();
-                    noMsg.setText("加载失败...");
+//                }else {
+//                    noList.setVisibility(View.VISIBLE);
+//                    ivAnim.setImageResource(R.drawable.loadfail_list);
+//                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+//                    animationDrawable.start();
+//                    noMsg.setText("加载失败...");
                 }
             }
 

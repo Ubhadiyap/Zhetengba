@@ -1,14 +1,20 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +27,9 @@ import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
+import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -47,6 +56,7 @@ public class CirclexqListAdapter extends BaseAdapter {
     private List<List<ImageInfo>> dateList = new ArrayList<>();
     private List<CircleEntity> list = new ArrayList<>();
     int clickPos;
+    int circleDelPos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.tum)
@@ -124,6 +134,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.znum = (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
             viewHolder.iv_share= (ImageView) convertView.findViewById(R.id.iv_share);
+            viewHolder.ll_xia=(LinearLayout)convertView.findViewById(R.id.ll_xia);
             convertView.setTag(viewHolder);
         }
         viewHolder.llphoto.setVisibility(View.VISIBLE);
@@ -275,6 +286,16 @@ public class CirclexqListAdapter extends BaseAdapter {
                                 break;
                         }
                         break;
+                    case MotionEvent.ACTION_MOVE:
+                        switch (v.getId()){
+                            case R.id.like:
+                                int x = (int) event.getX();
+                                int y = (int) event.getY();
+                                if (x < 0 || y < 0 || x > finalViewHolder.zimg.getWidth() || y >finalViewHolder.zimg.getHeight()) {
+                                    finalViewHolder.zimg.setAlpha(1.0f);
+                                }
+                                break;
+                        }
                     case MotionEvent.ACTION_UP:
                         switch (v.getId()) {
                             case R.id.like://点赞
@@ -293,18 +314,6 @@ public class CirclexqListAdapter extends BaseAdapter {
                 return true;
             }
         });
-//        //点赞
-//        viewHolder.like.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                clickPos = position;
-//                if (0 == list.get(position).getLiked()) {
-//                    addCircleLike(list.get(position).getId());
-//                } else if (1 == list.get(position).getLiked()) {
-//                    removeCircleLike(list.get(position).getId());
-//                }
-//            }
-//        });
 
         viewHolder.ll_share.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -317,6 +326,16 @@ public class CirclexqListAdapter extends BaseAdapter {
                                 break;
                         }
                         break;
+                    case MotionEvent.ACTION_MOVE:
+                        switch (v.getId()){
+                            case R.id.ll_share:
+                                int x = (int) event.getX();
+                                int y = (int) event.getY();
+                                if (x < 0 || y < 0 || x > finalViewHolder.iv_share.getWidth() || y >finalViewHolder.iv_share.getHeight()) {
+                                    finalViewHolder.iv_share.setAlpha(1.0f);
+                                }
+                                break;
+                        }
                     case MotionEvent.ACTION_UP:
                         switch (v.getId()){
                             case R.id.ll_share:
@@ -332,16 +351,6 @@ public class CirclexqListAdapter extends BaseAdapter {
                 return true;
             }
         });
-        //分享对话框
-//        viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ShareDialogAct.class);
-//                intent.putExtra("type", 5);
-//                intent.putExtra("id",list.get(position).getId());
-//                context.startActivity(intent);
-//            }
-//        });
         //评论
         viewHolder.ll_comment.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -354,6 +363,16 @@ public class CirclexqListAdapter extends BaseAdapter {
                                 break;
                         }
                         break;
+                    case MotionEvent.ACTION_MOVE:
+                        switch (v.getId()){
+                            case R.id.ll_comment:
+                                int x = (int) event.getX();
+                                int y = (int) event.getY();
+                                if (x < 0 || y < 0 || x > finalViewHolder.iv_comment.getWidth() || y >finalViewHolder.iv_comment.getHeight()) {
+                                    finalViewHolder.iv_comment.setAlpha(1.0f);
+                                }
+                                break;
+                        }
                     case MotionEvent.ACTION_UP:
                         switch (v.getId()) {
                             case R.id.ll_comment://点赞
@@ -372,17 +391,6 @@ public class CirclexqListAdapter extends BaseAdapter {
                 return true;
             }
         });
-//        viewHolder.ll_comment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setClass(context, CircleTextAct.class);
-//                intent.putExtra("circleEntity", list.get(position));
-//                intent.putExtra("circleId", list.get(position).getId());
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-//            }
-//        });
         viewHolder.tv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -392,6 +400,14 @@ public class CirclexqListAdapter extends BaseAdapter {
                 intent.putExtra("circleId", list.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+            }
+        });
+        viewHolder.ll_xia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                circleDelPos=position;
+                CricleDialog dialog=new CricleDialog();
+                dialog.builder().show();
             }
         });
         return convertView;
@@ -418,7 +434,7 @@ public class CirclexqListAdapter extends BaseAdapter {
         private TextView cnum;
         private TextView snum;
         private ImageView iv_comment,iv_share;
-
+        private LinearLayout ll_xia;
     }
 
     /**
@@ -465,6 +481,91 @@ public class CirclexqListAdapter extends BaseAdapter {
                 notifyDataSetChanged();
             }
         });
+    }
+    class CricleDialog implements View.OnClickListener{
+        private Dialog dialog;
+        private Display display;
+        private TextView tv_sc,tv_jb,tv_qx;
+
+        public CricleDialog builder() {
+            WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            display = windowManager.getDefaultDisplay();
+            View view = LayoutInflater.from(context).inflate(R.layout.dialog_gc, null);
+            // 设置Dialog最小宽度为屏幕宽度
+            view.setMinimumWidth(display.getWidth());
+
+            tv_sc= (TextView) view.findViewById(R.id.tv_sc);
+            tv_jb= (TextView) view.findViewById(R.id.tv_jb);
+            tv_qx= (TextView) view.findViewById(R.id.tv_qx);
+            if(UserInfoDao.getUser().getId().equals(list.get(circleDelPos).getUserId())){
+                tv_sc.setVisibility(View.VISIBLE);
+            }else {
+                tv_sc.setVisibility(View.GONE);
+            }
+            tv_sc.setOnClickListener(this);
+            tv_jb.setOnClickListener(this);
+            tv_qx.setOnClickListener(this);
+            // 定义Dialog布局和参数
+            dialog = new Dialog(context, R.style.ActionSheetDialogStyle);
+            dialog.setContentView(view);
+            Window dialogWindow = dialog.getWindow();
+            dialogWindow.setGravity(Gravity.BOTTOM);
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.x = 0;
+            lp.y = 0;
+            dialogWindow.setAttributes(lp);
+            return this;
+        }
+
+        public CricleDialog setCanceledOnTouchOutside(boolean cancel) {
+            dialog.setCanceledOnTouchOutside(cancel);
+            return this;
+        }
+
+        public void show() {
+            dialog.show();
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.tv_sc://删除
+                    deleat(list.get(circleDelPos).getId());
+
+                    break;
+
+                case R.id.tv_jb://举报
+                    MyToastUtils.showShortToast(context,"举报成功！");
+                    dialog.dismiss();
+                    break;
+
+                case R.id.tv_qx://取消
+                    dialog.dismiss();
+                    break;
+            }
+
+        }
+
+        private void deleat(String takeid) {
+            RequestManager.getTalkManager().deleteTalk(takeid, new ResultCallback<ResultBean<String>>() {
+                @Override
+                public void onError(int status, String errorMsg) {
+
+                }
+
+                @Override
+                public void onResponse(ResultBean<String> response) {
+                    MyToastUtils.showShortToast(context, "删除成功");
+                    dialog.dismiss();
+                    list.remove(circleDelPos);
+                    dateList.remove(circleDelPos);
+                    context.sendBroadcast(new Intent(CirFrg.ALLTALKS));
+                    notifyDataSetChanged();
+//                dialog.dismiss();
+
+                }
+            });
+        }
     }
 
 }

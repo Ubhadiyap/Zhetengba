@@ -58,4 +58,18 @@
         style="@style/view_line"
 
         ></View>
+    <com.boyuanitsm.zhetengba.view.CommonView
+        android:id="@+id/cvHei"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        app:statusImage="@mipmap/heix"
+        app:statusImage_height="43dp"
+        app:statusImage_width="43dp"
+        app:desText="黑名单"
+        app:desTextSize="14sp"
+        ></com.boyuanitsm.zhetengba.view.CommonView>
+    <View
+        style="@style/view_line"
+
+        ></View>
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,12 +29,14 @@ public class GcDialog implements View.OnClickListener {
     private String userid,creatid;
     private String takeid;
     private TextView tv_sc,tv_jb,tv_qx;
+    private int position;
 
-    public GcDialog(Context context,String userid,String creatid,String takeid) {
+    public GcDialog(Context context, String userid, String creatid, String takeid, int position) {
         this.context=context;
         this.userid=userid;
         this.creatid=creatid;
         this.takeid=takeid;
+        this.position=position;
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         display = windowManager.getDefaultDisplay();
     }
@@ -85,7 +88,8 @@ public class GcDialog implements View.OnClickListener {
                 break;
 
             case R.id.tv_jb://举报
-
+                MyToastUtils.showShortToast(context,"举报成功！");
+                dialog.dismiss();
                 break;
 
             case R.id.tv_qx://取消
@@ -104,9 +108,14 @@ public class GcDialog implements View.OnClickListener {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(context,"删除成功");
+                MyToastUtils.showShortToast(context, "删除成功");
                 dialog.dismiss();
-                context.sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
+                Intent intent=new Intent(ChanelItemFrg.TALK_LIST);
+                Bundle bundle=new Bundle();
+                bundle.putInt("DelPosition", position);
+                bundle.putString("tag", "delTag");
+                intent.putExtras(bundle);
+                context.sendBroadcast(intent);
 //                dialog.dismiss();
 
             }

@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.FriendsBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.chat.act.HeiAct;
 import com.boyuanitsm.zhetengba.chat.act.MyGroupAct;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.db.UserDao;
@@ -59,10 +60,13 @@ public class ContractsFrg extends EaseContactListFragment {
         HeaderItemClickListener clickListener = new HeaderItemClickListener();
         CommonView commNf= (CommonView) headerView.findViewById(R.id.cvNewF);
         CommonView commGroup= (CommonView) headerView.findViewById(R.id.cvMyQl);
+        CommonView commHei= (CommonView) headerView.findViewById(R.id.cvHei);
         commNf.setArrowGone();
         commGroup.setArrowGone();
+        commHei.setArrowGone();
         commNf.setOnClickListener(clickListener);
         commGroup.setOnClickListener(clickListener);
+        commHei.setOnClickListener(clickListener);
         tvUnReadMsg= (TextView) headerView.findViewById(R.id.tvUnReadMsg);
         //添加headerview
         listView.addHeaderView(headerView);
@@ -269,7 +273,9 @@ public class ContractsFrg extends EaseContactListFragment {
                     // 我的群聊
                     startActivity(new Intent(getActivity(), MyGroupAct.class));
                     break;
-
+                case R.id.cvHei:
+                    //进入黑名单
+                    startActivity(new Intent(getActivity(),HeiAct.class));
                 default:
                     break;
             }

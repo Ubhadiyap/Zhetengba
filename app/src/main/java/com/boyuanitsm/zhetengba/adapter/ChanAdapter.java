@@ -68,10 +68,10 @@ public class ChanAdapter extends BaseAdapter {
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-    public ChanAdapter(Context context, List<List<ImageInfo>> dateList) {
-        this.context = context;
-        this.dateList = dateList;
-    }
+//    public ChanAdapter(Context context, List<List<ImageInfo>> dateList, List<ChannelTalkEntity> datas) {
+//        this.context = context;
+//        this.dateList = dateList;
+//    }
 
     public ChanAdapter(Context context, List<List<ImageInfo>> dateList, List<ChannelTalkEntity> list) {
         this.context = context;
@@ -266,12 +266,20 @@ public class ChanAdapter extends BaseAdapter {
                 intent.setClass(context, ChanelTextAct.class);
                 intent.putExtra("channelEntity", list.get(position));
                 intent.putExtra("channelId", list.get(position).getId());
+                intent.putExtra("CommentPosition", position);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         };
         viewHolder.ll_content.setOnClickListener(listener);
-        viewHolder.ll_date.setOnClickListener(listener);
+        viewHolder.tv_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GcDialog gcDialog=new GcDialog(context,userid,list.get(position).getCreatePersonId(),list.get(position).getId(),position);
+                gcDialog.builder().show();
+
+            }
+        });
 
         //点击跳转圈友主页
         viewHolder.ll_user.setOnClickListener(new View.OnClickListener() {
@@ -289,7 +297,7 @@ public class ChanAdapter extends BaseAdapter {
         viewHolder.rl_xia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GcDialog gcDialog=new GcDialog(context,userid,list.get(position).getCreatePersonId(),list.get(position).getId());
+                GcDialog gcDialog=new GcDialog(context,userid,list.get(position).getCreatePersonId(),list.get(position).getId(),position);
                 gcDialog.builder().show();
 
 
@@ -314,7 +322,7 @@ public class ChanAdapter extends BaseAdapter {
                                 int x = (int) event.getX();
                                 int y = (int) event.getY();
                                 if (x < 0 || y < 0 || x > viewHolder.zimg.getWidth() || y >viewHolder.zimg.getHeight()) {
-                                    image_record_out = true;
+                                    viewHolder.zimg.setAlpha(1.0f);
                                 }
                                 break;
                         }
@@ -345,20 +353,6 @@ public class ChanAdapter extends BaseAdapter {
             }
         });
 
-//        //点赞
-//        viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                viewHolder.ll_like.setEnabled(false);
-//                clickPos = position;
-//                channelId = list.get(position).getId();
-//                if (0 == list.get(position).getLiked()) {
-//                    addChannelLike(channelId,viewHolder.ll_like);
-//                } else if (1 == list.get(position).getLiked()) {
-//                    removeChannelLike(channelId,viewHolder.ll_like);
-//                }
-//            }
-//        });
         //分享对话框
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -379,6 +373,7 @@ public class ChanAdapter extends BaseAdapter {
                 intent.setClass(context, ChanelTextAct.class);
                 intent.putExtra("channelEntity", list.get(position));
                 intent.putExtra("channelId", list.get(position).getId());
+                intent.putExtra("CommentPosition", position);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

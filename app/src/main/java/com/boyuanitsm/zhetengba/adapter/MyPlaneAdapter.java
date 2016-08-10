@@ -132,8 +132,8 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            itemList.get(0).setWidth(200);
-            itemList.get(0).setHeight(200);
+            itemList.get(0).setWidth(120);
+            itemList.get(0).setHeight(120);
             LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -217,6 +217,8 @@ public class MyPlaneAdapter extends BaseAdapter {
             }
             if (!TextUtils.isEmpty(list.get(position).getTalkContent())) {
                 viewHolder.tv_content.setText(list.get(position).getTalkContent());
+            }else {
+                viewHolder.tv_content.setText("");
             }
             if (!TextUtils.isEmpty(list.get(position).getCircleName())) {
                 viewHolder.tv_cir_name.setText(list.get(position).getCircleName());
@@ -246,11 +248,6 @@ public class MyPlaneAdapter extends BaseAdapter {
                 }
 
             }
-//            if(!TextUtils.isEmpty(list.get(position).getSharedCounts()+"")){
-//                viewHolder.snum.setText(list.get(position).getSharedCounts()+"");
-//            }else {
-//                viewHolder.snum.setText("0");
-//            }
         }
         //点击用户头像，进入用户圈子主页
         viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
@@ -259,7 +256,6 @@ public class MyPlaneAdapter extends BaseAdapter {
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("userId", list.get(position).getUserId());
-//                bundle.putBoolean("friend",list.get(position).isFriend());
                 intent.putExtras(bundle);
                 intent.setClass(context, PerpageAct.class);
                 //需要开启新task,否则会报错
@@ -274,6 +270,7 @@ public class MyPlaneAdapter extends BaseAdapter {
                 Intent intent = new Intent();
                 intent.setClass(context, CirxqAct.class);
                 intent.putExtra("circleId", list.get(position).getCircleId());
+                intent.putExtra("type",1);
                 //需要开启新task,否则会报错
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -296,8 +293,6 @@ public class MyPlaneAdapter extends BaseAdapter {
         viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ShareDialog dialog=new ShareDialog(context);
-//                dialog.show();
                 Intent intent = new Intent(context, ShareDialogAct.class);
                 intent.putExtra("type",5);
                 intent.putExtra("id",list.get(position).getId());

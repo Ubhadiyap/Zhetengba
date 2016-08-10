@@ -19,10 +19,12 @@ import java.util.List;
 public class ChanelPageAdapter extends FragmentStatePagerAdapter {
     private List<UserInterestInfo> list=new ArrayList<>();
     private Context context;
-    public ChanelPageAdapter(FragmentManager fm,Context context, List<UserInterestInfo> titleList) {
+    private int currentPos;
+    public ChanelPageAdapter(FragmentManager fm, Context context, List<UserInterestInfo> titleList, int currentPos) {
         super(fm);
         this.context=context;
         this.list=titleList;
+        this.currentPos=currentPos;
     }
     public void  updata(Context context,List<UserInterestInfo> list){
         this.context=context;
@@ -39,6 +41,7 @@ public class ChanelPageAdapter extends FragmentStatePagerAdapter {
         ChanelItemFrg chanelfrg = new ChanelItemFrg();
         Bundle bundle = new Bundle();
         bundle.putString(ChanelItemFrg.TITLE_LIST, list.get(i).getInterestId());
+        bundle.putInt(ChanelItemFrg.CURRENT_POS,currentPos);
         chanelfrg.setArguments(bundle);
         return chanelfrg;
     }

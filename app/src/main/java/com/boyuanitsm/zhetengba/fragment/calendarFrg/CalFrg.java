@@ -276,12 +276,12 @@ public class CalFrg extends BaseFragment {
                     } else {
                         adapter.update(infos);
                     }
-                }else {
-                    noList.setVisibility(View.VISIBLE);
-                    ivAnim.setImageResource(R.drawable.loadfail_list);
-                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                    animationDrawable.start();
-                    noMsg.setText("加载失败...");
+//                }else {
+//                    noList.setVisibility(View.VISIBLE);
+//                    ivAnim.setImageResource(R.drawable.loadfail_list);
+//                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+//                    animationDrawable.start();
+//                    noMsg.setText("加载失败...");
                 }
 
             }
@@ -290,11 +290,11 @@ public class CalFrg extends BaseFragment {
             public void onResponse(ResultBean<DataBean<ScheduleInfo>> response) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
-                if (animationDrawable!=null){
-                    animationDrawable.stop();
-                    animationDrawable=null;
-                    noList.setVisibility(View.GONE);
-                }
+//                if (animationDrawable!=null){
+//                    animationDrawable.stop();
+//                    animationDrawable=null;
+//                    noList.setVisibility(View.GONE);
+//                }
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {

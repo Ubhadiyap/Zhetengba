@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -88,7 +90,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private int page=1;
     private int rows=10;
     private List<ChannelTalkEntity> list;
-
+    private int position;
     ChaTextAdapter adapter;
     @Override
     public void setLayout() {
@@ -102,6 +104,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         assignView(headView);
         channelTalkEntity=getIntent().getParcelableExtra("channelEntity");
         channelId=getIntent().getStringExtra("channelId");
+        position= getIntent().getIntExtra("CommentPosition",0);
         LayoutHelperUtil.freshInit(my_lv);
         my_lv.getRefreshableView().addHeaderView(headView);
         setChannel(channelTalkEntity);
@@ -219,10 +222,9 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             ll_two.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.GONE);
             ng_one_image.setVisibility(View.VISIBLE);
-            singleList.get(0).setWidth(200);
-            singleList.get(0).setHeight(200);
+            singleList.get(0).setWidth(120);
+            singleList.get(0).setHeight(120);
             LayoutHelperUtil.handlerOneImage(ChanelTextAct.this, singleList.get(0), ng_one_image);
-
             ng_one_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -274,6 +276,8 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             ng_one_image.setVisibility(View.GONE);
             ll_two.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(ChanelTextAct.this, 255), ActionBar.LayoutParams.WRAP_CONTENT);
+            iv_ch_image.setLayoutParams(params);
             iv_ch_image.setNumColumns(3);
             PicGdAdapter adapter = new PicGdAdapter(ChanelTextAct.this, singleList);
             iv_ch_image.setAdapter(adapter);
@@ -322,11 +326,13 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 getCircleCommentsList(channelTalkId, page, rows);
                 btnSend.setEnabled(true);
                 btnSend.setClickable(true);
-//                Intent intent=new Intent(ChanelFrg.MYLABELS);
-//                Bundle bundle=new Bundle();
-//                intent.putExtras(bundle);
-//                sendBroadcast(intent);
-                sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
+                Intent intent=new Intent(ChanelItemFrg.TALK_LIST);
+                Bundle bundle=new Bundle();
+                bundle.putInt("ComtPosition",position);
+                bundle.putString("tag", "comTag");
+                bundle.putInt("ComtNum", Integer.parseInt(response.getData()));
+                intent.putExtras(bundle);
+                sendBroadcast(intent);
             }
         });
     }
