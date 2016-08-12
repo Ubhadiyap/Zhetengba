@@ -4,20 +4,26 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -55,6 +61,7 @@ public class ChanAdapter extends BaseAdapter {
     private String userid;
     private boolean image_record_out;
     int clickPos = 0;
+    private PopupWindow popupWindow;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.tum)
@@ -133,15 +140,18 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.znum = (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
             viewHolder.rl_xia= (RelativeLayout) convertView.findViewById(R.id.rl_xia);
+            viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
+            viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
+            viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
-            viewHolder.ll_ch_image.setVisibility(View.GONE);
+//            viewHolder.ll_ch_image.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
         } else if (itemList.size() == 1) {
-            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
+//            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
@@ -157,7 +167,7 @@ public class ChanAdapter extends BaseAdapter {
                 }
             });
         } else if (itemList.size() == 4) {
-            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
+//            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
@@ -197,7 +207,7 @@ public class ChanAdapter extends BaseAdapter {
             });
 
         } else {
-            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
+//            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
@@ -232,27 +242,31 @@ public class ChanAdapter extends BaseAdapter {
             }else {
                 viewHolder.ll_content.setVisibility(View.GONE);
             }
-            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
-                if (0 == list.get(position).getLiked()) {//未点赞
-                    viewHolder.zimg.setImageResource(R.drawable.zan);
-                } else if (1 == list.get(position).getLiked()) {
-                    viewHolder.zimg.setImageResource(R.drawable.zan_b);
-                }
-            }
+//            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+//                if (0 == list.get(position).getLiked()) {//未点赞
+//                    viewHolder.zimg.setImageResource(R.drawable.zan);
+//                } else if (1 == list.get(position).getLiked()) {
+//                    viewHolder.zimg.setImageResource(R.drawable.zan_b);
+//                }
+//            }
             if (!TextUtils.isEmpty(list.get(position).getLikeCounts() + "")) {
                 if (list.get(position).getLikeCounts() == 0) {
                     viewHolder.znum.setVisibility(View.GONE);
+                    viewHolder.znumText.setVisibility(View.GONE);
                 } else {
                     viewHolder.znum.setVisibility(View.VISIBLE);
+                    viewHolder.znumText.setVisibility(View.VISIBLE);
                     viewHolder.znum.setText(list.get(position).getLikeCounts() + "");
                 }
             }
             if (!TextUtils.isEmpty(list.get(position).getCommentCounts() + "")) {
                 if (list.get(position).getCommentCounts() == 0) {
                     viewHolder.cnum.setVisibility(View.GONE);
+                    viewHolder.cnumText.setVisibility(View.GONE);
                     MyLogUtils.info("getCommentCounts===="+list.get(position).getCommentCounts());
                 } else {
                     viewHolder.cnum.setVisibility(View.VISIBLE);
+                    viewHolder.cnumText.setVisibility(View.VISIBLE);
                     viewHolder.cnum.setText(list.get(position).getCommentCounts() + "");
                     MyLogUtils.info("Counts====" + list.get(position).getCommentCounts());
                 }
@@ -297,85 +311,30 @@ public class ChanAdapter extends BaseAdapter {
         viewHolder.rl_xia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GcDialog gcDialog=new GcDialog(context,userid,list.get(position).getCreatePersonId(),list.get(position).getId(),position);
+                GcDialog gcDialog = new GcDialog(context, userid, list.get(position).getCreatePersonId(), list.get(position).getId(), position);
                 gcDialog.builder().show();
 
 
             }
         });
 
-        viewHolder.ll_like.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        switch (v.getId()) {
-                            case R.id.ll_like:
-                                image_record_out = false;
-                                viewHolder.zimg.setAlpha(0.5f);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()){
-                            case R.id.ll_like:
-                                int x = (int) event.getX();
-                                int y = (int) event.getY();
-                                if (x < 0 || y < 0 || x > viewHolder.zimg.getWidth() || y >viewHolder.zimg.getHeight()) {
-                                    viewHolder.zimg.setAlpha(1.0f);
-                                }
-                                break;
-                        }
-                    case MotionEvent.ACTION_UP:
-                        switch (v.getId()) {
-                            case R.id.ll_like://点赞
-                                viewHolder.zimg.setAlpha(1.0f);
-                                //接口调用
-                                viewHolder.ll_like.setEnabled(false);
-                                clickPos = position;
-                                channelId = list.get(position).getId();
-                                if (0 == list.get(position).getLiked()) {
-                                    addChannelLike(channelId,viewHolder.ll_like);
-                                } else if (1 == list.get(position).getLiked()) {
-                                    removeChannelLike(channelId,viewHolder.ll_like);
-                                }
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                        switch (v.getId()) {
-                            case R.id.ll_guanzhu:
-                                viewHolder.zimg.setAlpha(1.0f);
-                                break;
-                        }
-                }
-                return true;
-            }
-        });
+//        //分享对话框
+//        viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, ShareDialogAct.class);
+//                intent.putExtra("type", 4);
+//                intent.putExtra("id",list.get(position).getId());
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+//            }
+//        });
 
-        //分享对话框
-        viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
+        viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ShareDialogAct.class);
-                intent.putExtra("type", 4);
-                intent.putExtra("id",list.get(position).getId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
-
-        //评论
-        viewHolder.ll_answer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context, ChanelTextAct.class);
-                intent.putExtra("channelEntity", list.get(position));
-                intent.putExtra("channelId", list.get(position).getId());
-                intent.putExtra("CommentPosition", position);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                clickPos = position;
+                showPopupWindow(viewHolder.iv_more, clickPos);
             }
         });
 
@@ -401,17 +360,77 @@ public class ChanAdapter extends BaseAdapter {
         private TextView znum;
         private TextView cnum;
         private RelativeLayout rl_xia;
+        private ImageView iv_more;
+        private TextView znumText;
+        private TextView cnumText;
+
+    }
+    /**
+     *
+     */
+    private void showPopupWindow(View parent, final int position) {
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
+                R.layout.pupu_cir_item, null);
+
+        // 实例化popupWindow
+        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
+        //控制键盘是否可以获得焦点
+        popupWindow.setFocusable(true);
+        //设置popupWindow弹出窗体的背景
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+        @SuppressWarnings("deprecation")
+        //获取xoff
+                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+        //xoff,yoff基于anchor的左下角进行偏移。
+        popupWindow.showAsDropDown(parent, xpos, 0);
+        final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
+        LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
+        final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
+        if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+            if (0 == list.get(clickPos).getLiked()) {//未点赞
+                ivzan.setText("赞");
+            } else if (1 == list.get(clickPos).getLiked()) {
+                ivzan.setText("取消");
+            }
+        }
+        ll_zan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll_zan.setEnabled(false);
+                if (0 == list.get(clickPos).getLiked()) {
+                    addChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
+                } else if (1 == list.get(clickPos).getLiked()) {
+                    removeChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
+                }
+            }
+        });
+        ll_cmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, ChanelTextAct.class);
+                intent.putExtra("channelEntity", list.get(position));
+                intent.putExtra("channelId", list.get(position).getId());
+                intent.putExtra("CommentPosition", position);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                popupWindow.dismiss();
+                context.startActivity(intent);
+            }
+        });
 
 
     }
 
+
+
     /**
      * 点赞
-     *
-     * @param channelId
+     *  @param channelId
      * @param ll_like
+     * @param ivzan
      */
-    private void addChannelLike(String channelId, final LinearLayout ll_like) {
+    private void addChannelLike(String channelId, final LinearLayout ll_like, final TextView ivzan) {
         RequestManager.getTalkManager().addChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -423,6 +442,7 @@ public class ChanAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 ll_like.setEnabled(true);
                 list.get(clickPos).setLiked(1);
+                ivzan.setText("取消");
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
                 }
@@ -434,11 +454,11 @@ public class ChanAdapter extends BaseAdapter {
 
     /**
      * 取消点赞
-     *
-     * @param channelId
+     *  @param channelId
      * @param ll_like
+     * @param ivzan
      */
-    private void removeChannelLike(String channelId, final LinearLayout ll_like) {
+    private void removeChannelLike(String channelId, final LinearLayout ll_like, final TextView ivzan) {
         RequestManager.getTalkManager().removeChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -450,6 +470,7 @@ public class ChanAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 ll_like.setEnabled(true);
                 list.get(clickPos).setLiked(0);
+                ivzan.setText("赞");
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
                 }

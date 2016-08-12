@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Display;
@@ -15,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -39,6 +42,7 @@ import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
+import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -55,6 +59,7 @@ public class CircleAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList;
     private List<CircleEntity> list;
+    private PopupWindow popupWindow;
     int clickPos;
     int circleDelPos;
     // 图片缓存 默认 等
@@ -137,11 +142,16 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
             viewHolder.iv_share = (ImageView) convertView.findViewById(R.id.iv_share);
             viewHolder.ll_xia = (LinearLayout) convertView.findViewById(R.id.ll_xia);
+            viewHolder.znum2 = (TextView) convertView.findViewById(R.id.znum2);
+            viewHolder.cnum2 = (TextView) convertView.findViewById(R.id.cnum2);
+            viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
+            viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
+            viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
             convertView.setTag(viewHolder);
         }
         viewHolder.llphoto.setVisibility(View.VISIBLE);
         if (itemList.isEmpty() || itemList.isEmpty()) {
-            viewHolder.llphoto.setVisibility(View.GONE);
+//            viewHolder.llphoto.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
@@ -246,18 +256,22 @@ public class CircleAdapter extends BaseAdapter {
             }
             if (!TextUtils.isEmpty(list.get(position).getLikedCounts() + "")) {
                 if (list.get(position).getLikedCounts() == 0) {
-                    viewHolder.znum.setVisibility(View.GONE);
+                    viewHolder.znum2.setVisibility(View.GONE);
+                    viewHolder.znumText.setVisibility(View.GONE);
                 } else {
-                    viewHolder.znum.setVisibility(View.VISIBLE);
-                    viewHolder.znum.setText(list.get(position).getLikedCounts() + "");
+                    viewHolder.znum2.setVisibility(View.VISIBLE);
+                    viewHolder.znumText.setVisibility(View.VISIBLE);
+                    viewHolder.znum2.setText(list.get(position).getLikedCounts() + "");
                 }
             }
             if (!TextUtils.isEmpty(list.get(position).getCommentCounts() + "")) {
                 if (list.get(position).getCommentCounts() == 0) {
-                    viewHolder.cnum.setVisibility(View.GONE);
+                    viewHolder.cnum2.setVisibility(View.GONE);
+                    viewHolder.cnumText.setVisibility(View.GONE);
                 } else {
-                    viewHolder.cnum.setVisibility(View.VISIBLE);
-                    viewHolder.cnum.setText(list.get(position).getCommentCounts() + "");
+                    viewHolder.cnum2.setVisibility(View.VISIBLE);
+                    viewHolder.cnumText.setVisibility(View.VISIBLE);
+                    viewHolder.cnum2.setText(list.get(position).getCommentCounts() + "");
                 }
             }
         }
@@ -315,123 +329,6 @@ public class CircleAdapter extends BaseAdapter {
                 return true;
             }
         });
-        viewHolder.ll_like.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        switch (v.getId()) {
-                            case R.id.like:
-                                viewHolder.zimg.setAlpha(0.5f);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()) {
-                            case R.id.like:
-                                int x = (int) event.getX();
-                                int y = (int) event.getY();
-                                if (x < 0 || y < 0 || x > viewHolder.zimg.getWidth() || y > viewHolder.zimg.getHeight()) {
-                                    viewHolder.zimg.setAlpha(1.0f);
-                                }
-                                break;
-                        }
-                    case MotionEvent.ACTION_UP:
-                        switch (v.getId()) {
-                            case R.id.like://点赞
-                                viewHolder.zimg.setAlpha(1.0f);
-                                //接口调用
-                                viewHolder.ll_like.setEnabled(false);
-                                clickPos = position;
-                                if (0 == list.get(position).getLiked()) {
-                                    addCircleLike(list.get(position).getId(), viewHolder.ll_like);
-                                } else if (1 == list.get(position).getLiked()) {
-                                    removeCircleLike(list.get(position).getId(), viewHolder.ll_like);
-                                }
-                                break;
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
-        //分享对话框
-
-        viewHolder.ll_share.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        switch (v.getId()) {
-                            case R.id.ll_share:
-                                viewHolder.iv_share.setAlpha(0.5f);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()) {
-                            case R.id.ll_share:
-                                int x = (int) event.getX();
-                                int y = (int) event.getY();
-                                if (x < 0 || y < 0 || x > viewHolder.iv_share.getWidth() || y > viewHolder.iv_share.getHeight()) {
-                                    viewHolder.iv_share.setAlpha(1.0f);
-                                }
-                                break;
-                        }
-                    case MotionEvent.ACTION_UP:
-                        switch (v.getId()) {
-                            case R.id.ll_share:
-                                viewHolder.iv_share.setAlpha(1.0f);
-                                Intent intent = new Intent(context, ShareDialogAct.class);
-                                intent.putExtra("type", 5);
-                                intent.putExtra("id", list.get(position).getId());
-                                context.startActivity(intent);
-                                break;
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
-        viewHolder.ll_comment.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        switch (v.getId()) {
-                            case R.id.ll_comment:
-                                viewHolder.iv_comment.setAlpha(0.5f);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()) {
-                            case R.id.ll_comment:
-                                int x = (int) event.getX();
-                                int y = (int) event.getY();
-                                if (x < 0 || y < 0 || x > viewHolder.iv_comment.getWidth() || y > viewHolder.iv_comment.getHeight()) {
-                                    viewHolder.iv_comment.setAlpha(1.0f);
-                                }
-                                break;
-                        }
-                    case MotionEvent.ACTION_UP:
-                        switch (v.getId()) {
-                            case R.id.ll_comment:
-                                viewHolder.iv_comment.setAlpha(1.0f);
-                                Intent intent = new Intent();
-                                intent.setClass(context, CircleTextAct.class);
-                                intent.putExtra("circleEntity", list.get(position));
-                                intent.putExtra("circleId", list.get(position).getId());
-                                intent.putExtra("CirCommentPosition", position);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                                break;
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
         viewHolder.tv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -450,6 +347,13 @@ public class CircleAdapter extends BaseAdapter {
                 circleDelPos = position;
                 CricleDialog dialog = new CricleDialog();
                 dialog.builder().show();
+            }
+        });
+        viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickPos = position;
+                showPopupWindow(viewHolder.iv_more, clickPos);
             }
         });
         return convertView;
@@ -478,7 +382,11 @@ public class CircleAdapter extends BaseAdapter {
         private ImageView iv_comment;
         private ImageView iv_share;
         private LinearLayout ll_xia;
-
+        private TextView znum2;
+        private TextView cnum2;
+        private TextView znumText;
+        private TextView cnumText;
+        private ImageView iv_more;
     }
 
     /**
@@ -486,8 +394,9 @@ public class CircleAdapter extends BaseAdapter {
      *
      * @param circleTalkId
      * @param ll_like
+     * @param ivzan
      */
-    private void addCircleLike(String circleTalkId, final LinearLayout ll_like) {
+    private void addCircleLike(String circleTalkId, final LinearLayout ll_like, final TextView ivzan) {
         RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -499,6 +408,7 @@ public class CircleAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(1);
                 ll_like.setEnabled(true);
+                ivzan.setText("取消");
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
@@ -512,8 +422,9 @@ public class CircleAdapter extends BaseAdapter {
      *
      * @param circleTalkId
      * @param ll_like
+     * @param ivzan
      */
-    private void removeCircleLike(String circleTalkId, final LinearLayout ll_like) {
+    private void removeCircleLike(String circleTalkId, final LinearLayout ll_like, final TextView ivzan) {
         RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -525,12 +436,70 @@ public class CircleAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(0);
                 ll_like.setEnabled(true);
+                ivzan.setText("赞");
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
                 notifyDataSetChanged();
             }
         });
+    }
+
+    /**
+     *
+     */
+    private void showPopupWindow(View parent, final int position) {
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
+                R.layout.pupu_cir_item, null);
+
+        // 实例化popupWindow
+        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
+        //控制键盘是否可以获得焦点
+        popupWindow.setFocusable(true);
+        //设置popupWindow弹出窗体的背景
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+        @SuppressWarnings("deprecation")
+        //获取xoff
+                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+        //xoff,yoff基于anchor的左下角进行偏移。
+        popupWindow.showAsDropDown(parent, xpos, 0);
+        final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
+        LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
+        final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
+        if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+            if (0 == list.get(clickPos).getLiked()) {//未点赞
+                ivzan.setText("赞");
+            } else if (1 == list.get(clickPos).getLiked()) {
+                ivzan.setText("取消");
+            }
+        }
+        ll_zan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll_zan.setEnabled(false);
+                if (0 == list.get(clickPos).getLiked()) {
+                    addCircleLike(list.get(clickPos).getId(), ll_zan, ivzan);
+                } else if (1 == list.get(clickPos).getLiked()) {
+                    removeCircleLike(list.get(clickPos).getId(), ll_zan, ivzan);
+                }
+            }
+        });
+        ll_cmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, CircleTextAct.class);
+                intent.putExtra("circleEntity", list.get(position));
+                intent.putExtra("circleId", list.get(position).getId());
+                intent.putExtra("CirCommentPosition", position);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                popupWindow.dismiss();
+                context.startActivity(intent);
+            }
+        });
+
+
     }
 
     class CricleDialog implements View.OnClickListener {

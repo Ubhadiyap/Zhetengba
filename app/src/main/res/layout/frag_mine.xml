@@ -5,6 +5,7 @@
     android:background="#ffffffff"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,7 +25,24 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_back"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:onClick="goback">
+
+        <ImageView
+            android:layout_width="11dp"
+            android:layout_height="19dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/top_back" />
+
+    </RelativeLayout>
     <ImageView
+        android:visibility="gone"
         android:id="@+id/iv_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,7 +100,8 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
                     <TextView
-                        android:id="@+id/tv_name"
+                        android:visibility="gone"
+                        android:id="@+id/tv_name2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="小鱼儿"
@@ -93,13 +112,14 @@
                         android:textSize="14sp"
                         android:textColor="#fff"/>
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/iv_shareCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/erweima"
                         android:layout_marginLeft="15dp"/>
                     <ImageView
-                        android:id="@+id/iv_collection"
+                        android:visibility="invisible"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/collect"
@@ -117,14 +137,18 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_label"
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tv_name"
+                    android:text="小鱼儿"
+                    android:shadowColor="@color/sbc_header_text"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="3"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:scrollbars="none"
-                    android:layout_marginTop="10dp"
-                    ></android.support.v7.widget.RecyclerView>
+                    android:layout_height="20dp" />
                 <TextView
                     android:id="@+id/tv_noLabel"
                     android:layout_width="wrap_content"
@@ -182,6 +206,7 @@
             android:paddingRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:background="#00000000"
             android:scrollbars="none"></com.boyuanitsm.zhetengba.view.MyViewPager>
     </LinearLayout>

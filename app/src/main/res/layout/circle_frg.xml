@@ -3,8 +3,24 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_bg">
-    <include layout="@layout/title_circle_frg_layout"></include>
+    android:background="#f3f3f3">
+    <include layout="@layout/title_cir_act_layout"></include>
+    <com.boyuanitsm.zhetengba.view.CommonView
+        android:id="@+id/cv_gc"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"></com.boyuanitsm.zhetengba.view.CommonView>
+    <View style="@style/view_line"
+        android:layout_height="1px"></View>
+    <com.boyuanitsm.zhetengba.view.CommonView
+        android:id="@+id/cv_qz"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"/>
+    <com.boyuanitsm.zhetengba.view.CommonView
+        android:id="@+id/cv_sys"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"/>
     <FrameLayout
         android:id="@+id/fl_circle"
         android:layout_width="match_parent"

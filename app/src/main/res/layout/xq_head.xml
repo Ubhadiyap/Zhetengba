@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+    <com.boyuanitsm.zhetengba.view.CircleImageView
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/head"
+        android:background="@drawable/userhead"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/head"
+        android:id="@+id/tv_qz"
+        style="@style/tv_second"
+        android:layout_centerInParent="true"
+        android:text="圈主: "
+        android:textColor="#333333"
+        android:textSize="14sp" />
+    <TextView
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_qzzl"
+        style="@style/tv_second"
+        android:layout_height="16dp"
+        android:background="@drawable/com_dybtn_nor"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="圈子资料"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+</RelativeLayout>
+    <View
+        style="@style/view_line"
+        android:layout_marginLeft="0dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:id="@+id/notice"
+                style="@style/tv_second"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:text="公告："
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:paddingRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:text="成员："
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.boyuanitsm.zhetengba.view.MyRecyleview
+                android:layout_marginLeft="10dp"
+                android:id="@+id/rv_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_jiaru"
+        android:visibility="gone"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/white"
+            android:background="@drawable/but_jaru_select"
+            android:gravity="center"
+            android:layout_height="30dp"
+            android:layout_width="106dp"
+            android:text="申请加入"
+            style="@style/tv_second" />
+
+    </RelativeLayout>
+    <View
+        style="@style/view_line"
+        android:layout_marginLeft="0dp"/>
+</LinearLayout>

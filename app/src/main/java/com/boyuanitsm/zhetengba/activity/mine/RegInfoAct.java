@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.IconFilePath;
@@ -270,7 +271,7 @@ public class RegInfoAct extends BaseActivity {
                     LabelInterestDao.saveInterestLabel(userInterestInfo);
                 }
                 MyLogUtils.info(LabelInterestDao.getInterestLabel().toString());
-                sendBroadcast(new Intent(ChanelFrg.MYLABELS));
+                sendBroadcast(new Intent(SquareAct.MYLABELS));
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
                 sendBroadcast(new Intent(PerpageAct.PPLABELS));
                 finish();

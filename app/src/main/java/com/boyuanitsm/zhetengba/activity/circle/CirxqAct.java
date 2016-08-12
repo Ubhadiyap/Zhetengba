@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -57,6 +59,8 @@ public class CirxqAct extends BaseActivity {
     private PullToRefreshListView lv_cir;
     @ViewInject(R.id.cir_fb)
     private TextView cir_fb;
+    @ViewInject(R.id.iv_fa)
+    private ImageView iv_fa;
     private List<Integer>list;
     private CirxqAdapter adapter;
     private String circleId;//圈子id
@@ -96,7 +100,7 @@ public class CirxqAct extends BaseActivity {
         progressDialog.setMessage("数据加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        headView=getLayoutInflater().inflate(R.layout.xqhead_view,null);
+        headView=getLayoutInflater().inflate(R.layout.xq_head,null);
         head= (CircleImageView) headView.findViewById(R.id.head);//头像
         name= (TextView) headView.findViewById(R.id.tv_qz);//圈主名
         notice= (TextView) headView.findViewById(R.id.notice);//公告
@@ -105,6 +109,21 @@ public class CirxqAct extends BaseActivity {
         rl_jiaru=(RelativeLayout) headView.findViewById(R.id.rl_jiaru);//加入圈子 默认是隐藏的
         lv_cir.getRefreshableView().addHeaderView(headView);
         LayoutHelperUtil.freshInit(lv_cir);
+        lv_cir.getRefreshableView().setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState==SCROLL_STATE_IDLE){
+                    iv_fa.setVisibility(View.VISIBLE);
+                }else if (scrollState==SCROLL_STATE_FLING){
+                    iv_fa.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CirxqAct.this);
         //设置横向
@@ -154,7 +173,7 @@ public class CirxqAct extends BaseActivity {
             getCircleDetail(circleId);//获取圈子详情，不在圈子里显示立即加入按钮
         }
 
-        cir_fb.setOnClickListener(new View.OnClickListener() {
+        iv_fa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CirxqAct.this, CirclefbAct.class);
@@ -278,7 +297,7 @@ public class CirxqAct extends BaseActivity {
             if(!TextUtils.isEmpty(entity.getNotice())){
                 notice.setText("公告："+entity.getNotice());
             }else {
-                notice.setText("公告：");
+                notice.setText("公告：暂无公告");
             }
             if (!TextUtils.isEmpty(entity.getCircleOwnerId())){
                 if(entity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())){

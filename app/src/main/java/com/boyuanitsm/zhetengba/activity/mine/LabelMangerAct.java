@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.adapter.LabelGVadapter;
 import com.boyuanitsm.zhetengba.adapter.LabelGvMyadapter;
@@ -217,7 +218,7 @@ public class LabelMangerAct extends BaseActivity {
                     LabelInterestDao.saveInterestLabel(userInterestInfo);
                 }
                 MyLogUtils.info(LabelInterestDao.getInterestLabel().toString());
-                Intent intent = new Intent(ChanelFrg.MYLABELS);
+                Intent intent = new Intent(SquareAct.MYLABELS);
                 Bundle bundle = new Bundle();
                 intent.putExtras(bundle);
                 sendBroadcast(intent);

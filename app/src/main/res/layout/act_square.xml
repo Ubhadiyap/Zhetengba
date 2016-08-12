@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_square_act_layout"></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#eeeeee"
+                android:orientation="horizontal">
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.boyuanitsm.zhetengba.view.bounScrollView.BounceScrollView
+                        android:id="@+id/hslv_chanel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:scrollbars="none">
+
+                        <com.boyuanitsm.zhetengba.view.bounScrollView.ViewPagerIndicator
+                            android:id="@+id/titleLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal" />
+
+
+                    </com.boyuanitsm.zhetengba.view.bounScrollView.BounceScrollView>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ll_add"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/addbule" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <View
+                style="@style/view_line"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="0dp"></View>
+            <!--<Button-->
+            <!--android:id="@+id/bt_plan"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="#eeeeee"-->
+            <!--android:text="发布"-->
+            <!--android:textColor="#999999"-->
+            <!--android:textSize="14sp" />-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/common_bg"
+                android:orientation="vertical">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_chanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+                <!--<com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView-->
+                <!--android:id="@+id/vp_chan"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>-->
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

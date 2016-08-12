@@ -79,7 +79,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="65dp"
         android:layout_marginRight="15dp"
@@ -101,14 +101,14 @@
 
         <LinearLayout
             android:id="@+id/ll_ch_image"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:gravity="left"
             android:orientation="vertical">
 
             <com.boyuanitsm.zhetengba.view.MyGridView
                 android:id="@+id/iv_ch_image"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:columnWidth="83dp"
@@ -119,6 +119,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_two"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -169,87 +170,79 @@
 
             <com.boyuanitsm.zhetengba.view.CustomImageView
                 android:id="@+id/iv_oneimage"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/znum"
+                        android:visibility="gone"
+                        style="@style/Chanel_Small_Text"
+                        android:text="240" />
+
+                    <TextView
+                        android:id="@+id/znumText"
+                        android:visibility="gone"
+                        style="@style/Chanel_Small_Text"
+                        android:text="赞" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_answer"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/cnum"
+                        android:visibility="gone"
+                        style="@style/Chanel_Small_Text"
+                        android:text="240"/>
+
+                    <TextView
+                        android:id="@+id/cnumText"
+                        android:visibility="gone"
+                        style="@style/Chanel_Small_Text"
+                        android:text="评论" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_more"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/more"/>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/ll_like"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/act_layer_right"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/zimg"
-                style="@style/Chanel_Small_Image"
-                android:background="@drawable/zan" />
-
-            <TextView
-                style="@style/Chanel_Small_Text"
-                android:text="赞" />
-
-            <TextView
-                android:id="@+id/znum"
-                style="@style/Chanel_Small_Text"
-                android:text="(240)"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_answer"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/act_layer_right"
-            android:gravity="center">
-
-            <ImageView
-                style="@style/Chanel_Small_Image"
-                android:background="@drawable/comment" />
-
-            <TextView
-                style="@style/Chanel_Small_Text"
-                android:text="评论" />
-
-            <TextView
-                android:id="@+id/cnum"
-                style="@style/Chanel_Small_Text"
-                android:text="(240)"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_share"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageView
-                style="@style/Chanel_Small_Image"
-                android:background="@drawable/share" />
-
-            <TextView
-                style="@style/Chanel_Small_Text"
-                android:text="分享" />
-        </LinearLayout>
-    </LinearLayout>
 
     <View
         style="@style/view_line"
         android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="10dp"></View>
+        android:layout_marginRight="0dp"></View>
 </LinearLayout>

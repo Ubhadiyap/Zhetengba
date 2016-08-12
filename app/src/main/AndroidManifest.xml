@@ -500,7 +500,15 @@
         <activity
             android:name=".activity.mine.AssignScanAct"
             android:screenOrientation="portrait"></activity>
-
+        <!--广场-->
+        <activity android:name=".activity.circle.SquareAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子-->
+        <activity android:name=".activity.circle.CircleAct"
+            android:screenOrientation="portrait"></activity>
+        <!--时间轴-->
+        <activity android:name=".activity.mine.TimeHistoryAct"
+            android:screenOrientation="portrait"></activity>
 
         <!-- 极光-->
         <!-- Rich push 核心功能 since 2.0.6-->

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_marginRight="40dp"
+        android:layout_gravity="right"
+        android:background="@drawable/hui_yj2"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_zan"
+            android:layout_marginLeft="3dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="90dp"
+            android:layout_height="34dp">
+            <ImageView
+                android:id="@+id/ivzan"
+                android:src="@drawable/zan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvzan"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:text="赞"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+        <View
+            android:background="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="20dp"
+            android:layout_width="1px"></View>
+
+        <LinearLayout
+            android:id="@+id/ll_cmt"
+            android:layout_marginRight="3dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="90dp"
+            android:layout_height="30dp">
+            <ImageView
+                android:src="@drawable/comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:text="评论"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
