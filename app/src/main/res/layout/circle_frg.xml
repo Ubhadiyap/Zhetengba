@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +8,12 @@
     <include layout="@layout/title_cir_act_layout"></include>
     <com.boyuanitsm.zhetengba.view.CommonView
         android:id="@+id/cv_gc"
+        app:desText="广场"
+        app:desTextSize="14sp"
+        app:desTextColor="#333333"
+        app:statusImage="@drawable/guang"
+        app:statusImage_width="30dp"
+        app:statusImage_height="30dp"
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="44dp"></com.boyuanitsm.zhetengba.view.CommonView>
@@ -14,10 +21,22 @@
         android:layout_height="1px"></View>
     <com.boyuanitsm.zhetengba.view.CommonView
         android:id="@+id/cv_qz"
+        app:desText="圈子"
+        app:desTextSize="14sp"
+        app:desTextColor="#333333"
+        app:statusImage="@drawable/quanzi"
+        app:statusImage_width="30dp"
+        app:statusImage_height="30dp"
         android:layout_width="match_parent"
         android:layout_height="44dp"/>
     <com.boyuanitsm.zhetengba.view.CommonView
         android:id="@+id/cv_sys"
+        app:desText="扫一扫"
+        app:desTextSize="14sp"
+        app:desTextColor="#333333"
+        app:statusImage="@drawable/sao"
+        app:statusImage_width="30dp"
+        app:statusImage_height="30dp"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="44dp"/>

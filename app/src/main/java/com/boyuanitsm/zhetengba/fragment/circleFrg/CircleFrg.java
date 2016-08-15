@@ -69,29 +69,8 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        setData();
     }
 
-    private void setData() {
-        cv_gc.setDesText("广场");
-        cv_qz.setDesText("圈子");
-        cv_sys.setDesText("扫一扫");
-        cv_gc.setDesTextColor(Color.parseColor("#333333"));
-        cv_qz.setDesTextColor(Color.parseColor("#333333"));
-        cv_sys.setDesTextColor(Color.parseColor("#333333"));
-        cv_gc.setDesTextSize(28);
-        cv_qz.setDesTextSize(28);
-        cv_sys.setDesTextSize(28);
-        cv_gc.setStatusImageWH(60, 60);
-        cv_qz.setStatusImageWH(60, 60);
-        cv_sys.setStatusImageWH(60, 60);
-        cv_gc.setIsShowCategoryImage(true);
-        cv_qz.setIsShowCategoryImage(true);
-        cv_sys.setIsShowCategoryImage(true);
-        cv_gc.setStatusImage(getResources().getDrawable(R.drawable.guang));
-        cv_qz.setStatusImage(getResources().getDrawable(R.drawable.quanzi));
-        cv_sys.setStatusImage(getResources().getDrawable(R.drawable.sao));
-    }
 
 //    /***
 //     * 默认展示页面
