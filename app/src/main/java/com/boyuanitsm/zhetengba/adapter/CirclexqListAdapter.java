@@ -147,10 +147,10 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.iv_more=(ImageView)convertView.findViewById(R.id.iv_more);
             convertView.setTag(viewHolder);
         }
-        viewHolder.llphoto.setVisibility(View.VISIBLE);
+//        viewHolder.llphoto.setVisibility(View.VISIBLE);
         final List<ImageInfo> itemList = itemList1;
         if (itemList.isEmpty() || itemList.isEmpty()) {
-            viewHolder.llphoto.setVisibility(View.GONE);
+//            viewHolder.llphoto.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
@@ -239,9 +239,10 @@ public class CirclexqListAdapter extends BaseAdapter {
                 viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTime() + "")));
             }
             if (!TextUtils.isEmpty(list.get(position).getTalkContent())) {
+                viewHolder.tv_content.setVisibility(View.VISIBLE);
                 viewHolder.tv_content.setText(list.get(position).getTalkContent());
             }else {
-                viewHolder.tv_content.setText("");
+                viewHolder.tv_content.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(list.get(position).getCircleName())) {
                 viewHolder.tv_cir_name.setText(list.get(position).getCircleName());

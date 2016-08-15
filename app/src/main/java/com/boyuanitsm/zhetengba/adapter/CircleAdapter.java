@@ -240,9 +240,10 @@ public class CircleAdapter extends BaseAdapter {
                 viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTime())));
             }
             if (!TextUtils.isEmpty(list.get(position).getTalkContent())) {
+                viewHolder.tv_content.setVisibility(View.VISIBLE);
                 viewHolder.tv_content.setText(list.get(position).getTalkContent());
             } else {
-                viewHolder.tv_content.setText("");
+                viewHolder.tv_content.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(list.get(position).getCircleName())) {
                 viewHolder.tv_cir_name.setText(list.get(position).getCircleName());
