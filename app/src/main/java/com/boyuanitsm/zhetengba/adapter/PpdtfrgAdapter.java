@@ -212,9 +212,10 @@ public class PpdtfrgAdapter extends BaseAdapter {
                 viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleTalkEntityList.get(position).getCreateTime())));
             }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getTalkContent())){
+                viewHolder.tv_content.setVisibility(View.VISIBLE);
                 viewHolder.tv_content.setText(circleTalkEntityList.get(position).getTalkContent());
             }else {
-                viewHolder.tv_content.setText("");
+                viewHolder.tv_content.setVisibility(View.GONE);
             }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCircleName())){
                 viewHolder.tv_cir_name.setText(circleTalkEntityList.get(position).getCircleName());

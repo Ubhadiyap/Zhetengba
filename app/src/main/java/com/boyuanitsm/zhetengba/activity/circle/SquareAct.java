@@ -46,6 +46,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
     private int currentPos=0;//当前位置
     private ACache aCache;
     private List<UserInterestInfo> titleList;//标签集合
+//    private ChanelPageAdapter pageAdapter;
 
     @Override
     public void setLayout() {
@@ -90,8 +91,12 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
      */
     private void initDate(final List<UserInterestInfo> titleList) {
         titleLayout.setTabItemTitles(titleList);
-        ChanelPageAdapter pageAdapter = new ChanelPageAdapter(getSupportFragmentManager(), SquareAct.this, titleList, currentPos);
-        viewPager.setAdapter(pageAdapter);
+//        if (pageAdapter==null){
+          ChanelPageAdapter  pageAdapter = new ChanelPageAdapter(getSupportFragmentManager(), SquareAct.this, titleList, currentPos);
+            viewPager.setAdapter(pageAdapter);
+//        }else {
+//            pageAdapter.updata(titleList);
+//        }
         titleLayout.setViewPager(viewPager, hslv_chanel, currentPos);
         titleLayout.setOnPageChangeListener(new ViewPagerIndicator.PageChangeListener() {
             @Override

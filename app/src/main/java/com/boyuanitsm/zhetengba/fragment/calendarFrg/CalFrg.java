@@ -174,7 +174,7 @@ public class CalFrg extends BaseFragment {
             }
 
         } else {
-            pageAdapter.notifyDataSetChanged();
+            pageAdapter.upData(list);
         }
     }
 
@@ -338,9 +338,10 @@ public class CalFrg extends BaseFragment {
 //                noMsg.setText("加载失败...");
                 String bannerList= aCache.getAsString("CalBanner");
                 Gson gson=new Gson();
-                List<LabelBannerInfo> bannerInfos= gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
-                }.getType());
-                initMyPageAdapter(bannerInfos);
+                if (!TextUtils.isEmpty(bannerList)) {
+                    List<LabelBannerInfo> bannerInfos = gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {}.getType());
+                    initMyPageAdapter(bannerInfos);
+                }
             }
 
             @Override

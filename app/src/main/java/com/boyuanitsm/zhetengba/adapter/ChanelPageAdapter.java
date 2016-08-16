@@ -26,8 +26,7 @@ public class ChanelPageAdapter extends FragmentStatePagerAdapter {
         this.list=titleList;
         this.currentPos=currentPos;
     }
-    public void  updata(Context context,List<UserInterestInfo> list){
-        this.context=context;
+    public void  updata(List<UserInterestInfo> list){
         this.list=list;
         notifyDataSetChanged();
     }
