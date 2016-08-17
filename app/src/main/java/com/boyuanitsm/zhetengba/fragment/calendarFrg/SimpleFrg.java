@@ -205,7 +205,7 @@ public class SimpleFrg extends BaseFragment {
             }
 
         } else {
-            pageAdapter.notifyDataSetChanged();
+            pageAdapter.upData(bannerInfoList);
         }
     }
 
@@ -252,9 +252,11 @@ public class SimpleFrg extends BaseFragment {
 //                noMsg.setText("加载失败...");
                 String bannerList= aCache.getAsString("SimpleBanner");
                 Gson gson=new Gson();
-               List<LabelBannerInfo> bannerInfos= gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
-                }.getType());
-                initMyPageAdapter(bannerInfos);
+                if (!TextUtils.isEmpty(bannerList)){
+                    List<LabelBannerInfo> bannerInfos= gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
+                    }.getType());
+                    initMyPageAdapter(bannerInfos);
+                }
             }
 
             @Override

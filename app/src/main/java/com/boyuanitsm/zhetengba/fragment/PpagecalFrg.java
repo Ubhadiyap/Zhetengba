@@ -53,8 +53,8 @@ public class PpagecalFrg extends BaseFragment {
         scheduleEntity = personalMain.getScheduleEntity();
         userInfoList= personalMain.getUserEntity();
         lv_ppcal.setAdapter(new PpfrgAdapter(mActivity, scheduleEntity,userInfoList));
-        int lvHeight = ListViewUtil.MeasureListView(lv_ppcal);
-        MyLogUtils.degug("lvheight=======" + lvHeight);
+//        int lvHeight = ListViewUtil.MeasureListView(lv_ppcal);
+//        MyLogUtils.degug("lvheight=======" + lvHeight);
     }
 
     @Override

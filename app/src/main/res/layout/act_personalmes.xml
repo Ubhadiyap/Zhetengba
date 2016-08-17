@@ -87,7 +87,19 @@
 
 
                 <View style="@style/view_line" />
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_erwm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    app:desText="二维码"
+                    app:desTextSize="15sp"
+                    app:isShowCategoryImage="false"
+                    app:notesText=""
+                    app:notesTextColor="#999999"
+                    app:notesTextSize="14sp"></com.boyuanitsm.zhetengba.view.CommonView>
 
+
+                <View style="@style/view_line" />
 
                 <com.boyuanitsm.zhetengba.view.CommonView
                     android:id="@+id/cv_phoneNum"

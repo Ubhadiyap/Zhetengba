@@ -29,6 +29,7 @@ import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
+import com.boyuanitsm.zhetengba.activity.mine.TimeHistoryAct;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
@@ -404,7 +405,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                 pd.dismiss();
                 response.getData();
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
-                sendBroadcast(new Intent(MineFrg.USER_INFO));
+                sendBroadcast(new Intent(TimeHistoryAct.USER_INFO));
                 sendBroadcast(new Intent(TimeFrg.LISTORY_DATA));
                 MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
                 finish();

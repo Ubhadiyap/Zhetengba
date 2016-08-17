@@ -75,7 +75,8 @@ public class PersonalmesAct extends BaseActivity {
     private CommonView cvHomeTown;
     @ViewInject(R.id.head)
     private CircleImageView head;
-
+    @ViewInject(R.id.cv_erwm)
+    private CommonView cv_erwm;
     private String photoSavePath;
     private String photoSaveName;
     Uri imageUri = null;
@@ -217,6 +218,7 @@ public class PersonalmesAct extends BaseActivity {
         cvEmail.setIvArrow(false);
         cvCompanyName.setIvArrow(false);
         cvCompanyAdd.setIvArrow(false);
+        cv_erwm.setIvArrow(false);
         cvCompanyTel.setIvArrow(false);
         cvBusiness.setIvArrow(false);
         cvHomeTown.setIvArrow(false);
@@ -230,6 +232,7 @@ public class PersonalmesAct extends BaseActivity {
         setTopTitle("个人资料");
         user = UserInfoDao.getUser();
         cvPhoneNum.setIvArrow(false);//手机那行箭头隐藏
+//        cv_erwm.setIvArrow(false);
         cvPhoneNum.setEnabled(false);//手机那行不可点击
         MyLogUtils.degug("user" + user);
         if (user != null) {
@@ -283,7 +286,7 @@ public class PersonalmesAct extends BaseActivity {
     }
 
 
-    @OnClick({R.id.rl_headIcon, R.id.cv_userName, R.id.cv_sex, R.id.cv_phoneNum,  R.id.cv_companyName,  R.id.cv_business, R.id.cv_homeTown})
+    @OnClick({R.id.rl_headIcon, R.id.cv_userName, R.id.cv_sex, R.id.cv_phoneNum,  R.id.cv_companyName,  R.id.cv_business, R.id.cv_homeTown,R.id.cv_erwm})
     public void todo(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -299,6 +302,9 @@ public class PersonalmesAct extends BaseActivity {
                 Intent intent1 = new Intent(PersonalmesAct.this, SelectSexAct.class);
 //                intent1.putExtra("user", user);
                 startActivityForResult(intent1, SEXMODIFY_GO);
+                break;
+            case R.id.cv_erwm:
+                openActivity(ShareqrcodeAct.class);
                 break;
 //            case R.id.cv_phoneNum://手机号码不让修改
 //                intent = new Intent(this, EditAct.class);

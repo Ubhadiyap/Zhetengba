@@ -40,6 +40,10 @@ public class MyPageAdapter extends PagerAdapter {
         this.list=list;
         this.context=context;
     }
+    public void upData(List<LabelBannerInfo> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         //            return  bannerInfoList==null?0:bannerInfoList.size();
@@ -61,7 +65,9 @@ public class MyPageAdapter extends PagerAdapter {
         //            ImageLoader.getInstance().displayImage(
         //                    UrlManager.getPicFullUrl(bannerInfoList.get(position).getBannerPic()), iv_iamge,
         //                    optionsImag);
-        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getIcon()),iv_iamge,optionsImag);
+//        if (list!=null&&list.size()>0){
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getIcon()),iv_iamge,optionsImag);
+//        }
         //UrlManager,网络地址管理类
 
         ((ViewPager) container).addView(view);

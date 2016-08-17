@@ -111,15 +111,20 @@ public class PpdtfrgAdapter extends BaseAdapter {
             viewHolder.znum= (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum= (TextView) convertView.findViewById(R.id.cnum);
            viewHolder.zimg= (ImageView) convertView.findViewById(R.id.zimg);
+            viewHolder.znum2 = (TextView) convertView.findViewById(R.id.znum2);
+            viewHolder.cnum2 = (TextView) convertView.findViewById(R.id.cnum2);
+            viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
+            viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
+            viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
             convertView.setTag(viewHolder);
         }
         if (itemList==null) {
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
-            viewHolder.llphoto.setVisibility(View.GONE);
+//            viewHolder.llphoto.setVisibility(View.GONE);
         } else if (itemList.size()== 1) {
-            viewHolder.llphoto.setVisibility(View.VISIBLE);
+//            viewHolder.llphoto.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
@@ -134,7 +139,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
                 }
             });
         } else if (itemList.size() == 4) {
-            viewHolder.llphoto.setVisibility(View.VISIBLE);
+//            viewHolder.llphoto.setVisibility(View.VISIBLE);
             viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.VISIBLE);
@@ -175,7 +180,7 @@ public class PpdtfrgAdapter extends BaseAdapter {
             });
 
         } else {
-            viewHolder.llphoto.setVisibility(View.VISIBLE);
+//            viewHolder.llphoto.setVisibility(View.VISIBLE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
@@ -207,36 +212,42 @@ public class PpdtfrgAdapter extends BaseAdapter {
                 viewHolder.tvTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleTalkEntityList.get(position).getCreateTime())));
             }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getTalkContent())){
+                viewHolder.tv_content.setVisibility(View.VISIBLE);
                 viewHolder.tv_content.setText(circleTalkEntityList.get(position).getTalkContent());
             }else {
-                viewHolder.tv_content.setText("");
+                viewHolder.tv_content.setVisibility(View.GONE);
             }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCircleName())){
                 viewHolder.tv_cir_name.setText(circleTalkEntityList.get(position).getCircleName());
             }
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getLikedCounts()+"")) {
                 if (circleTalkEntityList.get(position).getLikedCounts() == 0) {
-                    viewHolder.znum.setVisibility(View.GONE);
+                    viewHolder.znum2.setVisibility(View.GONE);
+                    viewHolder.znumText.setVisibility(View.GONE);
+
                 } else {
-                    viewHolder.znum.setVisibility(View.VISIBLE);
-                    viewHolder.znum.setText(circleTalkEntityList.get(position).getLikedCounts() + "");
+                    viewHolder.znumText.setVisibility(View.VISIBLE);
+                    viewHolder.znum2.setVisibility(View.VISIBLE);
+                    viewHolder.znum2.setText(circleTalkEntityList.get(position).getLikedCounts() + "");
 
                 }
             }
 
             if(!TextUtils.isEmpty(circleTalkEntityList.get(position).getCommentCounts()+"")){
                 if (circleTalkEntityList.get(position).getCommentCounts()==0){
-                    viewHolder.cnum.setVisibility(View.GONE);
+                    viewHolder.cnum2.setVisibility(View.GONE);
+                    viewHolder.cnumText.setVisibility(View.GONE);
                 }else {
-                    viewHolder.cnum.setVisibility(View.VISIBLE);
-                    viewHolder.cnum.setText(circleTalkEntityList.get(position).getCommentCounts()+"");
+                    viewHolder.cnumText.setVisibility(View.VISIBLE);
+                    viewHolder.cnum2.setVisibility(View.VISIBLE);
+                    viewHolder.cnum2.setText(circleTalkEntityList.get(position).getCommentCounts()+"");
                 }
             }
-            if (circleTalkEntityList.get(position).getLiked()==1){
-                viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan_b));
-            }else if (circleTalkEntityList.get(position).getLiked()==0){
-                viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan));
-            }
+//            if (circleTalkEntityList.get(position).getLiked()==1){
+//                viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan_b));
+//            }else if (circleTalkEntityList.get(position).getLiked()==0){
+//                viewHolder.zimg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.zan));
+//            }
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleTalkEntityList.get(position).getUserIcon()),viewHolder.ivChHead,optionsImagh);
             if (!TextUtils.isEmpty(circleTalkEntityList.get(position).getUserSex())){
                 if (circleTalkEntityList.get(position).getUserSex().equals(0+"")){
@@ -343,7 +354,11 @@ public class PpdtfrgAdapter extends BaseAdapter {
         private TextView cnum;
         private ImageView zimg;
         private LinearLayout llphoto;
-
+        private TextView znum2;
+        private TextView cnum2;
+        private TextView znumText;
+        private TextView cnumText;
+        private ImageView iv_more;
     }
     /**
      * 圈子说说点赞

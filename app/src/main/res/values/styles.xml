@@ -132,9 +132,8 @@
     <!--频道:赞、评论、分享文字样式-->
     <style name="Chanel_Small_Text">
         <item name="android:gravity">center</item>
-        <item name="android:paddingLeft">5dp</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/simple_item_loaction</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#b8b8b8</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
@@ -279,6 +278,13 @@
         <item name="android:paddingLeft">10dp</item>
         <item name="android:textColor">#ffffff</item>
     </style>
+
+    <!--<style name="mine_style">-->
+        <!--<item name="app:desTextColor">#333333</item>-->
+        <!--<item name="app:desTextSize">14sp</item>-->
+        <!--<item name="app:statusImage_width">24dp</item>-->
+        <!--<item name="app:statusImage_height">24dp</item>-->
+    <!--</style>-->
 
     <!--<style name="pic_small">-->
         <!--<item name="android:windowFrame">@null</item>-->

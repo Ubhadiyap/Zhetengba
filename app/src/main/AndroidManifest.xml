@@ -500,8 +500,20 @@
         <activity
             android:name=".activity.mine.AssignScanAct"
             android:screenOrientation="portrait"></activity>
+
         <!--我的抽奖界面-->
         <activity android:name=".activity.mine.LuckyAct"
+            android:screenOrientation="portrait"></activity>
+
+
+        <!--广场-->
+        <activity android:name=".activity.circle.SquareAct"
+            android:screenOrientation="portrait"></activity>
+        <!--圈子-->
+        <activity android:name=".activity.circle.CircleAct"
+            android:screenOrientation="portrait"></activity>
+        <!--时间轴-->
+        <activity android:name=".activity.mine.TimeHistoryAct"
             android:screenOrientation="portrait"></activity>
 
 

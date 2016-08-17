@@ -370,7 +370,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 getCircleCommentsList(circleTalkId, page, rows);
                 btnSend.setEnabled(true);
                 btnSend.setClickable(true);
-                Intent intent=new Intent(CirFrg.ALLTALKS);
+                Intent intent=new Intent(CircleAct.ALLTALKS);
                 Bundle bundle=new Bundle();
                 bundle.putInt("CirCommentPosition", position);
                 bundle.putInt("CirComtNum", Integer.parseInt(response.getData()));
