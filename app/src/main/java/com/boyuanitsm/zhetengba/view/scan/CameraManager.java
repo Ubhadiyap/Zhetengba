@@ -81,7 +81,7 @@ public final class CameraManager {
   /**
    * Initializes this static object with the Context of the calling Activity.
    *
-   * @param context The Activity which wants to use the camera.
+   * @param context The Activity which wants to use the camera2.
    */
   public static void init(Context context) {
     if (cameraManager == null) {
@@ -121,10 +121,10 @@ private CameraManager(Context context) {
   }
 
   /**
-   * Opens the camera driver and initializes the hardware parameters.
+   * Opens the camera2 driver and initializes the hardware parameters.
    *
-   * @param holder The surface object which the camera will draw preview frames into.
-   * @throws IOException Indicates the camera driver failed to open.
+   * @param holder The surface object which the camera2 will draw preview frames into.
+   * @throws IOException Indicates the camera2 driver failed to open.
    */
   public void openDriver(SurfaceHolder holder) throws IOException {
     if (camera == null) {
@@ -150,7 +150,7 @@ private CameraManager(Context context) {
   }
 
   /**
-   * Closes the camera driver if still in use.
+   * Closes the camera2 driver if still in use.
    */
   public void closeDriver() {
     if (camera != null) {
@@ -161,7 +161,7 @@ private CameraManager(Context context) {
   }
 
   /**
-   * Asks the camera hardware to begin drawing preview frames to the screen.
+   * Asks the camera2 hardware to begin drawing preview frames to the screen.
    */
   public void startPreview() {
     if (camera != null && !previewing) {
@@ -171,7 +171,7 @@ private CameraManager(Context context) {
   }
 
   /**
-   * Tells the camera to stop drawing preview frames.
+   * Tells the camera2 to stop drawing preview frames.
    */
   public void stopPreview() {
     if (camera != null && previewing) {
@@ -205,7 +205,7 @@ private CameraManager(Context context) {
   }
 
   /**
-   * Asks the camera hardware to perform an autofocus.
+   * Asks the camera2 hardware to perform an autofocus.
    *
    * @param handler The Handler to notify when the autofocus completes.
    * @param message The message to deliver.

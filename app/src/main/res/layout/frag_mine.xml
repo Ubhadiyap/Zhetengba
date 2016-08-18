@@ -81,8 +81,8 @@
         android:orientation="horizontal">
         <com.boyuanitsm.zhetengba.view.CircleImageView
             android:id="@+id/iv_headIcon"
-            app:border_width="1px"
-            app:border_color="@color/viewfinder_laser"
+            app:border_width="2px"
+            app:border_color="@color/status_text"
             android:layout_width="55dp"
             android:layout_height="55dp"/>
         <LinearLayout

@@ -24,55 +24,80 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:id="@+id/cv_time"
-                app:desTextColor="#333333"
-                app:desTextSize="14sp"
-                app:desText="时间轴"
-                app:statusImage="@mipmap/timer"
-                app:statusImage_width="24dp"
-                app:statusImage_height="24dp"
+            <LinearLayout
                 android:layout_marginTop="15dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"/>
-            <View
-                style="@style/view_line" />
-            <com.boyuanitsm.zhetengba.view.CommonView
-                app:desTextColor="#333333"
-                app:desTextSize="14sp"
-                app:desText="我的收藏"
-                app:statusImage="@mipmap/collect2"
-                app:statusImage_width="24dp"
-                app:statusImage_height="24dp"
-                android:id="@+id/my_collect"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"/>
-            <View
-                style="@style/view_line" />
-            <com.boyuanitsm.zhetengba.view.CommonView
-                app:desTextColor="#333333"
-                app:desTextSize="14sp"
-                app:desText="钱包"
-                app:statusImage="@mipmap/wallet"
-                app:statusImage_width="24dp"
-                app:statusImage_height="24dp"
-                android:id="@+id/qb"
+                android:layout_height="wrap_content"
+                android:background="#ffffff">
+                <View
+                    android:layout_marginLeft="0dp"
+                    style="@style/view_line" />
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cv_time"
+                    app:desTextColor="#333333"
+                    app:desTextSize="14sp"
+                    app:desText="时间轴"
+                    app:statusImage="@mipmap/timer"
+                    app:statusImage_width="24dp"
+                    app:statusImage_height="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"/>
+                <View
+                    style="@style/view_line" />
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    app:desTextColor="#333333"
+                    app:desTextSize="14sp"
+                    app:desText="我的收藏"
+                    app:statusImage="@mipmap/collect2"
+                    app:statusImage_width="24dp"
+                    app:statusImage_height="24dp"
+                    android:id="@+id/my_collect"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"/>
+                <View
+                    android:layout_marginLeft="0dp"
+                    style="@style/view_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="#ffffff"
                 android:layout_marginTop="15dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"/>
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_marginLeft="0dp"
+                    style="@style/view_line" />
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    app:desTextColor="#333333"
+                    app:desTextSize="14sp"
+                    app:desText="钱包"
+                    app:statusImage="@mipmap/wallet"
+                    app:statusImage_width="24dp"
+                    app:statusImage_height="24dp"
+                    android:id="@+id/qb"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"/>
+                <View
+                    style="@style/view_line" />
+                <com.boyuanitsm.zhetengba.view.CommonView
+                    android:id="@+id/cj"
+                    app:desTextColor="#333333"
+                    app:desTextSize="14sp"
+                    app:desText="抽奖"
+                    app:statusImage="@mipmap/choujiang"
+                    app:statusImage_width="24dp"
+                    app:statusImage_height="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"/>
+                <View
+                    android:layout_marginLeft="0dp"
+                    style="@style/view_line" />
+            </LinearLayout>
             <View
-                style="@style/view_line" />
-            <com.boyuanitsm.zhetengba.view.CommonView
-                android:id="@+id/cj"
-                app:desTextColor="#333333"
-                app:desTextSize="14sp"
-                app:desText="抽奖"
-                app:statusImage="@mipmap/choujiang"
-                app:statusImage_width="24dp"
-                app:statusImage_height="24dp"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"/>
-            <View
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="0dp"
                 style="@style/view_line" />
             <com.boyuanitsm.zhetengba.view.CommonView
                 app:desTextColor="#333333"
@@ -82,10 +107,10 @@
                 app:statusImage_width="24dp"
                 app:statusImage_height="24dp"
                 android:id="@+id/cv_set"
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"/>
             <View
+                android:layout_marginLeft="0dp"
                 style="@style/view_line" />
         </LinearLayout>
     </LinearLayout>
@@ -129,8 +154,8 @@
             android:orientation="horizontal">
             <com.boyuanitsm.zhetengba.view.CircleImageView
                 android:id="@+id/iv_headIcon"
-                app:border_width="1px"
-                app:border_color="@color/viewfinder_laser"
+                app:border_width="2px"
+                app:border_color="@color/status_text"
                 android:layout_width="55dp"
                 android:layout_height="55dp"/>
             <LinearLayout

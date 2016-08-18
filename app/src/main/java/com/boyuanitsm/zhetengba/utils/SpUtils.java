@@ -10,6 +10,7 @@ public class SpUtils {
     private final static String ZTB_SP="ztb_sp";
 
     private final static String ISFIRST = "is_first";
+    private final static String ISMAINFIRST = "is_main_first";
 
     private final static String CHAT_READ="chat_read";//阅后即焚用
 
@@ -49,7 +50,13 @@ public class SpUtils {
     public static boolean getIsFirst(Context context) {
         return getSp(context).getBoolean(ISFIRST, true);
     }
+    public static void setMainIsFirst(Context context, boolean isFirst) {
+        getSp(context).edit().putBoolean(ISMAINFIRST, isFirst).commit();
+    }
 
+    public static boolean getMainIsFirst(Context context) {
+        return getSp(context).getBoolean(ISMAINFIRST, true);
+    }
 
     public static void setRead(Context context, boolean isReadDestory){
         getSp(context).edit().putBoolean(CHAT_READ, isReadDestory).commit();

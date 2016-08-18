@@ -390,7 +390,7 @@ public class ChanAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
             if (0 == list.get(clickPos).getLiked()) {//未点赞
                 ivzan.setText("赞");
-            } else if (1 == list.get(clickPos).getLiked()) {
+            } else {//if (1 == list.get(clickPos).getLiked())
                 ivzan.setText("取消");
             }
         }
@@ -400,7 +400,7 @@ public class ChanAdapter extends BaseAdapter {
                 ll_zan.setEnabled(false);
                 if (0 == list.get(clickPos).getLiked()) {
                     addChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
-                } else if (1 == list.get(clickPos).getLiked()) {
+                } else{// if (1 == list.get(clickPos).getLiked())
                     removeChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
                 }
             }
@@ -443,6 +443,7 @@ public class ChanAdapter extends BaseAdapter {
                 ll_like.setEnabled(true);
                 list.get(clickPos).setLiked(1);
                 ivzan.setText("取消");
+                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
                 }
@@ -471,6 +472,7 @@ public class ChanAdapter extends BaseAdapter {
                 ll_like.setEnabled(true);
                 list.get(clickPos).setLiked(0);
                 ivzan.setText("赞");
+                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
                 }

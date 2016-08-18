@@ -344,37 +344,42 @@ public class ActAdapter extends BaseAdapter {
                 return true;
             }
         });
-        viewHolder.iv_actdetial.setOnTouchListener(new View.OnTouchListener() {
+        viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        switch (v.getId()) {
-                            case R.id.iv_actdetial:
-                                viewHolder.iv_actdetial.setAlpha(0.5f);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()){
-                            case R.id.iv_actdetial:
-                                viewHolder.iv_actdetial.setAlpha(1.0f);
-                                break;
-                        }
-                    case MotionEvent.ACTION_UP:
-                        switch (v.getId()) {
-                            case R.id.iv_actdetial://点赞
-                                viewHolder.iv_actdetial.setAlpha(1.0f);
-                                //接口调用
-                                viewHolder.iv_actdetial.setEnabled(false);
-                                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
-                                break;
-                        }
-                        break;
-                }
-                return true;
+            public void onClick(View v) {
+                //接口调用
+                viewHolder.iv_actdetial.setEnabled(false);
+                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
             }
         });
+//        viewHolder.iv_actdetial.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        switch (v.getId()) {
+//                            case R.id.iv_actdetial:
+//                                viewHolder.iv_actdetial.setAlpha(0.5f);
+//                                break;
+//                        }
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        switch (v.getId()){
+//                            case R.id.iv_actdetial:
+//                                viewHolder.iv_actdetial.setAlpha(1.0f);
+//                                break;
+//                        }
+//                    case MotionEvent.ACTION_UP:
+//                        switch (v.getId()) {
+//                            case R.id.iv_actdetial://点赞
+//                                viewHolder.iv_actdetial.setAlpha(1.0f);
+//                                break;
+//                        }
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
         //展示个人资料
         View.OnClickListener listener1 = new View.OnClickListener() {
             @Override
@@ -568,39 +573,39 @@ public class ActAdapter extends BaseAdapter {
             builder.setMessage("没有活动详情");
         }
         if (!UserInfoDao.getUser().getId().equals(simpleInfo.getCreatePersonId())) {
-            if (simpleInfo.isColleagues()) {
-                builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
-                    }
-                });
-            } else if (simpleInfo.isFriend()) {
-                builder.setNegativeButton("你们两个是好友", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
-                    }
-                });
-            } else {
-                builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(context, MessVerifyAct.class);//加为好友
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userId", simpleInfo.getUserId());//好友id
-                        if (!TextUtils.isEmpty(simpleInfo.getUserNm())) {
-                            bundle.putString("userName", simpleInfo.getUserNm());//好友名字
-                        } else {
-                            bundle.putString("userName", "无用户名");
-                        }
-                        intent.setAction("AddFriend");
-                        intent.putExtras(bundle);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    }
-                });
-            }
+//            if (simpleInfo.isColleagues()) {
+//                builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+//                    }
+//                });
+//            } else if (simpleInfo.isFriend()) {
+//                builder.setNegativeButton("你们两个是好友", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
+//                    }
+//                });
+//            } else {
+//                builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent intent = new Intent(context, MessVerifyAct.class);//加为好友
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("userId", simpleInfo.getUserId());//好友id
+//                        if (!TextUtils.isEmpty(simpleInfo.getUserNm())) {
+//                            bundle.putString("userName", simpleInfo.getUserNm());//好友名字
+//                        } else {
+//                            bundle.putString("userName", "无用户名");
+//                        }
+//                        intent.setAction("AddFriend");
+//                        intent.putExtras(bundle);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        context.startActivity(intent);
+//                    }
+//                });
+//            }
             if (simpleInfo.getJoinCount() > 0) {
                 builder.setPositiveButton("一起参加了" + simpleInfo.getJoinCount() + "次活动", new DialogInterface.OnClickListener() {
                     @Override

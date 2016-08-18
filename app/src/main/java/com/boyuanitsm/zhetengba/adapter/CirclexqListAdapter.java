@@ -373,7 +373,7 @@ public class CirclexqListAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
             if (0 == list.get(clickPos).getLiked()) {//未点赞
                 ivzan.setText("赞");
-            } else if (1 == list.get(clickPos).getLiked()) {
+            } else{// if (1 == list.get(clickPos).getLiked())
                 ivzan.setText("取消");
             }
         }
@@ -383,7 +383,7 @@ public class CirclexqListAdapter extends BaseAdapter {
                 ll_zan.setEnabled(false);
                 if (0 == list.get(clickPos).getLiked()) {
                     addCircleLike(list.get(clickPos).getId(), ll_zan,ivzan);
-                } else if (1 == list.get(clickPos).getLiked()) {
+                } else{// if (1 == list.get(clickPos).getLiked())
                     removeCircleLike(list.get(clickPos).getId(), ll_zan,ivzan);
                 }
             }
@@ -423,6 +423,7 @@ public class CirclexqListAdapter extends BaseAdapter {
                 list.get(clickPos).setLiked(1);
                 ll_zan.setEnabled(true);
                 ivzan.setText("取消");
+                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
@@ -450,6 +451,7 @@ public class CirclexqListAdapter extends BaseAdapter {
                 list.get(clickPos).setLiked(0);
                 ivzan.setText("赞");
                 ll_zan.setEnabled(true);
+                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }

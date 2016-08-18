@@ -271,7 +271,7 @@ public class RegInfoAct extends BaseActivity {
                     LabelInterestDao.saveInterestLabel(userInterestInfo);
                 }
                 MyLogUtils.info(LabelInterestDao.getInterestLabel().toString());
-                sendBroadcast(new Intent(SquareAct.MYLABELS));
+//                sendBroadcast(new Intent(SquareAct.MYLABELS));
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
                 sendBroadcast(new Intent(PerpageAct.PPLABELS));
                 finish();
