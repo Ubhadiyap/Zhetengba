@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -110,7 +111,7 @@ public class GcDialog implements View.OnClickListener {
             public void onResponse(ResultBean<String> response) {
                 MyToastUtils.showShortToast(context, "删除成功");
                 dialog.dismiss();
-                Intent intent=new Intent(ChanelItemFrg.TALK_LIST);
+                Intent intent=new Intent(SquareAct.TALK_LIST);
                 Bundle bundle=new Bundle();
                 bundle.putInt("DelPosition", position);
                 bundle.putString("tag", "delTag");

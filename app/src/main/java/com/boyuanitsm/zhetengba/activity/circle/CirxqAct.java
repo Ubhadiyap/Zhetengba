@@ -112,7 +112,7 @@ public class CirxqAct extends BaseActivity {
         lv_cir.getRefreshableView().setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState==SCROLL_STATE_FLING){
+                if (scrollState==SCROLL_STATE_FLING||scrollState==SCROLL_STATE_TOUCH_SCROLL){
                     iv_fa.setVisibility(View.GONE);
                 }else {
                     iv_fa.setVisibility(View.VISIBLE);

@@ -326,7 +326,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 getCircleCommentsList(channelTalkId, page, rows);
                 btnSend.setEnabled(true);
                 btnSend.setClickable(true);
-                Intent intent=new Intent(ChanelItemFrg.TALK_LIST);
+                Intent intent=new Intent(SquareAct.TALK_LIST);
                 Bundle bundle=new Bundle();
                 bundle.putInt("ComtPosition",position);
                 bundle.putString("tag", "comTag");

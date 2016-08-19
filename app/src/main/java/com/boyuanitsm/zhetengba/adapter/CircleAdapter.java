@@ -248,13 +248,13 @@ public class CircleAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(list.get(position).getCircleName())) {
                 viewHolder.tv_cir_name.setText(list.get(position).getCircleName());
             }
-            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
-                if (0 == list.get(position).getLiked()) {//未点赞
-                    viewHolder.zimg.setImageResource(R.drawable.zan);
-                } else if (1 == list.get(position).getLiked()) {
-                    viewHolder.zimg.setImageResource(R.drawable.zan_b);
-                }
-            }
+//            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+//                if (0 == list.get(position).getLiked()) {//未点赞
+//                    viewHolder.zimg.setImageResource(R.drawable.zan);
+//                } else if (1 == list.get(position).getLiked()) {
+//                    viewHolder.zimg.setImageResource(R.drawable.zan_b);
+//                }
+//            }
             if (!TextUtils.isEmpty(list.get(position).getLikedCounts() + "")) {
                 if (list.get(position).getLikedCounts() == 0) {
                     viewHolder.znum2.setVisibility(View.GONE);
@@ -276,7 +276,7 @@ public class CircleAdapter extends BaseAdapter {
                 }
             }
         }
-        //点击用户头像，进入用户圈子主页
+        //点击用户头像，进入用户个人主页
         viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -291,45 +291,51 @@ public class CircleAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-        viewHolder.tv_cir_name.setOnTouchListener(new View.OnTouchListener() {
+        viewHolder.tv_cir_name.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        switch (v.getId()) {
-                            case R.id.tv_cir_name:
-                                viewHolder.tv_cir_name.setAlpha(0.5f);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()) {
-                            case R.id.tv_cir_name:
-                                int x = (int) event.getX();
-                                int y = (int) event.getY();
-                                if (x < 0 || y < 0 || x > viewHolder.tv_cir_name.getWidth() || y > viewHolder.tv_cir_name.getHeight()) {
-                                    viewHolder.tv_cir_name.setAlpha(1.0f);
-                                }
-                                break;
-                        }
-                    case MotionEvent.ACTION_UP:
-                        switch (v.getId()) {
-                            case R.id.tv_cir_name:
-                                viewHolder.tv_cir_name.setAlpha(1.0f);
-                                Intent intent = new Intent();
-                                intent.setClass(context, CirxqAct.class);
-                                intent.putExtra("circleId", list.get(position).getCircleId());
-                                intent.putExtra("type", 1);
-                                //需要开启新task,否则会报错
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                                break;
-                        }
-                        break;
-                }
-                return true;
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, CirxqAct.class);
+                intent.putExtra("circleId", list.get(position).getCircleId());
+                intent.putExtra("type", 1);
+                //需要开启新task,否则会报错
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
+//        viewHolder.tv_cir_name.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        switch (v.getId()) {
+//                            case R.id.tv_cir_name:
+//                                viewHolder.tv_cir_name.setAlpha(0.5f);
+//                                break;
+//                        }
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        switch (v.getId()) {
+//                            case R.id.tv_cir_name:
+//                                int x = (int) event.getX();
+//                                int y = (int) event.getY();
+//                                if (x < 0 || y < 0 || x > viewHolder.tv_cir_name.getWidth() || y > viewHolder.tv_cir_name.getHeight()) {
+//                                    viewHolder.tv_cir_name.setAlpha(1.0f);
+//                                }
+//                                break;
+//                        }
+//                    case MotionEvent.ACTION_UP:
+//                        switch (v.getId()) {
+//                            case R.id.tv_cir_name:
+//                                viewHolder.tv_cir_name.setAlpha(1.0f);
+//
+//                                break;
+//                        }
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
         viewHolder.tv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -410,6 +416,7 @@ public class CircleAdapter extends BaseAdapter {
                 list.get(clickPos).setLiked(1);
                 ll_like.setEnabled(true);
                 ivzan.setText("取消");
+                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
@@ -438,6 +445,7 @@ public class CircleAdapter extends BaseAdapter {
                 list.get(clickPos).setLiked(0);
                 ll_like.setEnabled(true);
                 ivzan.setText("赞");
+                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
@@ -471,7 +479,7 @@ public class CircleAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
             if (0 == list.get(clickPos).getLiked()) {//未点赞
                 ivzan.setText("赞");
-            } else if (1 == list.get(clickPos).getLiked()) {
+            } else {//if (1 == list.get(clickPos).getLiked())
                 ivzan.setText("取消");
             }
         }
@@ -481,7 +489,7 @@ public class CircleAdapter extends BaseAdapter {
                 ll_zan.setEnabled(false);
                 if (0 == list.get(clickPos).getLiked()) {
                     addCircleLike(list.get(clickPos).getId(), ll_zan, ivzan);
-                } else if (1 == list.get(clickPos).getLiked()) {
+                } else {//if (1 == list.get(clickPos).getLiked())
                     removeCircleLike(list.get(clickPos).getId(), ll_zan, ivzan);
                 }
             }

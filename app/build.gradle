@@ -50,7 +50,7 @@ android {
     }
 
 dependencies {
-    compile project(':EaseUI')
+    compile project(':easeui')
     compile fileTree(dir: 'libs', exclude: 'android-support-multidex.jar', include: '*.jar')
     compile files('libs/core.jar')
     compile files('libs/umeng_social_sdk.jar')

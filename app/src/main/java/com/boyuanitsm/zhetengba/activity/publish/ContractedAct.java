@@ -242,9 +242,11 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.ll_tab://选择标签
+                ZtinfoUtils.hideSoftKeyboard(ContractedAct.this,ll_select_tab);
                 selectTab();
                 break;
             case R.id.ll_select_tab://选择标签
+                ZtinfoUtils.hideSoftKeyboard(ContractedAct.this,ll_select_tab);
                 selectTab();
                 break;
             case R.id.ll_start_time://开始时间

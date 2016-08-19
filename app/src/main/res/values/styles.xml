@@ -29,8 +29,8 @@
     <!--简约/档期-底部导航栏字体样式-->
     <style name="MainAct_Bottom_RadioButton_Text">
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">11sp</item>
         <item name="android:textColor">@drawable/bottom_color_change_text</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>

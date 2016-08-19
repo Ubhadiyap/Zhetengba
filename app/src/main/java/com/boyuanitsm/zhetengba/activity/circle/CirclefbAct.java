@@ -1,13 +1,17 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -71,7 +75,8 @@ public class CirclefbAct extends BaseActivity {
     private String labelId;//频道标签id
     private int flag;
     private List<String> strList;
-
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mBuilder;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circlefb);
@@ -85,7 +90,7 @@ public class CirclefbAct extends BaseActivity {
         circleId=getIntent().getStringExtra("circleId");
         labelId=getIntent().getStringExtra("labelId");
         type=getIntent().getIntExtra(TYPE, 1);
-        flag=getIntent().getIntExtra("flag", 0);
+//        flag=getIntent().getIntExtra("flag", 0);
         entity=new CircleEntity();
         pd=new ProgressDialog(CirclefbAct.this);
         pd.setMessage("发布中...");
@@ -94,19 +99,31 @@ public class CirclefbAct extends BaseActivity {
         setRight("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pd.show();
+                finish();
+//                notifyKJ();
+//                pd.show();
+                Bitmap btm = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.logo);
+                mBuilder = new NotificationCompat.Builder(
+                        CirclefbAct.this)
+                        .setSmallIcon(R.drawable.logo)
+                        .setContentTitle("发布中...");
+                mBuilder.setTicker("发布中...");//第一次提示消息的时候显示在通知栏上
+                mBuilder.setLargeIcon(btm);
+                mBuilder.setAutoCancel(true);//自己维护通知的消失
+                mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                mNotificationManager.notify(0, mBuilder.build());
                 setRightEnable(false);
                 content=etContent.getText().toString().trim();
                 switch (type){
                     case 0:
                         if(!TextUtils.isEmpty(content)) {
-//                            pd.show();
                             channelTalkEntity.setLabelId(labelId);
                             channelTalkEntity.setChannelContent(content);
                             if (selecteds.size()>0) {
                                 upLoadImg(selecteds);
                             }else {
-                                pd.show();
+//                                pd.show();
                                 addChannelTalk(channelTalkEntity);
                             }
                         }else {
@@ -241,15 +258,12 @@ public class CirclefbAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-//                Intent intent=new Intent(ChanelFrg.MYLABELS);
-//                Bundle bundle=new Bundle();
-//                bundle.putInt("flag", flag);
-//                intent.putExtras(bundle);
-//                sendBroadcast(intent);
-                sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
-                pd.dismiss();
-                setRightEnable(true);
-                finish();
+                mBuilder.setTicker("发布成功");
+                mNotificationManager.cancel(0);
+                sendBroadcast(new Intent(SquareAct.TALK_LIST));
+//                pd.dismiss();
+//                setRightEnable(true);
+//                finish();
             }
         });
     }
@@ -320,5 +334,13 @@ public class CirclefbAct extends BaseActivity {
             }
         });
     }
+
+    /**
+     * 发布通知栏
+     */
+    private void notifyKJ() {
+
+    }
+
 
 }

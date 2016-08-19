@@ -47,7 +47,7 @@ private static final int DESIRED_SHARPNESS = 30;
   }
 
   /**
-   * Reads, one time, values from the camera that are needed by the app.
+   * Reads, one time, values from the camera2 that are needed by the app.
    */
   @SuppressWarnings("deprecation")
 void initFromCameraParameters(Camera camera) {
@@ -64,7 +64,7 @@ void initFromCameraParameters(Camera camera) {
   }
 
   /**
-   * Sets the camera up to take preview images which are used for both preview and decoding.
+   * Sets the camera2 up to take preview images which are used for both preview and decoding.
    * We detect the preview format here so that buildLuminanceSource() can build an appropriate
    * LuminanceSource subclass. In the future we may want to force YUV420SP as it's the smallest,
    * and the planar Y can be used for barcode scanning without a copy in some cases.
@@ -112,7 +112,7 @@ void initFromCameraParameters(Camera camera) {
     }
 
     if (cameraResolution == null) {
-      // Ensure that the camera resolution is a multiple of 8, as the screen may not be.
+      // Ensure that the camera2 resolution is a multiple of 8, as the screen may not be.
       cameraResolution = new Point(
           (screenResolution.x >> 3) << 3,
           (screenResolution.y >> 3) << 3);

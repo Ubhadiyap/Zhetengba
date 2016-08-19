@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.ShUtils;
+import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
@@ -80,9 +83,9 @@ public class MainAct extends BaseActivity {
     // 账号被移除
     private boolean isCurrentAccountRemoved = false;
     private MineFrg mineFrg;
-
+    private RelativeLayout rl_ydy;
     private String labelId;//频道标签id
-
+    private boolean isFirst;
     public String getLabelId() {
         return labelId;
     }
@@ -136,6 +139,7 @@ public class MainAct extends BaseActivity {
         AppManager.getAppManager().addActivity(this);
         rb_mes = (MyRadioButton) findViewById(R.id.rb_mes);
         unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
+        rl_ydy = (RelativeLayout) findViewById(R.id.rl_ydy);
         aCache=ACache.get(MainAct.this);
         //获取frg的管理器
         fragmentManager = getSupportFragmentManager();
@@ -162,6 +166,20 @@ public class MainAct extends BaseActivity {
         //注册local广播接收者，用于接收demohelper中发出的群组联系人的变动通知
         registerBroadcastReceiver();
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
+        isFirst = SpUtils.getMainIsFirst(MainAct.this);
+        MyLogUtils.info(isFirst+"是否是第一次打开应用");
+        if (isFirst){
+            rl_ydy.setVisibility(View.VISIBLE);
+            SpUtils.setMainIsFirst(MainAct.this,false);
+        }else {
+            rl_ydy.setVisibility(View.GONE);
+        }
+        rl_ydy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rl_ydy.setVisibility(View.GONE);
+            }
+        });
     }
 
 
@@ -171,8 +189,9 @@ public class MainAct extends BaseActivity {
     private void defaultShow(FragmentTransaction transaction) {
         hideFragment(transaction);
         if (calendarFrg == null) {
+            calendarFrg= (CalendarFrg) fragmentManager.findFragmentByTag("calendarFrg");
             calendarFrg = new CalendarFrg();
-            transaction.add(R.id.fl_main, calendarFrg);
+            transaction.add(R.id.fl_main, calendarFrg,"calendarFrg");
         } else {
             transaction.show(calendarFrg);
         }
@@ -213,36 +232,40 @@ public class MainAct extends BaseActivity {
             switch (group.getCheckedRadioButtonId()) {
                 case R.id.rb_cal://点击档期显示：简约/档期界面
                     currentTabIndex = 0;
-                    if (calendarFrg == null) {
-                        calendarFrg = new CalendarFrg();
-                        transaction.add(R.id.fl_main, calendarFrg);
+                    calendarFrg= (CalendarFrg) fragmentManager.findFragmentByTag("calendarFrg");
+                    if (calendarFrg == null||calendarFrg.isDetached()) {
+                        calendarFrg =new CalendarFrg();
+                        transaction.add(R.id.fl_main, calendarFrg,"calendarFrg");
                     } else {
                         transaction.show(calendarFrg);
                     }
                     break;
                 case R.id.rb_mes://点击显示：消息界面
                     currentTabIndex = 1;
+                    messFrg= (MessFrg) fragmentManager.findFragmentByTag("messFrg");
                     if (messFrg == null) {
                         messFrg = new MessFrg();
-                        transaction.add(R.id.fl_main, messFrg);
+                        transaction.add(R.id.fl_main, messFrg,"messFrg");
                     } else {
                         transaction.show(messFrg);
                     }
                     break;
                 case R.id.rb_cir://点击显示：圈子界面
                     currentTabIndex = 2;
+                    circleFrg= (CircleFrg) fragmentManager.findFragmentByTag("circleFrg");
                     if (circleFrg == null) {
                         circleFrg = new CircleFrg();
-                        transaction.add(R.id.fl_main, circleFrg);
+                        transaction.add(R.id.fl_main, circleFrg,"circleFrg");
                     } else {
                         transaction.show(circleFrg);
                     }
                     break;
                 case R.id.rb_my://点击显示：我的界面
                     currentTabIndex = 3;
+                    mineFrg= (MineFrg) fragmentManager.findFragmentByTag("mineFrg");
                     if (mineFrg == null) {
                         mineFrg = new MineFrg();
-                        transaction.add(R.id.fl_main, mineFrg);
+                        transaction.add(R.id.fl_main, mineFrg,"mineFrg");
                     } else {
                         transaction.show(mineFrg);
                     }
