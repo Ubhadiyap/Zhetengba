@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -22,9 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
-import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -379,6 +376,8 @@ public class ChanAdapter extends BaseAdapter {
         popupWindow.setFocusable(true);
         //设置popupWindow弹出窗体的背景
         popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+
+//        int[] location = new int[2];parent.getLocationOnScreen(location);//这两个是用来显示上方左方右方的
         WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
         @SuppressWarnings("deprecation")
         int[] location=new int[2];
@@ -388,8 +387,14 @@ public class ChanAdapter extends BaseAdapter {
                 int ypos=location[1]-popupWindow.getHeight()/2;
                 int ypos1=ypos-ZhetebaUtils.dip2px(context,10);
         //xoff,yoff基于anchor的左下角进行偏移。
+//<<<<<<< HEAD
 //        popupWindow.showAsDropDown(parent, xpos, 0);
         popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY,xpos,ypos1);
+//=======
+//        popupWindow.showAsDropDown(parent, xpos, 0);//这里因为要显示在左方所以注释掉
+//        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, location[0]-popupWindow.getWidth(), location[1]);
+
+//>>>>>>> e54c055cb671d132528fe4e5156855aef1fa6baf
         final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
         LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
         final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
