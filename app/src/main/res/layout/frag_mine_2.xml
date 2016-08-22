@@ -61,6 +61,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:background="#ffffff"
                 android:layout_marginTop="15dp"
                 android:orientation="vertical"

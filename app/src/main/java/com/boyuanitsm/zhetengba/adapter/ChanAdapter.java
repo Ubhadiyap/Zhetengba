@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -380,10 +381,15 @@ public class ChanAdapter extends BaseAdapter {
         popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
         WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
         @SuppressWarnings("deprecation")
+        int[] location=new int[2];
+        parent.getLocationOnScreen(location);
         //获取xoff
                 int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+                int ypos=location[1]-popupWindow.getHeight()/2;
+                int ypos1=ypos-ZhetebaUtils.dip2px(context,10);
         //xoff,yoff基于anchor的左下角进行偏移。
-        popupWindow.showAsDropDown(parent, xpos, 0);
+//        popupWindow.showAsDropDown(parent, xpos, 0);
+        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY,xpos,ypos1);
         final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
         LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
         final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);

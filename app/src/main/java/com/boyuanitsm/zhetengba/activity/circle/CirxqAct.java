@@ -228,6 +228,7 @@ public class CirxqAct extends BaseActivity {
                     lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                     lv_cir.onPullUpRefreshComplete();
                     lv_cir.onPullDownRefreshComplete();
+                    iv_fa.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -244,7 +245,8 @@ public class CirxqAct extends BaseActivity {
                     lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                     page=1;
                     getCircleMembers(circleId, 1);
-                    getThisCircleTalks(circleId,page,rows);
+                    getThisCircleTalks(circleId, page, rows);
+                    iv_fa.setVisibility(View.VISIBLE);
                 }
 
                 @Override

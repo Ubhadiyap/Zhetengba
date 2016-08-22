@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 广场界面
+ * 吐槽界面
  * Created by xiaoke on 2016/8/11.
  */
 public class SquareAct extends BaseActivity implements View.OnClickListener {
@@ -76,14 +76,10 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
     private int page=1;
     private int rows=10;
     private ChanAdapter adapter;
-//    public static final String TITLE_LIST = "title_list";
     public static final String CURRENT_POS="currentPos";
     private String labelId;
     private ProgressDialog progressDialog;
     private int commentPosition=0;
-//    private int currentPos;
-    private boolean isVisable;
-//    private ChanelPageAdapter pageAdapter;
 
     @Override
     public void setLayout() {
@@ -119,13 +115,13 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 vp_chan.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                 page = 1;
-                getChannelTalks(labelId, page, rows);
+                getChannelTalks(labelStr, page, rows);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getChannelTalks(labelId, page, rows);
+                getChannelTalks(labelStr, page, rows);
             }
         });
 //        getMyLabels(-1);
@@ -299,7 +295,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
         public void onReceive(Context context, Intent intent) {
 //            labelId = getArguments().getString(TITLE_LIST);
             Bundle bundle=  intent.getExtras();
-            if (bundle!=null&&datas.size()>0&&isVisable){
+            if (bundle!=null&&datas.size()>0){
                 String tag=bundle.getString("tag");
                 if (!TextUtils.isEmpty(tag)){
                     if (TextUtils.equals("comTag",tag)){
@@ -312,6 +308,11 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                         datas.remove(position);
                         datalist.remove(position);
                     }
+//                    ChannelTalkEntity channelTalkEntity=new ChannelTalkEntity();
+//                    channelTalkEntity=bundle.getParcelable("channelTalkEntity");
+//                    if (channelTalkEntity!=null){
+//                        datas.add(0,channelTalkEntity);
+//                    }
                     if (adapter == null) {
                         adapter = new ChanAdapter(SquareAct.this, datalist, datas);
                         vp_chan.getRefreshableView().setAdapter(adapter);
@@ -319,9 +320,9 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                         adapter.notifyChange(datalist, datas);
                     }
                 }
-            }else {
+            } else {
                 page=1;
-                getChannelTalks(labelStr,page,rows);
+                getChannelTalks(labelStr, page, rows);
             }
 
         }
