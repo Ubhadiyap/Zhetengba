@@ -31,11 +31,8 @@ import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
-
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
-
 import com.boyuanitsm.zhetengba.utils.Uitls;
-
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.MyRecyleview;
@@ -228,6 +225,7 @@ public class CirxqAct extends BaseActivity {
                     lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                     lv_cir.onPullUpRefreshComplete();
                     lv_cir.onPullDownRefreshComplete();
+                    iv_fa.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -244,7 +242,8 @@ public class CirxqAct extends BaseActivity {
                     lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                     page=1;
                     getCircleMembers(circleId, 1);
-                    getThisCircleTalks(circleId,page,rows);
+                    getThisCircleTalks(circleId, page, rows);
+                    iv_fa.setVisibility(View.VISIBLE);
                 }
 
                 @Override

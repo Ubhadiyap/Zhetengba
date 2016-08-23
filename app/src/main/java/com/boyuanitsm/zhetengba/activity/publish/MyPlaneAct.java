@@ -1,5 +1,9 @@
 package com.boyuanitsm.zhetengba.activity.publish;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,6 +13,7 @@ import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPlaneAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
@@ -136,5 +141,48 @@ public class MyPlaneAct extends BaseActivity {
 
             }
         });
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk == null) {
+            receiverTalk = new MyBroadCastReceiverTalk();
+            registerReceiver(receiverTalk, new IntentFilter(PLANEALLTALKS));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiverTalk != null) {
+            unregisterReceiver(receiverTalk);
+            receiverTalk = null;
+        }
+    }
+
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String PLANEALLTALKS = "alltalk_update_myplane";
+
+
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+//            Bundle bundle = intent.getExtras();
+//            if (bundle != null && datas.size() > 0) {
+//                int cposition = bundle.getInt("CirCommentPosition");
+//                int cNum = bundle.getInt("CirComtNum");
+//                datas.get(cposition).setCommentCounts(cNum);
+//                if (adapter == null) {
+//                    adapter = new MyPlaneAdapter(MyPlaneAct.this, datalist, datas);
+//                    lv_my_plane.getRefreshableView().setAdapter(adapter);
+//                } else {
+//                    adapter.notifyChange(datalist, datas);
+//                }
+//            } else {
+                page = 1;
+                getMyTalks(page, rows);
+//            }
+        }
     }
 }

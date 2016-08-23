@@ -3,12 +3,12 @@ package com.boyuanitsm.zhetengba.view;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.widget.ListView;
+
 
 /**
  * Created by bitch-1 on 2016/5/12.
  */
-public class MyRecyleview extends RecyclerView{
+public class MyRecyleview extends RecyclerView {
     public MyRecyleview(Context context) {
         super(context);}
 

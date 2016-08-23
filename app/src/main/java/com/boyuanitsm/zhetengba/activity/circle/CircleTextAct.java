@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
 import com.boyuanitsm.zhetengba.adapter.ChaTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.CircleTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.PicGdAdapter;
@@ -119,7 +120,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("圈子正文");
+        setTopTitle("");
         headerView=getLayoutInflater().inflate(R.layout.circle_headerview,null);
         assignView(headerView);
         entity=getIntent().getParcelableExtra("circleEntity");
@@ -377,6 +378,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 intent.putExtras(bundle);
                 sendBroadcast(intent);
                 sendBroadcast(new Intent(CirxqAct.TALKS));
+                sendBroadcast(new Intent(MyPlaneAct.PLANEALLTALKS));
             }
         });
     }

@@ -99,7 +99,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("广场正文");
+        setTopTitle("");
         headView=getLayoutInflater().inflate(R.layout.hannel_headerview,null);
         assignView(headView);
         channelTalkEntity=getIntent().getParcelableExtra("channelEntity");

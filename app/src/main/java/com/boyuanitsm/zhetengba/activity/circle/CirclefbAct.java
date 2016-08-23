@@ -15,6 +15,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.RemoteViews;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.photo.PicSelectActivity;
@@ -75,8 +76,6 @@ public class CirclefbAct extends BaseActivity {
     private String labelId;//频道标签id
     private int flag;
     private List<String> strList;
-    private NotificationManager mNotificationManager;
-    private NotificationCompat.Builder mBuilder;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circlefb);
@@ -99,64 +98,59 @@ public class CirclefbAct extends BaseActivity {
         setRight("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
 //                notifyKJ();
 //                pd.show();
-                Bitmap btm = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.logo);
-                mBuilder = new NotificationCompat.Builder(
-                        CirclefbAct.this)
-                        .setSmallIcon(R.drawable.logo)
-                        .setContentTitle("发布中...");
-                mBuilder.setTicker("发布中...");//第一次提示消息的时候显示在通知栏上
-                mBuilder.setLargeIcon(btm);
-                mBuilder.setAutoCancel(true);//自己维护通知的消失
-                mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                mNotificationManager.notify(0, mBuilder.build());
-                setRightEnable(false);
-                content=etContent.getText().toString().trim();
-                switch (type){
+//                setRightEnable(false);
+                content = etContent.getText().toString().trim();
+                switch (type) {
                     case 0:
-                        if(!TextUtils.isEmpty(content)) {
+                        if (!TextUtils.isEmpty(content)) {
+                            finish();
+                            notifyTZ();
                             channelTalkEntity.setLabelId(labelId);
                             channelTalkEntity.setChannelContent(content);
-                            if (selecteds.size()>0) {
+                            if (selecteds.size() > 0) {
                                 upLoadImg(selecteds);
-                            }else {
+                            } else {
 //                                pd.show();
                                 addChannelTalk(channelTalkEntity);
                             }
-                        }else {
-                            if (selecteds.size()>0) {
+                        } else {
+                            if (selecteds.size() > 0) {
+                                finish();
+                                notifyTZ();
 //                                pd.show();
                                 channelTalkEntity.setLabelId(labelId);
                                 upLoadImg(selecteds);
-                            }else {
-                                pd.dismiss();
-                                MyToastUtils.showShortToast(CirclefbAct.this,"频道说说内容不能为空！");
+                            } else {
+//                                pd.dismiss();
+                                MyToastUtils.showShortToast(getApplicationContext(), "频道说说内容不能为空！");
                                 return;
                             }
 
                         }
-                       break;
+                        break;
                     default:
-                        if(!TextUtils.isEmpty(content)) {
-//                            pd.show();
+                        if (!TextUtils.isEmpty(content)) {
+                            finish();
+                            notifyTZ();
                             entity.setTalkContent(content);
-                            if (selecteds.size()>0) {
+                            if (selecteds.size() > 0) {
                                 upLoadImg(selecteds);
-                            }else {
-                                pd.show();
+                            } else {
+//                                pd.show();
                                 addCircleTalk(entity, circleId);
                             }
-                        }else  {
-                            if (selecteds.size()>0) {
+                        } else {
+                            if (selecteds.size() > 0) {
 //                                pd.show();
+                                finish();
+                                notifyTZ();
                                 entity.setTalkContent("");
                                 upLoadImg(selecteds);
-                            }else {
-                                pd.dismiss();
-                                MyToastUtils.showShortToast(CirclefbAct.this, "圈子说说内容不能空！");
+                            } else {
+//                                pd.dismiss();
+                                MyToastUtils.showShortToast(getApplicationContext(), "圈子说说内容不能空！");
                                 return;
                             }
                         }
@@ -183,6 +177,20 @@ public class CirclefbAct extends BaseActivity {
         adapter = new GvPhotoAdapter(selecteds, 9, CirclefbAct.this);
         gvPhoto.setAdapter(adapter);
 
+    }
+
+    private void notifyTZ() {
+        Bitmap btm = BitmapFactory.decodeResource(getResources(),
+                R.drawable.logo);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                getApplicationContext())
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("发布中...");
+        mBuilder.setTicker("发布中...");//第一次提示消息的时候显示在通知栏上
+        mBuilder.setLargeIcon(btm);
+                mBuilder.setAutoCancel(true);//自己维护通知的消失
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotificationManager.notify(0, mBuilder.build());
     }
 
     @Override
@@ -232,35 +240,90 @@ public class CirclefbAct extends BaseActivity {
         RequestManager.getTalkManager().addCircleTalk(circleEntity, circleId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                setRightEnable(true);
+//                setRightEnable(true);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                mNotificationManager.cancel(0);
+                Bitmap btm = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.logo);
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                        getApplicationContext())
+                        .setSmallIcon(R.drawable.logo)
+                        .setContentTitle("发布失败");
+                mBuilder.setTicker("发布失败");//第一次提示消息的时候显示在通知栏上
+                mBuilder.setLargeIcon(btm);
+                mBuilder.setAutoCancel(true);//自己维护通知的消失
+                mNotificationManager.notify(0, mBuilder.build());
+//                mNotificationManager.cancel(0);
 
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                pd.dismiss();
-                setRightEnable(true);
-                finish();
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                mNotificationManager.cancel(0);
+                Bitmap btm = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.logo);
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                        getApplicationContext())
+                        .setSmallIcon(R.drawable.logo)
+                        .setContentTitle("发布成功");
+                mBuilder.setTicker("发布成功");//第一次提示消息的时候显示在通知栏上
+                mBuilder.setLargeIcon(btm);
+                mBuilder.setAutoCancel(true);//自己维护通知的消失
+                mNotificationManager.notify(0, mBuilder.build());
+                mNotificationManager.cancel(0);
+//                pd.dismiss();
+//                setRightEnable(true);
+//                finish();
                 sendBroadcast(new Intent(CirxqAct.TALKS));
-                sendBroadcast(new Intent(CirFrg.ALLTALKS));
+                sendBroadcast(new Intent(CircleAct.ALLTALKS));
             }
         });
     }
 
     //发布频道说说
-    private void addChannelTalk(ChannelTalkEntity channelTalkEntity){
+    private void addChannelTalk(final ChannelTalkEntity channelTalkEntity){
         RequestManager.getTalkManager().addChannelTalk(channelTalkEntity, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                pd.dismiss();
-                setRightEnable(true);
+//                pd.dismiss();
+//                setRightEnable(true);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                mNotificationManager.cancel(0);
+                Bitmap btm = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.logo);
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                        getApplicationContext())
+                        .setSmallIcon(R.drawable.logo)
+                        .setContentTitle("发布失败");
+                mBuilder.setTicker("发布失败");//第一次提示消息的时候显示在通知栏上
+                mBuilder.setLargeIcon(btm);
+                mBuilder.setAutoCancel(true);//自己维护通知的消失
+                mNotificationManager.notify(0, mBuilder.build());
+//                mNotificationManager.cancel(0);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                mBuilder.setTicker("发布成功");
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                mNotificationManager.cancel(0);
+                Bitmap btm = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.logo);
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                        getApplicationContext())
+                        .setSmallIcon(R.drawable.logo)
+                        .setContentTitle("发布成功");
+                mBuilder.setTicker("发布成功");//第一次提示消息的时候显示在通知栏上
+                mBuilder.setLargeIcon(btm);
+                mBuilder.setAutoCancel(true);//自己维护通知的消失
+                mNotificationManager.notify(0, mBuilder.build());
                 mNotificationManager.cancel(0);
-                sendBroadcast(new Intent(SquareAct.TALK_LIST));
+//                Intent intent=new Intent(SquareAct.TALK_LIST);
+//                Bundle bundle=new Bundle();
+//                bundle.putParcelable("channelTalkEntity",channelTalkEntity);
+//                intent.putExtras(bundle);
+                getApplicationContext().sendBroadcast(new Intent(SquareAct.TALK_LIST));
+
 //                pd.dismiss();
 //                setRightEnable(true);
 //                finish();
@@ -335,12 +398,6 @@ public class CirclefbAct extends BaseActivity {
         });
     }
 
-    /**
-     * 发布通知栏
-     */
-    private void notifyKJ() {
-
-    }
 
 
 }

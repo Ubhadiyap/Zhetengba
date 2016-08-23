@@ -28,12 +28,12 @@
         "source": "D:\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_received_file.xml"
     },
     {
-        "merged": "D:\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_sent_message.xml",
-        "source": "D:\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_sent_message.xml"
-    },
-    {
         "merged": "D:\\zhetengba2\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_widget_chat_primary_menu.xml",
         "source": "D:\\zhetengba2\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_widget_chat_primary_menu.xml"
+    },
+    {
+        "merged": "D:\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_sent_message.xml",
+        "source": "D:\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_sent_message.xml"
     },
     {
         "merged": "D:\\zhetengba2\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_widget_voice_recorder.xml",
@@ -84,12 +84,12 @@
         "source": "D:\\zhetengba2\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_widget_title_bar.xml"
     },
     {
-        "merged": "D:\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_commom_back_btn.xml",
-        "source": "D:\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_commom_back_btn.xml"
-    },
-    {
         "merged": "D:\\zhetengba2\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_layout_chat_primary_menu.xml",
         "source": "D:\\zhetengba2\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_layout_chat_primary_menu.xml"
+    },
+    {
+        "merged": "D:\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_commom_back_btn.xml",
+        "source": "D:\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_commom_back_btn.xml"
     },
     {
         "merged": "D:\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_received_message.xml",

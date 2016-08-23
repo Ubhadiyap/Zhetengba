@@ -291,7 +291,7 @@ public class LoginAct extends BaseActivity {
             public void onResponse(ResultBean<UserBean> response) {
                 UserBean userBean = response.getData();
                 login(userBean, 1);
-                getMyLabels(-1);//获取兴趣标签存入本地。
+//                getMyLabels(-1);//获取兴趣标签存入本地。
                 MyLogUtils.info(userBean.getUser().getId() + "id是");
                 JPushInterface.setAlias(LoginAct.this, userBean.getUser().getId(), new TagAliasCallback() {
                     @Override

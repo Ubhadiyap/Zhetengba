@@ -15,7 +15,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
@@ -23,7 +22,7 @@ import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import java.util.List;
 
 /**
- * 简约/档期界面
+ * 会友/档期界面
  * Created by xiaoke on 2016/4/24.
  */
 public class CalendarFrg extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {

@@ -134,6 +134,10 @@
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
 
+            <!--android:shadowColor="@color/sbc_header_text"-->
+            <!--android:shadowDx="2"-->
+            <!--android:shadowDy="2"-->
+            <!--android:shadowRadius="3"-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
@@ -141,10 +145,6 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/tv_name"
                     android:text="小鱼儿"
-                    android:shadowColor="@color/sbc_header_text"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="3"
                     android:textSize="14sp"
                     android:textColor="#333333"
                     android:layout_width="match_parent"

@@ -377,15 +377,24 @@ public class ChanAdapter extends BaseAdapter {
         //设置popupWindow弹出窗体的背景
         popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
 
-        int[] location = new int[2];parent.getLocationOnScreen(location);//这两个是用来显示上方左方右方的
+//        int[] location = new int[2];parent.getLocationOnScreen(location);//这两个是用来显示上方左方右方的
         WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
         @SuppressWarnings("deprecation")
+        int[] location=new int[2];
+        parent.getLocationOnScreen(location);
         //获取xoff
                 int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+                int ypos=location[1]-popupWindow.getHeight()/2;
+                int ypos1=ypos-ZhetebaUtils.dip2px(context,10);
         //xoff,yoff基于anchor的左下角进行偏移。
+//<<<<<<< HEAD
+//        popupWindow.showAsDropDown(parent, xpos, 0);
+        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY,xpos,ypos1);
+//=======
 //        popupWindow.showAsDropDown(parent, xpos, 0);//这里因为要显示在左方所以注释掉
-        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, location[0]-popupWindow.getWidth(), location[1]);
+//        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, location[0]-popupWindow.getWidth(), location[1]);
 
+//>>>>>>> e54c055cb671d132528fe4e5156855aef1fa6baf
         final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
         LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
         final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
