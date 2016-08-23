@@ -33,6 +33,7 @@ import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ACache;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
@@ -72,6 +73,7 @@ public class CalFrg extends BaseFragment {
     private TextView noMsg;
     private AnimationDrawable animationDrawable;
     private ACache aCache;
+    private Gson gson;
     //    广播接收者更新档期数据
     private BroadcastReceiver calFriendChangeRecevier=new BroadcastReceiver() {
         @Override
@@ -107,6 +109,7 @@ public class CalFrg extends BaseFragment {
         //下拉刷新初始化
         LayoutHelperUtil.freshInit(lv_calen);
          aCache=ACache.get(mActivity);
+        gson=new Gson();
         lv_calen.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -192,9 +195,11 @@ public class CalFrg extends BaseFragment {
                 lv_calen.onPullDownRefreshComplete();
                 String strList = aCache.getAsString("AllCal");
                 List<ScheduleInfo> infos = new ArrayList<ScheduleInfo>();
-                Gson gson = new Gson();
-                infos = gson.fromJson(strList, new TypeToken<List<ScheduleInfo>>() {
+//                Gson gson = new Gson();
+//                infos = GsonUtils.gsonToList(strList,ScheduleInfo.class);
+                infos= gson.fromJson(strList, new TypeToken<List<ScheduleInfo>>() {
                 }.getType());
+
                 if (infos != null && infos.size() > 0) {
                     if (adapter == null) {
                         //设置简约listview的条目
@@ -203,24 +208,25 @@ public class CalFrg extends BaseFragment {
                     } else {
                         adapter.update(infos);
                     }
-                } else {
-                    noList.setVisibility(View.VISIBLE);
-                    ivAnim.setImageResource(R.drawable.loadfail_list);
-                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                    animationDrawable.start();
-                    noMsg.setText("加载失败...");
                 }
+//                else {
+//                    noList.setVisibility(View.VISIBLE);
+//                    ivAnim.setImageResource(R.drawable.loadfail_list);
+//                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+//                    animationDrawable.start();
+//                    noMsg.setText("加载失败...");
+//                }
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<ScheduleInfo>> response) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
-                if (animationDrawable != null) {
-                    animationDrawable.stop();
-                    animationDrawable = null;
-                    noList.setVisibility(View.GONE);
-                }
+//                if (animationDrawable != null) {
+//                    animationDrawable.stop();
+//                    animationDrawable = null;
+//                    noList.setVisibility(View.GONE);
+//                }
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
@@ -233,8 +239,8 @@ public class CalFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                Gson gson = new Gson();
-                aCache.put("AllCal", gson.toJson(datas));
+//                Gson gson = new Gson();
+                aCache.put("AllCal", GsonUtils.bean2Json(datas));
                 if (adapter == null) {
                     //设置简约listview的条目
                     adapter = new CalAdapter(mActivity, datas);
@@ -266,8 +272,8 @@ public class CalFrg extends BaseFragment {
                     strList=aCache.getAsString("MyCal");
                 }
                 List<ScheduleInfo> infos=new ArrayList<ScheduleInfo>();
-                Gson gson=new Gson();
-                infos= gson.fromJson(strList,new TypeToken<List<ScheduleInfo>>(){}.getType());
+//                Gson gson=new Gson();
+                infos=gson.fromJson(strList,new TypeToken<List<ScheduleInfo>>(){}.getType());
                 if (infos!=null&&infos.size()>0){
                     if (adapter == null) {
                         //设置简约listview的条目
@@ -307,11 +313,11 @@ public class CalFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                Gson gson=new Gson();
+//                Gson gson=new Gson();
                 if (TextUtils.equals(state,0+"")){
-                    aCache.put("FriendCal", gson.toJson(datas));
+                    aCache.put("FriendCal", GsonUtils.bean2Json(datas));
                 }else if (TextUtils.equals(state,2+"")){
-                    aCache.put("MyCal",gson.toJson(datas));
+                    aCache.put("MyCal",GsonUtils.bean2Json(datas));
                 }
                     if (adapter == null) {
                         //设置简约listview的条目
@@ -337,9 +343,9 @@ public class CalFrg extends BaseFragment {
 //                animationDrawable.start();
 //                noMsg.setText("加载失败...");
                 String bannerList= aCache.getAsString("CalBanner");
-                Gson gson=new Gson();
+//                Gson gson=new Gson();
                 if (!TextUtils.isEmpty(bannerList)) {
-                    List<LabelBannerInfo> bannerInfos = gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {}.getType());
+                    List<LabelBannerInfo> bannerInfos = GsonUtils.gsonToList(bannerList,LabelBannerInfo.class);
                     initMyPageAdapter(bannerInfos);
                 }
             }
@@ -352,8 +358,8 @@ public class CalFrg extends BaseFragment {
 //                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
-                Gson gson=new Gson();
-                aCache.put("CalBanner", gson.toJson(bannerInfoList));
+//                Gson gson=new Gson();
+                aCache.put("CalBanner", GsonUtils.bean2Json(bannerInfoList));
                 //设置viewpager适配/轮播效果
                 initMyPageAdapter(bannerInfoList);
             }

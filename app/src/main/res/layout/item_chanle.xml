@@ -27,12 +27,12 @@
             <TextView
                 android:id="@+id/tv_ch_niName"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:gravity="center"
                 android:text="甜蜜的小猫"
-                android:textColor="#666666"
+                android:textColor="@color/main_color"
                 android:textSize="14sp" />
 
             <ImageView
@@ -58,7 +58,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginRight="25dp"
                 android:text="4分钟前"
-                android:textColor="#999999"
+                android:textColor="#b8b8b8"
                 android:textSize="12sp" />
 
             <RelativeLayout
@@ -93,6 +93,7 @@
             <!--内容-->
             <TextView
                 android:id="@+id/tv_content"
+                android:text="我是你的小苹果"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#333333"

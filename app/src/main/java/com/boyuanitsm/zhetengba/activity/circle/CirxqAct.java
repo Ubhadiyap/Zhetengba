@@ -71,7 +71,7 @@ public class CirxqAct extends BaseActivity {
     private TextView name;//圈主名
     private TextView notice;//公告
     private TextView qzzl;//圈子资料
-    private RelativeLayout rl_jiaru;
+    private TextView rl_jiaru;
     private int page=1;
     private int rows=10;
     private List<List<ImageInfo>> datalist;
@@ -84,6 +84,7 @@ public class CirxqAct extends BaseActivity {
     private CirclexqListAdapter xqAdapter;
     private ProgressDialog progressDialog;
     private boolean isQuanzhu=false;
+    private boolean isFabu=false;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_cirxq);
@@ -103,17 +104,20 @@ public class CirxqAct extends BaseActivity {
         notice= (TextView) headView.findViewById(R.id.notice);//公告
         qzzl= (TextView) headView.findViewById(R.id.tv_qzzl);//圈子资料
         rv_label= (MyRecyleview) headView.findViewById(R.id.rv_label);//圈子成员
-        rl_jiaru=(RelativeLayout) headView.findViewById(R.id.rl_jiaru);//加入圈子 默认是隐藏的
+        rl_jiaru=(TextView) headView.findViewById(R.id.rl_jiaru);//加入圈子 默认是隐藏的
         lv_cir.getRefreshableView().addHeaderView(headView);
         LayoutHelperUtil.freshInit(lv_cir);
         lv_cir.getRefreshableView().setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState==SCROLL_STATE_FLING||scrollState==SCROLL_STATE_TOUCH_SCROLL){
-                    iv_fa.setVisibility(View.GONE);
-                }else {
-                    iv_fa.setVisibility(View.VISIBLE);
+                if (isFabu){
+                    if (scrollState == SCROLL_STATE_FLING || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+                        iv_fa.setVisibility(View.GONE);
+                    } else {
+                        iv_fa.setVisibility(View.VISIBLE);
+                    }
                 }
+
             }
 
             @Override
@@ -134,7 +138,8 @@ public class CirxqAct extends BaseActivity {
             IsInCircle=intent.getExtras().getInt("isincircle");
             if(IsInCircle==0){
                 //不在圈子里面
-                cir_fb.setVisibility(View.GONE);
+                iv_fa.setVisibility(View.GONE);
+                isFabu=false;
                 rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
                 qzzl.setEnabled(false);//圈子资料不可点击
                 getCircleDetail(circleId);
@@ -150,7 +155,8 @@ public class CirxqAct extends BaseActivity {
                 });
             }else if(IsInCircle==1){
                 //在圈子里面
-                cir_fb.setVisibility(View.VISIBLE);
+                iv_fa.setVisibility(View.VISIBLE);
+                isFabu=true;
                 rl_jiaru.setVisibility(View.GONE);
                 qzzl.setEnabled(true);
                 getCircleDetail(circleId);
@@ -161,6 +167,8 @@ public class CirxqAct extends BaseActivity {
 
         } else if(type==1){
             //从圈子管理进来,或者从子圈子frg进来（已经在圈子里面的）
+            iv_fa.setVisibility(View.VISIBLE);
+            isFabu=true;
             qzzl.setEnabled(true);
             getCircleDetail(circleId);
             getCircleMembers(circleId, 1);
@@ -225,13 +233,17 @@ public class CirxqAct extends BaseActivity {
                     lv_cir.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                     lv_cir.onPullUpRefreshComplete();
                     lv_cir.onPullDownRefreshComplete();
-                    iv_fa.setVisibility(View.VISIBLE);
+                    iv_fa.setVisibility(View.GONE);
+                    isFabu=false;
+                    lv_cir.setScrollLoadEnabled(false);
                 }
 
                 @Override
                 public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                     lv_cir.onPullUpRefreshComplete();
                     lv_cir.onPullDownRefreshComplete();
+                    iv_fa.setVisibility(View.GONE);
+                    isFabu=false;
                 }
             });
         }else {
@@ -244,6 +256,7 @@ public class CirxqAct extends BaseActivity {
                     getCircleMembers(circleId, 1);
                     getThisCircleTalks(circleId, page, rows);
                     iv_fa.setVisibility(View.VISIBLE);
+                    isFabu=true;
                 }
 
                 @Override
@@ -316,7 +329,8 @@ public class CirxqAct extends BaseActivity {
 
                 if(IsInCircle==0){
                     //不在圈子里面
-                    cir_fb.setVisibility(View.GONE);
+                    iv_fa.setVisibility(View.GONE);
+                    isFabu=false;
                     rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
                     qzzl.setEnabled(false);
                     getCircleMembers(circleId, 0);
@@ -332,7 +346,8 @@ public class CirxqAct extends BaseActivity {
                 }else if(IsInCircle==1){
                     //在圈子里面
                     qzzl.setEnabled(true);
-                    cir_fb.setVisibility(View.VISIBLE);
+                    iv_fa.setVisibility(View.VISIBLE);
+                    isFabu=true;
                     rl_jiaru.setVisibility(View.GONE);
                     getCircleMembers(circleId, 1);
                     getThisCircleTalks(circleId, page, rows);
@@ -360,6 +375,8 @@ public class CirxqAct extends BaseActivity {
                 adapter = new CirxqAdapter(CirxqAct.this, userList,isInCircle);
                 rv_label.setAdapter(adapter);
                 if (isInCircle != 0) {
+                    isFabu=true;
+                    iv_fa.setVisibility(View.VISIBLE);
                     adapter.setOnItemClickListener(new CirxqAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position) {

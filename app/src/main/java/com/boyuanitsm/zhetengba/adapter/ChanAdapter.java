@@ -210,6 +210,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context, 255), ActionBar.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0,ZhetebaUtils.dip2px(context,10),0,0);
             viewHolder.iv_ch_image.setLayoutParams(params);
             viewHolder.iv_ch_image.setNumColumns(3);
             PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
@@ -394,7 +395,6 @@ public class ChanAdapter extends BaseAdapter {
 //        popupWindow.showAsDropDown(parent, xpos, 0);//这里因为要显示在左方所以注释掉
 //        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, location[0]-popupWindow.getWidth(), location[1]);
 
-//>>>>>>> e54c055cb671d132528fe4e5156855aef1fa6baf
         final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
         LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
         final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);

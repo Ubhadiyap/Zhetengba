@@ -39,7 +39,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:gravity="center"
-                android:textColor="#666666"
+                android:textColor="@color/main_color"
                 android:textSize="14sp" />
 
             <!--性别-->
@@ -67,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:textColor="#999999"
+                        android:textColor="#b8b8b8"
                         android:textSize="12sp" />
                     <ImageView
                         android:id="@+id/iv_xia"

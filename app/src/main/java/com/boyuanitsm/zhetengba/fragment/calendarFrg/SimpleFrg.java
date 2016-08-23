@@ -27,6 +27,7 @@ import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ACache;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -65,6 +66,7 @@ public class SimpleFrg extends BaseFragment {
     private ImageView ivAnim;
     private TextView noMsg;
     private AnimationDrawable animationDrawable;
+    private Gson gson;
     private BroadcastReceiver DteChangeRecevier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -95,6 +97,7 @@ public class SimpleFrg extends BaseFragment {
         //刷新初始化
         LayoutHelperUtil.freshInit(lv_act);
         aCache=ACache.get(mActivity);
+        gson=new Gson();
         lv_act.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -246,10 +249,10 @@ public class SimpleFrg extends BaseFragment {
 //                animationDrawable.start();
 //                noMsg.setText("加载失败...");
                 String bannerList= aCache.getAsString("SimpleBanner");
-                Gson gson=new Gson();
+//                Gson gson=new Gson();
+                MyLogUtils.info(bannerList+"bannerlist是=====");
                 if (!TextUtils.isEmpty(bannerList)){
-                    List<LabelBannerInfo> bannerInfos= gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
-                    }.getType());
+                    List<LabelBannerInfo> bannerInfos= gson.fromJson(bannerList,new TypeToken<List<LabelBannerInfo>>(){}.getType());
                     initMyPageAdapter(bannerInfos);
                 }
             }
@@ -263,8 +266,8 @@ public class SimpleFrg extends BaseFragment {
 //                }
                 bannerInfoList = new ArrayList<LabelBannerInfo>();
                 bannerInfoList = response.getData();
-                Gson gson=new Gson();
-                aCache.put("SimpleBanner", gson.toJson(bannerInfoList));
+//                Gson gson=new Gson();
+                aCache.put("SimpleBanner", GsonUtils.bean2Json(bannerInfoList));
                 //设置viewpager适配/轮播效果
                 initMyPageAdapter(bannerInfoList);
             }
@@ -286,8 +289,8 @@ public class SimpleFrg extends BaseFragment {
                 lv_act.onPullDownRefreshComplete();
                 String strList = aCache.getAsString("AllsimpleInfoList");
                 List<SimpleInfo> infos=new ArrayList<SimpleInfo>();
-                Gson gson=new Gson();
                 infos= gson.fromJson(strList,new TypeToken<List<SimpleInfo>>(){}.getType());
+//                infos= GsonUtils.gsonToList(strList, SimpleInfo.class);;
                 if (infos!=null&&infos.size()>0){
                     if (adapter == null) {
                         //设置简约listview的条目
@@ -320,8 +323,8 @@ public class SimpleFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                Gson gson=new Gson();
-                aCache.put("AllsimpleInfoList", gson.toJson(datas));
+//                Gson gson=new Gson();
+                aCache.put("AllsimpleInfoList",GsonUtils.bean2Json(datas));
                 MyLogUtils.info("datas数据是：" + datas.toString());
                 if (adapter == null) {
                     //设置简约listview的条目
@@ -358,8 +361,10 @@ public class SimpleFrg extends BaseFragment {
                     strList = aCache.getAsString("AllsimpleInfoList");
                 }
                 List<SimpleInfo> infos=new ArrayList<SimpleInfo>();
-                Gson gson=new Gson();
-                infos= gson.fromJson(strList,new TypeToken<List<SimpleInfo>>(){}.getType());
+//                Gson gson=new Gson();
+//                infos=GsonUtils.gsonToList(strList,SimpleInfo.class);
+                infos= gson.fromJson(strList, new TypeToken<List<SimpleInfo>>() {
+                }.getType());
                 if (infos!=null&&infos.size()>0){
                     if (adapter == null) {
                         //设置简约listview的条目
@@ -397,11 +402,11 @@ public class SimpleFrg extends BaseFragment {
                 }
                 datas.addAll(list);
                 if (TextUtils.equals(state,0+"")){
-                    Gson gson=new Gson();
-                    aCache.put("FriendsimpleInfoList", gson.toJson(datas));
+//                    Gson gson=new Gson();
+                    aCache.put("FriendsimpleInfoList", GsonUtils.bean2Json(datas));
                 }else if (TextUtils.equals(state,2+"")){
                     Gson gson=new Gson();
-                    aCache.put("MysimpleInfoList", gson.toJson(datas));
+                    aCache.put("MysimpleInfoList",GsonUtils.bean2Json(datas));
                 }
                 if (adapter == null) {
                     //设置简约listview的条目

@@ -1,12 +1,14 @@
 package com.boyuanitsm.zhetengba.bean;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * 兴趣/档期/活动标签
  * Created by xiaoke on 2016/6/1.
  */
-public class LabelBannerInfo {
+public class LabelBannerInfo implements Parcelable{
 
     private String dictCode;//编码方式
     private String dictDescribe;//描述
@@ -15,7 +17,6 @@ public class LabelBannerInfo {
     private String icon;//图标
     private String id;//主键id
     private boolean isValid ;
-    private Context context;
 
 //    public LabelBannerInfo(String labelid, String dictName, String icon, String dictType, String dictDescribe, String dictCode) {
 //        this.id=labelid;
@@ -25,9 +26,6 @@ public class LabelBannerInfo {
 //        this.dictDescribe=dictDescribe;
 //        this.dictCode=dictCode;
 //    }
-    public LabelBannerInfo(Context context){
-        this.context=context;
-    }
 
     public String getDictCode() {
         return dictCode;
@@ -97,4 +95,45 @@ public class LabelBannerInfo {
                 ", isValid=" + isValid +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.dictCode);
+        dest.writeString(this.dictDescribe);
+        dest.writeString(this.dictName);
+        dest.writeString(this.dictType);
+        dest.writeString(this.icon);
+        dest.writeString(this.id);
+        dest.writeByte(this.isValid ? (byte) 1 : (byte) 0);
+    }
+
+    public LabelBannerInfo() {
+    }
+
+    protected LabelBannerInfo(Parcel in) {
+        this.dictCode = in.readString();
+        this.dictDescribe = in.readString();
+        this.dictName = in.readString();
+        this.dictType = in.readString();
+        this.icon = in.readString();
+        this.id = in.readString();
+        this.isValid = in.readByte() != 0;
+    }
+
+    public static final Creator<LabelBannerInfo> CREATOR = new Creator<LabelBannerInfo>() {
+        @Override
+        public LabelBannerInfo createFromParcel(Parcel source) {
+            return new LabelBannerInfo(source);
+        }
+
+        @Override
+        public LabelBannerInfo[] newArray(int size) {
+            return new LabelBannerInfo[size];
+        }
+    };
 }

@@ -48,6 +48,7 @@ public class ActAdapter extends BaseAdapter {
     private Context context;
     private List<SimpleInfo> infos = new ArrayList<>();
     private String strStart, strEnd;
+
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -60,6 +61,7 @@ public class ActAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
+
     public ActAdapter(Context context, List<SimpleInfo> infos) {
         this.infos = infos;
         this.context = context;
@@ -89,6 +91,7 @@ public class ActAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Holder viewHolder;
+        final CustomDialog.Builder builder=new CustomDialog.Builder(context);
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (Holder) convertView.getTag();
 
@@ -144,12 +147,12 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.ll_del.setVisibility(View.VISIBLE);
             viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
         }
-            if (infos.get(position).getFollowNum() == 0) {
-                viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
-            } else {
-                viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
-                viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
-            }
+        if (infos.get(position).getFollowNum() == 0) {
+            viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
+        } else {
+            viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+            viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
+        }
 
         viewHolder.tv_join_num.setText(infos.get(position).getMemberNum() + "");//目前成员数量；
 
@@ -165,15 +168,15 @@ public class ActAdapter extends BaseAdapter {
 //        if (!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
 //
 //        }
-        if (UserInfoDao.getUser().getId().equals(infos.get(position).getUserId())){
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()),viewHolder.iv_headphoto,optionsImag);
-        }else {
+        if (UserInfoDao.getUser().getId().equals(infos.get(position).getUserId())) {
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()), viewHolder.iv_headphoto, optionsImag);
+        } else {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getUserIcon()), viewHolder.iv_headphoto, optionsImag);//用户头像
         }
-        if (!TextUtils.isEmpty(infos.get(position).getUserSex())){
-            if (infos.get(position).getUserSex().equals(1+"")) {
+        if (!TextUtils.isEmpty(infos.get(position).getUserSex())) {
+            if (infos.get(position).getUserSex().equals(1 + "")) {
                 viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
-            } else if (infos.get(position).getUserSex().equals(0+"")){
+            } else if (infos.get(position).getUserSex().equals(0 + "")) {
                 viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));//用户性别
             }
         }
@@ -192,22 +195,34 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.tv_text_jion.setText("响应");
             viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
         }
-//        if (infos.get(position).)
-        if (infos.get(position).getMemberNum()==infos.get(position).getInviteNumber()){
-            if (!infos.get(position).isJoining()){
+        if (!TextUtils.isEmpty(infos.get(position).getActivityParticulars())) {
+            builder.setMessage(infos.get(position).getActivityParticulars());
+        } else {
+            builder.setMessage("没有活动详情");
+        }
+        if (infos.get(position).getJoinCount() > 0) {
+            builder.setPositiveButton("一起参加了" + infos.get(position).getJoinCount() + "次活动", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+        }
+        if (infos.get(position).getMemberNum() == infos.get(position).getInviteNumber()) {
+            if (!infos.get(position).isJoining()) {
                 viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MyToastUtils.showShortToast(context,"参加人数已满,请参加其他活动！");
+                        MyToastUtils.showShortToast(context, "参加人数已满,请参加其他活动！");
                     }
                 });
-            }else{
+            } else {
                 viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         viewHolder.ll_join.setEnabled(false);
                         if (infos.get(position).isJoining()) {
-                            final MyAlertDialog dialog=new MyAlertDialog(context);
+                            final MyAlertDialog dialog = new MyAlertDialog(context);
                             dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -227,13 +242,13 @@ public class ActAdapter extends BaseAdapter {
                     }
                 });
             }
-        }else {
+        } else {
             viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     viewHolder.ll_join.setEnabled(false);
                     if (infos.get(position).isJoining()) {
-                        final MyAlertDialog dialog=new MyAlertDialog(context);
+                        final MyAlertDialog dialog = new MyAlertDialog(context);
                         dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -273,9 +288,9 @@ public class ActAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //开启分享界面
                 Intent intent = new Intent();
-                intent.putExtra("type",1);
-                intent.putExtra("id",infos.get(position).getId());
-                intent.putExtra("activitytheme",infos.get(position).getActivityTheme());
+                intent.putExtra("type", 1);
+                intent.putExtra("id", infos.get(position).getId());
+                intent.putExtra("activitytheme", infos.get(position).getActivityTheme());
                 intent.setClass(context, ShareDialogAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -297,7 +312,7 @@ public class ActAdapter extends BaseAdapter {
         viewHolder.ll_guanzhu.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         switch (v.getId()) {
                             case R.id.ll_guanzhu:
@@ -306,7 +321,7 @@ public class ActAdapter extends BaseAdapter {
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()){
+                        switch (v.getId()) {
                             case R.id.ll_guanzhu:
                                 viewHolder.iv_simple_guanzhu.setAlpha(1.0f);
                                 break;
@@ -348,38 +363,12 @@ public class ActAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //接口调用
-                viewHolder.iv_actdetial.setEnabled(false);
-                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
+                builder.create().show();
+//                viewHolder.iv_actdetial.setEnabled(false);
+//                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
+
             }
         });
-//        viewHolder.iv_actdetial.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        switch (v.getId()) {
-//                            case R.id.iv_actdetial:
-//                                viewHolder.iv_actdetial.setAlpha(0.5f);
-//                                break;
-//                        }
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        switch (v.getId()){
-//                            case R.id.iv_actdetial:
-//                                viewHolder.iv_actdetial.setAlpha(1.0f);
-//                                break;
-//                        }
-//                    case MotionEvent.ACTION_UP:
-//                        switch (v.getId()) {
-//                            case R.id.iv_actdetial://点赞
-//                                viewHolder.iv_actdetial.setAlpha(1.0f);
-//                                break;
-//                        }
-//                        break;
-//                }
-//                return true;
-//            }
-//        });
         //展示个人资料
         View.OnClickListener listener1 = new View.OnClickListener() {
             @Override
@@ -457,13 +446,13 @@ public class ActAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                if (TextUtils.equals(response.getData(),0+"")){
+                if (TextUtils.equals(response.getData(), 0 + "")) {
                     viewHolder.ll_join.setEnabled(true);
                     infos.remove(position);
                     notifyDataSetChanged();
-                    MyToastUtils.showShortToast(context,"此条活动已被删除！");
+                    MyToastUtils.showShortToast(context, "此条活动已被删除！");
                     return;
-                }else if (TextUtils.equals(response.getData(),1+"")){
+                } else if (TextUtils.equals(response.getData(), 1 + "")) {
                     viewHolder.ll_join.setEnabled(true);
                     int i = infos.get(position).getMemberNum();
                     i = i - 1;
@@ -472,10 +461,10 @@ public class ActAdapter extends BaseAdapter {
                     context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
                     notifyDataSetChanged();
                     delGroup(infos.get(position).getId());
-                }else if (TextUtils.equals(response.getData(),-2+"")){
+                } else if (TextUtils.equals(response.getData(), -2 + "")) {
                     viewHolder.ll_join.setEnabled(true);
-                    MyToastUtils.showShortToast(context,response.getMessage());
-                }else {
+                    MyToastUtils.showShortToast(context, response.getMessage());
+                } else {
                     viewHolder.ll_join.setEnabled(true);
                 }
 
@@ -506,7 +495,8 @@ public class ActAdapter extends BaseAdapter {
     }
 
     /**
-     *参加成功后，调用添加群组
+     * 参加成功后，调用添加群组
+     *
      * @param actId
      */
     private void addGroup(String actId) {
@@ -525,9 +515,10 @@ public class ActAdapter extends BaseAdapter {
 
     /**
      * 移除群组
+     *
      * @param activityId
      */
-    private void delGroup(String activityId){
+    private void delGroup(String activityId) {
         RequestManager.getScheduleManager().deleGroup(activityId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -544,81 +535,28 @@ public class ActAdapter extends BaseAdapter {
     /***
      * 设置条目点击显示活动详情dialog
      * 1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
-     *  @param
-     * @param activityId
-     * @param iv_actdetial
+     *
+     * @param
+     * @param
+     * @param
      */
-    private void showDialog(String activityId, final CircleImageView iv_actdetial) {
-        RequestManager.getScheduleManager().getActivityDetials(activityId, new ResultCallback<ResultBean<SimpleInfo>>() {
-            @Override
-            public void onError(int status, String errorMsg) {
-                iv_actdetial.setEnabled(true);
-            }
-
-            @Override
-            public void onResponse(ResultBean<SimpleInfo> response) {
-                SimpleInfo simpleInfo = response.getData();
-                activityDetail(simpleInfo);
-                iv_actdetial.setEnabled(true);
-            }
-        });
-
-    }
-
-    private void activityDetail(final SimpleInfo simpleInfo) {
-        final CustomDialog.Builder builder = new CustomDialog.Builder(context);
-        if (!TextUtils.isEmpty(simpleInfo.getActivityParticulars())) {
-            builder.setMessage(simpleInfo.getActivityParticulars());
-        } else {
-            builder.setMessage("没有活动详情");
-        }
-        if (!UserInfoDao.getUser().getId().equals(simpleInfo.getCreatePersonId())) {
-//            if (simpleInfo.isColleagues()) {
-//                builder.setNegativeButton("你们两个是同事", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
-//                    }
-//                });
-//            } else if (simpleInfo.isFriend()) {
-//                builder.setNegativeButton("你们两个是好友", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                    MyToastUtils.showShortToast(mActivity, "点击了第二个button");
-//                    }
-//                });
-//            } else {
-//                builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Intent intent = new Intent(context, MessVerifyAct.class);//加为好友
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("userId", simpleInfo.getUserId());//好友id
-//                        if (!TextUtils.isEmpty(simpleInfo.getUserNm())) {
-//                            bundle.putString("userName", simpleInfo.getUserNm());//好友名字
-//                        } else {
-//                            bundle.putString("userName", "无用户名");
-//                        }
-//                        intent.setAction("AddFriend");
-//                        intent.putExtras(bundle);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        context.startActivity(intent);
-//                    }
-//                });
+//    private void showDialog(String activityId, final CircleImageView iv_actdetial) {
+//        RequestManager.getScheduleManager().getActivityDetials(activityId, new ResultCallback<ResultBean<SimpleInfo>>() {
+//            @Override
+//            public void onError(int status, String errorMsg) {
+//                iv_actdetial.setEnabled(true);
 //            }
-            if (simpleInfo.getJoinCount() > 0) {
-                builder.setPositiveButton("一起参加了" + simpleInfo.getJoinCount() + "次活动", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+//
+//            @Override
+//            public void onResponse(ResultBean<SimpleInfo> response) {
+//                SimpleInfo simpleInfo = response.getData();
+////                activityDetail(simpleInfo);
+//                iv_actdetial.setEnabled(true);
+//            }
+//        });
+//
+//    }
 
-                    }
-                });
-            }
-            builder.create().show();
-        } else {
-            builder.create().show();
-        }
-    }
 
     public static class Holder {
         public CircleImageView iv_headphoto;//头像
