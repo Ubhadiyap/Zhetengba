@@ -420,15 +420,26 @@ public class PersonalmesAct extends BaseActivity {
 
             case SEXMODIFY_GO://修改性别返回
                 if (resultCode == SEXMODIFY_BAKC) {
-                    user=UserInfoDao.getUser();
+
                     if (data != null) {
+                        user=UserInfoDao.getUser();
                         String sex = data.getStringExtra("Modify");
                         if (sex.equals("0")) {
                             cvSex.setNotesText("女");
+                            if(user!=null){
+                                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsg);
+                            }else {
+                                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsg);
+                            }
                         }
                         if (sex.equals("1")) {
                             {
                                 cvSex.setNotesText("男");
+                                if(user!=null){
+                                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsb);
+                                }else {
+                                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsb);
+                                }
                             }
 
                         }
