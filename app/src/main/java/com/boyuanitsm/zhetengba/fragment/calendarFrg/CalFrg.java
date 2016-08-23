@@ -273,7 +273,8 @@ public class CalFrg extends BaseFragment {
                 }
                 List<ScheduleInfo> infos=new ArrayList<ScheduleInfo>();
 //                Gson gson=new Gson();
-                infos=gson.fromJson(strList,new TypeToken<List<ScheduleInfo>>(){}.getType());
+                infos=gson.fromJson(strList, new TypeToken<List<ScheduleInfo>>() {
+                }.getType());
                 if (infos!=null&&infos.size()>0){
                     if (adapter == null) {
                         //设置简约listview的条目
@@ -345,7 +346,8 @@ public class CalFrg extends BaseFragment {
                 String bannerList= aCache.getAsString("CalBanner");
 //                Gson gson=new Gson();
                 if (!TextUtils.isEmpty(bannerList)) {
-                    List<LabelBannerInfo> bannerInfos = GsonUtils.gsonToList(bannerList,LabelBannerInfo.class);
+//                    bannerInfos = GsonUtils.gsonToList(bannerList, LabelBannerInfo.class);
+                    List<LabelBannerInfo>  bannerInfos=gson.fromJson(bannerList,new TypeToken<List<LabelBannerInfo>>(){}.getType());
                     initMyPageAdapter(bannerInfos);
                 }
             }
