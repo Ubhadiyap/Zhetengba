@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="debug"><source path="D:\zhetengba2\easeui\build\intermediates\bundles\debug\assets"/></dataSet><dataSet config="main"><source path="D:\zhetengba2\easeui\src\androidTest\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="debug"><source path="/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/assets"/></dataSet><dataSet config="main"><source path="/Users/wangbin/Documents/boyuan/zhetengba/easeui/src/androidTest/assets"/><source path="/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/generated/assets/shaders/androidTest/debug"/></dataSet></merger>

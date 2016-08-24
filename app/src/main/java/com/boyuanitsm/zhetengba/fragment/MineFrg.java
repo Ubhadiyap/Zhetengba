@@ -31,7 +31,6 @@ import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CommonView;
@@ -135,7 +134,7 @@ public class MineFrg extends BaseFragment{
         RequestManager.getScheduleManager().findMyLabelListMoreByUserId(new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                MyToastUtils.showShortToast(mActivity,errorMsg);
+//                MyToastUtils.showShortToast(mActivity,errorMsg);
             }
 
             @Override

@@ -63,12 +63,14 @@ public class SplashAct extends BaseActivity {
                     if (UserInfoDao.getUser() != null) {
                         if (TextUtils.isEmpty(UserInfoDao.getUser().getSex()) || UserInfoDao.getUser().getSex() == null) {
                             startActivity(new Intent(SplashAct.this, RegInfoAct.class));
+                            finish();
                         } else {
                             //进入主页面
                             startActivity(new Intent(SplashAct.this, MainAct.class));
+                            finish();
                         }
                     }
-                    finish();
+
                 } else {
                     try {
                         Thread.sleep(sleepTime);
