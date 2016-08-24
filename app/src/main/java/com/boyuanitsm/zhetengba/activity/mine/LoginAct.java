@@ -33,7 +33,6 @@ import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.json.JSONException;
@@ -221,7 +220,7 @@ public class LoginAct extends BaseActivity {
                     startActivity(intent);
                     finish();
                 }
-                if(type==1){
+                else if(type==1){
                 // 进入主页面
                 Intent intent = new Intent(LoginAct.this,
                         MainAct.class);
