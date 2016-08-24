@@ -9,11 +9,17 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Interpolator;
 import android.view.animation.LayoutAnimationController;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.photoView.PhotoView;
@@ -41,13 +47,19 @@ public class PicShowDialog extends Dialog {
     private ViewPagerAdapter pageAdapter;
     private int position;
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(10, 10);
+    private Animation mRotateAnimation;
+    private ImageView mArrowImageView;
+    /** 旋转动画的时间 */
+    static final int ROTATION_ANIMATION_DURATION = 1200;
+    /** 动画插值 */
+    static final Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.tum)
-            .showImageOnLoading(R.mipmap.banner_loading)
             .showImageOnFail(R.mipmap.tum).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
+//    .showImageOnLoading(R.mipmap.banner_loading)
 
     public PicShowDialog(Context context, int themeResId) {
         super(context, themeResId);
@@ -66,10 +78,23 @@ public class PicShowDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_dialog_pic);
         getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        float pivotValue = 0.5f; // SUPPRESS CHECKSTYLE
+        float toDegree = 720.0f; // SUPPRESS CHECKSTYLE
+        mRotateAnimation = new RotateAnimation(0.0f, toDegree,
+                Animation.RELATIVE_TO_SELF, pivotValue,
+                Animation.RELATIVE_TO_SELF, pivotValue);
+        mRotateAnimation.setFillAfter(true);
+        mRotateAnimation.setInterpolator(ANIMATION_INTERPOLATOR);
+        mRotateAnimation.setDuration(ROTATION_ANIMATION_DURATION);
+        mRotateAnimation.setRepeatCount(Animation.INFINITE);
+        mRotateAnimation.setRepeatMode(Animation.RESTART);
         vp = (MyViewPager) findViewById(R.id.vp);
+         mArrowImageView = (ImageView)findViewById(R.id.mArrowImageView);
         ll_point = (LinearLayout) findViewById(R.id.ll_point);
+//        mArrowImageView.setImageResource(R.mipmap.default_ptr_rotate);
         initMyPageAdapter();
         vp.setCurrentItem(position);
+        vp.setOffscreenPageLimit(0);
         vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -155,7 +180,32 @@ public class PicShowDialog extends Dialog {
         public Object instantiateItem(ViewGroup container, final int position) {
             View view =View.inflate(context, R.layout.item_pic_show, null);
             final PhotoView photoView = (PhotoView) view.findViewById(R.id.pic_pv);
-            ImageLoader.getInstance().displayImage(Uitls.imageBigFullUrl(imageInfos.get(position).getUrl()), photoView, optionsImag);
+            ImageLoader.getInstance().displayImage(Uitls.imageBigFullUrl(imageInfos.get(position).getUrl()), photoView, optionsImag, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String s, View view) {
+                    mArrowImageView.setVisibility(View.VISIBLE);
+                    mArrowImageView.startAnimation(mRotateAnimation);
+                    MyLogUtils.info("mArrowImageView显示=====");
+                }
+
+                @Override
+                public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+                }
+
+                @Override
+                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                    mArrowImageView.clearAnimation();
+                    mRotateAnimation.cancel();
+                    mArrowImageView.setVisibility(View.GONE);
+                    MyLogUtils.info("mArrowImageView消失=====");
+                }
+
+                @Override
+                public void onLoadingCancelled(String s, View view) {
+
+                }
+            });
             photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(View view, float x, float y) {

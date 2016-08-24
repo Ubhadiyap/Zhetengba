@@ -163,7 +163,7 @@ public class LabelMangerAct extends BaseActivity {
                 mylist.remove(position);
                 myadapter.update(mylist);
                 gv1.setAdapter(myadapter);
-                labelBannerInfo = new LabelBannerInfo(LabelMangerAct.this);
+                labelBannerInfo = new LabelBannerInfo();
                 labelBannerInfo.setDictName(str.getDictName());
                 labelBannerInfo.setId(str.getInterestId());
                 list.add(labelBannerInfo);

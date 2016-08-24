@@ -391,7 +391,7 @@ public class PersonalmesAct extends BaseActivity {
                     return;
                 }
                 uri = data.getData();
-                Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap2(this, uri);
+                Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap(this, uri);
                 File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
                 intent = new Intent(this, ClipActivity.class);
                 intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.png");
@@ -420,15 +420,26 @@ public class PersonalmesAct extends BaseActivity {
 
             case SEXMODIFY_GO://修改性别返回
                 if (resultCode == SEXMODIFY_BAKC) {
-                    user=UserInfoDao.getUser();
+
                     if (data != null) {
+                        user=UserInfoDao.getUser();
                         String sex = data.getStringExtra("Modify");
                         if (sex.equals("0")) {
                             cvSex.setNotesText("女");
+                            if(user!=null){
+                                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsg);
+                            }else {
+                                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsg);
+                            }
                         }
                         if (sex.equals("1")) {
                             {
                                 cvSex.setNotesText("男");
+                                if(user!=null){
+                                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsb);
+                                }else {
+                                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(user.getIcon()), head, optionsb);
+                                }
                             }
 
                         }

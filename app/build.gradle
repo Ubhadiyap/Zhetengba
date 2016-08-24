@@ -45,9 +45,15 @@ android {
 
 
         }
-        buildTypes {
+    android.dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+
+    }
+
+    buildTypes {
             release {
-                minifyEnabled true
+                minifyEnabled false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             }
         }

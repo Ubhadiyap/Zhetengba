@@ -12,6 +12,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </com.boyuanitsm.zhetengba.view.MyViewPager>
+        <ImageView
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/default_ptr_rotate"
+            android:id="@+id/mArrowImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <LinearLayout
             android:id="@+id/ll_point"
             android:layout_alignParentBottom="true"

@@ -168,7 +168,7 @@ public class SettingAct extends BaseActivity {
                 break;
             case R.id.cv_checkUpdate://检查更新
                 version=ZtinfoUtils.getAppVer(SettingAct.this);
-                MyLogUtils.degug("version"+version);
+//                MyLogUtils.degug("version"+version);
                 generalUtils.toVersion(SettingAct.this,version,0);
                 break;
 //            case R.id.cv_clearCache://清除缓存

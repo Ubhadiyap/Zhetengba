@@ -39,11 +39,13 @@ import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.utils.ACache;
+import com.boyuanitsm.zhetengba.utils.GeneralUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ShUtils;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.hyphenate.EMContactListener;
@@ -111,7 +113,8 @@ public class MainAct extends BaseActivity {
     private InviteMessgeDao inviteMessgeDao;
     private UserDao userDao;
     private ACache aCache;
-
+    private int version;
+    GeneralUtils generalUtils;
     @Override
     public void setLayout() {
 
@@ -167,7 +170,7 @@ public class MainAct extends BaseActivity {
         registerBroadcastReceiver();
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
         isFirst = SpUtils.getMainIsFirst(MainAct.this);
-        MyLogUtils.info(isFirst+"是否是第一次打开应用");
+        MyLogUtils.info(isFirst + "是否是第一次打开应用");
         if (isFirst){
             rl_ydy.setVisibility(View.VISIBLE);
             SpUtils.setMainIsFirst(MainAct.this,false);
@@ -180,6 +183,9 @@ public class MainAct extends BaseActivity {
                 rl_ydy.setVisibility(View.GONE);
             }
         });
+        version= ZtinfoUtils.getAppVer(MainAct.this);
+        generalUtils=new GeneralUtils();
+        generalUtils.toVersion(MainAct.this,version,1);
     }
 
 
@@ -188,8 +194,8 @@ public class MainAct extends BaseActivity {
      */
     private void defaultShow(FragmentTransaction transaction) {
         hideFragment(transaction);
+        calendarFrg= (CalendarFrg) fragmentManager.findFragmentByTag("calendarFrg");
         if (calendarFrg == null) {
-            calendarFrg= (CalendarFrg) fragmentManager.findFragmentByTag("calendarFrg");
             calendarFrg = new CalendarFrg();
             transaction.add(R.id.fl_main, calendarFrg,"calendarFrg");
         } else {
