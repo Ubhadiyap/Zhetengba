@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.adapter.LabelGVadapter;
@@ -223,7 +224,7 @@ public class LabelMangerAct extends BaseActivity {
 //                intent.putExtras(bundle);
 //                sendBroadcast(intent);
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
-                sendBroadcast(new Intent(PerpageAct.PPLABELS));
+                sendBroadcast(new Intent(TestListView.PPLABELS));
 //                sendBroadcast(new Intent(ChanelItemFrg.TALK_LIST));
                 finish();
             }

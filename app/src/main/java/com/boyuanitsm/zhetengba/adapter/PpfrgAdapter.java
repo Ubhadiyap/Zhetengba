@@ -61,6 +61,12 @@ public class PpfrgAdapter extends BaseAdapter {
         this.scheduleEntity=scheduleEntity;
         this.userInfoList=userInfoList;
     }
+    public void updata(List<ScheduleInfo> scheduleEntity,List<UserInfo> userInfoList){
+        this.scheduleEntity=scheduleEntity;
+        this.userInfoList=userInfoList;
+        notifyDataSetChanged();
+
+    }
 
     @Override
     public int getCount() {

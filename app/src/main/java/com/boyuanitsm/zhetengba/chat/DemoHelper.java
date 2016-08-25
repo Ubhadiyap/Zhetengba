@@ -69,6 +69,7 @@ import com.hyphenate.util.EMLog;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -778,12 +779,31 @@ public class DemoHelper {
 
             @Override
             public void onMessageReceived(List<EMMessage> messages) {
+//                Map<String, EaseUser> contactList = DemoHelper.getInstance().getContactList();
+//                Iterator<Map.Entry<String, EaseUser>> iterator = contactList.entrySet().iterator();
+//                List<EaseUser> easeUserList=new ArrayList<>();
+//                while (iterator.hasNext()) {
+//                    Map.Entry<String, EaseUser> entry = iterator.next();
+//                    if (!entry.getKey().equals(Constant.NEW_FRIENDS_USERNAME) && !entry.getKey().equals(Constant.GROUP_USERNAME) && !entry.getKey().equals(Constant.CHAT_ROOM) && !entry.getKey().equals(Constant.CHAT_ROBOT)) {
+//                        EaseUser easeUser = entry.getValue();
+//                        easeUserList.add(easeUser);
+//                    }
+//                }
                 for (EMMessage message : messages) {
                     ChatUserBean chatUserBean = new ChatUserBean();
                     chatUserBean.setUserId(message.getFrom());
                     MyLogUtils.info("这个人发送消息来了：" + message.getFrom());
                     try {
-                        chatUserBean.setNick(message.getStringAttribute("nick"));
+//                        for (int i=0;i<easeUserList.size();i++){
+
+                        EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getStringAttribute("userName"));
+                        if (easeUser!=null){
+                                chatUserBean.setNick(easeUser.getNick());
+                            }else {
+                                chatUserBean.setNick(message.getStringAttribute("nick"));
+                            }
+//                        }
+//                        chatUserBean.setNick(message.getStringAttribute("nick"));
                         String userIcon=message.getStringAttribute("icon");
                         if (userIcon.startsWith("http")){
                             chatUserBean.setIcon(userIcon);

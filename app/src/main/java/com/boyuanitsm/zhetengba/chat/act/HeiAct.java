@@ -1,7 +1,10 @@
 package com.boyuanitsm.zhetengba.chat.act;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -138,7 +141,37 @@ public class HeiAct extends BaseActivity {
             }
         });
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk == null) {
+            receiverTalk = new MyBroadCastReceiverTalk();
+            registerReceiver(receiverTalk, new IntentFilter(UPDATA));
+        }
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiverTalk != null) {
+            unregisterReceiver(receiverTalk);
+            receiverTalk = null;
+        }
+    }
+
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String UPDATA = "hei_update";
+
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+//            getPersonalMain(userId);
+            findBlackList();
+//            manager = getSupportFragmentManager();
+//            msv_scroll.smoothScrollTo(0, 0);
+        }
+    }
 
 
 

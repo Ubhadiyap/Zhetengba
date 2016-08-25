@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_scorl"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/common_bg">
 <ListView
     android:id="@+id/test_lv"
     android:dividerHeight="1px"
     android:divider="#e1e1e1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"></ListView>
-</LinearLayout>
+    <Button
+        android:visibility="gone"
+        android:id="@+id/bt_message"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_color"
+        android:text="发送消息"
+        android:textColor="#fff"
+        android:textSize="14sp" />
+</RelativeLayout>

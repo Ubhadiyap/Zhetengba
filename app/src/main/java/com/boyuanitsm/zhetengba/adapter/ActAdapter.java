@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
+import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
@@ -378,7 +379,7 @@ public class ActAdapter extends BaseAdapter {
                 bundle.putString("userId", infos.get(position).getUserId());
                 bundle.putBoolean("friend", infos.get(position).isFriend());
                 intent.putExtras(bundle);
-                intent.setClass(context, PerpageAct.class);
+                intent.setClass(context, TestListView.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

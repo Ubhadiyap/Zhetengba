@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ContextMenuActivity;
@@ -195,7 +196,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
             message.setAttribute("fire", FIRE_ON);
         else
             message.setAttribute("fire", FIRE_CLOSE);
-
+        message.setAttribute("userName",UserInfoDao.getUser().getId());
         message.setAttribute("nick", UserInfoDao.getUser().getPetName());
         message.setAttribute("icon", Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()));
 
@@ -234,7 +235,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
     public void onAvatarClick(String username) {
         if (!username.equals(UserInfoDao.getUser().getId())) {
             //头像点击事件
-            Intent intent = new Intent(getActivity(), PerpageAct.class);
+            Intent intent = new Intent(getActivity(), TestListView.class);
             intent.putExtra("userId", username);
             if (chatType == Constant.CHATTYPE_SINGLE) {
                 intent.putExtra("chat_type", 1);
@@ -388,7 +389,14 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
     class UpdateGReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-            titleBar.setTitle(intent.getStringExtra("groupName"));
+            int chat = intent.getIntExtra("chat", 0);
+            if (chat==1){
+                //单聊
+                String nickName = intent.getStringExtra("nickName");
+                titleBar.setTitle(nickName);
+            }else {
+                titleBar.setTitle(intent.getStringExtra("groupName"));
+            }
         }
     }
 

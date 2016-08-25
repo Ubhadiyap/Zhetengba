@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -273,7 +274,7 @@ public class RegInfoAct extends BaseActivity {
                 MyLogUtils.info(LabelInterestDao.getInterestLabel().toString());
 //                sendBroadcast(new Intent(SquareAct.MYLABELS));
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
-                sendBroadcast(new Intent(PerpageAct.PPLABELS));
+                sendBroadcast(new Intent(TestListView.PPLABELS));
                 finish();
             }
         });
