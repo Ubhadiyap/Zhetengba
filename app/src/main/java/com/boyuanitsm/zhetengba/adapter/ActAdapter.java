@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
-import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -121,6 +120,8 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.ll_del = (LinearLayout) convertView.findViewById(R.id.ll_del);
             viewHolder.ll_simple_share = (LinearLayout) convertView.findViewById(R.id.ll_simple_share);
             viewHolder.ll_theme_location = (LinearLayout) convertView.findViewById(R.id.ll_theme_location);
+            viewHolder.tv_cj= (TextView) convertView.findViewById(R.id.tv_cj);//自己发布活动参加人数
+            viewHolder.tv_tt= (TextView) convertView.findViewById(R.id.tv_tt);//能参与的总人数
             convertView.setTag(viewHolder);
 
         }
@@ -146,6 +147,8 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.ll_join.setVisibility(View.GONE);
             viewHolder.ll_del.setVisibility(View.VISIBLE);
             viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
+            viewHolder.tv_tt.setText("/"+infos.get(position).getInviteNumber());//自己发布总人数
+            viewHolder.tv_cj.setText(infos.get(position).getMemberNum()+"");//已经响应人数
         }
         if (infos.get(position).getFollowNum() == 0) {
             viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
@@ -579,6 +582,7 @@ public class ActAdapter extends BaseAdapter {
         public LinearLayout ll_theme_location;//活动位置Linear
         public LinearLayout ll_show, ll_show2, ll_show3;
         public LinearLayout ll_del, ll_simple_share;
+        public TextView tv_cj,tv_tt;//自己发布后参加人数和总的人数
     }
 
 

@@ -48,7 +48,7 @@
                 <com.boyuanitsm.zhetengba.view.CommonView
                     app:desTextColor="#333333"
                     app:desTextSize="14sp"
-                    app:desText="我的收藏"
+                    app:desText="我的关注"
                     app:statusImage="@mipmap/collect2"
                     app:statusImage_width="24dp"
                     app:statusImage_height="24dp"
