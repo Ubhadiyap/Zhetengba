@@ -58,7 +58,7 @@ public class CircleglAct extends BaseActivity {
             ppuserId=bundle.getString("PPuserId");
             if (!TextUtils.isEmpty(ppuserId)) {
                 if (ppuserId.equals(UserInfoDao.getUser().getId())) {
-                    str="圈子管理";
+                    str="我的圈子";
                     setTopTitle(str);
                     flag=1;
                     getCircleList(null, page, rows);

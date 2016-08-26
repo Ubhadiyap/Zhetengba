@@ -105,4 +105,8 @@ public class UserDao {
     public void saveRobotUser(List<RobotUser> robotList){
     	DemoDBManager.getInstance().saveRobotList(robotList);
     }
+
+	public void updataContact(EaseUser user) {
+		DemoDBManager.getInstance().updateContact(user);
+	}
 }

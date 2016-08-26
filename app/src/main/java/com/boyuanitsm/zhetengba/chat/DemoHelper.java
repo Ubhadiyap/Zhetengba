@@ -669,6 +669,9 @@ public class DemoHelper {
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
             appContext.sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+            Intent intent=new Intent(appContext,MainAct.class);
+//            intent.putExtra("flag_int",2);//2，有新的好友请求
+            appContext.sendBroadcast(intent);
             MyLogUtils.info("换新发广播");
         }
 
@@ -796,7 +799,7 @@ public class DemoHelper {
                     try {
 //                        for (int i=0;i<easeUserList.size();i++){
 
-                        EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getStringAttribute("userName"));
+                        EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getFrom());
                         if (easeUser!=null){
                                 chatUserBean.setNick(easeUser.getNick());
                             }else {
@@ -962,7 +965,13 @@ public class DemoHelper {
         contactList.put(user.getUsername(), user);
         demoModel.saveContact(user);
     }
-
+    /**
+     * 更新单个user
+     */
+    public void updataContact(EaseUser user){
+        contactList.put(user.getUsername(),user);
+        demoModel.updataContact(user);
+    }
     /**
      * 获取好友list
      *

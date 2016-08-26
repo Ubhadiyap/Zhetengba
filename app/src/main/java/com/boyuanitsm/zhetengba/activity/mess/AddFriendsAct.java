@@ -14,7 +14,7 @@ import android.text.TextWatcher;
 import android.view.View;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.TestListView;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
@@ -149,7 +149,7 @@ public class AddFriendsAct extends BaseActivity {
             public void onResponse(ResultBean<UserInfo> response) {
                 UserInfo userInfo = response.getData();
                 if (!TextUtils.isEmpty(userInfo.getId())) {
-                    Intent intent = new Intent(AddFriendsAct.this, TestListView.class);
+                    Intent intent = new Intent(AddFriendsAct.this, PersonalAct.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("userId", userInfo.getId());
 //                  bundle.putBoolean("friend",userInfo.isFriend());

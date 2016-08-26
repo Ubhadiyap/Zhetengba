@@ -21,8 +21,7 @@ import android.widget.Toast;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
-import com.boyuanitsm.zhetengba.activity.TestListView;
-import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ContextMenuActivity;
 import com.boyuanitsm.zhetengba.chat.act.ForwardMessageActivity;
@@ -196,7 +195,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
             message.setAttribute("fire", FIRE_ON);
         else
             message.setAttribute("fire", FIRE_CLOSE);
-        message.setAttribute("userName",UserInfoDao.getUser().getId());
+//        message.setAttribute("userName",UserInfoDao.getUser().getId());
         message.setAttribute("nick", UserInfoDao.getUser().getPetName());
         message.setAttribute("icon", Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()));
 
@@ -235,7 +234,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
     public void onAvatarClick(String username) {
         if (!username.equals(UserInfoDao.getUser().getId())) {
             //头像点击事件
-            Intent intent = new Intent(getActivity(), TestListView.class);
+            Intent intent = new Intent(getActivity(), PersonalAct.class);
             intent.putExtra("userId", username);
             if (chatType == Constant.CHATTYPE_SINGLE) {
                 intent.putExtra("chat_type", 1);
