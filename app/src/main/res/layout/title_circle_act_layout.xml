@@ -13,10 +13,9 @@
         <ImageView
             android:layout_width="11dp"
             android:layout_height="19dp"
-            android:src="@mipmap/top_back"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            />
+            android:src="@mipmap/top_back" />
 
     </RelativeLayout>
 
@@ -25,24 +24,41 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
         android:layout_centerInParent="true"
+        android:textColor="#ffffff"
         android:textSize="18sp" />
+
+    <RelativeLayout
+        android:id="@+id/iv_serch"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="55dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/serch_gl" />
+    </RelativeLayout>
 
 
     <RelativeLayout
         android:id="@+id/rl_more"
-        android:gravity="center_vertical"
-        android:layout_width="80dp"
+        android:layout_width="50dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="15dp">
+        android:gravity="center_vertical">
+
         <ImageView
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/more"
             android:layout_width="25dp"
-            android:layout_height="5dp" />
+            android:layout_height="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/more" />
     </RelativeLayout>
 
 

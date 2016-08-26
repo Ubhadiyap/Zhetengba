@@ -70,7 +70,7 @@ public class CircleglAct extends BaseActivity {
                 }
             }
         }else {
-            str="圈子管理";
+            str="我的圈子";
             flag=1;
             setTopTitle(str);
             getCircleList(null,page,rows);
@@ -89,7 +89,7 @@ public class CircleglAct extends BaseActivity {
                 Intent intent = new Intent(CircleglAct.this, CirxqAct.class);
                 Bundle bundle1=new Bundle();
                 bundle1.putString("circleId", datas.get(position).getId());
-                if (str.equals("圈子管理")){
+                if (str.equals("我的圈子")){
                     bundle1.putInt("type", 1);
                 }else if (str.equals("TA的圈子")){
                     bundle1.putInt("type",0);

@@ -281,6 +281,20 @@
                         style="@style/MainAct_simple_Text"
                         android:paddingLeft="10dp"
                         android:text="分享" />
+
+                    <TextView
+                        android:textColor="@color/red_label"
+                        android:id="@+id/tv_cj"
+                        style="@style/MainAct_simple_Text"
+                        android:paddingLeft="5dp"
+                        android:text="3" />
+
+                    <TextView
+                        android:id="@+id/tv_tt"
+                        style="@style/MainAct_simple_Text"
+                        android:text="/3" />
+
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

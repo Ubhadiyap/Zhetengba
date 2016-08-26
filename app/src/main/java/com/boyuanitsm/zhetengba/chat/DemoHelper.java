@@ -69,7 +69,6 @@ import com.hyphenate.util.EMLog;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -314,12 +313,25 @@ public class DemoHelper {
                 if (message.getType() == Type.TXT) {
                     ticker = ticker.replaceAll("\\[.{2,3}\\]", "[表情]");
                 }
-                EaseUser user = getUserInfo(message.getFrom());
-                if (user != null) {
-                    return getUserInfo(message.getFrom()).getNick() + ": " + ticker;
-                } else {
-                    return message.getFrom() + ": " + ticker;
+
+                EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getFrom());
+                if (easeUser!=null){
+                    return easeUser.getNick()+ ": " + ticker;
+                }else {
+                    try {
+                        return message.getStringAttribute("nick")+ ": " + ticker;
+                    } catch (HyphenateException e) {
+                       return  ticker;
+                    }
                 }
+
+
+//                EaseUser user = getUserInfo(message.getFrom());
+//                if (user != null) {
+//                    return getUserInfo(message.getFrom()).getNick() + ": " + ticker;
+//                } else {
+//                    return message.getFrom() + ": " + ticker;
+//                }
             }
 
             @Override

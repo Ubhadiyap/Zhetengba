@@ -178,12 +178,15 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    @OnClick({R.id.rl_more})
+    @OnClick({R.id.rl_more,R.id.iv_serch})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_more:
                 showPopupWindow(rl_more);
+                break;
+            case R.id.iv_serch:
+                openActivity(SerchCirAct.class);
                 break;
         }
     }
