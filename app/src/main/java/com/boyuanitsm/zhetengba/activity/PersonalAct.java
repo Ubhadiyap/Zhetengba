@@ -616,11 +616,14 @@ public class PersonalAct extends BaseActivity{
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                Intent intent = new Intent();
-                intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
-                intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
-                sendBroadcast(intent);
+//                Intent intent = new Intent();
+//                intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
+//                intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
+//                sendBroadcast(intent);
+                sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
+
                 finish();
             }
         });
