@@ -53,11 +53,15 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
@@ -286,6 +290,16 @@ public class MainAct extends BaseActivity {
 
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
+//            Map<String, EaseUser> contactList = DemoHelper.getInstance().getContactList();
+//            Iterator<Map.Entry<String, EaseUser>> iterator = contactList.entrySet().iterator();
+//            List<EaseUser> easeUserList=new ArrayList<>();
+//            while (iterator.hasNext()) {
+//                Map.Entry<String, EaseUser> entry = iterator.next();
+//                if (!entry.getKey().equals(Constant.NEW_FRIENDS_USERNAME) && !entry.getKey().equals(Constant.GROUP_USERNAME) && !entry.getKey().equals(Constant.CHAT_ROOM) && !entry.getKey().equals(Constant.CHAT_ROBOT)) {
+//                    EaseUser easeUser = entry.getValue();
+//                    easeUserList.add(easeUser);
+//                }
+//            }
             // 提示新消息
             for (EMMessage message : messages) {
                 DemoHelper.getInstance().getNotifier().onNewMsg(message);
@@ -293,7 +307,17 @@ public class MainAct extends BaseActivity {
                 chatUserBean.setUserId(message.getFrom());
                 MyLogUtils.info("这个人发送消息来了："+message.getFrom());
                 try {
-                    chatUserBean.setNick(message.getStringAttribute("nick"));
+//                    for (int i=0;i<easeUserList.size();i++){
+                        EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getStringAttribute("userName"));
+//                    MyLogUtils.info(easeUser.toString()+"easeUser是。。。。。");
+                        if (easeUser!=null){
+                            chatUserBean.setNick(easeUser.getNick());
+                        }else {
+                            chatUserBean.setNick(message.getStringAttribute("nick"));
+                        }
+//                    }
+//                    message.getStringAttribute("userName");
+//                    chatUserBean.setNick(message.getStringAttribute("nick"));
                     String userIcon=message.getStringAttribute("icon");
                     if (userIcon.startsWith("http")){
                         chatUserBean.setIcon(message.getStringAttribute("icon"));

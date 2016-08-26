@@ -39,6 +39,7 @@ public class PpagecalFrg extends BaseFragment {
     private PersonalMain personalMain;
 //    private IntentFilter intentFilter;
     private String PAGEFRG_KEY = "perpage_to_pagecalFrg";
+    private PpfrgAdapter adapter;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -52,13 +53,50 @@ public class PpagecalFrg extends BaseFragment {
         personalMain = bundle.getParcelable(PAGEFRG_KEY);
         scheduleEntity = personalMain.getScheduleEntity();
         userInfoList= personalMain.getUserEntity();
-        lv_ppcal.setAdapter(new PpfrgAdapter(mActivity, scheduleEntity,userInfoList));
+        if (adapter==null){
+            adapter=new PpfrgAdapter(mActivity, scheduleEntity, userInfoList);
+            lv_ppcal.setAdapter(adapter);
+        }else {
+            adapter.updata(scheduleEntity, userInfoList);
+        }
+//        lv_ppcal.setAdapter(new PpfrgAdapter(mActivity, scheduleEntity,userInfoList));
 //        int lvHeight = ListViewUtil.MeasureListView(lv_ppcal);
 //        MyLogUtils.degug("lvheight=======" + lvHeight);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        if (receiverTalk == null) {
+//            receiverTalk = new MyBroadCastReceiverTalk();
+//            mActivity.registerReceiver(receiverTalk, new IntentFilter(PPLABELSCAL));
+//        }
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        if (receiverTalk != null) {
+//            mActivity.unregisterReceiver(receiverTalk);
+//            receiverTalk = null;
+//        }
+//    }
+//
+//    private MyBroadCastReceiverTalk receiverTalk;
+//    public static final String PPLABELSCAL = "cal_perpage_update";
+//
+//    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            scheduleEntity = personalMain.getScheduleEntity();
+//            userInfoList= personalMain.getUserEntity();
+//            if (adapter==null){
+//                adapter=new PpfrgAdapter(mActivity, scheduleEntity, userInfoList);
+//                lv_ppcal.setAdapter(adapter);
+//            }else {
+//                adapter.updata(scheduleEntity, userInfoList);
+//            }
+//        }
+//    }
 }

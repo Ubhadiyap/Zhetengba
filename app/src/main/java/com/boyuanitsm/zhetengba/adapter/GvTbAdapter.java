@@ -39,6 +39,10 @@ public class GvTbAdapter extends BaseAdapter {
         this.context=context;
         this.list=list;
     }
+    public void updata(List<ActivityLabel> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
 
     public void setSeclection(int position) {
         clickTemp = position;

@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
+import com.boyuanitsm.zhetengba.activity.mine.EditAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
@@ -165,7 +166,6 @@ public class PerpageAct extends BaseActivity {
             }
         }
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(userEntity.get(0).getIcon()), cv_photo, optionsImag);
-
         ChatUserBean chatUserBean = new ChatUserBean();
         chatUserBean.setUserId(userEntity.get(0).getId());
         chatUserBean.setNick(userEntity.get(0).getPetName());
@@ -336,24 +336,34 @@ public class PerpageAct extends BaseActivity {
     private void setSelect(int position) {
         FragmentTransaction transaction = manager.beginTransaction();
         hideFragments(transaction);
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(PAGEFRG_KEY, personalMain);
+        intent.putExtras(bundle);
         switch (position) {
             case 0://档期frg
                 setTab(0);
                 if (state == 1) {
+                    ppagecalFrg = new PpagecalFrg();
                     transaction.add(R.id.fra_main, ppagecalFrg);
+                    ppagecalFrg.setArguments(bundle);
                     transaction.show(ppagecalFrg);
                     state = 2;
                 } else if (state == 2) {
+                    ppagecalFrg.setArguments(bundle);
                     transaction.show(ppagecalFrg);
                 }
                 break;
             case 1://圈子动态frg
                 setTab(1);
                 if (state1 == 1) {
+                    ppagedtFrg = new PpagedtFrg();
                     transaction.add(R.id.fra_main, ppagedtFrg);
+                    ppagedtFrg.setArguments(bundle);
                     transaction.show(ppagedtFrg);
                     state1 = 2;
                 } else if (state1 == 2) {
+                    ppagedtFrg.setArguments(bundle);
                     transaction.show(ppagedtFrg);
                 }
                 break;
@@ -394,7 +404,7 @@ public class PerpageAct extends BaseActivity {
         //xoff,yoff基于anchor的左下角进行偏移。
         popupWindow.showAsDropDown(parent, xpos, 0);
         LinearLayout ll_schy = (LinearLayout) layout.findViewById(R.id.ll_schy);//删除好友
-//        LinearLayout ll_xiugai = (LinearLayout) layout.findViewById(R.id.ll_xiugai);//修改备注
+        LinearLayout ll_xiugai = (LinearLayout) layout.findViewById(R.id.ll_xiugai);//修改备注
         LinearLayout ll_hei=(LinearLayout) layout.findViewById(R.id.ll_hei);//加入黑名单
         ll_schy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -423,17 +433,19 @@ public class PerpageAct extends BaseActivity {
                 }).setNegativeButton("取消",null).show();
             }
         });
-//        ll_xiugai.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), EditAct.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra(EditAct.USER_TYPE, 8);
-//                startActivity(intent);
-//                popupWindow.dismiss();
-//
-//            }
-//        });
+        ll_xiugai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), EditAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(EditAct.USER_TYPE, 8);
+                intent.putExtra("friendId",userEntity.get(0).getId());
+                intent.putExtra("remark",userEntity.get(0).getPetName());
+                startActivity(intent);
+                popupWindow.dismiss();
+
+            }
+        });
     }
 
     /**
@@ -464,8 +476,6 @@ public class PerpageAct extends BaseActivity {
      * @param id
      */
     private void getPersonalMain(String id) {
-        ppagecalFrg = new PpagecalFrg();
-        ppagedtFrg = new PpagedtFrg();
         RequestManager.getScheduleManager().getPersonalMain(id, new ResultCallback<ResultBean<PersonalMain>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -481,7 +491,7 @@ public class PerpageAct extends BaseActivity {
                 userInterestEntity = personalMain.getUserInterestEntity();
                 initUserData(userEntity);
                 iniTab(userInterestEntity, userEntity.get(0).getId());
-                toPageCalFrg();
+//                toPageCalFrg();
                 setSelect(0);
                 setOnclikListener();
                 hlv_perpage.setAdapter(new HlvppAdapter(PerpageAct.this, circleEntity));//她的圈子下面水平view适配器
@@ -552,16 +562,13 @@ public class PerpageAct extends BaseActivity {
         });
     }
 
+
+
     /**
      * 请求档期数据
      */
     private void toPageCalFrg() {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(PAGEFRG_KEY, personalMain);
-        intent.putExtras(bundle);
-        ppagecalFrg.setArguments(bundle);
-        ppagedtFrg.setArguments(bundle);
+
 
 
     }

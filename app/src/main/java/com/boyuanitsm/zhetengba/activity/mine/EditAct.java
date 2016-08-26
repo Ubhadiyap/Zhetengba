@@ -10,16 +10,33 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.TestListView;
+import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
+import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
+import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
+import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
+import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
+import com.boyuanitsm.zhetengba.chat.act.HeiAct;
+import com.boyuanitsm.zhetengba.chat.frg.ChatFragment;
+import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
+import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.fragment.PpagecalFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
@@ -34,7 +51,8 @@ public class EditAct extends BaseActivity {
     private UserInfo user;
     private boolean flag=true;
     private int error;//用来区别名字修改时间昵称为空时吐司
-
+    private String friendId,remark;//用户ID
+    private String mark;//新备注
     @Override
     public void setLayout() {
         setContentView(R.layout.act_edit);
@@ -43,19 +61,25 @@ public class EditAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         TYPE = getIntent().getIntExtra(USER_TYPE, 0);
+        friendId= getIntent().getStringExtra("friendId");
+//        MyLogUtils.info(friendId+"friend是多少。。。。");
+        remark= getIntent().getStringExtra("remark");
         user = UserInfoDao.getUser();
         setTopPos(TYPE);//从不同的地方跳转过来后设置不同标题，输入框设置不同设置属性
         setRight("提交", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                   if (saveUserinfo()==true){
-                       saveUser(user);
-                   }else {
-                       if(error==1){
-                           MyToastUtils.showShortToast(EditAct.this,"昵称不能为空");
-                       }else
-                       MyToastUtils.showShortToast(EditAct.this,"修改信息失败！");
-                   }
+                if (saveUserinfo() == true) {
+                    saveUser(user);
+                } else {
+                    if (error == 1) {
+                        MyToastUtils.showShortToast(EditAct.this, "昵称不能为空");
+                    } else if (error==2){
+                        MyToastUtils.showShortToast(EditAct.this, "备注不能为空");
+                    }else {
+                        MyToastUtils.showShortToast(EditAct.this, "修改信息失败！");
+                    }
+                }
 
             }
         });
@@ -68,7 +92,7 @@ public class EditAct extends BaseActivity {
      */
     private void saveUser(final UserInfo userInfo) {
         if (TYPE == 8) {
-
+            gaiBeizhu(friendId,mark);
         } else {
             RequestManager.getUserManager().modifyUserInfo(userInfo, new ResultCallback<ResultBean<String>>() {
                 @Override
@@ -91,7 +115,40 @@ public class EditAct extends BaseActivity {
         }
 
     }
+    /***
+     * 修改备注
+     * @param friendId
+     * @param reMark
+     */
+    private void gaiBeizhu(final String friendId, final String reMark){
+        RequestManager.getMessManager().gaiBz(friendId, reMark, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
 
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
+                sendBroadcast(new Intent(TestListView.PPLABELS));
+                sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
+//                sendBroadcast(new Intent(HeiAct.UPDATA));
+                sendBroadcast(new Intent(SquareAct.TALK_LIST));
+                sendBroadcast(new Intent(CircleAct.ALLTALKS));
+                sendBroadcast(new Intent(CirxqAct.TALKS));
+                sendBroadcast(new Intent(CirxqAct.MEMBERXQ));
+                sendBroadcast(new Intent(CirxqAct.DETAIL));
+                sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
+                Intent intent=new Intent(ChatFragment.UPDATE_GROUP_NAME);
+                intent.putExtra("chat",1);
+                intent.putExtra("nickName",reMark);
+                sendBroadcast(intent);
+                MyToastUtils.showShortToast(getApplicationContext(), response.getMessage());
+                finish();
+            }
+        });
+    }
     /**
      * 保存用户到一个实体中
      *
@@ -175,6 +232,15 @@ public class EditAct extends BaseActivity {
                flag=true;
                 break;
             case 8:
+                if (!TextUtils.isEmpty(content)){
+                    mark=content;
+                    flag=true;
+                }else {
+                    MyToastUtils.showShortToast(EditAct.this,"备注不能为空");
+                    cetEditInfo.requestFocus();
+                    flag=false;
+                    error=2;
+                }
                 break;
             case 9:
                 if (!(TextUtils.isEmpty(content))) {
@@ -264,7 +330,11 @@ public class EditAct extends BaseActivity {
                 break;
             case 8://从消息里面的个人主页界面穿过来的修改备注
                 setTopTitle("修改备注");
-                cetEditInfo.setHint("请输入备注");
+                    if (!TextUtils.isEmpty(remark)){
+                        cetEditInfo.setText(remark);
+                    }
+                cetEditInfo.setHint("请输入名称");
+                cetEditInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(8)});
                 break;
 
             case 9://故乡

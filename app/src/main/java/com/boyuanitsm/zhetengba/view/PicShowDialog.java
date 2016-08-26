@@ -50,7 +50,7 @@ public class PicShowDialog extends Dialog {
     private Animation mRotateAnimation;
     private ImageView mArrowImageView;
     /** 旋转动画的时间 */
-    static final int ROTATION_ANIMATION_DURATION = 1200;
+    static final int ROTATION_ANIMATION_DURATION = 3000;
     /** 动画插值 */
     static final Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
     // 图片缓存 默认 等

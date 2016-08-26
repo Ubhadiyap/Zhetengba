@@ -40,6 +40,8 @@ import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.ACache;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -47,6 +49,8 @@ import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.widget.time.TimeDialog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -101,6 +105,8 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private TextView tv_hu_no_can;
     @ViewInject(R.id.tv_hu_can)
     private TextView tv_hu_can;
+    @ViewInject(R.id.ll_hide_key)
+    private LinearLayout ll_hide_key;
     private Map<Integer, String> map;
     private boolean flag = true;
     private int MIN_MARK = 2;
@@ -119,7 +125,8 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private ProgressDialog pd;//缓冲弹出框
     private Date startDate, endDate;
     private LocationClient locationClient;
-
+    private ACache aCache;
+    private Gson gson;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -132,7 +139,31 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         pd = new ProgressDialog(ContractedAct.this);
         pd.setCanceledOnTouchOutside(false);
         pd.setMessage("发布中...");
+        aCache=ACache.get(ContractedAct.this);
+        gson=new Gson();
         list = new ArrayList<ActivityLabel>();
+        String labelStr=aCache.getAsString("activityLabel");
+        if (!TextUtils.isEmpty(labelStr)){
+            List<ActivityLabel> labellist= gson.fromJson(labelStr, new TypeToken<List<ActivityLabel>>() {
+            }.getType());
+            if (adapter==null){
+                adapter=new GvTbAdapter(ContractedAct.this,labellist);
+                gv_tab.setAdapter(adapter);
+            }else {
+                adapter.updata(labellist);
+            }
+            gv_tab.setSelector(new ColorDrawable(Color.TRANSPARENT));
+            gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    ActivityLabel activityLabel = list.get(position);
+                    simpleInfo.setLabelId(activityLabel.getId());
+                    simpleInfo.setIcon(activityLabel.getIcon());
+                    adapter.setSeclection(position);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
         position();
         getAcitivtyLabel();
         et_pp_num.addTextChangedListener(judgeEditNum());
@@ -236,7 +267,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         this.map = map;
     }
 
-    @OnClick({R.id.tv_select, R.id.ll_theme_content, R.id.ll_select_tab, R.id.ll_start_time, R.id.ll_end_time, R.id.ll_theme, R.id.ll_hu_can, R.id.ll_hu_no_can, R.id.ll_tab, R.id.ll_hide, R.id.bt_plane})
+    @OnClick({R.id.tv_select, R.id.ll_theme_content, R.id.ll_select_tab, R.id.ll_start_time, R.id.ll_end_time, R.id.ll_theme, R.id.ll_hu_can, R.id.ll_hu_no_can, R.id.ll_tab, R.id.ll_hide, R.id.bt_plane,R.id.ll_hide_key})
     public void onClick(View v) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
@@ -244,6 +275,9 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             case R.id.ll_tab://选择标签
                 ZtinfoUtils.hideSoftKeyboard(ContractedAct.this,ll_select_tab);
                 selectTab();
+                break;
+            case R.id.ll_hide_key:
+                ZtinfoUtils.hideSoftKeyboard(ContractedAct.this,ll_hide_key);
                 break;
             case R.id.ll_select_tab://选择标签
                 ZtinfoUtils.hideSoftKeyboard(ContractedAct.this,ll_select_tab);
@@ -422,19 +456,47 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         RequestManager.getScheduleManager().getAllActivityLabel(new ResultCallback<ResultBean<List<ActivityLabel>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+               String strList= aCache.getAsString("activityLabel");
+                if (!TextUtils.isEmpty(strList)){
+                 List<ActivityLabel> labellist= gson.fromJson(strList, new TypeToken<List<ActivityLabel>>() {
+                    }.getType());
+                    if (adapter==null){
+                        adapter=new GvTbAdapter(ContractedAct.this,labellist);
+                        gv_tab.setAdapter(adapter);
+                    }else {
+                        adapter.updata(labellist);
+                    }
+                    gv_tab.setSelector(new ColorDrawable(Color.TRANSPARENT));
+                    gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            ActivityLabel activityLabel = list.get(position);
+                            simpleInfo.setLabelId(activityLabel.getId());
+                            simpleInfo.setIcon(activityLabel.getIcon());
+                            adapter.setSeclection(position);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
             }
 
             @Override
             public void onResponse(ResultBean<List<ActivityLabel>> response) {
 
                 list = response.getData();
-                adapter = new GvTbAdapter(ContractedAct.this, list);
+                if (list!=null&&list.size()>0){
+                    aCache.put("activityLabel", GsonUtils.bean2Json(list));
+                }
+                if (adapter==null){
+                    adapter = new GvTbAdapter(ContractedAct.this, list);
+                    gv_tab.setAdapter(adapter);
+                }else {
+                    adapter.updata(list);
+                }
 //                //默认选中第一个；
 //                adapter.setSeclection(0);
 //                adapter.notifyDataSetChanged();
                 //设置标签的，适配器
-                gv_tab.setAdapter(adapter);
                 gv_tab.setSelector(new ColorDrawable(Color.TRANSPARENT));
                 gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

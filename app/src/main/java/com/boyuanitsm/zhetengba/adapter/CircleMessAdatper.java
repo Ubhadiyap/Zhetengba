@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.map.Circle;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
@@ -177,7 +178,7 @@ public class CircleMessAdatper extends BaseAdapter {
         holder1.cv_head2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PerpageAct.class);
+                Intent intent = new Intent(context, TestListView.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

@@ -10,11 +10,11 @@ public interface IZtbUrl {
     //基础地址
     //外网
 //    public static final String BASE_URL = "http://hseb.net.cn/zhetengba/";
-    public static final String BASE_URL="http://180.76.149.156:8033/zhetengba/";
+//    public static final String BASE_URL="http://180.76.149.156:8033/zhetengba/";
     //开发
-//    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
 //    public static final String BASE_URL = "http://192.168.2.63:8080/zhetengba/";
-//    public static final String BASE_URL = "http://172.16.6.235:8080/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.196:8080/zhetengba/";
     //测试
 //     public static final String BASE_URL = "http://172.16.6.235:8080/zhetengba/";
     /**
@@ -319,6 +319,8 @@ public interface IZtbUrl {
     String FINDBLACKLIST_URL =BASE_URL+"message/login/findBlackList.do";
    //删除黑名单
     String REMOVEBLACKLIST_URL =BASE_URL+"message/login/removeBlackList.do";
+    //修改备注
+    String REMARK_URL=BASE_URL+"message/login/addFriendRemark.do";
 
 
 }

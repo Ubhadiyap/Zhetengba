@@ -204,5 +204,15 @@ public class MessManager extends RequestManager{
         map.put("newGroupName",newGroupName);
         doPost(IZtbUrl.UPDATE_GROUPNAME_URL, map, callback);
     }
-
+    /**
+     * 修改备注
+     * @param friendId
+     * @param remark
+     */
+    public void gaiBz(String friendId,String remark,ResultCallback callback){
+        Map<String,String>map=new HashMap();
+        map.put("friendId",friendId);
+        map.put("remark",remark);
+        doPost(IZtbUrl.REMARK_URL, map, callback);
+    }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.mess.NewFriendsMsgActivity;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.DataBean;
@@ -168,7 +169,7 @@ public class ContractsFrg extends EaseContactListFragment {
                 String username = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
                 // demo中直接进入聊天页面，实际一般是进入用户详情页
 //                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
-                Intent intent = new Intent(getActivity(), PerpageAct.class);
+                Intent intent = new Intent(getActivity(), TestListView.class);
                 intent.putExtra("userId", username);
                 startActivity(intent);
             }

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
+import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
@@ -132,12 +133,12 @@ public class CalAdapter extends BaseAdapter {
         calHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                        calHolder.iv_bag.setEnabled(false);
+                        calHolder.iv_bag.setEnabled(false);
                 simpleInfos=new ArrayList<SimpleInfo>();
                 RequestManager.getScheduleManager().findMatchingActivities(list.get(position).getScheduleId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-                        calHolder.iv_bag.setClickable(true);
+                        calHolder.iv_bag.setEnabled(true);
                     }
 
                     @Override
@@ -145,7 +146,7 @@ public class CalAdapter extends BaseAdapter {
                         simpleInfos = response.getData();
                         ScheduDialog dialog = new ScheduDialog(context, simpleInfos, list.get(position).getScheduleId());
                         dialog.show();
-                        calHolder.iv_bag.setClickable(true);
+                        calHolder.iv_bag.setEnabled(true);
                     }
                 });
             }
@@ -158,8 +159,6 @@ public class CalAdapter extends BaseAdapter {
         });
         if (list != null) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), calHolder.iv_icon, optionsImag);//用户头像；
-//        calHolder.iv_icon.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.test_user));
-//            if (list.get(position))
             if (!TextUtils.isEmpty(list.get(position).getUserNm())) {
                 calHolder.tv_Name.setText(list.get(position).getUserNm());//用户昵称
             } else {
@@ -180,7 +179,6 @@ public class CalAdapter extends BaseAdapter {
             }else {
                 calHolder.tv_time_cal.setText(strStart + "—" + strEnd);//活动时间；
             }
-//            calHolder.tv_time_cal.setText(ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getStartTime())) + "—" + ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getEndTime())));
             if (!TextUtils.isEmpty(list.get(position).getDictName())) {
                 calHolder.tv_state.setText(list.get(position).getDictName());//标签名称
                 if (list.get(position).getDictName().equals("闲来无事")){
@@ -203,7 +201,7 @@ public class CalAdapter extends BaseAdapter {
                     bundle.putString("userId", list.get(position).getUserId());
                     bundle.putBoolean("friend",list.get(position).isFriend());
                     intent.putExtras(bundle);
-                    intent.setClass(context, PerpageAct.class);
+                    intent.setClass(context, TestListView.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }

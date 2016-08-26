@@ -238,6 +238,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".chat.act.HeiAct"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.TestListView"
+            android:screenOrientation="portrait"></activity>
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".chat.receiver.StartServiceReceiver">
@@ -302,7 +304,7 @@
        <!--正式： hseb2016#zhetengba-->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="hseb2016#zhetengba" />
+            android:value="wbsj19900625#zheteng" />
         <!-- 声明sdk所需的service -->
         <service
             android:name="com.hyphenate.chat.EMChatService"
@@ -493,9 +495,9 @@
             android:name=".activity.circle.CircleTextAct"
             android:screenOrientation="portrait"></activity>
         <!--测试listview-->
-        <activity
-            android:name=".activity.TestListView"
-            android:screenOrientation="portrait"></activity>
+        <!--<activity-->
+            <!--android:name=".activity.TestListView"-->
+            <!--android:screenOrientation="portrait"></activity>-->
         <!--指定谁能看，不能看界面/邀请好友-->
         <activity
             android:name=".activity.mine.AssignScanAct"

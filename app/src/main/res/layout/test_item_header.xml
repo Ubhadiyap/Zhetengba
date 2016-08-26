@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_color">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,9 +55,49 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_Name"
                 style="@style/tv_second"
                 android:text="昵称：Make"
                 android:textColor="@color/white" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_tab1"
+                style="@style/Tab_Text_Style"
+                android:background="@drawable/bg_circle_stroke_tab1"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_tab2"
+                style="@style/Tab_Text_Style"
+                android:background="@drawable/bg_circle_stroke_tab2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_tab3"
+                android:background="@drawable/bg_circle_stroke_tab3"
+                style="@style/Tab_Text_Style"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_tab4"
+                android:background="@drawable/bg_circle_stroke_tab4"
+                style="@style/Tab_Text_Style"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_tab5"
+                android:background="@drawable/bg_circle_stroke_tab5"
+                style="@style/Tab_Text_Style"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -69,6 +111,7 @@
         android:paddingTop="15dp">
 
         <TextView
+            android:id="@+id/tv_cir"
             style="@style/tv_second"
             android:text="她的圈子"
             android:textColor="#333333"
@@ -79,5 +122,66 @@
             android:layout_width="275dp"
             android:layout_height="85dp"></com.boyuanitsm.zhetengba.view.HorizontalListView>
 
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_add_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rl_dangqi"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_dangqi"
+                    style="@style/tv_second"
+                    android:layout_centerInParent="true"
+                    android:text="@string/daqing"
+                    android:textColor="#999999" />
+
+                <View
+                    android:id="@+id/view_dangqi"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#cdcdcd"></View>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_dongtai"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_dongtai"
+                    style="@style/tv_second"
+                    android:layout_centerInParent="true"
+                    android:text="圈子动态"
+                    android:textColor="#999999" />
+
+                <View
+                    android:id="@+id/view_dongtai"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#cdcdcd"></View>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

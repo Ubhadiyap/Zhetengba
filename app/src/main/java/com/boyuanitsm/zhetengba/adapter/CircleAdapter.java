@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
+import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
@@ -286,7 +287,7 @@ public class CircleAdapter extends BaseAdapter {
                 bundle.putString("userId", list.get(position).getUserId());
 //                bundle.putBoolean("friend",list.get(position).isFriend());
                 intent.putExtras(bundle);
-                intent.setClass(context, PerpageAct.class);
+                intent.setClass(context, TestListView.class);
                 //需要开启新task,否则会报错
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

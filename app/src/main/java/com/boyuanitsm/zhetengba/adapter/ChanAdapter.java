@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
@@ -298,7 +299,7 @@ public class ChanAdapter extends BaseAdapter {
         viewHolder.ll_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PerpageAct.class);
+                Intent intent = new Intent(context, TestListView.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("userId", list.get(position).getCreatePersonId());
                 intent.putExtras(bundle);

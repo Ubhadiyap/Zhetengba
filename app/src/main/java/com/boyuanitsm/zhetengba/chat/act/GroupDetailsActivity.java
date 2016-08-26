@@ -247,6 +247,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							updateGroup();
 							Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
 							Intent intent=new Intent(ChatFragment.UPDATE_GROUP_NAME);
+							intent.putExtra("chat",2);
 							intent.putExtra("groupName",returnData);
                             sendBroadcast(intent);
 
