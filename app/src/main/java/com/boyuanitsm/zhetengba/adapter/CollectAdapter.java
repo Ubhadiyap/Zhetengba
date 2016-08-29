@@ -179,14 +179,40 @@ public class CollectAdapter extends BaseAdapter {
 
                 }
             });
-
             if (list.get(position).getMemberNum() == list.get(position).getInviteNumber()) {
-                holder.ll_join.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MyToastUtils.showShortToast(context, "参加人数已满,请参加其他活动！");
-                    }
-                });
+                if (!list.get(position).isJoining()){
+                    holder.ll_join.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MyToastUtils.showShortToast(context, "参加人数已满,请参加其他活动！");
+                        }
+                    });
+                }else {
+                    holder.ll_join.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.ll_join.setEnabled(false);
+                            if (list.get(position).isJoining()) {
+                                final MyAlertDialog dialog = new MyAlertDialog(context);
+                                dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        stateCancelChange(position, holder);
+                                    }
+                                }).setNegativeButton("取消", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        holder.ll_join.setEnabled(true);
+                                    }
+                                }).show();
+                            } else {
+                                stateJionChange(position, holder);
+                            }
+
+
+                        }
+                    });
+                }
             } else {
                 holder.ll_join.setOnClickListener(new View.OnClickListener() {
                     @Override

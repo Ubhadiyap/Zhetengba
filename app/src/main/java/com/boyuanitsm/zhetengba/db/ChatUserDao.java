@@ -108,5 +108,13 @@ public class ChatUserDao extends TemplateDAO<ChatUserBean, String> {
         getDao().deleteAll();
     }
 
+    /**
+     * 根据id,删除某一条数据
+     * @param userId
+     */
+    public static void deleteUserById(String userId){
+        SQLiteDatabase db = getDao().getWritableDatabase();
+        db.delete(getDao().getTableName(), "user_id=?", new String[]{userId});
+    }
 
 }

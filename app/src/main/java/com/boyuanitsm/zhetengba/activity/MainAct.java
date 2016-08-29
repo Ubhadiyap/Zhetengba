@@ -310,8 +310,11 @@ public class MainAct extends BaseActivity {
 //                    for (int i=0;i<easeUserList.size();i++){
                         EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getFrom());
 //                    MyLogUtils.info(easeUser.toString()+"easeUser是。。。。。");
-                        if (easeUser!=null){
+                        if (easeUser!=null&&easeUser.getNick().length()!=32){
                             chatUserBean.setNick(easeUser.getNick());
+//                            if (!TextUtils.isEmpty(easeUser.getNick())){
+//                                MyLogUtils.info("nick不是空的========"+easeUser.getNick());
+//                            }
                         }else {
                             chatUserBean.setNick(message.getStringAttribute("nick"));
                         }
@@ -324,7 +327,7 @@ public class MainAct extends BaseActivity {
                     }else {
                         chatUserBean.setIcon(Uitls.imageFullUrl(userIcon));
                     }
-                    MyLogUtils.info("这个头像："+message.getStringAttribute("nick")+"++昵称："+message.getStringAttribute("icon"));
+                    MyLogUtils.info("这个头像MainAct："+message.getStringAttribute("nick")+"++昵称："+message.getStringAttribute("icon"));
 //                    MyToastUtils.showShortToast(getApplication(),message.getStringAttribute("nick")+":"+message.getStringAttribute("icon"));
                 } catch (HyphenateException e) {
                     e.printStackTrace();

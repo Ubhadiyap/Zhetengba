@@ -27,7 +27,7 @@ public class ScheduleManager extends RequestManager {
     public void addActivity(SimpleInfo simpleInfo, ResultCallback callback) {
         Map<String,String> params=new HashMap<>();
         params= Uitls.obj2Map(simpleInfo);
-        doPost(IZtbUrl.ADD_ACTIVITY, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_ACTIVITY, params, callback);
     }
 
     /**
@@ -38,7 +38,7 @@ public class ScheduleManager extends RequestManager {
      */
     public void getBanner(ResultCallback callback) {
         Map<String, String> params = new HashMap<>();
-        doPost(IZtbUrl.BANNER_URL, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.BANNER_URL, params, callback);
     }
 
     /***
@@ -50,7 +50,7 @@ public class ScheduleManager extends RequestManager {
         Map<String, String> params = new HashMap<>();
         params.put("page", page+"");
         params.put("rows", rows+"");
-        doPost(IZtbUrl.ACTIVITY_LIST, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_LIST, params, callback);
     }
 
     /**
@@ -61,7 +61,7 @@ public class ScheduleManager extends RequestManager {
     public void getActivityDetials(String activityId, ResultCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("activityId", activityId);
-        doPost(IZtbUrl.ACTIVITY_DETIALS, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_DETIALS, params, callback);
     }
 
     /**
@@ -73,7 +73,7 @@ public class ScheduleManager extends RequestManager {
     public void getActivityCollection(String activityId, ResultCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("activityId", activityId);
-        doPost(IZtbUrl.ACTIVITY_COLLECTION_URL, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_COLLECTION_URL, params, callback);
 
     }
 
@@ -86,7 +86,7 @@ public class ScheduleManager extends RequestManager {
     public void getRespondActivity(String activityId, ResultCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("activityId", activityId);
-        doPost(IZtbUrl.RESPOND_ACTIVITY_URL, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.RESPOND_ACTIVITY_URL, params, callback);
     }
 
     /***
@@ -100,7 +100,7 @@ public class ScheduleManager extends RequestManager {
         params.put("page",page+"");
         params.put("rows",rows+"");
         params.put("state",state);
-        doPost(IZtbUrl.FRIEND_ALL_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FRIEND_ALL_URL, params, callback);
     }
 
     /**
@@ -112,7 +112,7 @@ public class ScheduleManager extends RequestManager {
     public void getIntrestLabelList(String dictType,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("dictType",dictType);
-        doPost(IZtbUrl.INTREST_LABEL_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.INTREST_LABEL_URL, params, callback);
     }
 
     /**
@@ -123,7 +123,7 @@ public class ScheduleManager extends RequestManager {
     public void addInterestLabel(String labelIds,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("labelIds", labelIds);
-        doPost(IZtbUrl.ADD_INTREST_LABEL, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_INTREST_LABEL, params, callback);
     }
 
     /**
@@ -133,7 +133,7 @@ public class ScheduleManager extends RequestManager {
      */
     public void getAllActivityLabel(ResultCallback callback){
         Map<String,String> params=new HashMap<>();
-        doPost(IZtbUrl.ACTIVITY_LABEL_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_LABEL_URL, params, callback);
     }
 
     /**
@@ -144,7 +144,7 @@ public class ScheduleManager extends RequestManager {
      */
     public void findMyLabelListMoreByUserId(ResultCallback callback){
         Map<String,String> params=new HashMap<>();
-        doPost(IZtbUrl.MY_INTEREST_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.MY_INTEREST_URL, params, callback);
     }
     /**
      * userId - 用户id 注：userId为空时查询个人兴趣标签；userId不为空时，查询他人兴趣标签（活动、档期列表点击头像查看信息）
@@ -155,7 +155,7 @@ public class ScheduleManager extends RequestManager {
     public void findOtherListMoreByUserId(String userId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("userId",userId);
-        doPost(IZtbUrl.MY_INTEREST_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.MY_INTEREST_URL, params, callback);
     }
     /**
      * 档期轮播图,返回LabelBanner集合
@@ -163,7 +163,7 @@ public class ScheduleManager extends RequestManager {
      */
     public void getScheduleBanner(ResultCallback callback){
         Map<String,String> params=new HashMap<>();
-        doPost(IZtbUrl.BANNER_CAN_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.BANNER_CAN_URL, params, callback);
     }
 
     /**
@@ -176,7 +176,7 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         params.put("page",page+"");
         params.put("rows",rows+"");
-        doPost(IZtbUrl.SCHEDULE_LIST_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SCHEDULE_LIST_URL, params, callback);
     }
 
     /**
@@ -187,7 +187,7 @@ public class ScheduleManager extends RequestManager {
     public void findMatchingActivities(String scheduleId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("scheduleId",scheduleId);
-        doPost(IZtbUrl.FINDMATCHING_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FINDMATCHING_URL, params, callback);
     }
 
     /**
@@ -198,7 +198,7 @@ public class ScheduleManager extends RequestManager {
     public void getScheduleCollection(String scheduleId ,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("scheduleId",scheduleId);
-        doPost(IZtbUrl.SCHEDULE_COLLECTION_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SCHEDULE_COLLECTION_URL, params, callback);
     }
 
     /**
@@ -210,7 +210,7 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         params.put("scheduleId",scheduleId);
         params.put("activityId",activityId);
-        doPost(IZtbUrl.ABOUT_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ABOUT_URL, params, callback);
     }
 
     /**
@@ -225,7 +225,7 @@ public class ScheduleManager extends RequestManager {
         params.put("type",type);
         params.put("page",page+"");
         params.put("rows",rows+"");
-        doPost(IZtbUrl.INVITE_MSG_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.INVITE_MSG_URL, params, callback);
     }
 
     /**
@@ -236,7 +236,7 @@ public class ScheduleManager extends RequestManager {
     public void deleteMsg(String id,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("id",id);
-        doPost(IZtbUrl.DEL_MSG_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.DEL_MSG_URL, params, callback);
     }
     /**
      * 档期显示（好友/全部）接口,返回Schedule集合
@@ -251,7 +251,7 @@ public class ScheduleManager extends RequestManager {
         params.put("page",page+"");
         params.put("rows",rows+"");
         params.put("state",state);
-        doPost(IZtbUrl.SCHEDULE_FRIEND_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SCHEDULE_FRIEND_URL, params, callback);
     }
 
     /**
@@ -263,7 +263,7 @@ public class ScheduleManager extends RequestManager {
     public void getActivityNotice(String userIds,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("userIds",userIds);
-        doPost(IZtbUrl.ACTIVITY_NOTICE_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_NOTICE_URL, params, callback);
     }
     /**
      * 活动指定谁不能看，返回响应状态（String)
@@ -275,7 +275,7 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
         params.put("userIds",userIds);
-        doPost(IZtbUrl.ACTIVITY_INVISIBLE_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_INVISIBLE_URL, params, callback);
     }
 
     /**
@@ -288,7 +288,7 @@ public class ScheduleManager extends RequestManager {
     public void modifyActivityFriendSee(String activityId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
-        doPost(IZtbUrl.ACTIVITY_FRIEND_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_FRIEND_URL, params, callback);
     }
     /**
      * 档期指定谁看，通知谁，返回响应状态（String)
@@ -299,7 +299,7 @@ public class ScheduleManager extends RequestManager {
     public void getScheduleNotice(String userIds,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("userIds",userIds);
-        doPost(IZtbUrl.SHEDULE_NOTICE_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SHEDULE_NOTICE_URL, params, callback);
     }
     /**
      * 档期指定谁不能看，返回响应状态（String)
@@ -311,7 +311,7 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
         params.put("userIds",userIds);
-        doPost(IZtbUrl.SHEDULE_INVISIBLE_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SHEDULE_INVISIBLE_URL, params, callback);
     }
 
     /**
@@ -324,7 +324,7 @@ public class ScheduleManager extends RequestManager {
     public void modifyScheduleFriendSee(String scheduleId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("scheduleId",scheduleId);
-        doPost(IZtbUrl.SHEDULE_FRIEND_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SHEDULE_FRIEND_URL, params, callback);
     }
 
     /**
@@ -334,7 +334,7 @@ public class ScheduleManager extends RequestManager {
      */
     public void findMyActivity(ResultCallback callback){
         Map<String,String> params=new HashMap<>();
-        doPost(IZtbUrl.MY_ACTIVITY_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.MY_ACTIVITY_URL, params, callback);
     }
 
     /**
@@ -346,7 +346,7 @@ public class ScheduleManager extends RequestManager {
     public void removeActivity(String activityId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
-        doPost(IZtbUrl.REMOVE_ACTIVITY_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REMOVE_ACTIVITY_URL, params, callback);
     }
 
     /**
@@ -358,7 +358,7 @@ public class ScheduleManager extends RequestManager {
     public void removeSchuldel(String schuldelId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("scheduleId",schuldelId);
-        doPost(IZtbUrl.REMOVE_SHEDULE_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REMOVE_SHEDULE_URL, params, callback);
     }
     /**
      * 发布档期
@@ -369,7 +369,7 @@ public class ScheduleManager extends RequestManager {
     public void addSchedule(ScheduleInfo schedule,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params= Uitls.obj2Map(schedule);
-        doPost(IZtbUrl.ADD_SHEDULE_URL, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_SHEDULE_URL, params, callback);
     }
 
     /**
@@ -383,7 +383,7 @@ public class ScheduleManager extends RequestManager {
     public void pushActivityMessage(String activityId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
-        doPost(IZtbUrl.ACTIVITY_MESSAGE_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_MESSAGE_URL, params, callback);
     }
 
     /**
@@ -397,7 +397,7 @@ public class ScheduleManager extends RequestManager {
     public void pushScheduleMessage(String scheduleId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("scheduleId",scheduleId);
-        doPost(IZtbUrl.SHEDULE_MESSAGE_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SHEDULE_MESSAGE_URL, params, callback);
     }
 
     /**
@@ -408,7 +408,7 @@ public class ScheduleManager extends RequestManager {
     public void removeCollection(String collectionId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("collectionId",collectionId);
-        doPost(IZtbUrl.REMOVECOLLECTION_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REMOVECOLLECTION_URL, params, callback);
     }
 
     /**
@@ -418,7 +418,7 @@ public class ScheduleManager extends RequestManager {
     public void findHistoryMessageListByYM(String yearMonth,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("yearMonth",yearMonth);
-        doPost(IZtbUrl.HISTORYMESSAGE_URL, params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.HISTORYMESSAGE_URL, params, callback);
     }
 
     /**
@@ -429,7 +429,7 @@ public class ScheduleManager extends RequestManager {
     public void cancelActivity(String activityId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
-        doPost(IZtbUrl.CANCEL_ACTIVITY_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CANCEL_ACTIVITY_URL, params, callback);
     }
 
     /**
@@ -440,7 +440,7 @@ public class ScheduleManager extends RequestManager {
     public void getPersonalMain(String userId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("userId",userId);
-        doPost(IZtbUrl.PERSONAL_HOME_PAGE_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.PERSONAL_HOME_PAGE_URL, params, callback);
     }
 
     /**
@@ -451,7 +451,7 @@ public class ScheduleManager extends RequestManager {
     public void addHXGroup(String activityId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
-        doPost(IZtbUrl.ADD_HGROUP_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_HGROUP_URL, params, callback);
     }
 
     /**
@@ -462,7 +462,7 @@ public class ScheduleManager extends RequestManager {
     public void deleGroup(String activityId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
-        doPost(IZtbUrl.DELET_GROUP_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.DELET_GROUP_URL, params, callback);
     }
     /**
      * 查询我的兴趣标签
@@ -478,7 +478,7 @@ public class ScheduleManager extends RequestManager {
         if(!TextUtils.isEmpty(limitNum+"")){
             params.put("limitNum",limitNum+"");
         }
-        doPost(IZtbUrl.MYLABELLIST_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.MYLABELLIST_URL, params, callback);
     }
 
     /**
@@ -491,7 +491,7 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
         params.put("scheduleId",scheduleId);
-        doPost(IZtbUrl.AGREE_ACTIVITY_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.AGREE_ACTIVITY_URL, params, callback);
 
     }
 
@@ -505,7 +505,7 @@ public class ScheduleManager extends RequestManager {
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
         params.put("scheduleId",scheduleId);
-        doPost(IZtbUrl.REFUSE_ACTIVITY_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REFUSE_ACTIVITY_URL, params, callback);
     }
 
     /**
@@ -516,7 +516,7 @@ public class ScheduleManager extends RequestManager {
     public void addblackList(String friendId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("friendId",friendId);
-        doPost(IZtbUrl.ADDBLACKLIST_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADDBLACKLIST_URL, params, callback);
     }
 
 
@@ -525,7 +525,7 @@ public class ScheduleManager extends RequestManager {
      */
     public void findBlackList(ResultCallback callback){
         Map<String,String> params=new HashMap<>();
-        doPost(IZtbUrl.FINDBLACKLIST_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FINDBLACKLIST_URL, params, callback);
     }
 
     /**
@@ -536,6 +536,6 @@ public class ScheduleManager extends RequestManager {
     public void removeBlack(String friendId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("friendId",friendId);
-        doPost(IZtbUrl.REMOVEBLACKLIST_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REMOVEBLACKLIST_URL, params, callback);
     }
 }
