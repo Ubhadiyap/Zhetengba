@@ -113,6 +113,12 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             tvmessage.setText("暂无新消息");
             tvUnReaNum.setVisibility(View.GONE);
         }
+        InviteMessgeDao inviteMessgeDao=new InviteMessgeDao(mActivity);
+        if (inviteMessgeDao.getUnreadMessagesCount()>0){
+            iv_new_red.setVisibility(View.VISIBLE);
+        }else {
+            iv_new_red.setVisibility(View.GONE);
+        }
 
         registerForContextMenu(conversationListView);
        rlDq.setOnClickListener(new View.OnClickListener() {

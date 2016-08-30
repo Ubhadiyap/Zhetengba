@@ -20,9 +20,7 @@
             <com.boyuanitsm.zhetengba.view.CircleImageView
                 android:id="@+id/avatar"
                 android:layout_width="@dimen/height_row_weixin"
-                android:layout_height="@dimen/height_row_weixin"
-
-                android:src="@mipmap/userhead" />
+                android:layout_height="@dimen/height_row_weixin" />
         </RelativeLayout>
 
         <TextView
@@ -32,7 +30,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="6dp"
             android:layout_toRightOf="@id/avatar_container"
-            android:text="王大锤"
             android:textColor="#333333"
             android:textSize="16sp" />
 
@@ -66,7 +63,6 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:padding="7dp"
-            android:text="上课"
             android:textColor="#888888"
             android:textSize="14sp" />
 

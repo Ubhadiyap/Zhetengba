@@ -89,8 +89,10 @@ public class EaseCommonUtils {
             if (message.direct() == EMMessage.Direct.RECEIVE) {
                 //从sdk中提到了ui中，使用更简单不犯错的获取string方法
 //              digest = EasyUtils.getAppResourceString(context, "location_recv");
-                digest = getString(context, R.string.location_recv);
-                digest = String.format(digest, message.getFrom());
+//                digest = getString(context, R.string.location_recv);
+//                digest = String.format(digest, message.getFrom());
+//                Log.d("message.getFrom",message.getFrom());
+                digest=getString(context,R.string.location);
                 return digest;
             } else {
 //              digest = EasyUtils.getAppResourceString(context, "location_prefix");

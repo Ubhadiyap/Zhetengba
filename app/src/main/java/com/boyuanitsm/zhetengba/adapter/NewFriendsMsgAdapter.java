@@ -48,7 +48,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
     private InviteMessgeDao messgeDao;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.mipmap.userhead)
             .showImageForEmptyUri(R.mipmap.userhead)
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
