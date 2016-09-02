@@ -134,7 +134,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 <com.boyuanitsm.zhetengba.view.CommonView
-                    android:visibility="gone"
                     app:desTextColor="@color/delete_red"
                     app:desTextSize="14sp"
                     app:desText="抽奖"
