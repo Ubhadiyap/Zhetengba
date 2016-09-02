@@ -4,14 +4,6 @@
     android:layout_height="48dp"
     android:background="@color/main_color">
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/ll_title_border"-->
-        <!--android:layout_width="137dp"-->
-        <!--android:layout_height="27dp"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:background="@drawable/bg_circle_stroke_yes_white">-->
 <RadioGroup
     android:id="@+id/rg_simple"
     android:layout_width="136dp"
@@ -42,10 +34,11 @@
     android:orientation="horizontal"
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
-    android:layout_width="80dp"
+    android:layout_width="50dp"
     android:layout_height="match_parent"
     android:gravity="center">
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_friend_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +50,7 @@
         android:layout_marginLeft="7dp"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:background="@drawable/arrow_down"/>
+        android:background="@drawable/more_add"/>
 </LinearLayout>
     <LinearLayout
         android:visibility="gone"

@@ -22,6 +22,9 @@ public class CalDialogAdapter extends BaseAdapter{
         this.context=context;
         this.list=simpleInfos;
     }
+    public void updata(List<SimpleInfo> simpleInfos){
+        this.list=simpleInfos;
+    }
     @Override
     public int getCount() {
         return list.size()>4?4:list.size();

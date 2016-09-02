@@ -67,8 +67,8 @@ public class TimeHistoryAct extends BaseActivity implements ViewPager.OnPageChan
     private CommonView my_collect;
     @ViewInject(R.id.qb)
     private CommonView qb;
-    @ViewInject(R.id.cj)
-    private CommonView cj;
+//    @ViewInject(R.id.cj)
+//    private CommonView cj;
     @ViewInject(R.id.cv_set)
     private CommonView cv_set;
     private List<Integer> monthList;//设置时间集合

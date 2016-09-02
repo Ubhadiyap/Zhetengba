@@ -4,8 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CollectAdapter;
@@ -41,7 +46,10 @@ public class MyColleitionAct extends BaseActivity {
     private List<CollectionBean> list;
     private List<CollectionBean> datas = new ArrayList<>();
     private CollectAdapter adapter;
-
+    private LinearLayout llnoList;
+    private ImageView ivAnim;
+    private  TextView noMsg;
+    private AnimationDrawable animationDrawable;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_mycollection);
@@ -50,6 +58,9 @@ public class MyColleitionAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("我的关注");
+        llnoList = (LinearLayout) findViewById(R.id.noList);
+        ivAnim = (ImageView) findViewById(R.id.ivAnim);
+        noMsg = (TextView) findViewById(R.id.noMsg);
         LayoutHelperUtil.freshInit(plv);
         findgzPortsMsg(page, rows);
         plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -83,6 +94,15 @@ public class MyColleitionAct extends BaseActivity {
             public void onError(int status, String errorMsg) {
                 plv.onPullUpRefreshComplete();
                 plv.onPullDownRefreshComplete();
+                if (list.size()>0){
+                    if (adapter != null) {
+                        adapter.notify(list);
+                    }
+                }else {
+                    llnoList.setVisibility(View.VISIBLE);
+                    ivAnim.setImageResource(R.mipmap.planeno);
+                    noMsg.setText("加载失败");
+                }
             }
 
             @Override
@@ -92,11 +112,15 @@ public class MyColleitionAct extends BaseActivity {
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
-
+                        llnoList.setVisibility(View.VISIBLE);
+                        ivAnim.setImageResource(R.mipmap.planeno);
+                        noMsg.setText("暂无内容");
                     } else {
                         plv.setHasMoreData(false);
                     }
-                    return;
+//                    return;
+                }else {
+                    llnoList.setVisibility(View.GONE);
                 }
                 if (page == 1) {
                     datas.clear();

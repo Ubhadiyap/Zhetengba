@@ -377,36 +377,19 @@ public class MainAct extends BaseActivity {
         intentFilter.addAction(Constant.ACTION_CONTACT_CHANAGED);
         intentFilter.addAction(Constant.ACTION_GROUP_CHANAGED);
         broadcastReceiver = new BroadcastReceiver() {
-
             @Override
             public void onReceive(Context context, Intent intent) {
+                MyLogUtils.info("删除群聊广播");
                 int chat_receiver = intent.getIntExtra("main_receiver", 5);
                  updateUnreadLabel();
-//                if (count==0){
-//                    if (chat_receiver==3){
-//                        unreadLabel.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//                       updateUnreadAddressLable();
                     if (currentTabIndex == 1) {
                         // 当前页面如果为聊天历史页面，刷新此页面
                         if (messFrg != null) {
                             messFrg.refresh();
                         }
                     }
-//                }
-//                else if (currentTabIndex == 1) {
-//                    if(contactListFragment != null) {
-//                        contactListFragment.refresh();
-//                    }
-//                }
                 String action = intent.getAction();
                 //刷新群列表
-//                if(action.equals(Constant.ACTION_GROUP_CHANAGED)){
-//                    if (EaseCommonUtils.getTopActivity(MainAct.this).equals(GroupsActivity.class.getName())) {
-//                        GroupsActivity.instance.onResume();
-//                    }
-//                }
             }
         };
         broadcastManager.registerReceiver(broadcastReceiver, intentFilter);

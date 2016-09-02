@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.CollectionBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
@@ -302,6 +303,9 @@ public class CollectAdapter extends BaseAdapter {
                 list.remove(dex);
                 notifyDataSetChanged();
                 context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+                if (list.size()==0){
+                    context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+                }
             }
         });
     }
