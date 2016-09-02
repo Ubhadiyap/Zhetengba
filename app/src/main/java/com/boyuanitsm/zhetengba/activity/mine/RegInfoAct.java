@@ -18,9 +18,7 @@ import android.widget.RadioGroup;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
-import com.boyuanitsm.zhetengba.activity.TestListView;
-import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
-import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.IconFilePath;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
@@ -31,7 +29,6 @@ import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
@@ -274,7 +271,7 @@ public class RegInfoAct extends BaseActivity {
                 MyLogUtils.info(LabelInterestDao.getInterestLabel().toString());
 //                sendBroadcast(new Intent(SquareAct.MYLABELS));
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
-                sendBroadcast(new Intent(TestListView.PPLABELS));
+                sendBroadcast(new Intent(PersonalAct.PPLABELS));
                 finish();
             }
         });

@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.TestListView;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ErEntity;
@@ -286,7 +286,7 @@ public class ScanQrcodeAct extends BaseActivity implements Callback {
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else if (erEntity.getType() == 1) {//个人主页
-                    Intent intent = new Intent(ScanQrcodeAct.this, TestListView.class);
+                    Intent intent = new Intent(ScanQrcodeAct.this, PersonalAct.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("userId", erEntity.getId());
                     intent.putExtras(bundle);

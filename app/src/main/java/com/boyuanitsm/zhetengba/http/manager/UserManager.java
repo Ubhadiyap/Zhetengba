@@ -30,8 +30,8 @@ public class UserManager extends RequestManager{
     public void toLogin(String username,String password,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("username",username);
-        params.put("password",password);
-        doPost(IZtbUrl.LOGIN_URL,params,callback);
+        params.put("password", password);
+        OkHttpManager.getInstance().doPost(IZtbUrl.LOGIN_URL, params, callback);
     }
 
 
@@ -41,7 +41,7 @@ public class UserManager extends RequestManager{
      */
     public void Loginout(ResultCallback callback){
         Map<String,String> params=new HashMap<>();
-        doPost(IZtbUrl.LOGOUT_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.LOGOUT_URL, params, callback);
     }
 
 
@@ -56,8 +56,8 @@ public class UserManager extends RequestManager{
        Map<String,String> params=new HashMap<>();
         params.put("username",username);
         params.put("captcha",captcha);
-        params.put("password",password);
-        doPost(IZtbUrl.REGISTER_URL, params, callback);
+        params.put("password", password);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REGISTER_URL, params, callback);
     }
 
 
@@ -67,11 +67,17 @@ public class UserManager extends RequestManager{
      * @param isRegister
      * @param callback
      */
-    public void sendSmsCaptcha(String phoneNumber,String isRegister,ResultCallback callback){
+    public void sendSmsCaptcha(String phoneNumber,String isRegister,int identifyCode,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("phoneNumber",phoneNumber);
-        params.put("isRegister",isRegister);
-        doPost(IZtbUrl.SENDSMSCAPTCHA_URL, params, callback);
+        params.put("isRegister", isRegister);
+        params.put("identifyCode",identifyCode+"");
+        OkHttpManager.getInstance().doPost(IZtbUrl.SENDSMSCAPTCHA_URL, params, callback);
+    }
+
+    public void findImgCaptcha(ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        OkHttpManager.getInstance().doPost(IZtbUrl.FINDIMGCAPTCHA_URL, params, callback);
     }
 
     /**
@@ -84,8 +90,8 @@ public class UserManager extends RequestManager{
         Map<String,String> params=new HashMap<>();
         params.put("phoneNumber",phoneNumber);
         params.put("captcha",captcha);
-        params.put("newPassword",newPassword);
-        doPost(IZtbUrl.FORGETPASSWORD_URL, params, callback);
+        params.put("newPassword", newPassword);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FORGETPASSWORD_URL, params, callback);
 
     }
 
@@ -123,7 +129,7 @@ public class UserManager extends RequestManager{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        doPost(IZtbUrl.MODIFYUSERINFO_URL, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.MODIFYUSERINFO_URL, params, callback);
 
     }
 
@@ -137,7 +143,7 @@ public class UserManager extends RequestManager{
         Map<String,String> params=new HashMap<>();
         params.put("page",page+"");
         params.put("rows",rows+"");
-        doPost(IZtbUrl.COLLECTIONLIST_URL, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.COLLECTIONLIST_URL, params, callback);
 
     }
 
@@ -150,7 +156,7 @@ public class UserManager extends RequestManager{
     public void addFeedBack(String content,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("content",content);
-        doPost(IZtbUrl.ADDFEEDBACK_URL,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADDFEEDBACK_URL, params, callback);
     }
 
     /**
@@ -163,7 +169,7 @@ public class UserManager extends RequestManager{
         Map<String,String> params=new HashMap<>();
         params.put("currentVersion",currentVersion+"");
         params.put("platform",platform);
-        doPost(IZtbUrl.FIND_NEW_APP,params,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FIND_NEW_APP, params, callback);
 
     }
 
@@ -186,7 +192,7 @@ public class UserManager extends RequestManager{
      * @param callback
      */
     public void subHeadImg(Map<String,FileBody> fileMaps,ResultCallback callback){
-        submitFujian(IZtbUrl.MODIFYUSERICON_URL,fileMaps,callback);
+        submitFujian(IZtbUrl.MODIFYUSERICON_URL, fileMaps, callback);
     }
 
 
@@ -233,7 +239,7 @@ public class UserManager extends RequestManager{
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-        doPost(IZtbUrl.PERFECT_URL, params, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.PERFECT_URL, params, callback);
 
 
     }

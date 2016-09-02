@@ -16,13 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
+//<<<<<<< HEAD
+//=======
 
 
-import com.boyuanitsm.zhetengba.activity.TestListView;
+//import com.boyuanitsm.zhetengba.activity.TestListView;
 import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 
 import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+//>>>>>>> f3d01e6f1fb8764e59d37f99cb1a69fa5669e5eb
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
@@ -153,7 +157,7 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.ll_del.setVisibility(View.VISIBLE);
             viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
             viewHolder.tv_tt.setText("/"+infos.get(position).getInviteNumber());//自己发布总人数
-            viewHolder.tv_cj.setText(infos.get(position).getMemberNum()+"");//已经响应人数
+            viewHolder.tv_cj.setText(infos.get(position).getMemberNum()+"");//已经3响应人数
         }
         if (infos.get(position).getFollowNum() == 0) {
             viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
@@ -161,9 +165,7 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
             viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
         }
-
         viewHolder.tv_join_num.setText(infos.get(position).getMemberNum() + "");//目前成员数量；
-
         viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber() + "");//邀约人数
         strStart = ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getStartTime()));
         strEnd = ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getEndTime()));
@@ -386,7 +388,7 @@ public class ActAdapter extends BaseAdapter {
                 bundle.putString("userId", infos.get(position).getUserId());
                 bundle.putBoolean("friend", infos.get(position).isFriend());
                 intent.putExtras(bundle);
-                intent.setClass(context, TestListView.class);
+                intent.setClass(context, PersonalAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

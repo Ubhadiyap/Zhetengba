@@ -180,18 +180,10 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
             }
         }
         }else {
+            //0不再圈子里，不现实加号
             if (list.size()==0){
                 switch (i){
                     case 0:
-//                        viewHolder.mCir.setImageResource(R.mipmap.cirxq_add);
-//                        if (mOnItemClickListener != null) {
-//                            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    mOnItemClickListener.onItemClick(viewHolder.itemView, i);
-//                                }
-//                            });
-//                        }
                         viewHolder.mCir.setImageResource(R.mipmap.cirxq_more);
                         if (mOnItemClickListener != null) {
                             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -202,17 +194,6 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
                             });
                         }
                         break;
-//                    case 1:
-//                        viewHolder.mCir.setImageResource(R.mipmap.cirxq_more);
-//                        if (mOnItemClickListener != null) {
-//                            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    mOnItemClickListener.onItemClick(viewHolder.itemView, i);
-//                                }
-//                            });
-//                        }
-//                        break;
                 }
             }else if(list!=null&&list.size()>0) {
                 if (list.size() <= 4) {

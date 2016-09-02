@@ -32,7 +32,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(personIds)){
             map.put("personIds",personIds);
         }
-        doPost(IZtbUrl.CREATE_CIRCLE_URL,map,callBack);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CREATE_CIRCLE_URL, map, callBack);
     }
 
     /**
@@ -50,7 +50,7 @@ public class TalkManager extends RequestManager{
         if (!TextUtils.isEmpty(userIds)){
             map.put("friendIds",userIds);
         }
-        doPost(IZtbUrl.INVITE_FRIEND_TOCIRCLE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.INVITE_FRIEND_TOCIRCLE_URL, map, callback);
     }
 
     /**
@@ -68,7 +68,7 @@ public class TalkManager extends RequestManager{
         }
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.CIRCLE_LIST_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CIRCLE_LIST_URL, map, callback);
     }
 
     /**
@@ -81,7 +81,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(circleId)) {
             map.put("circleId", circleId);
         }
-        doPost(IZtbUrl.CIRCLE_DETAIL_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CIRCLE_DETAIL_URL, map, callback);
     }
 
     /**
@@ -96,7 +96,7 @@ public class TalkManager extends RequestManager{
         }
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.CIRCLE_MEMBER_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CIRCLE_MEMBER_URL, map, callback);
     }
 
     /**
@@ -113,7 +113,7 @@ public class TalkManager extends RequestManager{
         }
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.CIRCLE_SEARCH_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CIRCLE_SEARCH_URL, map, callback);
     }
 
     /**
@@ -130,7 +130,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(memberIds)){
             map.put("memberIds",memberIds);
         }
-        doPost(IZtbUrl.REMOVE_MEMBER_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REMOVE_MEMBER_URL, map, callback);
     }
 
     /**
@@ -147,7 +147,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(notice)){
             map.put("notice",notice);
         }
-        doPost(IZtbUrl.ADD_NOTICE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_NOTICE_URL, map, callback);
     }
 
     /**
@@ -160,7 +160,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(circleId)){
             map.put("circleId",circleId);
         }
-        doPost(IZtbUrl.REMOVE_CIRCLE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REMOVE_CIRCLE_URL, map, callback);
     }
 
     /**
@@ -182,7 +182,7 @@ public class TalkManager extends RequestManager{
             map.put("circleId",circleId );
         }
 
-        doPost(IZtbUrl.ADD_CIRCLETALK_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_CIRCLETALK_URL, map, callback);
     }
 
     /**
@@ -195,7 +195,7 @@ public class TalkManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.ALL_CIRCLETALK_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ALL_CIRCLETALK_URL, map, callback);
     }
 
     /**
@@ -211,7 +211,7 @@ public class TalkManager extends RequestManager{
         }
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.SINGLE_CIRCLETALK_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SINGLE_CIRCLETALK_URL, map, callback);
     }
 
     /**
@@ -224,7 +224,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(circleTalkId)){
             map.put("circleTalkId",circleTalkId);
         }
-        doPost(IZtbUrl.CIRCLE_LIKE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CIRCLE_LIKE_URL, map, callback);
     }
     /**
      *  取消圈子说说点赞
@@ -236,7 +236,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(circleTalkId)){
             map.put("circleTalkId",circleTalkId);
         }
-        doPost(IZtbUrl.CIRCLE_UNLIKE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CIRCLE_UNLIKE_URL, map, callback);
     }
 
     /**
@@ -259,7 +259,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(fatherCommentId)){
             map.put("fatherCommentId",fatherCommentId);
         }
-        doPost(IZtbUrl.CIRCLE_COMMENT_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CIRCLE_COMMENT_URL, map, callback);
     }
 
     /**
@@ -276,7 +276,7 @@ public class TalkManager extends RequestManager{
         }
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.CHANNELTALK_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CHANNELTALK_URL, map, callback);
     }
     /**
      *  频道说说点赞
@@ -288,7 +288,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(channelTalkId)){
             map.put("channelTalkId",channelTalkId);
         }
-        doPost(IZtbUrl.CHANNEL_LIKE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CHANNEL_LIKE_URL, map, callback);
     }
     /**
      *  取消频道说说点赞
@@ -300,7 +300,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(channelTalkId)){
             map.put("channelTalkId",channelTalkId);
         }
-        doPost(IZtbUrl.CHANNEL_UNLIKE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CHANNEL_UNLIKE_URL, map, callback);
     }
     /**
      * 评论频道说说
@@ -322,7 +322,7 @@ public class TalkManager extends RequestManager{
         if(!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
             map.put("commentUserId",UserInfoDao.getUser().getId());
         }
-        doPost(IZtbUrl.CHANNEL_COMMENT_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CHANNEL_COMMENT_URL, map, callback);
     }
 
     /**
@@ -343,7 +343,7 @@ public class TalkManager extends RequestManager{
                 map.put("channelImage",channelTalkEntity.getChannelImage());
             }
         }
-        doPost(IZtbUrl.CHANNEL_RELEASE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CHANNEL_RELEASE_URL, map, callback);
     }
 
     /**
@@ -360,7 +360,7 @@ public class TalkManager extends RequestManager{
         }
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.CIRCLE_COMMENTS_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CIRCLE_COMMENTS_URL, map, callback);
     }
 
     /**
@@ -377,7 +377,7 @@ public class TalkManager extends RequestManager{
         }
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.CHANNEL_COMMENTS_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.CHANNEL_COMMENTS_URL, map, callback);
     }
 
     /**
@@ -399,7 +399,7 @@ public class TalkManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.MYTALKS_OUT_URL, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.MYTALKS_OUT_URL, map, callback);
     }
 
     /**
@@ -410,7 +410,7 @@ public class TalkManager extends RequestManager{
     public void sendAgreeCircleInviteMsg(String circleId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("circleId",circleId);
-        doPost(IZtbUrl.INVITE_AGREE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.INVITE_AGREE_URL, map, callback);
     }
 
     /**
@@ -421,7 +421,7 @@ public class TalkManager extends RequestManager{
     public void sendRefuseCircleResp(String circleId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("circleId",circleId);
-        doPost(IZtbUrl.INVITE_REFUSE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.INVITE_REFUSE_URL, map, callback);
     }
 
     /**
@@ -434,7 +434,7 @@ public class TalkManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("circleId",circleId);
         map.put("personId",personId);
-        doPost(IZtbUrl.QING_AGREE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.QING_AGREE_URL, map, callback);
     }
 
     /**
@@ -447,7 +447,7 @@ public class TalkManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("circleId",circleId);
         map.put("personId",personId);
-        doPost(IZtbUrl.QING_REFUSE_URL, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.QING_REFUSE_URL, map, callback);
     }
 
     /**
@@ -458,7 +458,7 @@ public class TalkManager extends RequestManager{
     public void sendRequestJoinCircle(String circleId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("circleId",circleId);
-        doPost(IZtbUrl.JOINCIRCLE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.JOINCIRCLE_URL, map, callback);
     }
 
     /**
@@ -469,6 +469,6 @@ public class TalkManager extends RequestManager{
     public void deleteTalk(String talkId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("talkId",talkId);
-        doPost(IZtbUrl.DELETETALK, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.DELETETALK, map, callback);
     }
 }

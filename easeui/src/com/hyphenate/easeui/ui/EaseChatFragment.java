@@ -971,9 +971,14 @@ public class EaseChatFragment extends EaseBaseFragment {
                 }
             });
         }
+//
+//        @Override
+//        public void onGroupDestroyed(String s, String s1) {
+//
+//        }
 
         @Override
-        public void onGroupDestroy(final String groupId, String groupName) {
+        public void onGroupDestroyed(final String groupId, String groupName) {
             // 群组解散正好在此页面，提示群组被解散，并finish此页面
             mActivity.runOnUiThread(new Runnable() {
                 public void run() {

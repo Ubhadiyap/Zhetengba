@@ -15,13 +15,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
-import com.boyuanitsm.zhetengba.activity.TestListView;
-import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
@@ -201,7 +199,7 @@ public class CalAdapter extends BaseAdapter {
                     bundle.putString("userId", list.get(position).getUserId());
                     bundle.putBoolean("friend",list.get(position).isFriend());
                     intent.putExtras(bundle);
-                    intent.setClass(context, TestListView.class);
+                    intent.setClass(context, PersonalAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }

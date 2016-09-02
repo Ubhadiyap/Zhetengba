@@ -108,10 +108,16 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
             Collections.reverse(list);
             tvmessage.setText(list.get(0).getMessage());
             tvUnReaNum.setVisibility(View.VISIBLE);
-            tvUnReaNum.setText("1");
+//            tvUnReaNum.setText("1");
         }else {
             tvmessage.setText("暂无新消息");
             tvUnReaNum.setVisibility(View.GONE);
+        }
+        InviteMessgeDao inviteMessgeDao=new InviteMessgeDao(mActivity);
+        if (inviteMessgeDao.getUnreadMessagesCount()>0){
+            iv_new_red.setVisibility(View.VISIBLE);
+        }else {
+            iv_new_red.setVisibility(View.GONE);
         }
 
         registerForContextMenu(conversationListView);
@@ -250,10 +256,11 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
     class UpdateBroadCastReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-//            if (intent.getStringExtra("update_focus").equals("point_remove")){
-//                tvUnReaNum.setVisibility(View.GONE);
-//                return;
-//            }
+
+            int chat_receiver = intent.getIntExtra("chat_receiver", 5);
+            if (chat_receiver==3){
+                tvUnReaNum.setVisibility(View.VISIBLE);
+            }
             MyLogUtils.degug("接收到广播");
             InviteMessgeDao inviteMessgeDao=new InviteMessgeDao(mActivity);
             if (inviteMessgeDao.getUnreadMessagesCount()>0){

@@ -13,6 +13,5 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:descendantFocusability="afterDescendants"
-        android:divider="@null"
-        android:fastScrollEnabled="true" />
+        android:divider="@null" />
 </LinearLayout>

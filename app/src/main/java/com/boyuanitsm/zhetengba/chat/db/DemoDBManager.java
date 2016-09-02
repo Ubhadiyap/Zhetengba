@@ -309,7 +309,7 @@ public class DemoDBManager {
             ContentValues values = new ContentValues();
             values.put(InviteMessgeDao.COLUMN_NAME_UNREAD_MSG_COUNT, count);
 
-            db.update(InviteMessgeDao.TABLE_NAME, values, null,null);
+            db.update(InviteMessgeDao.TABLE_NAME, values, null, null);
         }
     }
     
@@ -381,7 +381,14 @@ public class DemoDBManager {
 		}
 		return users;
 	}
-    
-    
-    
+
+
+    synchronized  public void updateContact(EaseUser user) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("nick", user.getNick());
+        values.put("avatar", user.getAvatar());
+        db.update(UserDao.TABLE_NAME, values, "username=?", new String[]{user.getUsername()});
+    }
 }

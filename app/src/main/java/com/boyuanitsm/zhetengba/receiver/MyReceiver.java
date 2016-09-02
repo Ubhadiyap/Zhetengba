@@ -93,6 +93,12 @@ public class MyReceiver extends BroadcastReceiver {
                             }
                         }
                         ActivityMessDao.saveCircleMess(activityMess);
+//                        Intent intent1=new Intent(context,MainAct.class);
+//                        intent1.putExtra("main_receiver",3);
+//                        context.sendBroadcast(intent1);
+                        Intent intent2=new Intent(MessFrg.UPDATE_CONTRACT);
+                        intent2.putExtra("chat_receiver",3);//3表示有档期消息进入
+                        context.sendBroadcast(intent2);
                     }
 				} catch (JSONException e) {
                     e.printStackTrace();

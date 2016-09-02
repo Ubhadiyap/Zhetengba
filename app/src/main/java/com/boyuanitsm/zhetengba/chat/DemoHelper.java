@@ -315,7 +315,7 @@ public class DemoHelper {
                 }
 
                 EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getFrom());
-                if (easeUser!=null){
+                if (easeUser!=null&&easeUser.getNick().length()!=32){
                     return easeUser.getNick()+ ": " + ticker;
                 }else {
                     try {
@@ -481,7 +481,7 @@ public class DemoHelper {
         }
 
         @Override
-        public void onInvitationAccpted(String groupId, String invitee, String reason) {
+        public void onInvitationAccepted(String groupId, String invitee, String reason) {
 
             new InviteMessgeDao(appContext).deleteMessage(groupId);
 
@@ -548,8 +548,13 @@ public class DemoHelper {
 //            broadcastManager.sendBroadcast(new Intent(Constant.ACTION_GROUP_CHANAGED));
         }
 
+//        @Override
+//        public void onGroupDestroyed(String s, String s1) {
+//
+//        }
+
         @Override
-        public void onGroupDestroy(String groupId, String groupName) {
+        public void onGroupDestroyed(String groupId, String groupName) {
             // 群被解散
             //TODO 提示用户群被解散,demo省略
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_GROUP_CHANAGED));
@@ -681,6 +686,9 @@ public class DemoHelper {
             notifyNewIviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
             appContext.sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+            Intent intent=new Intent(appContext,MainAct.class);
+//            intent.putExtra("flag_int",2);//2，有新的好友请求
+            appContext.sendBroadcast(intent);
             MyLogUtils.info("换新发广播");
         }
 
@@ -808,9 +816,12 @@ public class DemoHelper {
                     try {
 //                        for (int i=0;i<easeUserList.size();i++){
 
-                        EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getStringAttribute("userName"));
-                        if (easeUser!=null){
+                        EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getFrom());
+                        if (easeUser!=null&&easeUser.getNick().length()!=32){
                                 chatUserBean.setNick(easeUser.getNick());
+//                            if (!TextUtils.isEmpty(easeUser.getNick())){
+//                                MyLogUtils.info("nick不是空的========"+easeUser.getNick());
+//                            }
                             }else {
                                 chatUserBean.setNick(message.getStringAttribute("nick"));
                             }
@@ -823,7 +834,7 @@ public class DemoHelper {
                             chatUserBean.setIcon(Uitls.imageFullUrl(userIcon));
                         }
 //                        chatUserBean.setIcon(message.getStringAttribute("icon"));
-                        MyLogUtils.info("这个头像："+message.getStringAttribute("nick")+"++昵称："+message.getStringAttribute("icon"));
+                        MyLogUtils.info("这个头像DEMOHelper："+message.getStringAttribute("nick")+"++昵称："+message.getStringAttribute("icon"));
 //                    MyToastUtils.showShortToast(getApplication(),message.getStringAttribute("nick")+":"+message.getStringAttribute("icon"));
                     } catch (HyphenateException e) {
                         e.printStackTrace();
@@ -974,7 +985,13 @@ public class DemoHelper {
         contactList.put(user.getUsername(), user);
         demoModel.saveContact(user);
     }
-
+    /**
+     * 更新单个user
+     */
+    public void updataContact(EaseUser user){
+        contactList.put(user.getUsername(),user);
+        demoModel.updataContact(user);
+    }
     /**
      * 获取好友list
      *

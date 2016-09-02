@@ -20,7 +20,7 @@ public class MessManager extends RequestManager{
     public void findUserByPhone(String phoneNum,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("phoneNum",phoneNum);
-        doPost(IZtbUrl.FINDUSERBYPHONE_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FINDUSERBYPHONE_URL,map,callback);
     }
 
     /**
@@ -31,7 +31,7 @@ public class MessManager extends RequestManager{
     public void aggreeFriend(String friendId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("friendId",friendId);
-        doPost(IZtbUrl.ADD_FRIEND_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_FRIEND_URL,map,callback);
     }
 
     /**
@@ -42,7 +42,7 @@ public class MessManager extends RequestManager{
     public void deleteFriend(String friendId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("friendId",friendId);
-        doPost(IZtbUrl.DELETE_FRIEND_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.DELETE_FRIEND_URL,map,callback);
     }
 
     /**
@@ -53,7 +53,7 @@ public class MessManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("page",page+"");
         map.put("rows",rows+"");
-        doPost(IZtbUrl.FRIEND_LIST_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FRIEND_LIST_URL,map,callback);
     }
 
     /**
@@ -65,7 +65,7 @@ public class MessManager extends RequestManager{
     public void addFriendFromContact(String friendId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("friendId",friendId);
-        doPost(IZtbUrl.ADD_FRIEND_CONTACT,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_FRIEND_CONTACT,map,callback);
     }
 
     /**
@@ -76,7 +76,7 @@ public class MessManager extends RequestManager{
     public void updateNickName(String newNickName,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("newNickName",newNickName);
-        doPost(IZtbUrl.UPDATE_NICKNAME, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.UPDATE_NICKNAME, map, callback);
     }
 
     /**
@@ -89,7 +89,7 @@ public class MessManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("remark",timeLength);
         map.put("personIds",personIds);
-        doPost(IZtbUrl.ADD_GROUP_URL, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_GROUP_URL, map, callback);
     }
 
     /**
@@ -100,7 +100,7 @@ public class MessManager extends RequestManager{
     public void getGroupMember(String groupId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("hgroupid",groupId);
-        doPost(IZtbUrl.GET_GROUP_MEMBER_URL, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.GET_GROUP_MEMBER_URL, map, callback);
     }
 
     /**
@@ -112,7 +112,7 @@ public class MessManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("hgroupid",groupId);
         map.put("personIds",personIds);
-        doPost(IZtbUrl.REMOVE_GROUP_PERSON_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REMOVE_GROUP_PERSON_URL,map,callback);
     }
 
     /**
@@ -123,7 +123,7 @@ public class MessManager extends RequestManager{
     public void exitGroup(String groupId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("hgroupid",groupId);
-        doPost(IZtbUrl.EXIT_GROUP_URL, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.EXIT_GROUP_URL, map, callback);
     }
 
     /**
@@ -134,7 +134,7 @@ public class MessManager extends RequestManager{
     public void deleteFriends(String friendId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("friendId",friendId);
-        doPost(IZtbUrl.REMOVE_FRIEND_URL, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REMOVE_FRIEND_URL, map, callback);
     }
 
     /**
@@ -147,7 +147,7 @@ public class MessManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("groupId",groupId);
         map.put("personIds",personIds);
-        doPost(IZtbUrl.ADD_GROUP_MEMBER_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADD_GROUP_MEMBER_URL,map,callback);
     }
 
     /**
@@ -157,7 +157,7 @@ public class MessManager extends RequestManager{
     public void findGroupInfo(String hgroupid,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("hgroupid",hgroupid);
-        doPost(IZtbUrl.GROUP_INFO, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.GROUP_INFO, map, callback);
     }
 
     /**
@@ -167,7 +167,7 @@ public class MessManager extends RequestManager{
     public void findUserByHId(String personId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("personId",personId);
-        doPost(IZtbUrl.FIND_USER_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FIND_USER_URL,map,callback);
     }
 
 
@@ -178,7 +178,7 @@ public class MessManager extends RequestManager{
      */
     public void isCheck(ResultCallback callback){
         Map<String,String> map=new HashMap<>();
-        doPost(IZtbUrl.ISCHECKED_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ISCHECKED_URL,map,callback);
     }
 
     /**
@@ -189,7 +189,7 @@ public class MessManager extends RequestManager{
     public void findUserIcon(String personId,ResultCallback callback){
         Map<String,String>map=new HashMap();
         map.put("personId",personId);
-        doPost(IZtbUrl.FINDUSERICON_URL,map,callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FINDUSERICON_URL,map,callback);
 
     }
 
@@ -202,7 +202,7 @@ public class MessManager extends RequestManager{
         Map<String,String>map=new HashMap();
         map.put("hgroupid",hgroupid);
         map.put("newGroupName",newGroupName);
-        doPost(IZtbUrl.UPDATE_GROUPNAME_URL, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.UPDATE_GROUPNAME_URL, map, callback);
     }
     /**
      * 修改备注
@@ -213,6 +213,6 @@ public class MessManager extends RequestManager{
         Map<String,String>map=new HashMap();
         map.put("friendId",friendId);
         map.put("remark",remark);
-        doPost(IZtbUrl.REMARK_URL, map, callback);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REMARK_URL, map, callback);
     }
 }

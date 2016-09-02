@@ -308,10 +308,13 @@ public class MainAct extends BaseActivity {
                 MyLogUtils.info("这个人发送消息来了："+message.getFrom());
                 try {
 //                    for (int i=0;i<easeUserList.size();i++){
-                        EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getStringAttribute("userName"));
+                        EaseUser easeUser = DemoHelper.getInstance().getContactList().get(message.getFrom());
 //                    MyLogUtils.info(easeUser.toString()+"easeUser是。。。。。");
-                        if (easeUser!=null){
+                        if (easeUser!=null&&easeUser.getNick().length()!=32){
                             chatUserBean.setNick(easeUser.getNick());
+//                            if (!TextUtils.isEmpty(easeUser.getNick())){
+//                                MyLogUtils.info("nick不是空的========"+easeUser.getNick());
+//                            }
                         }else {
                             chatUserBean.setNick(message.getStringAttribute("nick"));
                         }
@@ -324,11 +327,12 @@ public class MainAct extends BaseActivity {
                     }else {
                         chatUserBean.setIcon(Uitls.imageFullUrl(userIcon));
                     }
-                    MyLogUtils.info("这个头像："+message.getStringAttribute("nick")+"++昵称："+message.getStringAttribute("icon"));
+                    MyLogUtils.info("这个头像MainAct："+message.getStringAttribute("nick")+"++昵称："+message.getStringAttribute("icon"));
 //                    MyToastUtils.showShortToast(getApplication(),message.getStringAttribute("nick")+":"+message.getStringAttribute("icon"));
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
+                MyLogUtils.info("昵称发过来===="+chatUserBean.getNick());
                 ChatUserDao.saveUser(chatUserBean);
             }
             refreshUIWithMessage();
@@ -376,14 +380,21 @@ public class MainAct extends BaseActivity {
 
             @Override
             public void onReceive(Context context, Intent intent) {
-                updateUnreadLabel();
-                updateUnreadAddressLable();
-                if (currentTabIndex == 1) {
-                    // 当前页面如果为聊天历史页面，刷新此页面
-                    if (messFrg != null) {
-                        messFrg.refresh();
+                int chat_receiver = intent.getIntExtra("main_receiver", 5);
+                 updateUnreadLabel();
+//                if (count==0){
+//                    if (chat_receiver==3){
+//                        unreadLabel.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//                       updateUnreadAddressLable();
+                    if (currentTabIndex == 1) {
+                        // 当前页面如果为聊天历史页面，刷新此页面
+                        if (messFrg != null) {
+                            messFrg.refresh();
+                        }
                     }
-                }
+//                }
 //                else if (currentTabIndex == 1) {
 //                    if(contactListFragment != null) {
 //                        contactListFragment.refresh();
@@ -463,8 +474,10 @@ public class MainAct extends BaseActivity {
      */
     public void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
+        int count2 = getUnreadAddressCountTotal();
+        count=count2+count;
         if (count > 0) {
-            unreadLabel.setText(String.valueOf(count));
+//            unreadLabel.setText(String.valueOf(count));
             unreadLabel.setVisibility(View.VISIBLE);
         } else {
             unreadLabel.setVisibility(View.INVISIBLE);
@@ -484,9 +497,9 @@ public class MainAct extends BaseActivity {
 //                }
                 if (count > 0) {
 //					unreadAddressLable.setText(String.valueOf(count));
-//                    unreadAddressLable.setVisibility(View.VISIBLE);
+                    unreadLabel.setVisibility(View.VISIBLE);
                 } else {
-//                    unreadAddressLable.setVisibility(View.INVISIBLE);
+                    unreadLabel.setVisibility(View.INVISIBLE);
                 }
             }
         });

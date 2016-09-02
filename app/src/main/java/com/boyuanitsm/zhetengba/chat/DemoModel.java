@@ -40,7 +40,10 @@ public class DemoModel {
         UserDao dao = new UserDao(context);
         dao.saveContact(user);
     }
-    
+    public void updataContact(EaseUser user){
+        UserDao dao=new UserDao(context);
+        dao.updataContact(user);
+    }
     /**
      * 设置当前用户的环信id
      * @param username

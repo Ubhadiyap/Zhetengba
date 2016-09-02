@@ -238,7 +238,7 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".chat.act.HeiAct"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.TestListView"
+        <activity android:name=".activity.PersonalAct"
             android:screenOrientation="portrait"></activity>
 
         <!-- 开机自启动服务 -->
@@ -496,7 +496,7 @@
             android:screenOrientation="portrait"></activity>
         <!--测试listview-->
         <!--<activity-->
-            <!--android:name=".activity.TestListView"-->
+            <!--android:name=".activity.PersonalAct"-->
             <!--android:screenOrientation="portrait"></activity>-->
         <!--指定谁能看，不能看界面/邀请好友-->
         <activity
