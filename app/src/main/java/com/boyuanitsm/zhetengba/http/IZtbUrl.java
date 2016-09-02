@@ -31,10 +31,16 @@ public interface IZtbUrl {
      **/
     String REGISTER_URL = BASE_URL + "manager/unLogin/register.do";
 
+
     /**
      * =========发送验证码地址==========
      **/
     String SENDSMSCAPTCHA_URL = BASE_URL + "manager/unLogin/sendSmsCaptcha.do";
+
+    /**
+     * =========发送图片验证码地址==========
+     **/
+    String FINDIMGCAPTCHA_URL = BASE_URL + "front/unlogin/findImgCaptcha.do ";
 
     /**
      * =========修改密码地址==========

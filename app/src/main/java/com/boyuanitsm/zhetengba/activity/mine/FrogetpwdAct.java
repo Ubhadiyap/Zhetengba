@@ -82,7 +82,7 @@ public class FrogetpwdAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
                     return;
                 }
-                sendSms(phone, "false");
+                sendSms(phone, "false",200);
                 break;
 
 
@@ -228,8 +228,8 @@ public class FrogetpwdAct extends BaseActivity {
      * @param phoneNumber
      * @param isRegister
      */
-    public void sendSms(String phoneNumber,String isRegister){
-        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, new ResultCallback<ResultBean<String>>() {
+    public void sendSms(String phoneNumber,String isRegister,int identifyCode){
+        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,identifyCode, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
