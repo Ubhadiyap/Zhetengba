@@ -179,12 +179,12 @@ public class RegistAct extends BaseActivity {
     };
 
 
-    @OnClick({R.id.tv_code,R.id.tv_zc,R.id.tv_xy})
+    @OnClick({R.id.tv_code,R.id.tv_zc,R.id.tv_xy,R.id.iv_aqm})
     public void OnClick(View v){
         switch (v.getId()){
             case R.id.tv_code://发送验证码
                 phone=et_phone.getText().toString().trim();
-                aqm=et_aqm.getText().toString();
+                aqm=et_aqm.getText().toString().toLowerCase();
                 if (TextUtils.isEmpty(phone)) {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
                     return;
@@ -226,6 +226,9 @@ public class RegistAct extends BaseActivity {
                 }
 
                 break;
+            case R.id.iv_aqm:
+                getImaCatch();//获取图像验证码
+                break;
 
         }
 
@@ -243,7 +246,7 @@ public class RegistAct extends BaseActivity {
         yzm = et_yzm.getText().toString().trim();
         pwd = et_pwd.getText().toString();//.trim();
         cpwd=et_cpwd.getText().toString();//.trim();
-        aqm=et_aqm.getText().toString();
+        aqm=et_aqm.getText().toString().toLowerCase();
         yqphone=et_yqphone.getText().toString();
         if(TextUtils.isEmpty(aqm)){
             MyToastUtils.showShortToast(getApplicationContext(),"请输入安全码");
