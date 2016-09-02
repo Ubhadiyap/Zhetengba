@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.activity.mine;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ImagCatchBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
@@ -36,6 +39,9 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -59,13 +65,26 @@ public class RegistAct extends BaseActivity {
     private CheckBox register_cb;
     @ViewInject(R.id.tv_zc)
     private TextView tv_zc;
-    private String phone, yzm,pwd,cpwd;//手机号，验证码，确认的密码
+    @ViewInject(R.id.et_aqm)
+    private EditText et_aqm;
+    @ViewInject(R.id.iv_aqm)
+    private ImageView iv_aqm;
+    @ViewInject(R.id.et_yqphone)
+    private EditText et_yqphone;
+    
+    private String phone, yzm,pwd,cpwd,aqm,yqphone,imgcatchurl,zifu;//手机号，验证码，确认的密码,安全码，邀请人手机号,图片验证码，字符
     private int i = 60;
     private Timer timer;
     private MyTimerTask myTask;
 
     private static final String TAG = "RegAct";
     private ProgressDialog pd;
+
+    private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.yzmjiazai)
+            .showImageOnFail(R.mipmap.yzmjiazai).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
 
     @Override
     public void setLayout() {
@@ -75,6 +94,7 @@ public class RegistAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        getImaCatch();//获取图像验证码
         setTopTitle("注册");
         pd = new ProgressDialog(this);
         pd.setCanceledOnTouchOutside(false);
@@ -104,6 +124,30 @@ public class RegistAct extends BaseActivity {
 //        et_pwd.addTextChangedListener(textWatcher);
 //        et_cpwd.addTextChangedListener(textWatcher);
 
+    }
+
+    /**
+     * 获取图像验证码
+     */
+    private void getImaCatch() {
+        RequestManager.getUserManager().findImgCaptcha(new ResultCallback<ResultBean<ImagCatchBean>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<ImagCatchBean> response) {
+                imgcatchurl=response.getData().getImgpath();
+                zifu=response.getData().getZifu();
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imgcatchurl), iv_aqm, optionsImag);
+
+
+
+
+
+            }
+        });
     }
 
     TextWatcher textWatcher=new TextWatcher() {
@@ -140,6 +184,7 @@ public class RegistAct extends BaseActivity {
         switch (v.getId()){
             case R.id.tv_code://发送验证码
                 phone=et_phone.getText().toString().trim();
+                aqm=et_aqm.getText().toString();
                 if (TextUtils.isEmpty(phone)) {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
                     return;
@@ -154,7 +199,17 @@ public class RegistAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
                     return;
                 }
-                sendSms(phone, "true");
+                if(TextUtils.isEmpty(aqm)){
+                    MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
+                    et_aqm.requestFocus();
+                    return;
+                }
+                if(!aqm.equals(zifu)){
+                    MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
+                    et_aqm.requestFocus();
+                    return;
+                }
+                sendSms(phone, "true",200);
                 break;
             case R.id.tv_xy://注册协议
                 openActivity(WebAct.class);
@@ -188,6 +243,28 @@ public class RegistAct extends BaseActivity {
         yzm = et_yzm.getText().toString().trim();
         pwd = et_pwd.getText().toString();//.trim();
         cpwd=et_cpwd.getText().toString();//.trim();
+        aqm=et_aqm.getText().toString();
+        yqphone=et_yqphone.getText().toString();
+        if(TextUtils.isEmpty(aqm)){
+            MyToastUtils.showShortToast(getApplicationContext(),"请输入安全码");
+            et_aqm.requestFocus();
+            return false;
+        }
+        if(TextUtils.isEmpty(yqphone)){
+            MyToastUtils.showShortToast(getApplicationContext(),"请输入邀请人手机号码");
+            et_yqphone.requestFocus();
+            return false;
+        }
+        if(yqphone.length()!=11){
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入11位的手机号");
+            et_yqphone.requestFocus();
+            et_yqphone.setSelection(et_yqphone.length());
+            return false;
+        }
+        if(!ZhetebaUtils.checkCellPhone(yqphone)){
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
+            return false;
+        }
         if (TextUtils.isEmpty(phone)) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
             et_phone.requestFocus();
@@ -317,8 +394,8 @@ public class RegistAct extends BaseActivity {
      * @param phoneNumber
      * @param isRegister
      */
-    public void sendSms(String phoneNumber,String isRegister){
-        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, new ResultCallback<ResultBean<String>>() {
+    public void sendSms(String phoneNumber,String isRegister,int identifyCode){
+        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,identifyCode, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 MyToastUtils.showShortToast(getApplicationContext(), errorMsg);

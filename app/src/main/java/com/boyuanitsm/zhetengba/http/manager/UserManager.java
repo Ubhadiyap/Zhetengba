@@ -67,11 +67,17 @@ public class UserManager extends RequestManager{
      * @param isRegister
      * @param callback
      */
-    public void sendSmsCaptcha(String phoneNumber,String isRegister,ResultCallback callback){
+    public void sendSmsCaptcha(String phoneNumber,String isRegister,int identifyCode,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("phoneNumber",phoneNumber);
         params.put("isRegister", isRegister);
+        params.put("identifyCode",identifyCode+"");
         OkHttpManager.getInstance().doPost(IZtbUrl.SENDSMSCAPTCHA_URL, params, callback);
+    }
+
+    public void findImgCaptcha(ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        OkHttpManager.getInstance().doPost(IZtbUrl.FINDIMGCAPTCHA_URL, params, callback);
     }
 
     /**
