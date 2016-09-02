@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 //<<<<<<< HEAD
@@ -30,6 +33,7 @@ import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -56,7 +60,8 @@ public class ActAdapter extends BaseAdapter {
     private Context context;
     private List<SimpleInfo> infos = new ArrayList<>();
     private String strStart, strEnd;
-
+    private LocalBroadcastManager broadcastManager;
+    private InviteMessgeDao inviteMessgeDao;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -319,54 +324,29 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.tv_text_guanzhu.setText("关注");
             viewHolder.ll_guanzhu.setEnabled(true);
         }
-        viewHolder.ll_guanzhu.setOnTouchListener(new View.OnTouchListener() {
+        viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        switch (v.getId()) {
-                            case R.id.ll_guanzhu:
-                                viewHolder.iv_simple_guanzhu.setAlpha(0.5f);
-                                break;
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        switch (v.getId()) {
-                            case R.id.ll_guanzhu:
-                                viewHolder.iv_simple_guanzhu.setAlpha(1.0f);
-                                break;
-                        }
-                    case MotionEvent.ACTION_UP:
-                        switch (v.getId()) {
-                            case R.id.ll_guanzhu://点赞
-                                viewHolder.iv_simple_guanzhu.setAlpha(1.0f);
-                                //接口调用
-                                RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
-                                    @Override
-                                    public void onError(int status, String errorMsg) {
+            public void onClick(View v) {
+                //接口调用
+                RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+                    @Override
+                    public void onError(int status, String errorMsg) {
 
-                                    }
+                    }
 
-                                    @Override
-                                    public void onResponse(ResultBean<String> response) {
-                                        infos.get(position).setFollow(true);
-                                        int noticNum = infos.get(position).getFollowNum();
-                                        noticNum = noticNum + 1;
-                                        infos.get(position).setFollowNum(noticNum);
-                                        viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
-                                        viewHolder.ll_guanzhu.setClickable(false);
-                                        context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
-                                        notifyDataSetChanged();
-                                        MyToastUtils.showShortToast(context, "已关注");
-                                    }
-                                });
-                                break;
-                        }
-                        break;
-
-                }
-
-                return true;
+                    @Override
+                    public void onResponse(ResultBean<String> response) {
+                        infos.get(position).setFollow(true);
+                        int noticNum = infos.get(position).getFollowNum();
+                        noticNum = noticNum + 1;
+                        infos.get(position).setFollowNum(noticNum);
+                        viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+                        viewHolder.ll_guanzhu.setClickable(false);
+                        context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+                        notifyDataSetChanged();
+                        MyToastUtils.showShortToast(context, response.getMessage());
+                    }
+                });
             }
         });
         viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
@@ -500,6 +480,8 @@ public class ActAdapter extends BaseAdapter {
                 MyToastUtils.showShortToast(context, "删除活动成功！");
                 infos.remove(position);
                 notifyDataSetChanged();
+//                Intent intent=new Intent(context,MainAct.class);
+//                context.sendBroadcast(intent);
             }
         });
     }
@@ -537,7 +519,20 @@ public class ActAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-
+//                if (inviteMessgeDao==null){
+//                    inviteMessgeDao=new InviteMessgeDao(context);
+//                }
+//                int unreadMessagesCount=0;
+//                unreadMessagesCount = inviteMessgeDao.getUnreadMessagesCount();
+//                if (unreadMessagesCount>0){
+//                    unreadMessagesCount--;
+//                    inviteMessgeDao.saveUnreadMessageCount(unreadMessagesCount);
+//                }
+                broadcastManager=  LocalBroadcastManager.getInstance(context);
+                Intent intent=new Intent(context,MainAct.class);
+                broadcastManager.sendBroadcast(intent);
+//                Intent intent=new Intent(context,MainAct.class);
+//                context.sendBroadcast(intent);
             }
         });
     }

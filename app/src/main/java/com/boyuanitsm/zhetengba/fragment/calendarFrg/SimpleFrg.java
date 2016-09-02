@@ -248,11 +248,12 @@ public class SimpleFrg extends BaseFragment {
 //                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
 //                animationDrawable.start();
 //                noMsg.setText("加载失败...");
-                String bannerList= aCache.getAsString("SimpleBanner");
+                String bannerList = aCache.getAsString("SimpleBanner");
 //                Gson gson=new Gson();
-                MyLogUtils.info(bannerList+"bannerlist是=====");
-                if (!TextUtils.isEmpty(bannerList)){
-                    List<LabelBannerInfo> bannerInfos= gson.fromJson(bannerList,new TypeToken<List<LabelBannerInfo>>(){}.getType());
+                MyLogUtils.info(bannerList + "bannerlist是=====");
+                if (!TextUtils.isEmpty(bannerList)) {
+                    List<LabelBannerInfo> bannerInfos = gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
+                    }.getType());
                     initMyPageAdapter(bannerInfos);
                 }
             }
@@ -300,6 +301,11 @@ public class SimpleFrg extends BaseFragment {
                         adapter.update(infos);
                     }
                 }
+//                else {
+//                    noList.setVisibility(View.VISIBLE);
+//                    ivAnim.setImageResource(R.mipmap.planeno);
+//                    noMsg.setText("加载失败");
+//                }
             }
 
             @Override
@@ -315,10 +321,16 @@ public class SimpleFrg extends BaseFragment {
                 if (list.size() == 0) {
                     if (page == 1) {
 //                        adapter.update(list);
+//                        noList.setVisibility(View.VISIBLE);
+//                        ivAnim.setImageResource(R.mipmap.planeno);
+//                        noMsg.setText("暂无内容");
                     } else {
                         lv_act.setHasMoreData(false);
                     }
                 }
+//                else {
+//                    noList.setVisibility(View.GONE);
+//                }
                 if (page == 1) {
                     datas.clear();
                 }
@@ -373,13 +385,12 @@ public class SimpleFrg extends BaseFragment {
                     } else {
                         adapter.update(infos);
                     }
-//                }else {
-//                    noList.setVisibility(View.VISIBLE);
-//                    ivAnim.setImageResource(R.drawable.loadfail_list);
-//                    animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-//                    animationDrawable.start();
-//                    noMsg.setText("加载失败...");
                 }
+//                else {
+//                    noList.setVisibility(View.VISIBLE);
+//                    ivAnim.setImageResource(R.mipmap.planeno);
+//                    noMsg.setText("加载失败");
+//                }
             }
 
             @Override
@@ -392,11 +403,17 @@ public class SimpleFrg extends BaseFragment {
                 if (list.size() == 0) {
                     if (page == 1) {
 //                        adapter.update(list); //第一页就没有数据，表示全部无数据
+//                        noList.setVisibility(View.VISIBLE);
+//                        ivAnim.setImageResource(R.mipmap.planeno);
+//                        noMsg.setText("暂无内容");
                     } else {
                         //无更多数据
                         lv_act.setHasMoreData(false);
                     }
                 }
+//                else {
+//                    noList.setVisibility(View.GONE);
+//                }
                 if (page == 1) {
                     datas.clear();
                 }

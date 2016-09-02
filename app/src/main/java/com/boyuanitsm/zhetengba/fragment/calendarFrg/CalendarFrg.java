@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
@@ -16,6 +17,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.AddFriendsAct;
+import com.boyuanitsm.zhetengba.activity.mess.CreateGroupAct;
+import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 
@@ -35,6 +39,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
     private RadioGroup rg_simple;
     private TextView tv_friend_all, tv_friend_all_two;
     private List<SimpleInfo> list;
+    private PopupWindow mPopupWindowAd;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -95,11 +100,12 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
 
         switch (v.getId()) {
             case R.id.ll_friend:
-                selectPop();
+//                selectPop();
+                addPop();
                 break;
-            case R.id.ll_friend_two:
-                selectPop();
-                break;
+//            case R.id.ll_friend_two:
+//                selectPop();
+//                break;
         }
 
     }
@@ -171,6 +177,50 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                 }
                 mActivity.sendBroadcast(intentRecevier);
                 mPopupWindow.dismiss();
+            }
+        });
+
+    }
+    /**
+     * 待解决：对话框布局有出入
+     * 选择对话框，选择好友/全部
+     */
+    private void addPop() {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.act_pop_mess, null);
+        mPopupWindowAd = new PopupWindow(v,layoutParams.width, layoutParams.height);
+        LinearLayout ll_sao = (LinearLayout) v.findViewById(R.id.ll_sao);
+        LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qunavatar);
+        LinearLayout ll_add_friend = (LinearLayout) v.findViewById(R.id.ll_add_friend);
+        mPopupWindowAd.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        mPopupWindowAd.setFocusable(true);
+        //获取xoff
+        WindowManager manager = (WindowManager) getActivity().getSystemService(getActivity().WINDOW_SERVICE);
+        int xpos = manager.getDefaultDisplay().getWidth() / 2 - mPopupWindowAd.getWidth() / 2;
+        //xoff,yoff基于anchor的左下角进行偏移。
+        mPopupWindowAd.showAsDropDown(ll_friend, xpos, 0);
+        ll_sao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //扫一扫
+                getActivity().startActivity(new Intent(getContext(), ScanQrcodeAct.class));
+                mPopupWindowAd.dismiss();
+            }
+        });
+//        ll_qun.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //创建群组
+//                getActivity().startActivity(new Intent(getContext(), CreateGroupAct.class));
+//                mPopupWindowAd.dismiss();
+//            }
+//        });
+        ll_add_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //添加好友
+                getActivity().startActivity(new Intent(getContext(), AddFriendsAct.class));
+                mPopupWindowAd.dismiss();
             }
         });
 

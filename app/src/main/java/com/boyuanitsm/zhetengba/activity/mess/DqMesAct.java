@@ -19,6 +19,7 @@ import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenu;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuCreator;
@@ -150,7 +151,8 @@ public class DqMesAct extends BaseActivity {
         RequestManager.getScheduleManager().findMyInviteMsg(type, page, rows, new ResultCallback<ResultBean<DataBean<ActivityMess>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                progressDialog.dismiss();
+                MyToastUtils.showShortToast(getApplicationContext(),"请求失败，请检查网络！");
             }
 
             @Override
