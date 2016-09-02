@@ -12,12 +12,12 @@
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable/ease_btn_cancel_bj.xml"
     },
     {
-        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable/ease_mm_listitem_grey.xml",
-        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable/ease_mm_listitem_grey.xml"
-    },
-    {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable/ease_chatting_setmode_voice_btn.xml",
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable/ease_chatting_setmode_voice_btn.xml"
+    },
+    {
+        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable/ease_mm_listitem_grey.xml",
+        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable/ease_mm_listitem_grey.xml"
     },
     {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable/item_back.xml",
@@ -88,12 +88,12 @@
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable/ease_common_tab_bg.xml"
     },
     {
-        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable/ease_btn_blue_pressed_shape.xml",
-        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable/ease_btn_blue_pressed_shape.xml"
-    },
-    {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable/ease_chatfrom_bg.xml",
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable/ease_chatfrom_bg.xml"
+    },
+    {
+        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable/ease_btn_blue_pressed_shape.xml",
+        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable/ease_btn_blue_pressed_shape.xml"
     },
     {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable/ease_btn_blue_selector.xml",
