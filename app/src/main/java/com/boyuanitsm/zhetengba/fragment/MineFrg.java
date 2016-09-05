@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -67,10 +69,14 @@ public class MineFrg extends BaseFragment{
     private CommonView my_collect;
     @ViewInject(R.id.qb)
     private CommonView qb;
-    @ViewInject(R.id.cj)
-    private CommonView cj;
+    @ViewInject(R.id.cj_ll)
+    private LinearLayout cj;
     @ViewInject(R.id.cv_set)
     private CommonView cv_set;
+    @ViewInject(R.id.hd)
+    private CommonView hd;
+    @ViewInject(R.id.hd_arrow)
+    private ImageView hd_arrow;
     private List<Integer> monthList;//设置时间集合
     private List<TextView> textViewList;//设置时间textview集合
     private ArrayList<Integer> moveToList;//设置textview宽高集合
@@ -79,6 +85,7 @@ public class MineFrg extends BaseFragment{
     private int currentPos;//当前位置
     private int mMouthMargin;//设置月份间隙
     private List<String> timeList=new ArrayList<>();//存储时间
+    private int cjOn=1;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImagb = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userb)
@@ -167,7 +174,7 @@ public class MineFrg extends BaseFragment{
 
 
 
-    @OnClick({R.id.iv_shareCode,R.id.cv_set,R.id.iv_headIcon,R.id.my_collect,R.id.tv_noLabel,R.id.iv_bg,R.id.cv_time})
+    @OnClick({R.id.iv_shareCode,R.id.cv_set,R.id.iv_headIcon,R.id.my_collect,R.id.tv_noLabel,R.id.iv_bg,R.id.cv_time,R.id.hd})
     public void todo(View view){
         switch (view.getId()){
             case R.id.cv_time:
@@ -187,6 +194,19 @@ public class MineFrg extends BaseFragment{
                 break;
             case R.id.tv_noLabel://没有标签时显示添加标签
                 openActivity(LabelMangerAct.class);
+                break;
+            case R.id.hd:
+                if (cjOn==1){
+                    cj.setVisibility(View.VISIBLE);
+                    hd.setArrowGone();
+                    hd_arrow.setVisibility(View.VISIBLE);
+                    cjOn=0;
+                }else {
+                    cj.setVisibility(View.GONE);
+                    hd.setArrowVisible();
+                    hd_arrow.setVisibility(View.GONE);
+                    cjOn=1;
+                }
                 break;
         }
     }

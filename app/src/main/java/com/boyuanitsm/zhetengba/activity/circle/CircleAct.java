@@ -120,23 +120,20 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
             public void onError(int status, String errorMsg) {
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
-                if (adapter != null) {
-                    adapter.notifyChange(datalist, circleEntityList);
+                if (datas.size()>0){
+//                    if (adapter != null) {
+//                        adapter.notifyChange(datalist, circleEntityList);
+//                    }
+                }else {
+                    llnoList.setVisibility(View.VISIBLE);
+                    ivAnim.setImageResource(R.mipmap.planeno);
+                    noMsg.setText("加载失败");
                 }
-                llnoList.setVisibility(View.VISIBLE);
-                ivAnim.setImageResource(R.drawable.loadfail_list);
-                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                animationDrawable.start();
-                noMsg.setText("加载失败...");
+
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
-                if (animationDrawable != null) {
-                    animationDrawable.stop();
-                    animationDrawable = null;
-                    llnoList.setVisibility(View.GONE);
-                }
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
                 circleEntityList = response.getData().getRows();

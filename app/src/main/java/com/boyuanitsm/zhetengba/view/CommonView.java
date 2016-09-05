@@ -51,6 +51,10 @@ public class CommonView extends RelativeLayout {
      */
     private Drawable statusImage;
     /**
+     * 右边箭头图片
+     */
+    private int ivImage;
+    /**
      * 分类的状态图片的高 默认16
      */
     private float statusImage_width;
@@ -238,6 +242,16 @@ public class CommonView extends RelativeLayout {
     public void setArrowGone(){
         ivArrow.setVisibility(View.INVISIBLE);
     }
+
+    public void setArrowVisible(){
+        ivArrow.setVisibility(View.VISIBLE);
+    }
+//    public void setIvArrowBg(int resid){
+//        if (resid != 0) {
+//            ivArrow.setImageResource(resid);
+//            this.ivImage = resid;
+//        }
+//    }
 
     /**
      * 设置字体大小

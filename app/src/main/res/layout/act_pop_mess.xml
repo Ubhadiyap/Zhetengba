@@ -17,18 +17,16 @@
     android:background="@drawable/bg_stroke">
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_sao"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/act_layer_bottom_white">
+        android:layout_height="wrap_content">
     <ImageView
         android:layout_width="22dp"
         android:layout_height="22dp"
-        android:background="@drawable/sao"/>
+        android:background="@drawable/saowhite"/>
         <TextView
             android:layout_marginLeft="11dp"
             android:textColor="#fff"
@@ -38,8 +36,11 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
+    <View
+        android:layout_marginLeft="0dp"
+        style="@style/view_line"></View>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_qunavatar"
         android:layout_weight="1"
         android:gravity="center_vertical"

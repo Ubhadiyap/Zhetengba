@@ -91,6 +91,7 @@ public class OkHttpManager {
         Request.Builder builder = new Request.Builder();
         builder.url(url).post(parmBuilder.build());
         if (headers != null) {
+            MyLogUtils.info("headers内容是===="+headers);
             builder.headers(headers);
         }
 

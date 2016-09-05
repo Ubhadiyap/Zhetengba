@@ -225,17 +225,24 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
             public void onError(int status, String errorMsg) {
                 vp_chan.onPullUpRefreshComplete();
                 vp_chan.onPullDownRefreshComplete();
-                if (adapter != null) {
-                    adapter.notifyChange(datalist, channelTalkEntityList);
+                if (datas.size()>0){
+
+                }else {
+                    llnoList.setVisibility(View.VISIBLE);
+                    ivAnim.setImageResource(R.mipmap.planeno);
+                    noMsg.setText("加载失败");
                 }
+//                if (adapter != null) {
+//                    adapter.notifyChange(datalist, channelTalkEntityList);
+//                }
 //                if (progressDialog.isShowing()){
 //                    progressDialog.dismiss();
 //                }
-                llnoList.setVisibility(View.VISIBLE);
-                ivAnim.setImageResource(R.drawable.loadfail_list);
-                noMsg.setText("加载数据失败...");
-                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
-                animationDrawable.start();
+//                llnoList.setVisibility(View.VISIBLE);
+//                ivAnim.setImageResource(R.mipmap.planeno);
+//                noMsg.setText("加载失败");
+//                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
+//                animationDrawable.start();
             }
 
             @Override
@@ -245,10 +252,10 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
 //                if (progressDialog.isShowing()){
 //                    progressDialog.dismiss();
 //                }
-                if (animationDrawable != null) {
-                    animationDrawable.stop();
-                    animationDrawable = null;
-                }
+//                if (animationDrawable != null) {
+//                    animationDrawable.stop();
+//                    animationDrawable = null;
+//                }
                 channelTalkEntityList = response.getData().getRows();
                 if (channelTalkEntityList.size() == 0) {
                     if (page == 1) {
