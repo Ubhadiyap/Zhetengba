@@ -123,10 +123,12 @@
         <!--个人资料界面-->
         <activity
             android:name=".activity.mine.PersonalmesAct"
+
             android:screenOrientation="portrait"></activity>
         <!--我的钱包-->
         <activity android:name=".activity.mine.WalletAct"
             android:screenOrientation="portrait"></activity>
+        
         <!--设置界面-->
         <activity
             android:name=".activity.mine.SettingAct"
