@@ -215,4 +215,13 @@ public class MessManager extends RequestManager{
         map.put("remark",remark);
         OkHttpManager.getInstance().doPost(IZtbUrl.REMARK_URL, map, callback);
     }
+    /**
+     * 获取活动列表
+     * @param
+     * @param
+     */
+    public void getActivity(ResultCallback callback){
+        Map<String,String>map=new HashMap();
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_URL, map, callback);
+    }
 }

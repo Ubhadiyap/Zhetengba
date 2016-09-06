@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -24,9 +25,11 @@ import com.boyuanitsm.zhetengba.activity.mine.SettingAct;
 import com.boyuanitsm.zhetengba.activity.mine.ShareqrcodeAct;
 import com.boyuanitsm.zhetengba.activity.mine.TimeHistoryAct;
 import com.boyuanitsm.zhetengba.activity.mine.WalletAct;
+import com.boyuanitsm.zhetengba.adapter.HdAdapter;
 import com.boyuanitsm.zhetengba.adapter.MonthSelectAdp;
 import com.boyuanitsm.zhetengba.adapter.RecycleviewAdp;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.ActivityDetail;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
@@ -78,6 +81,8 @@ public class MineFrg extends BaseFragment{
     private CommonView hd;
     @ViewInject(R.id.hd_arrow)
     private ImageView hd_arrow;
+    @ViewInject(R.id.lv_hd)
+    private ListView lv_hd;
     private List<Integer> monthList;//设置时间集合
     private List<TextView> textViewList;//设置时间textview集合
     private ArrayList<Integer> moveToList;//设置textview宽高集合
@@ -87,6 +92,8 @@ public class MineFrg extends BaseFragment{
     private int mMouthMargin;//设置月份间隙
     private List<String> timeList=new ArrayList<>();//存储时间
     private int cjOn=1;
+    private List<ActivityDetail> actvityList=new ArrayList<>();
+    private HdAdapter adapter;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImagb = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userb)
@@ -131,7 +138,46 @@ public class MineFrg extends BaseFragment{
         }
         MyLogUtils.info(UserInfoDao.getUser().getIcon() + "图片地址");
         getlable();//获得兴趣标签；
+    }
 
+    private void getActivityMannger() {
+        RequestManager.getMessManager().getActivity(new ResultCallback<ResultBean<List<ActivityDetail>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                hd.setEnabled(true);
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<ActivityDetail>> response) {
+                if (actvityList!=null&&actvityList.size()>0){
+                    actvityList.clear();
+                }
+                actvityList=response.getData();
+                if (actvityList!=null&&actvityList.size()>0){
+                    hd.setEnabled(true);
+                    if (adapter==null){
+                        adapter=new HdAdapter(mActivity,actvityList);
+                        lv_hd.setAdapter(adapter);
+                    }else {
+                        adapter.update(actvityList);
+                    }
+                    if (cjOn==1){
+                        cj.setVisibility(View.VISIBLE);
+                        hd.setArrowGone();
+                        hd_arrow.setVisibility(View.VISIBLE);
+                        cjOn=0;
+                    }else{
+                        cj.setVisibility(View.GONE);
+                        hd.setArrowVisible();
+                        hd_arrow.setVisibility(View.GONE);
+                        cjOn=1;
+                    }
+                }else {
+                    hd.setEnabled(false);
+                }
+
+            }
+        });
     }
 
     /**
@@ -197,17 +243,8 @@ public class MineFrg extends BaseFragment{
                 openActivity(LabelMangerAct.class);
                 break;
             case R.id.hd:
-                if (cjOn==1){
-                    cj.setVisibility(View.VISIBLE);
-                    hd.setArrowGone();
-                    hd_arrow.setVisibility(View.VISIBLE);
-                    cjOn=0;
-                }else {
-                    cj.setVisibility(View.GONE);
-                    hd.setArrowVisible();
-                    hd_arrow.setVisibility(View.GONE);
-                    cjOn=1;
-                }
+                hd.setEnabled(false);
+                getActivityMannger();
                 break;
             case R.id.qb://钱包
                 openActivity(WalletAct.class);

@@ -327,6 +327,6 @@ public interface IZtbUrl {
     String REMOVEBLACKLIST_URL =BASE_URL+"message/login/removeBlackList.do";
     //修改备注
     String REMARK_URL=BASE_URL+"message/login/addFriendRemark.do";
-
-
+    //我的-活动列表
+    String ACTIVITY_URL=BASE_URL+"event/login/findEventList.do";
 }

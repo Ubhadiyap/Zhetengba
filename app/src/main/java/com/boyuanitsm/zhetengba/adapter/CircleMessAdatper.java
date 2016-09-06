@@ -165,14 +165,14 @@ public class CircleMessAdatper extends BaseAdapter {
         if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())) {
             holder1.tv_creatTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
         }
-        holder1.cv_head2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, PersonalAct.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
+//        holder1.cv_head2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, PersonalAct.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+//            }
+//        });
         if (TextUtils.equals(circleInfoList.get(position).getHandleResult(), 0 + "")) {
             holder1.bt_yes.setText("已同意");
             holder1.bt_no.setBackgroundResource(R.drawable.bg_circle_stroke_gray2);

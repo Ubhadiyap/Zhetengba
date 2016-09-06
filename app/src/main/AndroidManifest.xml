@@ -106,7 +106,8 @@
             android:name=".activity.mine.RegInfoAct"
             android:screenOrientation="portrait"></activity>
         <!--注册协议-->
-        <activity android:name=".activity.mine.WebAct"
+        <activity
+            android:name=".activity.mine.WebAct"
             android:screenOrientation="portrait"></activity>
         <!--登录界面-->
         <activity
@@ -126,9 +127,10 @@
 
             android:screenOrientation="portrait"></activity>
         <!--我的钱包-->
-        <activity android:name=".activity.mine.WalletAct"
+        <activity
+            android:name=".activity.mine.WalletAct"
             android:screenOrientation="portrait"></activity>
-        
+
         <!--设置界面-->
         <activity
             android:name=".activity.mine.SettingAct"
@@ -150,7 +152,8 @@
             android:name=".activity.mine.FeedbackAct"
             android:screenOrientation="portrait"></activity>
         <!--消息提醒界面-->
-        <activity android:name=".activity.mine.NewxxAct"
+        <activity
+            android:name=".activity.mine.NewxxAct"
             android:screenOrientation="portrait"></activity>
         <!--我的收藏-->
         <activity
@@ -241,9 +244,11 @@
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".chat.act.HeiAct"
+        <activity
+            android:name=".chat.act.HeiAct"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.PersonalAct"
+        <activity
+            android:name=".activity.PersonalAct"
             android:screenOrientation="portrait"></activity>
 
         <!-- 开机自启动服务 -->
@@ -306,7 +311,7 @@
 
         <!-- 设置环信应用的appkey -->
         <!--测试：wbsj19900625#zheteng-->
-       <!--正式： hseb2016#zhetengba-->
+        <!--正式： hseb2016#zhetengba-->
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="wbsj19900625#zheteng" />
@@ -396,8 +401,8 @@
         <!--裁剪头像页面-->
         <activity
             android:name=".activity.mine.ClipActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"></activity>
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"></activity>
         <!--活动详情-->
         <activity
             android:name=".activity.circle.EventdetailsAct"
@@ -501,26 +506,32 @@
             android:screenOrientation="portrait"></activity>
         <!--测试listview-->
         <!--<activity-->
-            <!--android:name=".activity.PersonalAct"-->
-            <!--android:screenOrientation="portrait"></activity>-->
+        <!--android:name=".activity.PersonalAct"-->
+        <!--android:screenOrientation="portrait"></activity>-->
         <!--指定谁能看，不能看界面/邀请好友-->
         <activity
             android:name=".activity.mine.AssignScanAct"
             android:screenOrientation="portrait"></activity>
 
         <!--我的抽奖界面-->
-        <activity android:name=".activity.mine.LuckyAct"
+        <activity
+            android:name=".activity.mine.LuckyAct"
             android:screenOrientation="portrait"></activity>
-
-
+        <!--H5活动界面-->
+        <activity
+            android:name=".activity.mine.H5Web"
+            android:screenOrientation="portrait"></activity>
         <!--广场-->
-        <activity android:name=".activity.circle.SquareAct"
+        <activity
+            android:name=".activity.circle.SquareAct"
             android:screenOrientation="portrait"></activity>
         <!--圈子-->
-        <activity android:name=".activity.circle.CircleAct"
+        <activity
+            android:name=".activity.circle.CircleAct"
             android:screenOrientation="portrait"></activity>
         <!--时间轴-->
-        <activity android:name=".activity.mine.TimeHistoryAct"
+        <activity
+            android:name=".activity.mine.TimeHistoryAct"
             android:screenOrientation="portrait"></activity>
 
 
