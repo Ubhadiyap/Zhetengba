@@ -187,7 +187,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
      */
     private void addPop() {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        View v = LayoutInflater.from(getActivity()).inflate(R.layout.act_pop_mess, null);
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.act_pop_mess2, null);
         mPopupWindowAd = new PopupWindow(v,layoutParams.width, layoutParams.height);
         LinearLayout ll_sao = (LinearLayout) v.findViewById(R.id.ll_sao);
         LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qunavatar);
@@ -239,8 +239,8 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                 } else {
                     fragmentTransaction.show(simpleFrg);
                 }
-                ll_friend.setVisibility(View.VISIBLE);
-                ll_friend_two.setVisibility(View.GONE);
+//                ll_friend.setVisibility(View.VISIBLE);
+//                ll_friend_two.setVisibility(View.GONE);
                 break;
             case R.id.rb_calendar:
                 fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
@@ -250,8 +250,8 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
                 } else {
                     fragmentTransaction.show(calFrg);
                 }
-                ll_friend.setVisibility(View.GONE);
-                ll_friend_two.setVisibility(View.VISIBLE);
+//                ll_friend.setVisibility(View.GONE);
+//                ll_friend_two.setVisibility(View.VISIBLE);
                 break;
 
         }

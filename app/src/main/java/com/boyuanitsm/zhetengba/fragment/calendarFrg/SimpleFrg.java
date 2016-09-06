@@ -5,15 +5,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -48,10 +60,14 @@ public class SimpleFrg extends BaseFragment {
     private PullToRefreshListView lv_act;
     private View view;
     private View viewHeader_act;
+    private View viewFloat;
     private ActAdapter adapter;
     private LoopViewPager viewPager;
     private MyPageAdapter pageAdapter;
     private LinearLayout ll_point;
+    private LinearLayout ll_ft;
+    private LinearLayout  ll_sx;
+    private CheckBox cb_all,cb_all2;
     private List<View> views = new ArrayList<View>();
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
     private List<LabelBannerInfo> bannerInfoList;
@@ -60,25 +76,28 @@ public class SimpleFrg extends BaseFragment {
     private ACache aCache;
     private int page = 1;
     private int rows = 10;
-    private int state=0;
+    private int state = 0;
+    private boolean flag=false;
     private IntentFilter filter;
     private LinearLayout noList;
     private ImageView ivAnim;
     private TextView noMsg;
     private AnimationDrawable animationDrawable;
+    private PopupWindow mPopupWindow;
     private Gson gson;
     private BroadcastReceiver DteChangeRecevier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             page = 1;
-          state=intent.getIntExtra("state",state);
-            if (state==1){
-                getActivityList(page,rows);
-            }else {
+            state = intent.getIntExtra("state", state);
+            if (state == 1) {
+                getActivityList(page, rows);
+            } else {
                 getFriendOrAllAcitvity(page, rows, state + "");//切换到好友；
             }
         }
     };
+
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.act_frag, null, false);
@@ -88,16 +107,21 @@ public class SimpleFrg extends BaseFragment {
     @Override
     public void initData(Bundle savedInstanceState) {
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
+        viewFloat = getLayoutInflater(savedInstanceState).inflate(R.layout.act_frag_floating, null);
+        ll_sx = (LinearLayout) viewFloat.findViewById(R.id.ll_sx);
+        cb_all = (CheckBox) viewFloat.findViewById(R.id.cb_all);
+        cb_all2 = (CheckBox) view.findViewById(R.id.cb_all);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
-         noList = (LinearLayout) view.findViewById(R.id.noList);
+        ll_ft = (LinearLayout) view.findViewById(R.id.ll_ft);
+        noList = (LinearLayout) view.findViewById(R.id.noList);
         ivAnim = (ImageView) view.findViewById(R.id.ivAnim);
         noMsg = (TextView) view.findViewById(R.id.noMsg);
         viewPager = (LoopViewPager) viewHeader_act.findViewById(R.id.vp_loop_act);
         ll_point = (LinearLayout) viewHeader_act.findViewById(R.id.ll_point);
         //刷新初始化
         LayoutHelperUtil.freshInit(lv_act);
-        aCache=ACache.get(mActivity);
-        gson=new Gson();
+        aCache = ACache.get(mActivity);
+        gson = new Gson();
         lv_act.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -125,24 +149,71 @@ public class SimpleFrg extends BaseFragment {
                 getBanner();
             }
         });
+        lv_act.getRefreshableView().setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem >= 1) {
+                    flag = true;
+                    ll_ft.setVisibility(View.VISIBLE);
+                } else {
+                    flag = false;
+                    ll_ft.setVisibility(View.GONE);
+                }
+            }
+        });
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
-        if (state==1) {
+        lv_act.getRefreshableView().addHeaderView(viewFloat);
+        if (state == 1) {
             getActivityList(page, rows);
-        } else if (state==0){
+        } else if (state == 0) {
             getFriendOrAllAcitvity(page, rows, state + "");
-        }else if (state==2){
-            getFriendOrAllAcitvity(page,rows,state+"");
+        } else if (state == 2) {
+            getFriendOrAllAcitvity(page, rows, state + "");
         }
         //首页活动轮播图片展示
         getBanner();
         viewPager.setAuto(true);
         //设置监听
         viewPager.setOnPageChangeListener(getListener());
-
+//        View.OnClickListener listener=new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                cb_all.setChecked(true);
+//                selectPop();
+//            }
+//        };
+//        ll_all_friend.setOnClickListener(listener);
+//        ll_all_friend2.setOnClickListener(listener);
+        cb_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    selectPop();
+                } else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+        cb_all2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    selectPop();
+                } else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
     }
 
-    public static final String DATA_CHANGE_KEY="data_change_fragment";
+    public static final String DATA_CHANGE_KEY = "data_change_fragment";
+
     @Override
     public void onStart() {
         //广播接收者，接受好友列表更新数据
@@ -289,10 +360,11 @@ public class SimpleFrg extends BaseFragment {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
                 String strList = aCache.getAsString("AllsimpleInfoList");
-                List<SimpleInfo> infos=new ArrayList<SimpleInfo>();
-                infos= gson.fromJson(strList,new TypeToken<List<SimpleInfo>>(){}.getType());
+                List<SimpleInfo> infos = new ArrayList<SimpleInfo>();
+                infos = gson.fromJson(strList, new TypeToken<List<SimpleInfo>>() {
+                }.getType());
 //                infos= GsonUtils.gsonToList(strList, SimpleInfo.class);;
-                if (infos!=null&&infos.size()>0){
+                if (infos != null && infos.size() > 0) {
                     if (adapter == null) {
                         //设置简约listview的条目
                         adapter = new ActAdapter(mActivity, infos);
@@ -336,7 +408,7 @@ public class SimpleFrg extends BaseFragment {
                 }
                 datas.addAll(list);
 //                Gson gson=new Gson();
-                aCache.put("AllsimpleInfoList",GsonUtils.bean2Json(datas));
+                aCache.put("AllsimpleInfoList", GsonUtils.bean2Json(datas));
                 MyLogUtils.info("datas数据是：" + datas.toString());
                 if (adapter == null) {
                     //设置简约listview的条目
@@ -360,24 +432,24 @@ public class SimpleFrg extends BaseFragment {
      * @param state
      */
     private void getFriendOrAllAcitvity(final int page, int rows, final String state) {
-        list=new ArrayList<SimpleInfo>();
+        list = new ArrayList<SimpleInfo>();
         RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
-                String strList=null;
-                if (TextUtils.equals(state,0+"")){
-                    strList= aCache.getAsString("FriendsimpleInfoList");
-                }else if (TextUtils.equals(state,2+"")){
-                    strList = aCache.getAsString("AllsimpleInfoList");
+                String strList = null;
+                if (TextUtils.equals(state, 0 + "")) {
+                    strList = aCache.getAsString("FriendsimpleInfoList");
+                } else if (TextUtils.equals(state, 2 + "")) {
+                    strList = aCache.getAsString("MysimpleInfoList");
                 }
-                List<SimpleInfo> infos=new ArrayList<SimpleInfo>();
+                List<SimpleInfo> infos = new ArrayList<SimpleInfo>();
 //                Gson gson=new Gson();
 //                infos=GsonUtils.gsonToList(strList,SimpleInfo.class);
-                infos= gson.fromJson(strList, new TypeToken<List<SimpleInfo>>() {
+                infos = gson.fromJson(strList, new TypeToken<List<SimpleInfo>>() {
                 }.getType());
-                if (infos!=null&&infos.size()>0){
+                if (infos != null && infos.size() > 0) {
                     if (adapter == null) {
                         //设置简约listview的条目
                         adapter = new ActAdapter(mActivity, infos);
@@ -418,12 +490,12 @@ public class SimpleFrg extends BaseFragment {
                     datas.clear();
                 }
                 datas.addAll(list);
-                if (TextUtils.equals(state,0+"")){
+                if (TextUtils.equals(state, 0 + "")) {
 //                    Gson gson=new Gson();
                     aCache.put("FriendsimpleInfoList", GsonUtils.bean2Json(datas));
-                }else if (TextUtils.equals(state,2+"")){
-                    Gson gson=new Gson();
-                    aCache.put("MysimpleInfoList",GsonUtils.bean2Json(datas));
+                } else if (TextUtils.equals(state, 2 + "")) {
+                    Gson gson = new Gson();
+                    aCache.put("MysimpleInfoList", GsonUtils.bean2Json(datas));
                 }
                 if (adapter == null) {
                     //设置简约listview的条目
@@ -435,6 +507,87 @@ public class SimpleFrg extends BaseFragment {
 
             }
         });
+    }
+
+    /**
+     * 待解决：对话框布局有出入
+     * 选择对话框，选择好友/全部
+     */
+    private void selectPop() {
+        View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend2, null);
+        mPopupWindow = new PopupWindow(v, AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
+        RadioGroup rg_select = (RadioGroup) v.findViewById(R.id.rg_select);
+        RadioButton rb_all = (RadioButton) v.findViewById(R.id.rb_all);
+        RadioButton rb_friend = (RadioButton) v.findViewById(R.id.rb_friend);
+        RadioButton rb_my = (RadioButton) v.findViewById(R.id.rb_my);
+        LinearLayout ll_dimis = (LinearLayout) v.findViewById(R.id.ll_dimis);
+        ll_dimis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
+        if (TextUtils.equals(cb_all2.getText(),"全部")){
+            rb_all.setChecked(true);
+        }else if (TextUtils.equals(cb_all2.getText(),"好友")){
+            rb_friend.setChecked(true);
+        }else if (TextUtils.equals(cb_all2.getText(),"我的")){
+            rb_my.setChecked(true);
+        }
+        rg_select.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (group.getCheckedRadioButtonId()) {
+                    case R.id.rb_all:
+                        page = 1;
+                        state=1;
+                        getActivityList(page, rows);
+                        cb_all2.setChecked(false);
+                        cb_all.setChecked(false);
+                        cb_all2.setText("全部");
+                        cb_all.setText("全部");
+                        mPopupWindow.dismiss();
+                        break;
+                    case R.id.rb_friend:
+                        page = 1;
+                        state = 0;
+                        getFriendOrAllAcitvity(page, rows, state + "");
+                        cb_all2.setChecked(false);
+                        cb_all.setChecked(false);
+                        cb_all2.setText("好友");
+                        cb_all.setText("好友");
+                        mPopupWindow.dismiss();
+                        break;
+                    case R.id.rb_my:
+                        page = 1;
+                        state = 2;
+                        getFriendOrAllAcitvity(page, rows, state + "");
+                        cb_all2.setChecked(false);
+                        cb_all.setChecked(false);
+                        cb_all2.setText("我的");
+                        cb_all.setText("我的");
+                        mPopupWindow.dismiss();
+                        break;
+                }
+            }
+        });
+        WindowManager manager = (WindowManager) getActivity().getSystemService(getActivity().WINDOW_SERVICE);
+        int xpos = manager.getDefaultDisplay().getWidth() / 2 - mPopupWindow.getWidth() / 2;
+        //xoff,yoff基于anchor的左下角进行偏移。
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                cb_all.setChecked(false);
+                cb_all2.setChecked(false);
+            }
+        });
+        if (flag) {
+            mPopupWindow.showAsDropDown(ll_ft);
+        } else {
+            mPopupWindow.showAsDropDown(ll_sx);
+        }
     }
 
 }

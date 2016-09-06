@@ -100,4 +100,5 @@
     <color name="gray">#CACACA</color>
     <color name="tv_blue_pressd">#8DDBFF</color>
     <color name="blue_item_pre">#FF65CE9E</color>
+    <color name="bg_simple">#eeeeee</color>
 </resources>

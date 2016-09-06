@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/ll_sx"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:background="#ffffff">
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:text="筛选"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="标签"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_all_friend"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:layout_height="match_parent">
+            <CheckBox
+                android:id="@+id/cb_all"
+                android:button="@null"
+                android:text="好友"
+                android:textSize="14sp"
+                android:textColor="@drawable/simple_text_color"
+                android:drawableRight="@drawable/simple_text_change"
+                android:drawablePadding="5dp"
+                android:paddingRight="58dp"
+                android:checked="false"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        style="@style/view_line"
+        android:layout_marginLeft="0dp"/>
+</LinearLayout>

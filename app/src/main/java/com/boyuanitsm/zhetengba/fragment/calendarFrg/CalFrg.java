@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -14,9 +15,16 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.ConstantValue;
@@ -74,6 +82,12 @@ public class CalFrg extends BaseFragment {
     private AnimationDrawable animationDrawable;
     private ACache aCache;
     private Gson gson;
+    private PopupWindow mPopupWindow;
+    private CheckBox cb_all,cb_all2;
+    private View viewFloat;
+    private LinearLayout ll_ft;
+    private LinearLayout  ll_sx;
+    private boolean flag2=false;
     //    广播接收者更新档期数据
     private BroadcastReceiver calFriendChangeRecevier=new BroadcastReceiver() {
         @Override
@@ -100,6 +114,11 @@ public class CalFrg extends BaseFragment {
 
         //塞入item_loop_viewpager_calen，到viewpager   :view1
         viewHeader_calen = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
+        viewFloat = getLayoutInflater(savedInstanceState).inflate(R.layout.act_frag_floating2, null);
+        ll_sx = (LinearLayout) viewFloat.findViewById(R.id.ll_sx);
+        cb_all = (CheckBox) viewFloat.findViewById(R.id.cb_all);
+        cb_all2 = (CheckBox) view.findViewById(R.id.cb_all);
+        ll_ft = (LinearLayout) view.findViewById(R.id.ll_ft);
         lv_calen = (PullToRefreshListView) view.findViewById(R.id.lv_calen);
         noList = (LinearLayout) view.findViewById(R.id.noList);
         ivAnim = (ImageView) view.findViewById(R.id.ivAnim);
@@ -137,9 +156,27 @@ public class CalFrg extends BaseFragment {
                 getScheduleBanner();
             }
         });
+        lv_calen.getRefreshableView().setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem >= 1) {
+                    flag2 = true;
+                    ll_ft.setVisibility(View.VISIBLE);
+                } else {
+                    flag2 = false;
+                    ll_ft.setVisibility(View.GONE);
+                }
+            }
+        });
 
         //设置listview头部headview
         lv_calen.getRefreshableView().addHeaderView(viewHeader_calen);
+        lv_calen.getRefreshableView().addHeaderView(viewFloat);
         if (state==1){
             getScheduleList(page, rows);
         }else if (state==0){
@@ -152,6 +189,26 @@ public class CalFrg extends BaseFragment {
         vp_loop_calen.setAuto(true);
         //设置监听
         vp_loop_calen.setOnPageChangeListener(getListener());
+        cb_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    selectPop();
+                } else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+        cb_all2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    selectPop();
+                } else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
 
     }
     public static final String CAL_DATA_CHANGE_KEY="cal_data_change_fragment";
@@ -197,7 +254,7 @@ public class CalFrg extends BaseFragment {
                 List<ScheduleInfo> infos = new ArrayList<ScheduleInfo>();
 //                Gson gson = new Gson();
 //                infos = GsonUtils.gsonToList(strList,ScheduleInfo.class);
-                infos= gson.fromJson(strList, new TypeToken<List<ScheduleInfo>>() {
+                infos = gson.fromJson(strList, new TypeToken<List<ScheduleInfo>>() {
                 }.getType());
 
                 if (infos != null && infos.size() > 0) {
@@ -264,18 +321,18 @@ public class CalFrg extends BaseFragment {
             public void onError(int status, String errorMsg) {
                 lv_calen.onPullUpRefreshComplete();
                 lv_calen.onPullDownRefreshComplete();
-                String strList=null;
-                if (TextUtils.equals(state,0+"")){
-                     strList=aCache.getAsString("FriendCal");
+                String strList = null;
+                if (TextUtils.equals(state, 0 + "")) {
+                    strList = aCache.getAsString("FriendCal");
 
-                }else if (TextUtils.equals(state,2+"")){
-                    strList=aCache.getAsString("MyCal");
+                } else if (TextUtils.equals(state, 2 + "")) {
+                    strList = aCache.getAsString("MyCal");
                 }
-                List<ScheduleInfo> infos=new ArrayList<ScheduleInfo>();
+                List<ScheduleInfo> infos = new ArrayList<ScheduleInfo>();
 //                Gson gson=new Gson();
-                infos=gson.fromJson(strList, new TypeToken<List<ScheduleInfo>>() {
+                infos = gson.fromJson(strList, new TypeToken<List<ScheduleInfo>>() {
                 }.getType());
-                if (infos!=null&&infos.size()>0){
+                if (infos != null && infos.size() > 0) {
                     if (adapter == null) {
                         //设置简约listview的条目
                         adapter = new CalAdapter(mActivity, infos);
@@ -315,18 +372,18 @@ public class CalFrg extends BaseFragment {
                 }
                 datas.addAll(list);
 //                Gson gson=new Gson();
-                if (TextUtils.equals(state,0+"")){
+                if (TextUtils.equals(state, 0 + "")) {
                     aCache.put("FriendCal", GsonUtils.bean2Json(datas));
-                }else if (TextUtils.equals(state,2+"")){
-                    aCache.put("MyCal",GsonUtils.bean2Json(datas));
+                } else if (TextUtils.equals(state, 2 + "")) {
+                    aCache.put("MyCal", GsonUtils.bean2Json(datas));
                 }
-                    if (adapter == null) {
-                        //设置简约listview的条目
-                        adapter = new CalAdapter(mActivity, datas);
-                        lv_calen.getRefreshableView().setAdapter(adapter);
-                    } else {
-                        adapter.update(datas);
-                    }
+                if (adapter == null) {
+                    //设置简约listview的条目
+                    adapter = new CalAdapter(mActivity, datas);
+                    lv_calen.getRefreshableView().setAdapter(adapter);
+                } else {
+                    adapter.update(datas);
+                }
             }
         });
     }
@@ -343,11 +400,12 @@ public class CalFrg extends BaseFragment {
 //                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
 //                animationDrawable.start();
 //                noMsg.setText("加载失败...");
-                String bannerList= aCache.getAsString("CalBanner");
+                String bannerList = aCache.getAsString("CalBanner");
 //                Gson gson=new Gson();
                 if (!TextUtils.isEmpty(bannerList)) {
 //                    bannerInfos = GsonUtils.gsonToList(bannerList, LabelBannerInfo.class);
-                    List<LabelBannerInfo>  bannerInfos=gson.fromJson(bannerList,new TypeToken<List<LabelBannerInfo>>(){}.getType());
+                    List<LabelBannerInfo> bannerInfos = gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
+                    }.getType());
                     initMyPageAdapter(bannerInfos);
                 }
             }
@@ -366,6 +424,87 @@ public class CalFrg extends BaseFragment {
                 initMyPageAdapter(bannerInfoList);
             }
         });
+    }
+
+    /**
+     * 待解决：对话框布局有出入
+     * 选择对话框，选择好友/全部
+     */
+    private void selectPop() {
+        View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend3, null);
+        mPopupWindow = new PopupWindow(v, AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
+        RadioGroup rg_select = (RadioGroup) v.findViewById(R.id.rg_select);
+        RadioButton rb_all = (RadioButton) v.findViewById(R.id.rb_all);
+        RadioButton rb_friend = (RadioButton) v.findViewById(R.id.rb_friend);
+        RadioButton rb_my = (RadioButton) v.findViewById(R.id.rb_my);
+        LinearLayout ll_dimis = (LinearLayout) v.findViewById(R.id.ll_dimis);
+        ll_dimis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
+        if (TextUtils.equals(cb_all2.getText(),"全部")){
+            rb_all.setChecked(true);
+        }else if (TextUtils.equals(cb_all2.getText(),"好友")){
+            rb_friend.setChecked(true);
+        }else if (TextUtils.equals(cb_all2.getText(),"我的")){
+            rb_my.setChecked(true);
+        }
+        rg_select.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (group.getCheckedRadioButtonId()) {
+                    case R.id.rb_all:
+                        page = 1;
+                        state=1;
+                        getScheduleList(page, rows);
+                        cb_all2.setChecked(false);
+                        cb_all.setChecked(false);
+                        cb_all2.setText("全部");
+                        cb_all.setText("全部");
+                        mPopupWindow.dismiss();
+                        break;
+                    case R.id.rb_friend:
+                        page = 1;
+                        state = 0;
+                        getFriendAllSchudle(page, rows, state + "");
+                        cb_all2.setChecked(false);
+                        cb_all.setChecked(false);
+                        cb_all2.setText("好友");
+                        cb_all.setText("好友");
+                        mPopupWindow.dismiss();
+                        break;
+                    case R.id.rb_my:
+                        page = 1;
+                        state = 2;
+                        getFriendAllSchudle(page, rows, state + "");
+                        cb_all2.setChecked(false);
+                        cb_all.setChecked(false);
+                        cb_all2.setText("我的");
+                        cb_all.setText("我的");
+                        mPopupWindow.dismiss();
+                        break;
+                }
+            }
+        });
+        WindowManager manager = (WindowManager) getActivity().getSystemService(getActivity().WINDOW_SERVICE);
+        int xpos = manager.getDefaultDisplay().getWidth() / 2 - mPopupWindow.getWidth() / 2;
+        //xoff,yoff基于anchor的左下角进行偏移。
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                cb_all.setChecked(false);
+                cb_all2.setChecked(false);
+            }
+        });
+        if (flag2) {
+            mPopupWindow.showAsDropDown(ll_ft);
+        } else {
+            mPopupWindow.showAsDropDown(ll_sx);
+        }
     }
 
 

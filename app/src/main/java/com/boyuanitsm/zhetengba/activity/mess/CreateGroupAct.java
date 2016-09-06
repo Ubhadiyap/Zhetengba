@@ -83,7 +83,7 @@ public class CreateGroupAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(),"请至少选择一个好友");
                     return;
                 }
-                createGroup(tvQun.getText().toString().trim().substring(0,1),getPersonIds(members));
+                createGroup(tvQun.getText().toString().trim().substring(0,tvQun.getText().length()-1),getPersonIds(members));
 
 //                new Thread(new Runnable() {
 //                    @Override
