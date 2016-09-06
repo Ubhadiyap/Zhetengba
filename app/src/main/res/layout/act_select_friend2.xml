@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:orientation="vertical"
+        android:id="@+id/rg_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_marginLeft="0dp"
+            style="@style/view_line"/>
+        <RadioButton
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:button="@null"
+            android:text="全部"
+            android:textColor="#666666"
+            android:background="@drawable/simple_bg_color"
+            android:textSize="14sp"
+            android:id="@+id/rb_all"
+            android:layout_width="match_parent"
+            android:layout_height="41dp" />
+        <View
+            android:layout_marginLeft="0dp"
+            style="@style/view_line"/>
+        <RadioButton
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:button="@null"
+            android:text="好友"
+            android:textColor="#666666"
+            android:background="@drawable/simple_bg_color"
+            android:textSize="14sp"
+            android:checked="true"
+            android:id="@+id/rb_friend"
+            android:layout_width="match_parent"
+            android:layout_height="41dp" />
+        <View
+            android:layout_marginLeft="0dp"
+            style="@style/view_line"/>
+        <RadioButton
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:button="@null"
+            android:text="我的"
+            android:textColor="#666666"
+            android:background="@drawable/simple_bg_color"
+            android:textSize="14sp"
+            android:id="@+id/rb_my"
+            android:layout_width="match_parent"
+            android:layout_height="41dp" />
+        <View
+            android:layout_marginLeft="0dp"
+            style="@style/view_line"/>
+    </RadioGroup>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/ll_dimis"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7f000000"></LinearLayout>
+</LinearLayout>

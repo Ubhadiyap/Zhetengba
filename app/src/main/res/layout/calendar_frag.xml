@@ -10,6 +10,12 @@
         android:layout_height="match_parent"
         />
     <LinearLayout
+        android:id="@+id/ll_ft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/act_frag_floating"></include>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/noList"
         android:visibility="gone"
         android:layout_centerInParent="true"
