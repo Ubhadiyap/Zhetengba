@@ -10,10 +10,10 @@
         android:layout_width="285dp"
         android:layout_height="130dp">
         <EditText
+            android:paddingLeft="15dp"
             android:id="@+id/et_je"
-            android:textCursorDrawable="@color/white"
-            android:inputType="number"
-            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:gravity="center_vertical"
             android:background="@drawable/red_strok"
             android:textColorHint="#999999"
             android:textColor="#333333"

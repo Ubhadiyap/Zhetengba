@@ -126,6 +126,7 @@ public class UserInfo implements Parcelable {
 
     private String sameLabels;//共同标签
     private Integer sameCircleCounts;//共同圈子数
+    private String balance;//钱数
 
     public boolean isFriend() {
         return friend;
@@ -444,6 +445,14 @@ public class UserInfo implements Parcelable {
         return wechat;
     }
 
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
+    }
+
     public void setWechat(String wechat) {
         this.wechat = wechat;
     }
@@ -539,6 +548,7 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.hPassword);
         dest.writeString(this.sameLabels);
         dest.writeValue(this.sameCircleCounts);
+        dest.writeString(this.balance);
     }
 
     protected UserInfo(Parcel in) {
@@ -581,6 +591,7 @@ public class UserInfo implements Parcelable {
         this.hPassword = in.readString();
         this.sameLabels = in.readString();
         this.sameCircleCounts = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.balance=in.readString();
     }
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {

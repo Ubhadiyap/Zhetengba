@@ -27,8 +27,6 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.nostra13.universalimageloader.cache.disc.DiskCache;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -189,6 +187,17 @@ public class ZhetebaUtils {
     @SuppressLint("SimpleDateFormat")
     public static String timeToDate(long time) {
         SimpleDateFormat format = new SimpleDateFormat("MM月dd日HH:mm");
+        return format.format(new Date(time));
+
+    }
+
+    /**
+     * 时间戳转化成时间
+     * @param time
+     * @return
+     */
+    public static String timeToDater(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(new Date(time));
 
     }

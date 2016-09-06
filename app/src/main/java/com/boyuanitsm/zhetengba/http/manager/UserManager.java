@@ -244,6 +244,32 @@ public class UserManager extends RequestManager{
 
     }
 
+    /**
+     * 提现
+     * @param amount
+     * @param callback
+     */
+    public void getMoney(String amount,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("amount",amount+"");
+        OkHttpManager.getInstance().doPost(IZtbUrl.CASHBALANCE_URL, params, callback);
+
+    }
+
+    /**
+     * 获取账单明细
+     * @param page
+     * @param rows
+     * @param callback
+     */
+    public void getBilldeta(int page,int rows,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("page",page+"");
+        params.put("rows",rows+"");
+        OkHttpManager.getInstance().doPost(IZtbUrl.BILLDETAILS_URL, params, callback);
+
+    }
+
 
 
 
