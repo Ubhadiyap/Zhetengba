@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.activity.mine.SettingAct;
 import com.boyuanitsm.zhetengba.activity.mine.ShareqrcodeAct;
 import com.boyuanitsm.zhetengba.activity.mine.TimeHistoryAct;
+import com.boyuanitsm.zhetengba.activity.mine.WalletAct;
 import com.boyuanitsm.zhetengba.adapter.MonthSelectAdp;
 import com.boyuanitsm.zhetengba.adapter.RecycleviewAdp;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
@@ -174,7 +175,7 @@ public class MineFrg extends BaseFragment{
 
 
 
-    @OnClick({R.id.iv_shareCode,R.id.cv_set,R.id.iv_headIcon,R.id.my_collect,R.id.tv_noLabel,R.id.iv_bg,R.id.cv_time,R.id.hd})
+    @OnClick({R.id.iv_shareCode,R.id.cv_set,R.id.iv_headIcon,R.id.my_collect,R.id.tv_noLabel,R.id.iv_bg,R.id.cv_time,R.id.hd,R.id.qb})
     public void todo(View view){
         switch (view.getId()){
             case R.id.cv_time:
@@ -207,6 +208,9 @@ public class MineFrg extends BaseFragment{
                     hd_arrow.setVisibility(View.GONE);
                     cjOn=1;
                 }
+                break;
+            case R.id.qb://钱包
+                openActivity(WalletAct.class);
                 break;
         }
     }

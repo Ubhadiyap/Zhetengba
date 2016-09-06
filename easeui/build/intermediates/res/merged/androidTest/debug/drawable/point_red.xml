@@ -5,7 +5,7 @@
     <solid android:color="@color/holo_red_light" />
 
     <size
-        android:width="0.5px"
-        android:height="0.5px" />
+        android:width="4px"
+        android:height="4px" />
 
 </shape>

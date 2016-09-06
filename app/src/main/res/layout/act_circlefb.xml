@@ -46,7 +46,7 @@
                 <com.boyuanitsm.zhetengba.view.CanotEmojEditText
                     android:id="@+id/etContent"
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:background="@null"
@@ -56,7 +56,10 @@
                     android:maxLength="140"
                     android:textColor="#333333"
                     android:textColorHint="#cdcdcd"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:lines="4"
+                    android:maxLines="4"
+                    />
 
                 <com.leaf.library.widget.MyGridView
                     android:id="@+id/my_gv"

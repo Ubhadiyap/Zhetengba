@@ -296,12 +296,12 @@
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ease_video_recorder_stop_btn.png"
     },
     {
-        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ease_record_animate_04.png",
-        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ease_record_animate_04.png"
-    },
-    {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ease_record_animate_01.png",
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ease_record_animate_01.png"
+    },
+    {
+        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ease_record_animate_04.png",
+        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ease_record_animate_04.png"
     },
     {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ease_msg_state_fail_resend.png",
