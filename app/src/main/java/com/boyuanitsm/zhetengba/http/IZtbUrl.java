@@ -328,10 +328,15 @@ public interface IZtbUrl {
     //修改备注
     String REMARK_URL=BASE_URL+"message/login/addFriendRemark.do";
 
+
     //余额提现
     String CASHBALANCE_URL=BASE_URL+"event/login/cashBalance.do";
     //账单明细
     String BILLDETAILS_URL=BASE_URL+"event/login/findBillDetails.do";
 
+
+
+    //我的-活动列表
+    String ACTIVITY_URL=BASE_URL+"event/login/findEventList.do";
 
 }

@@ -73,7 +73,7 @@ public class CalFrg extends BaseFragment {
     private List<LabelBannerInfo> bannerInfoList;
     private CalAdapter adapter;
     private int page=1,rows=10;
-    private int state=0;
+    private int state=1;
     private boolean flag=true;
     private IntentFilter filter;
     private LinearLayout noList;

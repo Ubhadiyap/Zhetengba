@@ -76,7 +76,7 @@ public class SimpleFrg extends BaseFragment {
     private ACache aCache;
     private int page = 1;
     private int rows = 10;
-    private int state = 0;
+    private int state = 1;
     private boolean flag=false;
     private IntentFilter filter;
     private LinearLayout noList;
