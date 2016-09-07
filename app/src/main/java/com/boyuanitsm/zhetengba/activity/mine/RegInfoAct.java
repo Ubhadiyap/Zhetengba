@@ -86,6 +86,8 @@ public class RegInfoAct extends BaseActivity {
     private String photoSavePath;
     private String photoSaveName;
 
+    private boolean flag;//用来判断点击性别之前图像是不是为空，默认为空因为进来时候图片是为空的
+
     private ProgressDialog pd;
     Uri imageUri = null;
     public static final int PHOTOZOOM = 0;
@@ -123,11 +125,19 @@ public class RegInfoAct extends BaseActivity {
                 switch (group.getCheckedRadioButtonId()) {
                     case R.id.girl_rd:
                         sex = "0";
-                        iv_icon.setImageResource(R.mipmap.userg);
+                       if(!flag){
+                        iv_icon.setImageResource(R.mipmap.userg);}
+                       else {
+
+                       }
                         break;
                     case R.id.boy_rd:
                         sex = "1";
-                        iv_icon.setImageResource(R.mipmap.userb);
+                        if (!flag){
+                        iv_icon.setImageResource(R.mipmap.userb);}
+                        else{
+
+                        }
                         break;
                 }
 
@@ -347,7 +357,6 @@ public class RegInfoAct extends BaseActivity {
             case IMAGE_COMPLETE:// 完成
                 if(data!=null) {
                     temppath = data.getStringExtra("path");
-                    iv_icon.setImageBitmap(MyBitmapUtils.LoadBigImg(temppath, 120, 120));
                     toloadfile(temppath);
                 }
                 break;
@@ -375,6 +384,8 @@ public class RegInfoAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<IconFilePath> response) {
+                iv_icon.setImageBitmap(MyBitmapUtils.LoadBigImg(temppath, 120, 120));
+                flag=true;
                 user.setIcon(response.getData().getIconFilePath());
                 UserInfoDao.updateUser(user);
 //                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, options);
