@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.Display;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mine.WalletAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -117,6 +119,7 @@ public class WithdrawDialog implements View.OnClickListener {
             @Override
             public void onResponse(ResultBean<String> response) {
                 dialog.dismiss();
+                context.sendBroadcast(new Intent(WalletAct.TAG));
             }
         });
     }

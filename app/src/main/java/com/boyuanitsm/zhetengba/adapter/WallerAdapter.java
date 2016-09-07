@@ -25,6 +25,11 @@ public class WallerAdapter extends BaseAdapter {
         this.list=list;
     }
 
+    public void notify(List<BillDateBean> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list.size();
