@@ -153,7 +153,7 @@ public class PpfrgAdapter extends BaseAdapter {
                             @Override
                             public void onResponse(ResultBean<List<SimpleInfo>> response) {
                                 simpleInfos = response.getData();
-                                ScheduDialog dialog = new ScheduDialog(context, simpleInfos, scheduleEntity.get(position).getScheduleId());
+                                ScheduDialog dialog = new ScheduDialog(context, simpleInfos, scheduleEntity.get(position).getScheduleId(),position);
                                 dialog.show();
                                 calHolder.iv_bag.setClickable(true);
 //                            calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger_b, null));
@@ -254,7 +254,7 @@ public class PpfrgAdapter extends BaseAdapter {
                     public void onResponse(ResultBean<List<SimpleInfo>> response) {
                         calHolder.ll_yue.setClickable(true);
                         simpleInfos= response.getData();
-                        ScheduDialog dialog=new ScheduDialog(context,simpleInfos,scheduleEntity.get(position).getScheduleId());
+                        ScheduDialog dialog=new ScheduDialog(context,simpleInfos,scheduleEntity.get(position).getScheduleId(),position);
                         dialog.show();
 //                            calHolder.iv_cal_yh.setBackground(context.getResources().getDrawable(R.drawable.finger_b, null));
                     }

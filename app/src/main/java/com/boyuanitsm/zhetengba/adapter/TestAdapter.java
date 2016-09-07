@@ -214,7 +214,7 @@ public class TestAdapter extends BaseAdapter {
                                 @Override
                                 public void onResponse(ResultBean<List<SimpleInfo>> response) {
                                     simpleInfos = response.getData();
-                                    ScheduDialog dialog = new ScheduDialog(context, simpleInfos, scheduleEntity.get(position).getScheduleId());
+                                    ScheduDialog dialog = new ScheduDialog(context, simpleInfos, scheduleEntity.get(position).getScheduleId(),position);
                                     dialog.show();
                                     viewHolder.iv_bag.setClickable(true);
                                 }
@@ -418,7 +418,7 @@ public class TestAdapter extends BaseAdapter {
                     public void onResponse(ResultBean<List<SimpleInfo>> response) {
                         viewHolder.ll_yue.setClickable(true);
                         simpleInfos = response.getData();
-                        ScheduDialog dialog = new ScheduDialog(context, simpleInfos, scheduleEntity.get(position).getScheduleId());
+                        ScheduDialog dialog = new ScheduDialog(context, simpleInfos, scheduleEntity.get(position).getScheduleId(),position);
                         dialog.show();
                     }
                 });

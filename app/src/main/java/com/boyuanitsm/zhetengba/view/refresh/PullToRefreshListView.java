@@ -187,6 +187,7 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView>
 			mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount,
 					totalItemCount);
 		}
+
 	}
 
 	@Override

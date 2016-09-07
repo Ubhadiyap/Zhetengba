@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CalDialogAdapter;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -28,15 +30,17 @@ public class ScheduDialog extends Dialog {
     private Context context;
     private List<SimpleInfo> simpleInfos;
     private String strid;
-    public ScheduDialog(Context context, int themeResId,List<SimpleInfo> list,String id) {
+    private int cusPos;
+    public ScheduDialog(Context context, int themeResId,List<SimpleInfo> list,String id,int cusPos) {
         super(context, themeResId);
         this.context=context;
         this.simpleInfos=list;
         this.strid=id;
+        this.cusPos=cusPos;
     }
 
-    public ScheduDialog(Context context,List<SimpleInfo> list,String id) {
-       this(context, R.style.Cal_Dialog,list,id);
+    public ScheduDialog(Context context,List<SimpleInfo> list,String id,int cusPos) {
+       this(context, R.style.Cal_Dialog,list,id,cusPos);
     }
 
 
@@ -100,7 +104,12 @@ public class ScheduDialog extends Dialog {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(context,response.getMessage());
+                MyToastUtils.showShortToast(context, response.getMessage());
+                Intent intent=new Intent(CalFrg.CAL_DATA_CHANGE_KEY);
+                Bundle bundle=new Bundle();
+                bundle.putInt("CalYuePosition",cusPos);
+                intent.putExtras(bundle);
+                context.sendBroadcast(intent);
             }
         });
     }
