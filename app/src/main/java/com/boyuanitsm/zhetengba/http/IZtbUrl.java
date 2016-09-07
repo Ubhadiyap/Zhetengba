@@ -261,8 +261,7 @@ public interface IZtbUrl {
 
     String PERSONAL_HOME_PAGE_URL = BASE_URL + "schedule/login/findPersonalByUserId.do";
     //添加换新群组接口
-    String ADD_HGROUP_URL=BASE_URL+"message/login/addHGroup.do";
-    //取消参加移除群组
+    String ADD_HGROUP_URL=BASE_URL+"message/login/addHGroup.do";//取消参加移除群组
     String DELET_GROUP_URL=BASE_URL+"message/login/removeHGroup.do";
 
 
@@ -338,5 +337,8 @@ public interface IZtbUrl {
 
     //我的-活动列表
     String ACTIVITY_URL=BASE_URL+"event/login/findEventList.do";
+
+    //奖品明细
+    String FINDGIFT_URL=BASE_URL+"event/login/findGift.do";
 
 }

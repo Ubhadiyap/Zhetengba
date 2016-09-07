@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/iv_qb"
+                android:layout_width="100dp"
+                android:layout_height="93dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:src="@mipmap/qian" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@id/iv_qb">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/iv_yuan"
+                    android:text="余额"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/iv_yuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toLeftOf="@+id/tv_je"
+                    android:text="￥"
+                    android:textColor="#eb5e5d"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_je"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="10.00"
+                    android:textColor="#eb5e5d"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_tx"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/cir_bag_tixian"
+                    android:gravity="center"
+                    android:text="提现"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="备注："
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:text="当前暂不支持提现功能，当余额超过50，可以紧急提现，请确认提现金额。奖品提货，请关注折腾吧官方微信号，输入发货地址+姓名+手机号+奖品明细，将于中奖之日后30内统一寄出。"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_jpmx"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="奖品明细"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_jpmc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="阳登湖大闸蟹"
+                android:textColor="#eb5e5d"
+                android:textSize="12sp" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_zdmx"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="账单明细"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/bg_color"></View>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

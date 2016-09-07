@@ -270,7 +270,11 @@ public class UserManager extends RequestManager{
 
     }
 
+    public void getGift(ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        OkHttpManager.getInstance().doPost(IZtbUrl.FINDGIFT_URL, params, callback);
 
+    }
 
 
 
