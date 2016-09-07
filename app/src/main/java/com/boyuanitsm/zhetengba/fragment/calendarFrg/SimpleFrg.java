@@ -120,6 +120,7 @@ public class SimpleFrg extends BaseFragment {
         ll_point = (LinearLayout) viewHeader_act.findViewById(R.id.ll_point);
         //刷新初始化
         LayoutHelperUtil.freshInit(lv_act);
+
         aCache = ACache.get(mActivity);
         gson = new Gson();
         lv_act.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -149,7 +150,7 @@ public class SimpleFrg extends BaseFragment {
                 getBanner();
             }
         });
-        lv_act.getRefreshableView().setOnScrollListener(new AbsListView.OnScrollListener() {
+        lv_act.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 

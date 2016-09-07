@@ -31,6 +31,7 @@ import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.CalAdapter;
+import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.DataBean;
@@ -92,13 +93,26 @@ public class CalFrg extends BaseFragment {
     private BroadcastReceiver calFriendChangeRecevier=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            page=1;
-            state=intent.getIntExtra("state",state);
-            if (state==1){
-                getScheduleList(page, rows);
-            }else {
-                getFriendAllSchudle(page, rows,state + "");//切换到好友；//切换到好友；
+            Bundle bundle = intent.getExtras();
+            if (bundle != null && datas.size() > 0) {
+                int cposition = bundle.getInt("CalYuePosition");
+                datas.get(cposition).setAgreeAbout(true);
+                if (adapter == null) {
+                    adapter = new CalAdapter(mActivity, datas);
+                    lv_calen.getRefreshableView().setAdapter(adapter);
+                } else {
+                    adapter.update(datas);
+                }
+            } else {
+                page=1;
+                state=intent.getIntExtra("state", state);
+                if (state==1){
+                    getScheduleList(page, rows);
+                }else {
+                    getFriendAllSchudle(page, rows,state + "");//切换到好友；//切换到好友；
+                }
             }
+
         }
     };
 
@@ -156,7 +170,7 @@ public class CalFrg extends BaseFragment {
                 getScheduleBanner();
             }
         });
-        lv_calen.getRefreshableView().setOnScrollListener(new AbsListView.OnScrollListener() {
+        lv_calen.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 

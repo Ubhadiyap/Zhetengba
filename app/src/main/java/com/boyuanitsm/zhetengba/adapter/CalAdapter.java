@@ -142,7 +142,7 @@ public class CalAdapter extends BaseAdapter {
                     @Override
                     public void onResponse(ResultBean<List<SimpleInfo>> response) {
                         simpleInfos = response.getData();
-                        ScheduDialog dialog = new ScheduDialog(context, simpleInfos, list.get(position).getScheduleId());
+                        ScheduDialog dialog = new ScheduDialog(context, simpleInfos, list.get(position).getScheduleId(),position);
                         dialog.show();
                         calHolder.iv_bag.setEnabled(true);
                     }

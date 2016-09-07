@@ -107,7 +107,7 @@ public class CirxqAct extends BaseActivity {
         rl_jiaru=(TextView) headView.findViewById(R.id.rl_jiaru);//加入圈子 默认是隐藏的
         lv_cir.getRefreshableView().addHeaderView(headView);
         LayoutHelperUtil.freshInit(lv_cir);
-        lv_cir.getRefreshableView().setOnScrollListener(new AbsListView.OnScrollListener() {
+        lv_cir.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (isFabu){
