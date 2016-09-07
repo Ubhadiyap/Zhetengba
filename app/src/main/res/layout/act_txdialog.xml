@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:background="@drawable/bag_white_xyj"
+        android:layout_centerInParent="true"
+        android:layout_width="285dp"
+        android:layout_height="130dp">
+        <TextView
+            android:paddingTop="40dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:textColor="#999999"
+            android:layout_gravity="top"
+            android:id="@+id/tv_qr"
+            android:textSize="14sp"
+            android:text="请关注折腾吧官方微信并回复消息，提现金额+姓名+手机号+银行卡号，一个工作日内打款，请注意查收。"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
