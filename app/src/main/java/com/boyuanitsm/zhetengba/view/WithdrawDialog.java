@@ -91,9 +91,9 @@ public class WithdrawDialog implements View.OnClickListener {
                     BigDecimal bignum = new BigDecimal(num);
                     BigDecimal bigmoney = new BigDecimal(money);
                     int r = bignum.compareTo(bigmoney);
-                    int d = bignum.compareTo(new BigDecimal("0"));
+                    int d = bignum.compareTo(new BigDecimal("50"));
                     if (d != 1) {
-                        MyToastUtils.showShortToast(context, "提现金额不能是0元");
+                        MyToastUtils.showShortToast(context, "提现金额不能小于50元");
                         return;
                     }
                     if (r == 1) {//大于
@@ -119,6 +119,9 @@ public class WithdrawDialog implements View.OnClickListener {
             @Override
             public void onResponse(ResultBean<String> response) {
                 dialog.dismiss();
+                TxScussDialog scussDialog=new TxScussDialog(context).builder();
+                scussDialog.show();
+                scussDialog.setCanceledOnTouchOutside(true);
                 context.sendBroadcast(new Intent(WalletAct.TAG));
             }
         });

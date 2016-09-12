@@ -30,6 +30,7 @@ import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
         ll_zdmx= (LinearLayout) hendview.findViewById(R.id.ll_zdmx);
         lv_zd.getRefreshableView().addHeaderView(hendview);
         LayoutHelperUtil.freshInit(lv_zd);
-        lv_zd.setPullRefreshEnabled(false);//下拉刷新
+//        lv_zd.setPullRefreshEnabled(false);//下拉刷新
         lv_zd.getRefreshableView().setDividerHeight(0);
 
         getMoneyNum(UserInfoDao.getUser().getId());//获取用户余额
@@ -90,12 +91,16 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 lv_zd.setLastUpdatedLabel(ZhetebaUtils.getCurrentTime());
                 page = 1;
+                getMoneyNum(UserInfoDao.getUser().getId());
+                getGift();
                 getZhangdan(page,rows);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
+                getMoneyNum(UserInfoDao.getUser().getId());
+                getGift();
                 getZhangdan(page,rows);
 
             }
@@ -174,7 +179,7 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
 
 
     /**
-     * 获取用户信息
+     * 获取用户金额
      * @param Id
      */
     private void getMoneyNum(String Id) {
@@ -188,6 +193,16 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
             public void onResponse(ResultBean<UserInfo> response) {
                 money=response.getData().getBalance();
                 tv_je.setText(money);
+                BigDecimal bigmoney=new BigDecimal(money);
+                int d=bigmoney.compareTo(new BigDecimal("50"));
+                if(d==-1){
+                    tv_tx.setBackgroundResource(R.drawable.cir_bag_htx);
+                    tv_tx.setEnabled(false);
+                }else {
+                    tv_tx.setBackgroundResource(R.drawable.cir_bag_tixian);
+                    tv_tx.setEnabled(true);
+                }
+
             }
         });
 
