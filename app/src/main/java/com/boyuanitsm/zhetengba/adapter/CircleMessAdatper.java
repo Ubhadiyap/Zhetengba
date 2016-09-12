@@ -240,11 +240,22 @@ public class CircleMessAdatper extends BaseAdapter {
 
                         @Override
                         public void onResponse(ResultBean<String> response) {
-                            circleInfoList.get(position).setHandleResult(1 + "");
-                            CircleMessDao.saveCircleMess(circleInfoList.get(position));
-                            notifyDataSetChanged();
-                            MyToastUtils.showShortToast(context, response.getMessage());
-
+                            if (TextUtils.equals(response.getData(),-2+"")){
+                                MyToastUtils.showShortToast(context,response.getMessage());
+                                circleInfoList.remove(position);
+                                notifyDataSetChanged();
+                                return;
+                            }else if (TextUtils.equals(response.getData(),-3+"")){
+                                MyToastUtils.showShortToast(context,response.getMessage());
+                                circleInfoList.remove(position);
+                                notifyDataSetChanged();
+                                return;
+                            }else {
+                                circleInfoList.get(position).setHandleResult(1 + "");
+                                CircleMessDao.saveCircleMess(circleInfoList.get(position));
+                                notifyDataSetChanged();
+                                MyToastUtils.showShortToast(context, response.getMessage());
+                            }
                         }
                     });
 

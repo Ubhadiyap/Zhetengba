@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.IconFilePath;
 import com.boyuanitsm.zhetengba.bean.PersonalMain;
@@ -23,6 +24,7 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -186,6 +188,7 @@ public class PersonalmesAct extends BaseActivity {
         }
 
         if (!(TextUtils.isEmpty(userEntity.get(0).getCompanyName()))) {
+            cvCompanyName.setSingleLine(true);
             cvCompanyName.setNotesText(userEntity.get(0).getCompanyName());
 
         }
@@ -392,6 +395,10 @@ public class PersonalmesAct extends BaseActivity {
                 }
                 uri = data.getData();
                 Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap(this, uri);
+                if (userbitmap==null){
+                    MyToastUtils.showShortToast(getApplicationContext(),"图片有误，请重新选择！");
+                    return;
+                }
                 File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
                 intent = new Intent(this, ClipActivity.class);
                 intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.png");
@@ -482,8 +489,12 @@ public class PersonalmesAct extends BaseActivity {
 
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
                 Intent intentRecevier=new Intent();
-                intentRecevier.setAction(SimpleFrg.DATA_CHANGE_KEY);
+                Intent intentRecevier2=new Intent();
+                intentRecevier2.setAction(SimpleFrg.DATA_CHANGE_KEY);
+                intentRecevier.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
                 sendBroadcast(intentRecevier);
+                sendBroadcast(intentRecevier2);
+                sendBroadcast(new Intent(PersonalAct.PPLABELS));
             }
         });
     }

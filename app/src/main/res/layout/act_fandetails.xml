@@ -19,6 +19,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:gravity="top"
+        android:maxLength="500"
         android:textColorHint="#cdcdcd"
         android:textColor="#333"
         android:hint="请输入您的意见和建议..."

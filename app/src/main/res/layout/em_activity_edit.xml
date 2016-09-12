@@ -20,6 +20,8 @@
         android:singleLine="true"
         android:background="#ffffff"
         android:id="@+id/edittext"
+        android:maxLength="16"
+        android:hint="不超过16个字符"
         android:textSize="16sp"
         android:textColor="#333333"
         />

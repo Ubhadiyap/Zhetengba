@@ -238,6 +238,8 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
             intent.putExtra("userId", username);
             if (chatType == Constant.CHATTYPE_SINGLE) {
                 intent.putExtra("chat_type", 1);
+            }else if (chatType==Constant.CHATTYPE_GROUP){
+                intent.putExtra("chat_type",2);
             }
             startActivity(intent);
         }
@@ -388,13 +390,14 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
     class UpdateGReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-            int chat = intent.getIntExtra("chat", 0);
+            int chat = intent.getIntExtra("chat_type", 0);
             if (chat==1){
                 //单聊
                 String nickName = intent.getStringExtra("nickName");
                 titleBar.setTitle(nickName);
             }else {
                 titleBar.setTitle(intent.getStringExtra("groupName"));
+
             }
         }
     }

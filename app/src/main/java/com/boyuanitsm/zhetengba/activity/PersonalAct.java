@@ -105,6 +105,8 @@ public class PersonalAct extends BaseActivity{
     private TestAdapter adapter;
     private String PAGEFRG_KEY = "perpage_to_pagecalFrg";
     private ProgressDialog progressDialog;
+    private int chat=-1;
+    private String groupname;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -126,6 +128,8 @@ public class PersonalAct extends BaseActivity{
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         userId = bundle.getString("userId");
+        chat = intent.getIntExtra("chat_type", 5);
+        groupname=intent.getStringExtra("groupName");
         View inflate = getLayoutInflater().inflate(R.layout.test_item_header, null);
         setInflateListener(inflate);
         test_lv.addHeaderView(inflate);
@@ -594,8 +598,12 @@ public class PersonalAct extends BaseActivity{
                 Intent intent = new Intent(getApplicationContext(), EditAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(EditAct.USER_TYPE, 8);
-                intent.putExtra("friendId",userEntity.get(0).getId());
+                intent.putExtra("friendId", userEntity.get(0).getId());
                 intent.putExtra("remark",userEntity.get(0).getPetName());
+                intent.putExtra("chat_type", chat);
+                if (!TextUtils.isEmpty(groupname)){
+                    intent.putExtra("groupName",groupname);
+                }
                 startActivity(intent);
                 popupWindow.dismiss();
 

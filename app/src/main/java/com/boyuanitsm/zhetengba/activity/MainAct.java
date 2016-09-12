@@ -557,7 +557,7 @@ public class MainAct extends BaseActivity {
 
         if (!isConflict && !isCurrentAccountRemoved) {
             updateUnreadLabel();
-            updateUnreadAddressLable();
+//            updateUnreadAddressLable();
         }
 
         // unregister this event listener when this activity enters the

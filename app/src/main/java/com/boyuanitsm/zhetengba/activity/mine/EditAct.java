@@ -29,6 +29,8 @@ import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -47,6 +49,8 @@ public class EditAct extends BaseActivity {
     private int error;//用来区别名字修改时间昵称为空时吐司
     private String friendId,remark;//用户ID
     private String mark;//新备注
+    private int chat=-1;
+    private String groupName;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_edit);
@@ -58,6 +62,8 @@ public class EditAct extends BaseActivity {
         friendId= getIntent().getStringExtra("friendId");
 //        MyLogUtils.info(friendId+"friend是多少。。。。");
         remark= getIntent().getStringExtra("remark");
+        chat = getIntent().getIntExtra("chat_type", 5);
+        groupName=getIntent().getStringExtra("groupName");
         user = UserInfoDao.getUser();
         setTopPos(TYPE);//从不同的地方跳转过来后设置不同标题，输入框设置不同设置属性
         setRight("提交", new View.OnClickListener() {
@@ -70,8 +76,11 @@ public class EditAct extends BaseActivity {
                         MyToastUtils.showShortToast(EditAct.this, "昵称不能为空");
                     } else if (error==2){
                         MyToastUtils.showShortToast(EditAct.this, "备注不能为空");
+                    }else if (error==3){
+                        MyToastUtils.showShortToast(EditAct.this, "公司名称不能为空");
                     }else {
-                        MyToastUtils.showShortToast(EditAct.this, "修改信息失败！");
+                        MyToastUtils.showShortToast(EditAct.this, "修改信息失败");
+
                     }
                 }
 
@@ -86,7 +95,11 @@ public class EditAct extends BaseActivity {
      */
     private void saveUser(final UserInfo userInfo) {
         if (TYPE == 8) {
-            gaiBeizhu(friendId,mark);
+            if (ZhetebaUtils.containsEmoji(mark)){
+                MyToastUtils.showShortToast(getApplicationContext(),"不支持表情符号，请重新输入！");
+                return;
+            }
+            gaiBeizhu(friendId, mark);
         } else {
             RequestManager.getUserManager().modifyUserInfo(userInfo, new ResultCallback<ResultBean<String>>() {
                 @Override
@@ -122,7 +135,7 @@ public class EditAct extends BaseActivity {
         RequestManager.getMessManager().gaiBz(friendId, reMark, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(getApplicationContext(),"请检查网络！");
             }
 
             @Override
@@ -142,8 +155,11 @@ public class EditAct extends BaseActivity {
                 EaseUser easeUser = DemoHelper.getInstance().getContactList().get(friendId);
                 easeUser.setNick(reMark);
                 DemoHelper.getInstance().updataContact(easeUser);
-                intent.putExtra("chat",1);
-                intent.putExtra("nickName",reMark);
+                intent.putExtra("chat_type",chat);
+                intent.putExtra("nickName", reMark);
+                if (!TextUtils.isEmpty(groupName)){
+                    intent.putExtra("groupName",groupName);
+                }
                 sendBroadcast(intent);
                 MyToastUtils.showShortToast(getApplicationContext(), response.getMessage());
                 finish();
@@ -205,6 +221,7 @@ public class EditAct extends BaseActivity {
                     user.setCompanyName(content);
                 } else{
                     user.setCompanyName("");
+
                 }
                 flag=true;
                 break;
@@ -300,6 +317,7 @@ public class EditAct extends BaseActivity {
                     }
                 }
                 cetEditInfo.setHint("请输入公司名称");
+                cetEditInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(40)});
                 break;
             case 5:
                 setTopTitle("公司地址");
@@ -328,6 +346,7 @@ public class EditAct extends BaseActivity {
                     }
                 }
                 cetEditInfo.setHint("请输入职务");
+                cetEditInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(40)});
                 break;
             case 8://从消息里面的个人主页界面穿过来的修改备注
                 setTopTitle("修改备注");

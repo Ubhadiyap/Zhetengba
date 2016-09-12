@@ -434,6 +434,8 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         RequestManager.getScheduleManager().addActivity(simpleInfo, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                pd.dismiss();
+                MyToastUtils.showShortToast(getApplication(),errorMsg);
             }
 
             @Override
@@ -458,7 +460,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             public void onError(int status, String errorMsg) {
                String strList= aCache.getAsString("activityLabel");
                 if (!TextUtils.isEmpty(strList)){
-                 List<ActivityLabel> labellist= gson.fromJson(strList, new TypeToken<List<ActivityLabel>>() {
+                 final List<ActivityLabel> labellist= gson.fromJson(strList, new TypeToken<List<ActivityLabel>>() {
                     }.getType());
                     if (adapter==null){
                         adapter=new GvTbAdapter(ContractedAct.this,labellist);
@@ -470,7 +472,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                     gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            ActivityLabel activityLabel = list.get(position);
+                            ActivityLabel activityLabel = labellist.get(position);
                             simpleInfo.setLabelId(activityLabel.getId());
                             simpleInfo.setIcon(activityLabel.getIcon());
                             adapter.setSeclection(position);

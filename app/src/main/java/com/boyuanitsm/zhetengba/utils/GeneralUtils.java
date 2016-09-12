@@ -72,7 +72,7 @@ public class GeneralUtils {
 		RequestManager.getUserManager().findNewApp(version, "ANDROID", new ResultCallback<ResultBean<VersionDataEntity>>() {
 			@Override
 			public void onError(int status, String errorMsg) {
-
+				MyToastUtils.showShortToast(context,"更新失败，请检查网络！");
 			}
 
 			@Override

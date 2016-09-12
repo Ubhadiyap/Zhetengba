@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.utils;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,18 +23,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 
 /**
  * 图片工具类
- * 
+ *
  * @author wangbin
- * 
+ *
  */
 public class MyBitmapUtils {
 	/**
 	 * 缩放图片--- 指定分辨率
-	 * 
+	 *
 	 * @param bm
 	 * @param newWidth
 	 *            指定分辨率
@@ -57,7 +59,7 @@ public class MyBitmapUtils {
 
 	/**
 	 * 缩放图片--保持长宽比
-	 * 
+	 *
 	 * @param bm
 	 * @param newWidth
 	 * @param newHeight
@@ -76,7 +78,7 @@ public class MyBitmapUtils {
 		} else {
 			scale = Math.min(scaleWidth, scaleHeight);
 		}
-	
+
 		// 取得想要缩放的matrix参数
 		Matrix matrix = new Matrix();
 		matrix.postScale(scale, scale);
@@ -87,7 +89,7 @@ public class MyBitmapUtils {
 
 	/**
 	 * bitmap转byte数组
-	 * 
+	 *
 	 * @param bm
 	 * @return
 	 */
@@ -98,9 +100,9 @@ public class MyBitmapUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * 加载大图片
-	 * 
+	 *
 	 * @param newWidth
 	 *            指定分辨率
 	 * @param newHeight
@@ -139,7 +141,7 @@ public class MyBitmapUtils {
 
 	/**
 	 * Drawable 转 bitmap
-	 * 
+	 *
 	 * @param drawable
 	 * @return
 	 */
@@ -161,7 +163,7 @@ public class MyBitmapUtils {
 
 	/**
 	 * 获取图片的朝向
-	 * 
+	 *
 	 * @param filepath
 	 * @return
 	 */
@@ -198,10 +200,10 @@ public class MyBitmapUtils {
 
 		return degree;
 	}
-	
+
 	/**
 	 * 根据路径加载bitmap
-	 * 
+	 *
 	 * @param path
 	 *            路径
 	 * @param w
@@ -251,7 +253,7 @@ public class MyBitmapUtils {
 			return null;
 		}
 	}
-	
+
 	public static void savePhotoToSDCard(Bitmap photoBitmap,String path){
 		if (checkSDCardAvailable()) {
 			File photoFile = new File(path);
@@ -273,17 +275,17 @@ public class MyBitmapUtils {
 					e.printStackTrace();
 				}
 			}
-		} 
+		}
 	}
-	
+
 	/**
-	 * Check the SD card 
+	 * Check the SD card
 	 * @return
 	 */
 	public static boolean checkSDCardAvailable(){
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
-	
+
 	/**
 	 * 根据uri获取bitmap
 	 * @param context
@@ -295,14 +297,18 @@ public class MyBitmapUtils {
 			return null;
 		Bitmap bitmap;
 		try {
-			bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri));
-		} catch (FileNotFoundException e) {
+			bitmap = getBitmapFormUri(context, uri);
+//			bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri));
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//			return null;
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 		return bitmap;
 	}
-	
+
 	/**
 	 * 保存图片
 	 * @param bitmap
@@ -316,7 +322,7 @@ public class MyBitmapUtils {
 		}else{
 			f.delete();
 		}
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int options=90;
 		bitmap.compress(Bitmap.CompressFormat.PNG,options, baos);
@@ -381,6 +387,12 @@ public class MyBitmapUtils {
 		options.inJustDecodeBounds = false;
 		// 摆正
 		Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+		try{
+			bitmap.getWidth();
+		}catch(Exception e) {
+			MyLogUtils.info("图片有误！！！");
+			return null;
+		}
 		int degree = getExifOrientation(filePath);
 		if (degree == 90 || degree == 180 || degree == 270) {
 			// Roate preview icon according to exif orientation
@@ -457,5 +469,49 @@ public class MyBitmapUtils {
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
 		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
 		return bitmap;
+	}
+
+	/**
+	 * 比例压缩
+	 * @param ac
+	 * @param uri
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public static Bitmap getBitmapFormUri(Context ac, Uri uri) throws FileNotFoundException, IOException {
+		InputStream input = ac.getContentResolver().openInputStream(uri);
+		BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+		onlyBoundsOptions.inJustDecodeBounds = true;
+		onlyBoundsOptions.inDither = true;//optional
+		onlyBoundsOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;//optional
+		BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+		input.close();
+		int originalWidth = onlyBoundsOptions.outWidth;
+		int originalHeight = onlyBoundsOptions.outHeight;
+		if ((originalWidth == -1) || (originalHeight == -1))
+			return null;
+		//图片分辨率以480x800为标准
+		float hh = 800f;//这里设置高度为800f
+		float ww = 480f;//这里设置宽度为480f
+		//缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
+		int be = 1;//be=1表示不缩放
+		if (originalWidth > originalHeight && originalWidth > ww) {//如果宽度大的话根据宽度固定大小缩放
+			be = (int) (originalWidth / ww);
+		} else if (originalWidth < originalHeight && originalHeight > hh) {//如果高度高的话根据宽度固定大小缩放
+			be = (int) (originalHeight / hh);
+		}
+		if (be <= 0)
+			be = 1;
+		//比例压缩
+		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inSampleSize = be;//设置缩放比例
+		bitmapOptions.inDither = true;//optional
+		bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;//optional
+		input = ac.getContentResolver().openInputStream(uri);
+		Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+		input.close();
+
+		return compressImage(bitmap);//再进行质量压缩
 	}
 }

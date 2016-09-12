@@ -34,7 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.GroupBean;
@@ -43,6 +43,7 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.frg.ChatFragment;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
+import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -417,6 +418,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onResponse(ResultBean<String> response) {
 				sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+				sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
 				progressDialog.dismiss();
 				setResult(RESULT_OK);
 				finish();
@@ -463,6 +465,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					runOnUiThread(new Runnable() {
 						public void run() {
 							sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+							sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
 							progressDialog.dismiss();
 							setResult(RESULT_OK);
 							finish();
@@ -806,8 +809,12 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							// ChatActivity.class).putExtra("userId",
 							// user.getUsername()));
 							if(!EMClient.getInstance().getCurrentUser().equals(username)) {
-								Intent intent = new Intent(GroupDetailsActivity.this, PerpageAct.class);
+								Intent intent = new Intent(GroupDetailsActivity.this, PersonalAct.class);
 								intent.putExtra("userId", username);
+								intent.putExtra("chat_type",2);
+								if (!TextUtils.isEmpty(((TextView) findViewById(R.id.group_name)).getText())){
+									intent.putExtra("groupName",((TextView) findViewById(R.id.group_name)).getText());
+								}
 								startActivity(intent);
 							}
 
@@ -1162,6 +1169,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			public void onResponse(ResultBean<String> response) {
 				progressDialog.dismiss();
 				sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+				sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
 				runOnUiThread(new Runnable() {
 					public void run() {
 

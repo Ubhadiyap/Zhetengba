@@ -103,14 +103,9 @@ public class LabelMangerAct extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                if (mylist == null) {
+                if (mylist == null||mylist.size()==0) {
                     MyToastUtils.showShortToast(LabelMangerAct.this, "至少选择一个兴趣标签");
                 }else {
-//                    List<UserInterestInfo> interestLabel = LabelInterestDao.getInterestLabel();
-//                    if (compare(interestLabel,mylist)){
-//                        MyToastUtils.showShortToast(LabelMangerAct.this,"您的标签未改变，无需提交！");
-//                        return;
-//                    }
                     if (mylist.size() == 1) {
                         labelids = mylist.get(0).getInterestId();
                         addInterestLabel(labelids, mylist);

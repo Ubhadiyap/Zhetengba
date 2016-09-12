@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -37,6 +38,8 @@ import java.util.List;
 public class CircleglAct extends BaseActivity {
     @ViewInject(R.id.lv_circlegl)
     private PullToRefreshListView lv_circlegl;
+    @ViewInject(R.id.iv_jia)
+    private ImageView iv_jia;
     private String str;
     private List<CircleEntity> list;
     private int page=1;
@@ -59,11 +62,13 @@ public class CircleglAct extends BaseActivity {
             if (!TextUtils.isEmpty(ppuserId)) {
                 if (ppuserId.equals(UserInfoDao.getUser().getId())) {
                     str="我的圈子";
+                    iv_jia.setVisibility(View.VISIBLE);
                     setTopTitle(str);
                     flag=1;
                     getCircleList(null, page, rows);
                 } else {
                     str="TA的圈子";
+                    iv_jia.setVisibility(View.GONE);
                     setTopTitle(str);
                     flag=2;
                     getCircleList(ppuserId, page, rows);
@@ -72,6 +77,7 @@ public class CircleglAct extends BaseActivity {
         }else {
             str="我的圈子";
             flag=1;
+            iv_jia.setVisibility(View.VISIBLE);
             setTopTitle(str);
             getCircleList(null,page,rows);
         }

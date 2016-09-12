@@ -52,6 +52,9 @@ public class HdAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(list.get(position).getActivityName())){
             item_cj.setDesText(list.get(position).getActivityName());
         }
+        if (TextUtils.isEmpty(list.get(position).getHyperLink())){
+            list.remove(position);
+        }
         item_cj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
