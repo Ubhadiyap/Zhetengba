@@ -1,13 +1,13 @@
 package com.boyuanitsm.zhetengba.activity.publish;
 
 import android.annotation.SuppressLint;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,13 +20,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.location.Address;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.boyuanitsm.zhetengba.ConstantValue;
+import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.activity.mine.TimeHistoryAct;
@@ -35,7 +35,6 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
-import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -127,6 +126,8 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private LocationClient locationClient;
     private ACache aCache;
     private Gson gson;
+    private LocalBroadcastManager broadcastManager;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_contracted);
@@ -442,11 +443,27 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             public void onResponse(ResultBean<String> response) {
                 pd.dismiss();
                 response.getData();
+                if(response.getData().equals("2")){//表示第一次发布
+                    broadcastManager=  LocalBroadcastManager.getInstance(ContractedAct.this);
+                    Intent intent=new Intent(ContractedAct.this,MainAct.class);
+                    //设置Action
+                    intent.setAction(Constant.ACTION_CONTACT_CHANAGED);
+                    //携带数据
+                    intent.putExtra("flag", response.getData().toString());
+                    //发送广播
+                    broadcastManager.sendBroadcast(intent);
+
+//                    TipsDrawDialog tipsDrawDialog=new TipsDrawDialog(ContractedAct.this).builder();
+//                    tipsDrawDialog.show();
+//                    tipsDrawDialog.setCanceledOnTouchOutside(true);
+
+                }
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(TimeHistoryAct.USER_INFO));
                 sendBroadcast(new Intent(TimeFrg.LISTORY_DATA));
                 MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
                 finish();
+
             }
         });
     }
