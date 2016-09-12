@@ -281,7 +281,7 @@ public class LoginAct extends BaseActivity {
                     }
 
                 } else {
-                    MyToastUtils.showShortToast(getApplicationContext(), "登录失败，请检查网络！");
+                    MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
                 }
                 pd.dismiss();
             }
