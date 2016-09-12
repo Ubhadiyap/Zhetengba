@@ -129,7 +129,9 @@ public class HeiAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                list.remove(position);
+                if (list!=null&&list.size()>position){
+                    list.remove(position);
+                }
                 notifyDataSetChanged();
                 context.sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
                 MyToastUtils.showShortToast(context,"恢复好友成功");

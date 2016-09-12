@@ -99,7 +99,7 @@ public class CreatCirAct extends BaseActivity implements View.OnClickListener{
             public void onError(int status, String errorMsg) {
                 tv_creat.setEnabled(true);
                 progressDialog.dismiss();
-                MyToastUtils.showShortToast(CreatCirAct.this,errorMsg);
+                MyToastUtils.showShortToast(CreatCirAct.this,"建立圈子失败，请检查网络！");
             }
 
             @Override

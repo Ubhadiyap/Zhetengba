@@ -224,8 +224,9 @@ public class AssignScanAct extends BaseActivity {
                     alluserList.add(user);
                 }
 
-
-                sortList(alluserList);
+                if (alluserList!=null&&alluserList.size()>0) {
+                    sortList(alluserList);
+                }
             }
         });
 

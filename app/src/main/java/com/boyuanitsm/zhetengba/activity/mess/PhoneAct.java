@@ -20,6 +20,7 @@ import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
 import com.boyuanitsm.zhetengba.utils.GetPhoneNumberUtils;
 import com.boyuanitsm.zhetengba.utils.PinyinComparator;
 import com.boyuanitsm.zhetengba.utils.SideBarUtils;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -89,6 +90,7 @@ public class PhoneAct extends BaseActivity {
         lv_addressbook.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                ZtinfoUtils.hideSoftKeyboard(PhoneAct.this);
                 sideBar.setVisibility(View.VISIBLE);
                 return false;
             }

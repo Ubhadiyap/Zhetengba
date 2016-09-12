@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.adapter.CalDialogAdapter;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
@@ -110,6 +111,7 @@ public class ScheduDialog extends Dialog {
                 bundle.putInt("CalYuePosition",cusPos);
                 intent.putExtras(bundle);
                 context.sendBroadcast(intent);
+                context.sendBroadcast(new Intent(PersonalAct.PPLABELS));
             }
         });
     }

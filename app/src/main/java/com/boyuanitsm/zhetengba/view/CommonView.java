@@ -68,6 +68,7 @@ public class CommonView extends RelativeLayout {
     private int notesTextColor;
     private float notesTextSize;
     private boolean flag;
+    private boolean tvNotesSingleLine;
 
     public CommonView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -98,6 +99,7 @@ public class CommonView extends RelativeLayout {
         notesText = mTypedArray.getString(R.styleable.CommonView_notesText);
         notesTextColor = mTypedArray.getColor(R.styleable.CommonView_notesTextColor, Color.parseColor("#999999"));
         notesTextSize = mTypedArray.getDimensionPixelSize(R.styleable.CommonView_notesTextSize, 14);
+        tvNotesSingleLine=mTypedArray.getBoolean(R.styleable.CommonView_isSingleTextNotes,true);
         mTypedArray.recycle();
 
         initData();
@@ -223,6 +225,10 @@ public class CommonView extends RelativeLayout {
         tvNotes.setTextColor(notesTextColor);
         this.notesTextColor=notesTextColor;
     }
+    public void setSingleLine(boolean singleLine){
+        tvNotes.setSingleLine(singleLine);
+        this.tvNotesSingleLine=singleLine;
+    }
 
     /***
      * 设置右边箭头可见不可见
@@ -288,5 +294,6 @@ public class CommonView extends RelativeLayout {
         setNotesTextColor(notesTextColor);
         setNotesTextSize(notesTextSize);
         setIsShowNotesText(isShowTextNotes);
+        setSingleLine(tvNotesSingleLine);
     }
 }

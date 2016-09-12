@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -51,8 +52,9 @@ public class EventdetailsAct extends BaseActivity implements View.OnClickListene
                     Intent intent=new Intent();
                     Bundle bundle2=new Bundle();
                     bundle2.putString("detailsTheme",str);
-                    intent.putExtra("bundle2",bundle2);
-                    setResult(0,intent);
+                    intent.putExtra("bundle2", bundle2);
+                    setResult(0, intent);
+                    ZtinfoUtils.hideSoftKeyboard(EventdetailsAct.this);
                     finish();
                 }
 

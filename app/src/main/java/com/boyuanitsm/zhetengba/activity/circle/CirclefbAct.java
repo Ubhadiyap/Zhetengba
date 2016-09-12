@@ -253,6 +253,7 @@ public class CirclefbAct extends BaseActivity {
                 mBuilder.setLargeIcon(btm);
                 mBuilder.setAutoCancel(true);//自己维护通知的消失
                 mNotificationManager.notify(0, mBuilder.build());
+                MyToastUtils.showShortToast(getApplicationContext(), "发布失败，请检查网络！");
 //                mNotificationManager.cancel(0);
 
             }
@@ -337,16 +338,8 @@ public class CirclefbAct extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
-                for (int i = 0; i < selecteds.size(); i++) {
-                    Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
-                    File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
-                    FileBody fb = new FileBody(file);
-//            MyLogUtils.info("文件大小"+fb.getContentLength());
-                    fileMaps.put(i+"", fb);
-                }
                 Message message=handler.obtainMessage();
-                message.obj=fileMaps;
+                message.what=0;
                 handler.sendMessage(message);
             }
         }).start();
@@ -356,9 +349,26 @@ public class CirclefbAct extends BaseActivity {
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
+                    for (int i = 0; i < selecteds.size(); i++) {
+                        Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
+                        if (bitmap==null){
+                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                    mNotificationManager.cancel(0);
+                            MyToastUtils.showShortToast(CirclefbAct.this, "选择图片有误，请重新发布！");
+                            return;
+                        }
+                        File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
+                        FileBody fb = new FileBody(file);
+                        fileMaps.put(i+"", fb);
+                    }
+                    toUpLoadImage(fileMaps);
+                    break;
+            }
             super.handleMessage(msg);
-            Map<String, FileBody> fileMaps= (Map<String, FileBody>) msg.obj;
-            toUpLoadImage(fileMaps);
+//            Map<String, FileBody> fileMaps= (Map<String, FileBody>) msg.obj;
         }
     };
 

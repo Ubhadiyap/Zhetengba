@@ -21,15 +21,6 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
-//<<<<<<< HEAD
-//=======
-
-
-//import com.boyuanitsm.zhetengba.activity.TestListView;
-import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
-
-import com.boyuanitsm.zhetengba.activity.mess.PerpageAct;
-//>>>>>>> f3d01e6f1fb8764e59d37f99cb1a69fa5669e5eb
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;

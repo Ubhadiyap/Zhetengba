@@ -53,7 +53,7 @@
             android:layout_height="26dip"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:src="@mipmap/ic_del"
+            android:src="@drawable/dele2x"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"

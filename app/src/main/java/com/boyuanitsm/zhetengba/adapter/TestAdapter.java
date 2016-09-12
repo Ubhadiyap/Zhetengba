@@ -143,30 +143,17 @@ public class TestAdapter extends BaseAdapter {
             viewHolder.iv_two_three = (ImageView) convertView.findViewById(R.id.iv_two_three);
             viewHolder.iv_two_four = (ImageView) convertView.findViewById(R.id.iv_two_four);
             viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
-//            viewHolder.llphoto = (LinearLayout) convertView.findViewById(R.id.llphoto);
-//            viewHolder.znum = (TextView) convertView.findViewById(R.id.znum);
-//            viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
-//            viewHolder.zimg = (ImageView) convertView.findViewById(R.id.zimg);
             viewHolder.znum2 = (TextView) convertView.findViewById(R.id.znum2);
             viewHolder.cnum2 = (TextView) convertView.findViewById(R.id.cnum2);
             viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
             viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
-//            viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
             viewHolder.iv_icon = (CircleImageView) convertView.findViewById(R.id.iv_icon);
             viewHolder.tv_Name = (TextView) convertView.findViewById(R.id.tv_Name);
             viewHolder.iv_gen = (ImageView) convertView.findViewById(R.id.iv_gen);
             viewHolder.tv_time_cal = (TextView) convertView.findViewById(R.id.tv_time_cal);
             viewHolder.tv_state = (TextView) convertView.findViewById(R.id.tv_state);
-//            viewHolder.ll_cal_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_cal_guanzhu);
-//            viewHolder.iv_cal_guanzhu = (ImageView) convertView.findViewById(R.id.iv_cal_guanzhu);
-//            viewHolder.tv_cal_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_cal_text_guanzhu);
-//            viewHolder.tv_gzcal_num = (TextView) convertView.findViewById(R.id.tv_gzcal_num);
-//            viewHolder.ll_yh = (LinearLayout) convertView.findViewById(R.id.ll_yh);
-//            viewHolder.iv_cal_yh = (ImageView) convertView.findViewById(R.id.iv_cal_yh);
-//            viewHolder.tv_cal_yh = (TextView) convertView.findViewById(R.id.tv_cal_yh);
             viewHolder.ll_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu);
             viewHolder.ll_yue = (LinearLayout) convertView.findViewById(R.id.ll_yue);
-//            viewHolder.ll_name = (RelativeLayout) convertView.findViewById(R.id.ll_name);
             viewHolder.ll_cal_guanzhu_del = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu_del);
             viewHolder.ll_cal_share = (LinearLayout) convertView.findViewById(R.id.ll_yue_share);
             viewHolder.iv_bag = (ImageView) convertView.findViewById(R.id.iv_bag);
@@ -216,7 +203,7 @@ public class TestAdapter extends BaseAdapter {
                                     simpleInfos = response.getData();
                                     ScheduDialog dialog = new ScheduDialog(context, simpleInfos, scheduleEntity.get(position).getScheduleId(),position);
                                     dialog.show();
-                                    viewHolder.iv_bag.setClickable(true);
+                                    viewHolder.iv_bag.setEnabled(true);
                                 }
                             });
                         }

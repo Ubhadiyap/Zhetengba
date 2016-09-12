@@ -2,11 +2,13 @@ package com.boyuanitsm.zhetengba.chat.act;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 public class EditActivity extends BaseActivity {
 	private EditText editText;
@@ -30,6 +32,10 @@ public class EditActivity extends BaseActivity {
 		setRight("保存", new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (TextUtils.isEmpty(editText.getText().toString().trim())){
+					MyToastUtils.showShortToast(getApplicationContext(),"名称不能为空！");
+					return;
+				}
 				setResult(RESULT_OK,new Intent().putExtra("data", editText.getText().toString().trim()));
 				finish();
 			}

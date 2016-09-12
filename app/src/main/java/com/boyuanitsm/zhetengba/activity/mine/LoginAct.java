@@ -242,8 +242,8 @@ public class LoginAct extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         pd.dismiss();
-                        Toast.makeText(getApplicationContext(), getString(R.string.Login_failed) + message,
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.Login_failed) + "请检查网络",
+                                Toast.LENGTH_SHORT).show();//登录失败，请检查网络
                     }
                 });
             }

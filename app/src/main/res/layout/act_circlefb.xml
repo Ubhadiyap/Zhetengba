@@ -63,7 +63,7 @@
 
                 <com.leaf.library.widget.MyGridView
                     android:id="@+id/my_gv"
-                    android:layout_width="290dp"
+                    android:layout_width="296dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="15dp"
