@@ -10,7 +10,6 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -42,12 +41,12 @@ import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.GeneralUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
-import com.boyuanitsm.zhetengba.utils.ShUtils;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
 import com.boyuanitsm.zhetengba.view.PlaneDialog;
+import com.boyuanitsm.zhetengba.view.TipsDrawDialog;
 import com.hyphenate.EMContactListener;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
@@ -58,10 +57,7 @@ import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
@@ -381,6 +377,12 @@ public class MainAct extends BaseActivity {
             public void onReceive(Context context, Intent intent) {
                 MyLogUtils.info("删除群聊广播");
                 int chat_receiver = intent.getIntExtra("main_receiver", 5);
+                String flag=intent.getStringExtra("flag");//这是判断是否是第一次发布活动
+                if(flag.equals("2")){
+                    TipsDrawDialog tipsDrawDialog=new TipsDrawDialog(MainAct.this).builder();
+                    tipsDrawDialog.show();
+                    tipsDrawDialog.setCanceledOnTouchOutside(true);
+                }
                  updateUnreadLabel();
                     if (currentTabIndex == 1) {
                         // 当前页面如果为聊天历史页面，刷新此页面
