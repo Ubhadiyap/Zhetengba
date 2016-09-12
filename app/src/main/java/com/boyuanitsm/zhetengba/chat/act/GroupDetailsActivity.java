@@ -419,6 +419,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			public void onResponse(ResultBean<String> response) {
 				sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
 				sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+				sendBroadcast(new Intent(MyGroupAct.MYGROUP));
 				progressDialog.dismiss();
 				setResult(RESULT_OK);
 				finish();
@@ -466,6 +467,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 						public void run() {
 							sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
 							sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+							sendBroadcast(new Intent(MyGroupAct.MYGROUP));
 							progressDialog.dismiss();
 							setResult(RESULT_OK);
 							finish();

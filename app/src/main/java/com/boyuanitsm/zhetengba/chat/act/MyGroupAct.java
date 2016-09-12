@@ -1,7 +1,9 @@
 package com.boyuanitsm.zhetengba.chat.act;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -146,6 +148,10 @@ public class MyGroupAct extends BaseActivity {
     public void onResume() {
         refresh();
         super.onResume();
+        if (receiverTalk == null) {
+            receiverTalk = new MyBroadCastReceiverTalk();
+            registerReceiver(receiverTalk, new IntentFilter(MYGROUP));
+        }
     }
 
     private void refresh(){
@@ -158,6 +164,20 @@ public class MyGroupAct extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (receiverTalk != null) {
+            unregisterReceiver(receiverTalk);
+            receiverTalk = null;
+        }
+    }
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String MYGROUP = "myGroup_update";
+
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            refresh();
+        }
     }
 
 }
