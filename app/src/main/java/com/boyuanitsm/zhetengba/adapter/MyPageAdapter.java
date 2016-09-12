@@ -5,6 +5,7 @@ package com.boyuanitsm.zhetengba.adapter;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mine.H5Web;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
-import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -56,7 +57,7 @@ public class MyPageAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
+    public Object instantiateItem(final ViewGroup container, final int position) {
 
         View view = View.inflate(context, R.layout.item_loop_viewpager_act, null);
         ImageView iv_iamge = (ImageView) view.findViewById(R.id.iv_item_image);
@@ -76,6 +77,9 @@ public class MyPageAdapter extends PagerAdapter {
 
             @Override
             public void onClick(View v) {
+                Intent intent=new Intent(context, H5Web.class);
+                intent.putExtra("url",list.get(position).getDictCode());
+                context.startActivity(intent);
 
             }
         });
