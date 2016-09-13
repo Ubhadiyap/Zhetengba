@@ -99,14 +99,14 @@ public class OkHttpManager {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                sendFailedStringCallback(-1, "失败", callback);
+                sendFailedStringCallback(-1, "请求失败，请检查网络！", callback);
 //                callback.onError(-1, "失败");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //获取cookie
-                String header = response.header("set-cookie");
+                String header = response.header("Set-Cookie");
                 MyLogUtils.info("获取到cookie:" + header);
                 if (!TextUtils.isEmpty(header))
                     SpUtils.setCooike(MyApplication.getInstance(), header);

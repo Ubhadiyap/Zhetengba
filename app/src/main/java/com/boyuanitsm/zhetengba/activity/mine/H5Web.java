@@ -1,15 +1,29 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.SpUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Cookie;
 
 /**
  * Created by xiaoke on 2016/9/6.
@@ -17,8 +31,11 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class H5Web extends BaseActivity {
     @ViewInject(R.id.wb)
     private WebView wb;
+    @ViewInject(R.id.loadingview)
+    private LoadingView loadingView;
     private String topTitle;
     private String hdUrl;
+    private String cookies;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_hd);
@@ -26,6 +43,8 @@ public class H5Web extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        cookies= SpUtils.getCookie(H5Web.this).toString();
+        MyLogUtils.info("hah"+cookies);
         Intent intent = getIntent();
         topTitle= intent.getStringExtra("topTitle");
         hdUrl=intent.getStringExtra("url");
@@ -33,17 +52,15 @@ public class H5Web extends BaseActivity {
             setTopTitle(topTitle);
         }
         if(!TextUtils.isEmpty(hdUrl)){
-            wb.loadUrl(hdUrl);
+            synCookies(H5Web.this, hdUrl);
+//            syncCookie(H5Web.this,hdUrl,cookies);
+            initWebViewSettings();
+            Map<String,String> extraHeaders = new HashMap<String, String>();
+            extraHeaders.put("Cookie", SpUtils.getCookie(MyApplication.getInstance()));
+            MyLogUtils.info("cookieshi======"+SpUtils.getCookie(MyApplication.getInstance()));
+            wb.loadUrl(hdUrl,extraHeaders);
         }
 
-        WebSettings webSettings=wb.getSettings();
-        //        webSettings.setUseWideViewPort(true);// 设置此属性，可任意比例缩放
-//        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setJavaScriptEnabled(true);
-//        webSettings.setBuiltInZoomControls(true);
-//        webSettings.setSupportZoom(true);
-//        wv.requestFocusFromTouch();
-        wb.loadUrl(hdUrl);
         wb.setWebViewClient(new WebViewClient() {
                                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                                     // 重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
@@ -53,12 +70,91 @@ public class H5Web extends BaseActivity {
 
                                 @Override
                                 public void onPageFinished(WebView view, String url) {
-//                                    loadingView.loadComplete();
+                                    loadingView.loadComplete();
                                 }
                             }
         );
 
     }
+
+    /**
+     *
+     * @param context
+     * @param url
+     * @param cookies
+     */
+    private void syncCookie(Context context, String url, String cookies) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            CookieSyncManager.createInstance(context);
+        }
+
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.removeSessionCookie();//移除
+        cookieManager.setCookie(url, cookies);//如果没有特殊需求，这里只需要将session id以"key=value"形式作为cookie即可
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            CookieSyncManager.getInstance().sync();
+        }
+    }
+
+    /**
+     *
+     */
+    private void initWebViewSettings() {
+        WebSettings webSettings=wb.getSettings();
+        // 设置可以访问文件
+        webSettings.setAllowFileAccess(true);
+        //如果访问的页面中有Javascript，则webview必须设置支持Javascript
+        webSettings.setJavaScriptEnabled(true);
+//        webSettings.setUserAgentString(MyApplication.);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAppCacheEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setDatabaseEnabled(true);
+
+    }
+
+    /**初始化webview设置cookie
+     * @param context
+     * @param url
+     */
+    private void synCookies(Context context,String url) {
+        try{
+            MyLogUtils.info("Nat: webView.syncCookie.url" + url);
+            CookieSyncManager.createInstance(context);
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.setAcceptCookie(true);
+            cookieManager.removeSessionCookie();// 移除
+            cookieManager.removeAllCookie();
+            String oldCookie = cookieManager.getCookie(url);
+            if(oldCookie != null){
+                MyLogUtils.info("Nat: webView.syncCookieOutter.oldCookie"+ oldCookie);
+            }
+
+            StringBuilder sbCookie = new StringBuilder();
+            sbCookie.append(String.format("JSESSIONID=%s",cookieSplit(cookies)));
+            sbCookie.append(String.format(";Domain=%s", "192.168.1.253"));
+            sbCookie.append(String.format(";Path=%s","/zhetengba/"));
+            sbCookie.append(String.format(";HttpOnly"));
+
+//
+            String cookieValue = sbCookie.toString();
+            MyLogUtils.info("sile" + cookieValue);
+            cookieManager.setCookie(url, cookieValue);
+            CookieSyncManager.getInstance().sync();
+
+            String newCookie = cookieManager.getCookie(url);
+            if(newCookie != null){
+                MyLogUtils.info("Nat: webView.syncCookie.newCookie"+ newCookie);
+            }else {
+                MyLogUtils.info("空的不说话了");
+            }
+        }catch(Exception e){
+            MyLogUtils.info("Nat: webView.syncCookie failed"+ e.toString());
+        }
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -66,6 +162,15 @@ public class H5Web extends BaseActivity {
             wb.goBack();
         }
     }
-
+    private  String cookieSplit(String cookies){
+        if (!TextUtils.isEmpty(cookies)){
+                String[] cookievalues=cookies.split(";");
+            String[] cookieId = cookievalues[0].split("=");
+            MyLogUtils.info(cookieId[1]+"cookieID是====");
+            return cookieId[1];
+        }else {
+            return null;
+        }
+    }
 
 }

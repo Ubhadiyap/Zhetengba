@@ -3,8 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 <include layout="@layout/title_act_layout"></include>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <WebView
         android:id="@+id/wb"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></WebView>
+    <com.boyuanitsm.zhetengba.view.LoadingView
+        android:id="@+id/loadingview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.LoadingView>
+</FrameLayout>
 </LinearLayout>

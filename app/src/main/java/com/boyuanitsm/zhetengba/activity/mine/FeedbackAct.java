@@ -57,7 +57,7 @@ public class FeedbackAct extends BaseActivity {
         RequestManager.getUserManager().addFeedBack(content, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+            MyToastUtils.showShortToast(getApplication(),errorMsg);
             }
 
             @Override

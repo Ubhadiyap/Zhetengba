@@ -10,6 +10,7 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -378,7 +379,7 @@ public class MainAct extends BaseActivity {
                 MyLogUtils.info("删除群聊广播");
                 int chat_receiver = intent.getIntExtra("main_receiver", 5);
                 String flag=intent.getStringExtra("flag");//这是判断是否是第一次发布活动
-                if(flag.equals("2")){
+                if(!TextUtils.isEmpty(flag)&&flag.equals("2")){
                     TipsDrawDialog tipsDrawDialog=new TipsDrawDialog(MainAct.this).builder();
                     tipsDrawDialog.show();
                     tipsDrawDialog.setCanceledOnTouchOutside(true);
