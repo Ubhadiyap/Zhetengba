@@ -17,6 +17,8 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -52,19 +54,20 @@ public class H5Web extends BaseActivity {
             setTopTitle(topTitle);
         }
         if(!TextUtils.isEmpty(hdUrl)){
+            initWebViewSettings();
             synCookies(H5Web.this, hdUrl);
 //            syncCookie(H5Web.this,hdUrl,cookies);
-            initWebViewSettings();
-            Map<String,String> extraHeaders = new HashMap<String, String>();
-            extraHeaders.put("Cookie", SpUtils.getCookie(MyApplication.getInstance()));
-            MyLogUtils.info("cookieshi======"+SpUtils.getCookie(MyApplication.getInstance()));
-            wb.loadUrl(hdUrl,extraHeaders);
+//            Map<String,String> extraHeaders = new HashMap<String, String>();
+//            extraHeaders.put("Set-Cookie", SpUtils.getCookie(MyApplication.getInstance()));
+            wb.loadUrl(hdUrl);
         }
 
         wb.setWebViewClient(new WebViewClient() {
                                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                                     // 重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
-                                    view.loadUrl(url);
+                                    Map<String,String> extraHeaders = new HashMap<String, String>();
+                                    extraHeaders.put("Set-Cookie", SpUtils.getCookie(MyApplication.getInstance()));
+                                    view.loadUrl(url,extraHeaders);
                                     return true;
                                 }
 
@@ -106,7 +109,6 @@ public class H5Web extends BaseActivity {
         webSettings.setAllowFileAccess(true);
         //如果访问的页面中有Javascript，则webview必须设置支持Javascript
         webSettings.setJavaScriptEnabled(true);
-//        webSettings.setUserAgentString(MyApplication.);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCacheEnabled(true);
@@ -133,17 +135,16 @@ public class H5Web extends BaseActivity {
             }
 
             StringBuilder sbCookie = new StringBuilder();
+//            sbCookie.append(String.format("JSESSIONID=%s",cookieSplit(cookies)));
             sbCookie.append(String.format("JSESSIONID=%s",cookieSplit(cookies)));
-            sbCookie.append(String.format(";Domain=%s", "192.168.1.253"));
+            sbCookie.append(String.format(";Domain=%s","180.76.149.156"));//
             sbCookie.append(String.format(";Path=%s","/zhetengba/"));
-            sbCookie.append(String.format(";HttpOnly"));
+//            sbCookie.append(String.format(";HttpOnly"));
 
-//
             String cookieValue = sbCookie.toString();
             MyLogUtils.info("sile" + cookieValue);
             cookieManager.setCookie(url, cookieValue);
             CookieSyncManager.getInstance().sync();
-
             String newCookie = cookieManager.getCookie(url);
             if(newCookie != null){
                 MyLogUtils.info("Nat: webView.syncCookie.newCookie"+ newCookie);
