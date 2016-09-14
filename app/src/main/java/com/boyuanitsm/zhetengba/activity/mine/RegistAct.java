@@ -222,7 +222,7 @@ public class RegistAct extends BaseActivity {
                 if(isValidate()) {
                     pd.show();
 //                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
-                    toRegister(phone, yzm, pwd);
+                    toRegister(phone, yzm, pwd,yqphone);
                 }
 
                 break;
@@ -247,27 +247,34 @@ public class RegistAct extends BaseActivity {
         pwd = et_pwd.getText().toString();//.trim();
         cpwd=et_cpwd.getText().toString();//.trim();
         aqm=et_aqm.getText().toString().toLowerCase();
+        yqphone=et_yqphone.getText().toString().trim();
 //        yqphone=et_yqphone.getText().toString();
         if(TextUtils.isEmpty(aqm)){
             MyToastUtils.showShortToast(getApplicationContext(),"请输入安全码");
             et_aqm.requestFocus();
             return false;
         }
-//        if(TextUtils.isEmpty(yqphone)){
-//            MyToastUtils.showShortToast(getApplicationContext(),"请输入邀请人手机号码");
-//            et_yqphone.requestFocus();
-//            return false;
-//        }
+        if(!aqm.equals(zifu)){
+            MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
+            et_aqm.requestFocus();
+            return false;
+        }
+
+        if(!TextUtils.isEmpty(yqphone)&&yqphone!=null&&yqphone.length()!=11){
+            MyToastUtils.showShortToast(getApplicationContext(),"请输入11位手机号码");
+            et_yqphone.requestFocus();
+            return false;
+        }
 //        if(yqphone.length()!=11){
 //            MyToastUtils.showShortToast(getApplicationContext(), "请输入11位的手机号");
 //            et_yqphone.requestFocus();
 //            et_yqphone.setSelection(et_yqphone.length());
 //            return false;
 //        }
-//        if(!ZhetebaUtils.checkCellPhone(yqphone)){
-//            MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
-//            return false;
-//        }
+        if(!TextUtils.isEmpty(yqphone)&&yqphone!=null&&!ZhetebaUtils.checkCellPhone(yqphone)){
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
+            return false;
+        }
         if (TextUtils.isEmpty(phone)) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
             et_phone.requestFocus();
@@ -373,8 +380,8 @@ public class RegistAct extends BaseActivity {
      * @param password
      */
 
-    public void toRegister(final String username,String captcha,String password){
-        RequestManager.getUserManager().register(username, captcha, password, new ResultCallback<ResultBean<UserBean>>() {
+    public void toRegister(final String username,String captcha,String password,String referralCode){
+        RequestManager.getUserManager().register(username, captcha, password,referralCode, new ResultCallback<ResultBean<UserBean>>() {
 
             @Override
             public void onError(int status, String errorMsg) {

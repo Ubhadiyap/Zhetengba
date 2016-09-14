@@ -12,11 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -25,7 +22,6 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -579,6 +575,7 @@ public class SimpleFrg extends BaseFragment {
         //xoff,yoff基于anchor的左下角进行偏移。
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
         mPopupWindow.setFocusable(true);
+        mPopupWindow.setAnimationStyle(R.style.ppAnimBottom);
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {

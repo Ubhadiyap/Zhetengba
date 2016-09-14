@@ -2,7 +2,6 @@ package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
@@ -14,18 +13,13 @@ import android.webkit.WebViewClient;
 import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
-import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
-import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
-import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import okhttp3.Cookie;
 
 /**
  * Created by xiaoke on 2016/9/6.
@@ -46,7 +40,7 @@ public class H5Web extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         cookies= SpUtils.getCookie(H5Web.this).toString();
-        MyLogUtils.info("hah"+cookies);
+        MyLogUtils.info("hah" + cookies);
         Intent intent = getIntent();
         topTitle= intent.getStringExtra("topTitle");
         hdUrl=intent.getStringExtra("url");
@@ -57,9 +51,13 @@ public class H5Web extends BaseActivity {
             initWebViewSettings();
             synCookies(H5Web.this, hdUrl);
 //            syncCookie(H5Web.this,hdUrl,cookies);
+
+            initWebViewSettings();
+
 //            Map<String,String> extraHeaders = new HashMap<String, String>();
 //            extraHeaders.put("Set-Cookie", SpUtils.getCookie(MyApplication.getInstance()));
             wb.loadUrl(hdUrl);
+
         }
 
         wb.setWebViewClient(new WebViewClient() {
@@ -86,22 +84,9 @@ public class H5Web extends BaseActivity {
      * @param url
      * @param cookies
      */
-    private void syncCookie(Context context, String url, String cookies) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            CookieSyncManager.createInstance(context);
-        }
-
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.setAcceptCookie(true);
-        cookieManager.removeSessionCookie();//移除
-        cookieManager.setCookie(url, cookies);//如果没有特殊需求，这里只需要将session id以"key=value"形式作为cookie即可
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            CookieSyncManager.getInstance().sync();
-        }
-    }
 
     /**
-     *
+     *设置webview
      */
     private void initWebViewSettings() {
         WebSettings webSettings=wb.getSettings();

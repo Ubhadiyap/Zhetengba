@@ -52,11 +52,13 @@ public class UserManager extends RequestManager{
      * @param
      * @param callback
      */
-    public void register(String username,String captcha,String password,ResultCallback callback){
+    public void register(String username,String captcha,String password,String referralCode,
+                         ResultCallback callback){
        Map<String,String> params=new HashMap<>();
         params.put("username",username);
         params.put("captcha",captcha);
         params.put("password", password);
+        params.put("referralCode",referralCode);
         OkHttpManager.getInstance().doPost(IZtbUrl.REGISTER_URL, params, callback);
     }
 
