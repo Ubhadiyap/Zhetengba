@@ -43,6 +43,8 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
+import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
+import com.boyuanitsm.zhetengba.chat.db.UserDao;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
@@ -640,7 +642,7 @@ public class PersonalAct extends BaseActivity{
      * 添加到黑名单
      * @param friendId
      */
-    private void addBlack(String friendId) {
+    private void addBlack(final String friendId) {
         RequestManager.getScheduleManager().addblackList(friendId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -649,6 +651,9 @@ public class PersonalAct extends BaseActivity{
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                UserDao userDao=new UserDao(getApplicationContext());
+                userDao.deleteContact(friendId);
+//                ChatUserDao.deleteUserById(friendId);
                 sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));

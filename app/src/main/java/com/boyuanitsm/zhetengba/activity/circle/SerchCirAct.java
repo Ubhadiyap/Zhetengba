@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
@@ -90,7 +91,9 @@ public class SerchCirAct extends BaseActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            getCircle(s.toString(),page,rows);
+            if (!TextUtils.isEmpty(s.toString().trim())){
+                getCircle(s.toString(),page,rows);
+            }
         }
     };
 

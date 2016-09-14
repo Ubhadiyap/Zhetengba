@@ -20,11 +20,15 @@ import android.widget.ListView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.NewFriendsMsgAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
+import com.google.android.gms.plus.model.people.Person;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -45,13 +49,29 @@ public class NewFriendsMsgActivity extends BaseActivity {
 		setTopTitle("新的好友");
 		InviteMessgeDao dao = new InviteMessgeDao(this);
 		List<InviteMessage> msgs = dao.getMessagesList();
+		if (msgs!=null&&msgs.size()>0){
+//			Collections.reverse(msgs);
+			SortClass sort = new SortClass();
+			Collections.sort(msgs, sort);
+		}
 		//设置adapter
 		NewFriendsMsgAdapter adapter = new NewFriendsMsgAdapter(this, 1, msgs);
 		listView.setAdapter(adapter);
 		dao.saveUnreadMessageCount(0);
 		sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
 	}
-
+	/**
+	 * 时间降序
+	 * 排序
+	 */
+	public class SortClass implements Comparator {
+		public int compare(Object arg0, Object arg1) {
+			InviteMessage user0 = (InviteMessage) arg0;
+			InviteMessage user1 = (InviteMessage) arg1;
+			int flag = (user1.getTime()+"").compareTo(user0.getTime()+"");//升序直接将user0,user1互换
+			return flag;
+		}
+	}
 
 	
 }

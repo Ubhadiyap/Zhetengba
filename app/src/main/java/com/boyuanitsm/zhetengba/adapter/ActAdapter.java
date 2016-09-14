@@ -322,7 +322,7 @@ public class ActAdapter extends BaseAdapter {
                 RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-
+                        MyToastUtils.showShortToast(context,errorMsg);
                     }
 
                     @Override
@@ -382,6 +382,7 @@ public class ActAdapter extends BaseAdapter {
             @Override
             public void onError(int status, String errorMsg) {
                 viewHolder.ll_join.setEnabled(true);
+                MyToastUtils.showShortToast(context, errorMsg);
             }
 
             @Override
@@ -423,6 +424,7 @@ public class ActAdapter extends BaseAdapter {
             @Override
             public void onError(int status, String errorMsg) {
                 viewHolder.ll_join.setEnabled(true);
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
@@ -463,7 +465,7 @@ public class ActAdapter extends BaseAdapter {
         RequestManager.getScheduleManager().removeActivity(id, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
