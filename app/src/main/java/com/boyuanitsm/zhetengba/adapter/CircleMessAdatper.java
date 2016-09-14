@@ -288,7 +288,7 @@ public class CircleMessAdatper extends BaseAdapter {
                             }else{
                                 circleInfoList.remove(position);
                                 notifyDataSetChanged();
-                                MyToastUtils.showShortToast(context,response.getMessage());
+//                                MyToastUtils.showShortToast(context,response.getMessage());
                             }
 
                         }
@@ -316,10 +316,10 @@ public class CircleMessAdatper extends BaseAdapter {
                                 notifyDataSetChanged();
                                 CircleMessDao.saveCircleMess(circleInfoList.get(position));
                                 MyToastUtils.showShortToast(context, response.getMessage());
-                            }else if (TextUtils.equals(response.getData(),-1+"")){
+                            }else{
                                 circleInfoList.remove(position);
                                 notifyDataSetChanged();
-                                MyToastUtils.showShortToast(context,response.getMessage());
+//                                MyToastUtils.showShortToast(context,response.getMessage());
                             }
 
                         }

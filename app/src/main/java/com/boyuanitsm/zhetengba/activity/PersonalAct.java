@@ -684,8 +684,6 @@ public class PersonalAct extends BaseActivity{
         @Override
         public void onReceive(Context context, Intent intent) {
             getPersonalMain(userId);
-//            manager = getSupportFragmentManager();
-//            msv_scroll.smoothScrollTo(0, 0);
         }
     }
 }
