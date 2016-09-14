@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -77,9 +78,10 @@ public class MyPageAdapter extends PagerAdapter {
 
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, H5Web.class);
-                intent.putExtra("url",list.get(position).getDictCode());
-                context.startActivity(intent);
+                if(list.get(position).getDictCode()!=null&&!TextUtils.isEmpty(list.get(position).getDictCode())){
+                    Intent intent=new Intent(context, H5Web.class);
+                    intent.putExtra("url",list.get(position).getDictCode());
+                    context.startActivity(intent);}
 
             }
         });

@@ -102,6 +102,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RelativeLayout
+                    android:id="@+id/rl_hd"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.boyuanitsm.zhetengba.view.CommonView
@@ -124,9 +126,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
-
-            <View
-                style="@style/view_line" />
+                <View
+                    android:id="@+id/vi_li"
+                    android:visibility="gone"
+                    style="@style/view_line" />
                 <LinearLayout
                     android:id="@+id/cj_ll"
                     android:visibility="gone"

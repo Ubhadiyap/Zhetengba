@@ -630,7 +630,9 @@ public class PersonalAct extends BaseActivity{
 //                intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
 //                intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
 //                sendBroadcast(intent);
-                ChatUserDao.deleteUserById(friendId);
+//                ChatUserDao.deleteUserById(friendId);
+                UserDao userDao=new UserDao(getApplicationContext());
+                userDao.deleteContact(friendId);
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));

@@ -15,6 +15,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -83,6 +84,10 @@ public class MineFrg extends BaseFragment{
     private ImageView hd_arrow;
     @ViewInject(R.id.lv_hd)
     private ListView lv_hd;
+    @ViewInject(R.id.rl_hd)
+    private RelativeLayout rl_hd;
+    @ViewInject(R.id.vi_li)
+    private View vi_li;
     private List<Integer> monthList;//设置时间集合
     private List<TextView> textViewList;//设置时间textview集合
     private ArrayList<Integer> moveToList;//设置textview宽高集合
@@ -91,7 +96,7 @@ public class MineFrg extends BaseFragment{
     private int currentPos;//当前位置
     private int mMouthMargin;//设置月份间隙
     private List<String> timeList=new ArrayList<>();//存储时间
-    private int cjOn=1;
+    private int cjOn=0;
     private List<ActivityDetail> actvityList=new ArrayList<>();
     private HdAdapter adapter;
     // 图片缓存 默认 等
@@ -138,9 +143,10 @@ public class MineFrg extends BaseFragment{
         }
         MyLogUtils.info(UserInfoDao.getUser().getIcon() + "图片地址");
         getlable();//获得兴趣标签；
+        getActivityMannger(0);
     }
 
-    private void getActivityMannger() {
+    private void getActivityMannger(final int cusPos) {
         RequestManager.getMessManager().getActivity(new ResultCallback<ResultBean<List<ActivityDetail>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -154,6 +160,8 @@ public class MineFrg extends BaseFragment{
                 }
                 actvityList=response.getData();
                 if (actvityList!=null&&actvityList.size()>0){
+                    rl_hd.setVisibility(View.VISIBLE);
+                    vi_li.setVisibility(View.VISIBLE);
                     hd.setEnabled(true);
                     if (adapter==null){
                         adapter=new HdAdapter(mActivity,actvityList);
@@ -172,10 +180,11 @@ public class MineFrg extends BaseFragment{
                         hd_arrow.setVisibility(View.GONE);
                         cjOn=1;
                     }
-                }else {
-                    hd.setEnabled(false);
+                }else if (cusPos==0){
+                    rl_hd.setVisibility(View.GONE);
+                    vi_li.setVisibility(View.GONE);
                 }
-
+                hd.setEnabled(true);
             }
         });
     }
@@ -244,7 +253,7 @@ public class MineFrg extends BaseFragment{
                 break;
             case R.id.hd:
                 hd.setEnabled(false);
-                getActivityMannger();
+                getActivityMannger(1);
                 break;
             case R.id.qb://钱包
                 openActivity(WalletAct.class);
@@ -282,6 +291,7 @@ public class MineFrg extends BaseFragment{
     @Override
     public void onStart() {
         super.onStart();
+        getActivityMannger(0);
         if (myReceiver==null) {
             myReceiver = new MyReceiver();
             getActivity().registerReceiver(myReceiver, new IntentFilter(USER_INFO));

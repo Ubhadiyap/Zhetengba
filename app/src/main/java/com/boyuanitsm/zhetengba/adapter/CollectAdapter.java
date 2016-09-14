@@ -195,7 +195,7 @@ public class CollectAdapter extends BaseAdapter {
                             holder.ll_join.setEnabled(false);
                             if (list.get(position).isJoining()) {
                                 final MyAlertDialog dialog = new MyAlertDialog(context);
-                                dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                                dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         stateCancelChange(position, holder);
@@ -221,7 +221,7 @@ public class CollectAdapter extends BaseAdapter {
                         holder.ll_join.setEnabled(false);
                         if (list.get(position).isJoining()) {
                             final MyAlertDialog dialog = new MyAlertDialog(context);
-                            dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                            dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     stateCancelChange(position, holder);
