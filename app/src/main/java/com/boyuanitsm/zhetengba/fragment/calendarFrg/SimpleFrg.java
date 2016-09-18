@@ -38,6 +38,7 @@ import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
@@ -324,6 +325,7 @@ public class SimpleFrg extends BaseFragment {
                     }.getType());
                     initMyPageAdapter(bannerInfos);
                 }
+                MyToastUtils.showShortToast(mActivity,errorMsg);
             }
 
             @Override

@@ -68,6 +68,12 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                 addPop();
                 break;
             case R.id.rlContract://联系人
+                //点击联系人设置红点可见不可见
+                InviteMessgeDao dao = new InviteMessgeDao(mActivity);
+                if (dao.getUnreadMessagesCount()>0){
+//                    dao.saveUnreadMessageCount(0);
+                    iv_new_red.setVisibility(View.GONE);
+                }
                 Intent intent = new Intent(getContext(), ContractsAct.class);
                 getActivity().startActivity(intent);
                 break;

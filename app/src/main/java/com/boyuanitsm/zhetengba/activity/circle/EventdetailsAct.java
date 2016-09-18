@@ -29,7 +29,7 @@ public class EventdetailsAct extends BaseActivity implements View.OnClickListene
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("活动详情");
+        setTopTitle("会友详情");
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         if (bundle!=null){

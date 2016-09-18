@@ -314,7 +314,7 @@
         <!--正式： hseb2016#zhetengba-->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="wbsj19900625#zheteng" />
+            android:value="hseb2016#zhetengba" />
         <!-- 声明sdk所需的service -->
         <service
             android:name="com.hyphenate.chat.EMChatService"

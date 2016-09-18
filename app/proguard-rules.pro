@@ -315,6 +315,8 @@
 #2.0.9后加入语音通话功能，如需使用此功能的API，加入以下keep
 -dontwarn ch.imvs.**
 -dontwarn org.slf4j.**
+-dontwarn org.codehaus.**
+-dontwarn okio.**
 -keep class org.ice4j.** {*;}
 -keep class net.java.sip.** {*;}
 -keep class org.webrtc.voiceengine.** {*;}

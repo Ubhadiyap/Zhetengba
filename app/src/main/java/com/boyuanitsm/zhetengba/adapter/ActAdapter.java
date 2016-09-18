@@ -204,10 +204,10 @@ public class ActAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(infos.get(position).getActivityParticulars())) {
             builder.setMessage(infos.get(position).getActivityParticulars());
         } else {
-            builder.setMessage("没有活动详情");
+            builder.setMessage("没有详情");
         }
         if (infos.get(position).getJoinCount() > 0) {
-            builder.setPositiveButton("一起参加了" + infos.get(position).getJoinCount() + "次活动", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("一起参加了" + infos.get(position).getJoinCount() + "次会友", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -229,7 +229,7 @@ public class ActAdapter extends BaseAdapter {
                         viewHolder.ll_join.setEnabled(false);
                         if (infos.get(position).isJoining()) {
                             final MyAlertDialog dialog = new MyAlertDialog(context);
-                            dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                            dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     stateCancelChange(position, viewHolder);
@@ -243,8 +243,6 @@ public class ActAdapter extends BaseAdapter {
                         } else {
                             stateJionChange(position, viewHolder);
                         }
-
-
                     }
                 });
             }
@@ -255,7 +253,7 @@ public class ActAdapter extends BaseAdapter {
                     viewHolder.ll_join.setEnabled(false);
                     if (infos.get(position).isJoining()) {
                         final MyAlertDialog dialog = new MyAlertDialog(context);
-                        dialog.builder().setTitle("提示").setMsg("确认取消参加活动？").setPositiveButton("确定", new View.OnClickListener() {
+                        dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 stateCancelChange(position, viewHolder);
@@ -279,7 +277,7 @@ public class ActAdapter extends BaseAdapter {
         viewHolder.ll_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条活动？").setPositiveButton("确定", new View.OnClickListener() {
+                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条会友？").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //调用删除此活动接口,刷新数据；
@@ -322,7 +320,7 @@ public class ActAdapter extends BaseAdapter {
                 RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-
+                        MyToastUtils.showShortToast(context,errorMsg);
                     }
 
                     @Override
@@ -382,6 +380,7 @@ public class ActAdapter extends BaseAdapter {
             @Override
             public void onError(int status, String errorMsg) {
                 viewHolder.ll_join.setEnabled(true);
+                MyToastUtils.showShortToast(context, errorMsg);
             }
 
             @Override
@@ -423,6 +422,7 @@ public class ActAdapter extends BaseAdapter {
             @Override
             public void onError(int status, String errorMsg) {
                 viewHolder.ll_join.setEnabled(true);
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
@@ -463,7 +463,7 @@ public class ActAdapter extends BaseAdapter {
         RequestManager.getScheduleManager().removeActivity(id, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
