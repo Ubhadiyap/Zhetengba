@@ -56,6 +56,12 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     private AnimationDrawable animationDrawable;
     @ViewInject(R.id.rl_more)
     private RelativeLayout rl_more;
+    @ViewInject(R.id.iv_xnew)
+    private TextView iv_xnew;//有新圈子消息红点
+
+    private TextView iv_dailognew;//dialog上面小红点
+    private int type;
+    private boolean flag;
 
     @Override
     public void setLayout() {
@@ -180,7 +186,8 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_more:
-                showPopupWindow(rl_more);
+                iv_xnew.setVisibility(View.GONE);
+                showPopupWindow(rl_more,type);
                 break;
             case R.id.iv_serch:
                 openActivity(SerchCirAct.class);
@@ -191,9 +198,15 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     /**
      *
      */
-    private void showPopupWindow(View parent) {
+    private void showPopupWindow(View parent,int type) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.popuwindowsquzi_dialog, null);
+        iv_dailognew= (TextView) layout.findViewById(R.id.iv_dailognew);
+        if(type==1){
+            iv_dailognew.setVisibility(View.VISIBLE);
+        }else
+        iv_dailognew.setVisibility(View.GONE);
+
         // 实例化popupWindow
         final PopupWindow popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
         //控制键盘是否可以获得焦点
@@ -223,6 +236,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
         tv_xx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                iv_dailognew.setVisibility(View.GONE);
                 popupWindow.dismiss();
                 openActivity(CirMessAct.class);
             }
@@ -264,6 +278,12 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            type=intent.getExtras().getInt("pointGone");
+            if(type==1){
+                iv_xnew.setVisibility(View.INVISIBLE);
+            }else {
+
+            }
             Bundle bundle = intent.getExtras();
             if (bundle != null && datas.size() > 0) {
                 int cposition = bundle.getInt("CirCommentPosition");
