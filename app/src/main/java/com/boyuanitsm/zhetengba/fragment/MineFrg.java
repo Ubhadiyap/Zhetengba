@@ -283,6 +283,7 @@ public class MineFrg extends BaseFragment{
                 }
             }
             getlable();//当修改兴趣标界面修改（添加，删除）签获得兴趣标签；
+            getActivityMannger(0);
         }
     }
 
@@ -291,11 +292,17 @@ public class MineFrg extends BaseFragment{
     @Override
     public void onStart() {
         super.onStart();
-        getActivityMannger(0);
+        MyLogUtils.info("onStart=====");
         if (myReceiver==null) {
             myReceiver = new MyReceiver();
             getActivity().registerReceiver(myReceiver, new IntentFilter(USER_INFO));
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyLogUtils.info("onResume=====");
     }
 
     @Override

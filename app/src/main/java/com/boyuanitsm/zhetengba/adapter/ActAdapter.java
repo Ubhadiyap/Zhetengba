@@ -468,7 +468,7 @@ public class ActAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(context, "删除活动成功！");
+                MyToastUtils.showShortToast(context, "删除会友成功！");
                 infos.remove(position);
                 notifyDataSetChanged();
 //                Intent intent=new Intent(context,MainAct.class);
@@ -577,6 +577,4 @@ public class ActAdapter extends BaseAdapter {
         public LinearLayout ll_del, ll_simple_share;
         public TextView tv_cj,tv_tt;//自己发布后参加人数和总的人数
     }
-
-
 }

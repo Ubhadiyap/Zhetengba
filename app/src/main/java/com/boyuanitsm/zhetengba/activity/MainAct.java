@@ -274,6 +274,7 @@ public class MainAct extends BaseActivity {
                         mineFrg = new MineFrg();
                         transaction.add(R.id.fl_main, mineFrg,"mineFrg");
                     } else {
+                        sendBroadcast(new Intent(MineFrg.USER_INFO));
                         transaction.show(mineFrg);
                     }
                     break;
