@@ -4,11 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
@@ -35,6 +38,7 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
+    private LocalBroadcastManager broadcastManager;
     private String flag;
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -60,7 +64,32 @@ public class MyReceiver extends BroadcastReceiver {
 //                    String comment=json.getString("commentTalk");
 //                    Log.d(TAG, "json.getString(\"commentContent\"); 接收到推送下来的commentContent的内容: " + comment);
 					if (TextUtils.equals(type,"2")){
-						Gson gson = new Gson();
+                        MyLogUtils.info("hahahahaha");
+                        broadcastManager=  LocalBroadcastManager.getInstance(context);
+                        Intent intentPointGone=new Intent(context, MainAct.class);
+                        intentPointGone.setAction(Constant.ACTION_CONTACT_CHANAGED);
+                        Bundle bundlePointGone=new Bundle();
+                        bundlePointGone.putInt("pointGone",1);
+                        intentPointGone.putExtras(bundlePointGone);
+                        broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
+
+                        Intent intentPointGone1=new Intent(CircleFrg.UPDATE);
+//                        intentPointGone1.setAction(CircleFrg.UPDATE);
+//                        Bundle bundlePointGone1=new Bundle();
+//                        bundlePointGone1.putInt("pointGone",1);
+//                        intentPointGone1.putExtras(bundlePointGone1);
+                        broadcastManager.sendBroadcast(intentPointGone1);//发广播到圈子frg红点显示
+
+
+                        Intent intentPointGone2=new Intent(context, CircleAct.class);
+                        intentPointGone2.setAction(CircleAct.ALLTALKS);
+                        Bundle bundlePointGone2=new Bundle();
+                        bundlePointGone2.putInt("pointGone",1);
+                        intentPointGone2.putExtras(bundlePointGone2);
+                        broadcastManager.sendBroadcast(intentPointGone2);//发广播到圈子frg红点显示
+
+
+                        Gson gson = new Gson();
                         flag=2+"";
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
                         if (!TextUtils.isEmpty(circleInfo.getType())){
@@ -74,12 +103,8 @@ public class MyReceiver extends BroadcastReceiver {
                         }
                         circleInfo.setIsAgree(0);
 						CircleMessDao.saveCircleMess(circleInfo);
-//                        Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
-//                        Bundle bundlePointGone=new Bundle();
-//                        bundlePointGone.putInt("pointGone",2);//1表示点开通知，2表示消息红点展示
-//                        intentPointGone.putExtras(bundlePointGone);
-//                        context.sendBroadcast(intentPointGone);
-					}else{
+
+                    }else{
                         Gson gson=new Gson();
                         ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
                         activityMess.setIsAgree(0);
@@ -117,7 +142,9 @@ public class MyReceiver extends BroadcastReceiver {
 //                    Bundle bundlePointGone=new Bundle();
 //                    bundlePointGone.putInt("pointGone",1);//1表示点开通知，消息红点消失
 //                    intentPointGone.putExtras(bundlePointGone);
-//                    context.sendBroadcast(intentPointGone);
+//                    context.sendBroadcastintentPointGone);
+
+
                 }else {
                     i.setClass(context, DqMesAct.class);
 //                    Intent intentPoint=new Intent(MessFrg.UPDATE_CONTRACT);

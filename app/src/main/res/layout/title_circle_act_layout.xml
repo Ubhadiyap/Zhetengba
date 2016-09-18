@@ -61,5 +61,17 @@
             android:src="@mipmap/more" />
     </RelativeLayout>
 
+    <TextView
+        android:visibility="gone"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/iv_xnew"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/didi"
+        />
+
+
 
 </RelativeLayout>

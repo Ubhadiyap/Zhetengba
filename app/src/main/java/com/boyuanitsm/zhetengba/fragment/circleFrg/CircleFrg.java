@@ -4,32 +4,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
-import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
-import com.boyuanitsm.zhetengba.activity.circle.CreatCirAct;
 import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -45,6 +37,8 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
     private CommonView cv_qz;
     @ViewInject(R.id.cv_sys)
     private CommonView cv_sys;
+    @ViewInject(R.id.iv_xnew)
+    private TextView iv_new;
     private View view;
     private FragmentManager childFragmentManager;
     private ChanelFrg chanelFrg;
@@ -59,6 +53,8 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
     private LinearLayout ll_newmes;
     private ImageView iv_new_red;
     private RelativeLayout rl_more;
+    private LocalBroadcastManager broadcastManager;
+
 
 
     @Override
@@ -69,6 +65,7 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        broadcastManager = LocalBroadcastManager.getInstance(mActivity);
     }
 
 
@@ -112,6 +109,7 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
                 openActivity(SquareAct.class);
                 break;
             case R.id.cv_qz:
+                iv_new.setVisibility(View.GONE);
                 openActivity(CircleAct.class);
                 break;
             case R.id.cv_sys:
@@ -215,4 +213,37 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
 //        }
 //        fragmentTransaction.commit();
 //    }
+    private UpdateBroadCastReceiver receiver;
+    public static final String UPDATE = "update";
+
+    class UpdateBroadCastReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+//            int type=intent.getExtras().getInt("pointGone");
+            MyLogUtils.info("hahahahah");
+//            if(type==1){
+                iv_new.setVisibility(View.INVISIBLE);
+//            }
+
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiver==null) {
+            receiver = new UpdateBroadCastReceiver();
+            broadcastManager.registerReceiver(receiver, new IntentFilter(UPDATE));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiver!=null){
+            broadcastManager.unregisterReceiver(receiver);
+            receiver=null;
+        }
+    }
 }
+

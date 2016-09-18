@@ -77,6 +77,7 @@ public class MainAct extends BaseActivity {
     private MyRadioButton rb_mes;
     //    // 未读消息textview
     private TextView unreadLabel;
+    private TextView msg_qunzi;//圈子红点
 
     protected static final String TAG = "MainActivity";
     // 当前fragment的index
@@ -143,6 +144,7 @@ public class MainAct extends BaseActivity {
         AppManager.getAppManager().addActivity(this);
         rb_mes = (MyRadioButton) findViewById(R.id.rb_mes);
         unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
+        msg_qunzi= (TextView) findViewById(R.id.msg_qunzi);
         rl_ydy = (RelativeLayout) findViewById(R.id.rl_ydy);
         aCache=ACache.get(MainAct.this);
         //获取frg的管理器
@@ -258,6 +260,7 @@ public class MainAct extends BaseActivity {
                     }
                     break;
                 case R.id.rb_cir://点击显示：圈子界面
+                    msg_qunzi.setVisibility(View.GONE);
                     currentTabIndex = 2;
                     circleFrg= (CircleFrg) fragmentManager.findFragmentByTag("circleFrg");
                     if (circleFrg == null) {
@@ -383,6 +386,10 @@ public class MainAct extends BaseActivity {
                     TipsDrawDialog tipsDrawDialog=new TipsDrawDialog(MainAct.this).builder();
                     tipsDrawDialog.show();
                     tipsDrawDialog.setCanceledOnTouchOutside(true);
+                }
+                int type=intent.getExtras().getInt("pointGone");//用来判断圈子消息红点
+                if(type==1){
+                    msg_qunzi.setVisibility(View.VISIBLE);
                 }
                  updateUnreadLabel();
                     if (currentTabIndex == 1) {
