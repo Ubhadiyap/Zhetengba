@@ -25,7 +25,9 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.NewCircleMess;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -60,7 +62,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     private TextView iv_xnew;//有新圈子消息红点
 
     private TextView iv_dailognew;//dialog上面小红点
-    private int type;
+//    private int type;
     private boolean flag;
 
     @Override
@@ -78,6 +80,14 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
         noMsg = (TextView) findViewById(R.id.noMsg);
 //        initData();
 //        datalist=new ArrayList<>();
+        if (CircleNewMessDao.getUser()!=null){
+            NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+            if (newCircleMess.isMess()==false){
+                iv_xnew.setVisibility(View.VISIBLE);
+            }else {
+                iv_xnew.setVisibility(View.GONE);
+            }
+        }
         LayoutHelperUtil.freshInit(lv_cir);
         lv_cir.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -186,8 +196,19 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_more:
-                iv_xnew.setVisibility(View.GONE);
-                showPopupWindow(rl_more,type);
+                if (CircleNewMessDao.getUser()!=null){
+                    NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+                    if (newCircleMess.isMess()==false){
+                        iv_xnew.setVisibility(View.GONE);
+                        newCircleMess.setIsMess(true);
+                        CircleNewMessDao.updateMess(newCircleMess);
+                    }else {
+                        iv_xnew.setVisibility(View.GONE);
+                    }
+                }else {
+                    iv_xnew.setVisibility(View.GONE);
+                }
+                showPopupWindow(rl_more);
                 break;
             case R.id.iv_serch:
                 openActivity(SerchCirAct.class);
@@ -198,14 +219,16 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     /**
      *
      */
-    private void showPopupWindow(View parent,int type) {
+    private void showPopupWindow(View parent) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.popuwindowsquzi_dialog, null);
         iv_dailognew= (TextView) layout.findViewById(R.id.iv_dailognew);
-        if(type==1){
-            iv_dailognew.setVisibility(View.VISIBLE);
-        }else
-        iv_dailognew.setVisibility(View.GONE);
+        if(CircleNewMessDao.getUser()!=null){
+            NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+                iv_dailognew.setVisibility(View.VISIBLE);
+        }else{
+            iv_dailognew.setVisibility(View.GONE);
+        }
 
         // 实例化popupWindow
         final PopupWindow popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
@@ -236,7 +259,13 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
         tv_xx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iv_dailognew.setVisibility(View.GONE);
+                if (CircleNewMessDao.getUser()!=null){
+                    NewCircleMess circleMess = CircleNewMessDao.getUser();
+                    if (circleMess.isMess()==false) {
+                        iv_dailognew.setVisibility(View.GONE);
+                    }
+                    CircleNewMessDao.deleteUser();
+                }
                 popupWindow.dismiss();
                 openActivity(CirMessAct.class);
             }
@@ -278,11 +307,14 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            type=intent.getExtras().getInt("pointGone");
-            if(type==1){
-                iv_xnew.setVisibility(View.INVISIBLE);
+            if(CircleNewMessDao.getUser()!=null){
+                if (CircleNewMessDao.getUser().isMess()==false){
+                    iv_xnew.setVisibility(View.VISIBLE);
+                }else {
+                    iv_xnew.setVisibility(View.GONE);
+                }
             }else {
-
+                iv_xnew.setVisibility(View.GONE);
             }
             Bundle bundle = intent.getExtras();
             if (bundle != null && datas.size() > 0) {

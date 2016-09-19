@@ -25,6 +25,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
+import com.boyuanitsm.zhetengba.bean.NewCircleMess;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
@@ -32,6 +33,7 @@ import com.boyuanitsm.zhetengba.chat.db.UserDao;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
+import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
 import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
@@ -260,7 +262,6 @@ public class MainAct extends BaseActivity {
                     }
                     break;
                 case R.id.rb_cir://点击显示：圈子界面
-                    msg_qunzi.setVisibility(View.GONE);
                     currentTabIndex = 2;
                     circleFrg= (CircleFrg) fragmentManager.findFragmentByTag("circleFrg");
                     if (circleFrg == null) {
@@ -268,6 +269,18 @@ public class MainAct extends BaseActivity {
                         transaction.add(R.id.fl_main, circleFrg,"circleFrg");
                     } else {
                         transaction.show(circleFrg);
+                    }
+                    if (CircleNewMessDao.getUser()!=null){
+                        NewCircleMess circleMess = CircleNewMessDao.getUser();
+                        if (circleMess.isMain()==false){
+                            msg_qunzi.setVisibility(View.GONE);
+                            circleMess.setIsMain(true);
+                            CircleNewMessDao.updateMess(circleMess);
+                        }else if (circleMess.isMain()==true){
+                            msg_qunzi.setVisibility(View.GONE);
+                        }
+                    }else {
+                        msg_qunzi.setVisibility(View.GONE);
                     }
                     break;
                 case R.id.rb_my://点击显示：我的界面
@@ -388,10 +401,19 @@ public class MainAct extends BaseActivity {
                     tipsDrawDialog.show();
                     tipsDrawDialog.setCanceledOnTouchOutside(true);
                 }
-                int type=intent.getExtras().getInt("pointGone");//用来判断圈子消息红点
-                if(type==1){
-                    msg_qunzi.setVisibility(View.VISIBLE);
+                if (CircleNewMessDao.getUser()!=null){
+                    NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+                    if (newCircleMess.isMain()==false){
+                        msg_qunzi.setVisibility(View.VISIBLE);
+                        newCircleMess.setIsMain(true);
+                        CircleNewMessDao.updateMess(newCircleMess);
+                    }else if (newCircleMess.isMain()==true){
+                        msg_qunzi.setVisibility(View.GONE);
+                    }
+                }else {
+                    msg_qunzi.setVisibility(View.GONE);
                 }
+
                  updateUnreadLabel();
                     if (currentTabIndex == 1) {
                         // 当前页面如果为聊天历史页面，刷新此页面
@@ -570,7 +592,18 @@ public class MainAct extends BaseActivity {
             updateUnreadLabel();
 //            updateUnreadAddressLable();
         }
-
+        if (CircleNewMessDao.getUser()!=null){
+            NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+            if (newCircleMess.isMain()==false){
+                msg_qunzi.setVisibility(View.GONE);
+                newCircleMess.setIsMain(true);
+                CircleNewMessDao.updateMess(newCircleMess);
+            }else {
+                msg_qunzi.setVisibility(View.GONE);
+            }
+        }else {
+            msg_qunzi.setVisibility(View.GONE);
+        }
         // unregister this event listener when this activity enters the
         // background
         DemoHelper sdkHelper = DemoHelper.getInstance();
@@ -636,6 +669,7 @@ public class MainAct extends BaseActivity {
                         UserInfoDao.deleteUser();
                         ActivityMessDao.delAll();
                         LabelInterestDao.delAll();
+                        CircleNewMessDao.deleteUser();
                         aCache.clear();
                         dialog.dismiss();
                         conflictBuilder = null;
