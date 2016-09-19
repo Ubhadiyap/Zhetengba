@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,8 +19,9 @@ import com.umeng.analytics.MobclickAgent;
  */
 public abstract class BaseActivity extends FragmentActivity {
     private TextView tv_title;
-    private RelativeLayout rlRight;
+    private RelativeLayout rlRight,rl_title;
     private TextView tvRight;
+    private ImageView iv_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,32 @@ public abstract class BaseActivity extends FragmentActivity {
         if (title != null) {
             tv_title.setText(title);
         }
+    }
+
+    /**
+     * 设置标题栏背景色此项目中只在H5Web中用了下
+     * @param color
+     */
+    public void setLayoutbac(int color){
+        rl_title= (RelativeLayout) findViewById(R.id.rl_title);
+        if(color+""!=null){
+            rl_title.setBackgroundColor(color);
+        }
+
+    }
+
+    /**
+     * 设置后退键样式（这里有在H5Web中用了下）
+     * @param res
+     */
+    public void setLeftRes(int res){
+        iv_back= (ImageView) findViewById(R.id.iv_back);
+        if(res+""!=null){
+            iv_back.setImageResource(res);
+        }else {
+
+        }
+
     }
 
     public void setRight(String rightText,View.OnClickListener onClick){

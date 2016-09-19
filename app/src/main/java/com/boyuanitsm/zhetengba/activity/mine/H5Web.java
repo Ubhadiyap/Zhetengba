@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
@@ -45,7 +46,9 @@ public class H5Web extends BaseActivity {
         topTitle= intent.getStringExtra("topTitle");
         hdUrl=intent.getStringExtra("url");
         if (!TextUtils.isEmpty(topTitle)){
-            setTopTitle(topTitle);
+//            setTopTitle(topTitle);
+            setLayoutbac(Color.parseColor("#00000000"));
+            setLeftRes(R.mipmap.black_back);
         }
         if(!TextUtils.isEmpty(hdUrl)){
             initWebViewSettings();
@@ -122,7 +125,7 @@ public class H5Web extends BaseActivity {
             StringBuilder sbCookie = new StringBuilder();
 //            sbCookie.append(String.format("JSESSIONID=%s",cookieSplit(cookies)));
             sbCookie.append(String.format("JSESSIONID=%s",cookieSplit(cookies)));
-            sbCookie.append(String.format(";Domain=%s","139.196.234.89"));//180.76.149.156
+//            sbCookie.append(String.format(";Domain=%s","139.196.234.89"));//180.76.149.156
             sbCookie.append(String.format(";Path=%s","/zhetengba/"));
 //            sbCookie.append(String.format(";HttpOnly"));
 
