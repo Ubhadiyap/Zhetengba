@@ -15,8 +15,11 @@ import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
+import com.boyuanitsm.zhetengba.bean.NewCircleMess;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.CircleMessDao;
+import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
@@ -64,31 +67,21 @@ public class MyReceiver extends BroadcastReceiver {
 //                    String comment=json.getString("commentTalk");
 //                    Log.d(TAG, "json.getString(\"commentContent\"); 接收到推送下来的commentContent的内容: " + comment);
 					if (TextUtils.equals(type,"2")){
-                        MyLogUtils.info("hahahahaha");
+                        if (CircleNewMessDao.getUser()!=null){
+                            CircleNewMessDao.deleteUser();
+                        }
+                        NewCircleMess newCircleMess=new NewCircleMess();
+                        newCircleMess.setId(UserInfoDao.getUser().getId());
+                        newCircleMess.setIsMain(false);//false表示未读
+                        newCircleMess.setIsCircle(false);
+                        newCircleMess.setIsMess(false);
+                        CircleNewMessDao.saveUser(newCircleMess);
                         broadcastManager=  LocalBroadcastManager.getInstance(context);
                         Intent intentPointGone=new Intent(context, MainAct.class);
                         intentPointGone.setAction(Constant.ACTION_CONTACT_CHANAGED);
-                        Bundle bundlePointGone=new Bundle();
-                        bundlePointGone.putInt("pointGone",1);
-                        intentPointGone.putExtras(bundlePointGone);
                         broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
-
-                        Intent intentPointGone1=new Intent(CircleFrg.UPDATE);
-//                        intentPointGone1.setAction(CircleFrg.UPDATE);
-//                        Bundle bundlePointGone1=new Bundle();
-//                        bundlePointGone1.putInt("pointGone",1);
-//                        intentPointGone1.putExtras(bundlePointGone1);
-                        broadcastManager.sendBroadcast(intentPointGone1);//发广播到圈子frg红点显示
-
-
-                        Intent intentPointGone2=new Intent(context, CircleAct.class);
-                        intentPointGone2.setAction(CircleAct.ALLTALKS);
-                        Bundle bundlePointGone2=new Bundle();
-                        bundlePointGone2.putInt("pointGone",1);
-                        intentPointGone2.putExtras(bundlePointGone2);
-                        broadcastManager.sendBroadcast(intentPointGone2);//发广播到圈子frg红点显示
-
-
+                        context.sendBroadcast(new Intent(CircleFrg.UPDATE));//发广播到圈子frg红点显示
+                        context.sendBroadcast(new Intent(CircleAct.ALLTALKS));
                         Gson gson = new Gson();
                         flag=2+"";
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象

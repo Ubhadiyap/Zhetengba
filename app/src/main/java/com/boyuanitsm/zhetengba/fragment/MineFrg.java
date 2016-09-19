@@ -97,6 +97,7 @@ public class MineFrg extends BaseFragment{
     private int mMouthMargin;//设置月份间隙
     private List<String> timeList=new ArrayList<>();//存储时间
     private int cjOn=0;
+    private boolean flag;
     private List<ActivityDetail> actvityList=new ArrayList<>();
     private HdAdapter adapter;
     // 图片缓存 默认 等
@@ -143,10 +144,10 @@ public class MineFrg extends BaseFragment{
         }
         MyLogUtils.info(UserInfoDao.getUser().getIcon() + "图片地址");
         getlable();//获得兴趣标签；
-        getActivityMannger(0);
+        getActivityMannger();
     }
 
-    private void getActivityMannger(final int cusPos) {
+    private void getActivityMannger() {
         RequestManager.getMessManager().getActivity(new ResultCallback<ResultBean<List<ActivityDetail>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -173,14 +174,16 @@ public class MineFrg extends BaseFragment{
                         cj.setVisibility(View.VISIBLE);
                         hd.setArrowGone();
                         hd_arrow.setVisibility(View.VISIBLE);
+                        flag=true;
                         cjOn=0;
-                    }else{
+                    }else if (cjOn==0){
                         cj.setVisibility(View.GONE);
                         hd.setArrowVisible();
                         hd_arrow.setVisibility(View.GONE);
+                        flag=false;
                         cjOn=1;
                     }
-                }else if (cusPos==0){
+                }else{
                     rl_hd.setVisibility(View.GONE);
                     vi_li.setVisibility(View.GONE);
                 }
@@ -253,7 +256,7 @@ public class MineFrg extends BaseFragment{
                 break;
             case R.id.hd:
                 hd.setEnabled(false);
-                getActivityMannger(1);
+                getActivityMannger();
                 break;
             case R.id.qb://钱包
                 openActivity(WalletAct.class);
@@ -283,19 +286,72 @@ public class MineFrg extends BaseFragment{
                 }
             }
             getlable();//当修改兴趣标界面修改（添加，删除）签获得兴趣标签；
+//            int cjPos = intent.getIntExtra("cjPos", cjOn);
+//            cjOn=cjPos;
+            getActivityMannger2();
         }
     }
 
+    private void getActivityMannger2() {
+        RequestManager.getMessManager().getActivity(new ResultCallback<ResultBean<List<ActivityDetail>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                hd.setEnabled(true);
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<ActivityDetail>> response) {
+                if (actvityList!=null&&actvityList.size()>0){
+                    actvityList.clear();
+                }
+                actvityList=response.getData();
+                if (actvityList!=null&&actvityList.size()>0){
+                    rl_hd.setVisibility(View.VISIBLE);
+                    vi_li.setVisibility(View.VISIBLE);
+                    hd.setEnabled(true);
+                    if (adapter==null){
+                        adapter=new HdAdapter(mActivity,actvityList);
+                        lv_hd.setAdapter(adapter);
+                    }else {
+                        adapter.update(actvityList);
+                    }
+                    if (flag){
+                        cj.setVisibility(View.VISIBLE);
+                        hd.setArrowGone();
+                        hd_arrow.setVisibility(View.VISIBLE);
+                        flag=true;
+                        cjOn=0;
+                    }else{
+                        cj.setVisibility(View.GONE);
+                        hd.setArrowVisible();
+                        hd_arrow.setVisibility(View.GONE);
+                        flag=false;
+                        cjOn=1;
+                    }
+                }else{
+                    rl_hd.setVisibility(View.GONE);
+                    vi_li.setVisibility(View.GONE);
+                }
+                hd.setEnabled(true);
+            }
+        });
+    }
 
 
     @Override
     public void onStart() {
         super.onStart();
-        getActivityMannger(0);
+        MyLogUtils.info("onStart=====");
         if (myReceiver==null) {
             myReceiver = new MyReceiver();
             getActivity().registerReceiver(myReceiver, new IntentFilter(USER_INFO));
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyLogUtils.info("onResume=====");
     }
 
     @Override

@@ -210,7 +210,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         if (!TextUtils.isEmpty(et_theme.getText().toString())) {
             simpleInfo.setActivityTheme(et_theme.getText().toString());
         } else {
-            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            MyToastUtils.showShortToast(ContractedAct.this, "您有会友信息未完善，请完善！");
             return;
         }
         if (!TextUtils.isEmpty(tv_select.getText().toString())) {
@@ -224,12 +224,12 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                 simpleInfo.setInviteNumber(Integer.parseInt(et_pp_num.getText().toString()));
             }
         } else {
-            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            MyToastUtils.showShortToast(ContractedAct.this, "您有会友信息未完善，请完善！");
             return;
         }
 
         if (TextUtils.isEmpty(simpleInfo.getLabelId())) {
-            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            MyToastUtils.showShortToast(ContractedAct.this, "您有会友信息未完善，请完善！");
             return;
         }
         if (!TextUtils.isEmpty(et_start.getText()) && !TextUtils.isEmpty(et_end.getText())) {
@@ -247,7 +247,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                 return;
             }
         } else {
-            MyToastUtils.showShortToast(ContractedAct.this, "您有活动信息未完善，请完善！");
+            MyToastUtils.showShortToast(ContractedAct.this, "您有会友信息未完善，请完善！");
             return;
         }
         simpleInfo.setActivityVisibility(select);//全部可见
@@ -461,7 +461,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(TimeHistoryAct.USER_INFO));
                 sendBroadcast(new Intent(TimeFrg.LISTORY_DATA));
-                MyToastUtils.showShortToast(ContractedAct.this, "发布活动成功");
+                MyToastUtils.showShortToast(ContractedAct.this, "发布会友成功");
                 finish();
 
             }

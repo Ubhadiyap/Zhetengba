@@ -40,33 +40,6 @@ public class ShUtils {
 		}
 		return dbOpenHelp;
 	}
-//	public static SmartDBHelper getLabelDbhelper(){
-//		if(labelDbHelper==null){
-//			labelDbHelper=new SmartDBHelper(getApplicationContext(),
-//					ConstantValue.LABEL_DB_NAME,null,ConstantValue.LABEL_VERSION,ConstantValue.LABEL_MODELS);
-//		}
-//		return labelDbHelper;
-//	}
-//	public static DBOpenHelp getLabelDbOpenHelp(){
-//		if (labelDbOpenHelp==null){
-//			labelDbOpenHelp=new DBOpenHelp(getApplicationContext());
-//		}
-//		return labelDbOpenHelp;
-//	}
-//	public static SmartDBHelper getCircleDbhelper(){
-//		if(circleDbHelper==null){
-//			circleDbHelper=new SmartDBHelper(getApplicationContext(),
-//					ConstantValue.CIRCLE_DB_NAME,null,ConstantValue.CIRCLE_VERSION,ConstantValue.CIRCLE_MODELS);
-//		}
-//		return circleDbHelper;
-//	}
-//	public static DBOpenHelp getCircleDbOpenHelper(){
-//		if (circleDbOpenHelper==null){
-//			circleDbOpenHelper=new DBOpenHelp(getApplicationContext());
-//		}
-//		return circleDbOpenHelper;
-//	}
-	
 	public static MyApplication getApplication(){
 		return MyApplication.getInstance();
 	}

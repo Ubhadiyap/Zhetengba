@@ -141,7 +141,6 @@ public class ActAdapter extends BaseAdapter {
         }
 
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
-        MyLogUtils.info(UserInfoDao.getUser().getId() + "数据库用户信息," + infos.get(position).getCreatePersonId() + "创建人信息");
         if (!infos.get(position).getCreatePersonId().equals(UserInfoDao.getUser().getId())) {
             viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
             viewHolder.ll_join.setVisibility(View.VISIBLE);
@@ -468,7 +467,7 @@ public class ActAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(context, "删除活动成功！");
+                MyToastUtils.showShortToast(context, "删除会友成功！");
                 infos.remove(position);
                 notifyDataSetChanged();
 //                Intent intent=new Intent(context,MainAct.class);
@@ -577,6 +576,4 @@ public class ActAdapter extends BaseAdapter {
         public LinearLayout ll_del, ll_simple_share;
         public TextView tv_cj,tv_tt;//自己发布后参加人数和总的人数
     }
-
-
 }

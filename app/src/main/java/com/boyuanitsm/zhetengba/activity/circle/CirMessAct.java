@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.CircleMessDao;
+import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -102,7 +103,7 @@ public class CirMessAct extends BaseActivity {
                     case 0:
                         if (!TextUtils.isEmpty(list.get(position).getMsgType())) {
                             datas = CircleMessDao.getCircleUser();
-                            if (datas!=null&&datas.size()>0){
+                            if (datas != null && datas.size() > 0) {
                                 for (int i = 0; i < datas.size(); i++) {
                                     //删除之前，判断，是否在数据库，如果在，则从数据库中删除，并调删除接口。
                                     if (TextUtils.equals(datas.get(i).getId(), list.get(position).getId())) {
@@ -125,7 +126,9 @@ public class CirMessAct extends BaseActivity {
         });
         lv_cir_mess.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
         lv_cir_mess.smoothOpenMenu(0);
-
+        if (CircleNewMessDao.getUser()!=null){
+            CircleNewMessDao.deleteUser();
+        }
     }
 
     /**

@@ -193,7 +193,6 @@ public class LoginAct extends BaseActivity {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "login: onSuccess");
-
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
                 EMClient.getInstance().groupManager().loadAllGroups();

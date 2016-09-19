@@ -285,7 +285,7 @@ public class SimpleFrg extends BaseFragment {
         for (int i = 0; i < 3; i++) {
             View view = new View(mActivity);
             paramsL.setMargins(ZhetebaUtils.dip2px(mActivity, 5), 0, 0, 0);
-            view.setLayoutParams(paramsL);
+            view.setLayoutParams(paramsL);//*
             if (i == 0) {
                 view.setBackgroundResource(R.drawable.point_focus);
             } else {

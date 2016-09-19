@@ -10,24 +10,14 @@ public interface IZtbUrl {
     //基础地址
     //外网，h5web，更换domain地址
 //    public static final String BASE_URL = "http://hseb.net.cn/zhetengba/";
-//    public static final String BASE_URL="http://180.76.149.156:8033/zhetengba/";
-//        public static final String BASE_URL="http://hseb.net.cn/zhetengba/";
-
+  public static final String BASE_URL="http://180.76.149.156:8033/zhetengba/";
 
 
     //开发
-
-    public static final String BASE_URL = "http://192.168.1.253:8089/zhetengba/";
-
 //    public static final String BASE_URL = "http://192.168.1.253:8089/zhetengba/";
 
 //    public static final String BASE_URL = "http://180.76.149.156:8060/zhetengba/";
-//    public static final String BASE_URL = "http://192.168.1.163:8080/zhetengba/";
 
-//    public static final String BASE_URL = "http://172.16.6.146:8080/zhetengba/";
-//    public static final String BASE_URL = "http://172.16.6.196:8080/zhetengba/";
-    //测试
-//     public static final String BASE_URL = "http://172.16.6.235:8080/zhetengba/";
     /**
      * =========完善信息接口==========
      **/
