@@ -201,6 +201,8 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     if (newCircleMess.isMess()==false){
                         iv_xnew.setVisibility(View.GONE);
                         newCircleMess.setIsMess(true);
+                        newCircleMess.setIsMain(true);
+                        newCircleMess.setIsCircle(true);
                         CircleNewMessDao.updateMess(newCircleMess);
                     }else {
                         iv_xnew.setVisibility(View.GONE);

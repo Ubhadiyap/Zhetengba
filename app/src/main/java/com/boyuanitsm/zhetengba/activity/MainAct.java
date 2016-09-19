@@ -405,8 +405,8 @@ public class MainAct extends BaseActivity {
                     NewCircleMess newCircleMess = CircleNewMessDao.getUser();
                     if (newCircleMess.isMain()==false){
                         msg_qunzi.setVisibility(View.VISIBLE);
-                        newCircleMess.setIsMain(true);
-                        CircleNewMessDao.updateMess(newCircleMess);
+//                        newCircleMess.setIsMain(true);
+//                        CircleNewMessDao.updateMess(newCircleMess);
                     }else if (newCircleMess.isMain()==true){
                         msg_qunzi.setVisibility(View.GONE);
                     }
@@ -595,10 +595,10 @@ public class MainAct extends BaseActivity {
         if (CircleNewMessDao.getUser()!=null){
             NewCircleMess newCircleMess = CircleNewMessDao.getUser();
             if (newCircleMess.isMain()==false){
-                msg_qunzi.setVisibility(View.GONE);
-                newCircleMess.setIsMain(true);
-                CircleNewMessDao.updateMess(newCircleMess);
-            }else {
+                msg_qunzi.setVisibility(View.VISIBLE);
+//                newCircleMess.setIsMain(true);
+//                CircleNewMessDao.updateMess(newCircleMess);
+            }else if (newCircleMess.isMain()==true){
                 msg_qunzi.setVisibility(View.GONE);
             }
         }else {

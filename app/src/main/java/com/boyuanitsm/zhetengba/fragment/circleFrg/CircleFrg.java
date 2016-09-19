@@ -93,6 +93,7 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
                     if (circleMess.isCircle()==false){
                         iv_new2.setVisibility(View.GONE);
                         circleMess.setIsCircle(true);
+                        circleMess.setIsMain(true);
                         CircleNewMessDao.updateMess(circleMess);
                     }
                 }
@@ -128,6 +129,16 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
     @Override
     public void onStart() {
         super.onStart();
+        if (CircleNewMessDao.getUser()!=null){
+            NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+            if (newCircleMess.isCircle()==false){
+                iv_new2.setVisibility(View.VISIBLE);
+            }else {
+                iv_new2.setVisibility(View.GONE);
+            }
+        }else {
+            iv_new2.setVisibility(View.GONE);
+        }
         if (receiver==null) {
             receiver = new UpdateBroadCastReceiver();
             mActivity.registerReceiver(receiver, new IntentFilter(UPDATE));
