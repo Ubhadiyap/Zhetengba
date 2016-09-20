@@ -1,36 +1,30 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 
+import com.boyuanitsm.zhetengba.IsShow;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
 import com.boyuanitsm.zhetengba.adapter.CircleMessAdatper;
-import com.boyuanitsm.zhetengba.adapter.DqMesAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
-import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
-import com.boyuanitsm.zhetengba.bean.CircleMessInfo;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
-import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.CircleMessDao;
 import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
-import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenu;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuCreator;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuItem;
@@ -57,6 +51,8 @@ public class CirMessAct extends BaseActivity {
     private int page=-1;
     private int rows=-1;
     private ProgressDialog progressDialog;
+
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_mess);
@@ -211,6 +207,37 @@ public class CirMessAct extends BaseActivity {
             CircleInfo user1 = (CircleInfo) arg1;
             int flag = user1.getCreateTime().compareTo(user0.getCreateTime());//升序直接将user0,user1互换
             return flag;
+        }
+    }
+
+    private MyBroadCastReceiver receiver;
+    public static final String REDGONG = "receiver_myreceiver";
+    private class MyBroadCastReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getDqMess(type, page, rows);
+            CircleMessDao.dellAll();
+
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IsShow.setA("2");//是一个全局的变量在receiver中会用到来做判断
+        if(receiver==null){
+            receiver=new MyBroadCastReceiver();
+            registerReceiver(receiver,new IntentFilter(REDGONG));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        IsShow.setA("1");
+        if(receiver!=null){
+            unregisterReceiver(receiver);
+            receiver=null;
         }
     }
 }
