@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
@@ -34,18 +35,18 @@ public class Simple_TextAdapter extends BaseAdapter {
         this.labelId=labelId;
         notifyDataSetChanged();
     }
-    /**
-     * itemClick接口回调
-     */
-    public interface CheckedChangeListener {
-        void CheckedChangeListener(View view, int position,boolean flag);
-    }
-
-    private CheckedChangeListener mOnItemClickListener;
-
-    public void setOnItemClickListener(CheckedChangeListener mOnItemClickListener) {
-        this.mOnItemClickListener = mOnItemClickListener;
-    }
+//    /**
+//     * itemClick接口回调
+//     */
+//    public interface CheckedChangeListener {
+//        void CheckedChangeListener(View view, int position,boolean flag);
+//    }
+//
+//    private CheckedChangeListener mOnItemClickListener;
+//
+//    public void setOnItemClickListener(CheckedChangeListener mOnItemClickListener) {
+//        this.mOnItemClickListener = mOnItemClickListener;
+//    }
     @Override
     public int getCount() {
         return list==null?0:list.size();
@@ -69,30 +70,30 @@ public class Simple_TextAdapter extends BaseAdapter {
         }else {
             convertView = View.inflate(context, R.layout.item_text, null);
             holder=new Holder();
-            holder.rb_item= (RadioButton) convertView.findViewById(R.id.rb_item);
+            holder.rb_item= (TextView) convertView.findViewById(R.id.rb_item);
             convertView.setTag(holder);
         }
         holder.rb_item.setText(list.get(position).getLabelName());
         if (TextUtils.equals(list.get(position).getId(), labelId)){
-            holder.rb_item.setChecked(true);
+            holder.rb_item.setBackgroundResource(R.color.bg_simple);
         }else {
-            holder.rb_item.setChecked(false);
+            holder.rb_item.setBackgroundResource(R.color.white);
         }
 
-        if (mOnItemClickListener!=null){
-            holder.rb_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        mOnItemClickListener.CheckedChangeListener(holder.rb_item,position,isChecked);
-                }
-            });
-        }
+//        if (mOnItemClickListener!=null){
+//            holder.rb_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                        mOnItemClickListener.CheckedChangeListener(holder.rb_item,position,isChecked);
+//                }
+//            });
+//        }
         return convertView;
     }
 
 
 
     class Holder{
-        private RadioButton rb_item;
+        private TextView rb_item;
     }
 }

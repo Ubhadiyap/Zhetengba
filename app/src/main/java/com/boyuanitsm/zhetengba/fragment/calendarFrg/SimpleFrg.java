@@ -621,40 +621,24 @@ public class SimpleFrg extends BaseFragment {
         if (labellist != null && labellist.size() > 0) {
             simple_textAdapter = new Simple_TextAdapter(mActivity, labellist, labelIds);
             lv_sx.setAdapter(simple_textAdapter);
-            simple_textAdapter.setOnItemClickListener(new Simple_TextAdapter.CheckedChangeListener() {
+            lv_sx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void CheckedChangeListener(View view, int position, boolean flag) {
-                    if (flag){
-                        labelIds = labellist.get(position).getId();
-                        cb_bq.setText(labellist.get(position).getLabelName());
-                        cb_bq2.setText(labellist.get(position).getLabelName());
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    labelIds = labellist.get(position).getId();
+                        if (TextUtils.equals(labellist.get(position).getLabelName(),"全部")){
+                            cb_bq.setText("标签");
+                            cb_bq2.setText("标签");
+                        }else {
+                            cb_bq.setText(labellist.get(position).getLabelName());
+                            cb_bq2.setText(labellist.get(position).getLabelName());
+                        }
                         page = 1;
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         mPopupWindow.dismiss();
-                    }
                 }
             });
         }
 
-//        lv_sx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-//                RadioButton rb_item = (RadioButton) view.findViewById(R.id.rb_item);
-//                rb_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                        if (isChecked) {
-//                            labelIds = labellist.get(position).getLabelId();
-//                            cb_bq.setText(labellist.get(position).getLabelName());
-//                            cb_bq2.setText(labellist.get(position).getLabelName());
-//                            getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
-//                            mPopupWindow.dismiss();
-//                        }
-//                    }
-//                });
-//
-//            }
-//        });
         LinearLayout ll_dimis = (LinearLayout) v.findViewById(R.id.ll_dimis);
         ll_dimis.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -669,7 +653,7 @@ public class SimpleFrg extends BaseFragment {
         } else if (TextUtils.equals(cb_all2.getText(), "我的")) {
             rb_my.setChecked(true);
         }
-        if (TextUtils.equals(cb_sj2.getText(), "全部")) {
+        if (TextUtils.equals(cb_sj2.getText(), "时间")) {
             sj_all.setChecked(true);
         } else if (TextUtils.equals(cb_sj2.getText(), "一天内")) {
             rb_one.setChecked(true);
@@ -728,8 +712,8 @@ public class SimpleFrg extends BaseFragment {
                         rb_three.setChecked(false);
                         rb_week.setChecked(false);
                         rb_month.setChecked(false);
-                        cb_sj.setText("全部");
-                        cb_sj2.setText("全部");
+                        cb_sj.setText("时间");
+                        cb_sj2.setText("时间");
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         mPopupWindow.dismiss();
                         break;
@@ -828,7 +812,7 @@ public class SimpleFrg extends BaseFragment {
                     labellist.clear();
                 }
                 labellist = response.getData();
-                labellist.add(0,activityLabel);
+                labellist.add(0, activityLabel);
                 if (type == 0) {
                     cusPos = 1;
                     selectPop(cusPos);

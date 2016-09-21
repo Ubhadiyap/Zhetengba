@@ -3,14 +3,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <RadioButton
+    <TextView
         android:paddingLeft="15dp"
         android:gravity="center_vertical"
         android:button="@null"
         android:textColor="#666666"
-        android:background="@drawable/simple_bg_color"
+        android:background="@color/white"
         android:textSize="14sp"
-        android:checked="false"
         android:id="@+id/rb_item"
         android:layout_width="match_parent"
         android:layout_height="41dp" />

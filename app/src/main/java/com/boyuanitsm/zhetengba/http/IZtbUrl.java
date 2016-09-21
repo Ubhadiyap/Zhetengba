@@ -14,9 +14,9 @@ public interface IZtbUrl {
 
 
     //开发
-    public static final String BASE_URL = "http://192.168.1.253:8089/zhetengba/";
+//    public static final String BASE_URL = "http://192.168.1.253:8089/zhetengba/";
 
-//    public static final String BASE_URL = "http://180.76.149.156:8060/zhetengba/";
+    public static final String BASE_URL = "http://180.76.149.156:8060/zhetengba/";
 
     /**
      * =========完善信息接口==========

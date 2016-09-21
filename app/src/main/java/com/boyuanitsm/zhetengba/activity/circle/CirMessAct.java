@@ -3,10 +3,7 @@ package com.boyuanitsm.zhetengba.activity.circle;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-<<<<<<< HEAD
 import android.content.DialogInterface;
-=======
->>>>>>> 37bbc049cf59bd1a6a1e3b3bb77ebd9d232d417c
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;

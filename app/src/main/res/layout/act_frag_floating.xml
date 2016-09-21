@@ -36,8 +36,11 @@
                 android:textColor="@drawable/simple_text_color"
                 android:drawableRight="@drawable/simple_text_change"
                 android:drawablePadding="5dp"
-                android:paddingRight="45dp"
                 android:checked="false"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
         </LinearLayout>
@@ -59,6 +62,10 @@
                 android:checked="false"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_all_friend"
@@ -76,6 +83,10 @@
                 android:drawablePadding="5dp"
                 android:paddingRight="45dp"
                 android:checked="false"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
         </LinearLayout>
