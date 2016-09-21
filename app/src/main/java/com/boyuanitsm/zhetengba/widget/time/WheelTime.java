@@ -8,6 +8,7 @@ import com.boyuanitsm.zhetengba.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -77,6 +78,12 @@ public class WheelTime {
 		final List<String> list_big = Arrays.asList(months_big);
 		final List<String> list_little = Arrays.asList(months_little);
 
+		ArrayList<Integer>list=new ArrayList<Integer>();
+		list.add(0);
+		list.add(15);
+		list.add(30);
+		list.add(45);
+
 		Context context = view.getContext();
 		// 年
 		wv_year = (WheelView) view.findViewById(R.id.year);
@@ -113,9 +120,21 @@ public class WheelTime {
 		wv_hours.setCurrentItem(h);
 		
 		wv_mins = (WheelView)view.findViewById(R.id.min);
-		wv_mins.setAdapter(new NumericWheelAdapter(0, 59));
+//		wv_mins.setAdapter(new NumericWheelAdapter(0, 59));
+		wv_mins.setAdapter(new ArrayWheelAdapter<>(list));
 		wv_mins.setLabel("分");// 添加文字
-		wv_mins.setCurrentItem(m);
+		if(m==0){
+			wv_mins.setCurrentItem(0);
+		}
+		if(m>0&&m<=15){
+			wv_mins.setCurrentItem(1);
+		}
+		if(m>15&&m<=30){
+			wv_mins.setCurrentItem(2);
+		}
+		if(m>30&&m<=45){
+			wv_mins.setCurrentItem(3);
+		}
 		
 		// 添加"年"监听
 		OnWheelChangedListener wheelListener_year = new OnWheelChangedListener() {
@@ -187,7 +206,7 @@ public class WheelTime {
 		switch(type){
 			case ALL:
 				textSize = (screenheight / 100) * 3;
-				wv_mins.setVisibility(View.GONE);//这里不要分所以隐藏掉是我自己改的
+//				wv_mins.setVisibility(View.GONE);//这里不要分所以隐藏掉是我自己改的
 				break;
 			case YEAR_MONTH_DAY:
 				textSize = (screenheight / 100) * 3;
@@ -229,8 +248,19 @@ public class WheelTime {
 			sb.append((wv_year.getCurrentItem() + START_YEAR)).append("-")
 			.append((wv_month.getCurrentItem() + 1)).append("-")
 			.append((wv_day.getCurrentItem() + 1)).append(" ")
-			.append(wv_hours.getCurrentItem()).append(":")
-			.append(wv_mins.getCurrentItem());
+			.append(wv_hours.getCurrentItem()).append(":");
+		if(wv_mins.getCurrentItem()==0){
+			sb.append(wv_mins.getCurrentItem());
+		}
+		if(wv_mins.getCurrentItem()==1){
+			sb.append(wv_mins.getCurrentItem()+14);
+		}
+		if(wv_mins.getCurrentItem()==2){
+			sb.append(wv_mins.getCurrentItem()+28);
+		}
+		if(wv_mins.getCurrentItem()==3){
+			sb.append(wv_mins.getCurrentItem()+42);
+		}
 		return sb.toString();
 	}
 }
