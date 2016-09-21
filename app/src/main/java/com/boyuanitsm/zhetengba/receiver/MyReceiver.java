@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.boyuanitsm.zhetengba.Constant;
+import com.boyuanitsm.zhetengba.IsShow;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
@@ -22,7 +23,6 @@ import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -43,6 +43,7 @@ public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
     private LocalBroadcastManager broadcastManager;
     private String flag;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
@@ -58,81 +59,85 @@ public class MyReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
-			String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
-			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的内容: " + extra);
-				try {
-					JSONObject json = new JSONObject(extra);
-				    String	type = json.getString("type");//解析单个
+            Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+            String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的内容: " + extra);
+            try {
+                JSONObject json = new JSONObject(extra);
+                String type = json.getString("type");//解析单个
 //                    String comment=json.getString("commentTalk");
 //                    Log.d(TAG, "json.getString(\"commentContent\"); 接收到推送下来的commentContent的内容: " + comment);
-					if (TextUtils.equals(type,"2")){
-                        if (CircleNewMessDao.getUser()!=null){
+                if (TextUtils.equals(type, "2")) {
+                    if (IsShow.getA().equals("2")) {//表示在cirmessAct中
+                        context.sendBroadcast(new Intent(CirMessAct.REDGONG));
+                    } else {
+
+                        if (CircleNewMessDao.getUser() != null) {
                             CircleNewMessDao.deleteUser();
                         }
-                        NewCircleMess newCircleMess=new NewCircleMess();
-                        if (UserInfoDao.getUser()!=null){
-                            newCircleMess.setId(UserInfoDao.getUser().getId());
-                        }
+                        NewCircleMess newCircleMess = new NewCircleMess();
+                        newCircleMess.setId(UserInfoDao.getUser().getId());
                         newCircleMess.setIsMain(false);//false表示未读
                         newCircleMess.setIsCircle(false);
                         newCircleMess.setIsMess(false);
                         CircleNewMessDao.saveUser(newCircleMess);
-                        broadcastManager=  LocalBroadcastManager.getInstance(context);
-                        Intent intentPointGone=new Intent(context, MainAct.class);
+
+                        broadcastManager = LocalBroadcastManager.getInstance(context);
+                        Intent intentPointGone = new Intent(context, MainAct.class);
                         intentPointGone.setAction(Constant.ACTION_CONTACT_CHANAGED);
                         broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
                         context.sendBroadcast(new Intent(CircleFrg.UPDATE));//发广播到圈子frg红点显示
                         context.sendBroadcast(new Intent(CircleAct.ALLTALKS));
-//                        context.sendBroadcast(new Intent(CirMessAct.MESSUP));
-                        Gson gson = new Gson();
-                        flag=2+"";
-						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象
-                        if (!TextUtils.isEmpty(circleInfo.getType())){
-                            if (TextUtils.equals(circleInfo.getType(),2+"")){
-                                if (!TextUtils.isEmpty(circleInfo.getMesstype())){
-                                    if (TextUtils.equals(circleInfo.getMesstype(),1+"")){
-                                        return;
-                                    }
-                                }
-                            }
-                        }
-                        circleInfo.setIsAgree(0);
-						CircleMessDao.saveCircleMess(circleInfo);
+                    }
 
-                    }else{
-                        Gson gson=new Gson();
-                        ActivityMess activityMess=gson.fromJson(json.toString(),ActivityMess.class);
-                        activityMess.setIsAgree(0);
-                        if (!TextUtils.isEmpty(activityMess.getType())){
-                            if (TextUtils.equals(activityMess.getType(),1+"")){
-                                if (!TextUtils.isEmpty(activityMess.getMesstype())){
-                                    if (TextUtils.equals(activityMess.getMesstype(),1+"")){
-                                        return;
-                                    }
+                    Gson gson = new Gson();
+                    flag = 2 + "";
+                    CircleInfo circleInfo = gson.fromJson(json.toString(), CircleInfo.class);//解析成对象
+                    if (!TextUtils.isEmpty(circleInfo.getType())) {
+                        if (TextUtils.equals(circleInfo.getType(), 2 + "")) {
+                            if (!TextUtils.isEmpty(circleInfo.getMesstype())) {
+                                if (TextUtils.equals(circleInfo.getMesstype(), 1 + "")) {
+                                    return;
                                 }
                             }
                         }
-                        ActivityMessDao.saveCircleMess(activityMess);
+                    }
+                    circleInfo.setIsAgree(0);
+                    CircleMessDao.saveCircleMess(circleInfo);
+
+                } else {
+                    Gson gson = new Gson();
+                    ActivityMess activityMess = gson.fromJson(json.toString(), ActivityMess.class);
+                    activityMess.setIsAgree(0);
+                    if (!TextUtils.isEmpty(activityMess.getType())) {
+                        if (TextUtils.equals(activityMess.getType(), 1 + "")) {
+                            if (!TextUtils.isEmpty(activityMess.getMesstype())) {
+                                if (TextUtils.equals(activityMess.getMesstype(), 1 + "")) {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    ActivityMessDao.saveCircleMess(activityMess);
 //                        Intent intent1=new Intent(context,MainAct.class);
 //                        intent1.putExtra("main_receiver",3);
 //                        context.sendBroadcast(intent1);
-                        Intent intent2=new Intent(MessFrg.UPDATE_CONTRACT);
-                        intent2.putExtra("chat_receiver",3);//3表示有档期消息进入
-                        context.sendBroadcast(intent2);
-                    }
-				} catch (JSONException e) {
-                    e.printStackTrace();
-			}
+                    Intent intent2 = new Intent(MessFrg.UPDATE_CONTRACT);
+                    intent2.putExtra("chat_receiver", 3);//3表示有档期消息进入
+                    context.sendBroadcast(intent2);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
             try {
                 JSONObject json = new JSONObject(extra);
-                String	type = json.getString("type");//解析单个
-                Intent i=new Intent();
-                if (TextUtils.equals(type,"2")){
+                String type = json.getString("type");//解析单个
+                Intent i = new Intent();
+                if (TextUtils.equals(type, "2")) {
                     i.setClass(context, CirMessAct.class);
 //                    Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
 //                    Bundle bundlePointGone=new Bundle();
@@ -141,7 +146,7 @@ public class MyReceiver extends BroadcastReceiver {
 //                    context.sendBroadcastintentPointGone);
 
 
-                }else {
+                } else {
                     i.setClass(context, DqMesAct.class);
 //                    Intent intentPoint=new Intent(MessFrg.UPDATE_CONTRACT);
 //                    intentPoint.putExtra("update_focus","point_remove");
@@ -150,7 +155,7 @@ public class MyReceiver extends BroadcastReceiver {
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(i);
                 JPushInterface.clearAllNotifications(context);
-            }catch (JSONException e){
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 //            //打开自定义的Activity

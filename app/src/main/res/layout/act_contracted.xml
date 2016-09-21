@@ -4,17 +4,17 @@
     android:id="@+id/ll_hide"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
     android:background="@color/bg_color"
+    android:clickable="true"
     android:orientation="vertical">
 
     <include layout="@layout/title_act_layout"></include>
 
     <ScrollView
-        android:fillViewport="true"
-        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <LinearLayout
@@ -26,18 +26,17 @@
                 android:id="@+id/ll_hide_key"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingBottom="15dp">
 
                 <LinearLayout
                     style="@style/simple_linear"
-                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
-                    android:paddingLeft="0dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/bg_circle_stroke_gray"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="0dp">
 
                     <TextView
                         android:layout_width="15dp"
@@ -61,19 +60,20 @@
 
                 <LinearLayout
                     style="@style/simple_linear"
-                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
-                    android:paddingLeft="0dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/bg_circle_stroke_gray"
-                    android:orientation="horizontal">
-                        <com.boyuanitsm.zhetengba.view.CanotEmojEditText
-                            android:paddingLeft="15dp"
-                            android:id="@+id/tv_select"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:singleLine="true"
-                            android:textSize="12sp" />
+                    android:orientation="horizontal"
+                    android:paddingLeft="0dp">
+
+                    <com.boyuanitsm.zhetengba.view.CanotEmojEditText
+                        android:id="@+id/tv_select"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:paddingLeft="15dp"
+                        android:singleLine="true"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -221,8 +221,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:maxLength="3"
                             android:gravity="center"
+                            android:maxLength="3"
                             android:numeric="integer"
                             android:singleLine="true"
                             android:textColor="#52c791"
@@ -253,8 +253,7 @@
                     android:id="@+id/ll_tab"
                     android:layout_width="match_parent"
                     android:layout_height="41dp"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="15dp"
@@ -297,8 +296,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="10dp"
-                    android:paddingBottom="10dp"
                     android:orientation="vertical"
+                    android:paddingBottom="10dp"
                     android:visibility="gone">
 
                     <com.boyuanitsm.zhetengba.view.MyGridView
@@ -358,80 +357,7 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/ll_hu_can"
-                    style="@style/simple_linear"
-                    android:layout_width="match_parent"
-                    android:layout_height="41dp"
-                    android:layout_marginRight="0dp"
-                    android:background="@drawable/item_back">
 
-                    <TextView
-                        style="@style/simple_text2"
-                        android:id="@+id/tv_hu_can"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="指定谁看" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_who_can"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="15dp">
-
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/arrow_right" />
-                    </LinearLayout>
-                </LinearLayout>
-                <View
-                    style="@style/view_line"></View>
-
-                <LinearLayout
-                    android:id="@+id/ll_hu_no_can"
-                    style="@style/simple_linear"
-                    android:layout_width="match_parent"
-                    android:layout_height="41dp"
-
-                    android:layout_marginRight="0dp"
-                    android:background="@drawable/item_back">
-
-                    <TextView
-                        style="@style/simple_text2"
-                        android:id="@+id/tv_hu_no_can"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="不让谁看" />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_who_nocan"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="15dp">
-
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/arrow_right" />
-                    </LinearLayout>
-
-                </LinearLayout>
-                <View
-                    style="@style/view_line"></View>
 
                 <LinearLayout
                     style="@style/simple_linear"
@@ -458,8 +384,93 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:background="@drawable/switch_off"/>
+                        android:background="@drawable/switch_off" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/ll_zhiding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <View style="@style/view_line"></View>
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_hu_can"
+                        style="@style/simple_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:layout_marginRight="0dp"
+                        android:background="@drawable/item_back">
+
+                        <TextView
+                            android:id="@+id/tv_hu_can"
+                            style="@style/simple_text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="指定谁看" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_who_can"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/arrow_right" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View style="@style/view_line"></View>
+
+                    <LinearLayout
+                        android:id="@+id/ll_hu_no_can"
+                        style="@style/simple_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+
+                        android:layout_marginRight="0dp"
+                        android:background="@drawable/item_back">
+
+                        <TextView
+                            android:id="@+id/tv_hu_no_can"
+                            style="@style/simple_text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="不让谁看" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_who_nocan"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/arrow_right" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View style="@style/view_line"></View>
                 </LinearLayout>
             </LinearLayout>
 

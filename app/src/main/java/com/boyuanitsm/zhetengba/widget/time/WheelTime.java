@@ -187,6 +187,7 @@ public class WheelTime {
 		switch(type){
 			case ALL:
 				textSize = (screenheight / 100) * 3;
+				wv_mins.setVisibility(View.GONE);//这里不要分所以隐藏掉是我自己改的
 				break;
 			case YEAR_MONTH_DAY:
 				textSize = (screenheight / 100) * 3;
