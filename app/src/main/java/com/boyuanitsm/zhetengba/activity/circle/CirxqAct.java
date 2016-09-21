@@ -107,24 +107,24 @@ public class CirxqAct extends BaseActivity {
         rl_jiaru=(TextView) headView.findViewById(R.id.rl_jiaru);//加入圈子 默认是隐藏的
         lv_cir.getRefreshableView().addHeaderView(headView);
         LayoutHelperUtil.freshInit(lv_cir);
-        lv_cir.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (isFabu){
-                    if (scrollState == SCROLL_STATE_FLING || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-                        iv_fa.setVisibility(View.GONE);
-                    } else {
-                        iv_fa.setVisibility(View.VISIBLE);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
+//        lv_cir.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                if (isFabu){
+//                    if (scrollState == SCROLL_STATE_FLING || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+//                        iv_fa.setVisibility(View.GONE);
+//                    } else {
+//                        iv_fa.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//            }
+//        });
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CirxqAct.this);
         //设置横向

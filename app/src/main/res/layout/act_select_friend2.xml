@@ -5,14 +5,15 @@
     android:background="#00000000"
     android:orientation="vertical">
 
+    <View
+        android:layout_marginLeft="0dp"
+        style="@style/view_line"/>
     <RadioGroup
+        android:visibility="gone"
         android:orientation="vertical"
         android:id="@+id/rg_select"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <View
-            android:layout_marginLeft="0dp"
-            style="@style/view_line"/>
         <RadioButton
             android:paddingLeft="15dp"
             android:gravity="center_vertical"
@@ -57,6 +58,93 @@
             android:layout_marginLeft="0dp"
             style="@style/view_line"/>
     </RadioGroup>
+    <RadioGroup
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:id="@+id/rg_sj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:button="@null"
+            android:text="全部"
+            android:textColor="#666666"
+            android:background="@drawable/simple_bg_color"
+            android:textSize="14sp"
+            android:id="@+id/sj_all"
+            android:layout_width="match_parent"
+            android:layout_height="41dp" />
+        <View
+            android:layout_marginLeft="0dp"
+            style="@style/view_line"/>
+        <RadioButton
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:button="@null"
+            android:text="一天内"
+            android:textColor="#666666"
+            android:background="@drawable/simple_bg_color"
+            android:textSize="14sp"
+            android:checked="true"
+            android:id="@+id/rb_one"
+            android:layout_width="match_parent"
+            android:layout_height="41dp" />
+        <View
+            android:layout_marginLeft="0dp"
+            style="@style/view_line"/>
+        <RadioButton
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:button="@null"
+            android:text="三天内"
+            android:textColor="#666666"
+            android:background="@drawable/simple_bg_color"
+            android:textSize="14sp"
+            android:id="@+id/rb_three"
+            android:layout_width="match_parent"
+            android:layout_height="41dp" />
+        <View
+            android:layout_marginLeft="0dp"
+            style="@style/view_line"/>
+        <RadioButton
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:button="@null"
+            android:text="一周内"
+            android:textColor="#666666"
+            android:background="@drawable/simple_bg_color"
+            android:textSize="14sp"
+            android:id="@+id/rb_week"
+            android:layout_width="match_parent"
+            android:layout_height="41dp" />
+        <View
+            android:layout_marginLeft="0dp"
+            style="@style/view_line"/>
+        <RadioButton
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:button="@null"
+            android:text="一月内"
+            android:textColor="#666666"
+            android:background="@drawable/simple_bg_color"
+            android:textSize="14sp"
+            android:id="@+id/rb_month"
+            android:layout_width="match_parent"
+            android:layout_height="41dp" />
+        <View
+            android:layout_marginLeft="0dp"
+            style="@style/view_line"/>
+    </RadioGroup>
+
+    <ListView
+        android:visibility="gone"
+        android:id="@+id/lv_bq"
+        android:divider="@null"
+        android:layout_width="match_parent"
+        android:layout_height="205dp"></ListView>
+
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/ll_dimis"

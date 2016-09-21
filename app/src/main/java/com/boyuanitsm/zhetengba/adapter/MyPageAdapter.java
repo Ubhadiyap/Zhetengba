@@ -81,6 +81,7 @@ public class MyPageAdapter extends PagerAdapter {
                 if(list.get(position).getDictCode()!=null&&!TextUtils.isEmpty(list.get(position).getDictCode())){
                     Intent intent=new Intent(context, H5Web.class);
                     intent.putExtra("url",list.get(position).getDictCode());
+                    intent.putExtra("topTitle", "活动");
                     context.startActivity(intent);}
 
             }
