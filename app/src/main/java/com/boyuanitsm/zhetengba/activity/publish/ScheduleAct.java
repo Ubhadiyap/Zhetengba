@@ -4,17 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.activity.mine.TimeHistoryAct;
@@ -22,7 +19,6 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
-import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -55,6 +51,8 @@ public class ScheduleAct extends BaseActivity {
     private CommonView ll_hu_can;
     @ViewInject(R.id.ll_hu_no_can)
     private CommonView ll_hu_no_can;
+    @ViewInject(R.id.ll_kejian)
+    private LinearLayout ll_kejian;//可见不可见
     private ImageView iv_button;
     private int select=1;
     private int clickTemp = 0;//1是谁能看，2是谁不能看
@@ -103,6 +101,7 @@ public class ScheduleAct extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (select == 1) {
+                    ll_kejian.setVisibility(View.VISIBLE);
                     iv_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
                     ll_hu_can.setEnabled(true);
                     ll_hu_no_can.setEnabled(true);
@@ -111,6 +110,7 @@ public class ScheduleAct extends BaseActivity {
                     clickTemp = 0;
                     changeHuCan();
                 } else {
+                    ll_kejian.setVisibility(View.GONE);
                     ll_hu_can.setEnabled(false);
                     ll_hu_no_can.setEnabled(false);
                     iv_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));

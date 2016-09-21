@@ -106,6 +106,8 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private TextView tv_hu_can;
     @ViewInject(R.id.ll_hide_key)
     private LinearLayout ll_hide_key;
+    @ViewInject(R.id.ll_zhiding)//指定谁看，不让谁看那个布局
+    private LinearLayout ll_zhiding;
     private Map<Integer, String> map;
     private boolean flag = true;
     private int MIN_MARK = 2;
@@ -172,11 +174,13 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             @Override
             public void onClick(View v) {
                 if (select == 1) {
+                    ll_zhiding.setVisibility(View.GONE);
                     iv_friend.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_off));
                     select = 0;
                     clickTemp = 0;
                     changeHuCan();
                 } else {
+                    ll_zhiding.setVisibility(View.VISIBLE);
                     iv_friend.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_on));
                     select = 1;
                     clickTemp = 0;
