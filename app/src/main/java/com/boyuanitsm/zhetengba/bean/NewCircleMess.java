@@ -28,10 +28,6 @@ public class NewCircleMess implements Parcelable {
         this.id = id;
     }
 
-    public static Creator<NewCircleMess> getCREATOR() {
-        return CREATOR;
-    }
-
     public boolean isMain() {
         return isMain;
     }
@@ -55,7 +51,6 @@ public class NewCircleMess implements Parcelable {
     public void setIsMess(boolean isMess) {
         this.isMess = isMess;
     }
-
 
     @Override
     public int describeContents() {

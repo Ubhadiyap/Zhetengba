@@ -71,7 +71,9 @@ public class MyReceiver extends BroadcastReceiver {
                             CircleNewMessDao.deleteUser();
                         }
                         NewCircleMess newCircleMess=new NewCircleMess();
-                        newCircleMess.setId(UserInfoDao.getUser().getId());
+                        if (UserInfoDao.getUser()!=null){
+                            newCircleMess.setId(UserInfoDao.getUser().getId());
+                        }
                         newCircleMess.setIsMain(false);//false表示未读
                         newCircleMess.setIsCircle(false);
                         newCircleMess.setIsMess(false);
@@ -82,6 +84,7 @@ public class MyReceiver extends BroadcastReceiver {
                         broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
                         context.sendBroadcast(new Intent(CircleFrg.UPDATE));//发广播到圈子frg红点显示
                         context.sendBroadcast(new Intent(CircleAct.ALLTALKS));
+//                        context.sendBroadcast(new Intent(CirMessAct.MESSUP));
                         Gson gson = new Gson();
                         flag=2+"";
 						CircleInfo circleInfo = gson.fromJson(json.toString(),CircleInfo.class);//解析成对象

@@ -95,11 +95,17 @@ public class ScheduleManager extends RequestManager {
      * @param rows
      * @param state
      */
-    public void getFriendOrAllActivity(int page, int rows, String state,ResultCallback callback) {
+    public void getFriendOrAllActivity(int page, int rows, String state,String labelIds,String days,ResultCallback callback) {
         Map<String,String> params=new HashMap<>();
         params.put("page",page+"");
         params.put("rows",rows+"");
         params.put("state",state);
+        if (!TextUtils.isEmpty(labelIds)){
+            params.put("labelIds",labelIds);
+        }
+        if (!TextUtils.isEmpty(days)){
+            params.put("days",days);
+        }
         OkHttpManager.getInstance().doPost(IZtbUrl.FRIEND_ALL_URL, params, callback);
     }
 

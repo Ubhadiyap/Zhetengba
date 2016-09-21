@@ -10,6 +10,8 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.Adapter;
 import android.widget.ListView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 /**
  * 这个类实现了ListView下拉刷新，上加载更多和滑到底部自动加载
  */
@@ -169,9 +171,12 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView>
 		if (isScrollLoadEnabled() && hasMoreData()) {
 			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE
 					|| scrollState == OnScrollListener.SCROLL_STATE_FLING) {
+				ImageLoader.getInstance().resume();
 				if (isReadyForPullUp()) {
 					startLoading();
 				}
+			}else {
+				ImageLoader.getInstance().pause();
 			}
 		}
 

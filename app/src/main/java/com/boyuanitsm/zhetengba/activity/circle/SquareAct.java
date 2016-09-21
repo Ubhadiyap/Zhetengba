@@ -95,21 +95,21 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
         LayoutHelperUtil.freshInit(vp_chan);
         aCache = ACache.get(SquareAct.this);
         getChannelTalks(labelStr, page, rows);
-        vp_chan.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == SCROLL_STATE_IDLE || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-                    ImageLoader.getInstance().resume();
-                } else {
-                    ImageLoader.getInstance().pause();
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
+//        vp_chan.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                if (scrollState == SCROLL_STATE_IDLE || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+//                    ImageLoader.getInstance().resume();
+//                } else {
+//                    ImageLoader.getInstance().pause();
+//                }
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//            }
+//        });
         vp_chan.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

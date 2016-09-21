@@ -21,6 +21,8 @@
             android:layout_marginTop="10dp"
             android:textColor="#999999"
             android:textSize="12sp"
+            android:singleLine="true"
+            android:layout_width="40dp"
             style="@style/tv_second" />
 
 

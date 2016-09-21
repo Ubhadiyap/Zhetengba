@@ -36,6 +36,7 @@ import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.model.EaseImageCache;
 import com.hyphenate.easeui.utils.EaseLoadLocalBigImgTask;
 import com.hyphenate.easeui.widget.photoview.EasePhotoView;
+import com.hyphenate.easeui.widget.photoview.PhotoViewAttacher;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.ImageUtils;
 import com.hyphenate.util.PathUtil;
@@ -98,7 +99,12 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 		} else {
 			image.setImageResource(default_res);
 		}
-
+		image.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+			@Override
+			public void onPhotoTap(View view, float x, float y) {
+				finish();
+			}
+		});
 		image.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

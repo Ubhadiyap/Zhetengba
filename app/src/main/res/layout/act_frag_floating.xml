@@ -24,18 +24,41 @@
         </LinearLayout>
         <LinearLayout
             android:layout_weight="1"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="标签"
-                android:textColor="#666666"
+            android:id="@+id/ll_sj"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:layout_height="match_parent">
+            <CheckBox
+                android:id="@+id/cb_sj"
+                android:button="@null"
+                android:text="时间"
                 android:textSize="14sp"
+                android:textColor="@drawable/simple_text_color"
+                android:drawableRight="@drawable/simple_text_change"
+                android:drawablePadding="5dp"
+                android:paddingRight="45dp"
+                android:checked="false"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_bq"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:layout_height="match_parent">
+            <CheckBox
+                android:id="@+id/cb_bq"
+                android:button="@null"
+                android:text="标签"
+                android:textSize="14sp"
+                android:textColor="@drawable/simple_text_color"
+                android:drawableRight="@drawable/simple_text_change"
+                android:drawablePadding="5dp"
+                android:paddingRight="45dp"
+                android:checked="false"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_all_friend"
@@ -51,7 +74,7 @@
                 android:textColor="@drawable/simple_text_color"
                 android:drawableRight="@drawable/simple_text_change"
                 android:drawablePadding="5dp"
-                android:paddingRight="58dp"
+                android:paddingRight="45dp"
                 android:checked="false"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />

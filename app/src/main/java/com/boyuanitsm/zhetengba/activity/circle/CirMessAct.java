@@ -1,7 +1,11 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +17,7 @@ import android.widget.PopupWindow;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
+import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.CircleMessAdatper;
 import com.boyuanitsm.zhetengba.adapter.DqMesAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -213,4 +218,36 @@ public class CirMessAct extends BaseActivity {
             return flag;
         }
     }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        if (receiverTalk == null) {
+//            receiverTalk = new MyBroadCastReceiverTalk();
+//            registerReceiver(receiverTalk, new IntentFilter(MESSUP));
+//        }
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        if (receiverTalk != null) {
+//            unregisterReceiver(receiverTalk);
+//            receiverTalk = null;
+//        }
+//    }
+//
+//    private MyBroadCastReceiverTalk receiverTalk;
+//    public static final String MESSUP = "mess_update";
+//
+//
+//    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (CircleNewMessDao.getUser()!=null){
+//                CircleNewMessDao.deleteUser();
+//            }
+//            getDqMess(type,page,rows);
+//        }
+//    }
 }

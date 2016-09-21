@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -27,7 +28,9 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
+import com.boyuanitsm.zhetengba.adapter.Simple_TextAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
+import com.boyuanitsm.zhetengba.bean.ActivityLabel;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -63,18 +66,21 @@ public class SimpleFrg extends BaseFragment {
     private MyPageAdapter pageAdapter;
     private LinearLayout ll_point;
     private LinearLayout ll_ft;
-    private LinearLayout  ll_sx;
-    private CheckBox cb_all,cb_all2;
+    private LinearLayout ll_sx;
+    private CheckBox cb_all, cb_all2, cb_sj, cb_sj2, cb_bq, cb_bq2;
     private List<View> views = new ArrayList<View>();
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
     private List<LabelBannerInfo> bannerInfoList;
     private List<SimpleInfo> list;//活动对象集合
+    private List<ActivityLabel> labellist;
+    private Simple_TextAdapter simple_textAdapter;
     private List<SimpleInfo> datas = new ArrayList<>();
     private ACache aCache;
     private int page = 1;
     private int rows = 10;
     private int state = 1;
-    private boolean flag=false;
+    private int cusPos = -1;//0时间，1标签，2全部
+    private boolean flag = false;
     private IntentFilter filter;
     private LinearLayout noList;
     private ImageView ivAnim;
@@ -82,16 +88,19 @@ public class SimpleFrg extends BaseFragment {
     private AnimationDrawable animationDrawable;
     private PopupWindow mPopupWindow;
     private Gson gson;
+    private String times;
+    private String labelIds;
     private BroadcastReceiver DteChangeRecevier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             page = 1;
             state = intent.getIntExtra("state", state);
-            if (state == 1) {
-                getActivityList(page, rows);
-            } else {
-                getFriendOrAllAcitvity(page, rows, state + "");//切换到好友；
-            }
+//            if (state == 1) {
+////                getActivityList(page, rows);
+//                getFriendOrAllAcitvity(page, rows, state + "",labelIds,times);//全部
+//            } else {
+            getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//切换到好友；
+//            }
         }
     };
 
@@ -108,6 +117,10 @@ public class SimpleFrg extends BaseFragment {
         ll_sx = (LinearLayout) viewFloat.findViewById(R.id.ll_sx);
         cb_all = (CheckBox) viewFloat.findViewById(R.id.cb_all);
         cb_all2 = (CheckBox) view.findViewById(R.id.cb_all);
+        cb_sj = (CheckBox) viewFloat.findViewById(R.id.cb_sj);
+        cb_sj2 = (CheckBox) view.findViewById(R.id.cb_sj);
+        cb_bq = (CheckBox) viewFloat.findViewById(R.id.cb_bq);
+        cb_bq2 = (CheckBox) view.findViewById(R.id.cb_bq);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         ll_ft = (LinearLayout) view.findViewById(R.id.ll_ft);
         noList = (LinearLayout) view.findViewById(R.id.noList);
@@ -124,26 +137,26 @@ public class SimpleFrg extends BaseFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
-                if (state == 0) {
-                    getFriendOrAllAcitvity(page, rows, state + "");//好友列表获取；
-                } else if (state == 1) {
-                    getActivityList(page, rows);//全部列表获取；
-                } else if (state == 2) {
-                    getFriendOrAllAcitvity(page, rows, state + "");//获取我的列表
-                }
+//                if (state == 0) {
+//                    getFriendOrAllAcitvity(page, rows, state + "",labelIds,times);//好友列表获取；
+//                } else if (state == 1) {
+//                    getActivityList(page, rows);//全部列表获取；
+//                } else if (state == 2) {
+                getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//获取我的列表
+//                }
                 getBanner();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                if (state == 0) {
-                    getFriendOrAllAcitvity(page, rows, state + "");//好友列表获取；
-                } else if (state == 1) {
-                    getActivityList(page, rows);//全部列表获取；
-                } else if (state == 2) {
-                    getFriendOrAllAcitvity(page, rows, state + "");//获取我的
-                }
+//                if (state == 0) {
+//                    getFriendOrAllAcitvity(page, rows, state + "",labelIds,times);//好友列表获取；
+//                } else if (state == 1) {
+//                    getActivityList(page, rows);//全部列表获取；
+//                } else if (state == 2) {
+                getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//获取我的
+//                }
                 getBanner();
             }
         });
@@ -167,15 +180,23 @@ public class SimpleFrg extends BaseFragment {
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
         lv_act.getRefreshableView().addHeaderView(viewFloat);
-        if (state == 1) {
-            getActivityList(page, rows);
-        } else if (state == 0) {
-            getFriendOrAllAcitvity(page, rows, state + "");
-        } else if (state == 2) {
-            getFriendOrAllAcitvity(page, rows, state + "");
-        }
+//        if (state == 1) {
+//            getActivityList(page, rows);
+//        } else if (state == 0) {
+//            getFriendOrAllAcitvity(page, rows, state + "",labelIds,times);
+//        } else if (state == 2) {
+        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
+//        }
         //首页活动轮播图片展示
         getBanner();
+        //获取活动标签
+//        String strList= aCache.getAsString("activityLabel");
+//        if (!TextUtils.isEmpty(strList)){
+//            labellist= gson.fromJson(strList, new TypeToken<List<ActivityLabel>>() {
+//            }.getType());
+//        }else {
+        getAcitivtyLabel(-1);
+//        }
         viewPager.setAuto(true);
         //设置监听
         viewPager.setOnPageChangeListener(getListener());
@@ -192,7 +213,8 @@ public class SimpleFrg extends BaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    selectPop();
+                    cusPos = 2;
+                    selectPop(cusPos);
                 } else {
                     mPopupWindow.dismiss();
                 }
@@ -202,7 +224,61 @@ public class SimpleFrg extends BaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    selectPop();
+                    cusPos = 2;
+                    selectPop(cusPos);
+                } else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+        cb_sj.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    cusPos = 0;
+                    selectPop(cusPos);
+                } else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+        cb_sj2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    cusPos = 0;
+                    selectPop(cusPos);
+                } else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+        cb_bq.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (labellist != null && labellist.size() > 0) {
+                        cusPos = 1;
+                        selectPop(cusPos);
+                    } else {
+                        getAcitivtyLabel(0);
+                    }
+
+                } else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+        cb_bq2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (labellist != null && labellist.size() > 0) {
+                        cusPos = 1;
+                        selectPop(cusPos);
+                    } else {
+                        getAcitivtyLabel(0);
+                    }
                 } else {
                     mPopupWindow.dismiss();
                 }
@@ -325,7 +401,7 @@ public class SimpleFrg extends BaseFragment {
                     }.getType());
                     initMyPageAdapter(bannerInfos);
                 }
-                MyToastUtils.showShortToast(mActivity,errorMsg);
+                MyToastUtils.showShortToast(mActivity, errorMsg);
             }
 
             @Override
@@ -430,9 +506,9 @@ public class SimpleFrg extends BaseFragment {
      * @param rows
      * @param state
      */
-    private void getFriendOrAllAcitvity(final int page, int rows, final String state) {
+    private void getFriendOrAllAcitvity(final int page, int rows, final String state, String labelIds, String days) {
         list = new ArrayList<SimpleInfo>();
-        RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
+        RequestManager.getScheduleManager().getFriendOrAllActivity(page, rows, state, labelIds, days, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
@@ -511,14 +587,74 @@ public class SimpleFrg extends BaseFragment {
     /**
      * 待解决：对话框布局有出入
      * 选择对话框，选择好友/全部
+     *
+     * @param cusPos
      */
-    private void selectPop() {
+    private void selectPop(int cusPos) {
         View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend2, null);
         mPopupWindow = new PopupWindow(v, AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
         RadioGroup rg_select = (RadioGroup) v.findViewById(R.id.rg_select);
         RadioButton rb_all = (RadioButton) v.findViewById(R.id.rb_all);
         RadioButton rb_friend = (RadioButton) v.findViewById(R.id.rb_friend);
         RadioButton rb_my = (RadioButton) v.findViewById(R.id.rb_my);
+        RadioGroup rg_sj = (RadioGroup) v.findViewById(R.id.rg_sj);
+        final RadioButton sj_all = (RadioButton) v.findViewById(R.id.sj_all);
+        final RadioButton rb_one = (RadioButton) v.findViewById(R.id.rb_one);
+        final RadioButton rb_three = (RadioButton) v.findViewById(R.id.rb_three);
+        final RadioButton rb_week = (RadioButton) v.findViewById(R.id.rb_week);
+        final RadioButton rb_month = (RadioButton) v.findViewById(R.id.rb_month);
+
+        ListView lv_sx = (ListView) v.findViewById(R.id.lv_bq);
+        if (cusPos == 0) {
+            rg_sj.setVisibility(View.VISIBLE);
+            lv_sx.setVisibility(View.GONE);
+            rg_select.setVisibility(View.GONE);
+        } else if (cusPos == 1) {
+            rg_sj.setVisibility(View.GONE);
+            lv_sx.setVisibility(View.VISIBLE);
+            rg_select.setVisibility(View.GONE);
+        } else if (cusPos == 2) {
+            rg_select.setVisibility(View.VISIBLE);
+            rg_sj.setVisibility(View.GONE);
+            lv_sx.setVisibility(View.GONE);
+        }
+        if (labellist != null && labellist.size() > 0) {
+            simple_textAdapter = new Simple_TextAdapter(mActivity, labellist, labelIds);
+            lv_sx.setAdapter(simple_textAdapter);
+            simple_textAdapter.setOnItemClickListener(new Simple_TextAdapter.CheckedChangeListener() {
+                @Override
+                public void CheckedChangeListener(View view, int position, boolean flag) {
+                    if (flag){
+                        labelIds = labellist.get(position).getId();
+                        cb_bq.setText(labellist.get(position).getLabelName());
+                        cb_bq2.setText(labellist.get(position).getLabelName());
+                        page = 1;
+                        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
+                        mPopupWindow.dismiss();
+                    }
+                }
+            });
+        }
+
+//        lv_sx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+//                RadioButton rb_item = (RadioButton) view.findViewById(R.id.rb_item);
+//                rb_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                        if (isChecked) {
+//                            labelIds = labellist.get(position).getLabelId();
+//                            cb_bq.setText(labellist.get(position).getLabelName());
+//                            cb_bq2.setText(labellist.get(position).getLabelName());
+//                            getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
+//                            mPopupWindow.dismiss();
+//                        }
+//                    }
+//                });
+//
+//            }
+//        });
         LinearLayout ll_dimis = (LinearLayout) v.findViewById(R.id.ll_dimis);
         ll_dimis.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -526,12 +662,23 @@ public class SimpleFrg extends BaseFragment {
                 mPopupWindow.dismiss();
             }
         });
-        if (TextUtils.equals(cb_all2.getText(),"全部")){
+        if (TextUtils.equals(cb_all2.getText(), "全部")) {
             rb_all.setChecked(true);
-        }else if (TextUtils.equals(cb_all2.getText(),"好友")){
+        } else if (TextUtils.equals(cb_all2.getText(), "好友")) {
             rb_friend.setChecked(true);
-        }else if (TextUtils.equals(cb_all2.getText(),"我的")){
+        } else if (TextUtils.equals(cb_all2.getText(), "我的")) {
             rb_my.setChecked(true);
+        }
+        if (TextUtils.equals(cb_sj2.getText(), "全部")) {
+            sj_all.setChecked(true);
+        } else if (TextUtils.equals(cb_sj2.getText(), "一天内")) {
+            rb_one.setChecked(true);
+        } else if (TextUtils.equals(cb_sj2.getText(), "三天内")) {
+            rb_three.setChecked(true);
+        } else if (TextUtils.equals(cb_sj2.getText(), "一周内")) {
+            rb_week.setChecked(true);
+        } else if (TextUtils.equals(cb_sj2.getText(), "一月内")) {
+            rb_month.setChecked(true);
         }
         rg_select.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -539,8 +686,8 @@ public class SimpleFrg extends BaseFragment {
                 switch (group.getCheckedRadioButtonId()) {
                     case R.id.rb_all:
                         page = 1;
-                        state=1;
-                        getActivityList(page, rows);
+                        state = 1;
+                        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         cb_all2.setChecked(false);
                         cb_all.setChecked(false);
                         cb_all2.setText("全部");
@@ -550,7 +697,7 @@ public class SimpleFrg extends BaseFragment {
                     case R.id.rb_friend:
                         page = 1;
                         state = 0;
-                        getFriendOrAllAcitvity(page, rows, state + "");
+                        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         cb_all2.setChecked(false);
                         cb_all.setChecked(false);
                         cb_all2.setText("好友");
@@ -560,11 +707,78 @@ public class SimpleFrg extends BaseFragment {
                     case R.id.rb_my:
                         page = 1;
                         state = 2;
-                        getFriendOrAllAcitvity(page, rows, state + "");
+                        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         cb_all2.setChecked(false);
                         cb_all.setChecked(false);
                         cb_all2.setText("我的");
                         cb_all.setText("我的");
+                        mPopupWindow.dismiss();
+                        break;
+                }
+            }
+        });
+        rg_sj.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (group.getCheckedRadioButtonId()) {
+                    case R.id.sj_all:
+                        times = null;
+                        page = 1;
+                        rb_one.setChecked(false);
+                        rb_three.setChecked(false);
+                        rb_week.setChecked(false);
+                        rb_month.setChecked(false);
+                        cb_sj.setText("全部");
+                        cb_sj2.setText("全部");
+                        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
+                        mPopupWindow.dismiss();
+                        break;
+                    case R.id.rb_one:
+                        times = 1 + "";
+                        page = 1;
+                        sj_all.setChecked(false);
+                        rb_three.setChecked(false);
+                        rb_week.setChecked(false);
+                        rb_month.setChecked(false);
+                        cb_sj.setText("一天内");
+                        cb_sj2.setText("一天内");
+                        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
+                        mPopupWindow.dismiss();
+                        break;
+                    case R.id.rb_three:
+                        times = 3 + "";
+                        page = 1;
+                        sj_all.setChecked(false);
+                        rb_one.setChecked(false);
+                        rb_week.setChecked(false);
+                        rb_month.setChecked(false);
+                        cb_sj.setText("三天内");
+                        cb_sj2.setText("三天内");
+                        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
+                        mPopupWindow.dismiss();
+                        break;
+                    case R.id.rb_week:
+                        times = 7 + "";
+                        page = 1;
+                        sj_all.setChecked(false);
+                        rb_one.setChecked(false);
+                        rb_three.setChecked(false);
+                        rb_month.setChecked(false);
+                        cb_sj.setText("一周内");
+                        cb_sj2.setText("一周内");
+                        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
+                        mPopupWindow.dismiss();
+                        break;
+                    case R.id.rb_month:
+                        times = 30 + "";
+                        page = 1;
+                        sj_all.setChecked(false);
+                        rb_one.setChecked(false);
+                        rb_week.setChecked(false);
+                        rb_three.setChecked(false);
+                        cb_sj.setText("一月内");
+                        cb_sj2.setText("一月内");
+                        getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         mPopupWindow.dismiss();
                         break;
                 }
@@ -581,6 +795,10 @@ public class SimpleFrg extends BaseFragment {
             public void onDismiss() {
                 cb_all.setChecked(false);
                 cb_all2.setChecked(false);
+                cb_sj.setChecked(false);
+                cb_sj2.setChecked(false);
+                cb_bq2.setChecked(false);
+                cb_bq.setChecked(false);
             }
         });
         if (flag) {
@@ -588,6 +806,35 @@ public class SimpleFrg extends BaseFragment {
         } else {
             mPopupWindow.showAsDropDown(ll_sx);
         }
+    }
+
+    private void getAcitivtyLabel(final int type) {
+        RequestManager.getScheduleManager().getAllActivityLabel(new ResultCallback<ResultBean<List<ActivityLabel>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+//                String strList= aCache.getAsString("activityLabel");
+//                if (!TextUtils.isEmpty(strList)){
+//                  labellist= gson.fromJson(strList, new TypeToken<List<ActivityLabel>>() {
+//                    }.getType());
+//                }
+            }
+
+            @Override
+            public void onResponse(ResultBean<List<ActivityLabel>> response) {
+
+                ActivityLabel activityLabel=new ActivityLabel();
+                activityLabel.setLabelName("全部");
+                if (labellist!=null){
+                    labellist.clear();
+                }
+                labellist = response.getData();
+                labellist.add(0,activityLabel);
+                if (type == 0) {
+                    cusPos = 1;
+                    selectPop(cusPos);
+                }
+            }
+        });
     }
 
 }
