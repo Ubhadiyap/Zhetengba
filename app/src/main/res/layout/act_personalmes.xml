@@ -107,7 +107,7 @@
                     android:id="@+id/cv_phoneNum"
                     android:layout_width="wrap_content"
                     android:layout_height="41dp"
-                    app:desText="手机号码"
+                    app:desText="注册手机号"
                     app:desTextSize="15sp"
                     app:isShowCategoryImage="false"
                     app:notesText=""

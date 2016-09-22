@@ -488,11 +488,11 @@ public class PersonalmesAct extends BaseActivity {
                 DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(response.getData().getIconFilePath()));
 
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
-                Intent intentRecevier=new Intent();
+//                Intent intentRecevier=new Intent();
                 Intent intentRecevier2=new Intent();
                 intentRecevier2.setAction(SimpleFrg.DATA_CHANGE_KEY);
-                intentRecevier.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
-                sendBroadcast(intentRecevier);
+//                intentRecevier.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
+//                sendBroadcast(intentRecevier);
                 sendBroadcast(intentRecevier2);
                 sendBroadcast(new Intent(PersonalAct.PPLABELS));
             }

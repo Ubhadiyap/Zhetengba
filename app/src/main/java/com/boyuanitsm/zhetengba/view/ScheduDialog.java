@@ -106,11 +106,11 @@ public class ScheduDialog extends Dialog {
             @Override
             public void onResponse(ResultBean<String> response) {
                 MyToastUtils.showShortToast(context, response.getMessage());
-                Intent intent=new Intent(CalFrg.CAL_DATA_CHANGE_KEY);
-                Bundle bundle=new Bundle();
-                bundle.putInt("CalYuePosition",cusPos);
-                intent.putExtras(bundle);
-                context.sendBroadcast(intent);
+//                Intent intent=new Intent(CalFrg.CAL_DATA_CHANGE_KEY);
+//                Bundle bundle=new Bundle();
+//                bundle.putInt("CalYuePosition",cusPos);
+//                intent.putExtras(bundle);
+//                context.sendBroadcast(intent);
                 context.sendBroadcast(new Intent(PersonalAct.PPLABELS));
             }
         });

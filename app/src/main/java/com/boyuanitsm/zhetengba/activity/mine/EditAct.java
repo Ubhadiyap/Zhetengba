@@ -115,7 +115,7 @@ public class EditAct extends BaseActivity {
                     sendBroadcast(new Intent(PersonalmesAct.USER_INFO));
                     sendBroadcast(new Intent(MineFrg.USER_INFO));
                     sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
-                    sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
+//                    sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
                     sendBroadcast(new Intent(SquareAct.TALK_LIST));
                     sendBroadcast(new Intent(PersonalAct.PPLABELS));
                     MyToastUtils.showShortToast(getApplicationContext(), "修改信息成功");
@@ -141,7 +141,7 @@ public class EditAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
-                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
+//                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(PersonalAct.PPLABELS));
                 sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
 //                sendBroadcast(new Intent(HeiAct.UPDATA));

@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
+import com.boyuanitsm.zhetengba.activity.publish.ContractedAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.NewCircleMess;
@@ -39,6 +40,7 @@ import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.GeneralUtils;
@@ -72,10 +74,10 @@ import cn.jpush.android.api.TagAliasCallback;
 public class MainAct extends BaseActivity {
 
     private FragmentManager fragmentManager;
-    private CalendarFrg calendarFrg;
+    private SimpleFrg calendarFrg;
     private CircleFrg circleFrg;
     private MessFrg messFrg;
-    private PlaneDialog planeDialog;
+//    private PlaneDialog planeDialog;
     private MyRadioButton rb_mes;
     //    // 未读消息textview
     private TextView unreadLabel;
@@ -159,13 +161,19 @@ public class MainAct extends BaseActivity {
         RadioGroup rg_button = (RadioGroup) findViewById(R.id.rg_button);
         RadioButton rb_cal = (RadioButton) findViewById(R.id.rb_cal);
         ImageView iv_plane = (ImageView) findViewById(R.id.iv_plane);
-        planeDialog = new PlaneDialog(this);
-        planeDialog.getWindow().setWindowAnimations(R.style.ActionSheetDialogAnimation);
+//        planeDialog = new PlaneDialog(this);
+//        planeDialog.getWindow().setWindowAnimations(R.style.ActionSheetDialogAnimation);
         rb_cal.setChecked(true);
         iv_plane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                planeDialog.show();
+                //进入活动界面
+                Intent intent=new Intent();
+                intent.setClass(MainAct.this, ContractedAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+//                dismiss();
+//                planeDialog.show();
             }
         });
         rg_button.setOnCheckedChangeListener(new OnRadiGrroupCheckedChangeListener());
@@ -199,9 +207,9 @@ public class MainAct extends BaseActivity {
      */
     private void defaultShow(FragmentTransaction transaction) {
         hideFragment(transaction);
-        calendarFrg= (CalendarFrg) fragmentManager.findFragmentByTag("calendarFrg");
+        calendarFrg= (SimpleFrg) fragmentManager.findFragmentByTag("calendarFrg");
         if (calendarFrg == null) {
-            calendarFrg = new CalendarFrg();
+            calendarFrg = new SimpleFrg();
             transaction.add(R.id.fl_main, calendarFrg,"calendarFrg");
         } else {
             transaction.show(calendarFrg);
@@ -243,9 +251,9 @@ public class MainAct extends BaseActivity {
             switch (group.getCheckedRadioButtonId()) {
                 case R.id.rb_cal://点击档期显示：简约/档期界面
                     currentTabIndex = 0;
-                    calendarFrg= (CalendarFrg) fragmentManager.findFragmentByTag("calendarFrg");
+                    calendarFrg= (SimpleFrg) fragmentManager.findFragmentByTag("calendarFrg");
                     if (calendarFrg == null||calendarFrg.isDetached()) {
-                        calendarFrg =new CalendarFrg();
+                        calendarFrg =new SimpleFrg();
                         transaction.add(R.id.fl_main, calendarFrg,"calendarFrg");
                     } else {
                         transaction.show(calendarFrg);

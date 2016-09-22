@@ -29,9 +29,9 @@ import java.util.List;
  * 会友/档期界面
  * Created by xiaoke on 2016/4/24.
  */
-public class CalendarFrg extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class CalendarFrg extends BaseFragment implements View.OnClickListener{
     private FragmentManager childFragmentManager;//frg嵌套，拿到子管理器
-    public SimpleFrg simpleFrg;
+    public CalendarFrg simpleFrg;
     private CalFrg calFrg;
     private RadioButton rb_simple, rb_calendar;//拿到
     private PopupWindow mPopupWindow;
@@ -58,10 +58,10 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
         childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         defaultChildShow(fragmentTransaction);
-        rg_simple = (RadioGroup) view.findViewById(R.id.rg_simple);
-        rg_simple.setOnCheckedChangeListener(this);
+//        rg_simple = (RadioGroup) view.findViewById(R.id.rg_simple);
+//        rg_simple.setOnCheckedChangeListener(this);
         ll_friend.setOnClickListener(this);
-        ll_friend_two.setOnClickListener(this);
+//        ll_friend_two.setOnClickListener(this);
     }
 
 
@@ -73,7 +73,7 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
     private void defaultChildShow(FragmentTransaction fragmentTransaction) {
         hideChildFragment(fragmentTransaction);
         if (simpleFrg == null) {
-            simpleFrg = new SimpleFrg();
+            simpleFrg = new CalendarFrg();
             fragmentTransaction.add(R.id.fl_calendar, simpleFrg);
         } else {
             fragmentTransaction.show(simpleFrg);
@@ -226,36 +226,36 @@ public class CalendarFrg extends BaseFragment implements View.OnClickListener, R
 
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
-        hideChildFragment(fragmentTransaction);
-        switch (rg_simple.getCheckedRadioButtonId()) {
-            case R.id.rb_simple:
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-                if (simpleFrg == null) {
-                    simpleFrg = new SimpleFrg();
-                    fragmentTransaction.add(R.id.fl_calendar, simpleFrg);
-                } else {
-                    fragmentTransaction.show(simpleFrg);
-                }
-//                ll_friend.setVisibility(View.VISIBLE);
-//                ll_friend_two.setVisibility(View.GONE);
-                break;
-            case R.id.rb_calendar:
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-                if (calFrg == null) {
-                    calFrg = new CalFrg();
-                    fragmentTransaction.add(R.id.fl_calendar, calFrg);
-                } else {
-                    fragmentTransaction.show(calFrg);
-                }
-//                ll_friend.setVisibility(View.GONE);
-//                ll_friend_two.setVisibility(View.VISIBLE);
-                break;
-
-        }
-        fragmentTransaction.commitAllowingStateLoss();
-    }
+//    @Override
+//    public void onCheckedChanged(RadioGroup group, int checkedId) {
+//        FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
+//        hideChildFragment(fragmentTransaction);
+//        switch (rg_simple.getCheckedRadioButtonId()) {
+//            case R.id.rb_simple:
+//                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+//                if (simpleFrg == null) {
+//                    simpleFrg = new CalendarFrg();
+//                    fragmentTransaction.add(R.id.fl_calendar, simpleFrg);
+//                } else {
+//                    fragmentTransaction.show(simpleFrg);
+//                }
+////                ll_friend.setVisibility(View.VISIBLE);
+////                ll_friend_two.setVisibility(View.GONE);
+//                break;
+//            case R.id.rb_calendar:
+//                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+//                if (calFrg == null) {
+//                    calFrg = new CalFrg();
+//                    fragmentTransaction.add(R.id.fl_calendar, calFrg);
+//                } else {
+//                    fragmentTransaction.show(calFrg);
+//                }
+////                ll_friend.setVisibility(View.GONE);
+////                ll_friend_two.setVisibility(View.VISIBLE);
+//                break;
+//
+//        }
+//        fragmentTransaction.commitAllowingStateLoss();
+//    }
 
 }

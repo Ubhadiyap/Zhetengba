@@ -397,7 +397,7 @@ public class ScheduleAct extends BaseActivity {
 
                 pd.dismiss();
                 MyToastUtils.showShortToast(ScheduleAct.this, "发布档期成功");
-                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
+//                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(TimeHistoryAct.USER_INFO));
                 sendBroadcast(new Intent(TimeFrg.LISTORY_DATA));
                 finish();

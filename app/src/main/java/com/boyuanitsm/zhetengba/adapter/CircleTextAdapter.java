@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.utils.EmojUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -89,7 +90,7 @@ public class CircleTextAdapter extends BaseAdapter {
                 chaHolder.time.setText("");
             }
             if(!TextUtils.isEmpty(list.get(position).getCommentContent())){
-                chaHolder.content.setText(list.get(position).getCommentContent());
+                chaHolder.content.setText(EmojUtils.decoder(list.get(position).getCommentContent()));
             }else {
                 chaHolder.content.setText("");
             }

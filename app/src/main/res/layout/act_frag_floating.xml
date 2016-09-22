@@ -58,7 +58,6 @@
                 android:textColor="@drawable/simple_text_color"
                 android:drawableRight="@drawable/simple_text_change"
                 android:drawablePadding="5dp"
-                android:paddingRight="45dp"
                 android:checked="false"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
@@ -81,7 +80,6 @@
                 android:textColor="@drawable/simple_text_color"
                 android:drawableRight="@drawable/simple_text_change"
                 android:drawablePadding="5dp"
-                android:paddingRight="45dp"
                 android:checked="false"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />

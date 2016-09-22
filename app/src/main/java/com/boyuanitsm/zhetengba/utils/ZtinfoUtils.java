@@ -17,6 +17,7 @@ import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Surface;
@@ -25,8 +26,10 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -787,4 +790,6 @@ public class ZtinfoUtils {
         Matcher m = p.matcher(email);
         return m.matches();
     }
+
+
 }

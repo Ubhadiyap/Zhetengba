@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -26,6 +27,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.AddFriendsAct;
+import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
 import com.boyuanitsm.zhetengba.adapter.Simple_TextAdapter;
@@ -90,17 +93,14 @@ public class SimpleFrg extends BaseFragment {
     private Gson gson;
     private String times;
     private String labelIds;
+    private LinearLayout ll_friend;
+    private PopupWindow mPopupWindowAd;
     private BroadcastReceiver DteChangeRecevier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             page = 1;
             state = intent.getIntExtra("state", state);
-//            if (state == 1) {
-////                getActivityList(page, rows);
-//                getFriendOrAllAcitvity(page, rows, state + "",labelIds,times);//全部
-//            } else {
             getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//切换到好友；
-//            }
         }
     };
 
@@ -114,6 +114,7 @@ public class SimpleFrg extends BaseFragment {
     public void initData(Bundle savedInstanceState) {
         viewHeader_act = getLayoutInflater(savedInstanceState).inflate(R.layout.item_viewpager_act, null);
         viewFloat = getLayoutInflater(savedInstanceState).inflate(R.layout.act_frag_floating, null);
+        ll_friend = (LinearLayout) view.findViewById(R.id.ll_friend);
         ll_sx = (LinearLayout) viewFloat.findViewById(R.id.ll_sx);
         cb_all = (CheckBox) viewFloat.findViewById(R.id.cb_all);
         cb_all2 = (CheckBox) view.findViewById(R.id.cb_all);
@@ -133,30 +134,24 @@ public class SimpleFrg extends BaseFragment {
 
         aCache = ACache.get(mActivity);
         gson = new Gson();
+        ll_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addPop();
+            }
+        });
         lv_act.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
-//                if (state == 0) {
-//                    getFriendOrAllAcitvity(page, rows, state + "",labelIds,times);//好友列表获取；
-//                } else if (state == 1) {
-//                    getActivityList(page, rows);//全部列表获取；
-//                } else if (state == 2) {
                 getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//获取我的列表
-//                }
                 getBanner();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-//                if (state == 0) {
-//                    getFriendOrAllAcitvity(page, rows, state + "",labelIds,times);//好友列表获取；
-//                } else if (state == 1) {
-//                    getActivityList(page, rows);//全部列表获取；
-//                } else if (state == 2) {
                 getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//获取我的
-//                }
                 getBanner();
             }
         });
@@ -180,35 +175,14 @@ public class SimpleFrg extends BaseFragment {
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
         lv_act.getRefreshableView().addHeaderView(viewFloat);
-//        if (state == 1) {
-//            getActivityList(page, rows);
-//        } else if (state == 0) {
-//            getFriendOrAllAcitvity(page, rows, state + "",labelIds,times);
-//        } else if (state == 2) {
         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
-//        }
         //首页活动轮播图片展示
         getBanner();
         //获取活动标签
-//        String strList= aCache.getAsString("activityLabel");
-//        if (!TextUtils.isEmpty(strList)){
-//            labellist= gson.fromJson(strList, new TypeToken<List<ActivityLabel>>() {
-//            }.getType());
-//        }else {
         getAcitivtyLabel(-1);
-//        }
         viewPager.setAuto(true);
         //设置监听
         viewPager.setOnPageChangeListener(getListener());
-//        View.OnClickListener listener=new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                cb_all.setChecked(true);
-//                selectPop();
-//            }
-//        };
-//        ll_all_friend.setOnClickListener(listener);
-//        ll_all_friend2.setOnClickListener(listener);
         cb_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -820,5 +794,40 @@ public class SimpleFrg extends BaseFragment {
             }
         });
     }
+    /**
+     * 待解决：对话框布局有出入
+     * 选择对话框，选择好友/全部
+     */
+    private void addPop() {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.act_pop_mess2, null);
+        mPopupWindowAd = new PopupWindow(v,layoutParams.width, layoutParams.height);
+        LinearLayout ll_sao = (LinearLayout) v.findViewById(R.id.ll_sao);
+        LinearLayout ll_qun = (LinearLayout) v.findViewById(R.id.ll_qunavatar);
+        LinearLayout ll_add_friend = (LinearLayout) v.findViewById(R.id.ll_add_friend);
+        mPopupWindowAd.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        mPopupWindowAd.setFocusable(true);
+        //获取xoff
+        WindowManager manager = (WindowManager) getActivity().getSystemService(getActivity().WINDOW_SERVICE);
+        int xpos = manager.getDefaultDisplay().getWidth() / 2 - mPopupWindowAd.getWidth() / 2;
+        //xoff,yoff基于anchor的左下角进行偏移。
+        mPopupWindowAd.showAsDropDown(ll_friend, xpos, 0);
+        ll_sao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //扫一扫
+                getActivity().startActivity(new Intent(getContext(), ScanQrcodeAct.class));
+                mPopupWindowAd.dismiss();
+            }
+        });
+        ll_add_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //添加好友
+                getActivity().startActivity(new Intent(getContext(), AddFriendsAct.class));
+                mPopupWindowAd.dismiss();
+            }
+        });
 
+    }
 }

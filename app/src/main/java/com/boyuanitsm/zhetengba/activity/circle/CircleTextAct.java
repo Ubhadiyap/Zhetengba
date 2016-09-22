@@ -33,6 +33,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.EmojUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
@@ -354,7 +355,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
      * @param commentContent
      */
     private void commentCircleTalk(final String circleTalkId ,String fatherCommentId ,String commentContent){
-        RequestManager.getTalkManager().commentCircleTalk(circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getTalkManager().commentCircleTalk(circleTalkId, fatherCommentId, EmojUtils.encoder(commentContent), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 btnSend.setEnabled(true);

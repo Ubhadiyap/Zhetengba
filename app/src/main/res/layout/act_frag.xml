@@ -4,12 +4,14 @@
     android:layout_height="match_parent"
     android:background="@color/common_bg"
     android:orientation="vertical">
-
+<include layout="@layout/title_main_act_layout"></include>
     <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
+        android:layout_marginTop="48dp"
         android:id="@+id/lv_act"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
     <LinearLayout
+        android:layout_marginTop="48dp"
         android:id="@+id/ll_ft"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -3,8 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:background="@color/main_color">
-
+<TextView
+    android:text="档期"
+    android:textColor="#fff"
+    android:textSize="18sp"
+    android:layout_centerInParent="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
 <RadioGroup
+    android:visibility="gone"
     android:id="@+id/rg_simple"
     android:layout_width="136dp"
     android:layout_height="27dp"
