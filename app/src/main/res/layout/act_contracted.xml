@@ -323,7 +323,7 @@
                     style="@style/simple_text2"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="会友详情" />
+                    android:text="档期详情" />
 
                 <TextView
                     android:layout_width="wrap_content"

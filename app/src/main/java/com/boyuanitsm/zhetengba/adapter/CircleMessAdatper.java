@@ -19,6 +19,7 @@ import com.boyuanitsm.zhetengba.db.CircleMessDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.EmojUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
@@ -151,7 +152,7 @@ public class CircleMessAdatper extends BaseAdapter {
         if (!TextUtils.isEmpty(circleInfoList.get(position).getMessageState())){
             if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
                 if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentContent())) {
-                    holder1.tv_huifu.setText("评论“我”：" + circleInfoList.get(position).getCommentContent());
+                    holder1.tv_huifu.setText("评论“我”：" + EmojUtils.decoder(circleInfoList.get(position).getCommentContent()));
                 }
             } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
                 holder1.tv_huifu.setText("赞了“我”的说说!");

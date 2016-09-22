@@ -220,7 +220,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:background="#f4f4f6">
-        <com.boyuanitsm.zhetengba.view.CanotEmojEditText
+        <EditText
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:id="@+id/et_comment"

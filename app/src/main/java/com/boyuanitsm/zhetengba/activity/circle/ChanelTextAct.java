@@ -29,6 +29,7 @@ import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.EmojUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
@@ -56,7 +57,7 @@ import java.util.List;
  */
 public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     @ViewInject(R.id.et_comment)
-    private CanotEmojEditText etComment;//评论内容
+    private EditText etComment;//评论内容
     @ViewInject(R.id.my_lv)
     private PullToRefreshListView my_lv;
     @ViewInject(R.id.iv_chanel_comment)
@@ -309,7 +310,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
      * @param commentContent
      */
     private void commentChannelTalk(final String channelTalkId  ,String fatherCommentId ,String commentContent){
-        RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, EmojUtils.encoder(commentContent), new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 btnSend.setEnabled(true);

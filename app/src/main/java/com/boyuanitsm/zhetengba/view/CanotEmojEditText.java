@@ -46,36 +46,36 @@ public class CanotEmojEditText extends EditText {
         addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int before, int count) {
-//                if (!resetText) {
-//                    cursorPos = getSelectionEnd();
-//                    // 这里用s.toString()而不直接用s是因为如果用s，
-//                    // 那么，inputAfterText和s在内存中指向的是同一个地址，s改变了，
-//                    // inputAfterText也就改变了，那么表情过滤就失败了
-//                    inputAfterText= s.toString();
-//                }
+                if (!resetText) {
+                    cursorPos = getSelectionEnd();
+                    // 这里用s.toString()而不直接用s是因为如果用s，
+                    // 那么，inputAfterText和s在内存中指向的是同一个地址，s改变了，
+                    // inputAfterText也就改变了，那么表情过滤就失败了
+                    inputAfterText= s.toString();
+                }
 
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (!resetText) {
-//                    if (count >= 2&&s.length()>=cursorPos+count) {//表情符号的字符长度最小为2
-//                        CharSequence input = s.subSequence(cursorPos, cursorPos + count);
-//                        if (containsEmoji(input.toString())) {
-//                            resetText = true;
-//                            Toast.makeText(mContext, "不支持输入Emoji表情符号", Toast.LENGTH_SHORT).show();
-//                            //是表情符号就将文本还原为输入表情符号之前的内容
-//                            setText(inputAfterText);
-//                            CharSequence text = getText();
-//                            if (text instanceof Spannable) {
-//                                Spannable spanText = (Spannable) text;
-//                                Selection.setSelection(spanText, text.length());
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    resetText = false;
-//                }
+                if (!resetText) {
+                    if (count >= 2&&s.length()>=cursorPos+count) {//表情符号的字符长度最小为2
+                        CharSequence input = s.subSequence(cursorPos, cursorPos + count);
+                        if (containsEmoji(input.toString())) {
+                            resetText = true;
+                            Toast.makeText(mContext, "不支持输入Emoji表情符号", Toast.LENGTH_SHORT).show();
+                            //是表情符号就将文本还原为输入表情符号之前的内容
+                            setText(inputAfterText);
+                            CharSequence text = getText();
+                            if (text instanceof Spannable) {
+                                Spannable spanText = (Spannable) text;
+                                Selection.setSelection(spanText, text.length());
+                            }
+                        }
+                    }
+                } else {
+                    resetText = false;
+                }
             }
 
             @Override
