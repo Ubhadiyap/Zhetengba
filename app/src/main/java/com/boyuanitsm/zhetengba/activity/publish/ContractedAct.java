@@ -243,11 +243,19 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                 return;
             }
             Long times = endDate.getTime() - startDate.getTime();
+            Long day= (endDate.getTime() - startDate.getTime())/ (1000*60*60*24);
             if (times > 0) {
                 simpleInfo.setStartTime(et_start.getText().toString());
                 simpleInfo.setEndTime(et_end.getText().toString());
             } else {
                 MyToastUtils.showShortToast(ContractedAct.this, "开始时间不得大于结束时间，请重新选择！");
+                return;
+            }
+            if(day<15){
+                simpleInfo.setStartTime(et_start.getText().toString());
+                simpleInfo.setEndTime(et_end.getText().toString());
+            }else {
+                MyToastUtils.showShortToast(ContractedAct.this, "开始时间到结束时间应<15天，请重新选择！");
                 return;
             }
         } else {
