@@ -150,6 +150,7 @@ public class CirxqAct extends BaseActivity {
                 rl_jiaru.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        rl_jiaru.setEnabled(false);
                         joInCircle(circleId);
                     }
                 });
@@ -206,11 +207,13 @@ public class CirxqAct extends BaseActivity {
         RequestManager.getTalkManager().sendRequestJoinCircle(circleId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                rl_jiaru.setEnabled(true);
                 MyToastUtils.showShortToast(CirxqAct.this, errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
+                rl_jiaru.setEnabled(true);
                 MyToastUtils.showShortToast(CirxqAct.this, "申请成功，等待圈主响应");
                 finish();
 

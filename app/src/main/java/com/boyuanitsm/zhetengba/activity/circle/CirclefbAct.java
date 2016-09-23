@@ -98,9 +98,6 @@ public class CirclefbAct extends BaseActivity {
         setRight("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                notifyKJ();
-//                pd.show();
-//                setRightEnable(false);
                 content = etContent.getText().toString().trim();
                 switch (type) {
                     case 0:
@@ -112,18 +109,15 @@ public class CirclefbAct extends BaseActivity {
                             if (selecteds.size() > 0) {
                                 upLoadImg(selecteds);
                             } else {
-//                                pd.show();
                                 addChannelTalk(channelTalkEntity);
                             }
                         } else {
                             if (selecteds.size() > 0) {
                                 finish();
                                 notifyTZ();
-//                                pd.show();
                                 channelTalkEntity.setLabelId(labelId);
                                 upLoadImg(selecteds);
                             } else {
-//                                pd.dismiss();
                                 MyToastUtils.showShortToast(getApplicationContext(), "频道说说内容不能为空！");
                                 return;
                             }
@@ -138,18 +132,15 @@ public class CirclefbAct extends BaseActivity {
                             if (selecteds.size() > 0) {
                                 upLoadImg(selecteds);
                             } else {
-//                                pd.show();
                                 addCircleTalk(entity, circleId);
                             }
                         } else {
                             if (selecteds.size() > 0) {
-//                                pd.show();
                                 finish();
                                 notifyTZ();
                                 entity.setTalkContent("");
                                 upLoadImg(selecteds);
                             } else {
-//                                pd.dismiss();
                                 MyToastUtils.showShortToast(getApplicationContext(), "圈子说说内容不能空！");
                                 return;
                             }
@@ -167,7 +158,6 @@ public class CirclefbAct extends BaseActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     adapter1.clearSelection(position);
-                    //关键是这一句，激情了，它可以让listview改动过的数据重新加载一遍，以达到你想要的效果
                     adapter1.notifyDataSetChanged();
                     String text = adapter1.getItem(position).toString();
                     MyToastUtils.showShortToast(CirclefbAct.this, text);
@@ -240,9 +230,7 @@ public class CirclefbAct extends BaseActivity {
         RequestManager.getTalkManager().addCircleTalk(circleEntity, circleId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-//                setRightEnable(true);
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//                mNotificationManager.cancel(0);
                 Bitmap btm = BitmapFactory.decodeResource(getResources(),
                         R.drawable.logo);
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
@@ -254,7 +242,6 @@ public class CirclefbAct extends BaseActivity {
                 mBuilder.setAutoCancel(true);//自己维护通知的消失
                 mNotificationManager.notify(0, mBuilder.build());
                 MyToastUtils.showShortToast(getApplicationContext(), "发布失败，请检查网络！");
-//                mNotificationManager.cancel(0);
 
             }
 
@@ -273,9 +260,6 @@ public class CirclefbAct extends BaseActivity {
                 mBuilder.setAutoCancel(true);//自己维护通知的消失
                 mNotificationManager.notify(0, mBuilder.build());
                 mNotificationManager.cancel(0);
-//                pd.dismiss();
-//                setRightEnable(true);
-//                finish();
                 sendBroadcast(new Intent(CirxqAct.TALKS));
                 sendBroadcast(new Intent(CircleAct.ALLTALKS));
             }
@@ -287,10 +271,7 @@ public class CirclefbAct extends BaseActivity {
         RequestManager.getTalkManager().addChannelTalk(channelTalkEntity, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-//                pd.dismiss();
-//                setRightEnable(true);
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//                mNotificationManager.cancel(0);
                 Bitmap btm = BitmapFactory.decodeResource(getResources(),
                         R.drawable.logo);
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
@@ -307,7 +288,6 @@ public class CirclefbAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//                mNotificationManager.cancel(0);
                 Bitmap btm = BitmapFactory.decodeResource(getResources(),
                         R.drawable.logo);
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
@@ -319,15 +299,8 @@ public class CirclefbAct extends BaseActivity {
                 mBuilder.setAutoCancel(true);//自己维护通知的消失
                 mNotificationManager.notify(0, mBuilder.build());
                 mNotificationManager.cancel(0);
-//                Intent intent=new Intent(SquareAct.TALK_LIST);
-//                Bundle bundle=new Bundle();
-//                bundle.putParcelable("channelTalkEntity",channelTalkEntity);
-//                intent.putExtras(bundle);
                 getApplicationContext().sendBroadcast(new Intent(SquareAct.TALK_LIST));
 
-//                pd.dismiss();
-//                setRightEnable(true);
-//                finish();
             }
         });
     }
@@ -338,8 +311,18 @@ public class CirclefbAct extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
+                for (int i = 0; i < selecteds.size(); i++) {
+                    Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
+                    File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
+                    FileBody fb = new FileBody(file);
+                    fileMaps.put(i+"", fb);
+                }
+
                 Message message=handler.obtainMessage();
-                message.what=0;
+                message.obj=fileMaps;
+
+//                message.what=0;
                 handler.sendMessage(message);
             }
         }).start();
@@ -349,24 +332,26 @@ public class CirclefbAct extends BaseActivity {
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 0:
-                    Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
-                    for (int i = 0; i < selecteds.size(); i++) {
-                        Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
-                        if (bitmap==null){
-                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                    mNotificationManager.cancel(0);
-                            MyToastUtils.showShortToast(CirclefbAct.this, "选择图片有误，请重新发布！");
-                            return;
-                        }
-                        File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
-                        FileBody fb = new FileBody(file);
-                        fileMaps.put(i+"", fb);
-                    }
-                    toUpLoadImage(fileMaps);
-                    break;
-            }
+//            switch (msg.what){
+//                case 0:
+//                    Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
+//                    for (int i = 0; i < selecteds.size(); i++) {
+//                        Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
+//                        if (bitmap==null){
+//                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                                    mNotificationManager.cancel(0);
+//                            MyToastUtils.showShortToast(CirclefbAct.this, "选择图片有误，请重新发布！");//加了此句会导致发布缓慢。
+//                            return;
+//                        }
+//                        File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
+//                        FileBody fb = new FileBody(file);
+//                        fileMaps.put(i+"", fb);
+//                    }
+//                    toUpLoadImage(fileMaps);
+//                    break;
+//            }
+            Map<String, FileBody> fileMaps= (Map<String, FileBody>) msg.obj;
+            toUpLoadImage(fileMaps);
             super.handleMessage(msg);
 //            Map<String, FileBody> fileMaps= (Map<String, FileBody>) msg.obj;
         }
