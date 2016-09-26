@@ -544,4 +544,19 @@ public class ScheduleManager extends RequestManager {
         params.put("friendId",friendId);
         OkHttpManager.getInstance().doPost(IZtbUrl.REMOVEBLACKLIST_URL, params, callback);
     }
+
+    /**
+     * 个人主页，会友列表
+     * @param page
+     * @param rows
+     * @param friendId
+     * @param callback
+     */
+    public void activityList(int page,int rows,String friendId,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("page",page+"");
+        params.put("rows",rows+"");
+        params.put("friendId",friendId);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_LISTURL, params, callback);
+    }
 }

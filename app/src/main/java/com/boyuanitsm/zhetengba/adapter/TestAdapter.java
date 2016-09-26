@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -56,9 +57,10 @@ import java.util.List;
 public class TestAdapter extends BaseAdapter {
     private Context context;
     private List<List<ImageInfo>> dateList;
-    private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
+    private List<SimpleInfo> scheduleEntity = new ArrayList<>();
     private List<UserInfo> userInfoList = new ArrayList<>();
     private List<CircleEntity> circleTalkEntityList = new ArrayList<>();
+    private String strStart, strEnd;
     private int clickPos = -1;
     private String circleId;//说说id
     private List<SimpleInfo> simpleInfos;
@@ -76,7 +78,7 @@ public class TestAdapter extends BaseAdapter {
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-    public TestAdapter(Context context, List<UserInfo> userEntity, List<ScheduleInfo> scheduleEntity, List<CircleEntity> circleTalkEntity, int i, List<List<ImageInfo>> datalist) {
+    public TestAdapter(Context context, List<UserInfo> userEntity, List<SimpleInfo> scheduleEntity, List<CircleEntity> circleTalkEntity, int i, List<List<ImageInfo>> datalist) {
         this.context = context;
         this.circleTalkEntityList = circleTalkEntity;
         this.userInfoList = userEntity;
@@ -85,7 +87,7 @@ public class TestAdapter extends BaseAdapter {
         this.dateList = datalist;
     }
 
-    public void updata(List<UserInfo> userEntity, List<ScheduleInfo> scheduleEntity, List<CircleEntity> circleTalkEntity, int i, List<List<ImageInfo>> datalist) {
+    public void updata(List<UserInfo> userEntity, List<SimpleInfo> scheduleEntity, List<CircleEntity> circleTalkEntity, int i, List<List<ImageInfo>> datalist) {
         this.circleTalkEntityList = circleTalkEntity;
         this.userInfoList = userEntity;
         this.scheduleEntity = scheduleEntity;
@@ -127,7 +129,7 @@ public class TestAdapter extends BaseAdapter {
         } else {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.test_item_cal, null);
-            viewHolder.ivChHead = (ImageView) convertView.findViewById(R.id.iv_ch_head);
+            viewHolder.ivChHead = (CircleImageView) convertView.findViewById(R.id.iv_ch_head);
             viewHolder.tvChNiName = (TextView) convertView.findViewById(R.id.tv_ch_niName);
             viewHolder.ivChGendar = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
             viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
@@ -147,119 +149,114 @@ public class TestAdapter extends BaseAdapter {
             viewHolder.cnum2 = (TextView) convertView.findViewById(R.id.cnum2);
             viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
             viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
-            viewHolder.iv_icon = (CircleImageView) convertView.findViewById(R.id.iv_icon);
-            viewHolder.tv_Name = (TextView) convertView.findViewById(R.id.tv_Name);
-            viewHolder.iv_gen = (ImageView) convertView.findViewById(R.id.iv_gen);
-            viewHolder.tv_time_cal = (TextView) convertView.findViewById(R.id.tv_time_cal);
-            viewHolder.tv_state = (TextView) convertView.findViewById(R.id.tv_state);
-            viewHolder.ll_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu);
-            viewHolder.ll_yue = (LinearLayout) convertView.findViewById(R.id.ll_yue);
-            viewHolder.ll_cal_guanzhu_del = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu_del);
-            viewHolder.ll_cal_share = (LinearLayout) convertView.findViewById(R.id.ll_yue_share);
-            viewHolder.iv_bag = (ImageView) convertView.findViewById(R.id.iv_bag);
-            viewHolder.rl_main = (LinearLayout) convertView.findViewById(R.id.rl_main);
-            viewHolder.rl_dq = (RelativeLayout) convertView.findViewById(R.id.rl_dq);
+//            viewHolder.iv_icon = (CircleImageView) convertView.findViewById(R.id.iv_icon);
+//            viewHolder.tv_Name = (TextView) convertView.findViewById(R.id.tv_Name);
+//            viewHolder.iv_gen = (ImageView) convertView.findViewById(R.id.iv_gen);
             viewHolder.ll_qz = (LinearLayout) convertView.findViewById(R.id.ll_qz);
+            viewHolder.rl_hy=(RelativeLayout)convertView.findViewById(R.id.rl_hy);
+
+
+            viewHolder.iv_headphoto = (CircleImageView) convertView.findViewById(R.id.iv_headphoto);
+            viewHolder.tv_niName = (TextView) convertView.findViewById(R.id.tv_niName);
+            viewHolder.ll_person = (LinearLayout) convertView.findViewById(R.id.ll_person);
+            viewHolder.tv_hdtheme = (TextView) convertView.findViewById(R.id.tv_hdtheme);
+            viewHolder.tv_loaction = (TextView) convertView.findViewById(R.id.tv_loaction);
+            viewHolder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
+            viewHolder.ll_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu);
+            viewHolder.iv_simple_guanzhu = (ImageView) convertView.findViewById(R.id.iv_simple_guanzhu);
+            viewHolder.tv_guanzhu_num = (TextView) convertView.findViewById(R.id.tv_guanzhu_num);
+            viewHolder.ll_join = (LinearLayout) convertView.findViewById(R.id.ll_join);
+            viewHolder.iv_join = (ImageView) convertView.findViewById(R.id.iv_join);
+            viewHolder.tv_join_num = (TextView) convertView.findViewById(R.id.tv_join_num);
+            viewHolder.tv_join_tal_num = (TextView) convertView.findViewById(R.id.tv_join_tal_num);
+            viewHolder.iv_gender = (ImageView) convertView.findViewById(R.id.iv_gender);
+            viewHolder.iv_actdetial = (CircleImageView) convertView.findViewById(R.id.iv_actdetial);
+            viewHolder.tv_text_jion = (TextView) convertView.findViewById(R.id.tv_text_jion);
+            viewHolder.tv_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
+            viewHolder.ll_show = (LinearLayout) convertView.findViewById(R.id.ll_show);
+            viewHolder.ll_show2 = (LinearLayout) convertView.findViewById(R.id.ll_show2);
+            viewHolder.ll_show3 = (LinearLayout) convertView.findViewById(R.id.ll_show3);
+            viewHolder.ll_del = (LinearLayout) convertView.findViewById(R.id.ll_del);
+            viewHolder.ll_simple_share = (LinearLayout) convertView.findViewById(R.id.ll_simple_share);
+            viewHolder.ll_theme_location = (LinearLayout) convertView.findViewById(R.id.ll_theme_location);
+            viewHolder.tv_cj= (TextView) convertView.findViewById(R.id.tv_cj);//自己发布活动参加人数
+            viewHolder.tv_tt= (TextView) convertView.findViewById(R.id.tv_tt);//能参与的总人数
             convertView.setTag(viewHolder);
         }
 
         if (clickPos == 0) {
-            viewHolder.rl_dq.setVisibility(View.VISIBLE);
+            viewHolder.rl_hy.setVisibility(View.VISIBLE);
             viewHolder.ll_qz.setVisibility(View.GONE);
-            if (!UserInfoDao.getUser().getId().equals(scheduleEntity.get(position).getCreatePersonId())) {
-                viewHolder.ll_guanzhu.setVisibility(View.GONE);//关注暂时注掉
-                viewHolder.ll_yue.setVisibility(View.VISIBLE);
-                viewHolder.ll_cal_guanzhu_del.setVisibility(View.GONE);
-                viewHolder.ll_cal_share.setVisibility(View.GONE);
-                if (scheduleEntity.get(position).isAgreeAbout()) {
-                    viewHolder.ll_yue.setEnabled(false);
-                    viewHolder.iv_bag.setEnabled(false);
-                    viewHolder.iv_bag.setImageResource(R.mipmap.yue);
-                } else {
-                    if (scheduleEntity.get(position).getDictName().equals("闲来无事")) {
-                        viewHolder.iv_bag.setImageResource(R.mipmap.lv);
-                    } else if (scheduleEntity.get(position).getDictName().equals("百无聊懒")) {
-                        viewHolder.iv_bag.setImageResource(R.mipmap.huang);
-                    } else if (scheduleEntity.get(position).getDictName().equals("闲的要死")) {
-                        viewHolder.iv_bag.setImageResource(R.mipmap.hong);
-                    } else if (scheduleEntity.get(position).getDictName().equals("无聊至极")) {
-                        viewHolder.iv_bag.setImageResource(R.mipmap.lan);
-                    }
-                    viewHolder.ll_yue.setEnabled(true);
-                    viewHolder.iv_bag.setEnabled(true);
-                    viewHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            viewHolder.iv_bag.setEnabled(false);
-                            simpleInfos = new ArrayList<SimpleInfo>();
-                            RequestManager.getScheduleManager().findMatchingActivities(scheduleEntity.get(position).getScheduleId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
-                                @Override
-                                public void onError(int status, String errorMsg) {
-                                    viewHolder.iv_bag.setEnabled(true);
-                                }
+            if (!TextUtils.isEmpty(scheduleEntity.get(position).getUserNm())) {
+                viewHolder.tv_niName.setText(scheduleEntity.get(position).getUserNm());//字段缺少用户名
+            }
+            if (!TextUtils.isEmpty(scheduleEntity.get(position).getActivitySite())) {
+                viewHolder.ll_theme_location.setVisibility(View.VISIBLE);
+                viewHolder.tv_loaction.setText(scheduleEntity.get(position).getActivitySite());//活动位置
+            } else {
+                viewHolder.ll_theme_location.setVisibility(View.GONE);
+            }
 
-                                @Override
-                                public void onResponse(ResultBean<List<SimpleInfo>> response) {
-                                    simpleInfos = response.getData();
-                                    ScheduDialog dialog = new ScheduDialog(context, simpleInfos, scheduleEntity.get(position).getScheduleId(),position);
-                                    dialog.show();
-                                    viewHolder.iv_bag.setEnabled(true);
-                                }
-                            });
-                        }
-                    });
-                }
-
+            viewHolder.tv_hdtheme.setText(scheduleEntity.get(position).getActivityTheme());//活动主题
+            if (!scheduleEntity.get(position).getCreatePersonId().equals(UserInfoDao.getUser().getId())) {
+                viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
+                viewHolder.ll_join.setVisibility(View.VISIBLE);
+                viewHolder.ll_del.setVisibility(View.GONE);
+                viewHolder.ll_simple_share.setVisibility(View.GONE);
             } else {
                 viewHolder.ll_guanzhu.setVisibility(View.GONE);
-                viewHolder.ll_yue.setVisibility(View.GONE);
-                viewHolder.ll_cal_guanzhu_del.setVisibility(View.VISIBLE);
-                viewHolder.ll_cal_share.setVisibility(View.VISIBLE);
-                viewHolder.iv_bag.setImageResource(R.mipmap.bmore);
-                viewHolder.iv_bag.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showPopupWindow(viewHolder.rl_main, position);
-                    }
-                });
+                viewHolder.ll_join.setVisibility(View.GONE);
+                viewHolder.ll_del.setVisibility(View.VISIBLE);
+                viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
+                viewHolder.tv_tt.setText("/"+scheduleEntity.get(position).getInviteNumber());//自己发布总人数
+                viewHolder.tv_cj.setText(scheduleEntity.get(position).getMemberNum()+"");//已经3响应人数
             }
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(scheduleEntity.get(position).getUserIcon()), viewHolder.iv_icon, optionsImag);//用户头像；
-            if (!TextUtils.isEmpty(userInfoList.get(0).getPetName())) {
-                viewHolder.tv_Name.setText(userInfoList.get(0).getPetName());//用户昵称
+            if (scheduleEntity.get(position).getFollowNum() == 0) {
+                viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
             } else {
-                viewHolder.tv_Name.setText("暂无昵称");
+                viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+                viewHolder.tv_guanzhu_num.setText(scheduleEntity.get(position).getFollowNum() + "");//关注人数
             }
-            if (!TextUtils.isEmpty(scheduleEntity.get(position).getUserSex())) {
-                if (scheduleEntity.get(position).getUserSex() == "1") {
-                    viewHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
-                } else {
-                    viewHolder.iv_gen.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));
-                }
-            }
-            String strStart = ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getStartTime()));
-            String strEnd = ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getEndTime()));
+            viewHolder.tv_join_num.setText(scheduleEntity.get(position).getMemberNum() + "");//目前成员数量；
+            viewHolder.tv_join_tal_num.setText(scheduleEntity.get(position).getInviteNumber() + "");//邀约人数
+            strStart = ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getStartTime()));
+            strEnd = ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getEndTime()));
             if (strStart.substring(1, 6).equals(strEnd.substring(1, 6))) {
                 String strTime = strStart + "—" + strEnd.substring(6);
-                viewHolder.tv_time_cal.setText(strTime);//活动时间；
+                viewHolder.tv_date.setText(strTime);//活动时间；
             } else {
-                viewHolder.tv_time_cal.setText(strStart + "—" + strEnd);//活动时间；
+                viewHolder.tv_date.setText(strStart + "—" + strEnd);//活动时间；
+            }
+            if (UserInfoDao.getUser().getId().equals(scheduleEntity.get(position).getUserId())) {
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()), viewHolder.iv_headphoto, optionsImag);
+            } else {
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(scheduleEntity.get(position).getUserIcon()), viewHolder.iv_headphoto, optionsImag);//用户头像
+            }
+            if (!TextUtils.isEmpty(scheduleEntity.get(position).getUserSex())) {
+                if (scheduleEntity.get(position).getUserSex().equals(1 + "")) {
+                    viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别
+                } else if (scheduleEntity.get(position).getUserSex().equals(0 + "")) {
+                    viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.female));//用户性别
+                }
             }
 
-            if (!TextUtils.isEmpty(scheduleEntity.get(position).getDictName())) {
-                viewHolder.tv_state.setText(scheduleEntity.get(position).getDictName());//标签名称
-                if (scheduleEntity.get(position).getDictName().equals("闲来无事")) {
-                    viewHolder.tv_state.setBackgroundResource(R.drawable.rdbt_xl_check);
-                } else if (scheduleEntity.get(position).getDictName().equals("百无聊懒")) {
-                    viewHolder.tv_state.setBackgroundResource(R.drawable.rdbt_bw_check);
-                } else if (scheduleEntity.get(position).getDictName().equals("闲的要死")) {
-                    viewHolder.tv_state.setBackgroundResource(R.drawable.rdbt_wl_check);
-                } else if (scheduleEntity.get(position).getDictName().equals("无聊至极")) {
-                    viewHolder.tv_state.setBackgroundResource(R.drawable.rdbt_ys_check);
-                }
+            if (scheduleEntity.get(position).getIcon() != null) {
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(scheduleEntity.get(position).getIcon()), viewHolder.iv_actdetial, optionsImagh);//详情icon
+            }
+//        返回状态判断是否参加，
+            if (scheduleEntity.get(position).isJoining()) {
+                viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.cancel));//参加icon
+                viewHolder.tv_text_jion.setText("取消响应");
+                viewHolder.tv_join_num.setTextColor(Color.parseColor("#fd3838"));
+
+            } else {
+                viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
+                viewHolder.tv_text_jion.setText("响应");
+                viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
             }
 
         } else if (clickPos == 1) {
-            viewHolder.rl_dq.setVisibility(View.GONE);
+            viewHolder.rl_hy.setVisibility(View.GONE);
             viewHolder.ll_qz.setVisibility(View.VISIBLE);
            final List<ImageInfo> itemList= dateList.get(position);
             if (itemList == null) {
@@ -390,77 +387,12 @@ public class TestAdapter extends BaseAdapter {
 
         }
 
-        viewHolder.ll_yue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewHolder.ll_yue.setClickable(false);
-                simpleInfos = new ArrayList<SimpleInfo>();
-                RequestManager.getScheduleManager().findMatchingActivities(scheduleEntity.get(position).getScheduleId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
-                    @Override
-                    public void onError(int status, String errorMsg) {
-                        viewHolder.ll_yue.setClickable(true);
-                    }
 
-                    @Override
-                    public void onResponse(ResultBean<List<SimpleInfo>> response) {
-                        viewHolder.ll_yue.setClickable(true);
-                        simpleInfos = response.getData();
-                        ScheduDialog dialog = new ScheduDialog(context, simpleInfos, scheduleEntity.get(position).getScheduleId(),position);
-                        dialog.show();
-                    }
-                });
-
-            }
-        });
-        viewHolder.ll_cal_guanzhu_del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //调用删除此活动接口,刷新数据；
-                        removeSchuldel(scheduleEntity.get(position).getScheduleId(), position);
-                    }
-                }).setNegativeButton("取消", null).show();
-
-            }
-        });
-        viewHolder.ll_cal_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //开启分享界面
-                Intent intent = new Intent();
-                intent.setClass(context, ShareDialogAct.class);
-                intent.putExtra("type", 2);
-                intent.putExtra("id", scheduleEntity.get(position).getScheduleId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
         return convertView;
     }
 
     class ViewHolder {
-        private CircleImageView iv_icon;//头像
-        private TextView tv_Name;//昵称
-        private ImageView iv_gen;//性别
-        private TextView tv_time_cal;//活动日期
-        private TextView tv_state;//状态
-//        private LinearLayout ll_cal_guanzhu;//关注数量
-//        private ImageView iv_cal_guanzhu;//关注图标
-//        private TextView tv_cal_text_guanzhu;//关注文本
-//        private TextView tv_gzcal_num;//关注数量设置
-//        private LinearLayout ll_yh;//约会
-//        private ImageView iv_cal_yh;//参加头像
-//        private TextView tv_cal_yh;//参加数量
-        private LinearLayout ll_guanzhu;//关注
-        private LinearLayout ll_yue;//约TA
-//        private RelativeLayout ll_name;//个人昵称
-        private LinearLayout ll_cal_guanzhu_del;
-        private LinearLayout ll_cal_share;
-        private ImageView iv_bag;//档期列表右边的
-        private LinearLayout rl_main;//item大布局
-        private ImageView ivChHead;
+        private CircleImageView ivChHead;
         private TextView tvChNiName;
         private ImageView ivChGendar;
         private TextView tvTime;
@@ -473,17 +405,35 @@ public class TestAdapter extends BaseAdapter {
         private LinearLayout ll_share;
         private LinearLayout ll_comment;
         private TextView tv_content;
-//        private TextView znum;
-//        private TextView cnum;
-//        private ImageView zimg;
-//        private LinearLayout llphoto;
         private TextView znum2;
         private TextView cnum2;
         private TextView znumText;
         private TextView cnumText;
-//        private ImageView iv_more;
-        private RelativeLayout rl_dq;
         private LinearLayout ll_qz;
+        private RelativeLayout rl_hy;
+
+
+        private CircleImageView iv_headphoto;//头像
+        private TextView tv_niName;//昵称
+        private LinearLayout ll_person;//个人信息id
+        private TextView tv_hdtheme;//活动主题
+        private TextView tv_loaction;//活动位置
+        private TextView tv_date;//活动日期
+        private LinearLayout ll_guanzhu;//关注数量
+        private ImageView iv_simple_guanzhu;//关注图标
+        private TextView tv_text_guanzhu;//关注文本
+        private TextView tv_guanzhu_num;//关注数量设置
+        private LinearLayout ll_join;//参加人数
+        private ImageView iv_join;//参加头像
+        private TextView tv_join_num;//参加数量
+        private TextView tv_join_tal_num;//活动总人数设置
+        private CircleImageView iv_actdetial;//活动标签
+        private ImageView iv_gender;//性别
+        private TextView tv_text_jion;//参加/取消参加
+        private LinearLayout ll_theme_location;//活动位置Linear
+        private LinearLayout ll_show, ll_show2, ll_show3;
+        private LinearLayout ll_del, ll_simple_share;
+        private TextView tv_cj,tv_tt;//自己发布后参加人数和总的人数
     }
 
     /***
@@ -508,50 +458,50 @@ public class TestAdapter extends BaseAdapter {
         });
     }
 
-    private void showPopupWindow(View parent, final int position) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
-                R.layout.popuwindowsxx_dialog, null);
-
-        // 实例化popupWindow
-        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
-        //控制键盘是否可以获得焦点
-        popupWindow.setFocusable(true);
-        //设置popupWindow弹出窗体的背景
-        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
-        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
-        @SuppressWarnings("deprecation")
-        //获取xoff
-                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
-        //xoff,yoff基于anchor的左下角进行偏移。
-        popupWindow.showAsDropDown(parent, xpos, -25);
-
-        LinearLayout iv_shanc = (LinearLayout) layout.findViewById(R.id.iv_shanc);
-        LinearLayout iv_fenxiang = (LinearLayout) layout.findViewById(R.id.iv_fenxiang);
-
-        iv_shanc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //调用删除此活动接口,刷新数据；
-                        removeSchuldel(scheduleEntity.get(position).getScheduleId(), position);
-                    }
-                }).setNegativeButton("取消", null).show();
-            }
-        });
-
-        iv_fenxiang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("type", 2);
-                intent.putExtra("id", scheduleEntity.get(position).getScheduleId());
-                intent.setClass(context, ShareDialogAct.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
-
-    }
+//    private void showPopupWindow(View parent, final int position) {
+//        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
+//                R.layout.popuwindowsxx_dialog, null);
+//
+//        // 实例化popupWindow
+//        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
+//        //控制键盘是否可以获得焦点
+//        popupWindow.setFocusable(true);
+//        //设置popupWindow弹出窗体的背景
+//        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+//        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+//        @SuppressWarnings("deprecation")
+//        //获取xoff
+//                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+//        //xoff,yoff基于anchor的左下角进行偏移。
+//        popupWindow.showAsDropDown(parent, xpos, -25);
+//
+//        LinearLayout iv_shanc = (LinearLayout) layout.findViewById(R.id.iv_shanc);
+//        LinearLayout iv_fenxiang = (LinearLayout) layout.findViewById(R.id.iv_fenxiang);
+//
+//        iv_shanc.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        //调用删除此活动接口,刷新数据；
+//                        removeSchuldel(scheduleEntity.get(position).getScheduleId(), position);
+//                    }
+//                }).setNegativeButton("取消", null).show();
+//            }
+//        });
+//
+//        iv_fenxiang.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.putExtra("type", 2);
+//                intent.putExtra("id", scheduleEntity.get(position).getScheduleId());
+//                intent.setClass(context, ShareDialogAct.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+//            }
+//        });
+//
+//    }
 }

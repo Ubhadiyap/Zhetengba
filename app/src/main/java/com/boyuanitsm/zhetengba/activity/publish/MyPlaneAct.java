@@ -55,7 +55,7 @@ public class MyPlaneAct extends BaseActivity {
         lv_my_plane= (PullToRefreshListView) findViewById(R.id.lv_my_plane);
         //初始化下拉刷新
         LayoutHelperUtil.freshInit(lv_my_plane);
-        getMyTalks(page, rows);
+        getMyTalks(page, rows,"");
         lv_my_plane.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -76,13 +76,13 @@ public class MyPlaneAct extends BaseActivity {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 lv_my_plane.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                 page = 1;
-                getMyTalks(page, rows);
+                getMyTalks(page, rows,"");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getMyTalks(page, rows);
+                getMyTalks(page, rows,"");
             }
         });
     }
@@ -93,11 +93,11 @@ public class MyPlaneAct extends BaseActivity {
      * @param page
      * @param rows
      */
-    private void getMyTalks(final int page, int rows){
+    private void getMyTalks(final int page, int rows,String friend){
         list=new ArrayList<>();
         datalist=new ArrayList<>();
 
-        RequestManager.getTalkManager().myTalksOut(page, rows, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
+        RequestManager.getTalkManager().myTalksOut(page, rows,friend, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 lv_my_plane.onPullUpRefreshComplete();
@@ -181,7 +181,7 @@ public class MyPlaneAct extends BaseActivity {
 //                }
 //            } else {
                 page = 1;
-                getMyTalks(page, rows);
+                getMyTalks(page, rows,"");
 //            }
         }
     }

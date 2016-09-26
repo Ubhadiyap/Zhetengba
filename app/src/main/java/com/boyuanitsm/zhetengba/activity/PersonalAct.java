@@ -30,15 +30,19 @@ import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
+import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
+import com.boyuanitsm.zhetengba.adapter.MyPlaneAdapter;
 import com.boyuanitsm.zhetengba.adapter.TestAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.PersonalMain;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
@@ -53,12 +57,17 @@ import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
+import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
+import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -77,8 +86,11 @@ public class PersonalAct extends BaseActivity{
     private List<CircleEntity> circleEntity = new ArrayList<>();
     private List<UserInfo> userEntity = new ArrayList<>();
     private List<UserInterestInfo> userInterestEntity = new ArrayList<>();
-    private List<ScheduleInfo> scheduleEntity = new ArrayList<>();
+    private List<SimpleInfo> scheduleEntity = new ArrayList<>();
     private List<CircleEntity> circleTalkEntity=new ArrayList<>();
+    private List<CircleEntity> datas2=new ArrayList<>();
+    //    private List<SimpleInfo> list;//活动对象集合
+    private List<SimpleInfo> datas = new ArrayList<>();
     private PersonalMain personalMain;
     private Boolean flag;
     private LinearLayout ll_add_riend;
@@ -103,12 +115,17 @@ public class PersonalAct extends BaseActivity{
     private TextView tv_cir;
     private int state = 1, state1 = 1;//1,增加
     private RelativeLayout ll_scorl;
-    private ListView test_lv;
+    private PullToRefreshListView test_lv;
     private TestAdapter adapter;
     private String PAGEFRG_KEY = "perpage_to_pagecalFrg";
     private ProgressDialog progressDialog;
     private int chat=-1;
     private String groupname;
+    private int page=1;
+    private int rows=10;
+    private int page2=1;
+    private View inflate;
+    private int tag;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -132,13 +149,28 @@ public class PersonalAct extends BaseActivity{
         userId = bundle.getString("userId");
         chat = intent.getIntExtra("chat_type", 5);
         groupname=intent.getStringExtra("groupName");
-        View inflate = getLayoutInflater().inflate(R.layout.test_item_header, null);
+         inflate = getLayoutInflater().inflate(R.layout.test_item_header, null);
         setInflateListener(inflate);
-        test_lv.addHeaderView(inflate);
+
         getPersonalMain(userId);
+        getCirclTalk(page,rows,userId);
+        test_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page = 1;
+               getActivityList(page,rows,userId);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                getActivityList(page, rows, userId);
+            }
+        });
     }
 
     private void setInflateListener(View inflate) {
+        test_lv= (PullToRefreshListView) findViewById(R.id.test_lv);
         ll_add_riend= (LinearLayout) inflate.findViewById(R.id.ll_add_friend);
         iv_set= (ImageView) inflate.findViewById(R.id.iv_set);
         tv_tab1= (TextView) inflate.findViewById(R.id.tv_tab1);
@@ -157,21 +189,22 @@ public class PersonalAct extends BaseActivity{
         hlv_perpage= (HorizontalListView) inflate.findViewById(R.id.hlv_perpage);
         rl_dangqi= (RelativeLayout) inflate.findViewById(R.id.rl_dangqi);
         rl_dongtai= (RelativeLayout) inflate.findViewById(R.id.rl_dongtai);
+        LayoutHelperUtil.freshInit(test_lv);
+        test_lv.getRefreshableView().addHeaderView(inflate);
         ll_scorl= (RelativeLayout) findViewById(R.id.ll_scorl);
         bt_message= (Button) findViewById(R.id.bt_message);
-        test_lv= (ListView) findViewById(R.id.test_lv);
         rl_dangqi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetTabBtn();
-                setSelect(0,userEntity,scheduleEntity,circleTalkEntity);
+                setSelect(0,userEntity,datas,datas2);
             }
         });
         rl_dongtai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetTabBtn();
-                setSelect(1, userEntity, scheduleEntity, circleTalkEntity);
+                setSelect(1, userEntity, datas, datas2);
             }
         });
         iv_set.setOnClickListener(new View.OnClickListener() {
@@ -239,10 +272,10 @@ public class PersonalAct extends BaseActivity{
 //            test_lv.setVisibility(View.VISIBLE);
             iv_set.setVisibility(View.GONE);
             bt_message.setVisibility(View.GONE);
-            test_lv.setPadding(0, 0, 0, 0);
+            test_lv.getRefreshableView().setPadding(0, 0, 0, 0);
             return 0;
         } else if (flag) {
-            test_lv.setPadding(0, 0, 0, 80);
+            test_lv.getRefreshableView().setPadding(0, 0, 0, 80);
 //            test_lv.setVisibility(View.VISIBLE);
             bt_message.setVisibility(View.VISIBLE);
             ll_add_riend.setVisibility(View.VISIBLE);
@@ -253,7 +286,7 @@ public class PersonalAct extends BaseActivity{
 
         } else {
 //            test_lv.setVisibility(View.GONE);
-            test_lv.setPadding(0, 0, 0, 80);
+            test_lv.getRefreshableView().setPadding(0, 0, 0, 80);
             bt_message.setVisibility(View.VISIBLE);
             bt_message.setText("加为好友");
             iv_set.setVisibility(View.GONE);
@@ -261,8 +294,6 @@ public class PersonalAct extends BaseActivity{
             cv_photo.setEnabled(false);
             return 2;
         }
-//        manager = getSupportFragmentManager();
-//        msv_scroll.smoothScrollTo(0, 0);
     }
     /**
      * 点击加为好友按钮时候通过此接口返回获取字段判断是否需要验证
@@ -336,7 +367,7 @@ public class PersonalAct extends BaseActivity{
             @Override
             public void onError(int status, String errorMsg) {
                 progressDialog.dismiss();
-                MyToastUtils.showShortToast(getApplicationContext(),errorMsg);
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
@@ -345,10 +376,11 @@ public class PersonalAct extends BaseActivity{
                 personalMain = response.getData();
                 circleEntity = personalMain.getCircleEntity();
                 userEntity = personalMain.getUserEntity();
-                int tag = instalData();
+                tag = instalData();
+                getActivityList(page, rows, userId);
                 userInterestEntity = personalMain.getUserInterestEntity();
-                scheduleEntity = personalMain.getScheduleEntity();
-                circleTalkEntity = personalMain.getCircleTalkEntity();
+//                scheduleEntity = personalMain.getScheduleEntity();
+//                circleTalkEntity = personalMain.getCircleTalkEntity();
                 initUserData(userEntity);
                 iniTab(userInterestEntity, userEntity.get(0).getId());
 //                toPageCalFrg();
@@ -370,9 +402,72 @@ public class PersonalAct extends BaseActivity{
     }
 
     /**
+     * 获取我的会有
+     */
+    private void getActivityList(final int page,int rows,String userId){
+        RequestManager.getScheduleManager().activityList(page, rows, userId, new ResultCallback<ResultBean<DataBean<SimpleInfo>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<SimpleInfo>> response) {
+                test_lv.onPullDownRefreshComplete();
+                test_lv.onPullUpRefreshComplete();
+                scheduleEntity = response.getData().getRows();
+                if (scheduleEntity.size() == 0) {
+                    if (page == 1) {
+                    } else {
+                        test_lv.setHasMoreData(false);
+                    }
+                }
+                if (page == 1) {
+                    datas.clear();
+                }
+                datas.addAll(scheduleEntity);
+                setSelect(tag, userEntity, datas, circleTalkEntity);
+                setOnclikListener();
+            }
+        });
+    }
+
+    /**
+     * 获取圈子列表
+     * @param page
+     * @param rows
+     * @param userId
+     */
+    private void getCirclTalk(final int page,int rows,String userId){
+        RequestManager.getTalkManager().myTalksOut(page, rows, userId, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
+                circleTalkEntity=response.getData().getRows();
+                if (circleTalkEntity.size() == 0) {
+                    if (page == 1) {
+
+                    } else {
+                        test_lv.setHasMoreData(false);
+                    }
+                    return;
+                }
+                if (page == 1) {
+                    datas2.clear();
+                }
+                datas2.addAll(circleTalkEntity);
+                setSelect(tag, userEntity, datas, datas2);
+            }
+        });
+    }
+    /**
      * 点击button后选择显示的frg
      */
-    private void setSelect(int position, List<UserInfo> userEntity, List<ScheduleInfo> scheduleEntity, List<CircleEntity> circleTalkEntity) {
+    private void setSelect(int position, List<UserInfo> userEntity, List<SimpleInfo> scheduleEntity, List<CircleEntity> circleTalkEntity) {
         if (circleTalkEntity!=null&&circleTalkEntity.size()>0){
             for (int j=0;j<circleTalkEntity.size();j++) {
                 List<ImageInfo> itemList=new ArrayList<>();
@@ -391,7 +486,7 @@ public class PersonalAct extends BaseActivity{
                 setTab(0);
                     if (adapter==null){
                         adapter=new TestAdapter(PersonalAct.this,userEntity,scheduleEntity,circleTalkEntity,0,datalist);
-                        test_lv.setAdapter(adapter);
+                        test_lv.getRefreshableView().setAdapter(adapter);
                     }else {
                         adapter.updata(userEntity,scheduleEntity,circleTalkEntity,0,datalist);
                     }
@@ -401,7 +496,7 @@ public class PersonalAct extends BaseActivity{
                 setTab(1);
                 if (adapter==null){
                     adapter=new TestAdapter(PersonalAct.this,userEntity,scheduleEntity,circleTalkEntity,1,datalist);
-                    test_lv.setAdapter(adapter);
+                    test_lv.getRefreshableView().setAdapter(adapter);
                 }else {
                     adapter.updata(userEntity,scheduleEntity,circleTalkEntity,1,datalist);
                 }
@@ -410,7 +505,7 @@ public class PersonalAct extends BaseActivity{
                 setTab(0);
                 if (adapter==null){
                     adapter=new TestAdapter(PersonalAct.this,userEntity,scheduleEntity,circleTalkEntity,2,datalist);
-                    test_lv.setAdapter(adapter);
+                    test_lv.getRefreshableView().setAdapter(adapter);
                 }else {
                     adapter.updata(userEntity,scheduleEntity,circleTalkEntity,2,datalist);
                 }

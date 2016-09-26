@@ -5,9 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -32,6 +37,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.EmojUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
@@ -112,7 +118,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
             viewHolder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.item_circle, null);
+            convertView = View.inflate(context, R.layout.item_circle2, null);
             viewHolder.ivChHead = (ImageView) convertView.findViewById(R.id.iv_ch_head);
             viewHolder.tvChNiName = (TextView) convertView.findViewById(R.id.tv_ch_niName);
             viewHolder.ivChGendar = (ImageView) convertView.findViewById(R.id.iv_ch_gendar);
@@ -141,6 +147,16 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
             viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
             viewHolder.iv_more=(ImageView)convertView.findViewById(R.id.iv_more);
+
+            viewHolder.ll_comment2 = (LinearLayout) convertView.findViewById(R.id.ll_comment2);
+            viewHolder.ll_comment_one= (LinearLayout) convertView.findViewById(R.id.ll_comment_one);
+            viewHolder.ll_comment_two = (LinearLayout) convertView.findViewById(R.id.ll_comment_two);
+            viewHolder.ll_comment_three = (LinearLayout) convertView.findViewById(R.id.ll_comment_three);
+            viewHolder.tv_comment_one= (TextView) convertView.findViewById(R.id.tv_comment_one);
+            viewHolder.tv_comment_two= (TextView) convertView.findViewById(R.id.tv_comment_two);
+            viewHolder.tv_comment_three= (TextView) convertView.findViewById(R.id.tv_comment_three);
+            viewHolder.tv_more= (TextView) convertView.findViewById(R.id.tv_more);
+            viewHolder.rl_more= (RelativeLayout) convertView.findViewById(R.id.rl_more);
             convertView.setTag(viewHolder);
         }
 //        viewHolder.llphoto.setVisibility(View.VISIBLE);
@@ -271,7 +287,75 @@ public class CirclexqListAdapter extends BaseAdapter {
                     viewHolder.cnum2.setText(list.get(position).getCommentCounts() + "");
                 }
             }
+
+            if (list.get(position).getCommentsList()!=null){
+                viewHolder.ll_comment2.setVisibility(View.VISIBLE);
+                List<CircleEntity> clist = new ArrayList<>();
+                clist=list.get(position).getCommentsList();
+                if (clist.size()==1){
+                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_two.setVisibility(View.GONE);
+                    viewHolder.ll_comment_three.setVisibility(View.GONE);
+                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+ EmojUtils.decoder(clist.get(0).getCommentContent()));
+                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length()+1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    viewHolder.tv_comment_one.setText(style);
+                }else if (clist.size()==2){
+                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_two.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_three.setVisibility(View.GONE);
+                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
+                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    SpannableStringBuilder style1=new SpannableStringBuilder(clist.get(1).getPetName()+ "："+EmojUtils.decoder(clist.get(1).getCommentContent()));
+                    style1.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(1).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    viewHolder.tv_comment_one.setText(style);
+                    viewHolder.tv_comment_two.setText(style1);
+
+                }else {
+                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_two.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_three.setVisibility(View.VISIBLE);
+                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
+                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    SpannableStringBuilder style1=new SpannableStringBuilder(clist.get(1).getPetName()+ "："+EmojUtils.decoder(clist.get(1).getCommentContent()));
+                    style1.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(1).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    SpannableStringBuilder style2=new SpannableStringBuilder(clist.get(2).getPetName()+ "："+EmojUtils.decoder(clist.get(2).getCommentContent()));
+                    style2.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(2).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    viewHolder.tv_comment_one.setText(style);
+                    viewHolder.tv_comment_two.setText(style1);
+                    viewHolder.tv_comment_three.setText(style2);
+
+                }
+            }else {
+                viewHolder.ll_comment2.setVisibility(View.GONE);
+            }
+
         }
+
+        viewHolder.ll_comment2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, CircleTextAct.class);
+                intent.putExtra("circleEntity", list.get(position));
+                intent.putExtra("circleId", list.get(position).getId());
+                intent.putExtra("CirCommentPosition", position);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+        viewHolder.tv_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, CircleTextAct.class);
+                intent.putExtra("circleEntity", list.get(position));
+                intent.putExtra("circleId", list.get(position).getId());
+                intent.putExtra("CirCommentPosition", position);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+
         //点击用户头像，进入用户圈子主页
         viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -330,7 +414,6 @@ public class CirclexqListAdapter extends BaseAdapter {
         private ImageView iv_two_one, iv_two_two, iv_two_three, iv_two_four;
         private LinearLayout like;
         private LinearLayout ll_share;
-        private LinearLayout ll_comment;
         private LinearLayout llphoto;
         private TextView tv_content;
         private TextView znum;
@@ -343,6 +426,12 @@ public class CirclexqListAdapter extends BaseAdapter {
         private TextView znumText;
         private TextView cnumText;
         private ImageView iv_more;
+
+        private LinearLayout ll_comment,ll_comment_one,ll_comment_two,ll_comment_three;
+        private LinearLayout ll_comment2;
+        private TextView tv_comment_one,tv_comment_two,tv_comment_three;
+        private RelativeLayout rl_more;
+        private TextView tv_more;
     }
 
     /**

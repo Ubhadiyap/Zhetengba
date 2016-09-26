@@ -3,6 +3,8 @@ package com.boyuanitsm.zhetengba.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * 频道说说实体
  * Created by gxy on 2016/6/2.
@@ -50,77 +52,51 @@ public class ChannelTalkEntity implements Parcelable{
 
     private String commentContent;//评论内容
 
+    private List<ChannelTalkEntity> commentsList;//评论列表
+
+    @Override
+    public String toString() {
+        return "ChannelTalkEntity{" +
+                "commentContent='" + commentContent + '\'' +
+                ", address='" + address + '\'' +
+                ", commentCounts=" + commentCounts +
+                ", createPersonId='" + createPersonId + '\'' +
+                ", createTiem='" + createTiem + '\'' +
+                ", id='" + id + '\'' +
+                ", isValid=" + isValid +
+                ", labelId='" + labelId + '\'' +
+                ", likeCounts=" + likeCounts +
+                ", sharedCounts=" + sharedCounts +
+                ", channelContent='" + channelContent + '\'' +
+                ", channelImage='" + channelImage + '\'' +
+                ", remark='" + remark + '\'' +
+                ", petName='" + petName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userIcon='" + userIcon + '\'' +
+                ", userSex='" + userSex + '\'' +
+                ", liked=" + liked +
+                ", fatherCommentId='" + fatherCommentId + '\'' +
+                ", channelTalkId='" + channelTalkId + '\'' +
+                ", commentUserId='" + commentUserId + '\'' +
+                ", commentTime='" + commentTime + '\'' +
+                '}';
+    }
+
+    public List<ChannelTalkEntity> getCommentsList() {
+        return commentsList;
+    }
+
+    public void setCommentsList(List<ChannelTalkEntity> commentsList) {
+        this.commentsList = commentsList;
+    }
+
+    public static Creator<ChannelTalkEntity> getCREATOR() {
+        return CREATOR;
+    }
+
     public ChannelTalkEntity() {
     }
 
-
-    protected ChannelTalkEntity(Parcel in) {
-        address = in.readString();
-        commentCounts = in.readInt();
-        createPersonId = in.readString();
-        createTiem = in.readString();
-        id = in.readString();
-        isValid = in.readByte() != 0;
-        labelId = in.readString();
-        likeCounts = in.readInt();
-        sharedCounts = in.readInt();
-        channelContent = in.readString();
-        channelImage = in.readString();
-        remark = in.readString();
-        userName = in.readString();
-        userIcon = in.readString();
-        userSex = in.readString();
-        liked = in.readInt();
-        fatherCommentId = in.readString();
-        channelTalkId = in.readString();
-        commentUserId = in.readString();
-        commentTime = in.readString();
-        commentContent = in.readString();
-        petName=in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(address);
-        dest.writeInt(commentCounts);
-        dest.writeString(createPersonId);
-        dest.writeString(createTiem);
-        dest.writeString(id);
-        dest.writeByte((byte) (isValid ? 1 : 0));
-        dest.writeString(labelId);
-        dest.writeInt(likeCounts);
-        dest.writeInt(sharedCounts);
-        dest.writeString(channelContent);
-        dest.writeString(channelImage);
-        dest.writeString(remark);
-        dest.writeString(userName);
-        dest.writeString(userIcon);
-        dest.writeString(userSex);
-        dest.writeInt(liked);
-        dest.writeString(fatherCommentId);
-        dest.writeString(channelTalkId);
-        dest.writeString(commentUserId);
-        dest.writeString(commentTime);
-        dest.writeString(commentContent);
-        dest.writeString(petName);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<ChannelTalkEntity> CREATOR = new Creator<ChannelTalkEntity>() {
-        @Override
-        public ChannelTalkEntity createFromParcel(Parcel in) {
-            return new ChannelTalkEntity(in);
-        }
-
-        @Override
-        public ChannelTalkEntity[] newArray(int size) {
-            return new ChannelTalkEntity[size];
-        }
-    };
 
     public String getPetName() {
         return petName;
@@ -301,4 +277,74 @@ public class ChannelTalkEntity implements Parcelable{
     public void setLiked(int liked) {
         this.liked = liked;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.address);
+        dest.writeInt(this.commentCounts);
+        dest.writeString(this.createPersonId);
+        dest.writeString(this.createTiem);
+        dest.writeString(this.id);
+        dest.writeByte(this.isValid ? (byte) 1 : (byte) 0);
+        dest.writeString(this.labelId);
+        dest.writeInt(this.likeCounts);
+        dest.writeInt(this.sharedCounts);
+        dest.writeString(this.channelContent);
+        dest.writeString(this.channelImage);
+        dest.writeString(this.remark);
+        dest.writeString(this.petName);
+        dest.writeString(this.userName);
+        dest.writeString(this.userIcon);
+        dest.writeString(this.userSex);
+        dest.writeInt(this.liked);
+        dest.writeString(this.fatherCommentId);
+        dest.writeString(this.channelTalkId);
+        dest.writeString(this.commentUserId);
+        dest.writeString(this.commentTime);
+        dest.writeString(this.commentContent);
+        dest.writeTypedList(this.commentsList);
+    }
+
+    protected ChannelTalkEntity(Parcel in) {
+        this.address = in.readString();
+        this.commentCounts = in.readInt();
+        this.createPersonId = in.readString();
+        this.createTiem = in.readString();
+        this.id = in.readString();
+        this.isValid = in.readByte() != 0;
+        this.labelId = in.readString();
+        this.likeCounts = in.readInt();
+        this.sharedCounts = in.readInt();
+        this.channelContent = in.readString();
+        this.channelImage = in.readString();
+        this.remark = in.readString();
+        this.petName = in.readString();
+        this.userName = in.readString();
+        this.userIcon = in.readString();
+        this.userSex = in.readString();
+        this.liked = in.readInt();
+        this.fatherCommentId = in.readString();
+        this.channelTalkId = in.readString();
+        this.commentUserId = in.readString();
+        this.commentTime = in.readString();
+        this.commentContent = in.readString();
+        this.commentsList = in.createTypedArrayList(ChannelTalkEntity.CREATOR);
+    }
+
+    public static final Creator<ChannelTalkEntity> CREATOR = new Creator<ChannelTalkEntity>() {
+        @Override
+        public ChannelTalkEntity createFromParcel(Parcel source) {
+            return new ChannelTalkEntity(source);
+        }
+
+        @Override
+        public ChannelTalkEntity[] newArray(int size) {
+            return new ChannelTalkEntity[size];
+        }
+    };
 }

@@ -3,6 +3,8 @@ package com.boyuanitsm.zhetengba.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 
 /**
  * 圈子实体,圈子说说实体
@@ -27,6 +29,7 @@ public class CircleEntity implements Parcelable{
     private String talkContent;//说说内容
     private String talkImage;//说说图片
     private int isInCircle;//是否在圈子里面，后面才加的字段
+    private List<CircleEntity> commentsList;//评论列表
     /**
      * 用户姓名
      */
@@ -69,6 +72,14 @@ public class CircleEntity implements Parcelable{
     private String remark;
     private String petName;
     private boolean isValid;
+
+    public List<CircleEntity> getCommentsList() {
+        return commentsList;
+    }
+
+    public void setCommentsList(List<CircleEntity> commentsList) {
+        this.commentsList = commentsList;
+    }
 
     public String getPetName() {
         return petName;
@@ -368,6 +379,7 @@ public class CircleEntity implements Parcelable{
         dest.writeString(this.talkContent);
         dest.writeString(this.talkImage);
         dest.writeInt(this.isInCircle);
+        dest.writeTypedList(this.commentsList);
         dest.writeString(this.userIcon);
         dest.writeString(this.userSex);
         dest.writeInt(this.liked);
@@ -404,6 +416,7 @@ public class CircleEntity implements Parcelable{
         this.talkContent = in.readString();
         this.talkImage = in.readString();
         this.isInCircle = in.readInt();
+        this.commentsList = in.createTypedArrayList(CircleEntity.CREATOR);
         this.userIcon = in.readString();
         this.userSex = in.readString();
         this.liked = in.readInt();

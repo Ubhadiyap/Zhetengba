@@ -4,9 +4,15 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +31,13 @@ import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.EmojUtils;
+import com.boyuanitsm.zhetengba.utils.LUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -40,6 +49,8 @@ import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.GcDialog;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -60,6 +71,7 @@ public class ChanAdapter extends BaseAdapter {
     private boolean image_record_out;
     int clickPos = 0;
     private PopupWindow popupWindow;
+    private Gson gson=new Gson();
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.tum)
@@ -141,6 +153,15 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
             viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
             viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
+            viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
+            viewHolder.ll_comment_one= (LinearLayout) convertView.findViewById(R.id.ll_comment_one);
+            viewHolder.ll_comment_two = (LinearLayout) convertView.findViewById(R.id.ll_comment_two);
+            viewHolder.ll_comment_three = (LinearLayout) convertView.findViewById(R.id.ll_comment_three);
+            viewHolder.tv_comment_one= (TextView) convertView.findViewById(R.id.tv_comment_one);
+            viewHolder.tv_comment_two= (TextView) convertView.findViewById(R.id.tv_comment_two);
+            viewHolder.tv_comment_three= (TextView) convertView.findViewById(R.id.tv_comment_three);
+            viewHolder.tv_more= (TextView) convertView.findViewById(R.id.tv_more);
+            viewHolder.rl_more= (RelativeLayout) convertView.findViewById(R.id.rl_more);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
@@ -262,13 +283,53 @@ public class ChanAdapter extends BaseAdapter {
                 if (list.get(position).getCommentCounts() == 0) {
                     viewHolder.cnum.setVisibility(View.GONE);
                     viewHolder.cnumText.setVisibility(View.GONE);
-                    MyLogUtils.info("getCommentCounts===="+list.get(position).getCommentCounts());
+                    MyLogUtils.info("getCommentCounts====" + list.get(position).getCommentCounts());
                 } else {
                     viewHolder.cnum.setVisibility(View.VISIBLE);
                     viewHolder.cnumText.setVisibility(View.VISIBLE);
                     viewHolder.cnum.setText(list.get(position).getCommentCounts() + "");
                     MyLogUtils.info("Counts====" + list.get(position).getCommentCounts());
                 }
+            }
+            if (list.get(position).getCommentsList()!=null){
+                viewHolder.ll_comment.setVisibility(View.VISIBLE);
+                List<ChannelTalkEntity> clist = new ArrayList<>();
+                clist=list.get(position).getCommentsList();
+                if (clist.size()==1){
+                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_two.setVisibility(View.GONE);
+                    viewHolder.ll_comment_three.setVisibility(View.GONE);
+                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
+                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length()+1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    viewHolder.tv_comment_one.setText(style);
+                }else if (clist.size()==2){
+                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_two.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_three.setVisibility(View.GONE);
+                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
+                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    SpannableStringBuilder style1=new SpannableStringBuilder(clist.get(1).getPetName()+ "："+EmojUtils.decoder(clist.get(1).getCommentContent()));
+                    style1.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(1).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    viewHolder.tv_comment_one.setText(style);
+                    viewHolder.tv_comment_two.setText(style1);
+
+                }else if (clist.size()==3){
+                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_two.setVisibility(View.VISIBLE);
+                    viewHolder.ll_comment_three.setVisibility(View.VISIBLE);
+                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
+                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    SpannableStringBuilder style1=new SpannableStringBuilder(clist.get(1).getPetName()+ "："+EmojUtils.decoder(clist.get(1).getCommentContent()));
+                    style1.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(1).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    SpannableStringBuilder style2=new SpannableStringBuilder(clist.get(2).getPetName()+ "："+EmojUtils.decoder(clist.get(2).getCommentContent()));
+                    style2.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(2).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    viewHolder.tv_comment_one.setText(style);
+                    viewHolder.tv_comment_two.setText(style1);
+                    viewHolder.tv_comment_three.setText(style2);
+
+                }
+            }else {
+               viewHolder.ll_comment.setVisibility(View.GONE);
             }
         }
         //点击活动详情跳转频道正文
@@ -284,6 +345,8 @@ public class ChanAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         };
+        viewHolder.tv_more.setOnClickListener(listener);
+        viewHolder.ll_comment.setOnClickListener(listener);
         viewHolder.ll_content.setOnClickListener(listener);
         viewHolder.tv_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,17 +380,6 @@ public class ChanAdapter extends BaseAdapter {
             }
         });
 
-//        //分享对话框
-//        viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ShareDialogAct.class);
-//                intent.putExtra("type", 4);
-//                intent.putExtra("id",list.get(position).getId());
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-//            }
-//        });
 
         viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -362,6 +414,10 @@ public class ChanAdapter extends BaseAdapter {
         private ImageView iv_more;
         private TextView znumText;
         private TextView cnumText;
+        private LinearLayout ll_comment,ll_comment_one,ll_comment_two,ll_comment_three;
+        private TextView tv_comment_one,tv_comment_two,tv_comment_three;
+        private RelativeLayout rl_more;
+        private TextView tv_more;
 
     }
     /**

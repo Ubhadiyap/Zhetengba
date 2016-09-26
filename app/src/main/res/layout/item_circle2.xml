@@ -241,7 +241,81 @@
                 android:background="@drawable/more"/>
 
         </RelativeLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_comment2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical"
+            android:paddingTop="7dp">
 
+            <LinearLayout
+                android:id="@+id/ll_comment_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:id="@+id/tv_comment_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="5dp"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_comment_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:id="@+id/tv_comment_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_comment_three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:id="@+id/tv_comment_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:id="@+id/tv_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="更多"
+                    android:textColor="@color/main_color" />
+            </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

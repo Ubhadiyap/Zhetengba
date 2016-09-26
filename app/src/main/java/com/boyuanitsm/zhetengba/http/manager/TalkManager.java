@@ -395,10 +395,13 @@ public class TalkManager extends RequestManager{
      * @param rows
      * @param callback
      */
-    public void myTalksOut(int page,int rows,ResultCallback callback){
+    public void myTalksOut(int page,int rows,String friendId,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         map.put("page",page+"");
-        map.put("rows",rows+"");
+        map.put("rows", rows + "");
+        if (!TextUtils.isEmpty(friendId)){
+            map.put("friendId",friendId);
+        }
         OkHttpManager.getInstance().doPost(IZtbUrl.MYTALKS_OUT_URL, map, callback);
     }
 

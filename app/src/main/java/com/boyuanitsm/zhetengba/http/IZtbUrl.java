@@ -342,4 +342,7 @@ public interface IZtbUrl {
     //奖品明细
     String FINDGIFT_URL=BASE_URL+"event/login/findGift.do";
 
+    //个人主页活动列表
+    String ACTIVITY_LISTURL=BASE_URL+"schedule/login/findFriendActivity.do";
+
 }
