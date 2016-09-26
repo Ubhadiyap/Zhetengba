@@ -310,7 +310,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
      * @param commentContent
      */
     private void commentChannelTalk(final String channelTalkId  ,String fatherCommentId ,String commentContent){
-        RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, EmojUtils.encoder(commentContent), new ResultCallback<ResultBean<String>>() {
+        RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 btnSend.setEnabled(true);

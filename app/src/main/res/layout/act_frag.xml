@@ -27,6 +27,7 @@
         <ImageView
             android:id="@+id/ivAnim"
             android:layout_gravity="center_horizontal"
+            android:background="@mipmap/planeno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
@@ -38,6 +39,6 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="加载失败"/>
+            android:text="加载中..."/>
     </LinearLayout>
 </RelativeLayout>

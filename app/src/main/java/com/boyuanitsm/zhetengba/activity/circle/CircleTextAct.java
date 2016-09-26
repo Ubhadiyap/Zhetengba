@@ -355,7 +355,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
      * @param commentContent
      */
     private void commentCircleTalk(final String circleTalkId ,String fatherCommentId ,String commentContent){
-        RequestManager.getTalkManager().commentCircleTalk(circleTalkId, fatherCommentId, EmojUtils.encoder(commentContent), new ResultCallback<ResultBean<String>>() {
+        RequestManager.getTalkManager().commentCircleTalk(circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 btnSend.setEnabled(true);

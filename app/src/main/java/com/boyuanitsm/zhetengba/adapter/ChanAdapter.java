@@ -30,6 +30,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -51,6 +52,7 @@ import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.leaf.library.widget.MyListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -122,6 +124,7 @@ public class ChanAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final CaViewHolder viewHolder;
         final List<ImageInfo> itemList = dateList.get(position);
+        List<ChannelTalkEntity> clist=list.get(position).getCommentsList();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (CaViewHolder) convertView.getTag();
         } else {
@@ -154,14 +157,9 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
             viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
-            viewHolder.ll_comment_one= (LinearLayout) convertView.findViewById(R.id.ll_comment_one);
-            viewHolder.ll_comment_two = (LinearLayout) convertView.findViewById(R.id.ll_comment_two);
-            viewHolder.ll_comment_three = (LinearLayout) convertView.findViewById(R.id.ll_comment_three);
-            viewHolder.tv_comment_one= (TextView) convertView.findViewById(R.id.tv_comment_one);
-            viewHolder.tv_comment_two= (TextView) convertView.findViewById(R.id.tv_comment_two);
-            viewHolder.tv_comment_three= (TextView) convertView.findViewById(R.id.tv_comment_three);
             viewHolder.tv_more= (TextView) convertView.findViewById(R.id.tv_more);
             viewHolder.rl_more= (RelativeLayout) convertView.findViewById(R.id.rl_more);
+            viewHolder.lv_pl = (MyListView) convertView.findViewById(R.id.lv_pl);
             convertView.setTag(viewHolder);
         }
         if (itemList.isEmpty() || itemList.isEmpty()) {
@@ -177,7 +175,6 @@ public class ChanAdapter extends BaseAdapter {
             itemList.get(0).setWidth(120);
             itemList.get(0).setHeight(120);
             LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
-//            ImageLoader.getInstance().displayImage(Uitls.imageBigFullUrl(itemList.get(0).getUrl()),viewHolder.iv_oneimage);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -226,7 +223,6 @@ public class ChanAdapter extends BaseAdapter {
             });
 
         } else {
-//            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
@@ -253,7 +249,6 @@ public class ChanAdapter extends BaseAdapter {
                 }
             }
             if (!TextUtils.isEmpty(list.get(position).getCreateTiem())) {
-//                ZtinfoUtils.timeToDate(Long.parseLong(list.get(position).getCreateTiem()))
                 viewHolder.tv_time.setText(ZtinfoUtils.timeChange(Long.parseLong(list.get(position).getCreateTiem())));
             }
             if (!TextUtils.isEmpty(list.get(position).getChannelContent())) {
@@ -262,13 +257,7 @@ public class ChanAdapter extends BaseAdapter {
             }else {
                 viewHolder.ll_content.setVisibility(View.GONE);
             }
-//            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
-//                if (0 == list.get(position).getLiked()) {//未点赞
-//                    viewHolder.zimg.setImageResource(R.drawable.zan);
-//                } else if (1 == list.get(position).getLiked()) {
-//                    viewHolder.zimg.setImageResource(R.drawable.zan_b);
-//                }
-//            }
+
             if (!TextUtils.isEmpty(list.get(position).getLikeCounts() + "")) {
                 if (list.get(position).getLikeCounts() == 0) {
                     viewHolder.znum.setVisibility(View.GONE);
@@ -291,46 +280,12 @@ public class ChanAdapter extends BaseAdapter {
                     MyLogUtils.info("Counts====" + list.get(position).getCommentCounts());
                 }
             }
-            if (list.get(position).getCommentsList()!=null){
-                viewHolder.ll_comment.setVisibility(View.VISIBLE);
-                List<ChannelTalkEntity> clist = new ArrayList<>();
-                clist=list.get(position).getCommentsList();
-                if (clist.size()==1){
-                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_two.setVisibility(View.GONE);
-                    viewHolder.ll_comment_three.setVisibility(View.GONE);
-                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
-                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length()+1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    viewHolder.tv_comment_one.setText(style);
-                }else if (clist.size()==2){
-                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_two.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_three.setVisibility(View.GONE);
-                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
-                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    SpannableStringBuilder style1=new SpannableStringBuilder(clist.get(1).getPetName()+ "："+EmojUtils.decoder(clist.get(1).getCommentContent()));
-                    style1.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(1).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    viewHolder.tv_comment_one.setText(style);
-                    viewHolder.tv_comment_two.setText(style1);
-
-                }else if (clist.size()==3){
-                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_two.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_three.setVisibility(View.VISIBLE);
-                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
-                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    SpannableStringBuilder style1=new SpannableStringBuilder(clist.get(1).getPetName()+ "："+EmojUtils.decoder(clist.get(1).getCommentContent()));
-                    style1.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(1).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    SpannableStringBuilder style2=new SpannableStringBuilder(clist.get(2).getPetName()+ "："+EmojUtils.decoder(clist.get(2).getCommentContent()));
-                    style2.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(2).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    viewHolder.tv_comment_one.setText(style);
-                    viewHolder.tv_comment_two.setText(style1);
-                    viewHolder.tv_comment_three.setText(style2);
-
+                if (clist!=null&&clist.size()>0){
+                    viewHolder.ll_comment.setVisibility(View.VISIBLE);
+                    viewHolder.lv_pl.setAdapter(new ChanelPlAdapter(context,clist));
+                }else {
+                    viewHolder.ll_comment.setVisibility(View.GONE);
                 }
-            }else {
-               viewHolder.ll_comment.setVisibility(View.GONE);
-            }
         }
         //点击活动详情跳转频道正文
         View.OnClickListener listener = new View.OnClickListener() {
@@ -415,9 +370,9 @@ public class ChanAdapter extends BaseAdapter {
         private TextView znumText;
         private TextView cnumText;
         private LinearLayout ll_comment,ll_comment_one,ll_comment_two,ll_comment_three;
-        private TextView tv_comment_one,tv_comment_two,tv_comment_three;
         private RelativeLayout rl_more;
         private TextView tv_more;
+        private MyListView lv_pl;
 
     }
     /**

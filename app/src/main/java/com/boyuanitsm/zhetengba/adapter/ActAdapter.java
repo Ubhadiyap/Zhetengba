@@ -170,9 +170,6 @@ public class ActAdapter extends BaseAdapter {
         } else {
             viewHolder.tv_date.setText(strStart + "—" + strEnd);//活动时间；
         }
-//        if (!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
-//
-//        }
         if (UserInfoDao.getUser().getId().equals(infos.get(position).getUserId())) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()), viewHolder.iv_headphoto, optionsImag);
         } else {
@@ -301,7 +298,6 @@ public class ActAdapter extends BaseAdapter {
         });
 
 
-        // viewHolder.iv_join.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.add));//参加icon
 //        返回状态判断是否关注;
         if (infos.get(position).isFollow()) {
             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//已关注
@@ -509,48 +505,13 @@ public class ActAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-//                if (inviteMessgeDao==null){
-//                    inviteMessgeDao=new InviteMessgeDao(context);
-//                }
-//                int unreadMessagesCount=0;
-//                unreadMessagesCount = inviteMessgeDao.getUnreadMessagesCount();
-//                if (unreadMessagesCount>0){
-//                    unreadMessagesCount--;
-//                    inviteMessgeDao.saveUnreadMessageCount(unreadMessagesCount);
-//                }
                 broadcastManager=  LocalBroadcastManager.getInstance(context);
                 Intent intent=new Intent(context,MainAct.class);
                 broadcastManager.sendBroadcast(intent);
-//                Intent intent=new Intent(context,MainAct.class);
-//                context.sendBroadcast(intent);
             }
         });
     }
 
-    /***
-     * 设置条目点击显示活动详情dialog
-     * 1.有活动详情，是好友，2.没有活动详情，陌生人，设置添加好友按钮可见
-     *
-     * @param
-     * @param
-     * @param
-     */
-//    private void showDialog(String activityId, final CircleImageView iv_actdetial) {
-//        RequestManager.getScheduleManager().getActivityDetials(activityId, new ResultCallback<ResultBean<SimpleInfo>>() {
-//            @Override
-//            public void onError(int status, String errorMsg) {
-//                iv_actdetial.setEnabled(true);
-//            }
-//
-//            @Override
-//            public void onResponse(ResultBean<SimpleInfo> response) {
-//                SimpleInfo simpleInfo = response.getData();
-////                activityDetail(simpleInfo);
-//                iv_actdetial.setEnabled(true);
-//            }
-//        });
-//
-//    }
 
 
     public static class Holder {

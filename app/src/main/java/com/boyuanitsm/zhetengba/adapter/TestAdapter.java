@@ -2,10 +2,13 @@ package com.boyuanitsm.zhetengba.adapter;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +23,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
+import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -30,14 +36,17 @@ import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.boyuanitsm.zhetengba.view.CustomDialog;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -66,6 +75,7 @@ public class TestAdapter extends BaseAdapter {
     private List<SimpleInfo> simpleInfos;
     private PopupWindow popupWindow;
     private boolean flag;
+    private LocalBroadcastManager broadcastManager;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.tum)
@@ -124,6 +134,7 @@ public class TestAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
+        final CustomDialog.Builder builder=new CustomDialog.Builder(context);
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -149,9 +160,6 @@ public class TestAdapter extends BaseAdapter {
             viewHolder.cnum2 = (TextView) convertView.findViewById(R.id.cnum2);
             viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
             viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
-//            viewHolder.iv_icon = (CircleImageView) convertView.findViewById(R.id.iv_icon);
-//            viewHolder.tv_Name = (TextView) convertView.findViewById(R.id.tv_Name);
-//            viewHolder.iv_gen = (ImageView) convertView.findViewById(R.id.iv_gen);
             viewHolder.ll_qz = (LinearLayout) convertView.findViewById(R.id.ll_qz);
             viewHolder.rl_hy=(RelativeLayout)convertView.findViewById(R.id.rl_hy);
 
@@ -228,6 +236,7 @@ public class TestAdapter extends BaseAdapter {
                 viewHolder.tv_date.setText(strStart + "—" + strEnd);//活动时间；
             }
             if (UserInfoDao.getUser().getId().equals(scheduleEntity.get(position).getUserId())) {
+                MyLogUtils.info("用户icon地址===="+UserInfoDao.getUser().getIcon());
                 ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()), viewHolder.iv_headphoto, optionsImag);
             } else {
                 ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(scheduleEntity.get(position).getUserIcon()), viewHolder.iv_headphoto, optionsImag);//用户头像
@@ -254,6 +263,150 @@ public class TestAdapter extends BaseAdapter {
                 viewHolder.tv_text_jion.setText("响应");
                 viewHolder.tv_join_num.setTextColor(Color.parseColor("#999999"));
             }
+
+            if (scheduleEntity.get(position).isFollow()) {
+                viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//已关注
+                viewHolder.tv_text_guanzhu.setText("已关注");
+                viewHolder.ll_guanzhu.setEnabled(false);
+            } else {
+                viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));//默认图标
+                viewHolder.tv_text_guanzhu.setText("关注");
+                viewHolder.ll_guanzhu.setEnabled(true);
+            }
+            if (!TextUtils.isEmpty(scheduleEntity.get(position).getActivityParticulars())) {
+                builder.setMessage(scheduleEntity.get(position).getActivityParticulars());
+            } else {
+                builder.setMessage("没有详情");
+            }
+            if (scheduleEntity.get(position).getJoinCount() > 0) {
+                builder.setPositiveButton("一起参加了" + scheduleEntity.get(position).getJoinCount() + "次会友", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+            }
+            if (scheduleEntity.get(position).getMemberNum() == scheduleEntity.get(position).getInviteNumber()) {
+                if (!scheduleEntity.get(position).isJoining()) {
+                    viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MyToastUtils.showShortToast(context, "参加人数已满,请参加其他活动！");
+                        }
+                    });
+                } else {
+                    viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            viewHolder.ll_join.setEnabled(false);
+                            if (scheduleEntity.get(position).isJoining()) {
+                                final MyAlertDialog dialog = new MyAlertDialog(context);
+                                dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        stateCancelChange(position, viewHolder);
+                                    }
+                                }).setNegativeButton("取消", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        viewHolder.ll_join.setEnabled(true);
+                                    }
+                                }).show();
+                            } else {
+                                stateJionChange(position, viewHolder);
+                            }
+                        }
+                    });
+                }
+            } else {
+                viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        viewHolder.ll_join.setEnabled(false);
+                        if (scheduleEntity.get(position).isJoining()) {
+                            final MyAlertDialog dialog = new MyAlertDialog(context);
+                            dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    stateCancelChange(position, viewHolder);
+                                }
+                            }).setNegativeButton("取消", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    viewHolder.ll_join.setEnabled(true);
+                                }
+                            }).show();
+                        } else {
+                            stateJionChange(position, viewHolder);
+                        }
+
+
+                    }
+                });
+            }
+
+
+            viewHolder.ll_del.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条会友？").setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //调用删除此活动接口,刷新数据；
+                            removeActivity(scheduleEntity.get(position).getId(), position);
+                        }
+                    }).setNegativeButton("取消", null).show();
+
+                }
+            });
+            viewHolder.ll_simple_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //开启分享界面
+                    Intent intent = new Intent();
+                    intent.putExtra("type", 1);
+                    intent.putExtra("id", scheduleEntity.get(position).getId());
+                    intent.putExtra("activitytheme", scheduleEntity.get(position).getActivityTheme());
+                    intent.setClass(context, ShareDialogAct.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
+
+            viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //接口调用
+                    RequestManager.getScheduleManager().getActivityCollection(scheduleEntity.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+                        @Override
+                        public void onError(int status, String errorMsg) {
+                            MyToastUtils.showShortToast(context,errorMsg);
+                        }
+
+                        @Override
+                        public void onResponse(ResultBean<String> response) {
+                            scheduleEntity.get(position).setFollow(true);
+                            int noticNum = scheduleEntity.get(position).getFollowNum();
+                            noticNum = noticNum + 1;
+                            scheduleEntity.get(position).setFollowNum(noticNum);
+                            viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+                            viewHolder.ll_guanzhu.setClickable(false);
+                            context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+                            context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+                            notifyDataSetChanged();
+                            MyToastUtils.showShortToast(context, response.getMessage());
+                        }
+                    });
+                }
+            });
+            viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //接口调用
+                    builder.create().show();
+
+                }
+            });
 
         } else if (clickPos == 1) {
             viewHolder.rl_hy.setVisibility(View.GONE);
@@ -436,14 +589,122 @@ public class TestAdapter extends BaseAdapter {
         private TextView tv_cj,tv_tt;//自己发布后参加人数和总的人数
     }
 
+    /**
+     * 参加或响应活动接口
+     *
+     * @param
+     */
+
+    private void stateJionChange(final int position, final ViewHolder viewHolder) {
+        RequestManager.getScheduleManager().getRespondActivity(scheduleEntity.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                viewHolder.ll_join.setEnabled(true);
+                MyToastUtils.showShortToast(context, errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                if (TextUtils.equals(response.getData(), 1 + "")) {
+                    viewHolder.ll_join.setEnabled(true);
+                    int i = scheduleEntity.get(position).getMemberNum();
+                    i = i + 1;
+                    scheduleEntity.get(position).setMemberNum(i);
+                    scheduleEntity.get(position).setJoining(true);
+                    context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+                    context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+                    notifyDataSetChanged();
+                    addGroup(scheduleEntity.get(position).getId());
+                } else if (TextUtils.equals(response.getData(), 0 + "")) {
+                    scheduleEntity.remove(position);
+                    viewHolder.ll_join.setEnabled(true);
+                    notifyDataSetChanged();
+                    MyToastUtils.showShortToast(context, response.getMessage());
+                } else if (TextUtils.equals(response.getData(), -1 + "")) {
+                    viewHolder.ll_join.setEnabled(true);
+                    MyToastUtils.showShortToast(context, response.getMessage());
+                } else if (TextUtils.equals(response.getData(), -2 + "")) {
+                    viewHolder.ll_join.setEnabled(true);
+                    MyToastUtils.showShortToast(context, response.getMessage());
+                }
+
+            }
+        });
+    }
+
+    /**
+     * 取消参加或响应活动接口
+     *
+     * @param
+     */
+
+    private void stateCancelChange(final int position, final ViewHolder viewHolder) {
+        RequestManager.getScheduleManager().cancelActivity(scheduleEntity.get(position).getId(), new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                viewHolder.ll_join.setEnabled(true);
+                MyToastUtils.showShortToast(context,errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                if (TextUtils.equals(response.getData(), 0 + "")) {
+                    viewHolder.ll_join.setEnabled(true);
+                    scheduleEntity.remove(position);
+                    notifyDataSetChanged();
+                    MyToastUtils.showShortToast(context, "此条活动已被删除！");
+                    return;
+                } else if (TextUtils.equals(response.getData(), 1 + "")) {
+                    viewHolder.ll_join.setEnabled(true);
+                    int i = scheduleEntity.get(position).getMemberNum();
+                    i = i - 1;
+                    scheduleEntity.get(position).setJoining(false);
+                    scheduleEntity.get(position).setMemberNum(i);
+                    context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
+                    context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+                    notifyDataSetChanged();
+                    delGroup(scheduleEntity.get(position).getId());
+                } else if (TextUtils.equals(response.getData(), -2 + "")) {
+                    viewHolder.ll_join.setEnabled(true);
+                    MyToastUtils.showShortToast(context, response.getMessage());
+                } else {
+                    viewHolder.ll_join.setEnabled(true);
+                }
+
+            }
+        });
+    }
+
     /***
-     * 删除档期
+     * 删除活动
      *
      * @param id
      * @param position
      */
-    private void removeSchuldel(String id, final int position) {
-        RequestManager.getScheduleManager().removeSchuldel(id, new ResultCallback<ResultBean<String>>() {
+    private void removeActivity(String id, final int position) {
+        RequestManager.getScheduleManager().removeActivity(id, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                MyToastUtils.showShortToast(context,errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                MyToastUtils.showShortToast(context, "删除会友成功！");
+                scheduleEntity.remove(position);
+                context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+                notifyDataSetChanged();
+            }
+        });
+    }
+
+    /**
+     * 参加成功后，调用添加群组
+     *
+     * @param actId
+     */
+    private void addGroup(String actId) {
+        RequestManager.getScheduleManager().addHXGroup(actId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
 
@@ -451,57 +712,29 @@ public class TestAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(context, "删除档期成功！");
-                scheduleEntity.remove(position);
-                notifyDataSetChanged();
+
             }
         });
     }
 
-//    private void showPopupWindow(View parent, final int position) {
-//        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
-//                R.layout.popuwindowsxx_dialog, null);
-//
-//        // 实例化popupWindow
-//        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
-//        //控制键盘是否可以获得焦点
-//        popupWindow.setFocusable(true);
-//        //设置popupWindow弹出窗体的背景
-//        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
-//        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
-//        @SuppressWarnings("deprecation")
-//        //获取xoff
-//                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
-//        //xoff,yoff基于anchor的左下角进行偏移。
-//        popupWindow.showAsDropDown(parent, xpos, -25);
-//
-//        LinearLayout iv_shanc = (LinearLayout) layout.findViewById(R.id.iv_shanc);
-//        LinearLayout iv_fenxiang = (LinearLayout) layout.findViewById(R.id.iv_fenxiang);
-//
-//        iv_shanc.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        //调用删除此活动接口,刷新数据；
-//                        removeSchuldel(scheduleEntity.get(position).getScheduleId(), position);
-//                    }
-//                }).setNegativeButton("取消", null).show();
-//            }
-//        });
-//
-//        iv_fenxiang.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.putExtra("type", 2);
-//                intent.putExtra("id", scheduleEntity.get(position).getScheduleId());
-//                intent.setClass(context, ShareDialogAct.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-//            }
-//        });
-//
-//    }
+    /**
+     * 移除群组
+     *
+     * @param activityId
+     */
+    private void delGroup(String activityId) {
+        RequestManager.getScheduleManager().deleGroup(activityId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                broadcastManager=  LocalBroadcastManager.getInstance(context);
+                Intent intent=new Intent(context,MainAct.class);
+                broadcastManager.sendBroadcast(intent);
+            }
+        });
+    }
 }

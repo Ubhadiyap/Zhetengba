@@ -81,7 +81,8 @@ public class SplashAct extends BaseActivity {
                     Intent intent = null;
                     if (isFirst) {
                         // 第一次进入应用
-                        intent = new Intent(SplashAct.this, GuideAct.class);
+//                        intent = new Intent(SplashAct.this, GuideAct.class);
+                        intent=new Intent(SplashAct.this,LoginAct.class);
                         SpUtils.setIsFirst(SplashAct.this, false);
                     } else {
                         // 主页面

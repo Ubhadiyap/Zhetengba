@@ -95,10 +95,10 @@ public class EditAct extends BaseActivity {
      */
     private void saveUser(final UserInfo userInfo) {
         if (TYPE == 8) {
-            if (ZhetebaUtils.containsEmoji(mark)){
-                MyToastUtils.showShortToast(getApplicationContext(),"不支持表情符号，请重新输入！");
-                return;
-            }
+//            if (ZhetebaUtils.containsEmoji(mark)){
+//                MyToastUtils.showShortToast(getApplicationContext(),"不支持表情符号，请重新输入！");
+//                return;
+//            }
             gaiBeizhu(friendId, mark);
         } else {
             RequestManager.getUserManager().modifyUserInfo(userInfo, new ResultCallback<ResultBean<String>>() {

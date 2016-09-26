@@ -23,6 +23,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.EmojUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -47,7 +49,9 @@ import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
+import com.boyuanitsm.zhetengba.view.MyListview;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
+import com.leaf.library.widget.MyListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -64,6 +68,7 @@ public class CircleAdapter extends BaseAdapter {
     private List<List<ImageInfo>> dateList;
     private List<CircleEntity> list;
     private PopupWindow popupWindow;
+    private CirclePlAdapter adapter;
     int clickPos;
     int circleDelPos;
     // 图片缓存 默认 等
@@ -118,6 +123,7 @@ public class CircleAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
         final List<ImageInfo> itemList = dateList.get(position);
+         List<CircleEntity> clist=list.get(position).getCommentsList();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -153,14 +159,9 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
 
             viewHolder.ll_comment2 = (LinearLayout) convertView.findViewById(R.id.ll_comment2);
-            viewHolder.ll_comment_one= (LinearLayout) convertView.findViewById(R.id.ll_comment_one);
-            viewHolder.ll_comment_two = (LinearLayout) convertView.findViewById(R.id.ll_comment_two);
-            viewHolder.ll_comment_three = (LinearLayout) convertView.findViewById(R.id.ll_comment_three);
-            viewHolder.tv_comment_one= (TextView) convertView.findViewById(R.id.tv_comment_one);
-            viewHolder.tv_comment_two= (TextView) convertView.findViewById(R.id.tv_comment_two);
-            viewHolder.tv_comment_three= (TextView) convertView.findViewById(R.id.tv_comment_three);
             viewHolder.tv_more= (TextView) convertView.findViewById(R.id.tv_more);
             viewHolder.rl_more= (RelativeLayout) convertView.findViewById(R.id.rl_more);
+            viewHolder.lv_pl = (MyListView) convertView.findViewById(R.id.lv_pl);
             convertView.setTag(viewHolder);
         }
         viewHolder.llphoto.setVisibility(View.VISIBLE);
@@ -263,13 +264,6 @@ public class CircleAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(list.get(position).getCircleName())) {
                 viewHolder.tv_cir_name.setText(list.get(position).getCircleName());
             }
-//            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
-//                if (0 == list.get(position).getLiked()) {//未点赞
-//                    viewHolder.zimg.setImageResource(R.drawable.zan);
-//                } else if (1 == list.get(position).getLiked()) {
-//                    viewHolder.zimg.setImageResource(R.drawable.zan_b);
-//                }
-//            }
             if (!TextUtils.isEmpty(list.get(position).getLikedCounts() + "")) {
                 if (list.get(position).getLikedCounts() == 0) {
                     viewHolder.znum2.setVisibility(View.GONE);
@@ -290,43 +284,9 @@ public class CircleAdapter extends BaseAdapter {
                     viewHolder.cnum2.setText(list.get(position).getCommentCounts() + "");
                 }
             }
-            if (list.get(position).getCommentsList()!=null){
+            if (clist!=null&&clist.size()>0){
                 viewHolder.ll_comment2.setVisibility(View.VISIBLE);
-                List<CircleEntity> clist = new ArrayList<>();
-                clist=list.get(position).getCommentsList();
-                if (clist.size()==1){
-                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_two.setVisibility(View.GONE);
-                    viewHolder.ll_comment_three.setVisibility(View.GONE);
-                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+ EmojUtils.decoder(clist.get(0).getCommentContent()));
-                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length()+1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    viewHolder.tv_comment_one.setText(style);
-                }else if (clist.size()==2){
-                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_two.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_three.setVisibility(View.GONE);
-                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
-                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    SpannableStringBuilder style1=new SpannableStringBuilder(clist.get(1).getPetName()+ "："+EmojUtils.decoder(clist.get(1).getCommentContent()));
-                    style1.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(1).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    viewHolder.tv_comment_one.setText(style);
-                    viewHolder.tv_comment_two.setText(style1);
-
-                }else {
-                    viewHolder.ll_comment_one.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_two.setVisibility(View.VISIBLE);
-                    viewHolder.ll_comment_three.setVisibility(View.VISIBLE);
-                    SpannableStringBuilder style=new SpannableStringBuilder(clist.get(0).getPetName()+ "："+EmojUtils.decoder(clist.get(0).getCommentContent()));
-                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(0).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    SpannableStringBuilder style1=new SpannableStringBuilder(clist.get(1).getPetName()+ "："+EmojUtils.decoder(clist.get(1).getCommentContent()));
-                    style1.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(1).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    SpannableStringBuilder style2=new SpannableStringBuilder(clist.get(2).getPetName()+ "："+EmojUtils.decoder(clist.get(2).getCommentContent()));
-                    style2.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, clist.get(2).getPetName().length() + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    viewHolder.tv_comment_one.setText(style);
-                    viewHolder.tv_comment_two.setText(style1);
-                    viewHolder.tv_comment_three.setText(style2);
-
-                }
+                    viewHolder.lv_pl.setAdapter(new CirclePlAdapter(context,clist));
             }else {
                 viewHolder.ll_comment2.setVisibility(View.GONE);
             }
@@ -444,6 +404,7 @@ public class CircleAdapter extends BaseAdapter {
         private TextView tv_comment_one,tv_comment_two,tv_comment_three;
         private RelativeLayout rl_more;
         private TextView tv_more;
+        private MyListView lv_pl;
     }
 
     /**

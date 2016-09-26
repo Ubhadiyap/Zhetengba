@@ -131,7 +131,7 @@ public class SimpleFrg extends BaseFragment {
         ll_point = (LinearLayout) viewHeader_act.findViewById(R.id.ll_point);
         //刷新初始化
         LayoutHelperUtil.freshInit(lv_act);
-
+//        noList.setVisibility(View.VISIBLE);
         aCache = ACache.get(mActivity);
         gson = new Gson();
         ll_friend.setOnClickListener(new View.OnClickListener() {
@@ -362,6 +362,7 @@ public class SimpleFrg extends BaseFragment {
         RequestManager.getScheduleManager().getBanner(new ResultCallback<ResultBean<List<LabelBannerInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
+//                noList.setVisibility(View.GONE);
 //                noList.setVisibility(View.VISIBLE);
 //                ivAnim.setImageResource(R.drawable.loadfail_list);
 //                animationDrawable = (AnimationDrawable) ivAnim.getDrawable();
@@ -380,6 +381,7 @@ public class SimpleFrg extends BaseFragment {
 
             @Override
             public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
+                noList.setVisibility(View.GONE);
 //                if (animationDrawable!=null){
 //                    animationDrawable.stop();
 //                    animationDrawable=null;
@@ -487,6 +489,7 @@ public class SimpleFrg extends BaseFragment {
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
+                noList.setVisibility(View.GONE);
                 String strList = null;
                 if (TextUtils.equals(state, 0 + "")) {
                     strList = aCache.getAsString("FriendsimpleInfoList");
@@ -519,7 +522,7 @@ public class SimpleFrg extends BaseFragment {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
                 list = response.getData().getRows();
-
+                noList.setVisibility(View.GONE);
                 //获取到的list没有数据时
                 if (list.size() == 0) {
                     if (page == 1) {

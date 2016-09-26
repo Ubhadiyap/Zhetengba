@@ -183,19 +183,19 @@ public class MainAct extends BaseActivity {
         registerBroadcastReceiver();
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
         isFirst = SpUtils.getMainIsFirst(MainAct.this);
-        MyLogUtils.info(isFirst + "是否是第一次打开应用");
-        if (isFirst){
-            rl_ydy.setVisibility(View.VISIBLE);
-            SpUtils.setMainIsFirst(MainAct.this,false);
-        }else {
-            rl_ydy.setVisibility(View.GONE);
-        }
-        rl_ydy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rl_ydy.setVisibility(View.GONE);
-            }
-        });
+//        MyLogUtils.info(isFirst + "是否是第一次打开应用");
+//        if (isFirst){
+//            rl_ydy.setVisibility(View.VISIBLE);
+//            SpUtils.setMainIsFirst(MainAct.this,false);
+//        }else {
+//            rl_ydy.setVisibility(View.GONE);
+//        }
+//        rl_ydy.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                rl_ydy.setVisibility(View.GONE);
+//            }
+//        });
         version= ZtinfoUtils.getAppVer(MainAct.this);
         generalUtils=new GeneralUtils();
         generalUtils.toVersion(MainAct.this,version,1);
