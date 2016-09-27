@@ -203,7 +203,7 @@ public class ActAdapter extends BaseAdapter {
             builder.setMessage("没有详情");
         }
         if (infos.get(position).getJoinCount() > 0) {
-            builder.setPositiveButton("一起参加了" + infos.get(position).getJoinCount() + "次会友", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("一起参加了" + infos.get(position).getJoinCount() + "次档期", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -215,7 +215,7 @@ public class ActAdapter extends BaseAdapter {
                 viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MyToastUtils.showShortToast(context, "参加人数已满,请参加其他活动！");
+                        MyToastUtils.showShortToast(context, "参加人数已满,请参加其他档期！");
                     }
                 });
             } else {
@@ -225,7 +225,7 @@ public class ActAdapter extends BaseAdapter {
                         viewHolder.ll_join.setEnabled(false);
                         if (infos.get(position).isJoining()) {
                             final MyAlertDialog dialog = new MyAlertDialog(context);
-                            dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
+                            dialog.builder().setTitle("提示").setMsg("确认取消参加档期？").setPositiveButton("确定", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     stateCancelChange(position, viewHolder);
@@ -249,7 +249,7 @@ public class ActAdapter extends BaseAdapter {
                     viewHolder.ll_join.setEnabled(false);
                     if (infos.get(position).isJoining()) {
                         final MyAlertDialog dialog = new MyAlertDialog(context);
-                        dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
+                        dialog.builder().setTitle("提示").setMsg("确认取消参加档期？").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 stateCancelChange(position, viewHolder);
@@ -273,7 +273,7 @@ public class ActAdapter extends BaseAdapter {
         viewHolder.ll_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条会友？").setPositiveButton("确定", new View.OnClickListener() {
+                new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认删除此条档期？").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //调用删除此活动接口,刷新数据；
@@ -426,7 +426,7 @@ public class ActAdapter extends BaseAdapter {
                     viewHolder.ll_join.setEnabled(true);
                     infos.remove(position);
                     notifyDataSetChanged();
-                    MyToastUtils.showShortToast(context, "此条活动已被删除！");
+                    MyToastUtils.showShortToast(context, "此条档期已被删除！");
                     return;
                 } else if (TextUtils.equals(response.getData(), 1 + "")) {
                     viewHolder.ll_join.setEnabled(true);
@@ -463,7 +463,7 @@ public class ActAdapter extends BaseAdapter {
 
             @Override
             public void onResponse(ResultBean<String> response) {
-                MyToastUtils.showShortToast(context, "删除会友成功！");
+                MyToastUtils.showShortToast(context, "删除档期成功！");
                 infos.remove(position);
                 notifyDataSetChanged();
 //                Intent intent=new Intent(context,MainAct.class);

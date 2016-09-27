@@ -185,7 +185,7 @@ public class CollectAdapter extends BaseAdapter {
                     holder.ll_join.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            MyToastUtils.showShortToast(context, "参加人数已满,请参加其他活动！");
+                            MyToastUtils.showShortToast(context, "参加人数已满,请参加其他档期！");
                         }
                     });
                 }else {
@@ -195,7 +195,7 @@ public class CollectAdapter extends BaseAdapter {
                             holder.ll_join.setEnabled(false);
                             if (list.get(position).isJoining()) {
                                 final MyAlertDialog dialog = new MyAlertDialog(context);
-                                dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
+                                dialog.builder().setTitle("提示").setMsg("确认取消参加档期？").setPositiveButton("确定", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         stateCancelChange(position, holder);
@@ -221,7 +221,7 @@ public class CollectAdapter extends BaseAdapter {
                         holder.ll_join.setEnabled(false);
                         if (list.get(position).isJoining()) {
                             final MyAlertDialog dialog = new MyAlertDialog(context);
-                            dialog.builder().setTitle("提示").setMsg("确认取消参加会友？").setPositiveButton("确定", new View.OnClickListener() {
+                            dialog.builder().setTitle("提示").setMsg("确认取消参加档期？").setPositiveButton("确定", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     stateCancelChange(position, holder);
@@ -240,27 +240,6 @@ public class CollectAdapter extends BaseAdapter {
                     }
                 });
             }
-
-//            //参加活动
-//            holder.ll_join.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(list.get(position).isJoin()){
-//                        new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消参加").setPositiveButton("确认", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                //掉取消参加活动的接口还没出来
-//                                stateCancelChange(position,holder);
-//                                MyToastUtils.showShortToast(context,"取消参加活动成功");
-//                            }
-//                        }).setNegativeButton("取消",null).show();
-//                    }else {
-//                        //参加活动
-//                       stateChange(position, holder);
-//                    }
-//                }
-//
-//            });
 
         }
 

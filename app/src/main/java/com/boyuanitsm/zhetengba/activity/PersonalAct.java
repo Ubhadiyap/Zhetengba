@@ -126,6 +126,7 @@ public class PersonalAct extends BaseActivity{
     private int page2=1;
     private View inflate;
     private int tag;
+    private int clickPos=-1;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -151,20 +152,31 @@ public class PersonalAct extends BaseActivity{
         groupname=intent.getStringExtra("groupName");
          inflate = getLayoutInflater().inflate(R.layout.test_item_header, null);
         setInflateListener(inflate);
-
         getPersonalMain(userId);
-        getCirclTalk(page,rows,userId);
+        getCirclTalk(page2,rows,userId);
         test_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
-               getActivityList(page,rows,userId);
+                page2=1;
+                if (clickPos==0){
+                    getActivityList(page,rows,userId);
+                }else {
+                    getCirclTalk(page2, rows, userId);
+                }
+
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
-                getActivityList(page, rows, userId);
+                if (clickPos==0){
+                    page++;
+                    getActivityList(page,rows,userId);
+                }else {
+                    page2++;
+                    getCirclTalk(page2, rows, userId);
+
+                }
             }
         });
     }
@@ -197,6 +209,7 @@ public class PersonalAct extends BaseActivity{
             @Override
             public void onClick(View v) {
                 resetTabBtn();
+                clickPos=0;
                 setSelect(0,userEntity,datas,datas2);
             }
         });
@@ -204,6 +217,7 @@ public class PersonalAct extends BaseActivity{
             @Override
             public void onClick(View v) {
                 resetTabBtn();
+                clickPos=1;
                 setSelect(1, userEntity, datas, datas2);
             }
         });
@@ -379,12 +393,10 @@ public class PersonalAct extends BaseActivity{
                 tag = instalData();
                 getActivityList(page, rows, userId);
                 userInterestEntity = personalMain.getUserInterestEntity();
-//                scheduleEntity = personalMain.getScheduleEntity();
-//                circleTalkEntity = personalMain.getCircleTalkEntity();
                 initUserData(userEntity);
                 iniTab(userInterestEntity, userEntity.get(0).getId());
-//                toPageCalFrg();
                 setSelect(tag, userEntity, scheduleEntity, circleTalkEntity);
+                clickPos=0;
                 setOnclikListener();
                 hlv_perpage.setAdapter(new HlvppAdapter(PersonalAct.this, circleEntity));//她的圈子下面水平view适配器
                 hlv_perpage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -426,6 +438,7 @@ public class PersonalAct extends BaseActivity{
                     datas.clear();
                 }
                 datas.addAll(scheduleEntity);
+                resetTabBtn();
                 setSelect(tag, userEntity, datas, circleTalkEntity);
                 setOnclikListener();
             }
@@ -447,19 +460,22 @@ public class PersonalAct extends BaseActivity{
 
             @Override
             public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
+                test_lv.onPullDownRefreshComplete();
+                test_lv.onPullUpRefreshComplete();
                 circleTalkEntity=response.getData().getRows();
                 if (circleTalkEntity.size() == 0) {
-                    if (page == 1) {
+                    if (page2 == 1) {
 
                     } else {
                         test_lv.setHasMoreData(false);
                     }
                     return;
                 }
-                if (page == 1) {
+                if (page2 == 1) {
                     datas2.clear();
                 }
                 datas2.addAll(circleTalkEntity);
+                resetTabBtn();
                 setSelect(tag, userEntity, datas, datas2);
             }
         });
@@ -721,15 +737,9 @@ public class PersonalAct extends BaseActivity{
 
             @Override
             public void onResponse(ResultBean<String> response) {
-//                Intent intent = new Intent();
-//                intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
-//                intent.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
-//                sendBroadcast(intent);
-//                ChatUserDao.deleteUserById(friendId);
                 UserDao userDao=new UserDao(getApplicationContext());
                 userDao.deleteContact(friendId);
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
-//                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
                 finish();
             }
@@ -750,10 +760,8 @@ public class PersonalAct extends BaseActivity{
             public void onResponse(ResultBean<String> response) {
                 UserDao userDao=new UserDao(getApplicationContext());
                 userDao.deleteContact(friendId);
-//                ChatUserDao.deleteUserById(friendId);
                 sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
-//                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
                 finish();
 
             }
@@ -786,6 +794,8 @@ public class PersonalAct extends BaseActivity{
         @Override
         public void onReceive(Context context, Intent intent) {
             getPersonalMain(userId);
+            page2=1;
+            getCirclTalk(page2,rows,userId);
         }
     }
 }
