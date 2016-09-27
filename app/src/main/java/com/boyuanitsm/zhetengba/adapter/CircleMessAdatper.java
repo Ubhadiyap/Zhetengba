@@ -57,24 +57,6 @@ public class CircleMessAdatper extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        if (circleInfoList.get(position).getMesstype().equals(0 + "")) {
-//            return 0;
-//        } else if (circleInfoList.get(position).getMesstype().equals(1 + "")) {
-//            return 1;
-//        } else if (circleInfoList.get(position).getMesstype().equals(2 + "")) {
-//            return 2;
-//        } else {
-//            return 4;
-//        }
-//    }
-//
-//    @Override
-//    public int getViewTypeCount() {
-//        return 3;
-//    }
-
     @Override
     public int getCount() {
         return circleInfoList == null ? 0 : circleInfoList.size();
