@@ -75,13 +75,14 @@ public class MyReceiver extends BroadcastReceiver {
                         if (CircleNewMessDao.getUser() != null) {
                             CircleNewMessDao.deleteUser();
                         }
-                        NewCircleMess newCircleMess = new NewCircleMess();
-                        newCircleMess.setId(UserInfoDao.getUser().getId());
-                        newCircleMess.setIsMain(false);//false表示未读
-                        newCircleMess.setIsCircle(false);
-                        newCircleMess.setIsMess(false);
-                        CircleNewMessDao.saveUser(newCircleMess);
-
+                        if (UserInfoDao.getUser()!=null){
+                            NewCircleMess newCircleMess = new NewCircleMess();
+                            newCircleMess.setId(UserInfoDao.getUser().getId());
+                            newCircleMess.setIsMain(false);//false表示未读
+                            newCircleMess.setIsCircle(false);
+                            newCircleMess.setIsMess(false);
+                            CircleNewMessDao.saveUser(newCircleMess);
+                        }
                         broadcastManager = LocalBroadcastManager.getInstance(context);
                         Intent intentPointGone = new Intent(context, MainAct.class);
                         intentPointGone.setAction(Constant.ACTION_CONTACT_CHANAGED);

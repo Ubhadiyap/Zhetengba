@@ -247,7 +247,8 @@ private CameraManager(Context context) {
 //        height = MAX_FRAME_HEIGHT;
 //      }
       int leftOffset = (metrics.widthPixels - width) / 2;
-      int topOffset = (screenResolution.y - height)/4;
+      int topOffset = (metrics.heightPixels - height)/4;
+//      int topOffset = (screenResolution.y - height)/4;
       framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
 //      Log.d(TAG, "Calculated framing rect: " + framingRect);
     }

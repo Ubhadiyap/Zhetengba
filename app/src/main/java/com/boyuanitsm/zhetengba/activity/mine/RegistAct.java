@@ -325,10 +325,10 @@ public class RegistAct extends BaseActivity {
             return false;
         }
 
-        if(!ZhetebaUtils.checkPwd(pwd)){
-            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母和数字");
-            return false;
-        }
+//        if(!ZhetebaUtils.checkPwd(pwd)){
+//            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母和数字");
+//            return false;
+//        }
         if (!register_cb.isChecked()) {
             MyToastUtils.showShortToast(getApplicationContext(), "请勾选条例");
             return false;
