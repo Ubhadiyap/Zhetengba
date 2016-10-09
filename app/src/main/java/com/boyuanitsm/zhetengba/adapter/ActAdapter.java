@@ -315,7 +315,7 @@ public class ActAdapter extends BaseAdapter {
                 RequestManager.getScheduleManager().getActivityCollection(infos.get(position).getId(), new ResultCallback<ResultBean<String>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-                        MyToastUtils.showShortToast(context,errorMsg);
+                        MyToastUtils.showShortToast(context, errorMsg);
                     }
 
                     @Override
@@ -333,16 +333,17 @@ public class ActAdapter extends BaseAdapter {
                 });
             }
         });
-        viewHolder.iv_actdetial.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listenerDetial=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //接口调用
                 builder.create().show();
-//                viewHolder.iv_actdetial.setEnabled(false);
-//                showDialog(infos.get(position).getId(), viewHolder.iv_actdetial);
-
             }
-        });
+        };
+        viewHolder.iv_actdetial.setOnClickListener(listenerDetial);
+        viewHolder.ll_show.setOnClickListener(listenerDetial);
+        viewHolder.ll_show2.setOnClickListener(listenerDetial);
+        viewHolder.ll_show3.setOnClickListener(listenerDetial);
+
         //展示个人资料
         View.OnClickListener listener1 = new View.OnClickListener() {
             @Override

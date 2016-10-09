@@ -6,8 +6,8 @@ android {
         applicationId "com.boyuanitsm.zhetengba"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 8
-        versionName "1.0.7"
+        versionCode 9
+        versionName "1.0.8"
         multiDexEnabled true
     }
 

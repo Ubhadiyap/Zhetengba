@@ -32,7 +32,7 @@ public class CirclePlAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return list==null?0:list.size();
+        return list.size()>5?5:list.size();
 
     }
 

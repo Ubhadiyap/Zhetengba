@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -31,6 +32,7 @@ import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
@@ -320,15 +322,29 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
             }
             Bundle bundle = intent.getExtras();
             if (bundle != null && datas.size() > 0) {
-                int cposition = bundle.getInt("CirCommentPosition");
-                int cNum = bundle.getInt("CirComtNum");
-                datas.get(cposition).setCommentCounts(cNum);
-                if (adapter == null) {
-                    adapter = new CircleAdapter(CircleAct.this, datalist, datas);
-                    lv_cir.getRefreshableView().setAdapter(adapter);
-                } else {
-                    adapter.notifyChange(datalist, datas);
+                String tag=bundle.getString("tag");
+                if (!TextUtils.isEmpty(tag)){
+                    if (TextUtils.equals(tag,"CirComtTag")){
+                        int cposition = bundle.getInt("CirCommentPosition");
+                        int cNum = bundle.getInt("CirComtNum");
+                        datas.get(cposition).setCommentCounts(cNum);
+                        ArrayList<CircleEntity> comtList = bundle.getParcelableArrayList("CirComtList");
+                        if (comtList!=null&&comtList.size()>0){
+                            datas.get(cposition).setCommentsList(comtList);
+                        }
+                    }else if (TextUtils.equals(tag,"CirdelTag")){
+                        int position= bundle.getInt("DelPosition");
+                        datas.remove(position);
+                        datalist.remove(position);
+                    }
+                    if (adapter == null) {
+                        adapter = new CircleAdapter(CircleAct.this, datalist, datas);
+                        lv_cir.getRefreshableView().setAdapter(adapter);
+                    } else {
+                        adapter.notifyChange(datalist, datas);
+                    }
                 }
+
             } else {
                 page = 1;
                 getAllCircleTalk(page, rows);

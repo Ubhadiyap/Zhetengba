@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -67,6 +68,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private CustomImageView ng_one_image, iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
     private List<List<ImageInfo>> dataList;
+    private String comNum;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.tum)
@@ -323,17 +325,12 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 ZtinfoUtils.hideSoftKeyboard(ChanelTextAct.this, etComment);
                 etComment.setText("");
                 commentNum.setText("评论" + response.getData());
+                comNum=response.getData();
                 page=1;
                 getCircleCommentsList(channelTalkId, page, rows);
                 btnSend.setEnabled(true);
                 btnSend.setClickable(true);
-                Intent intent=new Intent(SquareAct.TALK_LIST);
-                Bundle bundle=new Bundle();
-                bundle.putInt("ComtPosition",position);
-                bundle.putString("tag", "comTag");
-                bundle.putInt("ComtNum", Integer.parseInt(response.getData()));
-                intent.putExtras(bundle);
-                sendBroadcast(intent);
+
             }
         });
     }
@@ -372,6 +369,18 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 }else {
                     adapter.notifyChange(datas);
                 }
+                Intent intent=new Intent(SquareAct.TALK_LIST);
+                Bundle bundle=new Bundle();
+                bundle.putInt("ComtPosition", position);
+                bundle.putString("tag", "comTag");
+                if (!TextUtils.isEmpty(comNum)){
+                    bundle.putInt("ComtNum", Integer.parseInt(comNum));
+                }
+                if (datas!=null&&datas.size()>0){
+                    bundle.putParcelableArrayList("ComtList", (ArrayList<ChannelTalkEntity>) datas);
+                }
+                intent.putExtras(bundle);
+                sendBroadcast(intent);
             }
         });
     }
