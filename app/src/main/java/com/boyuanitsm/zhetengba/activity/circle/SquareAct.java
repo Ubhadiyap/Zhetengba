@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
@@ -309,6 +310,10 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                         int cposition=bundle.getInt("ComtPosition");
                         int cNum=bundle.getInt("ComtNum");
                         datas.get(cposition).setCommentCounts(cNum);
+                        ArrayList<ChannelTalkEntity> comtList = bundle.getParcelableArrayList("ComtList");
+                        if (comtList!=null&&comtList.size()>0){
+                            datas.get(cposition).setCommentsList(comtList);
+                        }
                     }else if (TextUtils.equals("delTag",tag)){
                         int position= bundle.getInt("DelPosition");
                         MyLogUtils.info("datas内数据===="+datas.toString()+""+position);

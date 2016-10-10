@@ -77,7 +77,6 @@ public class ScanQrcodeAct extends BaseActivity implements Callback {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("扫一扫");
-
         // 初始化 CameraManager
         CameraManager.init(getApplication());
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);

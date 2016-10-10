@@ -25,6 +25,7 @@ import com.boyuanitsm.zhetengba.adapter.ChaTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.CircleTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.PicGdAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -75,6 +76,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private CustomImageView  iv_two_one, iv_two_two, iv_two_three, iv_two_four;
     private MyGridView iv_ch_image;
     private List<List<ImageInfo>> dataList ;
+    private String cirComtNum;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.tum)
@@ -126,7 +128,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         assignView(headerView);
         entity=getIntent().getParcelableExtra("circleEntity");
         circleId=getIntent().getStringExtra("circleId");
-         position=getIntent().getIntExtra("CirCommentPosition",position);
+         position=getIntent().getIntExtra("CirCommentPosition",0);
         LayoutHelperUtil.freshInit(my_lv);
         my_lv.getRefreshableView().addHeaderView(headerView);
         setCircleEntity(entity);
@@ -367,19 +369,15 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 //重新获取评论列表，刷新评论数目，关闭键盘
                 ZtinfoUtils.hideSoftKeyboard(CircleTextAct.this, etComment);
                 etComment.setText("");
-                commentNum.setText("评论"+response.getData());
+                commentNum.setText("评论" + response.getData());
+                cirComtNum=response.getData();
                 page=1;
                 getCircleCommentsList(circleTalkId, page, rows);
                 btnSend.setEnabled(true);
                 btnSend.setClickable(true);
-                Intent intent=new Intent(CircleAct.ALLTALKS);
-                Bundle bundle=new Bundle();
-                bundle.putInt("CirCommentPosition", position);
-                bundle.putInt("CirComtNum", Integer.parseInt(response.getData()));
-                intent.putExtras(bundle);
-                sendBroadcast(intent);
                 sendBroadcast(new Intent(CirxqAct.TALKS));
                 sendBroadcast(new Intent(MyPlaneAct.PLANEALLTALKS));
+
             }
         });
     }
@@ -417,6 +415,19 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 }else {
                     adapter.notifyChange(datas);
                 }
+                Intent intent=new Intent(CircleAct.ALLTALKS);
+                Bundle bundle=new Bundle();
+                bundle.putInt("CirCommentPosition", position);
+                bundle.putString("tag","CirComtTag");
+                if (!TextUtils.isEmpty(cirComtNum)){
+                    bundle.putInt("CirComtNum", Integer.parseInt(cirComtNum));
+                }
+                if (datas!=null&&datas.size()>0){
+                    bundle.putParcelableArrayList("CirComtList", (ArrayList<CircleEntity>) datas);
+                }
+                intent.putExtras(bundle);
+                sendBroadcast(intent);
+
             }
         });
     }

@@ -30,8 +30,10 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
+import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -605,6 +607,12 @@ public class CircleAdapter extends BaseAdapter {
                     list.remove(circleDelPos);
                     dateList.remove(circleDelPos);
                     notifyDataSetChanged();
+                    Intent intent=new Intent(CircleAct.ALLTALKS);
+                    Bundle bundle=new Bundle();
+                    bundle.putInt("CirDelPosition", circleDelPos);
+                    bundle.putString("tag", "CirdelTag");
+                    intent.putExtras(bundle);
+                    context.sendBroadcast(intent);
                 }
             });
         }
