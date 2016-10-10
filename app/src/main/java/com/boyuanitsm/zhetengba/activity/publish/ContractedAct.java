@@ -298,7 +298,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                 break;
             case R.id.ll_start_time://开始时间
                 TimeDialog startDialog = new TimeDialog(ContractedAct.this, TimeDialog.Type.ALL);
-                startDialog.setRange(getCurrentYear(), getCurrentYear());
+                startDialog.setRange(getCurrentYear(), getCurrentYear()+1);
                 startDialog.builder();
                 startDialog.show();
                 startDialog.setOnTimeSelectListener(new TimeDialog.OnTimeSelectListener() {
@@ -323,7 +323,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
 
             case R.id.ll_end_time://结束时间时间
                 TimeDialog endDialog = new TimeDialog(ContractedAct.this, TimeDialog.Type.ALL);
-                endDialog.setRange(getCurrentYear(), getCurrentYear());
+                endDialog.setRange(getCurrentYear(), getCurrentYear()+1);
                 endDialog.builder();
                 endDialog.show();
                 endDialog.setOnTimeSelectListener(new TimeDialog.OnTimeSelectListener() {

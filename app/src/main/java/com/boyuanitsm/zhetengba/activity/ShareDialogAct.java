@@ -79,7 +79,7 @@ public class ShareDialogAct extends BaseActivity {
         window.setAttributes(layoutParams);
     }
 
-    @OnClick({R.id.ll_qqshare, R.id.ll_weiboshare, R.id.ll_weixinshare, R.id.ll_cancel_share})
+    @OnClick({R.id.ll_qqshare, R.id.ll_weiboshare, R.id.ll_weixinshare, R.id.ll_cancel_share,R.id.ll_wxcircleshare})
     public void OnClick(View v) {
         final UMImage image = new UMImage(ShareDialogAct.this,
                 BitmapFactory.decodeResource(getResources(), R.drawable.logo));
@@ -112,6 +112,15 @@ public class ShareDialogAct extends BaseActivity {
                         .withTitle("折腾吧")
                         .share();
                 break;
+            case R.id.ll_wxcircleshare://朋友圈
+                new ShareAction(ShareDialogAct.this)
+                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .setCallback(umShareListener)
+                        .withText(content)
+                        .withTargetUrl(codeUrl)
+                        .withMedia(image)
+                        .withTitle("折腾吧")
+                        .share();
 
             case R.id.ll_cancel_share:
                 finish();
