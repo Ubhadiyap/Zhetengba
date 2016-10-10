@@ -12,10 +12,12 @@
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="40dp" >
-        <ImageView
-            android:layout_width="14dp"
-            android:layout_height="15dp"
-            android:background="@drawable/x2"/>
+        <TextView
+            android:text="取消"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
         android:layout_centerInParent="true"
