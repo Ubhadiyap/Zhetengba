@@ -20,7 +20,6 @@ import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.fragment.TimeFrg;
-import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
@@ -191,7 +190,7 @@ public class ScheduleAct extends BaseActivity {
 
             case R.id.view_start://开始时间
                 TimeDialog startDialog = new TimeDialog(ScheduleAct.this, TimeDialog.Type.ALL);
-                startDialog.setRange(getCurrentYear(), getCurrentYear());
+                startDialog.setRange(getCurrentYear(), getCurrentYear()+1);
                 startDialog.builder();
                 startDialog.show();
                 startDialog.setOnTimeSelectListener(new TimeDialog.OnTimeSelectListener() {
@@ -211,7 +210,7 @@ public class ScheduleAct extends BaseActivity {
                 break;
             case R.id.view_end://结束时间
                 final TimeDialog endDialog = new TimeDialog(ScheduleAct.this, TimeDialog.Type.ALL);
-                endDialog.setRange(getCurrentYear(), getCurrentYear());
+                endDialog.setRange(getCurrentYear(), getCurrentYear()+1);
                 endDialog.builder();
                 endDialog.show();
                 endDialog.setOnTimeSelectListener(new TimeDialog.OnTimeSelectListener() {

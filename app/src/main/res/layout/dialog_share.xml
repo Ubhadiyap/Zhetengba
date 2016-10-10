@@ -86,5 +86,27 @@
                 android:textColor="#333333"
                 android:text="微信"/>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_wxcircleshare"
+            android:layout_marginLeft="37dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/pengyouquan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_wxcircle"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#333333"
+                android:text="朋友圈"/>
+        </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>
