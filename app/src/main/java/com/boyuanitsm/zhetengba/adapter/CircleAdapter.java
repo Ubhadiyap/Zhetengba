@@ -284,11 +284,20 @@ public class CircleAdapter extends BaseAdapter {
                     viewHolder.cnum2.setVisibility(View.VISIBLE);
                     viewHolder.cnumText.setVisibility(View.VISIBLE);
                     viewHolder.cnum2.setText(list.get(position).getCommentCounts() + "");
+                    if (list.get(position).getCommentCounts()>5){
+                        viewHolder.rl_more.setVisibility(View.VISIBLE);
+                    }else {
+                        viewHolder.rl_more.setVisibility(View.GONE);
+                    }
                 }
             }
-            if (clist!=null&&clist.size()>0){
-                viewHolder.ll_comment2.setVisibility(View.VISIBLE);
-                    viewHolder.lv_pl.setAdapter(new CirclePlAdapter(context,clist));
+
+            if (clist!=null){
+                if (clist.size()>0){
+                    viewHolder.ll_comment2.setVisibility(View.VISIBLE);
+                    viewHolder.lv_pl.setAdapter(new CirclePlAdapter(context, clist));
+                }
+
             }else {
                 viewHolder.ll_comment2.setVisibility(View.GONE);
             }
@@ -546,7 +555,9 @@ public class CircleAdapter extends BaseAdapter {
             tv_qx = (TextView) view.findViewById(R.id.tv_qx);
             if (UserInfoDao.getUser().getId().equals(list.get(circleDelPos).getUserId())) {
                 tv_sc.setVisibility(View.VISIBLE);
-            } else {
+            } else if (TextUtils.equals(UserInfoDao.getUser().getId(),list.get(circleDelPos).getCircleOwnerId())){
+                tv_sc.setVisibility(View.VISIBLE);
+            }else {
                 tv_sc.setVisibility(View.GONE);
             }
             tv_sc.setOnClickListener(this);
@@ -577,8 +588,8 @@ public class CircleAdapter extends BaseAdapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tv_sc://删除
+                    tv_sc.setEnabled(false);
                     deleat(list.get(circleDelPos).getId());
-
                     break;
 
                 case R.id.tv_jb://举报
@@ -597,16 +608,17 @@ public class CircleAdapter extends BaseAdapter {
             RequestManager.getTalkManager().deleteTalk(takeid, new ResultCallback<ResultBean<String>>() {
                 @Override
                 public void onError(int status, String errorMsg) {
-
+                    tv_sc.setEnabled(true);
                 }
 
                 @Override
                 public void onResponse(ResultBean<String> response) {
                     MyToastUtils.showShortToast(context, "删除成功");
                     dialog.dismiss();
-                    list.remove(circleDelPos);
-                    dateList.remove(circleDelPos);
+//                    list.remove(circleDelPos);
+//                    dateList.remove(circleDelPos);
                     notifyDataSetChanged();
+                    tv_sc.setEnabled(true);
                     Intent intent=new Intent(CircleAct.ALLTALKS);
                     Bundle bundle=new Bundle();
                     bundle.putInt("CirDelPosition", circleDelPos);

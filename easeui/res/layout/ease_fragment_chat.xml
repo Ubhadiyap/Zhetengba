@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
         android:layout_above="@+id/input_menu"
-        android:layout_below="@id/title_bar" >
+        android:layout_below="@+id/rl_xq">
 
         <com.hyphenate.easeui.widget.EaseChatMessageList
             android:id="@+id/message_list"
@@ -32,6 +32,80 @@
             android:visibility="invisible" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_xq"
+        android:visibility="gone"
+        android:layout_below="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/tv_site"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:text="地点："
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_site2"
+            android:layout_toRightOf="@id/tv_site"
+            android:text="汤泉国际"
+            android:textColor="#999999"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_alignParentBottom="true"
+            android:text="时间："
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_time2"
+            android:text="12"
+            android:textColor="#999999"
+            android:layout_marginBottom="15dp"
+            android:layout_toRightOf="@+id/tv_time"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_num"
+            android:text="人数："
+            android:layout_toLeftOf="@+id/tv_num2"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentBottom="true"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_num2"
+            android:layout_toLeftOf="@+id/tv_num3"
+            android:text="3"
+            android:textColor="@color/holo_red_light"
+            android:textSize="14sp"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_num3"
+            android:text="/18"
+            android:textColor="#999999"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
     <com.hyphenate.easeui.widget.EaseChatInputMenu
         android:id="@+id/input_menu"
         android:layout_width="match_parent"

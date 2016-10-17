@@ -1,6 +1,9 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -10,11 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.CircleglAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
@@ -41,7 +46,7 @@ public class SerchCirAct extends BaseActivity {
     private List<CircleEntity> list;
     @ViewInject(R.id.lv_cir_serch)
     private PullToRefreshListView plv;
-
+    private String serStr;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_serch_cir);
@@ -92,6 +97,7 @@ public class SerchCirAct extends BaseActivity {
         @Override
         public void afterTextChanged(Editable s) {
             if (!TextUtils.isEmpty(s.toString().trim())){
+                serStr=s.toString();
                 getCircle(s.toString(),page,rows);
             }
         }
@@ -134,6 +140,36 @@ public class SerchCirAct extends BaseActivity {
                     }
                 }
             });
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk == null) {
+            receiverTalk = new MyBroadCastReceiverTalk();
+            registerReceiver(receiverTalk, new IntentFilter(CIRSERCH));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiverTalk != null) {
+            unregisterReceiver(receiverTalk);
+            receiverTalk = null;
+        }
+    }
+
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String CIRSERCH = "serch_update";
+
+
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            page=1;
+            getCircle(serStr,page,rows);
         }
     }
 }

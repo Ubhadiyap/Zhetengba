@@ -212,9 +212,15 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
      */
     private void initData() {
         if (!TextUtils.isEmpty(et_theme.getText().toString())) {
-            simpleInfo.setActivityTheme(et_theme.getText().toString());
+            if (et_theme.getText().length()>=4){
+                simpleInfo.setActivityTheme(et_theme.getText().toString());
+            }else {
+                MyToastUtils.showShortToast(getApplicationContext(),"档期主题至少输入4个字！");
+                et_theme.requestFocus();
+                return;
+            }
         } else {
-            MyToastUtils.showShortToast(ContractedAct.this, "您有会友信息未完善，请完善！");
+            MyToastUtils.showShortToast(ContractedAct.this, "您有档期信息未完善，请完善！");
             return;
         }
         if (!TextUtils.isEmpty(tv_select.getText().toString())) {

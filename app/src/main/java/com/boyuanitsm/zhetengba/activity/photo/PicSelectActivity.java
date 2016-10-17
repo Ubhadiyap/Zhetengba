@@ -37,6 +37,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.AlbumBean;
 import com.boyuanitsm.zhetengba.bean.ImageBean;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.NativeImageLoader;
 import com.boyuanitsm.zhetengba.view.photoView.MyImageView;
 import com.boyuanitsm.zhetengba.view.photoView.tools.AlbumHelper;
@@ -47,6 +48,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -184,7 +186,7 @@ import java.util.Random;
 		if (requestCode == PHOTO_GRAPH && resultCode == RESULT_OK) {
 			List<ImageBean> selecteds = new ArrayList<ImageBean>();
 			selecteds.add(new ImageBean(null, 0l, null, dirPath + "/"
-					+ fileName + ".jpg", false));
+					+ fileName + ".jpg", false, (new Date()).toString()));
 			Intent intent = new Intent();
 			intent.putExtra(IMAGES, (Serializable) selecteds);
 			setResult(RESULT_OK, intent);

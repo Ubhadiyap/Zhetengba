@@ -47,6 +47,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -66,11 +67,12 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_member"
             android:paddingRight="15dp"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_marginLeft="15dp"

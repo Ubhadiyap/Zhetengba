@@ -25,6 +25,7 @@
         android:paddingRight="10dp"
         android:textSize="14sp"
         android:lines="1"
+        android:singleLine="true"
         android:hint="输入查找的圈子"
         />
     <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView

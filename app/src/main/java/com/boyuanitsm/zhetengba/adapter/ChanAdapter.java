@@ -278,6 +278,11 @@ public class ChanAdapter extends BaseAdapter {
                     viewHolder.cnumText.setVisibility(View.VISIBLE);
                     viewHolder.cnum.setText(list.get(position).getCommentCounts() + "");
                     MyLogUtils.info("Counts====" + list.get(position).getCommentCounts());
+                    if (list.get(position).getCommentCounts()>5){
+                        viewHolder.rl_more.setVisibility(View.VISIBLE);
+                    }else {
+                        viewHolder.rl_more.setVisibility(View.GONE);
+                    }
                 }
             }
                 if (clist!=null&&clist.size()>0){

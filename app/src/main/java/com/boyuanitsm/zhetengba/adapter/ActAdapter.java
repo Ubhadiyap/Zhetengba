@@ -170,11 +170,11 @@ public class ActAdapter extends BaseAdapter {
         } else {
             viewHolder.tv_date.setText(strStart + "—" + strEnd);//活动时间；
         }
-        if (UserInfoDao.getUser().getId().equals(infos.get(position).getUserId())) {
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()), viewHolder.iv_headphoto, optionsImag);
-        } else {
+//        if (UserInfoDao.getUser().getId().equals(infos.get(position).getUserId())) {
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()), viewHolder.iv_headphoto, optionsImag);
+//        } else {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(infos.get(position).getUserIcon()), viewHolder.iv_headphoto, optionsImag);//用户头像
-        }
+//        }
         if (!TextUtils.isEmpty(infos.get(position).getUserSex())) {
             if (infos.get(position).getUserSex().equals(1 + "")) {
                 viewHolder.iv_gender.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.male));//用户性别

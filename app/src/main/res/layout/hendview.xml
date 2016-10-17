@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_toLeftOf="@+id/iv_yuan"
-                    android:text="余额"
+                    android:text="奖励"
                     android:textColor="#333333"
                     android:textSize="14sp" />
 
@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="20dp"
-                android:text="当前支持余额超过50￥以上的提现，请确认提现金额。奖品提货，请关注折腾吧官方微信号，输入发货地址+姓名+手机号+奖品明细，将于中奖之日后30内统一寄出。"
+                android:text="当前支持奖励超过50￥以上的提现，请确认提现金额。奖品提货，请关注折腾吧官方微信号，输入发货地址+姓名+手机号+奖品明细，将于中奖之日后30内统一寄出。"
                 android:textColor="#999999"
                 android:textSize="12sp" />
 
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="账单明细"
+                    android:text="奖励明细"
                     android:textColor="#333333"
                     android:textSize="14sp" />
 

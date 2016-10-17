@@ -13,6 +13,7 @@ import com.boyuanitsm.zhetengba.IsShow;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
+import com.boyuanitsm.zhetengba.activity.circle.SerchCirAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
@@ -89,6 +90,7 @@ public class MyReceiver extends BroadcastReceiver {
                         broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
                         context.sendBroadcast(new Intent(CircleFrg.UPDATE));//发广播到圈子frg红点显示
                         context.sendBroadcast(new Intent(CircleAct.ALLTALKS));
+                        context.sendBroadcast(new Intent(SerchCirAct.CIRSERCH));
                     }
 
                     Gson gson = new Gson();
