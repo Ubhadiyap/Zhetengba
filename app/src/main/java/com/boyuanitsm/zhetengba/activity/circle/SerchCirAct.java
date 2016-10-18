@@ -126,6 +126,7 @@ public class SerchCirAct extends BaseActivity {
                         }else {
                             plv.setHasMoreData(false);
                         }
+                        MyToastUtils.showShortToast(getApplicationContext(),"没有搜索到相关圈子！");
                         return;
                     }
                     if (page==1){
