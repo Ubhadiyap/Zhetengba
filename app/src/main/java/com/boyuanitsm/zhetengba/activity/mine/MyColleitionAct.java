@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,6 +21,7 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -37,6 +37,8 @@ public class MyColleitionAct extends BaseActivity {
 
     @ViewInject(R.id.plv)
     private PullToRefreshListView plv;
+    @ViewInject(R.id.loadview)
+    private LoadingView loadview;
     private boolean isComment, isComment2;
     private int gznum = 0;//默认关注人数0
     private int jionum = 0;//默认参加人数0；
@@ -58,9 +60,9 @@ public class MyColleitionAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("我的关注");
-        llnoList = (LinearLayout) findViewById(R.id.noList);
-        ivAnim = (ImageView) findViewById(R.id.ivAnim);
-        noMsg = (TextView) findViewById(R.id.noMsg);
+//        llnoList = (LinearLayout) findViewById(R.id.noList);
+//        ivAnim = (ImageView) findViewById(R.id.ivAnim);
+//        noMsg = (TextView) findViewById(R.id.noMsg);
         LayoutHelperUtil.freshInit(plv);
         findgzPortsMsg(page, rows);
         plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -74,6 +76,13 @@ public class MyColleitionAct extends BaseActivity {
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
+                findgzPortsMsg(page, rows);
+            }
+        });
+
+        loadview.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
                 findgzPortsMsg(page, rows);
             }
         });
@@ -92,35 +101,38 @@ public class MyColleitionAct extends BaseActivity {
         RequestManager.getUserManager().findCollectionListByUserId(page, rows, new ResultCallback<ResultBean<DataBean<CollectionBean>>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                loadview.loadError();
                 plv.onPullUpRefreshComplete();
                 plv.onPullDownRefreshComplete();
-                if (list.size()>0){
-                    if (adapter != null) {
-                        adapter.notify(list);
-                    }
-                }else {
-                    llnoList.setVisibility(View.VISIBLE);
-                    ivAnim.setImageResource(R.mipmap.planeno);
-                    noMsg.setText("加载失败");
-                }
+//                if (list.size()>0){
+//                    if (adapter != null) {
+//                        adapter.notify(list);
+//                    }
+//                }else {
+//                    llnoList.setVisibility(View.VISIBLE);
+//                    ivAnim.setImageResource(R.mipmap.planeno);
+//                    noMsg.setText("加载失败");
+//                }
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<CollectionBean>> response) {
+                loadview.loadComplete();
                 plv.onPullUpRefreshComplete();
                 plv.onPullDownRefreshComplete();
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
-                        llnoList.setVisibility(View.VISIBLE);
-                        ivAnim.setImageResource(R.mipmap.planeno);
-                        noMsg.setText("暂无内容");
+//                        llnoList.setVisibility(View.VISIBLE);
+//                        ivAnim.setImageResource(R.mipmap.planeno);
+//                        noMsg.setText("暂无内容");
+                        loadview.noContent();
                     } else {
                         plv.setHasMoreData(false);
                     }
 //                    return;
                 }else {
-                    llnoList.setVisibility(View.GONE);
+
                 }
                 if (page == 1) {
                     datas.clear();

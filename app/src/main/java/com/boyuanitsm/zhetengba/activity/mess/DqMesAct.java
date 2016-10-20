@@ -1,13 +1,9 @@
 package com.boyuanitsm.zhetengba.activity.mess;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.DqMesAdapter;
@@ -21,23 +17,17 @@ import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenu;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuCreator;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuItem;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
-import org.w3c.dom.Text;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * 档期消息
@@ -46,6 +36,8 @@ import java.util.TreeMap;
 public class DqMesAct extends BaseActivity {
     @ViewInject(R.id.lvDqMes)
     private SwipeMenuListView lvDqMes;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     private DqMesAdapter adapter;//档期消息适配器
     private List<ActivityMess> list;//极光接收的集合；
     private List<ActivityMess> agreeList;//后台返回的同意拒绝操作list
@@ -55,6 +47,7 @@ public class DqMesAct extends BaseActivity {
     private String type = 0 + "";
     private ProgressDialog progressDialog;
     private boolean progressShow;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_dq_mes);
@@ -63,10 +56,10 @@ public class DqMesAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("档期消息");
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("数据加载中...");
-        progressDialog.show();
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.setMessage("数据加载中...");
+//        progressDialog.show();
         getDqMess(type, page, rows);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -85,7 +78,14 @@ public class DqMesAct extends BaseActivity {
                 }
 
             }
+
         };
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getDqMess(type, page, rows);
+            }
+        });
         lvDqMes.setMenuCreator(creator);
         lvDqMes.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
@@ -151,17 +151,24 @@ public class DqMesAct extends BaseActivity {
         RequestManager.getScheduleManager().findMyInviteMsg(type, page, rows, new ResultCallback<ResultBean<DataBean<ActivityMess>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                progressDialog.dismiss();
-                MyToastUtils.showShortToast(getApplicationContext(),"请求失败，请检查网络！");
+//                progressDialog.dismiss();
+                load_view.loadError();
+                MyToastUtils.showShortToast(getApplicationContext(), "请求失败，请检查网络！");
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<ActivityMess>> response) {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
+                load_view.loadComplete();
                 agreeList = response.getData().getRows();
                 MyLogUtils.info(agreeList.toString() + "返回集合");
                 list = new ArrayList<>();
                 list = ActivityMessDao.getCircleUser();
+//                if(list==null&&agreeList==null){
+//                    load_view.noContent();
+//                }else {
+//
+//                }
                 if (list != null && list.size() > 0) {
                     Collections.reverse(list);//时间排一下序
                     if (agreeList != null && agreeList.size() > 0) {
@@ -173,9 +180,16 @@ public class DqMesAct extends BaseActivity {
                     }
                     SortClass sort = new SortClass();
                     Collections.sort(list, sort);
-                } else if (agreeList != null && agreeList.size() > 0) {
-                    list = agreeList;
+                } else {
+                    if (agreeList != null && agreeList.size() > 0) {
+                        list = agreeList;
+                    } else {
+                        load_view.noContent();
+                    }
                 }
+//                else if (agreeList != null && agreeList.size() > 0) {
+//                    list = agreeList;
+//                }
                 if (adapter == null) {
                     adapter = new DqMesAdapter(DqMesAct.this, list);
                     lvDqMes.setAdapter(adapter);

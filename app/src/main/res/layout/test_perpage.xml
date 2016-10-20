@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_bg">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
     android:id="@+id/test_lv"
     android:dividerHeight="1px"
@@ -21,4 +25,11 @@
         android:text="发送消息"
         android:textColor="#fff"
         android:textSize="14sp" />
+
+        <com.boyuanitsm.zhetengba.view.LoadingView
+            android:id="@+id/ld_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.LoadingView>
+
+    </FrameLayout>
 </RelativeLayout>
