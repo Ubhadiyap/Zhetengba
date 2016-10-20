@@ -3,12 +3,14 @@ package com.boyuanitsm.zhetengba.activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -28,7 +30,7 @@ public class ShareDialogAct extends BaseActivity {
     private String content;//分享文本内容
     private String id;//需要拼接的id
     private String theme;//会友名称
-
+    private String phone;
 
 
 
@@ -44,14 +46,16 @@ public class ShareDialogAct extends BaseActivity {
 //        params.width = (int) (defaultDisplay.getWidth() * 1.0);
 //        params.height=(int)(defaultDisplay.getHeight()*1.0);
 //        getWindow().setGravity(Gravity.BOTTOM);
-
+        if(!TextUtils.isEmpty(UserInfoDao.getUser().getUsername()) ){
+            phone= UserInfoDao.getUser().getUsername();
+        }
         type = getIntent().getExtras().getInt("type");//区分要分享的链接
         id=getIntent().getExtras().getString("id");//区分要拼接到链接里面的id
         theme=getIntent().getExtras().getString("activitytheme");
         if (type == 1) {//表示要分享的是活动
-            codeUrl = IZtbUrl.SHARE_URL+"/share_1?id="+id;//活动分享链接
+            codeUrl = IZtbUrl.SHARE_URL+"/share_1?id="+id+"&phone="+phone;//活动分享链接
 //            content = "我发布了，快来围观吧!";
-            content="我发布了"+"\""+theme+"\""+"的会友信息，快来响应吧";
+            content="我发布了"+"\""+theme+"\""+"的档期，快来响应吧";
 
         }
         if (type == 2) {//表示要分享的是档期
@@ -119,7 +123,7 @@ public class ShareDialogAct extends BaseActivity {
                         .withText(content)
                         .withTargetUrl(codeUrl)
                         .withMedia(image)
-                        .withTitle("折腾吧")
+                        .withTitle(content)
                         .share();
 
             case R.id.ll_cancel_share:

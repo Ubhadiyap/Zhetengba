@@ -69,7 +69,7 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("我的钱包");
+        setTopTitle("我的奖励");
         View hendview=getLayoutInflater().inflate(R.layout.hendview,null);
         tv_je= (TextView) hendview.findViewById(R.id.tv_je);
         tv_tx= (TextView) hendview.findViewById(R.id.tv_tx);

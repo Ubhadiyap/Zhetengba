@@ -333,7 +333,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                             datas.get(cposition).setCommentsList(comtList);
                         }
                     }else if (TextUtils.equals(tag,"CirdelTag")){
-                        int position= bundle.getInt("DelPosition");
+                        int position= bundle.getInt("CirDelPosition");
                         datas.remove(position);
                         datalist.remove(position);
                     }

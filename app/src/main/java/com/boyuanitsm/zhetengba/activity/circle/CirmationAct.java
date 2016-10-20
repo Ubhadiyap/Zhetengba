@@ -152,6 +152,7 @@ public class CirmationAct extends BaseActivity {
                 sendBroadcast(new Intent(CircleglAct.INTENTFLAG));
                 sendBroadcast(new Intent(CirFrg.ALLTALKS));
                 sendBroadcast(new Intent(CirxqAct.FINISH));
+                sendBroadcast(new Intent(SerchCirAct.CIRSERCH));
             }
         });
     }

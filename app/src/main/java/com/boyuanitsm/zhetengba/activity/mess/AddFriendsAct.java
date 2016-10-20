@@ -40,7 +40,8 @@ public class AddFriendsAct extends BaseActivity {
     private int READ_CONTACTS = 111;
     @ViewInject(R.id.cetSearch)
     private ClearEditText cetSearch;
-    private String codeUrl= IZtbUrl.SHARE_URL+"/share_3" ;
+    private String codeUrl;
+    private String phone;
 
 
 
@@ -52,6 +53,10 @@ public class AddFriendsAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("添加好友");
+        if(!TextUtils.isEmpty(UserInfoDao.getUser().getUsername()) ){
+            phone=UserInfoDao.getUser().getUsername();
+            codeUrl= IZtbUrl.SHARE_URL+"/share_3?phone="+phone ;
+        }
         cetSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

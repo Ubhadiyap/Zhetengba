@@ -34,6 +34,56 @@ public class GroupBean implements Parcelable {
     private String isValid;
     private String remark;
     private String reminderDays;
+    private String activitySite;
+    private String startTime;
+    private String endTime;
+    private String inviteNumber;
+    private String memberNum;
+
+
+    public String getActivitySite() {
+        return activitySite;
+    }
+
+    public void setActivitySite(String activitySite) {
+        this.activitySite = activitySite;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getInviteNumber() {
+        return inviteNumber;
+    }
+
+    public void setInviteNumber(String inviteNumber) {
+        this.inviteNumber = inviteNumber;
+    }
+
+    public String getMemberNum() {
+        return memberNum;
+    }
+
+    public void setMemberNum(String memberNum) {
+        this.memberNum = memberNum;
+    }
+
+    public static Creator<GroupBean> getCREATOR() {
+        return CREATOR;
+    }
 
     public String getId() {
         return id;
@@ -124,6 +174,9 @@ public class GroupBean implements Parcelable {
     }
 
 
+    public GroupBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -133,7 +186,7 @@ public class GroupBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeString(this.groupOwnerId);
-        dest.writeByte(type ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.type ? (byte) 1 : (byte) 0);
         dest.writeString(this.activityId);
         dest.writeString(this.groupName);
         dest.writeString(this.createTime);
@@ -142,9 +195,11 @@ public class GroupBean implements Parcelable {
         dest.writeString(this.isValid);
         dest.writeString(this.remark);
         dest.writeString(this.reminderDays);
-    }
-
-    public GroupBean() {
+        dest.writeString(this.activitySite);
+        dest.writeString(this.startTime);
+        dest.writeString(this.endTime);
+        dest.writeString(this.inviteNumber);
+        dest.writeString(this.memberNum);
     }
 
     protected GroupBean(Parcel in) {
@@ -159,13 +214,20 @@ public class GroupBean implements Parcelable {
         this.isValid = in.readString();
         this.remark = in.readString();
         this.reminderDays = in.readString();
+        this.activitySite = in.readString();
+        this.startTime = in.readString();
+        this.endTime = in.readString();
+        this.inviteNumber = in.readString();
+        this.memberNum = in.readString();
     }
 
     public static final Creator<GroupBean> CREATOR = new Creator<GroupBean>() {
+        @Override
         public GroupBean createFromParcel(Parcel source) {
             return new GroupBean(source);
         }
 
+        @Override
         public GroupBean[] newArray(int size) {
             return new GroupBean[size];
         }

@@ -269,6 +269,11 @@ public class CirclexqListAdapter extends BaseAdapter {
                     viewHolder.cnum2.setVisibility(View.VISIBLE);
                     viewHolder.cnumText.setVisibility(View.VISIBLE);
                     viewHolder.cnum2.setText(list.get(position).getCommentCounts() + "");
+                    if (list.get(position).getCommentCounts()>5){
+                        viewHolder.rl_more.setVisibility(View.VISIBLE);
+                    }else {
+                        viewHolder.rl_more.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -518,6 +523,8 @@ public class CirclexqListAdapter extends BaseAdapter {
             tv_jb= (TextView) view.findViewById(R.id.tv_jb);
             tv_qx= (TextView) view.findViewById(R.id.tv_qx);
             if(UserInfoDao.getUser().getId().equals(list.get(circleDelPos).getUserId())){
+                tv_sc.setVisibility(View.VISIBLE);
+            }else if (TextUtils.equals(UserInfoDao.getUser().getId(),list.get(circleDelPos).getCircleOwnerId())){
                 tv_sc.setVisibility(View.VISIBLE);
             }else {
                 tv_sc.setVisibility(View.GONE);

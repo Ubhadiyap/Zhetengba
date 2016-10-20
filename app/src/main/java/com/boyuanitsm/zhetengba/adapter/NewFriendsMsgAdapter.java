@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
@@ -341,6 +344,11 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                 ContentValues values = new ContentValues();
                 values.put(InviteMessgeDao.COLUMN_NAME_STATUS, msg.getStatus().ordinal());
                 messgeDao.updateMessage(msg.getId(), values);
+                Intent intent=new Intent(context, PersonalAct.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("userId",msg.getFrom());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
                 ((Activity) context).runOnUiThread(new Runnable() {
 
                     @Override
