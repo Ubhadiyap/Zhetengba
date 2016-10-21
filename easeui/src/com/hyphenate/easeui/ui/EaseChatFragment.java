@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.EMChatRoomChangeListener;
@@ -117,6 +119,8 @@ public class EaseChatFragment extends EaseBaseFragment {
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
 
+    protected RelativeLayout rl_xq;
+    protected TextView tv_site2,tv_time2,tv_num2,tv_num3;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.ease_fragment_chat, container, false);
@@ -143,10 +147,14 @@ public class EaseChatFragment extends EaseBaseFragment {
 
         // 消息列表layout
         messageList = (EaseChatMessageList) getView().findViewById(R.id.message_list);
+        rl_xq = (RelativeLayout) getView().findViewById(R.id.rl_xq);
+        tv_site2 = (TextView) getView().findViewById(R.id.tv_site2);
+        tv_time2 = (TextView) getView().findViewById(R.id.tv_time2);
+        tv_num2 = (TextView) getView().findViewById(R.id.tv_num2);
+        tv_num3 = (TextView) getView().findViewById(R.id.tv_num3);
         if (chatType != EaseConstant.CHATTYPE_SINGLE)
             messageList.setShowUserNick(true);
         listView = messageList.getListView();
-
         extendMenuItemClickListener = new MyItemClickListener();
         inputMenu = (EaseChatInputMenu) getView().findViewById(R.id.input_menu);
         inputMenu.setChatType(chatType);
@@ -203,6 +211,7 @@ public class EaseChatFragment extends EaseBaseFragment {
                     titleBar.setTitle("聊天界面");
             }
             titleBar.setRightImageResource(R.drawable.dele2x);
+            rl_xq.setVisibility(View.GONE);
         } else {
             titleBar.setRightImageResource(R.drawable.guanli);//ease_to_group_details_normal
             if (chatType == EaseConstant.CHATTYPE_GROUP) {
@@ -531,6 +540,7 @@ public class EaseChatFragment extends EaseBaseFragment {
         EaseUI.getInstance().pushActivity(mActivity);
         // register the event listener when enter the foreground
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
+
     }
 
     @Override
@@ -1043,6 +1053,5 @@ public class EaseChatFragment extends EaseBaseFragment {
          */
         EaseCustomChatRowProvider onSetCustomChatRowProvider();
     }
-
 
 }

@@ -6,12 +6,15 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.AlbumBean;
 import com.boyuanitsm.zhetengba.bean.ImageBean;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -78,7 +81,8 @@ public class AlbumHelper {
 
 			long size = mCursor.getLong(mCursor
 					.getColumnIndex(MediaStore.Images.Media.SIZE));
-
+			String time=mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
+//			MyLogUtils.info("选择图片的相片信息===="+time);
 			String display_name = mCursor.getString(mCursor
 					.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
 
@@ -87,14 +91,30 @@ public class AlbumHelper {
 			if (beans.containsKey(parentName)) {
 				sb = beans.get(parentName);
 				sb.add(new ImageBean(parentName, size, display_name, path,
-						false));
+						false,time));
+				SortClass sort = new SortClass();
+				Collections.sort(sb, sort);
 			} else {
 				sb = new ArrayList<ImageBean>();
 				sb.add(new ImageBean(parentName, size, display_name, path,
-						false));
+						false,time));
+				SortClass sort = new SortClass();
+				Collections.sort(sb, sort);
 			}
 			beans.put(parentName, sb);
 		}
 		return beans;
+	}
+	/**
+	 * 时间降序
+	 * 排序
+	 */
+	public class SortClass implements Comparator {
+		public int compare(Object arg0, Object arg1) {
+			ImageBean user0 = (ImageBean) arg0;
+			ImageBean user1 = (ImageBean) arg1;
+			int flag = user1.getTime().compareTo(user0.getTime());//升序直接将user0,user1互换
+			return flag;
+		}
 	}
 }

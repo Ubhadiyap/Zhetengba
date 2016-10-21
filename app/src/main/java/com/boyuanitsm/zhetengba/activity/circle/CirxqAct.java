@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -85,6 +86,7 @@ public class CirxqAct extends BaseActivity {
     private ProgressDialog progressDialog;
     private boolean isQuanzhu=false;
     private boolean isFabu=false;
+    private LinearLayout ll_member;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_cirxq);
@@ -105,6 +107,7 @@ public class CirxqAct extends BaseActivity {
         qzzl= (TextView) headView.findViewById(R.id.tv_qzzl);//圈子资料
         rv_label= (MyRecyleview) headView.findViewById(R.id.rv_label);//圈子成员
         rl_jiaru=(TextView) headView.findViewById(R.id.rl_jiaru);//加入圈子 默认是隐藏的
+        ll_member= (LinearLayout) headView.findViewById(R.id.ll_member);
         lv_cir.getRefreshableView().addHeaderView(headView);
         LayoutHelperUtil.freshInit(lv_cir);
 //        lv_cir.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -215,6 +218,7 @@ public class CirxqAct extends BaseActivity {
             public void onResponse(ResultBean<String> response) {
                 rl_jiaru.setEnabled(true);
                 MyToastUtils.showShortToast(CirxqAct.this, "申请成功，等待圈主响应");
+                sendBroadcast(new Intent(SerchCirAct.CIRSERCH));
                 finish();
 
 
@@ -313,6 +317,11 @@ public class CirxqAct extends BaseActivity {
                 notice.setText("公告："+entity.getNotice());
             }else {
                 notice.setText("公告：暂无公告");
+            }
+            if (!TextUtils.isEmpty(entity.getAddress())){
+                ll_member.setVisibility(View.GONE);
+            }else {
+                ll_member.setVisibility(View.VISIBLE);
             }
             if (!TextUtils.isEmpty(entity.getCircleOwnerId())){
                 if(entity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())){

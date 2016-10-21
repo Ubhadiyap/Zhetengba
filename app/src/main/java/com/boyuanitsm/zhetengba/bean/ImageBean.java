@@ -10,6 +10,32 @@ public class ImageBean implements Serializable {
 	public String path;
 	public boolean isChecked;
     public String imageUrl;
+	public String time;
+
+	public boolean isChecked() {
+		return isChecked;
+	}
+
+	public void setIsChecked(boolean isChecked) {
+		this.isChecked = isChecked;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
 	public ImageBean() {
 		super();
 	}
@@ -52,13 +78,14 @@ public class ImageBean implements Serializable {
 	}
 
 	public ImageBean(String parentName, long size, String displayName,
-					 String path, boolean isChecked) {
+					 String path, boolean isChecked,String time) {
 		super();
 		this.parentName = parentName;
 		this.size = size;
 		this.displayName = displayName;
 		this.path = path;
 		this.isChecked = isChecked;
+		this.time=time;
 	}
 
 	@Override

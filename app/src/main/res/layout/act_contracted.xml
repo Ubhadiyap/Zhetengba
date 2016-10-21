@@ -51,7 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="输入主题"
+                        android:hint="输入主题（例如：一起喝茶）"
                         android:maxLength="16"
                         android:singleLine="true"
                         android:textColorHint="#999999"

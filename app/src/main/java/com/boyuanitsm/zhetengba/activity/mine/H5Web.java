@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -55,7 +56,7 @@ public class H5Web extends BaseActivity {
             synCookies(H5Web.this, hdUrl);
 //            syncCookie(H5Web.this,hdUrl,cookies);
 
-            initWebViewSettings();
+//            initWebViewSettings();
 
 //            Map<String,String> extraHeaders = new HashMap<String, String>();
 //            extraHeaders.put("Set-Cookie", SpUtils.getCookie(MyApplication.getInstance()));
@@ -66,9 +67,9 @@ public class H5Web extends BaseActivity {
         wb.setWebViewClient(new WebViewClient() {
                                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                                     // 重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
-                                    Map<String,String> extraHeaders = new HashMap<String, String>();
-                                    extraHeaders.put("Set-Cookie", SpUtils.getCookie(MyApplication.getInstance()));
-                                    view.loadUrl(url,extraHeaders);
+//                                    Map<String,String> extraHeaders = new HashMap<String, String>();
+//                                    extraHeaders.put("Set-Cookie", SpUtils.getCookie(MyApplication.getInstance()));
+//                                    view.loadUrl(url,extraHeaders);
                                     return true;
                                 }
 
@@ -78,6 +79,15 @@ public class H5Web extends BaseActivity {
                                 }
                             }
         );
+//        wb.setWebChromeClient(new WebChromeClient() {
+//            @Override
+//            public void onProgressChanged(WebView view, int newProgress) {
+//                super.onProgressChanged(view, newProgress);
+//                if (newProgress>=100){
+//                    loadingView.loadComplete();
+//                }
+//            }
+//        });
 
     }
 
@@ -111,19 +121,14 @@ public class H5Web extends BaseActivity {
      */
     private void synCookies(Context context,String url) {
         try{
-            MyLogUtils.info("Nat: webView.syncCookie.url" + url);
+//            MyLogUtils.info("Nat: webView.syncCookie.url" + url);
             CookieSyncManager.createInstance(context);
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.setAcceptCookie(true);
             cookieManager.removeSessionCookie();// 移除
             cookieManager.removeAllCookie();
-            String oldCookie = cookieManager.getCookie(url);
-            if(oldCookie != null){
-                MyLogUtils.info("Nat: webView.syncCookieOutter.oldCookie"+ oldCookie);
-            }
 
             StringBuilder sbCookie = new StringBuilder();
-//            sbCookie.append(String.format("JSESSIONID=%s",cookieSplit(cookies)));
             sbCookie.append(String.format("JSESSIONID=%s",cookieSplit(cookies)));
 
 //            sbCookie.append(String.format(";Domain=%s","139.196.234.89"));//180.76.149.156
@@ -134,15 +139,15 @@ public class H5Web extends BaseActivity {
 //            sbCookie.append(String.format(";HttpOnly"));
 
             String cookieValue = sbCookie.toString();
-            MyLogUtils.info("sile" + cookieValue);
+//            MyLogUtils.info("sile" + cookieValue);
             cookieManager.setCookie(url, cookieValue);
             CookieSyncManager.getInstance().sync();
-            String newCookie = cookieManager.getCookie(url);
-            if(newCookie != null){
-                MyLogUtils.info("Nat: webView.syncCookie.newCookie"+ newCookie);
-            }else {
-                MyLogUtils.info("空的不说话了");
-            }
+//            String newCookie = cookieManager.getCookie(url);
+//            if(newCookie != null){
+//                MyLogUtils.info("Nat: webView.syncCookie.newCookie"+ newCookie);
+//            }else {
+//                MyLogUtils.info("空的不说话了");
+//            }
         }catch(Exception e){
             MyLogUtils.info("Nat: webView.syncCookie failed"+ e.toString());
         }

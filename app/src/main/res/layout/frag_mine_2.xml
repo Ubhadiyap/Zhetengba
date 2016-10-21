@@ -68,7 +68,7 @@
                 <com.boyuanitsm.zhetengba.view.CommonView
                     app:desTextColor="#333333"
                     app:desTextSize="14sp"
-                    app:desText="钱包"
+                    app:desText="奖励"
                     app:statusImage="@mipmap/wallet"
                     app:statusImage_width="24dp"
                     app:statusImage_height="24dp"

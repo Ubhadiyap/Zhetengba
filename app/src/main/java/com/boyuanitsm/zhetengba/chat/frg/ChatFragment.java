@@ -11,17 +11,21 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
+import com.boyuanitsm.zhetengba.bean.GroupBean;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ContextMenuActivity;
 import com.boyuanitsm.zhetengba.chat.act.ForwardMessageActivity;
@@ -29,8 +33,12 @@ import com.boyuanitsm.zhetengba.chat.act.GroupDetailsActivity;
 import com.boyuanitsm.zhetengba.chat.domain.EmojiconExampleGroupData;
 import com.boyuanitsm.zhetengba.chat.domain.RobotUser;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
@@ -72,7 +80,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
      * 是否为环信小助手
      */
     private boolean isRobot;
-
+    private String strStart,strEnd;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -383,6 +391,9 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
             receiver=new UpdateGReceiver();
             getActivity().registerReceiver(receiver,new IntentFilter(UPDATE_GROUP_NAME));
         }
+        if (!TextUtils.isEmpty(toChatUsername)){
+            findGroupInfo();
+        }
     }
 
     private UpdateGReceiver receiver;
@@ -400,6 +411,51 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentLi
 
             }
         }
+    }
+
+    /**
+     * 获取群组详情
+     */
+    private void findGroupInfo(){
+        RequestManager.getMessManager().findGroupInfo(toChatUsername, new ResultCallback<ResultBean<GroupBean>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<GroupBean> response) {
+                //获取群成员列表
+
+                GroupBean groupBean=response.getData();
+                if(groupBean!=null){
+                    if (!TextUtils.isEmpty(groupBean.getStartTime())){
+                        rl_xq.setVisibility(View.VISIBLE);
+                    }else {
+                        rl_xq.setVisibility(View.GONE);
+                    }
+                    if (!TextUtils.isEmpty(groupBean.getStartTime())&&!TextUtils.isEmpty(groupBean.getEndTime())){
+                        strStart = ZhetebaUtils.timeToDate(Long.parseLong(groupBean.getStartTime()));
+                        strEnd = ZhetebaUtils.timeToDate(Long.parseLong(groupBean.getEndTime()));
+                        if (strStart.substring(1, 6).equals(strEnd.substring(1, 6))) {
+                            String strTime = strStart + "—" + strEnd.substring(6);
+                            tv_time2.setText(strTime);//活动时间；
+                        } else {
+                            tv_time2.setText(strStart + "—" + strEnd);//活动时间；
+                        }
+                    }
+                    if (!TextUtils.isEmpty(groupBean.getInviteNumber())&&!TextUtils.isEmpty(groupBean.getMemberNum())){
+                        tv_num2.setText(groupBean.getMemberNum());
+                        tv_num3.setText("/"+groupBean.getInviteNumber());
+                    }
+                    if(!TextUtils.isEmpty(groupBean.getActivitySite())){
+                        tv_site2.setText(groupBean.getActivitySite());
+                    }else {
+                        tv_site2.setText("暂无");
+                    }
+                }
+            }
+        });
     }
 
 }
