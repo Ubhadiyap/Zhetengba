@@ -209,6 +209,7 @@
     <string name="is_modify_the_group_name">正在修改群名称...</string>
     <string name="is_quit_the_group_chat">正在退出群聊...</string>
     <string name="list_is_for">将在后台获取好友和群聊列表...</string>
+    <string name="location">[位置]</string>
     <string name="location_message">位置信息</string>
     <string name="location_prefix">[我的位置]</string>
     <string name="location_recv">[%1$s的位置]</string>

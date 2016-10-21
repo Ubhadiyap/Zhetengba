@@ -16,12 +16,12 @@
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/layout/ease_activity_show_big_image.xml"
     },
     {
-        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/layout/ease_scroll_tab_item.xml",
-        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/layout/ease_scroll_tab_item.xml"
-    },
-    {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/layout/ease_row_received_message.xml",
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/layout/ease_row_received_message.xml"
+    },
+    {
+        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/layout/ease_scroll_tab_item.xml",
+        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/layout/ease_scroll_tab_item.xml"
     },
     {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/layout/ease_row_received_picture.xml",
@@ -32,12 +32,12 @@
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/layout/mess_head_view.xml"
     },
     {
-        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/layout/ease_commom_back_btn.xml",
-        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/layout/ease_commom_back_btn.xml"
-    },
-    {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/layout/ease_widget_chat_input_menu.xml",
         "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/layout/ease_widget_chat_input_menu.xml"
+    },
+    {
+        "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/layout/ease_commom_back_btn.xml",
+        "source": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/bundles/debug/res/layout/ease_commom_back_btn.xml"
     },
     {
         "merged": "/Users/wangbin/Documents/boyuan/zhetengba/easeui/build/intermediates/res/merged/androidTest/debug/layout/ease_row_contact.xml",
