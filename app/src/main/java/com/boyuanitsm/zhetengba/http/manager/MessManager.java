@@ -57,7 +57,6 @@ public class MessManager extends RequestManager{
     }
 
     /**
-<<<<<<< HEAD
      * 添加已经注册好友
      * @param friendId
      * @param callback
@@ -223,5 +222,14 @@ public class MessManager extends RequestManager{
     public void getActivity(ResultCallback callback){
         Map<String,String>map=new HashMap();
         OkHttpManager.getInstance().doPost(IZtbUrl.ACTIVITY_URL, map, callback);
+    }
+
+    /**
+     * 获取我的群聊列表
+     * @param callback
+     */
+    public void getGroup(ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        OkHttpManager.getInstance().doPost(IZtbUrl.GROUP_LIST,map,callback);
     }
 }

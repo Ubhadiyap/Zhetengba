@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.boyuanitsm.zhetengba.activity.photo.ImageBrowserActivity;
 import com.boyuanitsm.zhetengba.activity.photo.PicSelectActivity;
 import com.boyuanitsm.zhetengba.bean.ImageBean;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -81,9 +83,15 @@ public class GvPhotoAdapter extends BaseAdapter {
                     }
                 });
             } else {
-
-                viewHolder.ivPhoto.setImageBitmap(MyBitmapUtils.LoadBigImg(list
-                        .get(position).path, 70, 70));
+                Bitmap bitmap=MyBitmapUtils.LoadBigImg(list
+                        .get(position).path, 70, 70);
+                if (bitmap==null){
+                    //判断所选图片是否为破损图片
+                    MyToastUtils.showShortToast(context,"选择图片有误，请重新选择！");
+                    viewHolder.ivPhoto.setImageResource(R.mipmap.tum);
+                }else {
+                    viewHolder.ivPhoto.setImageBitmap(bitmap);
+                }
                 viewHolder.ivPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

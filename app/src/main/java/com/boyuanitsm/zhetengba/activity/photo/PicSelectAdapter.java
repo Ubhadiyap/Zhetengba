@@ -141,10 +141,11 @@ public class PicSelectAdapter extends BaseAdapter {
 
 			if (bitmap != null) {
 				viewHolder.mImageView.setImageBitmap(bitmap);
-			} else {
-				viewHolder.mImageView
-						.setImageResource(R.drawable.friends_sends_pictures_no);
 			}
+//			else {
+//				viewHolder.mImageView
+//						.setImageResource(R.drawable.friends_sends_pictures_no);
+//			}
 		}
 		return convertView;
 	}

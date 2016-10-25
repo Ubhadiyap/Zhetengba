@@ -61,18 +61,20 @@ public class WallerAdapter extends BaseAdapter {
 
         if(list!=null&&list.size()>0){
             holder.tv_time.setText(ZhetebaUtils.timeToDater(Long.parseLong(list.get(position).getModifyTime())));
-            holder.tv_jine.setText(list.get(position).getAmount());
             if(list.get(position).getOperationMode().equals("0")){
                 holder.tv_leixing.setText("提现记录");
                 holder.tv_jine.setTextColor(Color.parseColor("#52c791"));
+                holder.tv_jine.setText("-"+list.get(position).getAmount());
             }
             if(list.get(position).getOperationMode().equals("1")){
                 holder.tv_leixing.setText("抽奖奖励");
                 holder.tv_jine.setTextColor(Color.parseColor("#eb5e5d"));
+                holder.tv_jine.setText("+"+list.get(position).getAmount());
             }
             if(list.get(position).getOperationMode().equals("2")){
                 holder.tv_leixing.setText("邀请奖励");
                 holder.tv_jine.setTextColor(Color.parseColor("#eb5e5d"));
+                holder.tv_jine.setText("+"+list.get(position).getAmount());
             }
         }
 

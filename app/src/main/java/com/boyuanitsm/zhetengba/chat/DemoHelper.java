@@ -604,7 +604,7 @@ public class DemoHelper {
         @Override
         public void onAutoAcceptInvitationFromGroup(String groupId, String inviter, String inviteMessage) {
             // 被邀请
-            String st3 = appContext.getString(com.hyphenate.easeui.R.string.Invite_you_to_join_a_group_chat);
+//            String st3 = appContext.getString(com.hyphenate.easeui.R.string.Invite_you_to_join_a_group_chat);
             EMMessage msg = EMMessage.createReceiveMessage(Type.TXT);
             msg.setChatType(ChatType.GroupChat);
             msg.setFrom(inviter);
@@ -623,7 +623,7 @@ public class DemoHelper {
             EMClient.getInstance().chatManager().saveMessage(msg);
             // 提醒新消息
             getNotifier().viberateAndPlayTone(msg);
-            EMLog.d(TAG, "onAutoAcceptInvitationFromGroup groupId:" + groupId);
+//            EMLog.d(TAG, "onAutoAcceptInvitationFromGroup groupId:" + groupId);
             //发送local广播
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_GROUP_CHANAGED));
         }

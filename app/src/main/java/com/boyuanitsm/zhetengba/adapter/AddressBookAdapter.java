@@ -203,7 +203,7 @@ public class AddressBookAdapter extends BaseAdapter implements SectionIndexer{
                         isValidation(userInfo);
                     }
                 }else{
-                   MyToastUtils.showShortToast(context,"此好友还没有注册，赶紧去邀请他注册吧");
+                   MyToastUtils.showShortToast(context,response.getMessage());
                 }
             }
         });

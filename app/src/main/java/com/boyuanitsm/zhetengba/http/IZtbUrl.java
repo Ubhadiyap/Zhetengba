@@ -10,13 +10,13 @@ public interface IZtbUrl {
     //基础地址
     //外网，h5web，更换domain地址
 //    public static final String BASE_URL = "http://hseb.net.cn/zhetengba/";
-//  public static final String BASE_URL="http://180.76.149.156:8033/zhetengba/";
+  public static final String BASE_URL="http://180.76.149.156:8033/zhetengba/";
 
 
     //开发
 //    public static final String BASE_URL = "http://192.168.1.163:8080/zhetengba/";
 
-    public static final String BASE_URL = "http://180.76.149.156:8060/zhetengba/";
+//    public static final String BASE_URL = "http://180.76.149.156:8060/zhetengba/";
 
     /**
      * =========完善信息接口==========
@@ -310,9 +310,9 @@ public interface IZtbUrl {
     String FIND_NEW_APP=BASE_URL+"manager/unLogin/checkUpdrage.do";
 
     //正式地址域名
-//    String SHARE_URL="http://hseb.net.cn/h5";
+    String SHARE_URL="http://hseb.net.cn/h5";
     //测试分享地址
-    String SHARE_URL="http://180.76.149.156:8090/h5";
+//    String SHARE_URL="http://180.76.149.156:8090/h5";
 
 
     /**
@@ -344,5 +344,10 @@ public interface IZtbUrl {
 
     //个人主页活动列表
     String ACTIVITY_LISTURL=BASE_URL+"schedule/login/findFriendActivity.do";
+
+    //获取我的群聊列表
+    String GROUP_LIST=BASE_URL+"message/login/findGroupChatList.do";
+
+
 
 }

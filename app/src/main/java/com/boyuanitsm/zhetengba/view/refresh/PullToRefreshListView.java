@@ -171,12 +171,12 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView>
 		if (isScrollLoadEnabled() && hasMoreData()) {
 			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE
 					|| scrollState == OnScrollListener.SCROLL_STATE_FLING) {
-				ImageLoader.getInstance().resume();
+//				ImageLoader.getInstance().resume();
 				if (isReadyForPullUp()) {
 					startLoading();
 				}
 			}else {
-				ImageLoader.getInstance().pause();
+//				ImageLoader.getInstance().pause();
 			}
 		}
 
