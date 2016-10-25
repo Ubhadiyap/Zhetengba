@@ -6,19 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,7 +25,6 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
-import com.boyuanitsm.zhetengba.adapter.ChanelPageAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
@@ -44,16 +39,13 @@ import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.bounScrollView.BounceScrollView;
 import com.boyuanitsm.zhetengba.view.bounScrollView.ViewPagerIndicator;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +71,8 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
     private EditText et_comment;
     @ViewInject(R.id.iv_chanel_comment)
     private Button bt_send;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     private int cusPos;
     private int currentPos = 0;//当前位置
     private ACache aCache;
@@ -160,6 +154,13 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
+                getChannelTalks(labelStr, page, rows);
+            }
+        });
+
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
                 getChannelTalks(labelStr, page, rows);
             }
         });
@@ -256,12 +257,13 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
             public void onError(int status, String errorMsg) {
                 vp_chan.onPullUpRefreshComplete();
                 vp_chan.onPullDownRefreshComplete();
+                load_view.loadError();
                 if (datas.size() > 0) {
 
                 } else {
-                    llnoList.setVisibility(View.VISIBLE);
-                    ivAnim.setImageResource(R.mipmap.planeno);
-                    noMsg.setText("加载失败");
+//                    llnoList.setVisibility(View.VISIBLE);
+//                    ivAnim.setImageResource(R.mipmap.planeno);
+//                    noMsg.setText("加载失败");
                 }
 //                if (adapter != null) {
 //                    adapter.notifyChange(datalist, channelTalkEntityList);
@@ -290,14 +292,15 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                 channelTalkEntityList = response.getData().getRows();
                 if (channelTalkEntityList.size() == 0) {
                     if (page == 1) {
-                        llnoList.setVisibility(View.VISIBLE);
-                        ivAnim.setImageResource(R.mipmap.planeno);
-                        noMsg.setText("暂无内容");
+//                        llnoList.setVisibility(View.VISIBLE);
+//                        ivAnim.setImageResource(R.mipmap.planeno);
+//                        noMsg.setText("暂无内容");
+                        load_view.noContent();
                     } else {
                         vp_chan.setHasMoreData(false);
                     }
                 } else {
-                    llnoList.setVisibility(View.GONE);
+                   load_view.loadComplete();
                 }
                 if (page == 1) {
                     datas.clear();
