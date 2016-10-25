@@ -30,9 +30,7 @@ import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
-import com.boyuanitsm.zhetengba.adapter.ActAdapter;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
-import com.boyuanitsm.zhetengba.adapter.MyPlaneAdapter;
 import com.boyuanitsm.zhetengba.adapter.TestAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
@@ -41,35 +39,32 @@ import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.PersonalMain;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
-import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.bean.UserInterestInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
-import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
 import com.boyuanitsm.zhetengba.chat.db.UserDao;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
-import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.CharacterParserUtils;
-import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -82,6 +77,8 @@ import java.util.List;
  * Created by xiaoke on 2016/5/26.
  */
 public class PersonalAct extends BaseActivity{
+    @ViewInject(R.id.ld_view)
+    private LoadingView lv_view;
     private String userId;
     private List<CircleEntity> circleEntity = new ArrayList<>();
     private List<UserInfo> userEntity = new ArrayList<>();
@@ -141,10 +138,10 @@ public class PersonalAct extends BaseActivity{
 
     @Override
     public void init(Bundle savedInstanceState) {
-        progressDialog=new ProgressDialog(PersonalAct.this);
-        progressDialog.setMessage("数据加载中...");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+//        progressDialog=new ProgressDialog(PersonalAct.this);
+//        progressDialog.setMessage("数据加载中...");
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.show();
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         userId = bundle.getString("userId");
@@ -273,6 +270,13 @@ public class PersonalAct extends BaseActivity{
             }
         });
 
+        lv_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getPersonalMain(userId);
+            }
+        });
+
 
     }
 
@@ -371,6 +375,8 @@ public class PersonalAct extends BaseActivity{
         view_dangqi.setBackgroundColor(Color.parseColor("#cdcdcd"));
         view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
     }
+
+
     /**
      * 获取数据
      *
@@ -380,13 +386,15 @@ public class PersonalAct extends BaseActivity{
         RequestManager.getScheduleManager().getPersonalMain(id, new ResultCallback<ResultBean<PersonalMain>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
+                lv_view.loadError();
                 MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<PersonalMain> response) {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
+                lv_view.loadComplete();
                 personalMain = response.getData();
                 circleEntity = personalMain.getCircleEntity();
                 userEntity = personalMain.getUserEntity();
