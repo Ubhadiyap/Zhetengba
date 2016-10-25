@@ -26,11 +26,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
-import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
-import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -41,14 +38,13 @@ import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +68,8 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     private RelativeLayout rl_more;
     @ViewInject(R.id.iv_xnew)
     private TextView iv_xnew;//有新圈子消息红点
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
 
     private TextView iv_dailognew;//dialog上面小红点
 //    private int type;
@@ -94,9 +92,9 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
         setTopTitle("圈子");
         getAllCircleTalk(page, rows);
         lv_cir = (PullToRefreshListView) findViewById(R.id.lv_cir);
-        llnoList = (LinearLayout) findViewById(R.id.noList);
-        ivAnim = (ImageView) findViewById(R.id.ivAnim);
-        noMsg = (TextView) findViewById(R.id.noMsg);
+//        llnoList = (LinearLayout) findViewById(R.id.noList);
+//        ivAnim = (ImageView) findViewById(R.id.ivAnim);
+//        noMsg = (TextView) findViewById(R.id.noMsg);
 //        initData();
 //        datalist=new ArrayList<>();
         if (CircleNewMessDao.getUser()!=null){
@@ -156,6 +154,13 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 getAllCircleTalk(page, rows);
             }
         });
+
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getAllCircleTalk(page, rows);
+            }
+        });
     }
 
     private List<CircleEntity> datas = new ArrayList<>();
@@ -174,14 +179,16 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
             public void onError(int status, String errorMsg) {
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
+                load_view.loadError();
                 if (datas.size()>0){
 //                    if (adapter != null) {
 //                        adapter.notifyChange(datalist, circleEntityList);
 //                    }
                 }else {
-                    llnoList.setVisibility(View.VISIBLE);
-                    ivAnim.setImageResource(R.mipmap.planeno);
-                    noMsg.setText("加载失败");
+
+//                    llnoList.setVisibility(View.VISIBLE);
+//                    ivAnim.setImageResource(R.mipmap.planeno);
+//                    noMsg.setText("加载失败");
                 }
 
             }
@@ -193,15 +200,17 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 circleEntityList = response.getData().getRows();
                 if (circleEntityList.size() == 0) {
                     if (page == 1) {
-                        llnoList.setVisibility(View.VISIBLE);
-                        ivAnim.setImageResource(R.mipmap.planeno);
-                        noMsg.setText("暂无内容");
+//                        llnoList.setVisibility(View.VISIBLE);
+//                        ivAnim.setImageResource(R.mipmap.planeno);
+//                        noMsg.setText("暂无内容");
+                        load_view.noContent();
                     } else {
                         lv_cir.setHasMoreData(false);
                     }
 //                    return;
                 } else {
-                    llnoList.setVisibility(View.GONE);
+//                    llnoList.setVisibility(View.GONE);
+                    load_view.loadComplete();
                 }
                 if (page == 1) {
                     datas.clear();
@@ -239,6 +248,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
             }
         });
     }
+
 
     @OnClick({R.id.rl_more,R.id.iv_serch,R.id.iv_chanel_comment})
     @Override
