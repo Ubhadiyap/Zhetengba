@@ -239,7 +239,7 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.GONE);
             viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context, 255), ActionBar.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0,ZhetebaUtils.dip2px(context,10),0,0);
+            params.setMargins(0,ZhetebaUtils.dip2px(context,5),0,0);
             viewHolder.iv_ch_image.setLayoutParams(params);
             viewHolder.iv_ch_image.setNumColumns(3);
             PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);

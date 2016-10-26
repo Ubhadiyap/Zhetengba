@@ -417,9 +417,9 @@ public class CirxqAct extends BaseActivity {
                 name.setText("圈主：");
             }
             if(!TextUtils.isEmpty(entity.getNotice())){
-                notice.setText("公告："+entity.getNotice());
+                notice.setText(entity.getNotice());
             }else {
-                notice.setText("公告：暂无公告");
+                notice.setText("暂无公告");
             }
             if (!TextUtils.isEmpty(entity.getAddress())){
                 ll_member.setVisibility(View.GONE);
