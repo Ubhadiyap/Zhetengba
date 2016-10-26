@@ -112,7 +112,7 @@ public class AssignScanAct extends BaseActivity {
         MyLogUtils.info(str5+"返回的谁不能看");
         String canflag = bundle.getString("canFlag");//判断点击进入的标志
         if (!TextUtils.isEmpty(str4)) {
-            if (canflag.equals("canFlag") || canflag.equals("CalcanFlag")) {
+            if (canflag.equals("canFlag") ) {
                 strUserIds = ZtinfoUtils.convertStrToArray(str4);
                 for (int i=0;i<strUserIds.length;i++){
                     idList.add(strUserIds[i]);
@@ -121,7 +121,7 @@ public class AssignScanAct extends BaseActivity {
             }
 
         } else if (!TextUtils.isEmpty(str5)) {
-            if (canflag.equals("noCanFlag") || canflag.equals("CalnocanFlag")) {
+            if (canflag.equals("noCanFlag")) {
                 strUserIds = ZtinfoUtils.convertStrToArray(str5);
                 for (int i=0;i<strUserIds.length;i++){
                     idList.add(strUserIds[i]);
@@ -325,6 +325,13 @@ public class AssignScanAct extends BaseActivity {
         public PickContactAdapter(Context context, int resource, List<EaseUser> users) {
             super(context, resource, users);
             isCheckedArray = new boolean[users.size()];
+            if (users.size()>0){
+                for (int i=0;i<users.size();i++){
+                    if (idList.contains(users.get(i).getUsername())){
+                        isCheckedArray[i]=true;
+                    }
+                }
+            }
         }
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -335,20 +342,13 @@ public class AssignScanAct extends BaseActivity {
             if (checkBox!=null){
                 if (idList!=null&&idList.contains(username)){
                     if (isInCircle==1){
-                        checkBox.setChecked(true);
-                        isCheckedArray[position]=false;
                         checkBox.setButtonDrawable(R.mipmap.check_grey);
-                        checkBox.setEnabled(false);
                     }else {
                         checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
                         checkBox.setEnabled(true);
-                        checkBox.setChecked(true);
-                        isCheckedArray[position]=true;
                     }
                 }else {
                     checkBox.setButtonDrawable(R.drawable.em_checkbox_bg_selector);
-                    checkBox.setChecked(false);
-                    isCheckedArray[position]=false;
                 }
 
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -357,6 +357,7 @@ public class AssignScanAct extends BaseActivity {
                         isCheckedArray[position] = isChecked;
                     }
                 });
+                    checkBox.setChecked(isCheckedArray[position]);
             }
             return view;
         }
