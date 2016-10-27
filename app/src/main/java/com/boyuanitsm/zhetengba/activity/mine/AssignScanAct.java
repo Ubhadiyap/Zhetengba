@@ -55,6 +55,7 @@ public class AssignScanAct extends BaseActivity {
     @ViewInject(R.id.list)
     private ListView listView;
     private List<String> idList=new ArrayList<>();//存取用户名list
+    private List<String> idList2=new ArrayList<>();//对比圈子里本来存在用户。
     private PickContactAdapter contactAdapter;
     private boolean isSignleChecked = false;
     private String[] strUserIds;//c存取已经选择的用户id
@@ -162,8 +163,12 @@ public class AssignScanAct extends BaseActivity {
         setRight(title, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                save(str3);
-                finish();
+                String save = save(str3);
+                if (save!=null){
+                    finish();
+                }else {
+                    MyToastUtils.showShortToast(getApplicationContext(),"您未选择任何联系人，请直接返回！");
+                }
             }
         });
 
@@ -263,7 +268,7 @@ public class AssignScanAct extends BaseActivity {
             }
         });
     }
-    private void save(String str3) {
+    private String save(String str3) {
         Intent intent = new Intent();
         Bundle bundle3 = new Bundle();//谁能看
         String userIds = null;
@@ -294,6 +299,7 @@ public class AssignScanAct extends BaseActivity {
         }else if (str3.equals("circleFriend")){
             setResult(6,intent);
         }
+        return userIds;
         //发送广播给前一个界面，当前type=0是能看，让前一界面不能看的设置为不可点击
     }
 

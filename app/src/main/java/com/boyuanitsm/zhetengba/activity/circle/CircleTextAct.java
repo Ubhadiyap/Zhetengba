@@ -203,7 +203,12 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 }
             }
             if (!TextUtils.isEmpty(entity.getCircleName())){
-                cirType.setText(entity.getCircleName());
+                String circleName = entity.getCircleName();
+                if (entity.getCircleName().length()>6){
+                    cirType.setText(circleName.substring(0, 2) + "..." + circleName.substring(circleName.length() - 2,circleName.length()));
+                }else {
+                    cirType.setText(entity.getCircleName());
+                }
             }
             if(!TextUtils.isEmpty(entity.getUserName())){
                 name.setText(entity.getUserName());

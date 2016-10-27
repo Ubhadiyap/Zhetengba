@@ -23,6 +23,7 @@ import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -40,6 +41,8 @@ public class CircleglAct extends BaseActivity {
     private PullToRefreshListView lv_circlegl;
     @ViewInject(R.id.iv_jia)
     private ImageView iv_jia;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     private String str;
     private List<CircleEntity> list;
     private int page=1;
@@ -93,13 +96,13 @@ public class CircleglAct extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CircleglAct.this, CirxqAct.class);
-                Bundle bundle1=new Bundle();
+                Bundle bundle1 = new Bundle();
                 bundle1.putString("circleId", datas.get(position).getId());
-                if (str.equals("我的圈子")){
+                if (str.equals("我的圈子")) {
                     bundle1.putInt("type", 1);
-                }else if (str.equals("TA的圈子")){
-                    bundle1.putInt("type",0);
-                    bundle1.putInt("isincircle",datas.get(position).getIsInCircle());
+                } else if (str.equals("TA的圈子")) {
+                    bundle1.putInt("type", 0);
+                    bundle1.putInt("isincircle", datas.get(position).getIsInCircle());
 //                    intent.putExtra("type",0);
 //                    intent.
                 }
@@ -111,26 +114,36 @@ public class CircleglAct extends BaseActivity {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 lv_circlegl.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-                page=1;
-                if (flag==1){
-                    getCircleList(null,page,rows);
-                }else if (flag==2){
-                    getCircleList(ppuserId,page,rows);
+                page = 1;
+                if (flag == 1) {
+                    getCircleList(null, page, rows);
+                } else if (flag == 2) {
+                    getCircleList(ppuserId, page, rows);
                 }
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                if (flag==1){
-                    getCircleList(null,page,rows);
-                }else if (flag==2){
-                    getCircleList(ppuserId,page,rows);
+                if (flag == 1) {
+                    getCircleList(null, page, rows);
+                } else if (flag == 2) {
+                    getCircleList(ppuserId, page, rows);
                 }
             }
         });
 
-
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                page = 1;
+                if (flag == 1) {
+                    getCircleList(null, page, rows);
+                } else if (flag == 2) {
+                    getCircleList(ppuserId, page, rows);
+                }
+            }
+        });
     }
     @OnClick({R.id.iv_jia,R.id.iv_serch})
     public void OnClick(View v){
@@ -156,6 +169,7 @@ public class CircleglAct extends BaseActivity {
             public void onError(int status, String errorMsg) {
                 lv_circlegl.onPullUpRefreshComplete();
                 lv_circlegl.onPullDownRefreshComplete();
+                load_view.loadError();
             }
 
             @Override
@@ -165,10 +179,12 @@ public class CircleglAct extends BaseActivity {
                 list= response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
-
+                    load_view.noContent();
                     } else {
                         lv_circlegl.setHasMoreData(false);
                     }
+                }else {
+                    load_view.loadComplete();
                 }
                 if(page==1){
                     datas.clear();

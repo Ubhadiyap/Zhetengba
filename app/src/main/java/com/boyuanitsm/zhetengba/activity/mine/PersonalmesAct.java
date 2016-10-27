@@ -467,7 +467,7 @@ public class PersonalmesAct extends BaseActivity {
      */
     private void toloadfile(String path) {
         Map<String, FileBody> filemap = new HashMap<String, FileBody>();
-        File file = new File(path);
+        final File file = new File(path);
         FileBody fileBody = new FileBody(file);
         filemap.put("file", fileBody);
         RequestManager.getUserManager().subHeadImg(filemap, new ResultCallback<ResultBean<IconFilePath>>() {
@@ -486,15 +486,16 @@ public class PersonalmesAct extends BaseActivity {
                     ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(response.getData().getIconFilePath()), head, optionsb);
                 }
                 DemoHelper.getInstance().getUserProfileManager().setUserAvatar(Uitls.imageFullUrl(response.getData().getIconFilePath()));
-
+                if (file.exists()){
+                    file.delete();
+                    MyLogUtils.info("删除图片成功！");
+                }
                 sendBroadcast(new Intent(MineFrg.USER_INFO));
-//                Intent intentRecevier=new Intent();
                 Intent intentRecevier2=new Intent();
                 intentRecevier2.setAction(SimpleFrg.DATA_CHANGE_KEY);
-//                intentRecevier.setAction(CalFrg.CAL_DATA_CHANGE_KEY);
-//                sendBroadcast(intentRecevier);
                 sendBroadcast(intentRecevier2);
                 sendBroadcast(new Intent(PersonalAct.PPLABELS));
+
             }
         });
     }
