@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     >
-    <include layout="@layout/title_act_layout"></include>
+    <include android:id="@+id/ll_biaot"
+        layout="@layout/title_act_layout"></include>
+
 
     <com.boyuanitsm.zhetengba.widget.ClearEditText
+        android:layout_below="@id/ll_biaot"
         android:id="@+id/cetSearch"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -26,6 +29,7 @@
         />
 
     <FrameLayout
+        android:layout_below="@id/cetSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -45,6 +49,12 @@
                 android:fastScrollAlwaysVisible="false"
                 android:fastScrollEnabled="false" />
         </android.support.v4.widget.SwipeRefreshLayout>
-
     </FrameLayout>
-</LinearLayout>
+
+    <com.boyuanitsm.zhetengba.view.LoadingView
+        android:layout_marginTop="48dp"
+        android:id="@+id/load_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.LoadingView>
+
+</RelativeLayout>
