@@ -22,10 +22,12 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.MyGroup;
 import com.boyuanitsm.zhetengba.chat.adapter.GroupAdapter;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.exceptions.HyphenateException;
+import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.List;
 
@@ -50,13 +52,12 @@ public class MyGroupAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("群聊列表");
-        cetSearch= (ClearEditText) findViewById(R.id.cetSearch);
+        cetSearch = (ClearEditText) findViewById(R.id.cetSearch);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         grouplist = EMClient.getInstance().groupManager().getAllGroups();
         groupListView = (ListView) findViewById(R.id.list);
         groupAdapter = new GroupAdapter(this, 1, grouplist);
-        groupListView.setAdapter(groupAdapter);
-//        getAllGroups();
+         groupListView.setAdapter(groupAdapter);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
                 R.color.holo_orange_light, R.color.holo_red_light);
@@ -123,7 +124,7 @@ public class MyGroupAct extends BaseActivity {
         });
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             swipeRefreshLayout.setRefreshing(false);
             switch (msg.what) {
@@ -138,7 +139,9 @@ public class MyGroupAct extends BaseActivity {
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
 
     @Override
@@ -156,7 +159,7 @@ public class MyGroupAct extends BaseActivity {
         }
     }
 
-    private void refresh(){
+    private void refresh() {
         grouplist = EMClient.getInstance().groupManager().getAllGroups();
         groupAdapter = new GroupAdapter(this, 1, grouplist);
         groupListView.setAdapter(groupAdapter);
@@ -171,6 +174,7 @@ public class MyGroupAct extends BaseActivity {
             receiverTalk = null;
         }
     }
+
     private MyBroadCastReceiverTalk receiverTalk;
     public static final String MYGROUP = "myGroup_update";
 
