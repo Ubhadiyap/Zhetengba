@@ -44,6 +44,7 @@ public class MyGroupAct extends BaseActivity {
     private List<MyGroup> myGroupList;
     private ClearEditText cetSearch;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LoadingView load_view;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_mygroup);
@@ -52,7 +53,8 @@ public class MyGroupAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("群聊列表");
-        cetSearch = (ClearEditText) findViewById(R.id.cetSearch);
+        cetSearch= (ClearEditText) findViewById(R.id.cetSearch);
+        load_view= (LoadingView) findViewById(R.id.load_view);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         grouplist = EMClient.getInstance().groupManager().getAllGroups();
         groupListView = (ListView) findViewById(R.id.list);
@@ -162,8 +164,13 @@ public class MyGroupAct extends BaseActivity {
     private void refresh() {
         grouplist = EMClient.getInstance().groupManager().getAllGroups();
         groupAdapter = new GroupAdapter(this, 1, grouplist);
-        groupListView.setAdapter(groupAdapter);
-        groupAdapter.notifyDataSetChanged();
+        if(grouplist.size()==0){
+            load_view.noContent();
+        }else {
+            load_view.loadComplete();
+            groupListView.setAdapter(groupAdapter);
+            groupAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
