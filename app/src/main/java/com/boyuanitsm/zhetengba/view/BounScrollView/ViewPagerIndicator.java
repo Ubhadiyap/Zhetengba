@@ -3,10 +3,6 @@ package com.boyuanitsm.zhetengba.view.bounScrollView;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.CornerPathEffect;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -175,7 +171,7 @@ public class ViewPagerIndicator extends LinearLayout {
     }
 
     // 设置关联的ViewPager,以及传入 BounceScrollView，进行设置滚动
-    public void setViewPager(ViewPager mViewPager, final BounceScrollView scrollView, int pos)
+    public void setViewPager(ViewPager mViewPager, final com.boyuanitsm.zhetengba.view.bounScrollView.BounceScrollView scrollView, int pos)
     {
         this.mViewPager = mViewPager;
 
@@ -282,7 +278,7 @@ public class ViewPagerIndicator extends LinearLayout {
 //    }
 
     //指示器跟随手指滚动，以及容器滚动
-    public void scroll(BounceScrollView scrollView,int position, float offset)
+    public void scroll(com.boyuanitsm.zhetengba.view.bounScrollView.BounceScrollView scrollView, int position, float offset)
     {
         // 不断改变偏移量，invalidate
         mTranslationX = getScreenWidth() / mTabVisibleCount * (position + offset);
