@@ -104,7 +104,18 @@ public class CircleAdapter extends BaseAdapter {
         this.list = list;
         notifyDataSetChanged();
     }
+    /**
+     * itemClick接口回调
+     */
+    public interface OnItemClickListener {
+        void onItemClick(View view,String id,int cusPosition);
+    }
 
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
 
     @Override
     public int getCount() {
@@ -501,7 +512,7 @@ public class CircleAdapter extends BaseAdapter {
 //        popupWindow.showAsDropDown(parent, xpos, 0);
         popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY,xpos,ypos1);
         final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
-        LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
+        final LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
         final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
         if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
             if (0 == list.get(clickPos).getLiked()) {//未点赞
@@ -524,14 +535,15 @@ public class CircleAdapter extends BaseAdapter {
         ll_cmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context, CircleTextAct.class);
-                intent.putExtra("circleEntity", list.get(position));
-                intent.putExtra("circleId", list.get(position).getId());
-                intent.putExtra("CirCommentPosition", position);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mOnItemClickListener.onItemClick(ll_cmt,list.get(position).getId(),position);
+//                Intent intent = new Intent();
+//                intent.setClass(context, CircleTextAct.class);
+//                intent.putExtra("circleEntity", list.get(position));
+//                intent.putExtra("circleId", list.get(position).getId());
+//                intent.putExtra("CirCommentPosition", position);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 popupWindow.dismiss();
-                context.startActivity(intent);
+//                context.startActivity(intent);
             }
         });
 

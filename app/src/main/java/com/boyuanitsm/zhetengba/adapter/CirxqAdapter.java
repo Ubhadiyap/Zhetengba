@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
+import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.MemberEntity;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -41,6 +43,8 @@ public class CirxqAdapter extends RecyclerView.Adapter<CirxqAdapter.ViewHolder> 
         this.list = list;
         this.isInCircle=isInCircle;
     }
+
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View arg0) {

@@ -314,9 +314,12 @@ public class CirclefbAct extends BaseActivity {
                 Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
                 for (int i = 0; i < selecteds.size(); i++) {
                     Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
-                    File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
-                    FileBody fb = new FileBody(file);
-                    fileMaps.put(i+"", fb);
+                    if (bitmap!=null){
+                        File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
+                        FileBody fb = new FileBody(file);
+                        fileMaps.put(i+"", fb);
+                    }
+
                 }
 
                 Message message=handler.obtainMessage();

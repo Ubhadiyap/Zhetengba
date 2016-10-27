@@ -1,95 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/ll_sx"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="41dp"
+        android:background="#ffffff"
         android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:background="#ffffff">
+        android:orientation="horizontal">
         <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:gravity="center_vertical"
-            android:layout_height="match_parent">
+            style="@style/ll_float">
+
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="筛选"
                 android:textColor="#666666"
-                android:textSize="14sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="14sp" />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_weight="1"
             android:id="@+id/ll_sj"
-            android:layout_width="0dp"
-            android:gravity="right"
-            android:layout_height="match_parent">
-            <CheckBox
-                android:id="@+id/cb_sj"
-                android:button="@null"
+            style="@style/ll_float">
+
+            <TextView
+                android:id="@+id/tv_sj"
+                style="@style/ll_float_text"
                 android:text="时间"
-                android:textSize="14sp"
-                android:textColor="@drawable/simple_text_color"
-                android:drawableRight="@drawable/simple_text_change"
-                android:drawablePadding="5dp"
-                android:checked="false"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                />
+            <ImageView
+                android:id="@+id/iv_sj"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/simple_text_change"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/ll_bq"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:gravity="right"
-            android:layout_height="match_parent">
-            <CheckBox
-                android:id="@+id/cb_bq"
-                android:button="@null"
+            android:id="@+id/ll_biaoq"
+            style="@style/ll_float">
+
+            <TextView
+                style="@style/ll_float_text"
+                android:id="@+id/tv_biaoq"
                 android:text="标签"
-                android:textSize="14sp"
-                android:textColor="@drawable/simple_text_color"
-                android:drawableRight="@drawable/simple_text_change"
-                android:drawablePadding="5dp"
-                android:checked="false"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+               />
+            <ImageView
+                android:id="@+id/iv_biaoq"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/simple_text_change"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/ll_all_friend"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:gravity="right"
-            android:layout_height="match_parent">
-            <CheckBox
-                android:id="@+id/cb_all"
-                android:button="@null"
-                android:text="全部"
-                android:textSize="14sp"
-                android:textColor="@drawable/simple_text_color"
-                android:drawableRight="@drawable/simple_text_change"
-                android:drawablePadding="5dp"
-                android:checked="false"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+            android:id="@+id/ll_quanb"
+            style="@style/ll_float">
+
             <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:id="@+id/tv_quanb"
+                style="@style/ll_float_text"
+                android:text="全部"
+                />
+            <ImageView
+                android:id="@+id/iv_quanb"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/simple_text_change"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+
         </LinearLayout>
     </LinearLayout>
+
     <View
         style="@style/view_line"
-        android:layout_marginLeft="0dp"/>
+        android:layout_marginLeft="0dp" />
 </LinearLayout>

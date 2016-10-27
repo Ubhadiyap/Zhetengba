@@ -213,7 +213,6 @@ public class RegistAct extends BaseActivity {
                 break;
             case R.id.tv_xy://注册协议
                 openActivity(WebAct.class);
-
                 break;
 
 

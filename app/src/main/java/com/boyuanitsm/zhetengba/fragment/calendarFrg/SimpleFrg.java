@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -16,8 +17,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -70,7 +69,10 @@ public class SimpleFrg extends BaseFragment {
     private LinearLayout ll_point;
     private LinearLayout ll_ft;
     private LinearLayout ll_sx;
-    private CheckBox cb_all, cb_all2, cb_sj, cb_sj2, cb_bq, cb_bq2;
+//    private CheckBox cb_all, cb_all2, cb_sj, cb_sj2, cb_bq, cb_bq2;
+    private LinearLayout ll_quanb,ll_quanbt,ll_sj,ll_sjt,ll_biaoq,ll_biaoqt;//头部 全部 时间 标签（布局）
+    private TextView tv_quanb,tv_sj,tv_biaoq,tv_quanbt,tv_sjt,tv_biaoqt;//头部 全部 时间 标签（文字）
+    private ImageView iv_quanb,iv_sj,iv_biaoq,iv_quanbt,iv_sjt,iv_biaoqt;//头部 全部 时间 标签（图片）
     private List<View> views = new ArrayList<View>();
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(20, 20);
     private List<LabelBannerInfo> bannerInfoList;
@@ -116,12 +118,34 @@ public class SimpleFrg extends BaseFragment {
         viewFloat = getLayoutInflater(savedInstanceState).inflate(R.layout.act_frag_floating, null);
         ll_friend = (LinearLayout) view.findViewById(R.id.ll_friend);
         ll_sx = (LinearLayout) viewFloat.findViewById(R.id.ll_sx);
-        cb_all = (CheckBox) viewFloat.findViewById(R.id.cb_all);
-        cb_all2 = (CheckBox) view.findViewById(R.id.cb_all);
-        cb_sj = (CheckBox) viewFloat.findViewById(R.id.cb_sj);
-        cb_sj2 = (CheckBox) view.findViewById(R.id.cb_sj);
-        cb_bq = (CheckBox) viewFloat.findViewById(R.id.cb_bq);
-        cb_bq2 = (CheckBox) view.findViewById(R.id.cb_bq);
+
+        ll_quanb= (LinearLayout) viewFloat.findViewById(R.id.ll_quanb);//全部
+        tv_quanb= (TextView) viewFloat.findViewById(R.id.tv_quanb);
+        iv_quanb= (ImageView) viewFloat.findViewById(R.id.iv_quanb);
+
+
+        ll_quanbt= (LinearLayout) view.findViewById(R.id.ll_quanb);//当上拉后显示的全部
+        tv_quanbt= (TextView) view.findViewById(R.id.tv_quanb);
+        iv_quanbt= (ImageView) view.findViewById(R.id.iv_quanb);
+
+
+        ll_sj= (LinearLayout) viewFloat.findViewById(R.id.ll_sj);//时间
+        tv_sj= (TextView) viewFloat.findViewById(R.id.tv_sj);
+        iv_sj= (ImageView) viewFloat.findViewById(R.id.iv_sj);
+
+
+        ll_sjt= (LinearLayout) view.findViewById(R.id.ll_sj);//当上拉后显示的时间
+        tv_sjt= (TextView) view.findViewById(R.id.tv_sj);
+        iv_sjt= (ImageView) view.findViewById(R.id.iv_sj);
+
+
+        ll_biaoq= (LinearLayout) viewFloat.findViewById(R.id.ll_biaoq);//标签
+        tv_biaoq= (TextView) viewFloat.findViewById(R.id.tv_biaoq);
+        iv_biaoq= (ImageView) viewFloat.findViewById(R.id.iv_biaoq);
+
+        ll_biaoqt= (LinearLayout) view.findViewById(R.id.ll_biaoq);
+        tv_biaoqt= (TextView) view.findViewById(R.id.tv_biaoq);
+        iv_biaoqt= (ImageView) view.findViewById(R.id.iv_biaoq);
         lv_act = (PullToRefreshListView) view.findViewById(R.id.lv_act);
         ll_ft = (LinearLayout) view.findViewById(R.id.ll_ft);
         noList = (LinearLayout) view.findViewById(R.id.noList);
@@ -183,54 +207,55 @@ public class SimpleFrg extends BaseFragment {
         viewPager.setAuto(true);
         //设置监听
         viewPager.setOnPageChangeListener(getListener());
-        cb_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        ll_quanb.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cusPos = 2;
-                    selectPop(cusPos);
-                } else {
-                    mPopupWindow.dismiss();
-                }
+            public void onClick(View v) {
+                updatacolor(tv_quanb, iv_quanb, 0);//全部
+                cusPos = 2;
+                selectPop(cusPos);
+
             }
         });
-        cb_all2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        ll_quanbt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cusPos = 2;
+            public void onClick(View v) {
+
+                updatacolor(tv_quanbt, iv_quanbt, 0);//1表示默认颜色
+                cusPos = 2;
+                selectPop(cusPos);
+
+            }
+
+        });
+
+        ll_sj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    updatacolor(tv_sj,iv_sj,0);//表示要变化颜色
+                    cusPos=0;
                     selectPop(cusPos);
-                } else {
-                    mPopupWindow.dismiss();
-                }
+
+            }
+
+        });
+
+        ll_sjt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    updatacolor(tv_sjt,iv_sjt,0);//表示要变化颜色
+                    cusPos=0;
+                    selectPop(cusPos);
+
             }
         });
-        cb_sj.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        ll_biaoq.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cusPos = 0;
-                    selectPop(cusPos);
-                } else {
-                    mPopupWindow.dismiss();
-                }
-            }
-        });
-        cb_sj2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cusPos = 0;
-                    selectPop(cusPos);
-                } else {
-                    mPopupWindow.dismiss();
-                }
-            }
-        });
-        cb_bq.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+            public void onClick(View v) {
+                    updatacolor(tv_biaoq,iv_biaoq,0);
                     if (labellist != null && labellist.size() > 0) {
                         cusPos = 1;
                         selectPop(cusPos);
@@ -238,26 +263,44 @@ public class SimpleFrg extends BaseFragment {
                         getAcitivtyLabel(0);
                     }
 
-                } else {
-                    mPopupWindow.dismiss();
-                }
+
             }
         });
-        cb_bq2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        ll_biaoqt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+            public void onClick(View v) {
+
+                    updatacolor(tv_biaoqt,iv_biaoqt,0);//表示默认颜色
                     if (labellist != null && labellist.size() > 0) {
                         cusPos = 1;
                         selectPop(cusPos);
                     } else {
                         getAcitivtyLabel(0);
                     }
-                } else {
-                    mPopupWindow.dismiss();
-                }
+
+
             }
+
         });
+    }
+
+
+    /**当头部筛选里面空间第一次被点击时候变换颜色
+     * @param
+     * @param
+     * @param type 0表示变成绿色 1表示默认色
+     */
+    private void updatacolor(TextView tv,ImageView iv,int type) {
+        if(type==0){//全部变色
+            tv.setTextColor(Color.parseColor("#52c791"));
+            iv.setBackgroundResource(R.drawable.shang);
+        }
+        if(type==1){//全部默认颜色
+            tv.setTextColor(Color.parseColor("#666666"));
+            iv.setBackgroundResource(R.drawable.xia2);
+        }
+
     }
 
     public static final String DATA_CHANGE_KEY = "data_change_fragment";
@@ -570,31 +613,35 @@ public class SimpleFrg extends BaseFragment {
     private void selectPop(int cusPos) {
         View v = LayoutInflater.from(mActivity).inflate(R.layout.act_select_friend2, null);
         mPopupWindow = new PopupWindow(v, AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
+        //全部
         RadioGroup rg_select = (RadioGroup) v.findViewById(R.id.rg_select);
         RadioButton rb_all = (RadioButton) v.findViewById(R.id.rb_all);
         RadioButton rb_friend = (RadioButton) v.findViewById(R.id.rb_friend);
         RadioButton rb_my = (RadioButton) v.findViewById(R.id.rb_my);
+        //时间标签
         RadioGroup rg_sj = (RadioGroup) v.findViewById(R.id.rg_sj);
         final RadioButton sj_all = (RadioButton) v.findViewById(R.id.sj_all);
         final RadioButton rb_one = (RadioButton) v.findViewById(R.id.rb_one);
         final RadioButton rb_three = (RadioButton) v.findViewById(R.id.rb_three);
         final RadioButton rb_week = (RadioButton) v.findViewById(R.id.rb_week);
         final RadioButton rb_month = (RadioButton) v.findViewById(R.id.rb_month);
-
+        //标签
         ListView lv_sx = (ListView) v.findViewById(R.id.lv_bq);
+
         if (cusPos == 0) {
-            rg_sj.setVisibility(View.VISIBLE);
+            rg_sj.setVisibility(View.VISIBLE);//时间弹框显示
             lv_sx.setVisibility(View.GONE);
             rg_select.setVisibility(View.GONE);
         } else if (cusPos == 1) {
             rg_sj.setVisibility(View.GONE);
-            lv_sx.setVisibility(View.VISIBLE);
+            lv_sx.setVisibility(View.VISIBLE);//标签弹框显示
             rg_select.setVisibility(View.GONE);
         } else if (cusPos == 2) {
-            rg_select.setVisibility(View.VISIBLE);
+            rg_select.setVisibility(View.VISIBLE);//全部弹框显示
             rg_sj.setVisibility(View.GONE);
             lv_sx.setVisibility(View.GONE);
         }
+        //标签的监听
         if (labellist != null && labellist.size() > 0) {
             simple_textAdapter = new Simple_TextAdapter(mActivity, labellist, labelIds);
             lv_sx.setAdapter(simple_textAdapter);
@@ -603,11 +650,11 @@ public class SimpleFrg extends BaseFragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     labelIds = labellist.get(position).getId();
                         if (TextUtils.equals(labellist.get(position).getLabelName(),"全部")){
-                            cb_bq.setText("标签");
-                            cb_bq2.setText("标签");
+                            tv_biaoq.setText("标签");
+                            tv_biaoqt.setText("标签");
                         }else {
-                            cb_bq.setText(labellist.get(position).getLabelName());
-                            cb_bq2.setText(labellist.get(position).getLabelName());
+                            tv_biaoq.setText(labellist.get(position).getLabelName());
+                            tv_biaoqt.setText(labellist.get(position).getLabelName());
                         }
                         page = 1;
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
@@ -623,22 +670,22 @@ public class SimpleFrg extends BaseFragment {
                 mPopupWindow.dismiss();
             }
         });
-        if (TextUtils.equals(cb_all2.getText(), "全部")) {
+        if (TextUtils.equals(tv_quanbt.getText(), "全部")) {
             rb_all.setChecked(true);
-        } else if (TextUtils.equals(cb_all2.getText(), "好友")) {
+        } else if (TextUtils.equals(tv_quanbt.getText(), "好友")) {
             rb_friend.setChecked(true);
-        } else if (TextUtils.equals(cb_all2.getText(), "我的")) {
+        } else if (TextUtils.equals(tv_quanbt.getText(), "我的")) {
             rb_my.setChecked(true);
         }
-        if (TextUtils.equals(cb_sj2.getText(), "时间")) {
+        if (TextUtils.equals(tv_sjt.getText(), "时间")) {
             sj_all.setChecked(true);
-        } else if (TextUtils.equals(cb_sj2.getText(), "一天内")) {
+        } else if (TextUtils.equals(tv_sjt.getText(), "一天内")) {
             rb_one.setChecked(true);
-        } else if (TextUtils.equals(cb_sj2.getText(), "三天内")) {
+        } else if (TextUtils.equals(tv_sjt.getText(), "三天内")) {
             rb_three.setChecked(true);
-        } else if (TextUtils.equals(cb_sj2.getText(), "一周内")) {
+        } else if (TextUtils.equals(tv_sjt.getText(), "一周内")) {
             rb_week.setChecked(true);
-        } else if (TextUtils.equals(cb_sj2.getText(), "一月内")) {
+        } else if (TextUtils.equals(tv_sjt.getText(), "一月内")) {
             rb_month.setChecked(true);
         }
         rg_select.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -649,30 +696,24 @@ public class SimpleFrg extends BaseFragment {
                         page = 1;
                         state = 1;
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
-                        cb_all2.setChecked(false);
-                        cb_all.setChecked(false);
-                        cb_all2.setText("全部");
-                        cb_all.setText("全部");
+                        tv_quanb.setText("全部");
+                        tv_quanbt.setText("全部");
                         mPopupWindow.dismiss();
                         break;
                     case R.id.rb_friend:
                         page = 1;
                         state = 0;
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
-                        cb_all2.setChecked(false);
-                        cb_all.setChecked(false);
-                        cb_all2.setText("好友");
-                        cb_all.setText("好友");
+                        tv_quanbt.setText("好友");
+                        tv_quanb.setText("好友");
                         mPopupWindow.dismiss();
                         break;
                     case R.id.rb_my:
                         page = 1;
                         state = 2;
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
-                        cb_all2.setChecked(false);
-                        cb_all.setChecked(false);
-                        cb_all2.setText("我的");
-                        cb_all.setText("我的");
+                        tv_quanbt.setText("我的");
+                        tv_quanb.setText("我的");
                         mPopupWindow.dismiss();
                         break;
                 }
@@ -689,8 +730,8 @@ public class SimpleFrg extends BaseFragment {
                         rb_three.setChecked(false);
                         rb_week.setChecked(false);
                         rb_month.setChecked(false);
-                        cb_sj.setText("时间");
-                        cb_sj2.setText("时间");
+                        tv_sj.setText("时间");
+                        tv_sjt.setText("时间");
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         mPopupWindow.dismiss();
                         break;
@@ -701,8 +742,8 @@ public class SimpleFrg extends BaseFragment {
                         rb_three.setChecked(false);
                         rb_week.setChecked(false);
                         rb_month.setChecked(false);
-                        cb_sj.setText("一天内");
-                        cb_sj2.setText("一天内");
+                        tv_sj.setText("一天内");
+                        tv_sjt.setText("一天内");
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         mPopupWindow.dismiss();
                         break;
@@ -713,8 +754,8 @@ public class SimpleFrg extends BaseFragment {
                         rb_one.setChecked(false);
                         rb_week.setChecked(false);
                         rb_month.setChecked(false);
-                        cb_sj.setText("三天内");
-                        cb_sj2.setText("三天内");
+                        tv_sj.setText("三天内");
+                        tv_sjt.setText("三天内");
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         mPopupWindow.dismiss();
                         break;
@@ -725,8 +766,8 @@ public class SimpleFrg extends BaseFragment {
                         rb_one.setChecked(false);
                         rb_three.setChecked(false);
                         rb_month.setChecked(false);
-                        cb_sj.setText("一周内");
-                        cb_sj2.setText("一周内");
+                        tv_sj.setText("一周内");
+                        tv_sjt.setText("一周内");
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         mPopupWindow.dismiss();
                         break;
@@ -737,8 +778,8 @@ public class SimpleFrg extends BaseFragment {
                         rb_one.setChecked(false);
                         rb_week.setChecked(false);
                         rb_three.setChecked(false);
-                        cb_sj.setText("一月内");
-                        cb_sj2.setText("一月内");
+                        tv_sj.setText("一月内");
+                        tv_sjt.setText("一月内");
                         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
                         mPopupWindow.dismiss();
                         break;
@@ -754,12 +795,14 @@ public class SimpleFrg extends BaseFragment {
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                cb_all.setChecked(false);
-                cb_all2.setChecked(false);
-                cb_sj.setChecked(false);
-                cb_sj2.setChecked(false);
-                cb_bq2.setChecked(false);
-                cb_bq.setChecked(false);
+                updatacolor(tv_quanb,iv_quanb,1);
+                updatacolor(tv_quanbt,iv_quanbt,1);
+                updatacolor(tv_sj,iv_sj,1);
+                updatacolor(tv_sjt,iv_sjt,1);
+                updatacolor(tv_biaoq,iv_biaoq,1);
+                updatacolor(tv_biaoqt,iv_biaoqt,1);
+
+
             }
         });
         if (flag) {
@@ -769,6 +812,10 @@ public class SimpleFrg extends BaseFragment {
         }
     }
 
+    /**
+     * 获取头部筛选标签
+     * @param type
+     */
     private void getAcitivtyLabel(final int type) {
         RequestManager.getScheduleManager().getAllActivityLabel(new ResultCallback<ResultBean<List<ActivityLabel>>>() {
             @Override

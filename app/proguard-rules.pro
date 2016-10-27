@@ -323,3 +323,10 @@
 -keep class org.bitlet.** {*;}
 -keep class org.slf4j.** {*;}
 -keep class ch.imvs.** {*;}
+
+#云测sdk
+-dontwarn com.testin.agent.**
+-keep  class  com.testin.agent.** {*;}
+-dontwarn com.qamaster.android.**
+-keep  class  com.qamaster.** {*;}
+-keepattributes SourceFile, LineNumberTable

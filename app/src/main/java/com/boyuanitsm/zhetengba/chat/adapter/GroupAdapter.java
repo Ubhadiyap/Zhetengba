@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.bean.MyGroup;
 import com.hyphenate.chat.EMGroup;
 
 import java.util.List;
@@ -18,62 +19,14 @@ import java.util.List;
 public class GroupAdapter extends ArrayAdapter<EMGroup> {
 
     private LayoutInflater inflater;
-
     public GroupAdapter(Context context, int res, List<EMGroup> groups) {
         super(context, res, groups);
         this.inflater = LayoutInflater.from(context);
     }
 
-//    @Override
-//    public int getViewTypeCount() {
-//        return 2;
-//    }
-
-//    @Override
-//    public int getItemViewType(int position) {
-//        if (position == 0) {
-//            return 0;
-//        } else{
-//            return 1;
-//        }
-//    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        if (getItemViewType(position) == 0) {
-//            if (convertView == null) {
-//                convertView = inflater.inflate(R.layout.em_search_bar_with_padding, null);
-//            }
-//            final EditText query = (EditText) convertView.findViewById(R.id.query);
-//            final ImageButton clearSearch = (ImageButton) convertView.findViewById(R.id.search_clear);
-//            query.addTextChangedListener(new TextWatcher() {
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    getFilter().filter(s);
-//                    if (s.length() > 0) {
-//                        clearSearch.setVisibility(View.VISIBLE);
-//                    } else {
-//                        clearSearch.setVisibility(View.INVISIBLE);
-//                    }
-//                }
-//
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                }
-//
-//                public void afterTextChanged(Editable s) {
-//                }
-//            });
-//            clearSearch.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    query.getText().clear();
-//                }
-//            });
-//        }else{
-//            if (convertView == null) {
-//                convertView = inflater.inflate(R.layout.em_row_group, null);
-//            }
-//            ((TextView) convertView.findViewById(R.id.name)).setText(getItem(position - 1).getGroupName());
-//        }
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.em_row_group, null);
         }
@@ -84,6 +37,7 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
     public int getCount() {
         return super.getCount();
     }
+
 
 
 }

@@ -126,6 +126,12 @@ public class MyBitmapUtils {
 		options.inJustDecodeBounds = false;
 		// 摆正
 		Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+		try{
+			bitmap.getWidth();
+		}catch(Exception e) {
+			MyLogUtils.info("图片有误！！！");
+			return null;
+		}
 		int degree = getExifOrientation(path);
 		if (degree == 90 || degree == 180 || degree == 270) {
 			// Roate preview icon according to exif orientation

@@ -297,4 +297,21 @@
         <!--<item name="android:windowBackground">@color/transparent</item>-->
         <!--<item name="android:windowIsFloating">true</item>-->
     <!--</style>-->
+    <!--档期界面头部筛选通用布局样式-->
+    <style name="ll_float">
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <!--档期界面头部筛选通用字体样式-->
+    <style name="ll_float_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#666666</item>
+    </style>
+
 </resources>

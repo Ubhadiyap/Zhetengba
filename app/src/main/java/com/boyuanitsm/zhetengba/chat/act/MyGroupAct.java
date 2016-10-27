@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.MyGroup;
 import com.boyuanitsm.zhetengba.chat.adapter.GroupAdapter;
 import com.boyuanitsm.zhetengba.widget.ClearEditText;
 import com.hyphenate.chat.EMClient;
@@ -38,7 +39,7 @@ public class MyGroupAct extends BaseActivity {
     protected List<EMGroup> grouplist;
     private GroupAdapter groupAdapter;
     private InputMethodManager inputMethodManager;
-
+    private List<MyGroup> myGroupList;
     private ClearEditText cetSearch;
     private SwipeRefreshLayout swipeRefreshLayout;
     @Override
@@ -55,7 +56,7 @@ public class MyGroupAct extends BaseActivity {
         groupListView = (ListView) findViewById(R.id.list);
         groupAdapter = new GroupAdapter(this, 1, grouplist);
         groupListView.setAdapter(groupAdapter);
-
+//        getAllGroups();
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
                 R.color.holo_orange_light, R.color.holo_red_light);
@@ -104,7 +105,7 @@ public class MyGroupAct extends BaseActivity {
                 // it is group chat
                 intent.putExtra("chatType", Constant.CHATTYPE_GROUP);
                 intent.putExtra("userId", groupAdapter.getItem(position).getGroupId());
-                startActivityForResult(intent, 0);
+                startActivity(intent);
             }
 
         });
@@ -128,6 +129,7 @@ public class MyGroupAct extends BaseActivity {
             switch (msg.what) {
                 case 0:
                     refresh();
+//                    getAllGroups();
                     break;
                 case 1:
                     Toast.makeText(MyGroupAct.this, R.string.Failed_to_get_group_chat_information, Toast.LENGTH_LONG).show();
@@ -177,7 +179,33 @@ public class MyGroupAct extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             refresh();
+//            getAllGroups();
         }
     }
 
+    /***
+     * 获取群聊列表
+     */
+//    private void getAllGroups(){
+//        myGroupList=new ArrayList<>();
+//        RequestManager.getMessManager().getGroup(new ResultCallback<ResultBean<GroupEnty>>() {
+//            @Override
+//            public void onError(int status, String errorMsg) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(ResultBean<GroupEnty> response) {
+//                    myGroupList = response.getData().getData();
+//                    MyLogUtils.info(myGroupList + "群聊信息。。。。。");
+//                if (groupAdapter==null){
+//                    groupAdapter = new GroupAdapter(MyGroupAct.this, 1, myGroupList);
+//                    groupListView.setAdapter(groupAdapter);
+//                }else {
+//                    groupAdapter.update(myGroupList);
+//                }
+//
+//            }
+//        });
+//    }
 }

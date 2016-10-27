@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.AlbumBean;
@@ -85,10 +86,11 @@ public class AlbumHelper {
 //			MyLogUtils.info("选择图片的相片信息===="+time);
 			String display_name = mCursor.getString(mCursor
 					.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
-
+			String height=mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.HEIGHT));
 			String parentName = new File(path).getParentFile().getName();
-			List<ImageBean> sb;
-			if (beans.containsKey(parentName)) {
+			if (!TextUtils.isEmpty(height)&&Integer.parseInt(height)>0){
+				List<ImageBean> sb;
+				if (beans.containsKey(parentName)) {
 				sb = beans.get(parentName);
 				sb.add(new ImageBean(parentName, size, display_name, path,
 						false,time));
@@ -101,7 +103,9 @@ public class AlbumHelper {
 				SortClass sort = new SortClass();
 				Collections.sort(sb, sort);
 			}
-			beans.put(parentName, sb);
+				beans.put(parentName, sb);
+			}
+
 		}
 		return beans;
 	}

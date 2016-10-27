@@ -43,6 +43,7 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.frg.ChatFragment;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -459,32 +460,50 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	 */
 	private void deleteGrop() {
 		final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					EMClient.getInstance().groupManager().destroyGroup(groupId);
-					runOnUiThread(new Runnable() {
-						public void run() {
-							sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
-							sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
-							sendBroadcast(new Intent(MyGroupAct.MYGROUP));
-							progressDialog.dismiss();
-							setResult(RESULT_OK);
-							finish();
-							if(ChatActivity.activityInstance != null)
-							    ChatActivity.activityInstance.finish();
-						}
-					});
-				} catch (final Exception e) {
-					runOnUiThread(new Runnable() {
-						public void run() {
-							progressDialog.dismiss();
-							Toast.makeText(getApplicationContext(), st5 + e.getMessage(), Toast.LENGTH_SHORT).show();
-						}
-					});
-				}
+		RequestManager.getMessManager().removeGroupPerson(groupId, UserInfoDao.getUser().getId(), new ResultCallback() {
+			@Override
+			public void onError(int status, String errorMsg) {
+				MyToastUtils.showShortToast(GroupDetailsActivity.this,st5);
 			}
-		}).start();
+
+			@Override
+			public void onResponse(Object response) {
+				sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+				sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+				sendBroadcast(new Intent(MyGroupAct.MYGROUP));
+				progressDialog.dismiss();
+				setResult(RESULT_OK);
+				finish();
+				if(ChatActivity.activityInstance != null)
+					ChatActivity.activityInstance.finish();
+			}
+		});
+//		new Thread(new Runnable() {
+//			public void run() {
+//				try {
+//					EMClient.getInstance().groupManager().destroyGroup(groupId);
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
+//							sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+//							sendBroadcast(new Intent(MyGroupAct.MYGROUP));
+//							progressDialog.dismiss();
+//							setResult(RESULT_OK);
+//							finish();
+//							if(ChatActivity.activityInstance != null)
+//							    ChatActivity.activityInstance.finish();
+//						}
+//					});
+//				} catch (final Exception e) {
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							progressDialog.dismiss();
+//							Toast.makeText(getApplicationContext(), st5 + e.getMessage(), Toast.LENGTH_SHORT).show();
+//						}
+//					});
+//				}
+//			}
+//		}).start();
 	}
 
 	/**

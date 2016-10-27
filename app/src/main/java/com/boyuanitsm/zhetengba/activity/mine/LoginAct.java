@@ -288,7 +288,6 @@ public class LoginAct extends BaseActivity {
             public void onResponse(ResultBean<UserBean> response) {
                 UserBean userBean = response.getData();
                 login(userBean, 1);
-//                getMyLabels(-1);//获取兴趣标签存入本地。
                 MyLogUtils.info(userBean.getUser().getId() + "id是");
                 JPushInterface.setAlias(LoginAct.this, userBean.getUser().getId(), new TagAliasCallback() {
                     @Override
@@ -296,21 +295,6 @@ public class LoginAct extends BaseActivity {
 
                     }
                 });
-            }
-        });
-    }
-    private void getMyLabels(int limitNum) {
-        titleList = new ArrayList<>();
-        RequestManager.getScheduleManager().selectMyLabels(null, limitNum, new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
-            @Override
-            public void onError(int status, String errorMsg) {
-            }
-
-            @Override
-            public void onResponse(ResultBean<List<UserInterestInfo>> response) {
-                titleList = response.getData();
-                Gson gson=new Gson();
-               aCache.put("titleList",gson.toJson(titleList));
             }
         });
     }

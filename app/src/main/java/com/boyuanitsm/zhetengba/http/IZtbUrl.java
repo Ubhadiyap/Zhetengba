@@ -345,4 +345,9 @@ public interface IZtbUrl {
     //个人主页活动列表
     String ACTIVITY_LISTURL=BASE_URL+"schedule/login/findFriendActivity.do";
 
+    //获取我的群聊列表
+    String GROUP_LIST=BASE_URL+"message/login/findGroupChatList.do";
+
+
+
 }
