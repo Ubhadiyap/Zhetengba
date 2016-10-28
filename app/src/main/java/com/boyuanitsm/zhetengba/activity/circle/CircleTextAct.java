@@ -43,6 +43,7 @@ import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
@@ -116,6 +117,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     CircleTextAdapter adapter;
     private View headerView;
     private int position;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_text);
@@ -128,13 +131,18 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         assignView(headerView);
         entity=getIntent().getParcelableExtra("circleEntity");
         circleId=getIntent().getStringExtra("circleId");
-         position=getIntent().getIntExtra("CirCommentPosition",0);
+         position=getIntent().getIntExtra("CirCommentPosition", 0);
         LayoutHelperUtil.freshInit(my_lv);
         my_lv.getRefreshableView().addHeaderView(headerView);
         setCircleEntity(entity);
 
         getCircleCommentsList(circleId, page, rows);
-
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getCircleCommentsList(circleId, page, rows);
+            }
+        });
         my_lv.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -395,12 +403,14 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
             public void onError(int status, String errorMsg) {
                 my_lv.onPullUpRefreshComplete();
                 my_lv.onPullDownRefreshComplete();
+                load_view.loadError();
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
                 my_lv.onPullUpRefreshComplete();
                 my_lv.onPullDownRefreshComplete();
+                load_view.loadComplete();
                 list=response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {

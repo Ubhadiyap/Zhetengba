@@ -25,6 +25,7 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.WithdrawDialog;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
@@ -61,6 +62,8 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
 
     public static final String TAG = "com.updat.activity";
     private MyReceiver myReceiver;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_wallet);
@@ -84,6 +87,12 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
 
         getMoneyNum(UserInfoDao.getUser().getId());//获取用户余额
         getGift();
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getMoneyNum(UserInfoDao.getUser().getId());//获取用户余额
+            }
+        });
         page=1;rows=10;
         getZhangdan(page,rows);//获取账单
         lv_zd.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -186,12 +195,13 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
         RequestManager.getMessManager().findUserIcon(Id, new ResultCallback<ResultBean<UserInfo>>(){
             @Override
             public void onError(int status, String errorMsg) {
-
+                load_view.loadError();
             }
 
             @Override
             public void onResponse(ResultBean<UserInfo> response) {
                 money=response.getData().getBalance();
+                load_view.loadComplete();
                 tv_je.setText(money);
                 BigDecimal bigmoney=new BigDecimal(money);
                 int d=bigmoney.compareTo(new BigDecimal("50"));
