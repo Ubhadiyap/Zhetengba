@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.adapter.TimeAxisListAdp;
@@ -22,6 +23,7 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -35,7 +37,8 @@ public class TimeFrg extends BaseFragment {
     @ViewInject(R.id.lv_mine_list)
     private ListView lv_mine_list;
     private TimeAxisListAdp adapter;
-
+    @ViewInject(R.id.noList)
+    private RelativeLayout noList;
     public static final String INPUT_TIME = "input_time";
     private String inputTime;
 
@@ -63,12 +66,18 @@ public class TimeFrg extends BaseFragment {
             @Override
             public void onResponse(ResultBean<List<HistoryMsgBean>> response) {
                 List<HistoryMsgBean> datas = response.getData();
-                if (adapter == null) {
-                    adapter = new TimeAxisListAdp(getContext(), datas);
-                    lv_mine_list.setAdapter(adapter);
-                } else {
-                    adapter.notifyChange(datas);
+                if (datas!=null&&datas.size()>0){
+                    noList.setVisibility(View.GONE);
+                    if (adapter == null) {
+                        adapter = new TimeAxisListAdp(getContext(), datas);
+                        lv_mine_list.setAdapter(adapter);
+                    } else {
+                        adapter.notifyChange(datas);
+                    }
+                }else {
+                    noList.setVisibility(View.VISIBLE);
                 }
+
 
             }
         });

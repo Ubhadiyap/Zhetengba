@@ -141,10 +141,8 @@ public class EditAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
-//                sendBroadcast(new Intent(CalFrg.CAL_DATA_CHANGE_KEY));
                 sendBroadcast(new Intent(PersonalAct.PPLABELS));
                 sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
-//                sendBroadcast(new Intent(HeiAct.UPDATA));
                 sendBroadcast(new Intent(SquareAct.TALK_LIST));
                 sendBroadcast(new Intent(CircleAct.ALLTALKS));
                 sendBroadcast(new Intent(CirxqAct.TALKS));
@@ -153,7 +151,9 @@ public class EditAct extends BaseActivity {
                 sendBroadcast(new Intent(ContractsFrg.UPDATE_CONTRACT));
                 Intent intent=new Intent(ChatFragment.UPDATE_GROUP_NAME);
                 EaseUser easeUser = DemoHelper.getInstance().getContactList().get(friendId);
-                easeUser.setNick(reMark);
+                if (!TextUtils.isEmpty(reMark)){
+                    easeUser.setNick(reMark);
+                }
                 DemoHelper.getInstance().updataContact(easeUser);
                 intent.putExtra("chat_type",chat);
                 intent.putExtra("nickName", reMark);

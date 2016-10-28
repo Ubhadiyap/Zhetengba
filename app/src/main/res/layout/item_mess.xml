@@ -103,6 +103,8 @@
                 android:background="@drawable/stroker_radio"
                 android:layout_width="220dp"
                 android:layout_height="42dp"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textColor="#666666"
                 android:textSize="12sp"/>
         </LinearLayout>

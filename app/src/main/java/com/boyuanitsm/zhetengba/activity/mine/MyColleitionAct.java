@@ -104,15 +104,6 @@ public class MyColleitionAct extends BaseActivity {
                 loadview.loadError();
                 plv.onPullUpRefreshComplete();
                 plv.onPullDownRefreshComplete();
-//                if (list.size()>0){
-//                    if (adapter != null) {
-//                        adapter.notify(list);
-//                    }
-//                }else {
-//                    llnoList.setVisibility(View.VISIBLE);
-//                    ivAnim.setImageResource(R.mipmap.planeno);
-//                    noMsg.setText("加载失败");
-//                }
             }
 
             @Override

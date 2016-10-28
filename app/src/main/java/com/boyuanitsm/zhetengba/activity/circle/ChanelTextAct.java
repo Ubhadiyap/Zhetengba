@@ -39,6 +39,7 @@ import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
@@ -95,6 +96,8 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     private List<ChannelTalkEntity> list;
     private int position;
     ChaTextAdapter adapter;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_chanel_text);
@@ -107,11 +110,18 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         assignView(headView);
         channelTalkEntity=getIntent().getParcelableExtra("channelEntity");
         channelId=getIntent().getStringExtra("channelId");
-        position= getIntent().getIntExtra("CommentPosition",0);
+        position= getIntent().getIntExtra("CommentPosition", 0);
         LayoutHelperUtil.freshInit(my_lv);
         my_lv.getRefreshableView().addHeaderView(headView);
         setChannel(channelTalkEntity);
         getCircleCommentsList(channelId, page, rows);
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getCircleCommentsList(channelId, page, rows);
+            }
+        });
+
         my_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -344,20 +354,22 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             public void onError(int status, String errorMsg) {
                 my_lv.onPullUpRefreshComplete();
                 my_lv.onPullDownRefreshComplete();
+                load_view.loadError();
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<ChannelTalkEntity>> response) {
                 my_lv.onPullUpRefreshComplete();
                 my_lv.onPullDownRefreshComplete();
+                load_view.loadComplete();
                 list=response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
-
                     } else {
                         my_lv.setHasMoreData(false);
                     }
                 }
+
                 if(page==1){
                     datas.clear();
                 }

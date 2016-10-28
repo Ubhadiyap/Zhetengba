@@ -104,9 +104,11 @@ public class DqMesAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(list.get(position).getPetName())) {
             viewHolder.tv_name.setText(list.get(position).getPetName());
         }
-        if (!TextUtils.isEmpty(list.get(position).getMsgContent())) {
-            viewHolder.tv_second.setText(list.get(position).getMsgContent());
-        } else if (!TextUtils.isEmpty(list.get(position).getMessage())) {
+//        if (!TextUtils.isEmpty(list.get(position).getMsgContent())) {
+//            viewHolder.tv_second.setText(list.get(position).getMsgContent());
+//        }
+//        else
+        if (!TextUtils.isEmpty(list.get(position).getMessage())&&list.get(position).getMessage().length()>list.get(position).getPetName().length()) {
             viewHolder.tv_second.setText(list.get(position).getMessage().substring(list.get(position).getPetName().length()));
         }
 
