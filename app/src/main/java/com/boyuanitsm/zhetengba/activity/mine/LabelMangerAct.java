@@ -26,6 +26,7 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class LabelMangerAct extends BaseActivity {
     private TextView tvlabel;
     @ViewInject(R.id.ll_all_label)
     private LinearLayout ll_all_label;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     private List<LabelBannerInfo> list=new ArrayList<LabelBannerInfo>();
     private List<UserInterestInfo> mylist=new ArrayList<>();
     private UserInterestInfo userInterestInfo;
@@ -55,6 +58,7 @@ public class LabelMangerAct extends BaseActivity {
     private LabelInterestDao labelInterestDao;
     private ProgressDialog dialog;
     private int isShow=0;
+    private int num;//用来判断自己标签获取失败还是他人标签失败
     @Override
     public void setLayout() {
         setContentView(R.layout.act_labelmana2);
@@ -63,10 +67,10 @@ public class LabelMangerAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
 //        labelInterestDao=new LabelInterestDao(LabelMangerAct.this);
-        dialog=new ProgressDialog(this);
-        dialog.setMessage("数据加载中...");
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
+//        dialog=new ProgressDialog(this);
+//        dialog.setMessage("数据加载中...");
+//        dialog.setCanceledOnTouchOutside(false);
+//        dialog.show();
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         if (bundle!=null){
@@ -79,6 +83,17 @@ public class LabelMangerAct extends BaseActivity {
         }else {
             instalLabelData();
         }
+
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                if(num==1){
+                    otherInterestLabel(userId);
+                }else {
+                    instalLabelData();
+                }
+            }
+        });
 
     }
 
@@ -176,6 +191,9 @@ public class LabelMangerAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<List<LabelBannerInfo>> response) {
                 list = response.getData();
+                if(list.size()==0){
+
+                }else
                 labelGVadapter = new LabelGVadapter(LabelMangerAct.this, list);
                 gv2.setAdapter(labelGVadapter);
                 gv2.setSelector(new ColorDrawable(Color.TRANSPARENT));
@@ -225,17 +243,21 @@ public class LabelMangerAct extends BaseActivity {
         RequestManager.getScheduleManager().findMyLabelListMoreByUserId(new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                num=2;
+                load_view.loadError();
 
             }
 
             @Override
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                }
                 mylist = response.getData();
-                myadapter = new LabelGvMyadapter(LabelMangerAct.this, mylist);
-                gv1.setAdapter(myadapter);
+                if(mylist.size()==0){
+                    load_view.noContent();
+                }else {
+                    load_view.loadComplete();
+                    myadapter = new LabelGvMyadapter(LabelMangerAct.this, mylist);
+                    gv1.setAdapter(myadapter);
+                }
             }
         });
     }
@@ -248,17 +270,20 @@ public class LabelMangerAct extends BaseActivity {
         RequestManager.getScheduleManager().findOtherListMoreByUserId(userId, new ResultCallback<ResultBean<List<UserInterestInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                num=1;
+                load_view.loadError();
 
             }
 
             @Override
             public void onResponse(ResultBean<List<UserInterestInfo>> response) {
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                }
                 mylist = response.getData();
+                if(mylist.size()==0){
+                    load_view.noContent();
+                }else {
+                    load_view.loadComplete();
                 myadapter = new LabelGvMyadapter(LabelMangerAct.this, mylist);
-                gv1.setAdapter(myadapter);
+                gv1.setAdapter(myadapter);}
             }
         });
     }

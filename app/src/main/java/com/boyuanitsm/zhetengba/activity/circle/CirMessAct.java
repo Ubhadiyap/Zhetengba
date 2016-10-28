@@ -3,7 +3,6 @@ package com.boyuanitsm.zhetengba.activity.circle;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -14,7 +13,6 @@ import android.view.View;
 import com.boyuanitsm.zhetengba.IsShow;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
-import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.CircleMessAdatper;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
@@ -25,8 +23,8 @@ import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
-import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenu;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuCreator;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuItem;
@@ -53,6 +51,8 @@ public class CirMessAct extends BaseActivity {
     private int page=-1;
     private int rows=-1;
     private ProgressDialog progressDialog;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
 
 
     @Override
@@ -63,10 +63,10 @@ public class CirMessAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子消息");
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("数据加载中...");
-        progressDialog.show();
+//        progressDialog=new ProgressDialog(this);
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.setMessage("数据加载中...");
+//        progressDialog.show();
         setRight("我的发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +127,12 @@ public class CirMessAct extends BaseActivity {
         if (CircleNewMessDao.getUser()!=null){
             CircleNewMessDao.deleteUser();
         }
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getDqMess(type, page, rows);
+            }
+        });
     }
 
     /**
@@ -167,13 +173,15 @@ public class CirMessAct extends BaseActivity {
         RequestManager.getScheduleManager().findMyInviteMsg(type, page, rows, new ResultCallback<ResultBean<DataBean<CircleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
-                progressDialog.dismiss();
-                MyToastUtils.showShortToast(getApplicationContext(),"请求失败，请检查网络！");
+//                progressDialog.dismiss();
+//                MyToastUtils.showShortToast(getApplicationContext(),"请求失败，请检查网络！");
+                load_view.loadError();
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<CircleInfo>> response) {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
+                load_view.loadComplete();
                 agreeList=response.getData().getRows();
                 MyLogUtils.info(agreeList.toString() + "返回集合");
                 list=new ArrayList<>();
@@ -187,8 +195,13 @@ public class CirMessAct extends BaseActivity {
                     }
                     SortClass sort = new SortClass();
                     Collections.sort(list, sort);
-                }else if (agreeList!=null&&agreeList.size()>0){
-                    list=agreeList;
+                }else {//数据为null,返回的做判断
+                    if (agreeList != null && agreeList.size() > 0) {
+                        list = agreeList;
+                    }else {
+                        load_view.noContent();
+                    }
+
                 }
                 if (adapter == null) {
                     adapter = new CircleMessAdatper(CirMessAct.this, list);

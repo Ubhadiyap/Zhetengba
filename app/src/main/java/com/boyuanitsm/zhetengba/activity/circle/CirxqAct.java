@@ -20,13 +20,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
-import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirclexqListAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -43,6 +41,7 @@ import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.MyRecyleview;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
@@ -80,6 +79,7 @@ public class CirxqAct extends BaseActivity {
     private TextView notice;//公告
     private TextView qzzl;//圈子资料
     private TextView rl_jiaru;
+    private Intent intenttype;
     private int page=1;
     private int rows=10;
     private List<List<ImageInfo>> datalist;
@@ -100,6 +100,8 @@ public class CirxqAct extends BaseActivity {
     private EditText et_comment;
     @ViewInject(R.id.iv_chanel_comment)
     private Button bt_send;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     private int cusPos;
     private String cirId;
     @Override
@@ -111,10 +113,10 @@ public class CirxqAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("");
-        progressDialog=new ProgressDialog(CirxqAct.this);
-        progressDialog.setMessage("数据加载中...");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+//        progressDialog=new ProgressDialog(CirxqAct.this);
+//        progressDialog.setMessage("数据加载中...");
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.show();
         headView=getLayoutInflater().inflate(R.layout.xq_head,null);
         head= (CircleImageView) headView.findViewById(R.id.head);//头像
         name= (TextView) headView.findViewById(R.id.tv_qz);//圈主名
@@ -185,12 +187,45 @@ public class CirxqAct extends BaseActivity {
         //设置横向
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv_label.setLayoutManager(linearLayoutManager);
-        Intent intent=getIntent();
-        type=intent.getExtras().getInt("type");//3扫码
-        circleId=intent.getExtras().getString("circleId");
+        intenttype=getIntent();
+        type=intenttype.getExtras().getInt("type");//3扫码
+        circleId=intenttype.getExtras().getString("circleId");
+        difftype();//不同情况下的圈子详情的不同情况
+        iv_fa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CirxqAct.this, CirclefbAct.class);
+                intent.putExtra("isShow", false);
+                intent.putExtra("circleId", circleId);
+                intent.putExtra(CirclefbAct.TYPE,1);
+                startActivity(intent);
+            }
+        });
+        //圈子资料
+        qzzl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CirxqAct.this, CirmationAct.class);
+                intent.putExtra("circleEntity", circleEntity);
+                startActivity(intent);
+            }
+        });
+
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                difftype();
+            }
+        });
+    }
+
+    /**
+     * 不同情况下进入到圈子详情的不同情况
+     */
+    private void difftype() {
         if(type==0){
             //从收索里面进来(需要判断是否在圈子里面的)
-            IsInCircle=intent.getExtras().getInt("isincircle");
+            IsInCircle=intenttype.getExtras().getInt("isincircle");
             if(IsInCircle==0){
                 //不在圈子里面
                 iv_fa.setVisibility(View.GONE);
@@ -234,25 +269,6 @@ public class CirxqAct extends BaseActivity {
             getCircleDetail(circleId);//获取圈子详情，不在圈子里显示立即加入按钮
         }
 
-        iv_fa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CirxqAct.this, CirclefbAct.class);
-                intent.putExtra("isShow", false);
-                intent.putExtra("circleId", circleId);
-                intent.putExtra(CirclefbAct.TYPE,1);
-                startActivity(intent);
-            }
-        });
-        //圈子资料
-        qzzl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CirxqAct.this, CirmationAct.class);
-                intent.putExtra("circleEntity", circleEntity);
-                startActivity(intent);
-            }
-        });
     }
 
     /**
@@ -387,14 +403,16 @@ public class CirxqAct extends BaseActivity {
         RequestManager.getTalkManager().myCircleDetail(circleId, new ResultCallback<ResultBean<CircleEntity>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                load_view.loadError();
 
             }
 
             @Override
             public void onResponse(ResultBean<CircleEntity> response) {
-                if (progressDialog.isShowing()){
-                    progressDialog.dismiss();
-                }
+//                if (progressDialog.isShowing()){
+//                    progressDialog.dismiss();
+//                }
+                load_view.loadComplete();
                 circleEntity = response.getData();
                 if (circleEntity != null) {
                     setCircle(circleEntity);
@@ -483,9 +501,9 @@ public class CirxqAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<DataBean<MemberEntity>> response) {
-                if (progressDialog.isShowing()){
-                    progressDialog.dismiss();
-                }
+//                if (progressDialog.isShowing()){
+//                    progressDialog.dismiss();
+//                }
                 userList = response.getData().getRows();
                 adapter = new CirxqAdapter(CirxqAct.this, userList,isInCircle);
                 rv_label.setAdapter(adapter);
@@ -569,9 +587,9 @@ public class CirxqAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
-                if (progressDialog.isShowing()){
-                    progressDialog.dismiss();
-                }
+//                if (progressDialog.isShowing()){
+//                    progressDialog.dismiss();
+//                }
                 lv_cir.onPullUpRefreshComplete();
                 lv_cir.onPullDownRefreshComplete();
                 circleEntityList = response.getData().getRows();

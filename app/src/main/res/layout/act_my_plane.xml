@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_bg">
     <include layout="@layout/title_act_layout"></include>
     <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
+        android:layout_marginTop="48dp"
         android:id="@+id/lv_my_plane"
         android:dividerHeight="1px"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
+    <com.boyuanitsm.zhetengba.view.LoadingView
+        android:layout_marginTop="48dp"
+        android:id="@+id/load_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.LoadingView>
 
-</LinearLayout>
+</RelativeLayout>

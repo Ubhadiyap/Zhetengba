@@ -4,16 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPlaneAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
@@ -23,10 +19,11 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
-import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -37,6 +34,8 @@ import java.util.List;
  * Created by xiaoke on 2016/5/6.
  */
 public class MyPlaneAct extends BaseActivity {
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     private PullToRefreshListView lv_my_plane;
     private List<List<ImageInfo>> datalist;
 
@@ -55,13 +54,13 @@ public class MyPlaneAct extends BaseActivity {
         lv_my_plane= (PullToRefreshListView) findViewById(R.id.lv_my_plane);
         //初始化下拉刷新
         LayoutHelperUtil.freshInit(lv_my_plane);
-        getMyTalks(page, rows,"");
+        getMyTalks(page, rows, "");
         lv_my_plane.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState==SCROLL_STATE_TOUCH_SCROLL||scrollState==SCROLL_STATE_IDLE){
+                if (scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_IDLE) {
                     ImageLoader.getInstance().resume();
-                }else {
+                } else {
                     ImageLoader.getInstance().pause();
                 }
             }
@@ -76,13 +75,20 @@ public class MyPlaneAct extends BaseActivity {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 lv_my_plane.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
                 page = 1;
-                getMyTalks(page, rows,"");
+                getMyTalks(page, rows, "");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getMyTalks(page, rows,"");
+                getMyTalks(page, rows, "");
+            }
+        });
+
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getMyTalks(page, rows, "");
             }
         });
     }
@@ -100,18 +106,21 @@ public class MyPlaneAct extends BaseActivity {
         RequestManager.getTalkManager().myTalksOut(page, rows,friend, new ResultCallback<ResultBean<DataBean<CircleEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                load_view.loadError();
                 lv_my_plane.onPullUpRefreshComplete();
                 lv_my_plane.onPullDownRefreshComplete();
+
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<CircleEntity>> response) {
+                load_view.loadComplete();
                 lv_my_plane.onPullUpRefreshComplete();
                 lv_my_plane.onPullDownRefreshComplete();
                 list=response.getData().getRows();
                 if (list.size()==0){
                     if (page==1){
-
+                        load_view.noContent();
                     }else {
                         lv_my_plane.setHasMoreData(false);
                     }

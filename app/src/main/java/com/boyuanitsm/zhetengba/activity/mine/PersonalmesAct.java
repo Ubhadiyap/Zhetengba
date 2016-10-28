@@ -24,7 +24,6 @@ import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
-import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
@@ -179,7 +178,9 @@ public class PersonalmesAct extends BaseActivity {
         }
 
         if (!TextUtils.isEmpty(userEntity.get(0).getUsername())) {
-            cvPhoneNum.setNotesText(userEntity.get(0).getUsername());
+            String startnum=userEntity.get(0).getUsername().substring(0,3).toString();
+            String endnum=userEntity.get(0).getUsername().substring(7).toString();
+            cvPhoneNum.setNotesText(startnum+"****"+endnum);
 
         }
         if (!(TextUtils.isEmpty(userEntity.get(0).getEmail()))) {
