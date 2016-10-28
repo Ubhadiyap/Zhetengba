@@ -74,8 +74,8 @@ public class ZhetebaUtils {
      * 手机号码验证,11位，不知道详细的手机号码段，只是验证开头必须是1和位数
      */
     public static boolean checkCellPhone(String cellPhoneNr) {
-//          String reg="^[1][\\d]{10}";只判断第一位
-        String reg = "^[1][34578][\\d]{9}";
+          String reg="^[1][\\d]{10}";//只判断第一位和11位数
+//        String reg = "^[1][34578][\\d]{9}";
         return startCheck(reg, cellPhoneNr);
     }
 
