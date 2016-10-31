@@ -87,12 +87,6 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
 
         getMoneyNum(UserInfoDao.getUser().getId());//获取用户余额
         getGift();
-        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
-            @Override
-            public void OnRetry() {
-                getMoneyNum(UserInfoDao.getUser().getId());//获取用户余额
-            }
-        });
         page=1;rows=10;
         getZhangdan(page,rows);//获取账单
         lv_zd.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -102,7 +96,7 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
                 page = 1;
                 getMoneyNum(UserInfoDao.getUser().getId());
                 getGift();
-                getZhangdan(page,rows);
+                getZhangdan(page, rows);
             }
 
             @Override
@@ -110,11 +104,18 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
                 page++;
                 getMoneyNum(UserInfoDao.getUser().getId());
                 getGift();
-                getZhangdan(page,rows);
+                getZhangdan(page, rows);
 
             }
         });
-
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getMoneyNum(UserInfoDao.getUser().getId());//获取用户余额
+                getGift();
+                getZhangdan(page, rows);//获取账单
+            }
+        });
 
     }
 
@@ -200,8 +201,8 @@ public class WalletAct extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onResponse(ResultBean<UserInfo> response) {
-                money=response.getData().getBalance();
                 load_view.loadComplete();
+                money=response.getData().getBalance();
                 tv_je.setText(money);
                 BigDecimal bigmoney=new BigDecimal(money);
                 int d=bigmoney.compareTo(new BigDecimal("50"));

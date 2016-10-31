@@ -45,6 +45,8 @@ public class FrogetpwdAct extends BaseActivity {
     private String phone,yzm,pwd,cpwd;//手机号，验证码，密码，确认密码
     private ProgressDialog pd;
 
+    private boolean ispress;
+
 
     private int i = 60;
     private Timer timer;
@@ -82,7 +84,8 @@ public class FrogetpwdAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
                     return;
                 }
-                sendSms(phone, "false",200);
+
+                   sendSms(phone, "false",200);
                 break;
 
 
@@ -229,16 +232,17 @@ public class FrogetpwdAct extends BaseActivity {
      * @param isRegister
      */
     public void sendSms(String phoneNumber,String isRegister,int identifyCode){
+        tv_code.setEnabled(false);
         RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,identifyCode, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                tv_code.setEnabled(true);
                 MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 i = 60;
-                tv_code.setEnabled(false);
                 timer = new Timer();
                 myTask = new MyTimerTask();
                 timer.schedule(myTask, 0, 1000);

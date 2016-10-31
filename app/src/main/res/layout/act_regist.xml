@@ -64,6 +64,8 @@
 
 
             <EditText
+                android:maxLength="4"
+                android:singleLine="true"
                 android:id="@+id/et_aqm"
                 android:layout_width="0dp"
                 android:layout_height="65dp"

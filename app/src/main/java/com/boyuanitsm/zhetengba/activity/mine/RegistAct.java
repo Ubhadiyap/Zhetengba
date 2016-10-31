@@ -80,6 +80,8 @@ public class RegistAct extends BaseActivity {
     private static final String TAG = "RegAct";
     private ProgressDialog pd;
 
+    private boolean ispress;//是否可以点击默认为false;真比较可以点击，假表示不能点击
+
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.yzmjiazai)
             .showImageOnFail(R.mipmap.yzmjiazai).cacheInMemory(true).cacheOnDisk(true)
@@ -186,6 +188,7 @@ public class RegistAct extends BaseActivity {
                 phone=et_phone.getText().toString().trim();
                 aqm=et_aqm.getText().toString().toLowerCase();
                 if (TextUtils.isEmpty(phone)) {
+
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
                     return;
                 }
@@ -209,7 +212,10 @@ public class RegistAct extends BaseActivity {
                     et_aqm.requestFocus();
                     return;
                 }
-                sendSms(phone, "true",200);
+
+                    sendSms(phone, "true",200);
+
+
                 break;
             case R.id.tv_xy://注册协议
                 openActivity(WebAct.class);
@@ -359,7 +365,7 @@ public class RegistAct extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-               tv_code .setEnabled(true);
+                tv_code .setEnabled(true);
                 tv_code.setText("重新发送");
                 timer.cancel();
                 myTask.cancel();
@@ -404,16 +410,17 @@ public class RegistAct extends BaseActivity {
      * @param isRegister
      */
     public void sendSms(String phoneNumber,String isRegister,int identifyCode){
+        tv_code.setEnabled(false);
         RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,identifyCode, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                tv_code.setEnabled(true);
                 MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
                 i = 60;
-                tv_code.setEnabled(false);
                 timer = new Timer();
                 myTask = new MyTimerTask();
                 timer.schedule(myTask, 0, 1000);
