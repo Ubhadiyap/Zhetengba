@@ -538,10 +538,10 @@ public class SimpleFrg extends BaseFragment {
                     strList = aCache.getAsString("FriendsimpleInfoList");
                 } else if (TextUtils.equals(state, 2 + "")) {
                     strList = aCache.getAsString("MysimpleInfoList");
+                }else if (TextUtils.equals(state,1+"")){
+                    strList=aCache.getAsString("AllsimpleInfoList");
                 }
                 List<SimpleInfo> infos = new ArrayList<SimpleInfo>();
-//                Gson gson=new Gson();
-//                infos=GsonUtils.gsonToList(strList,SimpleInfo.class);
                 infos = gson.fromJson(strList, new TypeToken<List<SimpleInfo>>() {
                 }.getType());
                 if (infos != null && infos.size() > 0) {
@@ -553,11 +553,6 @@ public class SimpleFrg extends BaseFragment {
                         adapter.update(infos);
                     }
                 }
-//                else {
-//                    noList.setVisibility(View.VISIBLE);
-//                    ivAnim.setImageResource(R.mipmap.planeno);
-//                    noMsg.setText("加载失败");
-//                }
             }
 
             @Override
@@ -569,28 +564,22 @@ public class SimpleFrg extends BaseFragment {
                 //获取到的list没有数据时
                 if (list.size() == 0) {
                     if (page == 1) {
-//                        adapter.update(list); //第一页就没有数据，表示全部无数据
-//                        noList.setVisibility(View.VISIBLE);
-//                        ivAnim.setImageResource(R.mipmap.planeno);
 //                        noMsg.setText("暂无内容");
                     } else {
                         //无更多数据
                         lv_act.setHasMoreData(false);
                     }
                 }
-//                else {
-//                    noList.setVisibility(View.GONE);
-//                }
                 if (page == 1) {
                     datas.clear();
                 }
                 datas.addAll(list);
                 if (TextUtils.equals(state, 0 + "")) {
-//                    Gson gson=new Gson();
                     aCache.put("FriendsimpleInfoList", GsonUtils.bean2Json(datas));
                 } else if (TextUtils.equals(state, 2 + "")) {
-                    Gson gson = new Gson();
                     aCache.put("MysimpleInfoList", GsonUtils.bean2Json(datas));
+                }else if (TextUtils.equals(state,1+"")){
+                    aCache.put("AllsimpleInfoList",GsonUtils.bean2Json(datas));
                 }
                 if (adapter == null) {
                     //设置简约listview的条目
