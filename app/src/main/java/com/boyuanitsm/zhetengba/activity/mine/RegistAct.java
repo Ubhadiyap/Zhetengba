@@ -364,7 +364,7 @@ public class RegistAct extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 0) {
+            if (msg.what == 0||msg.what<0) {
                 tv_code .setEnabled(true);
                 tv_code.setText("重新发送");
                 timer.cancel();

@@ -189,7 +189,8 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
 //            itemList.get(0).setWidth(200);
 //            itemList.get(0).setHeight(200);
-            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
+//            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
             viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -107,6 +107,8 @@ public class SimpleFrg extends BaseFragment {
             getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//切换到好友；
         }
     };
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.act_frag, null, false);
@@ -211,6 +213,7 @@ public class SimpleFrg extends BaseFragment {
             strList=aCache.getAsString("AllsimpleInfoList");
         }
         if (!TextUtils.isEmpty(strList)){
+            load_view.loadComplete();
             List<SimpleInfo> infos = new ArrayList<SimpleInfo>();
             infos = gson.fromJson(strList, new TypeToken<List<SimpleInfo>>() {
             }.getType());
@@ -229,6 +232,7 @@ public class SimpleFrg extends BaseFragment {
         //首页活动轮播图片展示
         String bannerList = aCache.getAsString("SimpleBanner");
         if (!TextUtils.isEmpty(bannerList)) {
+            load_view.loadComplete();
             List<LabelBannerInfo> bannerInfos = gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
             }.getType());
             initMyPageAdapter(bannerInfos);
@@ -253,7 +257,6 @@ public class SimpleFrg extends BaseFragment {
         ll_quanbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 updatacolor(tv_quanbt, iv_quanbt, 0);//1表示默认颜色
                 cusPos = 2;
                 selectPop(cusPos);
@@ -265,7 +268,6 @@ public class SimpleFrg extends BaseFragment {
         ll_sj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                     updatacolor(tv_sj,iv_sj,0);//表示要变化颜色
                     cusPos=0;
                     selectPop(cusPos);
@@ -314,6 +316,13 @@ public class SimpleFrg extends BaseFragment {
 
             }
 
+        });
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
+                getBanner();
+            }
         });
     }
 
@@ -562,6 +571,7 @@ public class SimpleFrg extends BaseFragment {
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
+                load_view.loadComplete();
                 noList.setVisibility(View.GONE);
                 String strList = null;
                 if (TextUtils.equals(state, 0 + "")) {
@@ -591,6 +601,7 @@ public class SimpleFrg extends BaseFragment {
                 lv_act.onPullDownRefreshComplete();
                 list = response.getData().getRows();
                 noList.setVisibility(View.GONE);
+                load_view.loadComplete();
                 //获取到的list没有数据时
                 if (list.size() == 0) {
                     if (page == 1) {

@@ -17,6 +17,11 @@
         android:layout_height="wrap_content">
         <include layout="@layout/act_frag_floating"></include>
     </LinearLayout>
+    <com.boyuanitsm.zhetengba.view.LoadingView
+        android:layout_marginTop="48dp"
+        android:id="@+id/load_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.LoadingView>
     <LinearLayout
         android:id="@+id/noList"
         android:visibility="gone"
