@@ -235,9 +235,10 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             ll_two.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.GONE);
             ng_one_image.setVisibility(View.VISIBLE);
-            singleList.get(0).setWidth(120);
-            singleList.get(0).setHeight(120);
-            LayoutHelperUtil.handlerOneImage(ChanelTextAct.this, singleList.get(0), ng_one_image);
+//            singleList.get(0).setWidth(120);
+//            singleList.get(0).setHeight(120);
+//            LayoutHelperUtil.handlerOneImage(ChanelTextAct.this, singleList.get(0), ng_one_image);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()), ng_one_image, optionsImag);
             ng_one_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

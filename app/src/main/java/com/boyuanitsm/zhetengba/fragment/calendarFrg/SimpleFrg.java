@@ -45,11 +45,13 @@ import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.loopview.LoopViewPager;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +107,8 @@ public class SimpleFrg extends BaseFragment {
             getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//切换到好友；
         }
     };
-
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.act_frag, null, false);
@@ -199,8 +202,41 @@ public class SimpleFrg extends BaseFragment {
         //设置简约listview的headerview：item_viewpager_act.xml
         lv_act.getRefreshableView().addHeaderView(viewHeader_act);
         lv_act.getRefreshableView().addHeaderView(viewFloat);
+
+
+        String strList = null;
+        if (TextUtils.equals(state+"", 0 + "")) {
+            strList = aCache.getAsString("FriendsimpleInfoList");
+        } else if (TextUtils.equals(state+"", 2 + "")) {
+            strList = aCache.getAsString("MysimpleInfoList");
+        }else if (TextUtils.equals(state+"",1+"")){
+            strList=aCache.getAsString("AllsimpleInfoList");
+        }
+        if (!TextUtils.isEmpty(strList)){
+            load_view.loadComplete();
+            List<SimpleInfo> infos = new ArrayList<SimpleInfo>();
+            infos = gson.fromJson(strList, new TypeToken<List<SimpleInfo>>() {
+            }.getType());
+            if (infos != null && infos.size() > 0) {
+                if (adapter == null) {
+                    //设置简约listview的条目
+                    adapter = new ActAdapter(mActivity, infos);
+                    lv_act.getRefreshableView().setAdapter(adapter);
+                } else {
+                    adapter.update(infos);
+                }
+            }
+        }
+
         getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
         //首页活动轮播图片展示
+        String bannerList = aCache.getAsString("SimpleBanner");
+        if (!TextUtils.isEmpty(bannerList)) {
+            load_view.loadComplete();
+            List<LabelBannerInfo> bannerInfos = gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
+            }.getType());
+            initMyPageAdapter(bannerInfos);
+        }
         getBanner();
         //获取活动标签
         getAcitivtyLabel(-1);
@@ -221,7 +257,6 @@ public class SimpleFrg extends BaseFragment {
         ll_quanbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 updatacolor(tv_quanbt, iv_quanbt, 0);//1表示默认颜色
                 cusPos = 2;
                 selectPop(cusPos);
@@ -233,7 +268,6 @@ public class SimpleFrg extends BaseFragment {
         ll_sj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                     updatacolor(tv_sj,iv_sj,0);//表示要变化颜色
                     cusPos=0;
                     selectPop(cusPos);
@@ -255,7 +289,7 @@ public class SimpleFrg extends BaseFragment {
         ll_biaoq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    updatacolor(tv_biaoq,iv_biaoq,0);
+                    updatacolor(tv_biaoq, iv_biaoq, 0);
                     if (labellist != null && labellist.size() > 0) {
                         cusPos = 1;
                         selectPop(cusPos);
@@ -271,17 +305,24 @@ public class SimpleFrg extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                    updatacolor(tv_biaoqt,iv_biaoqt,0);//表示默认颜色
-                    if (labellist != null && labellist.size() > 0) {
-                        cusPos = 1;
-                        selectPop(cusPos);
-                    } else {
-                        getAcitivtyLabel(0);
-                    }
+                updatacolor(tv_biaoqt, iv_biaoqt, 0);//表示默认颜色
+                if (labellist != null && labellist.size() > 0) {
+                    cusPos = 1;
+                    selectPop(cusPos);
+                } else {
+                    getAcitivtyLabel(0);
+                }
 
 
             }
 
+        });
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);
+                getBanner();
+            }
         });
     }
 
@@ -412,8 +453,6 @@ public class SimpleFrg extends BaseFragment {
 //                animationDrawable.start();
 //                noMsg.setText("加载失败...");
                 String bannerList = aCache.getAsString("SimpleBanner");
-//                Gson gson=new Gson();
-                MyLogUtils.info(bannerList + "bannerlist是=====");
                 if (!TextUtils.isEmpty(bannerList)) {
                     List<LabelBannerInfo> bannerInfos = gson.fromJson(bannerList, new TypeToken<List<LabelBannerInfo>>() {
                     }.getType());
@@ -532,6 +571,7 @@ public class SimpleFrg extends BaseFragment {
             public void onError(int status, String errorMsg) {
                 lv_act.onPullUpRefreshComplete();
                 lv_act.onPullDownRefreshComplete();
+                load_view.loadComplete();
                 noList.setVisibility(View.GONE);
                 String strList = null;
                 if (TextUtils.equals(state, 0 + "")) {
@@ -561,6 +601,7 @@ public class SimpleFrg extends BaseFragment {
                 lv_act.onPullDownRefreshComplete();
                 list = response.getData().getRows();
                 noList.setVisibility(View.GONE);
+                load_view.loadComplete();
                 //获取到的list没有数据时
                 if (list.size() == 0) {
                     if (page == 1) {
