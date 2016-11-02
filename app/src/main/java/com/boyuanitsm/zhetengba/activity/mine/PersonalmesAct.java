@@ -506,7 +506,7 @@ public class PersonalmesAct extends BaseActivity {
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            UserInfo user = UserInfoDao.getUser();
+            user = UserInfoDao.getUser();
             MyLogUtils.degug(user.getPetName());
             if (user != null) {
                 if (user.getPetName() != null) {

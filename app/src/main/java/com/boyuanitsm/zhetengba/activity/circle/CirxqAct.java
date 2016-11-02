@@ -20,10 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.adapter.CirclexqListAdapter;
 import com.boyuanitsm.zhetengba.adapter.CirxqAdapter;
@@ -46,6 +48,7 @@ import com.boyuanitsm.zhetengba.view.MyRecyleview;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -102,8 +105,11 @@ public class CirxqAct extends BaseActivity {
     private Button bt_send;
     @ViewInject(R.id.load_view)
     private LoadingView load_view;
+    @ViewInject(R.id.rl_share)
+    private RelativeLayout rl_share;//分享按钮
     private int cusPos;
     private String cirId;
+    private String cirname;//用来分享的时候分享的theme
     @Override
     public void setLayout() {
         setContentView(R.layout.act_cirxq);
@@ -228,6 +234,7 @@ public class CirxqAct extends BaseActivity {
             IsInCircle=intenttype.getExtras().getInt("isincircle");
             if(IsInCircle==0){
                 //不在圈子里面
+                rl_share.setVisibility(View.GONE);
                 iv_fa.setVisibility(View.GONE);
                 isFabu=false;
                 rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
@@ -246,6 +253,7 @@ public class CirxqAct extends BaseActivity {
                 });
             }else if(IsInCircle==1){
                 //在圈子里面
+                rl_share.setVisibility(View.VISIBLE);
                 iv_fa.setVisibility(View.VISIBLE);
                 isFabu=true;
                 rl_jiaru.setVisibility(View.GONE);
@@ -258,6 +266,7 @@ public class CirxqAct extends BaseActivity {
 
         } else if(type==1){
             //从圈子管理进来,或者从子圈子frg进来（已经在圈子里面的）
+            rl_share.setVisibility(View.VISIBLE);
             iv_fa.setVisibility(View.VISIBLE);
             isFabu=true;
             qzzl.setEnabled(true);
@@ -298,13 +307,13 @@ public class CirxqAct extends BaseActivity {
                     List<CircleEntity> list = new ArrayList<CircleEntity>();
                     datas.get(cusPos).setCommentsList(list);
                     datas.get(cusPos).getCommentsList().add(entity);
-                }else {
+                } else {
                     datas.get(cusPos).getCommentsList().add(entity);
                 }
                 datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
-                if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts()+"")){
+                if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
                     datas.get(cusPos).setCommentCounts(datas.get(cusPos).getCommentCounts() + 1);
-                }else {
+                } else {
                     datas.get(cusPos).setCommentCounts(1);
                 }
                 if (xqAdapter == null) {
@@ -415,6 +424,7 @@ public class CirxqAct extends BaseActivity {
                 load_view.loadComplete();
                 circleEntity = response.getData();
                 if (circleEntity != null) {
+                    cirname = circleEntity.getCircleName().toString();
                     setCircle(circleEntity);
                 }
             }
@@ -505,10 +515,10 @@ public class CirxqAct extends BaseActivity {
 //                    progressDialog.dismiss();
 //                }
                 userList = response.getData().getRows();
-                adapter = new CirxqAdapter(CirxqAct.this, userList,isInCircle);
+                adapter = new CirxqAdapter(CirxqAct.this, userList, isInCircle);
                 rv_label.setAdapter(adapter);
                 if (isInCircle != 0) {
-                    isFabu=true;
+                    isFabu = true;
                     iv_fa.setVisibility(View.VISIBLE);
                     adapter.setOnItemClickListener(new CirxqAdapter.OnItemClickListener() {
                         @Override
@@ -559,6 +569,27 @@ public class CirxqAct extends BaseActivity {
         });
 
     }
+
+    @OnClick({R.id.rl_share})
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.rl_share:
+                Intent intent=new Intent();
+                intent.setClass(CirxqAct.this, ShareDialogAct.class);
+                intent.putExtra("type", 5);
+                intent.putExtra("cirname", cirname);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if(!TextUtils.isEmpty(cirname)){
+                    intent.putExtra("cirname", cirname);
+                }else {
+                    intent.putExtra("cirname", "折腾吧");
+                }
+                startActivity(intent);
+                break;
+        }
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
