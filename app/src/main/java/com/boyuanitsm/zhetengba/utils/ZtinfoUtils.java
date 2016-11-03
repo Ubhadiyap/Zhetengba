@@ -17,7 +17,6 @@ import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Surface;
@@ -26,10 +25,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -109,6 +106,9 @@ public class ZtinfoUtils {
        SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
         Long nowss =new Date().getTime();
         Long times = nowss - datess;
+        if(times>=60*1000*60*24&&times<60*1000*60*24*3){
+            return (times % (1000 * 60 * 60 * 24*3)) / (1000 * 60 * 60*24)+"天前";
+        }
         if(times >= 3600000 && times < 3600000 *24){ //一小时以上
             return (times % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)+"小时前";
         }else if(times >= 60000 && times < 3600000){//一分钟以上

@@ -31,6 +31,7 @@ public class ShareDialogAct extends BaseActivity {
     private String id;//需要拼接的id
     private String theme;//会友名称
     private String phone;
+    private String cirname;//圈子分享时候的名字
 
 
 
@@ -52,6 +53,7 @@ public class ShareDialogAct extends BaseActivity {
         type = getIntent().getExtras().getInt("type");//区分要分享的链接
         id=getIntent().getExtras().getString("id");//区分要拼接到链接里面的id
         theme=getIntent().getExtras().getString("activitytheme");
+        cirname=getIntent().getExtras().getString("cirname");
         if (type == 1) {//表示要分享的是活动
             codeUrl = IZtbUrl.SHARE_URL+"/share_1?id="+id+"&phone="+phone;//活动分享链接
 //            content = "我发布了，快来围观吧!";
@@ -70,9 +72,9 @@ public class ShareDialogAct extends BaseActivity {
             content = "我在折腾吧发布了一个“动态”，快来围观吧!";
             //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
         }
-        if(type==5){
-            codeUrl= IZtbUrl.SHARE_URL+"/circle?id="+id;//圈子动态
-            content="我在折腾吧发布了一个“圈子动态”，快来围观吧!";
+        if(type==5){//圈子分享
+            codeUrl= IZtbUrl.SHARE_URL+"/sharecontent";//圈子动态
+            content="我参加了"+"\""+cirname+"\""+"的圈子，大家快来加入吧";
         }
 
         Window window = getWindow();
