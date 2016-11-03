@@ -99,6 +99,8 @@
                 android:id="@+id/tv_talk"
                 android:layout_marginLeft="8dp"
                 android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:lineSpacingExtra="3dp"
                 android:paddingTop="8dp"
                 android:background="@drawable/stroker_radio"
                 android:layout_width="220dp"

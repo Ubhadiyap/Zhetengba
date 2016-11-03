@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -50,11 +51,12 @@ public class ZtinfoUtils {
 
 
     //使用String的split 方法
-    public static String[] convertStrToArray(String str){
+    public static String[] convertStrToArray(String str) {
         String[] strArray = null;
         strArray = str.split(","); //拆分字符为"," ,然后把结果交给数组strArray
         return strArray;
     }
+
     /**
      * 获取当前时间
      *
@@ -86,48 +88,53 @@ public class ZtinfoUtils {
      */
     @SuppressLint("SimpleDateFormat")
     public static String timeToDate2(long time) {
-        long diff=new Date().getTime()-time;//当前时间与获取到的时间比较
+        long diff = new Date().getTime() - time;//当前时间与获取到的时间比较
         SimpleDateFormat format;
-        MyLogUtils.degug("现在毫秒数："+new Date().getTime()+"，获取毫秒数："+time+"，相差毫秒数："+diff);
-        if (diff<86400000) {//小于1天
+        MyLogUtils.degug("现在毫秒数：" + new Date().getTime() + "，获取毫秒数：" + time + "，相差毫秒数：" + diff);
+        if (diff < 86400000) {//小于1天
             format = new SimpleDateFormat("HH:mm");
-        }else {
+        } else {
             format = new SimpleDateFormat("MM月dd日 HH:mm");
         }
         return format.format(new Date(time));
 
     }
+
     /**
      * 时间工具类
+     *
      * @param datess
      * @return
      */
-    public static  String  timeChange(Long datess){
-       SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
-        Long nowss =new Date().getTime();
-        Long times = nowss - datess;
-        if(times>=60*1000*60*24&&times<60*1000*60*24*3){
-            return (times % (1000 * 60 * 60 * 24*3)) / (1000 * 60 * 60*24)+"天前";
-        }
-        if(times >= 3600000 && times < 3600000 *24){ //一小时以上
-            return (times % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)+"小时前";
-        }else if(times >= 60000 && times < 3600000){//一分钟以上
-            return (times % (1000 * 60 * 60)) / (1000 * 60)+"分钟前";
-        }else if(times <60000){
-            return "刚刚";
-        }else {
-            return format.format(new Date(datess));
-        }
-
-    }
+//    public static  String  timeChange(Long datess){
+//        SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
+//        Long nowss =new Date().getTime();
+//        Long times = nowss - datess;
+////        String datestr = format.format(new Date(datess));
+//
+//        if(times>=60*1000*60*24&&times<60*1000*60*24*3){
+//            return (times % (1000 * 60 * 60 * 24*3)) / (1000 * 60 * 60*24)+"天前";
+//        }
+//        if(times >= 3600000 && times < 3600000 *24){ //一小时以上
+//            return (times % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)+"小时前";
+//        }else if(times >= 60000 && times < 3600000){//一分钟以上
+//            return (times % (1000 * 60 * 60)) / (1000 * 60)+"分钟前";
+//        }else if(times <60000){
+//            return "刚刚";
+//        }else {
+//            return format.format(new Date(datess));
+//        }
+//
+//    }
 
 
     /**
      * 格式化时间格式
+     *
      * @param date
      * @return
      */
-    public static String formatTime(String date){
+    public static String formatTime(String date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return format.format(new Date(date));
     }
@@ -161,10 +168,11 @@ public class ZtinfoUtils {
         Date strtodate = formatter.parse(strDate, pos);
         return strtodate;
     }
+
     /**
      * 获取新增一个月
-     * */
-    public static List<String> getMonthList(){
+     */
+    public static List<String> getMonthList() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         List<String> dateList = new ArrayList<>();
         Date date = new Date();
@@ -175,31 +183,34 @@ public class ZtinfoUtils {
 
         calendar.add(Calendar.MONTH, 1);
         dateList.add(formatter.format(calendar.getTime()));
-        return  dateList;
+        return dateList;
     }
+
     /**
      * 获取最近7/30天时间集合
+     *
      * @param
-     * */
-    public static List<String> getDateLists(int day){
+     */
+    public static List<String> getDateLists(int day) {
         List<String> lists = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date date=new Date();//取时间,今天
-        Calendar   calendar   =   new GregorianCalendar();
-        for(int i=0;i<day;i++){
+        Date date = new Date();//取时间,今天
+        Calendar calendar = new GregorianCalendar();
+        for (int i = 0; i < day; i++) {
             calendar.setTime(date);
-            calendar.add(calendar.DATE,1);//把日期往后增加一天.整数往后推,负数往前移动
-            date=calendar.getTime();   //这个时间就是日期往后推一天的结果
+            calendar.add(calendar.DATE, 1);//把日期往后增加一天.整数往后推,负数往前移动
+            date = calendar.getTime();   //这个时间就是日期往后推一天的结果
             String daytime = format.format(date);
             calendar.clear();
             lists.add(daytime);
         }
         return lists;
     }
+
     /**
      * 根据两个时间获取两张中间时间
-     * */
-    public static List<String> getTimeList(String starTime,String endTime){
+     */
+    public static List<String> getTimeList(String starTime, String endTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
@@ -220,6 +231,7 @@ public class ZtinfoUtils {
         }
         return result;
     }
+
     /**
      * 获得手机唯一IMEI
      */
@@ -709,12 +721,13 @@ public class ZtinfoUtils {
 
     /**
      * 提供精确的加法运算。
+     *
      * @param v1 被加数
      * @param v2 加数
      * @return 两个参数的和
      */
 
-    public static double add(double v1,double v2){
+    public static double add(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.add(b2).doubleValue();
@@ -722,11 +735,12 @@ public class ZtinfoUtils {
 
     /**
      * 提供精确的减法运算。
+     *
      * @param v1 被减数
      * @param v2 减数
      * @return 两个参数的差
      */
-    public static double sub(double v1,double v2){
+    public static double sub(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.subtract(b2).doubleValue();
@@ -734,11 +748,12 @@ public class ZtinfoUtils {
 
     /**
      * 检查手机上是否安装了指定的软件
+     *
      * @param context
      * @param packageName：应用包名
      * @return
      */
-    public static boolean isAvilible(Context context, String packageName){
+    public static boolean isAvilible(Context context, String packageName) {
         //获取packagemanager
         final PackageManager packageManager = context.getPackageManager();
         //获取所有已安装程序的包信息
@@ -746,8 +761,8 @@ public class ZtinfoUtils {
         //用于存储所有已安装程序的包名
         List<String> packageNames = new ArrayList<String>();
         //从pinfo中将包名字逐一取出，压入pName list中
-        if(packageInfos != null){
-            for(int i = 0; i < packageInfos.size(); i++){
+        if (packageInfos != null) {
+            for (int i = 0; i < packageInfos.size(); i++) {
                 String packName = packageInfos.get(i).packageName;
                 packageNames.add(packName);
             }
@@ -758,20 +773,23 @@ public class ZtinfoUtils {
 
     /**
      * 判断输入是否是中文
+     *
      * @param input
      * @return
      */
-    public static boolean isInputChinese(String input){
+    public static boolean isInputChinese(String input) {
         Pattern pattern = Pattern.compile("^[\u4e00-\u9fa5]*$");
         Matcher matcher = pattern.matcher(input);
-        return  matcher.matches();//true全部为汉字，否则是false
+        return matcher.matches();//true全部为汉字，否则是false
     }
+
     /**
      * 验证手机号是否正确
+     *
      * @param mobiles
      * @return
      */
-    public static boolean isMobileNO(String mobiles){
+    public static boolean isMobileNO(String mobiles) {
         Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
         Matcher m = p.matcher(mobiles);
         return m.matches();
@@ -779,17 +797,63 @@ public class ZtinfoUtils {
 
     /**
      * 判断邮箱是否合法
+     *
      * @param email
      * @return
      */
-    public static boolean isEmail(String email){
-        if (null==email || "".equals(email))
+    public static boolean isEmail(String email) {
+        if (null == email || "".equals(email))
             return false;
         //Pattern p = Pattern.compile("\\w+@(\\w+.)+[a-z]{2,3}"); //简单匹配
-        Pattern p =  Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");//复杂匹配
+        Pattern p = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");//复杂匹配
         Matcher m = p.matcher(email);
         return m.matches();
     }
 
+    public static String timeChange(long timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = null;
+        try {
+            java.util.Date currentdate = new java.util.Date();// 当前时间
+            long i = (currentdate.getTime() / 1000 - timestamp) / (60);
+            Timestamp now = new Timestamp(System.currentTimeMillis());// 获取系统当前时间
+            String str = sdf.format(new Timestamp(timestamp));
+            time = str.substring(11, 16);
+            String year = str.substring(0, 4);
+            String month = str.substring(5, 7);
+            String day = str.substring(8, 10);
+            java.util.Date d = new java.util.Date();
+            String nowstr = sdf.format(d);
+            String nowday = nowstr.substring(8, 10);
+            long times=new Date().getTime()-timestamp;
+            int temp = Integer.parseInt(nowday) - Integer.parseInt(day);
+            switch (temp) {
+                case 0:
+                    if (times >= 60000 && times < 3600000) {//一分钟以上
+                        time= (times % (1000 * 60 * 60)) / (1000 * 60) + "分钟前";
+                    } else if (times < 60000) {
+                        time="刚刚";
+                    } else {
+                        time = "今天"+time;
+                    }
+                    break;
+                case 1:
+                    time = "昨天" + time;
+                    break;
+                case 2:
+                    time = "前天" + time;
+                    break;
+                default:
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(month).append("月");
+                    sb.append(day).append(" 日");
+                    time = sb.toString()+time;
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return time;
+    }
 
 }

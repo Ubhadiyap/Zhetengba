@@ -96,20 +96,9 @@ public class NewFriendsMsgActivity extends BaseActivity {
 					case 0:
 						String from = msgs.get(position).getFrom();
 						if (!TextUtils.isEmpty(from)) {
-//							final List<InviteMessage> msgs = dao.getMessagesList();
-//							if (msgs != null && msgs.size() > 0) {
-//								SortClass sort = new SortClass();
-//								Collections.sort(msgs, sort);
-//							}
 							adapter.remove(msgs.get(position));
 							dao.deleteMessage(from);
 							//设置adapter
-//							if (adapter == null) {
-//								adapter = new NewFriendsMsgAdapter(NewFriendsMsgActivity.this, 1, msgs);
-//								listView.setAdapter(adapter);
-//							} else {
-//								adapter.update(NewFriendsMsgActivity.this);
-//							}
 
 						}
 						break;
