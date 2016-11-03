@@ -216,22 +216,22 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     datas.clear();
                 }
                 datas.addAll(circleEntityList);
-                for (int j = 0; j < datas.size(); j++) {
-                    final List<ImageInfo> itemList = new ArrayList<>();
-                    //将图片地址转化成数组
-                    if (!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
-                        final String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
-                        for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(urlList[i], 120, 120));
-                        }
-                    }
-                    datalist.add(itemList);
-                }
+//                for (int j = 0; j < datas.size(); j++) {
+//                    final List<ImageInfo> itemList = new ArrayList<>();
+//                    //将图片地址转化成数组
+//                    if (!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
+//                        final String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
+//                        for (int i = 0; i < urlList.length; i++) {
+//                            itemList.add(new ImageInfo(urlList[i], 120, 120));
+//                        }
+//                    }
+//                    datalist.add(itemList);
+//                }
                 if (adapter == null) {
-                    adapter = new CircleAdapter(CircleAct.this, datalist, datas);
+                    adapter = new CircleAdapter(CircleAct.this, datas);
                     lv_cir.getRefreshableView().setAdapter(adapter);
                 } else {
-                    adapter.notifyChange(datalist, datas);
+                    adapter.notifyChange( datas);
                 }
                 adapter.setOnItemClickListener(new CircleAdapter.OnItemClickListener() {
                     @Override
@@ -323,10 +323,10 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     datas.get(cusPos).setCommentCounts(1);
                 }
                 if (adapter == null) {
-                    adapter = new CircleAdapter(CircleAct.this, datalist, datas);
+                    adapter = new CircleAdapter(CircleAct.this, datas);
                     lv_cir.getRefreshableView().setAdapter(adapter);
                 } else {
-                    adapter.notifyChange(datalist, datas);
+                    adapter.notifyChange(datas);
                 }
                 MyToastUtils.showShortToast(getApplicationContext(), response.getMessage());
                 bt_send.setEnabled(true);
@@ -454,10 +454,10 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                         datalist.remove(position);
                     }
                     if (adapter == null) {
-                        adapter = new CircleAdapter(CircleAct.this, datalist, datas);
+                        adapter = new CircleAdapter(CircleAct.this, datas);
                         lv_cir.getRefreshableView().setAdapter(adapter);
                     } else {
-                        adapter.notifyChange(datalist, datas);
+                        adapter.notifyChange(datas);
                     }
                 }
 

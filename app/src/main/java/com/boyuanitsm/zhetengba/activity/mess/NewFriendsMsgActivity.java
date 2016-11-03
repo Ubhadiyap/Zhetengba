@@ -14,7 +14,11 @@
 package com.boyuanitsm.zhetengba.activity.mess;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -23,7 +27,13 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
+import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenu;
+import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuCreator;
+import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuItem;
+import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuListView;
 import com.google.android.gms.plus.model.people.Person;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -37,7 +47,8 @@ import java.util.List;
  */
 public class NewFriendsMsgActivity extends BaseActivity {
 	@ViewInject(R.id.list)
-	private ListView listView;
+	private SwipeMenuListView listView;
+	private NewFriendsMsgAdapter adapter;
 
 	@Override
 	public void setLayout() {
@@ -47,18 +58,67 @@ public class NewFriendsMsgActivity extends BaseActivity {
 	@Override
 	public void init(Bundle savedInstanceState) {
 		setTopTitle("新的好友");
-		InviteMessgeDao dao = new InviteMessgeDao(this);
-		List<InviteMessage> msgs = dao.getMessagesList();
+		final InviteMessgeDao dao = new InviteMessgeDao(this);
+		final List<InviteMessage> msgs = dao.getMessagesList();
 		if (msgs!=null&&msgs.size()>0){
-//			Collections.reverse(msgs);
 			SortClass sort = new SortClass();
 			Collections.sort(msgs, sort);
 		}
 		//设置adapter
-		NewFriendsMsgAdapter adapter = new NewFriendsMsgAdapter(this, 1, msgs);
+		adapter = new NewFriendsMsgAdapter(this, 1, msgs);
 		listView.setAdapter(adapter);
 		dao.saveUnreadMessageCount(0);
 		sendBroadcast(new Intent(MessFrg.UPDATE_CONTRACT));
+		SwipeMenuCreator creator = new SwipeMenuCreator() {
+			@Override
+			public void create(SwipeMenu menu) {
+				switch (menu.getViewType()) {
+					case 0:
+						SwipeMenuItem deleteItem = new SwipeMenuItem(
+								getApplicationContext());
+						deleteItem.setBackground(R.color.delete_red);
+						deleteItem.setWidth(ZhetebaUtils.dip2px(NewFriendsMsgActivity.this, 80));
+						deleteItem.setTitle("删除");
+						deleteItem.setTitleSize(14);
+						deleteItem.setTitleColor(Color.WHITE);
+						menu.addMenuItem(deleteItem);
+						break;
+				}
+
+			}
+
+		};
+		listView.setMenuCreator(creator);
+		listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+				switch (index) {
+					case 0:
+						String from = msgs.get(position).getFrom();
+						if (!TextUtils.isEmpty(from)) {
+//							final List<InviteMessage> msgs = dao.getMessagesList();
+//							if (msgs != null && msgs.size() > 0) {
+//								SortClass sort = new SortClass();
+//								Collections.sort(msgs, sort);
+//							}
+							adapter.remove(msgs.get(position));
+							dao.deleteMessage(from);
+							//设置adapter
+//							if (adapter == null) {
+//								adapter = new NewFriendsMsgAdapter(NewFriendsMsgActivity.this, 1, msgs);
+//								listView.setAdapter(adapter);
+//							} else {
+//								adapter.update(NewFriendsMsgActivity.this);
+//							}
+
+						}
+						break;
+				}
+				// false : close the menu; true : not close the menu
+				return false;
+			}
+		});
+		listView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
 	}
 	/**
 	 * 时间降序

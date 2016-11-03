@@ -15,32 +15,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.boyuanitsm.zhetengba.ConstantValue;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
-import com.boyuanitsm.zhetengba.adapter.ChaTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.CircleTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.PicGdAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
-import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.EmojUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
-import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.LoadingView;
@@ -48,7 +40,6 @@ import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
-import com.leaf.library.widget.MyListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -260,90 +251,91 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
 
     private void initDate(CircleEntity circleEntity) {
         dataList = new ArrayList<>();
-        final List<ImageInfo> singleList=new ArrayList<>();
         //将图片地址转化成数组
         if(!TextUtils.isEmpty(circleEntity.getTalkImage())) {
-            String[] urlList = ZtinfoUtils.convertStrToArray(circleEntity.getTalkImage());
-            for (int i = 0; i < urlList.length; i++) {
-                singleList.add(new ImageInfo(urlList[i], 1624, 914));
-            }
-        }
-        dataList.add(singleList);
-        llphoto.setVisibility(View.VISIBLE);
-        if (singleList.isEmpty() || singleList.isEmpty()) {
-            llphoto.setVisibility(View.GONE);
-            ll_two.setVisibility(View.GONE);
-            iv_oneimage.setVisibility(View.GONE);
-            iv_ch_image.setVisibility(View.GONE);
-        } else if (singleList.size() == 1) {
-            ll_two.setVisibility(View.GONE);
-            iv_ch_image.setVisibility(View.GONE);
-            iv_oneimage.setVisibility(View.VISIBLE);
+          final  String[] urlList = ZtinfoUtils.convertStrToArray(circleEntity.getTalkImage());
+            llphoto.setVisibility(View.VISIBLE);
+            if (urlList.length == 1) {
+                ll_two.setVisibility(View.GONE);
+                iv_ch_image.setVisibility(View.GONE);
+                iv_oneimage.setVisibility(View.VISIBLE);
 //            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(singleList.get(0).getUrl()),optionsImag);
 //            singleList.get(0).setWidth(120);
 //            singleList.get(0).setHeight(120);
 //            LayoutHelperUtil.handlerOneImage(CircleTextAct.this, singleList.get(0), iv_oneimage);
-ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()),iv_oneimage,optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[0]),iv_oneimage,optionsImag);
 //            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), iv_oneimage);
 
-            iv_oneimage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 0);
-                    dialog.show();
-                }
-            });
-        } else if (singleList.size() == 4) {
-            iv_ch_image.setVisibility(View.GONE);
-            iv_oneimage.setVisibility(View.GONE);
-            ll_two.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(0).getUrl()), iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(1).getUrl()), iv_two_two, optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(2).getUrl()), iv_two_three, optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(singleList.get(3).getUrl()), iv_two_four, optionsImag);
-            iv_two_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 0);
-                    dialog.show();
-                }
-            });
+                iv_oneimage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, urlList, 0);
+                        dialog.show();
+                    }
+                });
+            } else if (urlList.length == 4) {
+                iv_ch_image.setVisibility(View.GONE);
+                iv_oneimage.setVisibility(View.GONE);
+                ll_two.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[0]), iv_two_one, optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[1]), iv_two_two, optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[2]), iv_two_three, optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[3]), iv_two_four, optionsImag);
+                iv_two_one.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, urlList, 0);
+                        dialog.show();
+                    }
+                });
 
-            iv_two_two.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 1);
-                    dialog.show();
-                }
-            });
+                iv_two_two.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, urlList, 1);
+                        dialog.show();
+                    }
+                });
 
-            iv_two_three.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 2);
-                    dialog.show();
-                }
-            });
+                iv_two_three.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, urlList, 2);
+                        dialog.show();
+                    }
+                });
 
-            iv_two_four.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, singleList, 3);
-                    dialog.show();
-                }
-            });
+                iv_two_four.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(CircleTextAct.this, urlList, 3);
+                        dialog.show();
+                    }
+                });
 
-        } else {
-            iv_oneimage.setVisibility(View.GONE);
+            } else {
+                iv_oneimage.setVisibility(View.GONE);
+                ll_two.setVisibility(View.GONE);
+                iv_ch_image.setVisibility(View.VISIBLE);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(CircleTextAct.this, 255), ActionBar.LayoutParams.WRAP_CONTENT);
+                iv_ch_image.setLayoutParams(params);
+                iv_ch_image.setNumColumns(3);
+                PicGdAdapter adapter = new PicGdAdapter(CircleTextAct.this, urlList);
+                iv_ch_image.setAdapter(adapter);
+
+            }
+        }else {
+            llphoto.setVisibility(View.GONE);
             ll_two.setVisibility(View.GONE);
-            iv_ch_image.setVisibility(View.VISIBLE);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(CircleTextAct.this, 255), ActionBar.LayoutParams.WRAP_CONTENT);
-            iv_ch_image.setLayoutParams(params);
-            iv_ch_image.setNumColumns(3);
-            PicGdAdapter adapter = new PicGdAdapter(CircleTextAct.this, singleList);
-            iv_ch_image.setAdapter(adapter);
-
+            iv_oneimage.setVisibility(View.GONE);
+            iv_ch_image.setVisibility(View.GONE);
         }
+//        if (singleList.isEmpty() || singleList.isEmpty()) {
+//            llphoto.setVisibility(View.GONE);
+//            ll_two.setVisibility(View.GONE);
+//            iv_oneimage.setVisibility(View.GONE);
+//            iv_ch_image.setVisibility(View.GONE);
+//        } else
     }
 
     @OnClick({R.id.iv_chanel_comment})

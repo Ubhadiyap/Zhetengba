@@ -409,9 +409,6 @@
             android:screenOrientation="portrait"></activity>
 
         <!--消息里面个人主页界面-->
-        <activity
-            android:name=".activity.mess.PerpageAct"
-            android:screenOrientation="portrait"></activity>
         <!--添加图片选择界面-->
         <activity
             android:name=".activity.photo.PicSelectActivity"

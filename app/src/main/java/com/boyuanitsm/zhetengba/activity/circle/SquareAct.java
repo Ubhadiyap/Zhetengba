@@ -230,10 +230,10 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                     datas.get(cusPos).setCommentCounts(1);
                 }
                 if (adapter == null) {
-                    adapter = new ChanAdapter(SquareAct.this, datalist, datas);
+                    adapter = new ChanAdapter(SquareAct.this,datas);
                     vp_chan.getRefreshableView().setAdapter(adapter);
                 } else {
-                    adapter.notifyChange(datalist, datas);
+                    adapter.notifyChange(datas);
                 }
                 MyToastUtils.showShortToast(getApplicationContext(),response.getMessage());
                 bt_send.setEnabled(true);
@@ -307,22 +307,11 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                     datas.clear();
                 }
                 datas.addAll(channelTalkEntityList);
-                for (int j = 0; j < datas.size(); j++) {
-                    List<ImageInfo> itemList = new ArrayList<>();
-                    //将图片地址转化成数组
-                    if (!TextUtils.isEmpty(datas.get(j).getChannelImage())) {
-                        String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getChannelImage());
-                        for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(urlList[i], 120, 120));
-                        }
-                    }
-                    datalist.add(itemList);
-                }
                 if (adapter == null) {
-                    adapter = new ChanAdapter(SquareAct.this, datalist, datas);
+                    adapter = new ChanAdapter(SquareAct.this,datas);
                     vp_chan.getRefreshableView().setAdapter(adapter);
                 } else {
-                    adapter.notifyChange(datalist, datas);
+                    adapter.notifyChange( datas);
                 }
                 adapter.setOnItemClickListener(new ChanAdapter.OnItemClickListener() {
                     @Override
@@ -365,10 +354,10 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                         datalist.remove(position);
                     }
                     if (adapter == null) {
-                        adapter = new ChanAdapter(SquareAct.this, datalist, datas);
+                        adapter = new ChanAdapter(SquareAct.this,datas);
                         vp_chan.getRefreshableView().setAdapter(adapter);
                     } else {
-                        adapter.notifyChange(datalist, datas);
+                        adapter.notifyChange(datas);
                     }
                 }
             } else {

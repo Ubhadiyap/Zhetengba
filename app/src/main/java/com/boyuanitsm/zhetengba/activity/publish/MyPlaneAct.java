@@ -130,22 +130,11 @@ public class MyPlaneAct extends BaseActivity {
                     datas.clear();
                 }
                 datas.addAll(list);
-                for (int j=0;j<datas.size();j++) {
-                    List<ImageInfo> itemList=new ArrayList<>();
-                    //将图片地址转化成数组
-                    if(!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
-                        String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
-                        for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(urlList[i], 1624, 914));
-                        }
-                    }
-                    datalist.add(itemList);
-                }
                 if (adapter==null){
-                    adapter=new MyPlaneAdapter(MyPlaneAct.this,datalist,datas);
+                    adapter=new MyPlaneAdapter(MyPlaneAct.this,datas);
                     lv_my_plane.getRefreshableView().setAdapter(adapter);
                 }else {
-                    adapter.notifyChange(datalist,datas);
+                    adapter.notifyChange(datas);
                 }
 
             }

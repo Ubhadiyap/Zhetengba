@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class PicShowDialog extends Dialog {
     private Context context;
-    private List<ImageInfo> imageInfos;
+    private String[] imageInfos;
     private PhotoView pv;
     private MyViewPager vp;
     private List<View> views = new ArrayList<View>();
@@ -67,7 +67,7 @@ public class PicShowDialog extends Dialog {
     }
 
 
-    public PicShowDialog(Context context, List<ImageInfo> imageInfos, int position) {
+    public PicShowDialog(Context context, String[] imageInfos, int position) {
         this(context, R.style.Pic_Dialog);
         this.imageInfos = imageInfos;
         this.position = position;
@@ -143,10 +143,10 @@ public class PicShowDialog extends Dialog {
     private void initPoint() {
         views.clear();
         ll_point.removeAllViews();
-        if (imageInfos.size()==1){
+        if (imageInfos.length==1){
             ll_point.setVisibility(View.GONE);
         }else {
-            for (int i = 0; i < imageInfos.size(); i++) {
+            for (int i = 0; i < imageInfos.length; i++) {
                 View view = new View(context);
                 paramsL.setMargins(ZhetebaUtils.dip2px(context, 5), ZhetebaUtils.dip2px(context, 2), 0, ZhetebaUtils.dip2px(context, 5));
                 view.setLayoutParams(paramsL);
@@ -168,7 +168,7 @@ public class PicShowDialog extends Dialog {
 
         @Override
         public int getCount() {
-            return imageInfos.size();
+            return imageInfos.length;
         }
 
         @Override
@@ -180,7 +180,7 @@ public class PicShowDialog extends Dialog {
         public Object instantiateItem(ViewGroup container, final int position) {
             View view =View.inflate(context, R.layout.item_pic_show, null);
             final PhotoView photoView = (PhotoView) view.findViewById(R.id.pic_pv);
-            ImageLoader.getInstance().displayImage(Uitls.imageBigFullUrl(imageInfos.get(position).getUrl()), photoView, optionsImag, new ImageLoadingListener() {
+            ImageLoader.getInstance().displayImage(Uitls.imageBigFullUrl(imageInfos[position]), photoView, optionsImag, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String s, View view) {
                     mArrowImageView.setVisibility(View.VISIBLE);

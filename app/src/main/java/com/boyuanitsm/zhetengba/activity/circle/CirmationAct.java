@@ -6,17 +6,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.R;
-import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -150,7 +146,7 @@ public class CirmationAct extends BaseActivity {
                 }
                 finish();
                 sendBroadcast(new Intent(CircleglAct.INTENTFLAG));
-                sendBroadcast(new Intent(CirFrg.ALLTALKS));
+                sendBroadcast(new Intent(CircleAct.ALLTALKS));
                 sendBroadcast(new Intent(CirxqAct.FINISH));
                 sendBroadcast(new Intent(SerchCirAct.CIRSERCH));
             }

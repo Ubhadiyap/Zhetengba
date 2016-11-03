@@ -473,7 +473,9 @@ public class MainAct extends BaseActivity {
     }
 
     private void unregisterBroadcastReceiver() {
-        broadcastManager.unregisterReceiver(broadcastReceiver);
+        if (broadcastReceiver!=null){
+            broadcastManager.unregisterReceiver(broadcastReceiver);
+        }
     }
 
     @Override

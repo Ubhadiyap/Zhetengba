@@ -24,7 +24,7 @@ import java.util.List;
  * Created by xiaoke on 2016/5/18.
  */
 public class PicGdAdapter extends BaseAdapter {
-    private List<ImageInfo> list;
+    private String[] list;
     private Context context;
     private int position;
 
@@ -35,23 +35,23 @@ public class PicGdAdapter extends BaseAdapter {
             .showImageOnFail(R.mipmap.tum).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-    public PicGdAdapter(Context context,List<ImageInfo> list){
+    public PicGdAdapter(Context context,String[] list){
         this.context=context;
         this.list=list;
     }
-    public  PicGdAdapter(Context context,List<ImageInfo> list,int position){
+    public  PicGdAdapter(Context context,String[] list,int position){
         this.context=context;
         this.list=list;
         this.position=position;
     }
     @Override
     public int getCount() {
-        return list.size();
+        return list.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return list[position];
     }
 
     @Override
@@ -63,7 +63,7 @@ public class PicGdAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
        convertView= View.inflate(context, R.layout.item_pic_gd, null);
         CustomImageView iv_chanel_pic = (CustomImageView) convertView.findViewById(R.id.iv_chanel_pic);
-        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUrl()),iv_chanel_pic,optionsImag);
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list[position]),iv_chanel_pic,optionsImag);
         iv_chanel_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

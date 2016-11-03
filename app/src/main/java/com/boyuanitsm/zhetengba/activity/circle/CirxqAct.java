@@ -234,7 +234,7 @@ public class CirxqAct extends BaseActivity {
                 qzzl.setEnabled(false);//圈子资料不可点击
                 getCircleDetail(circleId);
                 getCircleMembers(circleId,0);
-                xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
+                xqAdapter=new CirclexqListAdapter(CirxqAct.this,datas);
                 lv_cir.getRefreshableView().setAdapter(xqAdapter);
                 isFresh(false);
                 rl_jiaru.setOnClickListener(new View.OnClickListener() {
@@ -308,10 +308,10 @@ public class CirxqAct extends BaseActivity {
                     datas.get(cusPos).setCommentCounts(1);
                 }
                 if (xqAdapter == null) {
-                    xqAdapter = new CirclexqListAdapter(CirxqAct.this, datalist, datas);
+                    xqAdapter = new CirclexqListAdapter(CirxqAct.this,datas);
                     lv_cir.getRefreshableView().setAdapter(xqAdapter);
                 } else {
-                    xqAdapter.notifyChange(datalist, datas);
+                    xqAdapter.notifyChange( datas);
                 }
                 MyToastUtils.showShortToast(getApplicationContext(), response.getMessage());
                 bt_send.setEnabled(true);
@@ -467,7 +467,7 @@ public class CirxqAct extends BaseActivity {
                     rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
                     qzzl.setEnabled(false);
                     getCircleMembers(circleId, 0);
-                    xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
+                    xqAdapter=new CirclexqListAdapter(CirxqAct.this,datas);
                     lv_cir.getRefreshableView().setAdapter(xqAdapter);
                     isFresh(false);
                     rl_jiaru.setOnClickListener(new View.OnClickListener() {
@@ -604,22 +604,11 @@ public class CirxqAct extends BaseActivity {
                     datas.clear();
                 }
                 datas.addAll(circleEntityList);
-                for (int j=0;j<datas.size();j++) {
-                    List<ImageInfo> itemList=new ArrayList<>();
-                    //将图片地址转化成数组
-                    if(!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
-                        String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
-                        for (int i = 0; i < urlList.length; i++) {
-                            itemList.add(new ImageInfo(urlList[i], 120, 120));
-                        }
-                    }
-                    datalist.add(itemList);
-                }
                 if(xqAdapter==null) {
-                    xqAdapter=new CirclexqListAdapter(CirxqAct.this,datalist,datas);
+                    xqAdapter=new CirclexqListAdapter(CirxqAct.this,datas);
                     lv_cir.getRefreshableView().setAdapter(xqAdapter);
                 }else {
-                    xqAdapter.notifyChange(datalist,datas);
+                    xqAdapter.notifyChange(datas);
                 }
                 xqAdapter.setOnItemClickListener(new CirclexqListAdapter.OnItemClickListener2() {
                     @Override

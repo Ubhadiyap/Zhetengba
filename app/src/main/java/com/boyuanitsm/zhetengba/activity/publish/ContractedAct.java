@@ -159,11 +159,14 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             gv_tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ActivityLabel activityLabel = list.get(position);
-                    simpleInfo.setLabelId(activityLabel.getId());
-                    simpleInfo.setIcon(activityLabel.getIcon());
-                    adapter.setSeclection(position);
-                    adapter.notifyDataSetChanged();
+                    if (list != null&&list.size()>0) {
+                        ActivityLabel activityLabel = list.get(position);
+                        simpleInfo.setLabelId(activityLabel.getId());
+                        simpleInfo.setIcon(activityLabel.getIcon());
+                        adapter.setSeclection(position);
+                        adapter.notifyDataSetChanged();
+                    }
+
                 }
             });
         }

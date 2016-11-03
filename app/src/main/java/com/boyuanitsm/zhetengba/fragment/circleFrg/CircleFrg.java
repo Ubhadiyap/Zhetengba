@@ -44,8 +44,6 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
     private TextView iv_new2;
     private View view;
     private FragmentManager childFragmentManager;
-    private ChanelFrg chanelFrg;
-    private CirFrg cirFrg;
     private boolean tag = true;
     private RadioButton rb_chanel;
     private RadioButton rb_circle;

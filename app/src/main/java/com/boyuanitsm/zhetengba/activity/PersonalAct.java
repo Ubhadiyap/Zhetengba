@@ -492,46 +492,46 @@ public class PersonalAct extends BaseActivity{
      * 点击button后选择显示的frg
      */
     private void setSelect(int position, List<UserInfo> userEntity, List<SimpleInfo> scheduleEntity, List<CircleEntity> circleTalkEntity) {
-        if (circleTalkEntity!=null&&circleTalkEntity.size()>0){
-            for (int j=0;j<circleTalkEntity.size();j++) {
-                List<ImageInfo> itemList=new ArrayList<>();
-                //将图片地址转化成数组
-                if(!TextUtils.isEmpty(circleTalkEntity.get(j).getTalkImage())) {
-                    String[] urlList = ZtinfoUtils.convertStrToArray(circleTalkEntity.get(j).getTalkImage());
-                    for (int i = 0; i < urlList.length; i++) {
-                        itemList.add(new ImageInfo(urlList[i], 120, 120));
-                    }
-                }
-                datalist.add(itemList);
-            }
-        }
+//        if (circleTalkEntity!=null&&circleTalkEntity.size()>0){
+//            for (int j=0;j<circleTalkEntity.size();j++) {
+//                List<ImageInfo> itemList=new ArrayList<>();
+//                //将图片地址转化成数组
+//                if(!TextUtils.isEmpty(circleTalkEntity.get(j).getTalkImage())) {
+//                    String[] urlList = ZtinfoUtils.convertStrToArray(circleTalkEntity.get(j).getTalkImage());
+//                    for (int i = 0; i < urlList.length; i++) {
+//                        itemList.add(new ImageInfo(urlList[i], 120, 120));
+//                    }
+//                }
+//                datalist.add(itemList);
+//            }
+//        }
         switch (position) {
             case 0://档期frg
                 setTab(0);
                     if (adapter==null){
-                        adapter=new TestAdapter(PersonalAct.this,userEntity,scheduleEntity,circleTalkEntity,0,datalist);
+                        adapter=new TestAdapter(PersonalAct.this,userEntity,scheduleEntity,circleTalkEntity,0);
                         test_lv.getRefreshableView().setAdapter(adapter);
                     }else {
-                        adapter.updata(userEntity,scheduleEntity,circleTalkEntity,0,datalist);
+                        adapter.updata(userEntity,scheduleEntity,circleTalkEntity,0);
                     }
 
                 break;
             case 1://圈子动态frg
                 setTab(1);
                 if (adapter==null){
-                    adapter=new TestAdapter(PersonalAct.this,userEntity,scheduleEntity,circleTalkEntity,1,datalist);
+                    adapter=new TestAdapter(PersonalAct.this,userEntity,scheduleEntity,circleTalkEntity,1);
                     test_lv.getRefreshableView().setAdapter(adapter);
                 }else {
-                    adapter.updata(userEntity,scheduleEntity,circleTalkEntity,1,datalist);
+                    adapter.updata(userEntity,scheduleEntity,circleTalkEntity,1);
                 }
                 break;
             case 2:
                 setTab(0);
                 if (adapter==null){
-                    adapter=new TestAdapter(PersonalAct.this,userEntity,scheduleEntity,circleTalkEntity,2,datalist);
+                    adapter=new TestAdapter(PersonalAct.this,userEntity,scheduleEntity,circleTalkEntity,2);
                     test_lv.getRefreshableView().setAdapter(adapter);
                 }else {
-                    adapter.updata(userEntity,scheduleEntity,circleTalkEntity,2,datalist);
+                    adapter.updata(userEntity,scheduleEntity,circleTalkEntity,2);
                 }
 
         }

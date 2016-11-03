@@ -67,20 +67,14 @@ public class MyPlaneAdapter extends BaseAdapter {
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-    public MyPlaneAdapter(Context context, List<List<ImageInfo>> dateList) {
+    public MyPlaneAdapter(Context context, List<CircleEntity> list) {
         this.context = context;
-        this.dateList = dateList;
-
-    }
-
-    public MyPlaneAdapter(Context context, List<List<ImageInfo>> dateList, List<CircleEntity> list) {
-        this.context = context;
-        this.dateList = dateList;
+//        this.dateList = dateList;
         this.list = list;
     }
 
-    public void notifyChange(List<List<ImageInfo>> dateList, List<CircleEntity> list) {
-        this.dateList = dateList;
+    public void notifyChange(List<CircleEntity> list) {
+//        this.dateList = dateList;
         this.list = list;
         notifyDataSetChanged();
     }
@@ -93,7 +87,7 @@ public class MyPlaneAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return list.get(position);
     }
 
     @Override
@@ -104,7 +98,7 @@ public class MyPlaneAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
-        final List<ImageInfo> itemList = dateList.get(position);
+//        final List<ImageInfo> itemList = dateList.get(position);
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -138,78 +132,90 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
             convertView.setTag(viewHolder);
         }
-        if (itemList.isEmpty()) {
-//            viewHolder.llphoto.setVisibility(View.GONE);
-            viewHolder.iv_ch_image.setVisibility(View.GONE);
-            viewHolder.iv_oneimage.setVisibility(View.GONE);
-            viewHolder.ll_two.setVisibility(View.GONE);
-        } else if (itemList.size() == 1) {
-            viewHolder.llphoto.setVisibility(View.VISIBLE);
-            viewHolder.iv_ch_image.setVisibility(View.GONE);
-            viewHolder.ll_two.setVisibility(View.GONE);
-            viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-            itemList.get(0).setWidth(120);
-            itemList.get(0).setHeight(120);
-            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
-            viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
-                    dialog.show();
-                }
-            });
-        } else if (itemList.size() == 4) {
-            viewHolder.llphoto.setVisibility(View.VISIBLE);
-            viewHolder.iv_ch_image.setVisibility(View.GONE);
-            viewHolder.iv_oneimage.setVisibility(View.GONE);
-            viewHolder.ll_two.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(1).getUrl()), viewHolder.iv_two_two, optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(2).getUrl()), viewHolder.iv_two_three, optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(3).getUrl()), viewHolder.iv_two_four, optionsImag);
-            viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
-                    dialog.show();
-                }
-            });
 
-            viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 1);
-                    dialog.show();
-                }
-            });
+        if (!TextUtils.isEmpty(list.get(position).getTalkImage())) {
+            final String[] urlList = ZtinfoUtils.convertStrToArray(list.get(position).getTalkImage());
+            if (urlList.length == 1) {
+                viewHolder.llphoto.setVisibility(View.VISIBLE);
+                viewHolder.iv_ch_image.setVisibility(View.GONE);
+                viewHolder.ll_two.setVisibility(View.GONE);
+                viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
+//                itemList.get(0).setWidth(120);
+//                itemList.get(0).setHeight(120);
+//                LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[0]), viewHolder.iv_oneimage, optionsImag);
+                viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 0);
+                        dialog.show();
+                    }
+                });
+            } else if (urlList.length == 4) {
+                viewHolder.llphoto.setVisibility(View.VISIBLE);
+                viewHolder.iv_ch_image.setVisibility(View.GONE);
+                viewHolder.iv_oneimage.setVisibility(View.GONE);
+                viewHolder.ll_two.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[0]), viewHolder.iv_two_one, optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[1]), viewHolder.iv_two_two, optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[2]), viewHolder.iv_two_three, optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[3]), viewHolder.iv_two_four, optionsImag);
+                viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 0);
+                        dialog.show();
+                    }
+                });
 
-            viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 2);
-                    dialog.show();
-                }
-            });
+                viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 1);
+                        dialog.show();
+                    }
+                });
 
-            viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 3);
-                    dialog.show();
-                }
-            });
+                viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 2);
+                        dialog.show();
+                    }
+                });
+
+                viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 3);
+                        dialog.show();
+                    }
+                });
+
+            } else {
+                viewHolder.llphoto.setVisibility(View.VISIBLE);
+                viewHolder.iv_oneimage.setVisibility(View.GONE);
+                viewHolder.ll_two.setVisibility(View.GONE);
+                viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context, 255), ActionBar.LayoutParams.WRAP_CONTENT);
+                viewHolder.iv_ch_image.setLayoutParams(params);
+                viewHolder.iv_ch_image.setNumColumns(3);
+                PicGdAdapter adapter = new PicGdAdapter(context, urlList, position);
+                viewHolder.iv_ch_image.setAdapter(adapter);
+            }
 
         } else {
-            viewHolder.llphoto.setVisibility(View.VISIBLE);
+            viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
-            viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context, 255), ActionBar.LayoutParams.WRAP_CONTENT);
-            viewHolder.iv_ch_image.setLayoutParams(params);
-            viewHolder.iv_ch_image.setNumColumns(3);
-            PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
-            viewHolder.iv_ch_image.setAdapter(adapter);
         }
+
+//        if (itemList.isEmpty()) {
+////            viewHolder.llphoto.setVisibility(View.GONE);
+//            viewHolder.iv_ch_image.setVisibility(View.GONE);
+//            viewHolder.iv_oneimage.setVisibility(View.GONE);
+//            viewHolder.ll_two.setVisibility(View.GONE);
+//        } else
 
         if (list != null) {
             if (!TextUtils.isEmpty(list.get(position).getUserIcon())) {
@@ -234,7 +240,7 @@ public class MyPlaneAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(list.get(position).getTalkContent())) {
                 viewHolder.tv_content.setVisibility(View.VISIBLE);
                 viewHolder.tv_content.setText(list.get(position).getTalkContent());
-            }else {
+            } else {
                 viewHolder.tv_content.setVisibility(View.GONE);
 //                viewHolder.tv_content.setText("");
             }
@@ -290,7 +296,7 @@ public class MyPlaneAdapter extends BaseAdapter {
                 Intent intent = new Intent();
                 intent.setClass(context, CirxqAct.class);
                 intent.putExtra("circleId", list.get(position).getCircleId());
-                intent.putExtra("type",1);
+                intent.putExtra("type", 1);
                 //需要开启新task,否则会报错
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -458,6 +464,7 @@ public class MyPlaneAdapter extends BaseAdapter {
             }
         });
     }
+
     /**
      *
      */
@@ -472,16 +479,16 @@ public class MyPlaneAdapter extends BaseAdapter {
         //设置popupWindow弹出窗体的背景
         popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
         WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
-        int[] location=new int[2];
+        int[] location = new int[2];
         parent.getLocationOnScreen(location);
         @SuppressWarnings("deprecation")
         //获取xoff
                 int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
-        int ypos=location[1]-popupWindow.getHeight()/2;
-        int ypos1=ypos-ZhetebaUtils.dip2px(context,10);
+        int ypos = location[1] - popupWindow.getHeight() / 2;
+        int ypos1 = ypos - ZhetebaUtils.dip2px(context, 10);
         //xoff,yoff基于anchor的左下角进行偏移。
 //        popupWindow.showAsDropDown(parent, xpos, 0);
-        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY,xpos,ypos1);
+        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, xpos, ypos1);
         final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
         LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
         final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
@@ -519,6 +526,7 @@ public class MyPlaneAdapter extends BaseAdapter {
 
 
     }
+
     class CricleDialog implements View.OnClickListener {
         private Dialog dialog;
         private Display display;

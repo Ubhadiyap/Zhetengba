@@ -516,8 +516,9 @@
                     android:layout_marginLeft="3dp"
                     android:id="@+id/iv_oneimage"
                     android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="120dp"
+                    android:layout_height="160dp"
+                    android:scaleType="centerCrop"
                     android:background="#ffffff" />
             </LinearLayout>
             <RelativeLayout

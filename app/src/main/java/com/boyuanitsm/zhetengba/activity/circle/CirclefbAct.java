@@ -1,6 +1,5 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.RemoteViews;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.photo.PicSelectActivity;
@@ -28,11 +26,10 @@ import com.boyuanitsm.zhetengba.bean.ImageBean;
 import com.boyuanitsm.zhetengba.bean.ImgBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.ChanelItemFrg;
-import com.boyuanitsm.zhetengba.fragment.circleFrg.CirFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.MyGridView;
@@ -318,6 +315,7 @@ public class CirclefbAct extends BaseActivity {
                         File file = MyBitmapUtils.saveBitmap(bitmap, selecteds.get(i).path);
                         FileBody fb = new FileBody(file);
                         fileMaps.put(i+"", fb);
+                        MyLogUtils.info(i+"====="+fb);
                     }
 
                 }

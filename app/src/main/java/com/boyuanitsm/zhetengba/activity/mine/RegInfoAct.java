@@ -339,7 +339,11 @@ public class RegInfoAct extends BaseActivity {
                 }
                 uri = data.getData();
                 Bitmap userbitmap = MyBitmapUtils.decodeUriAsBitmap2(this, uri);
-                File user_head =MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
+                if (userbitmap==null){
+                    MyToastUtils.showShortToast(getApplicationContext(),"图片有误，请重新选择！");
+                    return;
+                }
+                    File user_head =MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
                 intent = new Intent(this, ClipActivity.class);
                 intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.png");
                 startActivityForResult(intent, IMAGE_COMPLETE);

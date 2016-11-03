@@ -73,7 +73,7 @@ public class ChanAdapter extends BaseAdapter {
     private boolean image_record_out;
     int clickPos = 0;
     private PopupWindow popupWindow;
-    private Gson gson=new Gson();
+    private Gson gson = new Gson();
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.tum)
@@ -92,23 +92,24 @@ public class ChanAdapter extends BaseAdapter {
 //        this.dateList = dateList;
 //    }
 
-    public ChanAdapter(Context context, List<List<ImageInfo>> dateList, List<ChannelTalkEntity> list) {
+    public ChanAdapter(Context context, List<ChannelTalkEntity> list) {
         this.context = context;
-        this.dateList = dateList;
+//        this.dateList = dateList;
         this.list = list;
-        userid= UserInfoDao.getUser().getId();
+        userid = UserInfoDao.getUser().getId();
     }
 
-    public void notifyChange(List<List<ImageInfo>> dateList, List<ChannelTalkEntity> list) {
-        this.dateList = dateList;
+    public void notifyChange(List<ChannelTalkEntity> list) {
+//        this.dateList = dateList;
         this.list = list;
         notifyDataSetChanged();
     }
+
     /**
      * itemClick接口回调
      */
     public interface OnItemClickListener {
-        void onItemClick(View view,String id,int cusPosition);
+        void onItemClick(View view, String id, int cusPosition);
     }
 
     private OnItemClickListener mOnItemClickListener;
@@ -135,8 +136,7 @@ public class ChanAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final CaViewHolder viewHolder;
-        final List<ImageInfo> itemList = dateList.get(position);
-        List<ChannelTalkEntity> clist=list.get(position).getCommentsList();
+        List<ChannelTalkEntity> clist = list.get(position).getCommentsList();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (CaViewHolder) convertView.getTag();
         } else {
@@ -164,88 +164,160 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.ll_ch_image = (LinearLayout) convertView.findViewById(R.id.ll_ch_image);
             viewHolder.znum = (TextView) convertView.findViewById(R.id.znum);
             viewHolder.cnum = (TextView) convertView.findViewById(R.id.cnum);
-            viewHolder.rl_xia= (RelativeLayout) convertView.findViewById(R.id.rl_xia);
+            viewHolder.rl_xia = (RelativeLayout) convertView.findViewById(R.id.rl_xia);
             viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
             viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
             viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
             viewHolder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
-            viewHolder.tv_more= (TextView) convertView.findViewById(R.id.tv_more);
-            viewHolder.rl_more= (RelativeLayout) convertView.findViewById(R.id.rl_more);
+            viewHolder.tv_more = (TextView) convertView.findViewById(R.id.tv_more);
+            viewHolder.rl_more = (RelativeLayout) convertView.findViewById(R.id.rl_more);
             viewHolder.lv_pl = (MyListView) convertView.findViewById(R.id.lv_pl);
             convertView.setTag(viewHolder);
         }
-        if (itemList.isEmpty() || itemList.isEmpty()) {
-//            viewHolder.ll_ch_image.setVisibility(View.GONE);
-            viewHolder.iv_ch_image.setVisibility(View.GONE);
-            viewHolder.iv_oneimage.setVisibility(View.GONE);
-            viewHolder.ll_two.setVisibility(View.GONE);
-        } else if (itemList.size() == 1) {
-//            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
-            viewHolder.iv_ch_image.setVisibility(View.GONE);
-            viewHolder.ll_two.setVisibility(View.GONE);
-            viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
-//            itemList.get(0).setWidth(120);
-//            itemList.get(0).setHeight(120);
-//            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()),viewHolder.iv_oneimage, optionsImag);
-            viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
-                    dialog.show();
-                }
-            });
-        } else if (itemList.size() == 4) {
-//            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
-            viewHolder.iv_ch_image.setVisibility(View.GONE);
-            viewHolder.iv_oneimage.setVisibility(View.GONE);
-            viewHolder.ll_two.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_two_one, optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(1).getUrl()), viewHolder.iv_two_two, optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(2).getUrl()), viewHolder.iv_two_three, optionsImag);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(3).getUrl()), viewHolder.iv_two_four, optionsImag);
-            viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
-                    dialog.show();
-                }
-            });
-            viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 1);
-                    dialog.show();
-                }
-            });
+//        final List<ImageInfo> itemList = dateList.get(position);
+//        List<ImageInfo> itemList = new ArrayList<>();
+        //将图片地址转化成数组
+        if (!TextUtils.isEmpty(list.get(position).getChannelImage())) {
+            final String[] urlList = ZtinfoUtils.convertStrToArray(list.get(position).getChannelImage());
+            if (urlList.length == 1) {
+                viewHolder.iv_ch_image.setVisibility(View.GONE);
+                viewHolder.ll_two.setVisibility(View.GONE);
+                viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[0]), viewHolder.iv_oneimage, optionsImag);
+                viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 0);
+                        dialog.show();
+                    }
+                });
+            } else if (urlList.length == 4) {
+                viewHolder.iv_ch_image.setVisibility(View.GONE);
+                viewHolder.iv_oneimage.setVisibility(View.GONE);
+                viewHolder.ll_two.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[0]), viewHolder.iv_two_one, optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[1]), viewHolder.iv_two_two, optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[2]), viewHolder.iv_two_three, optionsImag);
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[3]), viewHolder.iv_two_four, optionsImag);
+                viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 0);
+                        dialog.show();
+                    }
+                });
+                viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 1);
+                        dialog.show();
+                    }
+                });
 
-            viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 2);
-                    dialog.show();
-                }
-            });
+                viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 2);
+                        dialog.show();
+                    }
+                });
 
-            viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PicShowDialog dialog = new PicShowDialog(context, itemList, 3);
-                    dialog.show();
-                }
-            });
+                viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicShowDialog dialog = new PicShowDialog(context, urlList, 3);
+                        dialog.show();
+                    }
+                });
 
+            } else {
+                viewHolder.iv_oneimage.setVisibility(View.GONE);
+                viewHolder.ll_two.setVisibility(View.GONE);
+                viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context, 255), ActionBar.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, ZhetebaUtils.dip2px(context, 5), 0, 0);
+                viewHolder.iv_ch_image.setLayoutParams(params);
+                viewHolder.iv_ch_image.setNumColumns(3);
+                PicGdAdapter adapter = new PicGdAdapter(context, urlList, position);
+                viewHolder.iv_ch_image.setAdapter(adapter);
+            }
         } else {
+            viewHolder.iv_ch_image.setVisibility(View.GONE);
             viewHolder.iv_oneimage.setVisibility(View.GONE);
             viewHolder.ll_two.setVisibility(View.GONE);
-            viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context, 255), ActionBar.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0,ZhetebaUtils.dip2px(context,5),0,0);
-            viewHolder.iv_ch_image.setLayoutParams(params);
-            viewHolder.iv_ch_image.setNumColumns(3);
-            PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
-            viewHolder.iv_ch_image.setAdapter(adapter);
         }
+//        if (itemList.isEmpty() || itemList.isEmpty()) {
+////            viewHolder.ll_ch_image.setVisibility(View.GONE);
+//            viewHolder.iv_ch_image.setVisibility(View.GONE);
+//            viewHolder.iv_oneimage.setVisibility(View.GONE);
+//            viewHolder.ll_two.setVisibility(View.GONE);
+//        } else if (itemList.size() == 1) {
+////            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
+//            viewHolder.iv_ch_image.setVisibility(View.GONE);
+//            viewHolder.ll_two.setVisibility(View.GONE);
+//            viewHolder.iv_oneimage.setVisibility(View.VISIBLE);
+////            itemList.get(0).setWidth(120);
+////            itemList.get(0).setHeight(120);
+////            LayoutHelperUtil.handlerOneImage(context, itemList.get(0), viewHolder.iv_oneimage);
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_oneimage, optionsImag);
+//            viewHolder.iv_oneimage.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
+//                    dialog.show();
+//                }
+//            });
+//        } else if (itemList.size() == 4) {
+////            viewHolder.ll_ch_image.setVisibility(View.VISIBLE);
+//            viewHolder.iv_ch_image.setVisibility(View.GONE);
+//            viewHolder.iv_oneimage.setVisibility(View.GONE);
+//            viewHolder.ll_two.setVisibility(View.VISIBLE);
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(0).getUrl()), viewHolder.iv_two_one, optionsImag);
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(1).getUrl()), viewHolder.iv_two_two, optionsImag);
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(2).getUrl()), viewHolder.iv_two_three, optionsImag);
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(itemList.get(3).getUrl()), viewHolder.iv_two_four, optionsImag);
+//            viewHolder.iv_two_one.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 0);
+//                    dialog.show();
+//                }
+//            });
+//            viewHolder.iv_two_two.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 1);
+//                    dialog.show();
+//                }
+//            });
+//
+//            viewHolder.iv_two_three.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 2);
+//                    dialog.show();
+//                }
+//            });
+//
+//            viewHolder.iv_two_four.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicShowDialog dialog = new PicShowDialog(context, itemList, 3);
+//                    dialog.show();
+//                }
+//            });
+//
+//        } else {
+//            viewHolder.iv_oneimage.setVisibility(View.GONE);
+//            viewHolder.ll_two.setVisibility(View.GONE);
+//            viewHolder.iv_ch_image.setVisibility(View.VISIBLE);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ZhetebaUtils.dip2px(context, 255), ActionBar.LayoutParams.WRAP_CONTENT);
+//            params.setMargins(0, ZhetebaUtils.dip2px(context, 5), 0, 0);
+//            viewHolder.iv_ch_image.setLayoutParams(params);
+//            viewHolder.iv_ch_image.setNumColumns(3);
+//            PicGdAdapter adapter = new PicGdAdapter(context, itemList, position);
+//            viewHolder.iv_ch_image.setAdapter(adapter);
+//        }
         if (list != null) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.head, optionsImagh);
             if (!TextUtils.isEmpty(list.get(position).getUserName())) {
@@ -267,7 +339,7 @@ public class ChanAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(list.get(position).getChannelContent())) {
                 viewHolder.ll_content.setVisibility(View.VISIBLE);
                 viewHolder.tv_content.setText(list.get(position).getChannelContent());
-            }else {
+            } else {
                 viewHolder.ll_content.setVisibility(View.GONE);
             }
 
@@ -291,19 +363,19 @@ public class ChanAdapter extends BaseAdapter {
                     viewHolder.cnumText.setVisibility(View.VISIBLE);
                     viewHolder.cnum.setText(list.get(position).getCommentCounts() + "");
                     MyLogUtils.info("Counts====" + list.get(position).getCommentCounts());
-                    if (list.get(position).getCommentCounts()>5){
+                    if (list.get(position).getCommentCounts() > 5) {
                         viewHolder.rl_more.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         viewHolder.rl_more.setVisibility(View.GONE);
                     }
                 }
             }
-                if (clist!=null&&clist.size()>0){
-                    viewHolder.ll_comment.setVisibility(View.VISIBLE);
-                    viewHolder.lv_pl.setAdapter(new ChanelPlAdapter(context,clist));
-                }else {
-                    viewHolder.ll_comment.setVisibility(View.GONE);
-                }
+            if (clist != null && clist.size() > 0) {
+                viewHolder.ll_comment.setVisibility(View.VISIBLE);
+                viewHolder.lv_pl.setAdapter(new ChanelPlAdapter(context, clist));
+            } else {
+                viewHolder.ll_comment.setVisibility(View.GONE);
+            }
         }
         //点击活动详情跳转频道正文
         View.OnClickListener listener = new View.OnClickListener() {
@@ -324,7 +396,7 @@ public class ChanAdapter extends BaseAdapter {
         viewHolder.tv_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GcDialog gcDialog=new GcDialog(context,userid,list.get(position).getCreatePersonId(),list.get(position).getId(),position);
+                GcDialog gcDialog = new GcDialog(context, userid, list.get(position).getCreatePersonId(), list.get(position).getId(), position);
                 gcDialog.builder().show();
 
             }
@@ -387,12 +459,13 @@ public class ChanAdapter extends BaseAdapter {
         private ImageView iv_more;
         private TextView znumText;
         private TextView cnumText;
-        private LinearLayout ll_comment,ll_comment_one,ll_comment_two,ll_comment_three;
+        private LinearLayout ll_comment, ll_comment_one, ll_comment_two, ll_comment_three;
         private RelativeLayout rl_more;
         private TextView tv_more;
         private MyListView lv_pl;
 
     }
+
     /**
      *
      */
@@ -410,16 +483,16 @@ public class ChanAdapter extends BaseAdapter {
 //        int[] location = new int[2];parent.getLocationOnScreen(location);//这两个是用来显示上方左方右方的
         WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
         @SuppressWarnings("deprecation")
-        int[] location=new int[2];
+        int[] location = new int[2];
         parent.getLocationOnScreen(location);
         //获取xoff
-                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
-                int ypos=location[1]-popupWindow.getHeight()/2;
-                int ypos1=ypos-ZhetebaUtils.dip2px(context,10);
+        int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+        int ypos = location[1] - popupWindow.getHeight() / 2;
+        int ypos1 = ypos - ZhetebaUtils.dip2px(context, 10);
         //xoff,yoff基于anchor的左下角进行偏移。
 //<<<<<<< HEAD
 //        popupWindow.showAsDropDown(parent, xpos, 0);
-        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY,xpos,ypos1);
+        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, xpos, ypos1);
 //=======
 //        popupWindow.showAsDropDown(parent, xpos, 0);//这里因为要显示在左方所以注释掉
 //        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, location[0]-popupWindow.getWidth(), location[1]);
@@ -440,7 +513,7 @@ public class ChanAdapter extends BaseAdapter {
                 ll_zan.setEnabled(false);
                 if (0 == list.get(clickPos).getLiked()) {
                     addChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
-                } else{// if (1 == list.get(clickPos).getLiked())
+                } else {// if (1 == list.get(clickPos).getLiked())
                     removeChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
                 }
             }
@@ -448,7 +521,7 @@ public class ChanAdapter extends BaseAdapter {
         ll_cmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onItemClick(ll_cmt,list.get(position).getId(),position);
+                mOnItemClickListener.onItemClick(ll_cmt, list.get(position).getId(), position);
 //                Intent intent = new Intent();
 //                intent.setClass(context, ChanelTextAct.class);
 //                intent.putExtra("channelEntity", list.get(position));
@@ -464,10 +537,10 @@ public class ChanAdapter extends BaseAdapter {
     }
 
 
-
     /**
      * 点赞
-     *  @param channelId
+     *
+     * @param channelId
      * @param ll_like
      * @param ivzan
      */
@@ -496,7 +569,8 @@ public class ChanAdapter extends BaseAdapter {
 
     /**
      * 取消点赞
-     *  @param channelId
+     *
+     * @param channelId
      * @param ll_like
      * @param ivzan
      */

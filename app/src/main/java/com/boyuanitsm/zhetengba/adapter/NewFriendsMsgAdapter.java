@@ -62,6 +62,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
         messgeDao = new InviteMessgeDao(context);
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
@@ -307,6 +308,13 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                 }
             }
         }).start();
+    }
+
+    public void update(Context context) {
+        this.context=context;
+        messgeDao=new InviteMessgeDao(context);
+        super.notifyDataSetChanged();
+
     }
 
     private static class ViewHolder {

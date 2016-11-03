@@ -141,19 +141,24 @@ public class ActAdapter extends BaseAdapter {
         }
 
         viewHolder.tv_hdtheme.setText(infos.get(position).getActivityTheme());//活动主题
-        if (!infos.get(position).getCreatePersonId().equals(UserInfoDao.getUser().getId())) {
-            viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
-            viewHolder.ll_join.setVisibility(View.VISIBLE);
-            viewHolder.ll_del.setVisibility(View.GONE);
-            viewHolder.ll_simple_share.setVisibility(View.GONE);
-        } else {
-            viewHolder.ll_guanzhu.setVisibility(View.GONE);
-            viewHolder.ll_join.setVisibility(View.GONE);
-            viewHolder.ll_del.setVisibility(View.VISIBLE);
-            viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
-            viewHolder.tv_tt.setText("/"+infos.get(position).getInviteNumber());//自己发布总人数
-            viewHolder.tv_cj.setText(infos.get(position).getMemberNum()+"");//已经3响应人数
+        if (!TextUtils.isEmpty(infos.get(position).getCreatePersonId())){
+            if (!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
+                if (!infos.get(position).getCreatePersonId().equals(UserInfoDao.getUser().getId())) {
+                    viewHolder.ll_guanzhu.setVisibility(View.VISIBLE);
+                    viewHolder.ll_join.setVisibility(View.VISIBLE);
+                    viewHolder.ll_del.setVisibility(View.GONE);
+                    viewHolder.ll_simple_share.setVisibility(View.GONE);
+                } else {
+                    viewHolder.ll_guanzhu.setVisibility(View.GONE);
+                    viewHolder.ll_join.setVisibility(View.GONE);
+                    viewHolder.ll_del.setVisibility(View.VISIBLE);
+                    viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
+                    viewHolder.tv_tt.setText("/"+infos.get(position).getInviteNumber());//自己发布总人数
+                    viewHolder.tv_cj.setText(infos.get(position).getMemberNum()+"");//已经3响应人数
+                }
+            }
         }
+
         if (infos.get(position).getFollowNum() == 0) {
             viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
         } else {
