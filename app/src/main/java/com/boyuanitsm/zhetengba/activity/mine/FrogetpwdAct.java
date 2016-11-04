@@ -2,23 +2,30 @@ package com.boyuanitsm.zhetengba.activity.mine;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ImagCatchBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,7 +49,13 @@ public class FrogetpwdAct extends BaseActivity {
     @ViewInject(R.id.et_yzm)
     private EditText et_yzm;//验证码
 
-    private String phone,yzm,pwd,cpwd;//手机号，验证码，密码，确认密码
+    @ViewInject(R.id.et_aqm)
+    private EditText et_aqm;//安全码
+
+    @ViewInject(R.id.iv_aqm)
+    private ImageView iv_aqm;//图片安全码
+
+    private String phone,yzm,pwd,cpwd,imgcatchurl,aqm;//手机号，验证码，密码，确认密码,图片验证码,安全码
     private ProgressDialog pd;
 
     private boolean ispress;
@@ -51,6 +64,12 @@ public class FrogetpwdAct extends BaseActivity {
     private int i = 60;
     private Timer timer;
     private MyTimerTask myTask;
+
+    private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.yzmjiazai)
+            .showImageOnFail(R.mipmap.yzmjiazai).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
     @Override
     public void setLayout() {
         setContentView(R.layout.act_frogetpwd);
@@ -60,16 +79,39 @@ public class FrogetpwdAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("忘记密码");
+        getImaCatch();//获取图像验证码
         pd=new ProgressDialog(FrogetpwdAct.this);
         pd.setCanceledOnTouchOutside(false);
     }
 
-    @OnClick({R.id.code_tv,R.id.tv_frogettj})
+    /**
+     * 获取图片验证码
+     */
+    private void getImaCatch() {
+        RequestManager.getUserManager().findImgCaptcha(new ResultCallback<ResultBean<ImagCatchBean>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<ImagCatchBean> response) {
+                imgcatchurl=response.getData().getImgpath();
+//                zifu=response.getData().getZifu();
+                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imgcatchurl), iv_aqm, optionsImag);
+
+
+            }
+        });
+    }
+
+    @OnClick({R.id.code_tv,R.id.tv_frogettj,R.id.iv_aqm})
     public void OnClick(View v){
 
         switch (v.getId()){
             case R.id.code_tv://获取验证码
                 phone=et_phone.getText().toString().trim();
+                aqm=et_aqm.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
                     return;
@@ -84,8 +126,13 @@ public class FrogetpwdAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
                     return;
                 }
+                if(TextUtils.isEmpty(aqm)){
+                    MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
+                    et_aqm.requestFocus();
+                    return;
+                }
 
-                   sendSms(phone, "false",200);
+                   sendSms(phone, "false",aqm);
                 break;
 
 
@@ -96,6 +143,9 @@ public class FrogetpwdAct extends BaseActivity {
                      frogetpwd(phone,yzm, pwd);
                  }
 
+                break;
+            case R.id.iv_aqm:
+                getImaCatch();//获取图像验证码
                 break;
         }
     }
@@ -231,9 +281,9 @@ public class FrogetpwdAct extends BaseActivity {
      * @param phoneNumber
      * @param isRegister
      */
-    public void sendSms(String phoneNumber,String isRegister,int identifyCode){
+    public void sendSms(String phoneNumber,String isRegister,String imageCaptcha){
         tv_code.setEnabled(false);
-        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,identifyCode, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,imageCaptcha, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 tv_code.setEnabled(true);

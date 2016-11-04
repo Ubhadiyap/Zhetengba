@@ -69,11 +69,11 @@ public class UserManager extends RequestManager{
      * @param isRegister
      * @param callback
      */
-    public void sendSmsCaptcha(String phoneNumber,String isRegister,int identifyCode,ResultCallback callback){
+    public void sendSmsCaptcha(String phoneNumber,String isRegister,String imageCaptcha,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("phoneNumber",phoneNumber);
         params.put("isRegister", isRegister);
-        params.put("identifyCode",identifyCode+"");
+        params.put("imageCaptcha",imageCaptcha);
         OkHttpManager.getInstance().doPost(IZtbUrl.SENDSMSCAPTCHA_URL, params, callback);
     }
 

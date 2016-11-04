@@ -28,6 +28,40 @@
         android:background="#dcdcde"
         android:layout_width="match_parent"
         android:layout_height="1px"></View>
+    <LinearLayout
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:textColorHint="#cdcdcd"
+            android:paddingBottom="15dp"
+            android:gravity="bottom"
+            android:id="@+id/et_aqm"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="输入安全码"
+            android:maxLength="6"
+            android:singleLine="true" />
+
+        <ImageView
+            android:id="@+id/iv_aqm"
+            android:layout_width="85dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <View
+        android:layout_marginLeft="15dp"
+        android:background="#dcdcde"
+        android:layout_width="match_parent"
+        android:layout_height="1px"></View>
+
+
 
     <LinearLayout
         android:layout_marginRight="15dp"
