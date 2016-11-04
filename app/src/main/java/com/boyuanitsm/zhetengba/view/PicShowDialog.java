@@ -3,23 +3,38 @@ package com.boyuanitsm.zhetengba.view;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
+import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.photoView.PhotoView;
@@ -30,6 +45,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +65,13 @@ public class PicShowDialog extends Dialog {
     private LinearLayout.LayoutParams paramsL = new LinearLayout.LayoutParams(10, 10);
     private Animation mRotateAnimation;
     private ImageView mArrowImageView;
-    /** 旋转动画的时间 */
+    /**
+     * 旋转动画的时间
+     */
     static final int ROTATION_ANIMATION_DURATION = 3000;
-    /** 动画插值 */
+    /**
+     * 动画插值
+     */
     static final Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
@@ -59,7 +79,9 @@ public class PicShowDialog extends Dialog {
             .showImageOnFail(R.mipmap.tum).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-//    .showImageOnLoading(R.mipmap.banner_loading)
+    //    .showImageOnLoading(R.mipmap.banner_loading)
+    private String path;
+    private PopupWindow popupWindow;
 
     public PicShowDialog(Context context, int themeResId) {
         super(context, themeResId);
@@ -89,7 +111,7 @@ public class PicShowDialog extends Dialog {
         mRotateAnimation.setRepeatCount(Animation.INFINITE);
         mRotateAnimation.setRepeatMode(Animation.RESTART);
         vp = (MyViewPager) findViewById(R.id.vp);
-         mArrowImageView = (ImageView)findViewById(R.id.mArrowImageView);
+        mArrowImageView = (ImageView) findViewById(R.id.mArrowImageView);
         ll_point = (LinearLayout) findViewById(R.id.ll_point);
 //        mArrowImageView.setImageResource(R.mipmap.default_ptr_rotate);
         initMyPageAdapter();
@@ -123,6 +145,7 @@ public class PicShowDialog extends Dialog {
         });
 
     }
+
     /***
      * 初始化viewpager适配器
      */
@@ -143,9 +166,9 @@ public class PicShowDialog extends Dialog {
     private void initPoint() {
         views.clear();
         ll_point.removeAllViews();
-        if (imageInfos.length==1){
+        if (imageInfos.length == 1) {
             ll_point.setVisibility(View.GONE);
-        }else {
+        } else {
             for (int i = 0; i < imageInfos.length; i++) {
                 View view = new View(context);
                 paramsL.setMargins(ZhetebaUtils.dip2px(context, 5), ZhetebaUtils.dip2px(context, 2), 0, ZhetebaUtils.dip2px(context, 5));
@@ -178,7 +201,7 @@ public class PicShowDialog extends Dialog {
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            View view =View.inflate(context, R.layout.item_pic_show, null);
+            View view = View.inflate(context, R.layout.item_pic_show, null);
             final PhotoView photoView = (PhotoView) view.findViewById(R.id.pic_pv);
             ImageLoader.getInstance().displayImage(Uitls.imageBigFullUrl(imageInfos[position]), photoView, optionsImag, new ImageLoadingListener() {
                 @Override
@@ -194,10 +217,22 @@ public class PicShowDialog extends Dialog {
                 }
 
                 @Override
-                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                public void onLoadingComplete(String s, final View view, final Bitmap bitmap) {
                     mArrowImageView.clearAnimation();
                     mRotateAnimation.cancel();
                     mArrowImageView.setVisibility(View.GONE);
+                    if (bitmap!=null){
+                        view.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                showPopupWindow(view, bitmap);
+                                return false;
+                            }
+                        });
+                    }else {
+                        MyLogUtils.info("bitmap空的=====");
+                    }
+
                     MyLogUtils.info("mArrowImageView消失=====");
                 }
 
@@ -212,7 +247,7 @@ public class PicShowDialog extends Dialog {
                     dismiss();
                 }
             });
-                    ((ViewPager) container).addView(view);
+            ((ViewPager) container).addView(view);
             return view;
         }
 
@@ -221,6 +256,45 @@ public class PicShowDialog extends Dialog {
             ((ViewPager) container).removeView((View) object);
         }
     }
+
+    /**
+     *
+     */
+    private void showPopupWindow(View parent, final Bitmap bitmap) {
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
+                R.layout.dialog_gc2, null);
+        // 实例化popupWindow
+        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
+        //控制键盘是否可以获得焦点
+        popupWindow.setFocusable(true);
+        //s设置进出动画
+        popupWindow.setAnimationStyle(R.style.ActionSheetDialogAnimation);
+        //设置popupWindow弹出窗体的背景
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+        //获取xoff
+        popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+        TextView tv_jb = (TextView) layout.findViewById(R.id.tv_jb);
+        tv_jb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyBitmapUtils.saveImageToGallery(context,bitmap);
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    public String getDiskCacheDir(Context context) {
+        String cachePath = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = context.getExternalCacheDir().getPath();
+        } else {
+            cachePath = context.getCacheDir().getPath();
+        }
+        return cachePath;
+    }
+
 
 }
 
