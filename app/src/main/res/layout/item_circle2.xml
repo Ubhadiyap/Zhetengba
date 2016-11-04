@@ -104,6 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="62dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -248,7 +249,6 @@
             android:background="@drawable/ping9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:orientation="vertical"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
