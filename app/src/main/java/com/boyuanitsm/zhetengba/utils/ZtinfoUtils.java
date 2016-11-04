@@ -846,7 +846,7 @@ public class ZtinfoUtils {
                 default:
                     StringBuilder sb = new StringBuilder();
                     sb.append(month).append("月");
-                    sb.append(day).append(" 日");
+                    sb.append(day).append("日");
                     time = sb.toString()+time;
                     break;
             }
