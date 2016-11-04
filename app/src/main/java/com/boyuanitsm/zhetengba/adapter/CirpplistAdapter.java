@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleppAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.bean.MemberEntity;
@@ -116,7 +118,7 @@ public class CirpplistAdapter extends BaseAdapter{
         }
         if(list!=null&&list.size()>0){
             if (!TextUtils.isEmpty(list.get(position).getIcon())){
-                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL+list.get(position).getIcon(),holder.head,options);
+                ImageLoader.getInstance().displayImage(IZtbUrl.BASE_URL + list.get(position).getIcon(), holder.head, options);
             }
             if(!TextUtils.isEmpty(list.get(position).getPetName())){
                 holder.name.setText(list.get(position).getPetName());
@@ -128,7 +130,21 @@ public class CirpplistAdapter extends BaseAdapter{
                 String[] str= ZtinfoUtils.convertStrToArray(list.get(position).getSameLabels());
                 holder.hlv_cirpp.setAdapter(new GvcirppAdapter(context,str));
             }
+
         }
+        //点击头像
+        holder.head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PersonalAct.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("userId", list.get(position).getId());
+//                bundle.putBoolean("friend", list.get(position).isFriend());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 

@@ -29,7 +29,6 @@ import com.boyuanitsm.zhetengba.activity.circle.CircleglAct;
 import com.boyuanitsm.zhetengba.activity.mess.MessVerifyAct;
 import com.boyuanitsm.zhetengba.activity.mine.EditAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
-import com.boyuanitsm.zhetengba.activity.mine.PersonalmesAct;
 import com.boyuanitsm.zhetengba.adapter.HlvppAdapter;
 import com.boyuanitsm.zhetengba.adapter.TestAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
@@ -60,6 +59,7 @@ import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
 import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
+import com.boyuanitsm.zhetengba.view.PicSmShowDialog;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -124,6 +124,7 @@ public class PersonalAct extends BaseActivity{
     private View inflate;
     private int tag;
     private int clickPos=-1;
+    private  String[] urlList;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -299,7 +300,7 @@ public class PersonalAct extends BaseActivity{
             ll_add_riend.setVisibility(View.VISIBLE);
             iv_set.setVisibility(View.VISIBLE);
             bt_message.setText("发送消息");
-            cv_photo.setEnabled(true);
+//            cv_photo.setEnabled(true);
             return 0;
 
         } else {
@@ -309,7 +310,7 @@ public class PersonalAct extends BaseActivity{
             bt_message.setText("加为好友");
             iv_set.setVisibility(View.GONE);
             ll_add_riend.setVisibility(View.GONE);
-            cv_photo.setEnabled(false);
+//            cv_photo.setEnabled(false);
             return 2;
         }
     }
@@ -558,15 +559,18 @@ public class PersonalAct extends BaseActivity{
      * 点击头像跳转个人资料
      */
     private void setOnclikListener() {
+        urlList = ZtinfoUtils.convertStrToArray(userEntity.get(0).getIcon());
         cv_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentPerson = new Intent();
-                intentPerson.setClass(PersonalAct.this, PersonalmesAct.class);
-                Bundle bundlePerson = new Bundle();
-                bundlePerson.putParcelable(PAGEFRG_KEY, personalMain);
-                intentPerson.putExtras(bundlePerson);
-                startActivity(intentPerson);
+//                Intent intentPerson = new Intent();
+//                intentPerson.setClass(PersonalAct.this, PersonalmesAct.class);
+//                Bundle bundlePerson = new Bundle();
+//                bundlePerson.putParcelable(PAGEFRG_KEY, personalMain);
+//                intentPerson.putExtras(bundlePerson);
+//                startActivity(intentPerson);
+                PicSmShowDialog dialog=new PicSmShowDialog(PersonalAct.this,urlList,0);
+                dialog.show();
             }
         });
 
