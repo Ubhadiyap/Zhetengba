@@ -207,7 +207,7 @@
         <RelativeLayout
             android:layout_marginLeft="3dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="13dp"
+            android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
@@ -250,7 +250,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
-            android:paddingTop="15dp"
+            android:paddingTop="10dp"
             android:paddingRight="10dp"
             android:paddingLeft="10dp">
             <com.leaf.library.widget.MyListView
@@ -263,8 +263,7 @@
             <RelativeLayout
                 android:id="@+id/rl_more"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_more"
