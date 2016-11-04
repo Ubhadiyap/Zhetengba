@@ -141,8 +141,9 @@ public class RegistAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<ImagCatchBean> response) {
                 imgcatchurl=response.getData().getImgpath();
-                zifu=response.getData().getZifu();
+//                zifu=response.getData().getZifu();
                 ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imgcatchurl), iv_aqm, optionsImag);
+
 
 
 
@@ -207,13 +208,13 @@ public class RegistAct extends BaseActivity {
                     et_aqm.requestFocus();
                     return;
                 }
-                if(!aqm.equals(zifu)){
-                    MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
-                    et_aqm.requestFocus();
-                    return;
-                }
+//                if(!aqm.equals(zifu)){
+//                    MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
+//                    et_aqm.requestFocus();
+//                    return;
+//                }
 
-                    sendSms(phone, "true",200);
+                    sendSms(phone, "true",aqm);
 
 
                 break;
@@ -409,9 +410,9 @@ public class RegistAct extends BaseActivity {
      * @param phoneNumber
      * @param isRegister
      */
-    public void sendSms(String phoneNumber,String isRegister,int identifyCode){
+    public void sendSms(String phoneNumber,String isRegister,String imageCaptcha){
         tv_code.setEnabled(false);
-        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,identifyCode, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,imageCaptcha, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 tv_code.setEnabled(true);

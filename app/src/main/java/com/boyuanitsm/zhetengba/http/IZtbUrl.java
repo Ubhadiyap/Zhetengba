@@ -16,6 +16,8 @@ public interface IZtbUrl {
     //开发
 //        public static final String BASE_URL = "http://172.16.6.146:8080/zhetengba/";
 //    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+//      public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.196:8090/zhetengba/";
 //    public static final String BASE_URL = "http://180.76.149.156:8060/zhetengba/";
 
 
@@ -37,12 +39,12 @@ public interface IZtbUrl {
     /**
      * =========发送验证码地址==========
      **/
-    String SENDSMSCAPTCHA_URL = BASE_URL + "manager/unLogin/sendSmsCaptcha.do";
+    String SENDSMSCAPTCHA_URL = BASE_URL + "manager/unLogin/sendNewSmsCaptcha.do";
 
     /**
      * =========发送图片验证码地址==========
      **/
-    String FINDIMGCAPTCHA_URL = BASE_URL + "front/unlogin/findImgCaptcha.do ";
+    String FINDIMGCAPTCHA_URL = BASE_URL + "front/unlogin/findNewImgCaptcha.do ";
 
     /**
      * =========修改密码地址==========
