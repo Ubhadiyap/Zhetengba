@@ -64,6 +64,7 @@
 
 
             <EditText
+                android:inputType="textPassword"
                 android:maxLength="4"
                 android:singleLine="true"
                 android:id="@+id/et_aqm"
