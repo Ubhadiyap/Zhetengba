@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,12 +24,12 @@ import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
-import com.boyuanitsm.zhetengba.bean.ImagCatchBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -40,9 +41,10 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -79,6 +81,9 @@ public class RegistAct extends BaseActivity {
 
     private static final String TAG = "RegAct";
     private ProgressDialog pd;
+
+    private Bitmap bitmap;
+    private int type;
 
     private boolean ispress;//是否可以点击默认为false;真比较可以点击，假表示不能点击
 
@@ -132,25 +137,50 @@ public class RegistAct extends BaseActivity {
      * 获取图像验证码
      */
     private void getImaCatch() {
-        RequestManager.getUserManager().findImgCaptcha(new ResultCallback<ResultBean<ImagCatchBean>>() {
+//        RequestManager.getUserManager().findImgCaptcha(new ResultCallback<ResultBean<ImagCatchBean>>() {
+//            @Override
+//            public void onError(int status, String errorMsg) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(ResultBean<ImagCatchBean> response) {
+//                imgcatchurl=response.getData().getImgpath();
+////                zifu=response.getData().getZifu();
+//                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imgcatchurl), iv_aqm, optionsImag);
+//
+//
+//
+//
+//
+//
+//            }
+//        });
+        new Thread(){
             @Override
-            public void onError(int status, String errorMsg) {
-
+            public void run() {
+                type=1;
+                super.run();
+                try {
+                    URL url=new URL(IZtbUrl.FINDIMGCAPTCHA_URL);
+                    //打开URL对应的资源输入流
+                    InputStream is= url.openStream();
+                    //从InputStream流中解析出图片
+                    bitmap = BitmapFactory.decodeStream(is);
+                    //  imageview.setImageBitmap(bitmap);
+                    //发送消息，通知UI组件显示图片\
+                    Message msg = Message.obtain();
+                    msg.what = 0x9527;
+//                    handleryzm.sendMessage(msg);
+                    handler.sendMessage(msg);
+                    //关闭输入流
+                    is.close();
+                } catch (Exception e) {
+                    iv_aqm.setImageResource(R.mipmap.yzmjiazai);
+                    e.printStackTrace();
+                }
             }
-
-            @Override
-            public void onResponse(ResultBean<ImagCatchBean> response) {
-                imgcatchurl=response.getData().getImgpath();
-//                zifu=response.getData().getZifu();
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imgcatchurl), iv_aqm, optionsImag);
-
-
-
-
-
-
-            }
-        });
+        }.start();
     }
 
     TextWatcher textWatcher=new TextWatcher() {
@@ -354,6 +384,7 @@ public class RegistAct extends BaseActivity {
 
         @Override
         public void run() {
+            type=2;
             handler.sendEmptyMessage(i--);
         }
 
@@ -365,13 +396,21 @@ public class RegistAct extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 0||msg.what<0) {
-                tv_code .setEnabled(true);
-                tv_code.setText("重新发送");
-                timer.cancel();
-                myTask.cancel();
-            } else {
-                tv_code.setText(msg.what + "秒");
+            if(type==1){
+                if (msg.what==0x9527) {
+                    //显示从网上下载的图片
+                    iv_aqm.setImageBitmap(bitmap);
+                }
+            }
+            if(type==2) {
+                if (msg.what == 0 || msg.what < 0) {
+                    tv_code.setEnabled(true);
+                    tv_code.setText("重新发送");
+                    timer.cancel();
+                    myTask.cancel();
+                } else {
+                    tv_code.setText(msg.what + "秒");
+                }
             }
         }
 

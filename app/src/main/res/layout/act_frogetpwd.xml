@@ -49,6 +49,7 @@
             android:singleLine="true" />
 
         <ImageView
+            android:src="@mipmap/yzmjiazai"
             android:id="@+id/iv_aqm"
             android:layout_width="85dp"
             android:layout_height="30dp"

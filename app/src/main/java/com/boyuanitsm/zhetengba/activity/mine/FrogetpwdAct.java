@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.activity.mine;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,19 +15,19 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
-import com.boyuanitsm.zhetengba.bean.ImagCatchBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
-import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -58,12 +59,16 @@ public class FrogetpwdAct extends BaseActivity {
     private String phone,yzm,pwd,cpwd,imgcatchurl,aqm;//手机号，验证码，密码，确认密码,图片验证码,安全码
     private ProgressDialog pd;
 
+    private Bitmap bitmap;
+
     private boolean ispress;
 
 
     private int i = 60;
     private Timer timer;
     private MyTimerTask myTask;
+
+    private int type;//用来handle来区分,1表示处理图片验证码，2表示处理倒计时
 
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.yzmjiazai)
@@ -82,32 +87,68 @@ public class FrogetpwdAct extends BaseActivity {
         getImaCatch();//获取图像验证码
         pd=new ProgressDialog(FrogetpwdAct.this);
         pd.setCanceledOnTouchOutside(false);
+
     }
 
     /**
      * 获取图片验证码
      */
     private void getImaCatch() {
-        RequestManager.getUserManager().findImgCaptcha(new ResultCallback<ResultBean<ImagCatchBean>>() {
+
+//        RequestManager.getUserManager().findImgCaptcha(new ResultCallback<InputStream>() {
+//            @Override
+//            public void onError(int status, String errorMsg) {
+//               iv_aqm.setImageResource(R.mipmap.yzmjiazai);
+//
+//            }
+//
+//            @Override
+//            public void onResponse(InputStream is) {
+////                imgcatchurl=response.getData().getImgpath();
+//
+//                try {
+//                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+//                    is.close();
+//                    iv_aqm.setImageBitmap(bitmap);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+////                zifu=response.getData().getZifu();
+////                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imgcatchurl), iv_aqm, optionsImag);
+//
+//
+//
+//            }
+//        });
+        new Thread(){
             @Override
-            public void onError(int status, String errorMsg) {
-
+            public void run() {
+                type=1;
+                super.run();
+                try {
+                    URL url=new URL(IZtbUrl.FINDIMGCAPTCHA_URL);
+                    //打开URL对应的资源输入流
+                    InputStream is= url.openStream();
+                    //从InputStream流中解析出图片
+                    bitmap = BitmapFactory.decodeStream(is);
+                    //  imageview.setImageBitmap(bitmap);
+                    //发送消息，通知UI组件显示图片\
+                    Message msg = Message.obtain();
+                    msg.what = 0x9527;
+//                    handleryzm.sendMessage(msg);
+                    handler.sendMessage(msg);
+                    //关闭输入流
+                    is.close();
+                } catch (Exception e) {
+                    iv_aqm.setImageResource(R.mipmap.yzmjiazai);
+                    e.printStackTrace();
+                }
             }
-
-            @Override
-            public void onResponse(ResultBean<ImagCatchBean> response) {
-                imgcatchurl=response.getData().getImgpath();
-//                zifu=response.getData().getZifu();
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imgcatchurl), iv_aqm, optionsImag);
-
-
-            }
-        });
+        }.start();
     }
 
     @OnClick({R.id.code_tv,R.id.tv_frogettj,R.id.iv_aqm})
     public void OnClick(View v){
-
         switch (v.getId()){
             case R.id.code_tv://获取验证码
                 phone=et_phone.getText().toString().trim();
@@ -227,28 +268,54 @@ public class FrogetpwdAct extends BaseActivity {
 
         @Override
         public void run() {
+            type=2;
             handler.sendEmptyMessage(i--);
         }
 
     }
 
+    /**
+     * 这个用来处理倒计时的handler;
+     */
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 0||msg.what<0) {
-                tv_code .setEnabled(true);
-                tv_code.setText("重新发送");
-                timer.cancel();
-                myTask.cancel();
-            } else {
-                tv_code.setText(msg.what + "秒");
+            if(type==1){
+                if (msg.what==0x9527) {
+                    //显示从网上下载的图片
+                    iv_aqm.setImageBitmap(bitmap);
+                }
+            }
+            if(type==2) {
+                if (msg.what == 0 || msg.what < 0) {
+                    tv_code.setEnabled(true);
+                    tv_code.setText("重新发送");
+                    timer.cancel();
+                    myTask.cancel();
+                } else {
+                    tv_code.setText(msg.what + "秒");
+                }
             }
         }
 
     };
+
+    /**
+     * 这个用来处理图片验证码的handler
+     */
+//    private Handler handleryzm=new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            if (msg.what==0x9527) {
+//                //显示从网上下载的图片
+//                iv_aqm.setImageBitmap(bitmap);
+//            }
+//        }
+//    };
 
 
     /**
