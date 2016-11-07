@@ -36,6 +36,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:inputType="textPassword"
             android:textColorHint="#cdcdcd"
             android:paddingBottom="15dp"
             android:gravity="bottom"
