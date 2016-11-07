@@ -113,7 +113,6 @@ public class OkHttpManager {
                 final String result = response.body().string();
                 MyLogUtils.info("获取result：" + result);
                 if (callback.mType == String.class) {
-
 //                        callback.onResponse(result);
                     sendSuccessResultCallback(result, callback);
                 } else {
@@ -139,7 +138,6 @@ public class OkHttpManager {
         });
 
     }
-
 
     private void sendFailedStringCallback(final int status, final String e, final ResultCallback callback) {
         mDelivery.post(new Runnable() {

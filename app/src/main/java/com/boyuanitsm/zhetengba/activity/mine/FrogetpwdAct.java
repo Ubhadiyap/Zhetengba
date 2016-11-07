@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -20,6 +21,7 @@ import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -27,6 +29,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -94,43 +97,27 @@ public class FrogetpwdAct extends BaseActivity {
      * 获取图片验证码
      */
     private void getImaCatch() {
-
-//        RequestManager.getUserManager().findImgCaptcha(new ResultCallback<InputStream>() {
-//            @Override
-//            public void onError(int status, String errorMsg) {
-//               iv_aqm.setImageResource(R.mipmap.yzmjiazai);
-//
-//            }
-//
-//            @Override
-//            public void onResponse(InputStream is) {
-////                imgcatchurl=response.getData().getImgpath();
-//
-//                try {
-//                    Bitmap bitmap = BitmapFactory.decodeStream(is);
-//                    is.close();
-//                    iv_aqm.setImageBitmap(bitmap);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-////                zifu=response.getData().getZifu();
-////                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imgcatchurl), iv_aqm, optionsImag);
-//
-//
-//
-//            }
-//        });
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
-                type=1;
+                type = 1;
                 super.run();
                 try {
-                    URL url=new URL(IZtbUrl.FINDIMGCAPTCHA_URL);
+                    URL url = new URL(IZtbUrl.FINDIMGCAPTCHA_URL);
                     //打开URL对应的资源输入流
-                    InputStream is= url.openStream();
+                    HttpURLConnection conn = null;
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setRequestMethod("POST");
+                    conn.connect();
+                    String cookie = conn.getHeaderField("set-cookie");
+                    InputStream in = conn.getInputStream();
+                    if (!TextUtils.isEmpty(cookie)){
+                        SpUtils.setCooike(MyApplication.getInstance(), cookie);
+                    }
                     //从InputStream流中解析出图片
-                    bitmap = BitmapFactory.decodeStream(is);
+                    bitmap = BitmapFactory.decodeStream(in);
                     //  imageview.setImageBitmap(bitmap);
                     //发送消息，通知UI组件显示图片\
                     Message msg = Message.obtain();
@@ -138,7 +125,7 @@ public class FrogetpwdAct extends BaseActivity {
 //                    handleryzm.sendMessage(msg);
                     handler.sendMessage(msg);
                     //关闭输入流
-                    is.close();
+                    in.close();
                 } catch (Exception e) {
                     iv_aqm.setImageResource(R.mipmap.yzmjiazai);
                     e.printStackTrace();
@@ -201,6 +188,7 @@ public class FrogetpwdAct extends BaseActivity {
         yzm = et_yzm.getText().toString().trim();
         pwd = et_pwd.getText().toString();//.trim();
         cpwd=et_cpwd.getText().toString();//.trim();
+        aqm=et_aqm.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
             et_phone.requestFocus();
@@ -253,6 +241,11 @@ public class FrogetpwdAct extends BaseActivity {
 
         if(!ZhetebaUtils.checkPwd(pwd)){
             MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母和数字");
+            return false;
+        }
+        if (TextUtils.isEmpty(aqm)) {
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
+            et_aqm.requestFocus();
             return false;
         }
         return true;

@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
@@ -54,18 +56,27 @@ import java.util.Map;
  * 注册信息界面面
  * Created by bitch-1 on 2016/5/9.
  */
-public class RegInfoAct extends BaseActivity {
+public class RegInfoAct extends BaseActivity{
     @ViewInject(R.id.et_pickname)
     private CanotEmojEditText et_pickname;
     @ViewInject(R.id.boy_rd)
     private RadioButton boy_rd;
+    @ViewInject(R.id.girl_rd)
+    private RadioButton girl_rd;
     @ViewInject(R.id.gvxq)
     private MyGridView gvqy;
     @ViewInject(R.id.rg_sex)
     private RadioGroup rg_sex;
     @ViewInject(R.id.iv_rgificon)
     private CircleImageView iv_icon;
-
+    @ViewInject(R.id.tv_man)
+    private TextView tv_man;
+    @ViewInject(R.id.ivman)
+    private ImageView iv_man;
+    @ViewInject(R.id.tv_nv)
+    private TextView tv_nv;
+    @ViewInject(R.id.iv_nv)
+    private ImageView iv_nv;
     private UserInfo user;
     private List<LabelBannerInfo> list = new ArrayList<LabelBannerInfo>();
     private List<LabelBannerInfo> idlist;//存储选中的兴趣标签
@@ -396,6 +407,49 @@ public class RegInfoAct extends BaseActivity {
             }
         });
     }
+
+//    @OnClick({R.id.iv_nv,R.id.tv_nv,R.id.tv_man,R.id.ivman})
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()){
+//            case R.id.iv_nv:
+//                girl_rd.setChecked(true);
+//                sex = "0";
+//                if(!flag){
+//                    iv_icon.setImageResource(R.mipmap.userg);}
+//                else {
+//
+//                }
+//                break;
+//            case R.id.tv_nv:
+//                girl_rd.setChecked(true);
+//                sex = "0";
+//                if(!flag){
+//                    iv_icon.setImageResource(R.mipmap.userg);}
+//                else {
+//
+//                }
+//                break;
+//            case R.id.tv_man:
+//                boy_rd.setChecked(true);
+//                sex = "1";
+//                if (!flag){
+//                    iv_icon.setImageResource(R.mipmap.userb);}
+//                else{
+//
+//                }
+//                break;
+//            case R.id.ivman:
+//                boy_rd.setChecked(true);
+//                sex = "1";
+//                if (!flag){
+//                    iv_icon.setImageResource(R.mipmap.userb);}
+//                else{
+//
+//                }
+//                break;
+//        }
+//    }
 
     /**
      * 标签
