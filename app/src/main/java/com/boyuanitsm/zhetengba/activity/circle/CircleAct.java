@@ -37,12 +37,16 @@ import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.ACache;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -82,6 +86,11 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     private Button bt_send;
     private int cusPos;
     private String cirId;
+
+    private ACache aCache;
+    private String strlist;
+    private Gson gson;
+    private List<CircleEntity> infos;
     @Override
     public void setLayout() {
         setContentView(R.layout.cir_frg);
@@ -90,7 +99,6 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子");
-        getAllCircleTalk(page, rows);
         lv_cir = (PullToRefreshListView) findViewById(R.id.lv_cir);
 //        llnoList = (LinearLayout) findViewById(R.id.noList);
 //        ivAnim = (ImageView) findViewById(R.id.ivAnim);
@@ -106,6 +114,26 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
             }
         }
         LayoutHelperUtil.freshInit(lv_cir);
+       //用缓存
+        aCache = ACache.get(CircleAct.this);
+        gson = new Gson();
+        strlist=aCache.getAsString("CircleTalkList");
+        infos = new ArrayList<CircleEntity>();
+        if(!TextUtils.isEmpty(strlist)){
+        infos=gson.fromJson(strlist,new TypeToken<List<CircleEntity>>(){}.getType());}
+        if(infos != null && infos.size() > 0){
+            load_view.loadComplete();
+            if (adapter == null) {
+                //设置简约listview的条目
+                adapter = new CircleAdapter(CircleAct.this, infos);
+                lv_cir.getRefreshableView().setAdapter(adapter);
+            } else {
+                adapter.notifyChange(infos);
+            }
+        }
+
+        getAllCircleTalk(page, rows);//获取说说列表
+
         et_comment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -216,6 +244,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     datas.clear();
                 }
                 datas.addAll(circleEntityList);
+                aCache.put("CircleTalkList", GsonUtils.bean2Json(datas));//实体转换成json
 //                for (int j = 0; j < datas.size(); j++) {
 //                    final List<ImageInfo> itemList = new ArrayList<>();
 //                    //将图片地址转化成数组
@@ -468,4 +497,9 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        lv_cir.doPullRefreshing(true,500);
+    }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,15 +24,18 @@ import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
-import com.boyuanitsm.zhetengba.bean.ImagCatchBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.db.DemoDBManager;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.ShUtils;
+import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.hyphenate.EMCallBack;
@@ -40,9 +44,12 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -71,14 +78,17 @@ public class RegistAct extends BaseActivity {
     private ImageView iv_aqm;
     @ViewInject(R.id.et_yqphone)
     private EditText et_yqphone;
-    
-    private String phone, yzm,pwd,cpwd,aqm,yqphone,imgcatchurl,zifu;//手机号，验证码，确认的密码,安全码，邀请人手机号,图片验证码，字符
+
+    private String phone, yzm, pwd, cpwd, aqm, yqphone, imgcatchurl, zifu;//手机号，验证码，确认的密码,安全码，邀请人手机号,图片验证码，字符
     private int i = 60;
     private Timer timer;
     private MyTimerTask myTask;
 
     private static final String TAG = "RegAct";
     private ProgressDialog pd;
+
+    private Bitmap bitmap;
+    private int type;
 
     private boolean ispress;//是否可以点击默认为false;真比较可以点击，假表示不能点击
 
@@ -111,10 +121,10 @@ public class RegistAct extends BaseActivity {
         register_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     tv_zc.setEnabled(true);
                     tv_zc.setBackgroundResource(R.drawable.com_dybtn_select);
-                }else {
+                } else {
                     tv_zc.setBackgroundResource(R.drawable.com_dybtn_hui);
                     tv_zc.setEnabled(false);
                 }
@@ -132,27 +142,44 @@ public class RegistAct extends BaseActivity {
      * 获取图像验证码
      */
     private void getImaCatch() {
-        RequestManager.getUserManager().findImgCaptcha(new ResultCallback<ResultBean<ImagCatchBean>>() {
+        new Thread() {
             @Override
-            public void onError(int status, String errorMsg) {
-
+            public void run() {
+                type = 1;
+                super.run();
+                try {
+                    URL url = new URL(IZtbUrl.FINDIMGCAPTCHA_URL);
+                    //打开URL对应的资源输入流
+                    HttpURLConnection conn = null;
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setRequestMethod("POST");
+                    conn.connect();
+                    String cookie = conn.getHeaderField("set-cookie");
+                    InputStream in = conn.getInputStream();
+                    if (!TextUtils.isEmpty(cookie)){
+                        SpUtils.setCooike(MyApplication.getInstance(), cookie);
+                    }
+                    //从InputStream流中解析出图片
+                    bitmap = BitmapFactory.decodeStream(in);
+                    //  imageview.setImageBitmap(bitmap);
+                    //发送消息，通知UI组件显示图片\
+                    Message msg = Message.obtain();
+                    msg.what = 0x9527;
+//                    handleryzm.sendMessage(msg);
+                    handler.sendMessage(msg);
+                    //关闭输入流
+                    in.close();
+                } catch (Exception e) {
+                    iv_aqm.setImageResource(R.mipmap.yzmjiazai);
+                    e.printStackTrace();
+                }
             }
-
-            @Override
-            public void onResponse(ResultBean<ImagCatchBean> response) {
-                imgcatchurl=response.getData().getImgpath();
-                zifu=response.getData().getZifu();
-                ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imgcatchurl), iv_aqm, optionsImag);
-
-
-
-
-
-            }
-        });
+        }.start();
     }
 
-    TextWatcher textWatcher=new TextWatcher() {
+    TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -168,11 +195,11 @@ public class RegistAct extends BaseActivity {
             phone = et_phone.getText().toString().trim();
             yzm = et_yzm.getText().toString().trim();
             pwd = et_pwd.getText().toString().trim();
-            cpwd=et_cpwd.getText().toString().trim();
-            if(!TextUtils.isEmpty(phone)&&!TextUtils.isEmpty(yzm)&&!TextUtils.isEmpty(pwd)&&!TextUtils.isEmpty(cpwd)){
+            cpwd = et_cpwd.getText().toString().trim();
+            if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(yzm) && !TextUtils.isEmpty(pwd) && !TextUtils.isEmpty(cpwd)) {
                 tv_zc.setEnabled(true);
                 tv_zc.setBackgroundResource(R.drawable.com_dybtn_select);
-            }else {
+            } else {
                 tv_zc.setBackgroundResource(R.drawable.com_dybtn_hui);
                 tv_zc.setEnabled(false);
             }
@@ -181,12 +208,12 @@ public class RegistAct extends BaseActivity {
     };
 
 
-    @OnClick({R.id.tv_code,R.id.tv_zc,R.id.tv_xy,R.id.iv_aqm})
-    public void OnClick(View v){
-        switch (v.getId()){
+    @OnClick({R.id.tv_code, R.id.tv_zc, R.id.tv_xy, R.id.iv_aqm})
+    public void OnClick(View v) {
+        switch (v.getId()) {
             case R.id.tv_code://发送验证码
-                phone=et_phone.getText().toString().trim();
-                aqm=et_aqm.getText().toString().toLowerCase();
+                phone = et_phone.getText().toString().trim();
+                aqm = et_aqm.getText().toString().toLowerCase();
                 if (TextUtils.isEmpty(phone)) {
 
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
@@ -198,22 +225,22 @@ public class RegistAct extends BaseActivity {
                     et_phone.setSelection(et_phone.length());
                     return;
                 }
-                if(!ZhetebaUtils.checkCellPhone(phone)){
+                if (!ZhetebaUtils.checkCellPhone(phone)) {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
                     return;
                 }
-                if(TextUtils.isEmpty(aqm)){
+                if (TextUtils.isEmpty(aqm)) {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
                     et_aqm.requestFocus();
                     return;
                 }
-                if(!aqm.equals(zifu)){
-                    MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
-                    et_aqm.requestFocus();
-                    return;
-                }
+//                if(!aqm.equals(zifu)){
+//                    MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
+//                    et_aqm.requestFocus();
+//                    return;
+//                }
 
-                    sendSms(phone, "true",200);
+                sendSms(phone, "true", aqm);
 
 
                 break;
@@ -222,12 +249,11 @@ public class RegistAct extends BaseActivity {
                 break;
 
 
-
             case R.id.tv_zc://注册
-                if(isValidate()) {
+                if (isValidate()) {
                     pd.show();
 //                    MyToastUtils.showShortToast(getApplicationContext(), "注册成功");
-                    toRegister(phone, yzm, pwd,yqphone);
+                    toRegister(phone, yzm, pwd, yqphone);
                 }
 
                 break;
@@ -236,7 +262,6 @@ public class RegistAct extends BaseActivity {
                 break;
 
         }
-
 
 
     }
@@ -250,23 +275,23 @@ public class RegistAct extends BaseActivity {
         phone = et_phone.getText().toString().trim();
         yzm = et_yzm.getText().toString().trim();
         pwd = et_pwd.getText().toString();//.trim();
-        cpwd=et_cpwd.getText().toString();//.trim();
-        aqm=et_aqm.getText().toString().toLowerCase();
-        yqphone=et_yqphone.getText().toString().trim();
+        cpwd = et_cpwd.getText().toString();//.trim();
+        aqm = et_aqm.getText().toString().toLowerCase();
+        yqphone = et_yqphone.getText().toString().trim();
 //        yqphone=et_yqphone.getText().toString();
-        if(TextUtils.isEmpty(aqm)){
-            MyToastUtils.showShortToast(getApplicationContext(),"请输入安全码");
+        if (TextUtils.isEmpty(aqm)) {
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
             et_aqm.requestFocus();
             return false;
         }
-        if(!aqm.equals(zifu)){
-            MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
-            et_aqm.requestFocus();
-            return false;
-        }
+//        if (!aqm.equals(zifu)) {
+//            MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
+//            et_aqm.requestFocus();
+//            return false;
+//        }
 
-        if(!TextUtils.isEmpty(yqphone)&&yqphone!=null&&yqphone.length()!=11){
-            MyToastUtils.showShortToast(getApplicationContext(),"请输入11位手机号码");
+        if (!TextUtils.isEmpty(yqphone) && yqphone != null && yqphone.length() != 11) {
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入11位手机号码");
             et_yqphone.requestFocus();
             return false;
         }
@@ -276,7 +301,7 @@ public class RegistAct extends BaseActivity {
 //            et_yqphone.setSelection(et_yqphone.length());
 //            return false;
 //        }
-        if(!TextUtils.isEmpty(yqphone)&&yqphone!=null&&!ZhetebaUtils.checkCellPhone(yqphone)){
+        if (!TextUtils.isEmpty(yqphone) && yqphone != null && !ZhetebaUtils.checkCellPhone(yqphone)) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
             return false;
         }
@@ -285,13 +310,13 @@ public class RegistAct extends BaseActivity {
             et_phone.requestFocus();
             return false;
         }
-        if(phone.length()!=11){
+        if (phone.length() != 11) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入11位的手机号");
             et_phone.requestFocus();
             et_phone.setSelection(et_phone.length());
             return false;
         }
-        if(!ZhetebaUtils.checkCellPhone(phone)){
+        if (!ZhetebaUtils.checkCellPhone(phone)) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
             return false;
         }
@@ -306,25 +331,25 @@ public class RegistAct extends BaseActivity {
             et_pwd.requestFocus();
             return false;
         }
-        if(pwd.length()<4){
-            MyToastUtils.showShortToast(getApplicationContext(),"请输入至少4位密码");
+        if (pwd.length() < 4) {
+            MyToastUtils.showShortToast(getApplicationContext(), "请输入至少4位密码");
             et_pwd.requestFocus();
             et_pwd.setSelection(pwd.length());
             return false;
         }
-        if(pwd.length()>24){
+        if (pwd.length() > 24) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入不超过24位密码");
             et_pwd.requestFocus();
             et_pwd.setSelection(pwd.length());
             return false;
         }
-        if(TextUtils.isEmpty(cpwd)){
+        if (TextUtils.isEmpty(cpwd)) {
             MyToastUtils.showShortToast(getApplicationContext(), "请确认密码");
             et_cpwd.requestFocus();
             return false;
         }
 
-        if(!(cpwd.equals(pwd))){
+        if (!(cpwd.equals(pwd))) {
             MyToastUtils.showShortToast(getApplicationContext(), "确认密码输入错误");
             et_cpwd.requestFocus();
             return false;
@@ -347,12 +372,12 @@ public class RegistAct extends BaseActivity {
      * 倒计时
      *
      * @author wangbin
-     *
      */
     class MyTimerTask extends TimerTask {
 
         @Override
         public void run() {
+            type = 2;
             handler.sendEmptyMessage(i--);
         }
 
@@ -364,13 +389,21 @@ public class RegistAct extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 0||msg.what<0) {
-                tv_code .setEnabled(true);
-                tv_code.setText("重新发送");
-                timer.cancel();
-                myTask.cancel();
-            } else {
-                tv_code.setText(msg.what + "秒");
+            if (type == 1) {
+                if (msg.what == 0x9527) {
+                    //显示从网上下载的图片
+                    iv_aqm.setImageBitmap(bitmap);
+                }
+            }
+            if (type == 2) {
+                if (msg.what == 0 || msg.what < 0) {
+                    tv_code.setEnabled(true);
+                    tv_code.setText("重新发送");
+                    timer.cancel();
+                    myTask.cancel();
+                } else {
+                    tv_code.setText(msg.what + "秒");
+                }
             }
         }
 
@@ -378,15 +411,17 @@ public class RegistAct extends BaseActivity {
 
 
     private boolean progressShow;
+
     /**
      * 注册
+     *
      * @param username
      * @param captcha
      * @param password
      */
 
-    public void toRegister(final String username,String captcha,String password,String referralCode){
-        RequestManager.getUserManager().register(username, captcha, password,referralCode, new ResultCallback<ResultBean<UserBean>>() {
+    public void toRegister(final String username, String captcha, String password, String referralCode) {
+        RequestManager.getUserManager().register(username, captcha, password, referralCode, new ResultCallback<ResultBean<UserBean>>() {
 
             @Override
             public void onError(int status, String errorMsg) {
@@ -397,7 +432,7 @@ public class RegistAct extends BaseActivity {
             @Override
 
             public void onResponse(ResultBean<UserBean> response) {
-                UserBean userBean=response.getData();
+                UserBean userBean = response.getData();
                 login(userBean);
             }
         });
@@ -406,12 +441,13 @@ public class RegistAct extends BaseActivity {
 
     /**
      * 发送验证码接口
+     *
      * @param phoneNumber
      * @param isRegister
      */
-    public void sendSms(String phoneNumber,String isRegister,int identifyCode){
+    public void sendSms(String phoneNumber, String isRegister, String imageCaptcha) {
         tv_code.setEnabled(false);
-        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,identifyCode, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, imageCaptcha, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 tv_code.setEnabled(true);
@@ -434,8 +470,10 @@ public class RegistAct extends BaseActivity {
 
     private String currentUsername;
     private String currentPassword;
+
     /**
      * 登录环信
+     *
      * @param
      */
     public void login(final UserBean userBean) {
@@ -443,8 +481,8 @@ public class RegistAct extends BaseActivity {
             Toast.makeText(this, R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
             return;
         }
-        currentUsername=userBean.getUser().gethUsername();
-        currentPassword=userBean.getUser().gethPassword();
+        currentUsername = userBean.getUser().gethUsername();
+        currentPassword = userBean.getUser().gethPassword();
         if (TextUtils.isEmpty(currentUsername)) {
             Toast.makeText(this, R.string.User_name_cannot_be_empty, Toast.LENGTH_SHORT).show();
             return;
