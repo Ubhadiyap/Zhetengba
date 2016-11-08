@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -36,6 +35,7 @@ import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ACache;
+import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
@@ -45,6 +45,8 @@ import com.boyuanitsm.zhetengba.view.bounScrollView.BounceScrollView;
 import com.boyuanitsm.zhetengba.view.bounScrollView.ViewPagerIndicator;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -95,6 +97,10 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
     private int commentPosition = 0;
     private String channelId;
 
+    private String strlist;
+    private Gson gson;
+    private List<ChannelTalkEntity> infos;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_square);
@@ -107,7 +113,23 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
         ivAnim = (ImageView) findViewById(R.id.ivAnim);
         noMsg = (TextView) findViewById(R.id.noMsg);
         LayoutHelperUtil.freshInit(vp_chan);
+        //用缓存
         aCache = ACache.get(SquareAct.this);
+        strlist=aCache.getAsString("channelTalkList");
+        gson=new Gson();
+        if(!TextUtils.isEmpty(strlist)){
+            infos=gson.fromJson(strlist,new TypeToken<List<ChannelTalkEntity>>(){}.getType());
+        }
+        if(infos!=null&&infos.size()>0){
+            load_view.loadComplete();
+            if (adapter == null) {
+                //设置简约listview的条目
+                adapter = new ChanAdapter(SquareAct.this, infos);
+                vp_chan.getRefreshableView().setAdapter(adapter);
+            } else {
+                adapter.notifyChange(infos);
+            }
+        }
         getChannelTalks(labelStr, page, rows);
         et_comment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -307,6 +329,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                     datas.clear();
                 }
                 datas.addAll(channelTalkEntityList);
+                aCache.put("channelTalkList", GsonUtils.bean2Json(datas));//实体转换成json
                 if (adapter == null) {
                     adapter = new ChanAdapter(SquareAct.this,datas);
                     vp_chan.getRefreshableView().setAdapter(adapter);
@@ -386,5 +409,9 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        vp_chan.doPullRefreshing(true,500);
+    }
 }
