@@ -239,10 +239,10 @@ public class FrogetpwdAct extends BaseActivity {
             return false;
         }
 
-        if(!ZhetebaUtils.checkPwd(pwd)){
-            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母和数字");
-            return false;
-        }
+//        if(!ZhetebaUtils.checkPwd(pwd)){
+//            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母和数字");
+//            return false;
+//        }
         if (TextUtils.isEmpty(aqm)) {
             MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
             et_aqm.requestFocus();

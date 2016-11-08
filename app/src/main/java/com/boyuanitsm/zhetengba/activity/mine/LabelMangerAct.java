@@ -170,7 +170,11 @@ public class LabelMangerAct extends BaseActivity {
                 labelBannerInfo.setDictName(str.getDictName());
                 labelBannerInfo.setId(str.getInterestId());
                 list.add(labelBannerInfo);
-                labelGVadapter.update(list);
+                if(labelGVadapter==null){
+                    labelGVadapter=new LabelGVadapter(LabelMangerAct.this,list);
+                }else {
+                    labelGVadapter.update(list);
+                }
             }
         });
     }

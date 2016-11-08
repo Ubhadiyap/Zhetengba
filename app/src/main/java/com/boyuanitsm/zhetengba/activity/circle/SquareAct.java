@@ -409,9 +409,9 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        vp_chan.doPullRefreshing(true,500);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        vp_chan.doPullRefreshing(true,500);
+//    }
 }
