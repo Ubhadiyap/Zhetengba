@@ -275,6 +275,13 @@ public class PicShowDialog extends Dialog {
         //获取xoff
         popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
         TextView tv_jb = (TextView) layout.findViewById(R.id.tv_jb);
+        TextView tv_qx = (TextView) layout.findViewById(R.id.tv_qx);
+        tv_qx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
         tv_jb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
