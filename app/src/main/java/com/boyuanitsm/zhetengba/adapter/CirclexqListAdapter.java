@@ -60,7 +60,7 @@ import java.util.List;
  */
 public class CirclexqListAdapter extends BaseAdapter {
     private Context context;
-    private List<List<ImageInfo>> dateList = new ArrayList<>();
+//    private List<List<ImageInfo>> dateList = new ArrayList<>();
     private List<CircleEntity> list = new ArrayList<>();
     int clickPos;
     int circleDelPos;
@@ -606,7 +606,7 @@ public class CirclexqListAdapter extends BaseAdapter {
                     MyToastUtils.showShortToast(context, "删除成功");
                     dialog.dismiss();
                     list.remove(circleDelPos);
-                    dateList.remove(circleDelPos);
+//                    dateList.remove(circleDelPos);
                     context.sendBroadcast(new Intent(CircleAct.ALLTALKS));
                     notifyDataSetChanged();
 //                dialog.dismiss();
