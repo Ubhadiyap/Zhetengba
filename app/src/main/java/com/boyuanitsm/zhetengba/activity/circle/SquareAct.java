@@ -86,7 +86,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
     private TextView noMsg;
     private AnimationDrawable animationDrawable;
     private List<ChannelTalkEntity> channelTalkEntityList;
-    private List<List<ImageInfo>> datalist;
+//    private List<List<ImageInfo>> datalist;
     private List<ChannelTalkEntity> datas = new ArrayList<>();
     private int page = 1;
     private int rows = 10;
@@ -274,7 +274,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
      */
     private void getChannelTalks(final String lableId, final int page, int rows) {
         channelTalkEntityList = new ArrayList<>();
-        datalist = new ArrayList<>();
+//        datalist = new ArrayList<>();
         RequestManager.getTalkManager().getChannelTalks(lableId, page, rows, new ResultCallback<ResultBean<DataBean<ChannelTalkEntity>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -374,7 +374,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                         int position = bundle.getInt("DelPosition");
                         MyLogUtils.info("datas内数据====" + datas.toString() + "" + position);
                         datas.remove(position);
-                        datalist.remove(position);
+//                        datalist.remove(position);
                     }
                     if (adapter == null) {
                         adapter = new ChanAdapter(SquareAct.this,datas);
@@ -409,9 +409,9 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        vp_chan.doPullRefreshing(true,500);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        vp_chan.doPullRefreshing(true,500);
+//    }
 }

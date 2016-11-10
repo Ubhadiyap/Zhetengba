@@ -114,7 +114,8 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
             }
         }
         LayoutHelperUtil.freshInit(lv_cir);
-       //用缓存
+//        lv_cir.doPullRefreshing(true,500);
+        //用缓存
         aCache = ACache.get(CircleAct.this);
         gson = new Gson();
         strlist=aCache.getAsString("CircleTalkList");
@@ -131,7 +132,6 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 adapter.notifyChange(infos);
             }
         }
-
         getAllCircleTalk(page, rows);//获取说说列表
 
         et_comment.addTextChangedListener(new TextWatcher() {
@@ -497,9 +497,4 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        lv_cir.doPullRefreshing(true,500);
-    }
 }
