@@ -73,7 +73,7 @@ public class ShareDialogAct extends BaseActivity {
             //占时用到这个的有从圈子frg里面子圈子，子频道，有从首页点击头像圈子动态frg分享
         }
         if(type==5){//圈子分享
-            codeUrl= IZtbUrl.SHARE_URL+"/sharecontent";//圈子动态
+            codeUrl= IZtbUrl.SHARE_URL+"/sharecontent?phone="+phone;//圈子动态
             content="我参加了"+"\""+cirname+"\""+"的圈子，大家快来加入吧";
         }
 
