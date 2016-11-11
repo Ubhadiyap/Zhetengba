@@ -3,6 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:background="@color/main_color">
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_city"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<TextView-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:id="@+id/tv_city"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text="上海"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<ImageView-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_toRightOf="@id/tv_city"-->
+            <!--android:src="@mipmap/arrow_down2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+    <!--</RelativeLayout>-->
 <TextView
     android:text="档期"
     android:textColor="#fff"

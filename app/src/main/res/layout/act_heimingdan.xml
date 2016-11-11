@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_bg">
 <include layout="@layout/title_act_layout"></include>
     <com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuListView
+        android:layout_marginTop="48dp"
         android:id="@+id/lv_hei"
         android:divider="@null"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuListView>
-</LinearLayout>
+    <com.boyuanitsm.zhetengba.view.LoadingView
+        android:layout_marginTop="48dp"
+        android:id="@+id/load_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.LoadingView>
+
+</RelativeLayout>

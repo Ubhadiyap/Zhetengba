@@ -19,6 +19,7 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenu;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuCreator;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuItem;
@@ -34,6 +35,8 @@ import java.util.List;
 public class HeiAct extends BaseActivity {
     @ViewInject(R.id.lv_hei)
     private SwipeMenuListView lv_hei;
+    @ViewInject(R.id.load_view)
+    private LoadingView load_view;
     private ProgressDialog progressDialog;
     private List<FriendsBean>list=new ArrayList<>();//返回来的黑名单列表
     private HeiAdapter adapter;
@@ -78,7 +81,7 @@ public class HeiAct extends BaseActivity {
                 switch (index) {
                     case 0:
                         //向左滑动，删除操作
-                        deleteFriendPer(list,position);
+                        deleteFriendPer(list, position);
                         break;
                 }
                 // false : close the menu; true : not close the menu
@@ -86,6 +89,12 @@ public class HeiAct extends BaseActivity {
             }
         });
         lv_hei.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+            @Override
+            public void OnRetry() {
+                findBlackList();//获取黑名单列表
+            }
+        });
     }
 
 
@@ -98,15 +107,19 @@ public class HeiAct extends BaseActivity {
         RequestManager.getScheduleManager().findBlackList(new ResultCallback<ResultBean<DataBean<FriendsBean>>>() {
             @Override
             public void onError(int status, String errorMsg) {
+                load_view.loadError();
 
             }
 
             @Override
             public void onResponse(ResultBean<DataBean<FriendsBean>> response) {
                 list = response.getData().getRows();
+                load_view.loadComplete();
                 if (list.size() != 0) {
                     adapter = new HeiAdapter(HeiAct.this, list);
                     lv_hei.setAdapter(adapter);
+                }else {
+                    load_view.noContent();
                 }
 
             }
