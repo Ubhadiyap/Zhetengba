@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -50,6 +51,7 @@ public class TimeFrg extends BaseFragment {
     @Override
     public void initData(Bundle savedInstanceState) {
         inputTime = getArguments().getString(INPUT_TIME);
+        lv_mine_list.setSelector(new ColorDrawable(Color.TRANSPARENT));
         findHistory(inputTime);
     }
 

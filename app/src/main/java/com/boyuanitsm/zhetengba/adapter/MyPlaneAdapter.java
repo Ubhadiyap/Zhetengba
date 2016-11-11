@@ -54,7 +54,7 @@ import java.util.List;
  */
 public class MyPlaneAdapter extends BaseAdapter {
     private Context context;
-    private List<List<ImageInfo>> dateList;
+//    private List<List<ImageInfo>> dateList;
     private List<CircleEntity> list;
     int clickPos;
     int circleDelPos;
@@ -603,7 +603,7 @@ public class MyPlaneAdapter extends BaseAdapter {
                     MyToastUtils.showShortToast(context, "删除成功");
                     dialog.dismiss();
                     list.remove(circleDelPos);
-                    dateList.remove(circleDelPos);
+//                    dateList.remove(circleDelPos);
                     context.sendBroadcast(new Intent(CircleAct.ALLTALKS));
                     notifyDataSetChanged();
                 }

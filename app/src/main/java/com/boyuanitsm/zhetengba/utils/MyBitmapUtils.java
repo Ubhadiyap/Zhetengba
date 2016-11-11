@@ -331,8 +331,8 @@ public class MyBitmapUtils {
 		}
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		int options=90;
-		bitmap.compress(Bitmap.CompressFormat.PNG,options, baos);
+		int options=100;
+		bitmap.compress(Bitmap.CompressFormat.JPEG,options, baos);
 		while (baos.toByteArray().length / 1024 > 100) {
 			baos.reset();
 			options -= 10;

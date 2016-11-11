@@ -8,12 +8,26 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
 import com.boyuanitsm.zhetengba.activity.mine.RegInfoAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserBean;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * Created by wangbin on 16/5/10.
@@ -68,6 +82,7 @@ public class SplashAct extends BaseActivity {
                         } else {
                             //进入主页面
                             startActivity(new Intent(SplashAct.this, MainAct.class));
+//                            toLogin(UserInfoDao.getUser().getUsername(),UserInfoDao.getUser().gethPassword());
                             finish();
                         }
                     }
@@ -97,5 +112,15 @@ public class SplashAct extends BaseActivity {
         }).start();
 
     }
+    private void toLogin(final String username, String password) {
+        RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<UserBean>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+            }
 
+            @Override
+            public void onResponse(ResultBean<UserBean> response) {
+            }
+        });
+    }
 }
