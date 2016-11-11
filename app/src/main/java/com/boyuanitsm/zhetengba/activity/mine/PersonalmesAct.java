@@ -34,6 +34,7 @@ import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CommonView;
 import com.boyuanitsm.zhetengba.view.MySelfSheetDialog;
+import com.boyuanitsm.zhetengba.view.crop.square.CropImageActivity;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -400,10 +401,10 @@ public class PersonalmesAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(),"图片有误，请重新选择！");
                     return;
                 }
-                File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.png");
-                intent = new Intent(this, ClipActivity.class);
-                intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.png");
-                MyLogUtils.info("拍照图片地址是：" + Environment.getExternalStorageDirectory() + "/" + "user_head.png");
+                File user_head = MyBitmapUtils.saveBitmap(MyBitmapUtils.zoomImgKeepWH(userbitmap, 400, 400, true), "user_head.jpeg");
+                intent = new Intent(this, CropImageActivity.class);
+                intent.putExtra("path", Environment.getExternalStorageDirectory() + "/" + "user_head.jpeg");
+                MyLogUtils.info("拍照图片地址是：" + Environment.getExternalStorageDirectory() + "/" + "user_head.jpeg");
                 startActivityForResult(intent, IMAGE_COMPLETE);
                 break;
             case PHOTOTAKE:// 拍照
@@ -411,7 +412,7 @@ public class PersonalmesAct extends BaseActivity {
                     return;
                 }
                 String path = photoSavePath + photoSaveName;
-                Intent intent2 = new Intent(this, ClipActivity.class);
+                Intent intent2 = new Intent(this, CropImageActivity.class);
                 intent2.putExtra("path", path);
                 MyLogUtils.info("拍照地址是=====："+path);
                 startActivityForResult(intent2, IMAGE_COMPLETE);

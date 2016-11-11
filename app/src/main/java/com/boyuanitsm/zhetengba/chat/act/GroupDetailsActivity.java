@@ -773,6 +773,11 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 						convertView.setVisibility(View.VISIBLE);
 						convertView.findViewById(R.id.badge_delete).setVisibility(View.INVISIBLE);
 					}
+					if (type==false){
+						convertView.setVisibility(View.GONE);
+					}else {
+						convertView.setVisibility(View.VISIBLE);
+					}
 					final String st11 = getResources().getString(R.string.Add_a_button_was_clicked);
 					button.setOnClickListener(new OnClickListener() {
 						@Override

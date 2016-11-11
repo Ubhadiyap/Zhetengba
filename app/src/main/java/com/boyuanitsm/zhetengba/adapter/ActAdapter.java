@@ -207,6 +207,35 @@ public class ActAdapter extends BaseAdapter {
         } else {
             builder.setMessage("没有详情");
         }
+        if (!TextUtils.isEmpty(infos.get(position).getCreatePersonId())){
+            if (!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
+                if (!infos.get(position).getCreatePersonId().equals(UserInfoDao.getUser().getId())) {
+                    if (!infos.get(position).isFriend()){
+                        builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("userId", infos.get(position).getUserId());
+                                bundle.putBoolean("friend", infos.get(position).isFriend());
+                                intent.putExtras(bundle);
+                                intent.setClass(context, PersonalAct.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        });
+                    }else {
+                        builder.setNegativeButton("我们是好友", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                    }
+                }
+            }
+        }
         if (infos.get(position).getJoinCount() > 0) {
             builder.setPositiveButton("一起参加了" + infos.get(position).getJoinCount() + "次档期", new DialogInterface.OnClickListener() {
                 @Override
@@ -215,22 +244,7 @@ public class ActAdapter extends BaseAdapter {
                 }
             });
         }
-        if (!infos.get(position).isFriend()){
-            builder.setNegativeButton("加为好友", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userId", infos.get(position).getUserId());
-                    bundle.putBoolean("friend", infos.get(position).isFriend());
-                    intent.putExtras(bundle);
-                    intent.setClass(context, PersonalAct.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                    dialog.dismiss();
-                }
-            });
-        }
+
         if (infos.get(position).getMemberNum() == infos.get(position).getInviteNumber()) {
             if (!infos.get(position).isJoining()) {
                 viewHolder.ll_join.setOnClickListener(new View.OnClickListener() {

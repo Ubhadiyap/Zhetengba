@@ -6,6 +6,8 @@
     android:orientation="vertical"
     android:background="#e1e1e1"
     >
+    <include layout="@layout/title_act_layout"></include>
+
     <com.boyuanitsm.zhetengba.view.crop.square.ClipImageLayout
         android:id="@+id/crop_image"
         android:layout_width="match_parent"
@@ -13,33 +15,33 @@
         android:layout_marginTop="48dp"
         android:layout_weight="1"
         android:background="#ffffff"
-        
          />
     
-    <RelativeLayout 
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
+        android:orientation="horizontal"
+        android:gravity="center"
         >
-        <TextView 
+        <TextView
+            android:layout_weight="1"
+            android:gravity="center"
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="取消"
             android:textColor="#9a9a9a"
-            android:layout_centerVertical="true"
             />
         
-         <TextView 
+         <TextView
+             android:layout_weight="1"
              android:id="@+id/btn_done"
+             android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="选取"
             android:textColor="#9a9a9a"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             />
         
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

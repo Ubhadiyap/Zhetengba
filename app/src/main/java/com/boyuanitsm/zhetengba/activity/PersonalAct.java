@@ -59,6 +59,7 @@ import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.HorizontalListView;
 import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
+import com.boyuanitsm.zhetengba.view.PicShowDialog;
 import com.boyuanitsm.zhetengba.view.PicSmShowDialog;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;

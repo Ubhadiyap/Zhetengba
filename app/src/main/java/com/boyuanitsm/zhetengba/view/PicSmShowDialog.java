@@ -179,7 +179,7 @@ public class PicSmShowDialog extends Dialog {
         public Object instantiateItem(ViewGroup container, final int position) {
             View view =View.inflate(context, R.layout.item_pic_show, null);
             final PhotoView photoView = (PhotoView) view.findViewById(R.id.pic_pv);
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(imageInfos[position]), photoView, optionsImag, new ImageLoadingListener() {
+            ImageLoader.getInstance().displayImage(Uitls.imageBigUrl(imageInfos[position]), photoView, optionsImag, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String s, View view) {
                     mArrowImageView.setVisibility(View.VISIBLE);
@@ -189,7 +189,9 @@ public class PicSmShowDialog extends Dialog {
 
                 @Override
                 public void onLoadingFailed(String s, View view, FailReason failReason) {
-
+                    mArrowImageView.clearAnimation();
+                    mRotateAnimation.cancel();
+                    mArrowImageView.setVisibility(View.GONE);
                 }
 
                 @Override

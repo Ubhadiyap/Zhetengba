@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.Constant;
@@ -29,6 +30,7 @@ import com.boyuanitsm.zhetengba.chat.parse.UserProfileManager;
 import com.boyuanitsm.zhetengba.chat.receiver.CallReceiver;
 import com.boyuanitsm.zhetengba.chat.utils.PreferenceManager;
 import com.boyuanitsm.zhetengba.db.ChatUserDao;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.ContractsFrg;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -610,19 +612,22 @@ public class DemoHelper {
             msg.setFrom(inviter);
             msg.setTo(groupId);
             msg.setMsgId(UUID.randomUUID().toString());
+            MyLogUtils.info(EaseUserUtils.getUserInfo(inviter).getUsername()+"======="+UserInfoDao.getUser().getId());
             if (EaseUserUtils.getUserInfo(inviter)==null){
                 MyLogUtils.info("获取对象为空，EaseUserUtils.getUserInfo(inviter)+inviter是多少："+inviter);
                 return;
-            }else {
-//                msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + "" + st3));
-                msg.addBody(new EMTextMessageBody("欢迎进入群聊"));
-
+            }else if (!TextUtils.isEmpty(UserInfoDao.getUser().getId())){
+                if (TextUtils.equals(EaseUserUtils.getUserInfo(inviter).getUsername(),UserInfoDao.getUser().getId())){
+//                    msg.addBody(new EMTextMessageBody(EaseUserUtils.getUserInfo(inviter).getNick() + "" + st3));
+                    msg.addBody(new EMTextMessageBody("欢迎进入群聊"));
+                    msg.setStatus(EMMessage.Status.SUCCESS);
+                    // 保存邀请消息
+                    EMClient.getInstance().chatManager().saveMessage(msg);
+                    // 提醒新消息
+                    getNotifier().viberateAndPlayTone(msg);
+                }
             }
-            msg.setStatus(EMMessage.Status.SUCCESS);
-            // 保存邀请消息
-            EMClient.getInstance().chatManager().saveMessage(msg);
-            // 提醒新消息
-            getNotifier().viberateAndPlayTone(msg);
+
 //            EMLog.d(TAG, "onAutoAcceptInvitationFromGroup groupId:" + groupId);
             //发送local广播
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_GROUP_CHANAGED));

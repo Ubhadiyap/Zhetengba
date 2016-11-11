@@ -19,12 +19,14 @@ package com.boyuanitsm.zhetengba.view.crop.square;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.boyuanitsm.zhetengba.base.BaseActivity;
+
 import java.util.ArrayList;
 
 /*
  * Modified from original in AOSP.
  */
-abstract class MonitoredActivity extends Activity {
+abstract class MonitoredActivity extends BaseActivity {
 
     private final ArrayList<LifeCycleListener> listeners = new ArrayList<LifeCycleListener>();
 

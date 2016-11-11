@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.view.crop.square;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,16 +9,23 @@ import android.net.Uri;
 import android.opengl.GLES10;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,18 +69,46 @@ public class CropImageActivity extends MonitoredActivity {
 	private boolean isOrientationChanged;
 	/** 切换锁定 */
 	private boolean flag = true;
-
+	private String path;
+	private ProgressDialog loadingDialog;
+	String pathfile;
 	@SuppressWarnings("deprecation")
+//	@Override
+//	public void onCreate(Bundle icicle) {
+//		super.onCreate(icicle);
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		// initViews();
+//
+//	}
+
 	@Override
-	public void onCreate(Bundle icicle) {
-		super.onCreate(icicle);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+	public void setLayout() {
 		setContentView(R.layout.activity_crop);
-		// initViews();
+	}
+
+	@Override
+	public void init(Bundle savedInstanceState) {
 		clipImage = (ClipImageLayout) findViewById(R.id.crop_image);
 		tvCancel = (TextView) findViewById(R.id.btn_cancel);
 		tvDone = (TextView) findViewById(R.id.btn_done);
 		setupFromIntent();
+		// 这步必须要加
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setTopTitle("裁剪照片");
+		loadingDialog = new ProgressDialog(this);
+		loadingDialog.setTitle("请稍后...");
+		path = getIntent().getStringExtra("path");
+		MyLogUtils.info("裁剪查找地址：" + path);
+		if (TextUtils.isEmpty(path) || !(new File(path).exists())) {
+			Toast.makeText(this, "图片加载失败", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		Bitmap bitmap = MyBitmapUtils.convertToBitmap(path, 600, 600);
+		if (bitmap == null) {
+			Toast.makeText(this, "图片加载失败", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		clipImage.setImage(new BitmapDrawable(bitmap));
 		tvCancel.setOnClickListener(new OnClickListener() {
 			@Override
@@ -83,12 +119,29 @@ public class CropImageActivity extends MonitoredActivity {
 		tvDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Bitmap bm = clipImage.clip();
-				saveImage(bm);
+				loadingDialog.show();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						Bitmap bitmap = clipImage.clip();
+						pathfile = Environment
+								.getExternalStorageDirectory()
+								+ "/ClipHeadPhoto/cache/"
+								+ System.currentTimeMillis() + ".png";
+						MyBitmapUtils.savePhotoToSDCard(bitmap, path);
+						MyLogUtils.info("拍照图片地址是："+path);
+						loadingDialog.dismiss();
+						Intent intent = new Intent();
+						intent.putExtra("path", path);
+						setResult(RESULT_OK, intent);
+						//info.setMemberpic(path);
+						finish();
+					}
+				}).start();
 			}
 		});
-	}
 
+	}
 
 
 	private void setupFromIntent() {
@@ -209,8 +262,19 @@ public class CropImageActivity extends MonitoredActivity {
 	}
 
 	private void setResultUri(Uri uri) {
-		setResult(RESULT_OK,
-				new Intent().putExtra(MediaStore.EXTRA_OUTPUT, uri));
+//		Bitmap bitmap = mClipImageLayout.clip();
+//		pathfile = Environment
+//				.getExternalStorageDirectory()
+//				+ "/ClipHeadPhoto/cache/"
+//				+ System.currentTimeMillis() + ".png";
+//		MyBitmapUtils.savePhotoToSDCard(bitmap, path);
+//		MyLogUtils.info("拍照图片地址是："+path);
+		loadingDialog.dismiss();
+		Intent intent = new Intent();
+		intent.putExtra("path", path);
+		setResult(RESULT_OK, intent);
+//		setResult(RESULT_OK,
+//				new Intent().putExtra(MediaStore.EXTRA_OUTPUT, uri));
 	}
 
 	private void setResultException(Throwable throwable) {

@@ -72,6 +72,15 @@ public class Uitls {
 		String bigPath="bigImg"+path.substring(11);
 		return IZtbUrl.BASE_URL+bigPath;
 	}
+	/***
+	 *头像小图片完全路径 channelTalk小兔路径
+	 * @param path
+	 * @return
+	 */
+	public static String imageBigUrl(String path){
+		String bigPath="bigImg"+path.substring(8);
+		return IZtbUrl.BASE_URL+bigPath;
+	}
 
 
 }
