@@ -173,11 +173,11 @@ public class CirxqAct extends BaseActivity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (isFabu){
                     if (scrollState == SCROLL_STATE_FLING || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-                        iv_fa.setVisibility(View.GONE);
+//                        iv_fa.setVisibility(View.GONE);
                         ll_comment.setVisibility(View.GONE);
                         ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                     } else {
-                        iv_fa.setVisibility(View.VISIBLE);
+//                        iv_fa.setVisibility(View.VISIBLE);
                     }
                 }
 

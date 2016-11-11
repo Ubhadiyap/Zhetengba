@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.MyBitmapUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CanotEmojEditText;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
@@ -309,6 +311,7 @@ public class CirclefbAct extends BaseActivity {
             @Override
             public void run() {
                 Map<String, FileBody> fileMaps = new HashMap<String,FileBody>();
+                MyLogUtils.info(ZhetebaUtils.getCurrentTime()+"当前时间是======");
                 for (int i = 0; i < selecteds.size(); i++) {
                     Bitmap bitmap= MyBitmapUtils.getSmallBitmap(selecteds.get(i).getPath());
                     if (bitmap!=null){
@@ -319,7 +322,7 @@ public class CirclefbAct extends BaseActivity {
                     }
 
                 }
-
+                MyLogUtils.info(ZhetebaUtils.getCurrentTime()+"当前时间是======");
                 Message message=handler.obtainMessage();
                 message.obj=fileMaps;
 
