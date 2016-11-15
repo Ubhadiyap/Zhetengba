@@ -394,7 +394,7 @@
             android:name=".activity.circle.ChanelTextAct"
             android:screenOrientation="portrait"></activity>
 
-        <!--裁减图片-->
+        <!--裁减图片头像-->
         <activity
             android:name=".view.crop.square.CropImageActivity"
             android:screenOrientation="portrait"></activity>
@@ -531,6 +531,8 @@
             android:name=".activity.mine.TimeHistoryAct"
             android:screenOrientation="portrait"></activity>
 
+        <!--<activity android:name=".view.crop.square.CropImageActivity"-->
+            <!--android:screenOrientation="portrait"></activity>-->
 
         <!-- 极光-->
         <!-- Rich push 核心功能 since 2.0.6-->

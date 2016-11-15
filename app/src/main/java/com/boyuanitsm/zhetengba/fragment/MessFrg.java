@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.TextUtils;
 import android.util.Pair;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -132,7 +133,8 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
                 public void onClick(View v) {
                     tvUnReaNum.setVisibility(View.GONE);
                     Intent dqIntent = new Intent(getContext(), DqMesAct.class);
-                    getContext().startActivity(dqIntent);
+                    mActivity.startActivity(dqIntent);
+                    tvmessage.setText("暂无新消息");
                 }
             });
 
@@ -264,8 +266,12 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         public void onReceive(Context context, Intent intent) {
 
             int chat_receiver = intent.getIntExtra("chat_receiver", 5);
+            String chat_message = intent.getStringExtra("chat_message");
             if (chat_receiver==3){
                 tvUnReaNum.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(chat_message)){
+                    tvmessage.setText(chat_message);
+                }
             }
             MyLogUtils.degug("接收到广播");
             InviteMessgeDao inviteMessgeDao=new InviteMessgeDao(mActivity);

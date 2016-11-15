@@ -127,6 +127,11 @@ public class MyReceiver extends BroadcastReceiver {
 //                        context.sendBroadcast(intent1);
                     Intent intent2 = new Intent(MessFrg.UPDATE_CONTRACT);
                     intent2.putExtra("chat_receiver", 3);//3表示有档期消息进入
+                    if (activityMess!=null){
+                        if (!TextUtils.isEmpty(activityMess.getMessage())){
+                            intent2.putExtra("chat_message",activityMess.getMessage());
+                        }
+                    }
                     context.sendBroadcast(intent2);
                 }
             } catch (JSONException e) {
