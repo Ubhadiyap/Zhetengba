@@ -31,5 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.LoadingView>
 
+        <LinearLayout
+            android:id="@+id/ll_float"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <include layout="@layout/act_float_personal"></include>
+        </LinearLayout>
     </FrameLayout>
 </RelativeLayout>

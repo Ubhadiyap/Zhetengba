@@ -95,12 +95,12 @@ public class PersonalAct extends BaseActivity{
     private ImageView iv_set;
     private Button bt_message;
     private HorizontalListView hlv_perpage;//水平listview
-    private RelativeLayout rl_dangqi;
-    private RelativeLayout rl_dongtai;
-    private TextView tv_dangqi;
-    private TextView tv_dongtai;
-    private View view_dangqi;
-    private View view_dongtai;
+    private RelativeLayout rl_dangqi,rl_dangqi1;
+    private RelativeLayout rl_dongtai,rl_dongtai1;
+    private TextView tv_dangqi,tv_dangqi1;
+    private TextView tv_dongtai,tv_dongtai1;
+    private View view_dangqi,view_dangqi1;
+    private View view_dongtai,view_dongtai1;
     private CircleImageView cv_photo;
     private ScrollView msv_scroll;
     private LinearLayout ll_tab;
@@ -122,10 +122,11 @@ public class PersonalAct extends BaseActivity{
     private int page=1;
     private int rows=10;
     private int page2=1;
-    private View inflate;
+    private View inflate,float1;
     private int tag;
     private int clickPos=-1;
     private  String[] urlList;
+    private LinearLayout ll_float;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -150,17 +151,18 @@ public class PersonalAct extends BaseActivity{
         chat = intent.getIntExtra("chat_type", 5);
         groupname=intent.getStringExtra("groupName");
          inflate = getLayoutInflater().inflate(R.layout.test_item_header, null);
-        setInflateListener(inflate);
+        float1 = getLayoutInflater().inflate(R.layout.act_float_personal, null);
+        setInflateListener(this.inflate,this.float1);
         getPersonalMain(userId);
-        getCirclTalk(page2,rows,userId);
+        getCirclTalk(page2, rows, userId);
         test_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
-                page2=1;
-                if (clickPos==0){
-                    getActivityList(page,rows,userId);
-                }else {
+                page2 = 1;
+                if (clickPos == 0) {
+                    getActivityList(page, rows, userId);
+                } else {
                     getCirclTalk(page2, rows, userId);
                 }
 
@@ -168,21 +170,36 @@ public class PersonalAct extends BaseActivity{
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                if (clickPos==0){
+                if (clickPos == 0) {
                     page++;
-                    getActivityList(page,rows,userId);
-                }else {
+                    getActivityList(page, rows, userId);
+                } else {
                     page2++;
                     getCirclTalk(page2, rows, userId);
 
                 }
             }
         });
+        test_lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem >= 1) {
+                    ll_float.setVisibility(View.VISIBLE);
+                } else {
+                    ll_float.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
-    private void setInflateListener(View inflate) {
+    private void setInflateListener(View inflate, View view) {
         test_lv= (PullToRefreshListView) findViewById(R.id.test_lv);
-        ll_add_riend= (LinearLayout) inflate.findViewById(R.id.ll_add_friend);
+        ll_add_riend= (LinearLayout) view.findViewById(R.id.ll_add_friend);
         iv_set= (ImageView) inflate.findViewById(R.id.iv_set);
         tv_tab1= (TextView) inflate.findViewById(R.id.tv_tab1);
         tv_tab2= (TextView) inflate.findViewById(R.id.tv_tab2);
@@ -193,18 +210,42 @@ public class PersonalAct extends BaseActivity{
         tv_niName= (TextView) inflate.findViewById(R.id.tv_Name);
         cv_photo= (CircleImageView) inflate.findViewById(R.id.cv_photo);
         ll_tab= (LinearLayout) inflate.findViewById(R.id.ll_tab);
-        tv_dangqi= (TextView) inflate.findViewById(R.id.tv_dangqi);
-        tv_dongtai= (TextView) inflate.findViewById(R.id.tv_dongtai);
-        view_dangqi= (View) inflate.findViewById(R.id.view_dangqi);
-        view_dongtai= (View) inflate.findViewById(R.id.view_dongtai);
+        tv_dangqi= (TextView) view.findViewById(R.id.tv_dangqi);
+        tv_dongtai= (TextView) view.findViewById(R.id.tv_dongtai);
+        view_dangqi= (View) view.findViewById(R.id.view_dangqi);
+        view_dongtai= (View) view.findViewById(R.id.view_dongtai);
+        tv_dangqi1= (TextView) findViewById(R.id.tv_dangqi);
+        tv_dongtai1= (TextView) findViewById(R.id.tv_dongtai);
+        view_dangqi1= (View) findViewById(R.id.view_dangqi);
+        view_dongtai1= (View) findViewById(R.id.view_dongtai);
         hlv_perpage= (HorizontalListView) inflate.findViewById(R.id.hlv_perpage);
-        rl_dangqi= (RelativeLayout) inflate.findViewById(R.id.rl_dangqi);
-        rl_dongtai= (RelativeLayout) inflate.findViewById(R.id.rl_dongtai);
+        rl_dangqi= (RelativeLayout) view.findViewById(R.id.rl_dangqi);
+        rl_dongtai= (RelativeLayout) view.findViewById(R.id.rl_dongtai);
+        rl_dangqi1= (RelativeLayout) findViewById(R.id.rl_dangqi);
+        rl_dongtai1= (RelativeLayout) findViewById(R.id.rl_dongtai);
         LayoutHelperUtil.freshInit(test_lv);
         test_lv.getRefreshableView().addHeaderView(inflate);
+        test_lv.getRefreshableView().addHeaderView(view);
         ll_scorl= (RelativeLayout) findViewById(R.id.ll_scorl);
+        ll_float = (LinearLayout) findViewById(R.id.ll_float);
         bt_message= (Button) findViewById(R.id.bt_message);
         rl_dangqi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTabBtn();
+                clickPos=0;
+                setSelect(0, userEntity, datas, datas2);
+            }
+        });
+        rl_dongtai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTabBtn();
+                clickPos=1;
+                setSelect(1, userEntity, datas, datas2);
+            }
+        });
+        rl_dangqi1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetTabBtn();
@@ -212,7 +253,7 @@ public class PersonalAct extends BaseActivity{
                 setSelect(0,userEntity,datas,datas2);
             }
         });
-        rl_dongtai.setOnClickListener(new View.OnClickListener() {
+        rl_dongtai1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetTabBtn();
@@ -376,6 +417,10 @@ public class PersonalAct extends BaseActivity{
         tv_dongtai.setTextColor(Color.parseColor("#cdcdcd"));
         view_dangqi.setBackgroundColor(Color.parseColor("#cdcdcd"));
         view_dongtai.setBackgroundColor(Color.parseColor("#cdcdcd"));
+        tv_dangqi1.setTextColor(Color.parseColor("#cdcdcd"));
+        tv_dongtai1.setTextColor(Color.parseColor("#cdcdcd"));
+        view_dangqi1.setBackgroundColor(Color.parseColor("#cdcdcd"));
+        view_dongtai1.setBackgroundColor(Color.parseColor("#cdcdcd"));
     }
 
 
@@ -494,19 +539,6 @@ public class PersonalAct extends BaseActivity{
      * 点击button后选择显示的frg
      */
     private void setSelect(int position, List<UserInfo> userEntity, List<SimpleInfo> scheduleEntity, List<CircleEntity> circleTalkEntity) {
-//        if (circleTalkEntity!=null&&circleTalkEntity.size()>0){
-//            for (int j=0;j<circleTalkEntity.size();j++) {
-//                List<ImageInfo> itemList=new ArrayList<>();
-//                //将图片地址转化成数组
-//                if(!TextUtils.isEmpty(circleTalkEntity.get(j).getTalkImage())) {
-//                    String[] urlList = ZtinfoUtils.convertStrToArray(circleTalkEntity.get(j).getTalkImage());
-//                    for (int i = 0; i < urlList.length; i++) {
-//                        itemList.add(new ImageInfo(urlList[i], 120, 120));
-//                    }
-//                }
-//                datalist.add(itemList);
-//            }
-//        }
         switch (position) {
             case 0://档期frg
                 setTab(0);
@@ -548,10 +580,14 @@ public class PersonalAct extends BaseActivity{
             case 0:
                 tv_dangqi.setTextColor(Color.parseColor("#52c791"));
                 view_dangqi.setBackgroundColor(Color.parseColor("#52c791"));
+                tv_dangqi1.setTextColor(Color.parseColor("#52c791"));
+                view_dangqi1.setBackgroundColor(Color.parseColor("#52c791"));
                 break;
             case 1:
                 tv_dongtai.setTextColor(Color.parseColor("#52c791"));
                 view_dongtai.setBackgroundColor(Color.parseColor("#52c791"));
+                tv_dongtai1.setTextColor(Color.parseColor("#52c791"));
+                view_dongtai1.setBackgroundColor(Color.parseColor("#52c791"));
                 break;
         }
     }

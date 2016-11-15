@@ -30,6 +30,7 @@ import com.boyuanitsm.zhetengba.chat.domain.InviteMessage;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
+import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenu;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuCreator;
 import com.boyuanitsm.zhetengba.view.swipemenulistview.SwipeMenuItem;
@@ -49,7 +50,8 @@ public class NewFriendsMsgActivity extends BaseActivity {
 	@ViewInject(R.id.list)
 	private SwipeMenuListView listView;
 	private NewFriendsMsgAdapter adapter;
-
+	@ViewInject(R.id.load_view)
+	private LoadingView load_view;
 	@Override
 	public void setLayout() {
 		setContentView(R.layout.em_activity_new_friends_msg);
@@ -61,8 +63,11 @@ public class NewFriendsMsgActivity extends BaseActivity {
 		final InviteMessgeDao dao = new InviteMessgeDao(this);
 		final List<InviteMessage> msgs = dao.getMessagesList();
 		if (msgs!=null&&msgs.size()>0){
+			load_view.loadComplete();
 			SortClass sort = new SortClass();
 			Collections.sort(msgs, sort);
+		}else {
+			load_view.noContent();
 		}
 		//设置adapter
 		adapter = new NewFriendsMsgAdapter(this, 1, msgs);
