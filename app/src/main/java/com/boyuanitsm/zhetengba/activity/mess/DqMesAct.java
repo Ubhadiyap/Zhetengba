@@ -58,10 +58,6 @@ public class DqMesAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("档期消息");
-//        progressDialog = new ProgressDialog(this);
-//        progressDialog.setCanceledOnTouchOutside(false);
-//        progressDialog.setMessage("数据加载中...");
-//        progressDialog.show();
         getDqMess(type, page, rows);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -159,24 +155,17 @@ public class DqMesAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<DataBean<ActivityMess>> response) {
-//                progressDialog.dismiss();
                 load_view.loadComplete();
                 agreeList = response.getData().getRows();
                 MyLogUtils.info(agreeList.toString() + "返回集合");
                 list = new ArrayList<>();
                 list = ActivityMessDao.getCircleUser();
-//                if(list==null&&agreeList==null){
-//                    load_view.noContent();
-//                }else {
-//
-//                }
                 if (list != null && list.size() > 0) {
                     Collections.reverse(list);//时间排一下序
                     if (agreeList != null && agreeList.size() > 0) {
                         for (int i = 0; i < agreeList.size(); i++) {
                             list.add(agreeList.get(i));
                             //只有操作的数据才存放数据库，返回的数据均未作处理。
-//                            ActivityMessDao.saveCircleMess(agreeList.get(i));
                         }
                     }
                     SortClass sort = new SortClass();
@@ -188,9 +177,6 @@ public class DqMesAct extends BaseActivity {
                         load_view.noContent();
                     }
                 }
-//                else if (agreeList != null && agreeList.size() > 0) {
-//                    list = agreeList;
-//                }
                 if (adapter == null) {
                     adapter = new DqMesAdapter(DqMesAct.this, list);
                     lvDqMes.setAdapter(adapter);
