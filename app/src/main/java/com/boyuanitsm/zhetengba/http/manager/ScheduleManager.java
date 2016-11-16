@@ -89,6 +89,33 @@ public class ScheduleManager extends RequestManager {
         OkHttpManager.getInstance().doPost(IZtbUrl.RESPOND_ACTIVITY_URL, params, callback);
     }
 
+    /**
+     * 邀请查看是否有匹配列表
+     * @param activityId
+     * @param callback
+     */
+    public void findWithAct(String activityId, ResultCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("activityId", activityId);
+        OkHttpManager.getInstance().doPost(IZtbUrl.FINDWITHACT_URL, params, callback);
+    }
+
+
+    /**
+     * 发送邀请
+     * @param activityId
+     * @param personId
+     * @param callback
+     */
+    public void addActAbout(String activityId,String personId, ResultCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("activityId", activityId);
+        params.put("personId",personId);
+        OkHttpManager.getInstance().doPost(IZtbUrl.ADDACTABOUT_URL, params, callback);
+    }
+
+
+
     /***
      * 显示好友/全部活动接口
      * @param page

@@ -27,7 +27,7 @@ public class CalDialogAdapter extends BaseAdapter{
     }
     @Override
     public int getCount() {
-        return list.size()>4?4:list.size();
+        return list.size();
     }
 
     @Override

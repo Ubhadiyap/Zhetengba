@@ -8,15 +8,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
@@ -28,12 +27,12 @@ import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
+import com.boyuanitsm.zhetengba.view.DscheduDialog;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -53,6 +52,7 @@ public class ActAdapter extends BaseAdapter {
     private String strStart, strEnd;
     private LocalBroadcastManager broadcastManager;
     private InviteMessgeDao inviteMessgeDao;
+    private List<SimpleInfo> simpleInfos;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
@@ -110,7 +110,6 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
             viewHolder.ll_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu);
             viewHolder.iv_simple_guanzhu = (ImageView) convertView.findViewById(R.id.iv_simple_guanzhu);
-            viewHolder.tv_guanzhu_num = (TextView) convertView.findViewById(R.id.tv_guanzhu_num);
             viewHolder.ll_join = (LinearLayout) convertView.findViewById(R.id.ll_join);
             viewHolder.iv_join = (ImageView) convertView.findViewById(R.id.iv_join);
             viewHolder.tv_join_num = (TextView) convertView.findViewById(R.id.tv_join_num);
@@ -118,15 +117,15 @@ public class ActAdapter extends BaseAdapter {
             viewHolder.iv_gender = (ImageView) convertView.findViewById(R.id.iv_gender);
             viewHolder.iv_actdetial = (CircleImageView) convertView.findViewById(R.id.iv_actdetial);
             viewHolder.tv_text_jion = (TextView) convertView.findViewById(R.id.tv_text_jion);
-            viewHolder.tv_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
             viewHolder.ll_show = (LinearLayout) convertView.findViewById(R.id.ll_show);
             viewHolder.ll_show2 = (LinearLayout) convertView.findViewById(R.id.ll_show2);
-            viewHolder.ll_show3 = (LinearLayout) convertView.findViewById(R.id.ll_show3);
+            viewHolder.ll_show3 = (RelativeLayout) convertView.findViewById(R.id.ll_show3);
             viewHolder.ll_del = (LinearLayout) convertView.findViewById(R.id.ll_del);
             viewHolder.ll_simple_share = (LinearLayout) convertView.findViewById(R.id.ll_simple_share);
             viewHolder.ll_theme_location = (LinearLayout) convertView.findViewById(R.id.ll_theme_location);
             viewHolder.tv_cj= (TextView) convertView.findViewById(R.id.tv_cj);//自己发布活动参加人数
             viewHolder.tv_tt= (TextView) convertView.findViewById(R.id.tv_tt);//能参与的总人数
+            viewHolder.ll_yaoqin= (LinearLayout) convertView.findViewById(R.id.ll_yaoqin);//邀请
             convertView.setTag(viewHolder);
 
         }
@@ -148,23 +147,25 @@ public class ActAdapter extends BaseAdapter {
                     viewHolder.ll_join.setVisibility(View.VISIBLE);
                     viewHolder.ll_del.setVisibility(View.GONE);
                     viewHolder.ll_simple_share.setVisibility(View.GONE);
+                    viewHolder.ll_yaoqin.setVisibility(View.VISIBLE);
                 } else {
                     viewHolder.ll_guanzhu.setVisibility(View.GONE);
                     viewHolder.ll_join.setVisibility(View.GONE);
                     viewHolder.ll_del.setVisibility(View.VISIBLE);
                     viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
-                    viewHolder.tv_tt.setText("/"+infos.get(position).getInviteNumber());//自己发布总人数
+                    viewHolder.tv_tt.setText("/" + infos.get(position).getInviteNumber());//自己发布总人数
                     viewHolder.tv_cj.setText(infos.get(position).getMemberNum()+"");//已经3响应人数
+                    viewHolder.ll_yaoqin.setVisibility(View.GONE);
                 }
             }
         }
 
-        if (infos.get(position).getFollowNum() == 0) {
-            viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
-        } else {
-            viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
-            viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
-        }
+//        if (infos.get(position).getFollowNum() == 0) {
+//            viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
+//        } else {
+//            viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+//            viewHolder.tv_guanzhu_num.setText(infos.get(position).getFollowNum() + "");//关注人数
+//        }
         viewHolder.tv_join_num.setText(infos.get(position).getMemberNum() + "");//目前成员数量；
         viewHolder.tv_join_tal_num.setText(infos.get(position).getInviteNumber() + "");//邀约人数
         strStart = ZhetebaUtils.timeToDate(Long.parseLong(infos.get(position).getStartTime()));
@@ -335,12 +336,12 @@ public class ActAdapter extends BaseAdapter {
 
 //        返回状态判断是否关注;
         if (infos.get(position).isFollow()) {
-            viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//已关注
-            viewHolder.tv_text_guanzhu.setText("已关注");
+            viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_c));//已关注
+//            viewHolder.tv_text_guanzhu.setText("已关注");
             viewHolder.ll_guanzhu.setEnabled(false);
         } else {
             viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));//默认图标
-            viewHolder.tv_text_guanzhu.setText("关注");
+//            viewHolder.tv_text_guanzhu.setText("关注");
             viewHolder.ll_guanzhu.setEnabled(true);
         }
         viewHolder.ll_guanzhu.setOnClickListener(new View.OnClickListener() {
@@ -359,7 +360,7 @@ public class ActAdapter extends BaseAdapter {
                         int noticNum = infos.get(position).getFollowNum();
                         noticNum = noticNum + 1;
                         infos.get(position).setFollowNum(noticNum);
-                        viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+//                        viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
                         viewHolder.ll_guanzhu.setClickable(false);
                         context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
                         notifyDataSetChanged();
@@ -395,6 +396,26 @@ public class ActAdapter extends BaseAdapter {
         };
         viewHolder.iv_headphoto.setOnClickListener(listener1);
         viewHolder.tv_niName.setOnClickListener(listener1);
+        //邀请相匹配
+        viewHolder.ll_yaoqin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestManager.getScheduleManager().findWithAct(infos.get(position).getId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+                    @Override
+                    public void onError(int status, String errorMsg) {
+
+                    }
+
+                    @Override
+                    public void onResponse(ResultBean<List<SimpleInfo>> response) {
+                        simpleInfos=response.getData();
+                        DscheduDialog dialog=new DscheduDialog(context,simpleInfos);
+                        dialog.show();
+
+                    }
+                });
+            }
+        });
           /*init(view);*/
          /* initData();*/
         return convertView;
@@ -559,8 +580,6 @@ public class ActAdapter extends BaseAdapter {
         public TextView tv_date;//活动日期
         public LinearLayout ll_guanzhu;//关注数量
         public ImageView iv_simple_guanzhu;//关注图标
-        public TextView tv_text_guanzhu;//关注文本
-        public TextView tv_guanzhu_num;//关注数量设置
         public LinearLayout ll_join;//参加人数
         public ImageView iv_join;//参加头像
         public TextView tv_join_num;//参加数量
@@ -569,8 +588,10 @@ public class ActAdapter extends BaseAdapter {
         public ImageView iv_gender;//性别
         public TextView tv_text_jion;//参加/取消参加
         public LinearLayout ll_theme_location;//活动位置Linear
-        public LinearLayout ll_show, ll_show2, ll_show3;
+        public LinearLayout ll_show, ll_show2;
         public LinearLayout ll_del, ll_simple_share;
+        private RelativeLayout ll_show3;
         public TextView tv_cj,tv_tt;//自己发布后参加人数和总的人数
+        public LinearLayout ll_yaoqin;//邀请
     }
 }
