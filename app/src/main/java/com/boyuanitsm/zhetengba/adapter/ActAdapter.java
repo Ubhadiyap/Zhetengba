@@ -409,7 +409,7 @@ public class ActAdapter extends BaseAdapter {
                     @Override
                     public void onResponse(ResultBean<List<SimpleInfo>> response) {
                         simpleInfos=response.getData();
-                        DscheduDialog dialog=new DscheduDialog(context,simpleInfos);
+                        DscheduDialog dialog=new DscheduDialog(context,simpleInfos,infos.get(position).getCreatePersonId());
                         dialog.show();
 
                     }

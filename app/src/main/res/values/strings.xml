@@ -14,7 +14,7 @@
     <string name="daqing">首页动态</string>
     <string name="huiyou">会友</string>
     <string name="youkong">档期</string>
-    <string name="avite">请选择邀请对方参加的活动</string>
+    <string name="avite">请选择邀请对方参加的档期</string>
 
 
     <string name="listview_header_hint_normal">下拉刷新</string>

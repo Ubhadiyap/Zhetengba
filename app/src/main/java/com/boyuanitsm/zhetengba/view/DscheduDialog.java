@@ -26,15 +26,17 @@ import java.util.List;
 public class DscheduDialog extends Dialog {
     private Context context;
     private List<SimpleInfo> simpleInfos;
+    private String creatId;
 
-    public DscheduDialog(Context context, int themeResId,List<SimpleInfo> list) {
+    public DscheduDialog(Context context, int themeResId,List<SimpleInfo> list,String creatId) {
         super(context, themeResId);
         this.context=context;
         this.simpleInfos=list;
+        this.creatId=creatId;
     }
 
-    public DscheduDialog(Context context,List<SimpleInfo> list) {
-        this(context, R.style.Cal_Dialog,list);
+    public DscheduDialog(Context context,List<SimpleInfo> list,String creatId) {
+        this(context, R.style.Cal_Dialog,list,creatId);
     }
 
 
@@ -67,7 +69,7 @@ public class DscheduDialog extends Dialog {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     simpleInfos.get(position).getId();
 //                    aboutTa(strid,simpleInfos.get(position).getId());
-                    addActivityAbout(simpleInfos.get(position).getId(),simpleInfos.get(position).getUserId());
+                    addActivityAbout(simpleInfos.get(position).getId(),creatId);
                     dismiss();
                 }
             });

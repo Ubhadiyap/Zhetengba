@@ -48,7 +48,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:text="还没有相匹配的活动"
+            android:text="还没有相匹配的档期"
             android:textColor="#333333"
             android:textSize="14sp" />
     </LinearLayout>
