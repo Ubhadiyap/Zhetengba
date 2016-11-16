@@ -25,61 +25,61 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <!--昵称-->
-            <TextView
-                android:id="@+id/tv_ch_niName"
-                android:text="xiaoming"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center"
-                android:textColor="@color/main_color"
-                android:textSize="14sp" />
-
-            <!--性别-->
-            <ImageView
-                android:id="@+id/iv_ch_gendar"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp" />
-
-            <RelativeLayout
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <LinearLayout
-                    android:id="@+id/ll_xia"
-                    android:layout_alignParentRight="true"
+                <!--昵称-->
+                <TextView
+                    android:id="@+id/tv_ch_niName"
+                    android:text="xiaoming"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
-                    android:orientation="horizontal">
-                    <!--时间-->
-                    <TextView
-                        android:id="@+id/tv_time"
-                        android:layout_toLeftOf="@+id/iv_xia"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:textColor="#b8b8b8"
-                        android:textSize="12sp" />
-                    <ImageView
-                        android:id="@+id/iv_xia"
-                        android:layout_marginLeft="5dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/xia"/>
-                </LinearLayout>
+                    android:textColor="@color/main_color"
+                    android:textSize="14sp" />
 
-            </RelativeLayout>
-        </LinearLayout>
+                <!--性别-->
+                <ImageView
+                    android:id="@+id/iv_ch_gendar"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/ll_xia"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <!--时间-->
+                        <TextView
+                            android:id="@+id/tv_time"
+                            android:layout_toLeftOf="@+id/iv_xia"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:textColor="#b8b8b8"
+                            android:textSize="12sp" />
+                        <ImageView
+                            android:id="@+id/iv_xia"
+                            android:layout_marginLeft="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/xia"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
             <!--圈子-->
             <TextView
                 android:layout_weight="1"
@@ -236,8 +236,52 @@
 
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/ll_zan"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_zan"
+                        android:background="@mipmap/zan2x"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp" />
+                    <TextView
+                        android:layout_marginLeft="5dp"
+                        android:text="赞"
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_cmt"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:background="@mipmap/comment2x"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp" />
+                    <TextView
+                        android:layout_marginLeft="5dp"
+                        android:text="评论"
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
             <ImageView
                 android:id="@+id/iv_more"
+                android:visibility="gone"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

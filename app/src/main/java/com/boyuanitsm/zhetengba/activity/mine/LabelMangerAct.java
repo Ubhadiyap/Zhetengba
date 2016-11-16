@@ -164,14 +164,19 @@ public class LabelMangerAct extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserInterestInfo str = mylist.get(position);
                 mylist.remove(position);
-                myadapter.update(mylist);
-                gv1.setAdapter(myadapter);
+                if (myadapter==null){
+                    myadapter=new LabelGvMyadapter(LabelMangerAct.this,mylist);
+                    gv1.setAdapter(myadapter);
+                }else {
+                    myadapter.update(mylist);
+                }
                 labelBannerInfo = new LabelBannerInfo();
                 labelBannerInfo.setDictName(str.getDictName());
                 labelBannerInfo.setId(str.getInterestId());
                 list.add(labelBannerInfo);
                 if(labelGVadapter==null){
                     labelGVadapter=new LabelGVadapter(LabelMangerAct.this,list);
+                    gv2.setAdapter(labelGVadapter);
                 }else {
                     labelGVadapter.update(list);
                 }

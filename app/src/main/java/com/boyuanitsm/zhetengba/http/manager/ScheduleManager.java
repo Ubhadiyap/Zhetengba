@@ -520,11 +520,11 @@ public class ScheduleManager extends RequestManager {
      * @param scheduleId
      * @param callback
      */
-    public void agreeActivity(String activityId, String scheduleId,ResultCallback callback){
+    public void agreeActivity(String activityId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
-        params.put("scheduleId",scheduleId);
-        OkHttpManager.getInstance().doPost(IZtbUrl.AGREE_ACTIVITY_URL, params, callback);
+//        params.put("scheduleId",scheduleId);
+        OkHttpManager.getInstance().doPost(IZtbUrl.AGREE_ACTIVITY2_URL, params, callback);
 
     }
 
@@ -534,11 +534,11 @@ public class ScheduleManager extends RequestManager {
      * @param scheduleId
      * @param callback
      */
-    public void refuseActivity(String activityId, String scheduleId,ResultCallback callback){
+    public void refuseActivity(String activityId,ResultCallback callback){
         Map<String,String> params=new HashMap<>();
         params.put("activityId",activityId);
-        params.put("scheduleId",scheduleId);
-        OkHttpManager.getInstance().doPost(IZtbUrl.REFUSE_ACTIVITY_URL, params, callback);
+//        params.put("scheduleId",scheduleId);
+        OkHttpManager.getInstance().doPost(IZtbUrl.REFUSE_ACTIVITY2_URL, params, callback);
     }
 
     /**
