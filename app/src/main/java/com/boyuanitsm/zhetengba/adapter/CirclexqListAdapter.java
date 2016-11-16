@@ -120,7 +120,7 @@ public class CirclexqListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+       final ViewHolder viewHolder;
         List<ImageInfo> itemList1 = new ArrayList<>();
 //        if (list.get(position) != null) {
 //            itemList1 = dateList.get(position);
@@ -164,6 +164,9 @@ public class CirclexqListAdapter extends BaseAdapter {
             viewHolder.tv_more= (TextView) convertView.findViewById(R.id.tv_more);
             viewHolder.rl_more= (RelativeLayout) convertView.findViewById(R.id.rl_more);
             viewHolder.lv_pl = (MyListView) convertView.findViewById(R.id.lv_pl);
+            viewHolder.ll_zan = (LinearLayout) convertView.findViewById(R.id.ll_zan);
+            viewHolder.ll_cmt= (LinearLayout) convertView.findViewById(R.id.ll_cmt);
+            viewHolder.iv_zan= (ImageView) convertView.findViewById(R.id.iv_zan);
             convertView.setTag(viewHolder);
         }
 //        final List<ImageInfo> itemList = itemList1;
@@ -296,6 +299,13 @@ public class CirclexqListAdapter extends BaseAdapter {
                     }
                 }
             }
+            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+                if (0 == list.get(position).getLiked()) {//未点赞
+                    viewHolder.iv_zan.setImageResource(R.mipmap.zan2x);
+                } else {//if (1 == list.get(clickPos).getLiked())
+                    viewHolder.iv_zan.setImageResource(R.mipmap.zanx);
+                }
+            }
 
             if (clist!=null&&clist.size()>0){
                 viewHolder.ll_comment2.setVisibility(View.VISIBLE);
@@ -364,12 +374,30 @@ public class CirclexqListAdapter extends BaseAdapter {
                 dialog.builder().show();
             }
         });
-        final ViewHolder finalViewHolder1 = viewHolder;
-        viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
+//        viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clickPos=position;
+//                showPopupWindow(finalViewHolder1.iv_more, clickPos);
+//            }
+//        });
+        viewHolder.ll_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickPos=position;
-                showPopupWindow(finalViewHolder1.iv_more, clickPos);
+                clickPos = position;
+                viewHolder.ll_zan.setEnabled(false);
+                if (0 == list.get(position).getLiked()) {
+                    addCircleLike(list.get(position).getId(), viewHolder.ll_zan);
+                } else {//if (1 == list.get(clickPos).getLiked())
+                    removeCircleLike(list.get(position).getId(), viewHolder.ll_zan);
+                }
+            }
+        });
+        viewHolder.ll_cmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(viewHolder.ll_cmt,list.get(position).getId(),position);
+
             }
         });
         return convertView;
@@ -408,79 +436,79 @@ public class CirclexqListAdapter extends BaseAdapter {
         private RelativeLayout rl_more;
         private TextView tv_more;
         private MyListView lv_pl;
-
+        private LinearLayout ll_zan,ll_cmt;
+        private ImageView iv_zan;
     }
 
     /**
      *
      */
-    private void showPopupWindow(View parent, final int position) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
-                R.layout.pupu_cir_item, null);
-
-        // 实例化popupWindow
-        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
-        //控制键盘是否可以获得焦点
-        popupWindow.setFocusable(true);
-        //设置popupWindow弹出窗体的背景
-        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
-        WindowManager manager = (WindowManager)context. getSystemService(context.WINDOW_SERVICE);
-        int[] location=new int[2];
-        parent.getLocationOnScreen(location);
-        @SuppressWarnings("deprecation")
-        //获取xoff
-                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
-        int ypos=location[1]-popupWindow.getHeight()/2;
-        int ypos1=ypos-ZhetebaUtils.dip2px(context,10);
-        //xoff,yoff基于anchor的左下角进行偏移。
-//        popupWindow.showAsDropDown(parent, xpos, 0);
-        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY,xpos,ypos1);
-        final LinearLayout ll_zan= (LinearLayout) layout.findViewById(R.id.ll_zan);
-        final LinearLayout ll_cmt= (LinearLayout) layout.findViewById(R.id.ll_cmt);
-        final TextView ivzan= (TextView) layout.findViewById(R.id.tvzan);
-        if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
-            if (0 == list.get(clickPos).getLiked()) {//未点赞
-                ivzan.setText("赞");
-            } else{// if (1 == list.get(clickPos).getLiked())
-                ivzan.setText("取消");
-            }
-        }
-        ll_zan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ll_zan.setEnabled(false);
-                if (0 == list.get(clickPos).getLiked()) {
-                    addCircleLike(list.get(clickPos).getId(), ll_zan,ivzan);
-                } else{// if (1 == list.get(clickPos).getLiked())
-                    removeCircleLike(list.get(clickPos).getId(), ll_zan,ivzan);
-                }
-            }
-        });
-        ll_cmt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnItemClickListener.onItemClick(ll_cmt,list.get(position).getId(),position);
-//                Intent intent = new Intent();
-//                intent.setClass(context, CircleTextAct.class);
-//                intent.putExtra("circleEntity", list.get(position));
-//                intent.putExtra("circleId", list.get(position).getId());
-//                intent.putExtra("CirCommentPosition", position);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                popupWindow.dismiss();
-//                context.startActivity(intent);
-            }
-        });
-
-
-    }
+//    private void showPopupWindow(View parent, final int position) {
+//        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
+//                R.layout.pupu_cir_item, null);
+//
+//        // 实例化popupWindow
+//        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
+//        //控制键盘是否可以获得焦点
+//        popupWindow.setFocusable(true);
+//        //设置popupWindow弹出窗体的背景
+//        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+//        WindowManager manager = (WindowManager)context. getSystemService(context.WINDOW_SERVICE);
+//        int[] location=new int[2];
+//        parent.getLocationOnScreen(location);
+//        @SuppressWarnings("deprecation")
+//        //获取xoff
+//                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+//        int ypos=location[1]-popupWindow.getHeight()/2;
+//        int ypos1=ypos-ZhetebaUtils.dip2px(context,10);
+//        //xoff,yoff基于anchor的左下角进行偏移。
+////        popupWindow.showAsDropDown(parent, xpos, 0);
+//        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY,xpos,ypos1);
+//        final LinearLayout ll_zan= (LinearLayout) layout.findViewById(R.id.ll_zan);
+//        final LinearLayout ll_cmt= (LinearLayout) layout.findViewById(R.id.ll_cmt);
+//        final TextView ivzan= (TextView) layout.findViewById(R.id.tvzan);
+//        if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+//            if (0 == list.get(clickPos).getLiked()) {//未点赞
+//                ivzan.setText("赞");
+//            } else{// if (1 == list.get(clickPos).getLiked())
+//                ivzan.setText("取消");
+//            }
+//        }
+//        ll_zan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ll_zan.setEnabled(false);
+//                if (0 == list.get(clickPos).getLiked()) {
+//                    addCircleLike(list.get(clickPos).getId(), ll_zan,ivzan);
+//                } else{// if (1 == list.get(clickPos).getLiked())
+//                    removeCircleLike(list.get(clickPos).getId(), ll_zan,ivzan);
+//                }
+//            }
+//        });
+//        ll_cmt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mOnItemClickListener.onItemClick(ll_cmt,list.get(position).getId(),position);
+////                Intent intent = new Intent();
+////                intent.setClass(context, CircleTextAct.class);
+////                intent.putExtra("circleEntity", list.get(position));
+////                intent.putExtra("circleId", list.get(position).getId());
+////                intent.putExtra("CirCommentPosition", position);
+////                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                popupWindow.dismiss();
+////                context.startActivity(intent);
+//            }
+//        });
+//
+//
+//    }
     /**
      * 圈子说说点赞
      *
      * @param circleTalkId
      * @param ll_zan
-     * @param ivzan
      */
-    private void addCircleLike(String circleTalkId, final LinearLayout ll_zan, final TextView ivzan) {
+    private void addCircleLike(String circleTalkId, final LinearLayout ll_zan) {
         RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -491,8 +519,8 @@ public class CirclexqListAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(1);
                 ll_zan.setEnabled(true);
-                ivzan.setText("取消");
-                popupWindow.dismiss();
+//                ivzan.setText("取消");
+//                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
@@ -506,9 +534,8 @@ public class CirclexqListAdapter extends BaseAdapter {
      *
      * @param circleTalkId
      * @param ll_zan
-     * @param ivzan
      */
-    private void removeCircleLike(String circleTalkId, final LinearLayout ll_zan, final TextView ivzan) {
+    private void removeCircleLike(String circleTalkId, final LinearLayout ll_zan) {
         RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -518,9 +545,9 @@ public class CirclexqListAdapter extends BaseAdapter {
             @Override
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(0);
-                ivzan.setText("赞");
+//                ivzan.setText("赞");
                 ll_zan.setEnabled(true);
-                popupWindow.dismiss();
+//                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }

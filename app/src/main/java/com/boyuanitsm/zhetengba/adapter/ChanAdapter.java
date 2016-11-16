@@ -172,6 +172,10 @@ public class ChanAdapter extends BaseAdapter {
             viewHolder.tv_more = (TextView) convertView.findViewById(R.id.tv_more);
             viewHolder.rl_more = (RelativeLayout) convertView.findViewById(R.id.rl_more);
             viewHolder.lv_pl = (MyListView) convertView.findViewById(R.id.lv_pl);
+
+            viewHolder.ll_zan = (LinearLayout) convertView.findViewById(R.id.ll_zan);
+            viewHolder.ll_cmt= (LinearLayout) convertView.findViewById(R.id.ll_cmt);
+            viewHolder.iv_zan= (ImageView) convertView.findViewById(R.id.iv_zan);
             convertView.setTag(viewHolder);
         }
 //        final List<ImageInfo> itemList = dateList.get(position);
@@ -298,6 +302,13 @@ public class ChanAdapter extends BaseAdapter {
                     }
                 }
             }
+            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+                if (0 == list.get(position).getLiked()) {//未点赞
+                    viewHolder.iv_zan.setImageResource(R.mipmap.zan2x);
+                } else {//if (1 == list.get(clickPos).getLiked())
+                    viewHolder.iv_zan.setImageResource(R.mipmap.zanx);
+                }
+            }
             if (clist != null && clist.size() > 0) {
                 viewHolder.ll_comment.setVisibility(View.VISIBLE);
                 viewHolder.lv_pl.setAdapter(new ChanelPlAdapter(context, clist));
@@ -354,14 +365,39 @@ public class ChanAdapter extends BaseAdapter {
         });
 
 
-        viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
+//        viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clickPos = position;
+//                showPopupWindow(viewHolder.iv_more, clickPos);
+//            }
+//        });
+        viewHolder.ll_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickPos = position;
-                showPopupWindow(viewHolder.iv_more, clickPos);
+                viewHolder.ll_zan.setEnabled(false);
+                if (0 == list.get(clickPos).getLiked()) {
+                    addChannelLike(list.get(clickPos).getId(), viewHolder.ll_zan);
+                } else {// if (1 == list.get(clickPos).getLiked())
+                    removeChannelLike(list.get(clickPos).getId(), viewHolder.ll_zan);
+                }
             }
         });
-
+        viewHolder.ll_cmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(viewHolder.ll_cmt,list.get(position).getId(),position);
+//                Intent intent = new Intent();
+//                intent.setClass(context, CircleTextAct.class);
+//                intent.putExtra("circleEntity", list.get(position));
+//                intent.putExtra("circleId", list.get(position).getId());
+//                intent.putExtra("CirCommentPosition", position);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                popupWindow.dismiss();
+//                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
@@ -391,78 +427,79 @@ public class ChanAdapter extends BaseAdapter {
         private RelativeLayout rl_more;
         private TextView tv_more;
         private MyListView lv_pl;
-
+        private LinearLayout ll_zan,ll_cmt;
+        private ImageView iv_zan;
     }
 
     /**
      *
      */
-    private void showPopupWindow(View parent, final int position) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
-                R.layout.pupu_cir_item, null);
-
-        // 实例化popupWindow
-        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
-        //控制键盘是否可以获得焦点
-        popupWindow.setFocusable(true);
-        //设置popupWindow弹出窗体的背景
-        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
-
-//        int[] location = new int[2];parent.getLocationOnScreen(location);//这两个是用来显示上方左方右方的
-        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
-        @SuppressWarnings("deprecation")
-        int[] location = new int[2];
-        parent.getLocationOnScreen(location);
-        //获取xoff
-        int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
-        int ypos = location[1] - popupWindow.getHeight() / 2;
-        int ypos1 = ypos - ZhetebaUtils.dip2px(context, 10);
-        //xoff,yoff基于anchor的左下角进行偏移。
-//<<<<<<< HEAD
-//        popupWindow.showAsDropDown(parent, xpos, 0);
-        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, xpos, ypos1);
-//=======
-//        popupWindow.showAsDropDown(parent, xpos, 0);//这里因为要显示在左方所以注释掉
-//        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, location[0]-popupWindow.getWidth(), location[1]);
-
-        final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
-        final LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
-        final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
-        if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
-            if (0 == list.get(clickPos).getLiked()) {//未点赞
-                ivzan.setText("赞");
-            } else {//if (1 == list.get(clickPos).getLiked())
-                ivzan.setText("取消");
-            }
-        }
-        ll_zan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ll_zan.setEnabled(false);
-                if (0 == list.get(clickPos).getLiked()) {
-                    addChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
-                } else {// if (1 == list.get(clickPos).getLiked())
-                    removeChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
-                }
-            }
-        });
-        ll_cmt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnItemClickListener.onItemClick(ll_cmt, list.get(position).getId(), position);
-//                Intent intent = new Intent();
-//                intent.setClass(context, ChanelTextAct.class);
-//                intent.putExtra("channelEntity", list.get(position));
-//                intent.putExtra("channelId", list.get(position).getId());
-//                intent.putExtra("CommentPosition", position);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                popupWindow.dismiss();
-//                context.startActivity(intent);
-            }
-        });
-
-
-    }
+//    private void showPopupWindow(View parent, final int position) {
+//        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
+//                R.layout.pupu_cir_item, null);
+//
+//        // 实例化popupWindow
+//        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
+//        //控制键盘是否可以获得焦点
+//        popupWindow.setFocusable(true);
+//        //设置popupWindow弹出窗体的背景
+//        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+//
+////        int[] location = new int[2];parent.getLocationOnScreen(location);//这两个是用来显示上方左方右方的
+//        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+//        @SuppressWarnings("deprecation")
+//        int[] location = new int[2];
+//        parent.getLocationOnScreen(location);
+//        //获取xoff
+//        int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+//        int ypos = location[1] - popupWindow.getHeight() / 2;
+//        int ypos1 = ypos - ZhetebaUtils.dip2px(context, 10);
+//        //xoff,yoff基于anchor的左下角进行偏移。
+////<<<<<<< HEAD
+////        popupWindow.showAsDropDown(parent, xpos, 0);
+//        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, xpos, ypos1);
+////=======
+////        popupWindow.showAsDropDown(parent, xpos, 0);//这里因为要显示在左方所以注释掉
+////        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, location[0]-popupWindow.getWidth(), location[1]);
+//
+//        final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
+//        final LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
+//        final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
+//        if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+//            if (0 == list.get(clickPos).getLiked()) {//未点赞
+//                ivzan.setText("赞");
+//            } else {//if (1 == list.get(clickPos).getLiked())
+//                ivzan.setText("取消");
+//            }
+//        }
+//        ll_zan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ll_zan.setEnabled(false);
+//                if (0 == list.get(clickPos).getLiked()) {
+//                    addChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
+//                } else {// if (1 == list.get(clickPos).getLiked())
+//                    removeChannelLike(list.get(clickPos).getId(), ll_zan, ivzan);
+//                }
+//            }
+//        });
+//        ll_cmt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mOnItemClickListener.onItemClick(ll_cmt, list.get(position).getId(), position);
+////                Intent intent = new Intent();
+////                intent.setClass(context, ChanelTextAct.class);
+////                intent.putExtra("channelEntity", list.get(position));
+////                intent.putExtra("channelId", list.get(position).getId());
+////                intent.putExtra("CommentPosition", position);
+////                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                popupWindow.dismiss();
+////                context.startActivity(intent);
+//            }
+//        });
+//
+//
+//    }
 
 
     /**
@@ -470,9 +507,8 @@ public class ChanAdapter extends BaseAdapter {
      *
      * @param channelId
      * @param ll_like
-     * @param ivzan
      */
-    private void addChannelLike(String channelId, final LinearLayout ll_like, final TextView ivzan) {
+    private void addChannelLike(String channelId, final LinearLayout ll_like) {
         RequestManager.getTalkManager().addChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -484,8 +520,6 @@ public class ChanAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 ll_like.setEnabled(true);
                 list.get(clickPos).setLiked(1);
-                ivzan.setText("取消");
-                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
                 }
@@ -500,9 +534,8 @@ public class ChanAdapter extends BaseAdapter {
      *
      * @param channelId
      * @param ll_like
-     * @param ivzan
      */
-    private void removeChannelLike(String channelId, final LinearLayout ll_like, final TextView ivzan) {
+    private void removeChannelLike(String channelId, final LinearLayout ll_like) {
         RequestManager.getTalkManager().removeChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -514,8 +547,6 @@ public class ChanAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 ll_like.setEnabled(true);
                 list.get(clickPos).setLiked(0);
-                ivzan.setText("赞");
-                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikeCounts(Integer.parseInt(response.getData()));
                 }

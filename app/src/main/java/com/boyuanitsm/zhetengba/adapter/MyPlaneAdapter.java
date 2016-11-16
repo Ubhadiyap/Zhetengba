@@ -42,6 +42,7 @@ import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
+import com.leaf.library.widget.MyListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -54,7 +55,7 @@ import java.util.List;
  */
 public class MyPlaneAdapter extends BaseAdapter {
     private Context context;
-//    private List<List<ImageInfo>> dateList;
+    //    private List<List<ImageInfo>> dateList;
     private List<CircleEntity> list;
     int clickPos;
     int circleDelPos;
@@ -72,7 +73,18 @@ public class MyPlaneAdapter extends BaseAdapter {
 //        this.dateList = dateList;
         this.list = list;
     }
+    /**
+     * itemClick接口回调
+     */
+    public interface OnItemClickListener2 {
+        void onItemClick(View view,String id,int cusPosition);
+    }
 
+    private OnItemClickListener2 mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener2 mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
     public void notifyChange(List<CircleEntity> list) {
 //        this.dateList = dateList;
         this.list = list;
@@ -98,7 +110,7 @@ public class MyPlaneAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
-//        final List<ImageInfo> itemList = dateList.get(position);
+        List<CircleEntity> clist=list.get(position).getCommentsList();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -130,6 +142,12 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
             viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
             viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
+            viewHolder.ll_zan = (LinearLayout) convertView.findViewById(R.id.ll_zan);
+            viewHolder.ll_cmt = (LinearLayout) convertView.findViewById(R.id.ll_cmt);
+            viewHolder.iv_zan = (ImageView) convertView.findViewById(R.id.iv_zan);
+            viewHolder.lv_pl= (MyListView) convertView.findViewById(R.id.lv_pl);
+            viewHolder.ll_comment2= (LinearLayout) convertView.findViewById(R.id.ll_comment2);
+            viewHolder.tv_more= (TextView) convertView.findViewById(R.id.tv_more);
             convertView.setTag(viewHolder);
         }
 
@@ -210,13 +228,6 @@ public class MyPlaneAdapter extends BaseAdapter {
             viewHolder.ll_two.setVisibility(View.GONE);
         }
 
-//        if (itemList.isEmpty()) {
-////            viewHolder.llphoto.setVisibility(View.GONE);
-//            viewHolder.iv_ch_image.setVisibility(View.GONE);
-//            viewHolder.iv_oneimage.setVisibility(View.GONE);
-//            viewHolder.ll_two.setVisibility(View.GONE);
-//        } else
-
         if (list != null) {
             if (!TextUtils.isEmpty(list.get(position).getUserIcon())) {
                 ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getUserIcon()), viewHolder.ivChHead, optionsImag);
@@ -247,13 +258,13 @@ public class MyPlaneAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(list.get(position).getCircleName())) {
                 viewHolder.tv_cir_name.setText(list.get(position).getCircleName());
             }
-//            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
-//                if (0 == list.get(position).getLiked()) {//未点赞
-//                    viewHolder.zimg.setImageResource(R.drawable.zan);
-//                } else if (1 == list.get(position).getLiked()) {
-//                    viewHolder.zimg.setImageResource(R.drawable.zan_b);
-//                }
-//            }
+            if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+                if (0 == list.get(position).getLiked()) {//未点赞
+                    viewHolder.iv_zan.setImageResource(R.mipmap.zan2x);
+                } else {
+                    viewHolder.iv_zan.setImageResource(R.mipmap.zanx);
+                }
+            }
             if (!TextUtils.isEmpty(list.get(position).getLikedCounts() + "")) {
                 if (list.get(position).getLikedCounts() == 0) {
                     viewHolder.znum2.setVisibility(View.GONE);
@@ -273,6 +284,15 @@ public class MyPlaneAdapter extends BaseAdapter {
                     viewHolder.cnumText.setVisibility(View.VISIBLE);
                     viewHolder.cnum2.setText(list.get(position).getCommentCounts() + "");
                 }
+            }
+            if (clist!=null){
+                if (clist.size()>0){
+                    viewHolder.ll_comment2.setVisibility(View.VISIBLE);
+                    viewHolder.lv_pl.setAdapter(new CirclePlAdapter(context, clist));
+                }
+
+            }else {
+                viewHolder.ll_comment2.setVisibility(View.GONE);
             }
         }
         //点击用户头像，进入用户圈子主页
@@ -302,52 +322,6 @@ public class MyPlaneAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-//        //点赞
-//        viewHolder.ll_like.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                clickPos = position;
-//
-//                if (0 == list.get(position).getLiked()) {
-//                    addCircleLike(list.get(position).getId());
-//                } else if (1 == list.get(position).getLiked()) {
-//                    removeCircleLike(list.get(position).getId());
-//                }
-//            }
-//        });
-//        //分享对话框
-//        viewHolder.ll_share.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ShareDialogAct.class);
-//                intent.putExtra("type",5);
-//                intent.putExtra("id", list.get(position).getId());
-//                context.startActivity(intent);
-//            }
-//        });
-//        //评论
-//        viewHolder.ll_comment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setClass(context, CircleTextAct.class);
-//                intent.putExtra("circleEntity", list.get(position));
-//                intent.putExtra("circleId", list.get(position).getId());
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-//            }
-//        });
-//        viewHolder.tv_content.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setClass(context, CircleTextAct.class);
-//                intent.putExtra("circleEntity", list.get(position));
-//                intent.putExtra("circleId", list.get(position).getId());
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-//            }
-//        });
         viewHolder.tv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -368,11 +342,42 @@ public class MyPlaneAdapter extends BaseAdapter {
                 dialog.builder().show();
             }
         });
-        viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
+        viewHolder.tv_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, CircleTextAct.class);
+//                intent.putExtra("circleEntity", list.get(position));
+//                intent.putExtra("circleId", list.get(position).getId());
+//                intent.putExtra("CirCommentPosition", position);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+//        viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clickPos = position;
+//                showPopupWindow(viewHolder.iv_more, clickPos);
+//            }
+//        });
+        viewHolder.ll_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickPos = position;
-                showPopupWindow(viewHolder.iv_more, clickPos);
+                viewHolder.ll_zan.setEnabled(false);
+                if (0 == list.get(position).getLiked()) {
+                    addCircleLike(list.get(position).getId(), viewHolder.ll_zan);
+                } else {//if (1 == list.get(clickPos).getLiked())
+                    removeCircleLike(list.get(position).getId(), viewHolder.ll_zan);
+                }
+            }
+        });
+        viewHolder.ll_cmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(viewHolder.ll_cmt, list.get(position).getId(), position);
+
             }
         });
         return convertView;
@@ -403,6 +408,11 @@ public class MyPlaneAdapter extends BaseAdapter {
         private TextView znumText;
         private TextView cnumText;
         private ImageView iv_more;
+        private LinearLayout ll_zan, ll_cmt;
+        private ImageView iv_zan;
+        private LinearLayout ll_comment2;
+        private MyListView lv_pl;
+        private TextView tv_more;
     }
 
     /**
@@ -410,9 +420,8 @@ public class MyPlaneAdapter extends BaseAdapter {
      *
      * @param circleTalkId
      * @param ll_like
-     * @param ivzan
      */
-    private void addCircleLike(String circleTalkId, final LinearLayout ll_like, final TextView ivzan) {
+    private void addCircleLike(String circleTalkId, final LinearLayout ll_like) {
         RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -424,8 +433,6 @@ public class MyPlaneAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(1);
                 ll_like.setEnabled(true);
-                ivzan.setText("取消");
-                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
@@ -440,9 +447,8 @@ public class MyPlaneAdapter extends BaseAdapter {
      *
      * @param circleTalkId
      * @param ll_like
-     * @param ivzan
      */
-    private void removeCircleLike(String circleTalkId, final LinearLayout ll_like, final TextView ivzan) {
+    private void removeCircleLike(String circleTalkId, final LinearLayout ll_like) {
         RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -454,8 +460,6 @@ public class MyPlaneAdapter extends BaseAdapter {
             public void onResponse(ResultBean<String> response) {
                 list.get(clickPos).setLiked(0);
                 ll_like.setEnabled(true);
-                ivzan.setText("赞");
-                popupWindow.dismiss();
                 if (!TextUtils.isEmpty(response.getData())) {
                     list.get(clickPos).setLikedCounts(Integer.parseInt(response.getData()));
                 }
@@ -468,64 +472,64 @@ public class MyPlaneAdapter extends BaseAdapter {
     /**
      *
      */
-    private void showPopupWindow(View parent, final int position) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
-                R.layout.pupu_cir_item, null);
-
-        // 实例化popupWindow
-        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
-        //控制键盘是否可以获得焦点
-        popupWindow.setFocusable(true);
-        //设置popupWindow弹出窗体的背景
-        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
-        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
-        int[] location = new int[2];
-        parent.getLocationOnScreen(location);
-        @SuppressWarnings("deprecation")
-        //获取xoff
-                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
-        int ypos = location[1] - popupWindow.getHeight() / 2;
-        int ypos1 = ypos - ZhetebaUtils.dip2px(context, 10);
-        //xoff,yoff基于anchor的左下角进行偏移。
-//        popupWindow.showAsDropDown(parent, xpos, 0);
-        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, xpos, ypos1);
-        final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
-        LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
-        final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
-        if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
-            if (0 == list.get(clickPos).getLiked()) {//未点赞
-                ivzan.setText("赞");
-            } else {//if (1 == list.get(clickPos).getLiked())
-                ivzan.setText("取消");
-            }
-        }
-        ll_zan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ll_zan.setEnabled(false);
-                if (0 == list.get(clickPos).getLiked()) {
-                    addCircleLike(list.get(clickPos).getId(), ll_zan, ivzan);
-                } else {//if (1 == list.get(clickPos).getLiked())
-                    removeCircleLike(list.get(clickPos).getId(), ll_zan, ivzan);
-                }
-            }
-        });
-        ll_cmt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context, CircleTextAct.class);
-                intent.putExtra("circleEntity", list.get(position));
-                intent.putExtra("circleId", list.get(position).getId());
-                intent.putExtra("CirCommentPosition", position);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                popupWindow.dismiss();
-                context.startActivity(intent);
-            }
-        });
-
-
-    }
+//    private void showPopupWindow(View parent, final int position) {
+//        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
+//                R.layout.pupu_cir_item, null);
+//
+//        // 实例化popupWindow
+//        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
+//        //控制键盘是否可以获得焦点
+//        popupWindow.setFocusable(true);
+//        //设置popupWindow弹出窗体的背景
+//        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+//        WindowManager manager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+//        int[] location = new int[2];
+//        parent.getLocationOnScreen(location);
+//        @SuppressWarnings("deprecation")
+//        //获取xoff
+//                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
+//        int ypos = location[1] - popupWindow.getHeight() / 2;
+//        int ypos1 = ypos - ZhetebaUtils.dip2px(context, 10);
+//        //xoff,yoff基于anchor的左下角进行偏移。
+////        popupWindow.showAsDropDown(parent, xpos, 0);
+//        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, xpos, ypos1);
+//        final LinearLayout ll_zan = (LinearLayout) layout.findViewById(R.id.ll_zan);
+//        LinearLayout ll_cmt = (LinearLayout) layout.findViewById(R.id.ll_cmt);
+//        final TextView ivzan = (TextView) layout.findViewById(R.id.tvzan);
+//        if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
+//            if (0 == list.get(clickPos).getLiked()) {//未点赞
+//                ivzan.setText("赞");
+//            } else {//if (1 == list.get(clickPos).getLiked())
+//                ivzan.setText("取消");
+//            }
+//        }
+//        ll_zan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ll_zan.setEnabled(false);
+//                if (0 == list.get(clickPos).getLiked()) {
+//                    addCircleLike(list.get(clickPos).getId(), ll_zan, ivzan);
+//                } else {//if (1 == list.get(clickPos).getLiked())
+//                    removeCircleLike(list.get(clickPos).getId(), ll_zan, ivzan);
+//                }
+//            }
+//        });
+//        ll_cmt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setClass(context, CircleTextAct.class);
+//                intent.putExtra("circleEntity", list.get(position));
+//                intent.putExtra("circleId", list.get(position).getId());
+//                intent.putExtra("CirCommentPosition", position);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                popupWindow.dismiss();
+//                context.startActivity(intent);
+//            }
+//        });
+//
+//
+//    }
 
     class CricleDialog implements View.OnClickListener {
         private Dialog dialog;

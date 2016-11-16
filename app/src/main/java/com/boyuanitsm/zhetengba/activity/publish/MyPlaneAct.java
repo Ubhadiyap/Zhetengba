@@ -4,21 +4,32 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
 import com.boyuanitsm.zhetengba.adapter.MyPlaneAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
@@ -38,11 +49,18 @@ public class MyPlaneAct extends BaseActivity {
     private LoadingView load_view;
     private PullToRefreshListView lv_my_plane;
     private List<List<ImageInfo>> datalist;
-
+    @ViewInject(R.id.ll_comment)
+    private LinearLayout ll_comment;
+    @ViewInject(R.id.et_comment)
+    private EditText et_comment;
+    @ViewInject(R.id.iv_chanel_comment)
+    private Button bt_send;
     private List<CircleEntity> list;
     private int page=1;
     private int rows=10;
     private MyPlaneAdapter adapter;
+    private int cusPos;
+    private String cirId;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_my_plane);
@@ -84,7 +102,41 @@ public class MyPlaneAct extends BaseActivity {
                 getMyTalks(page, rows, "");
             }
         });
+        et_comment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s.toString().trim())) {
+                    bt_send.setBackgroundResource(R.drawable.main_btn_nor);
+                    bt_send.setTextColor(Color.parseColor("#FFFFFF"));
+                } else {
+                    bt_send.setBackgroundColor(Color.parseColor("#f4f4f4"));
+                    bt_send.setTextColor(Color.parseColor("#999999"));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        bt_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+                    bt_send.setEnabled(false);
+                    bt_send.setClickable(false);
+                    commentCircleTalk(cirId, null, et_comment.getText().toString().trim());
+                } else {
+                    MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+                }
+
+            }
+        });
         load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
             @Override
             public void OnRetry() {
@@ -136,6 +188,18 @@ public class MyPlaneAct extends BaseActivity {
                 }else {
                     adapter.notifyChange(datas);
                 }
+                adapter.setOnItemClickListener(new MyPlaneAdapter.OnItemClickListener2() {
+                    @Override
+                    public void onItemClick(View view, String id, int position) {
+                        cirId = id;
+                        lv_my_plane.getRefreshableView().setSelection(position);
+                        cusPos = position;
+                        ll_comment.setVisibility(View.VISIBLE);
+                        et_comment.requestFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                });
 
             }
         });
@@ -182,5 +246,55 @@ public class MyPlaneAct extends BaseActivity {
                 getMyTalks(page, rows,"");
 //            }
         }
+    }
+    /**
+     * 圈子说说评论
+     * @param circleTalkId
+     * @param fatherCommentId
+     * @param commentContent
+     */
+    private void commentCircleTalk(final String circleTalkId ,String fatherCommentId , final String commentContent){
+        RequestManager.getTalkManager().commentCircleTalk(circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                bt_send.setEnabled(true);
+                bt_send.setClickable(true);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                //重新获取评论列表，刷新评论数目，关闭键盘
+                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
+                et_comment.setText("");
+                //封装数据
+                CircleEntity entity = new CircleEntity();
+                entity.setPetName(UserInfoDao.getUser().getPetName());
+                entity.setCommentContent(commentContent);
+                if (datas.get(cusPos).getCommentsList() == null) {
+                    List<CircleEntity> list = new ArrayList<CircleEntity>();
+                    datas.get(cusPos).setCommentsList(list);
+                    datas.get(cusPos).getCommentsList().add(entity);
+                }else {
+                    datas.get(cusPos).getCommentsList().add(entity);
+                }
+                datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
+                if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts()+"")){
+                    datas.get(cusPos).setCommentCounts(datas.get(cusPos).getCommentCounts() + 1);
+                }else {
+                    datas.get(cusPos).setCommentCounts(1);
+                }
+                if (adapter == null) {
+                    adapter = new MyPlaneAdapter(MyPlaneAct.this, datas);
+                    lv_my_plane.getRefreshableView().setAdapter(adapter);
+                } else {
+                    adapter.notifyChange(datas);
+                }
+                MyToastUtils.showShortToast(getApplicationContext(), response.getMessage());
+                bt_send.setEnabled(true);
+                bt_send.setClickable(true);
+                ll_comment.setVisibility(View.GONE);
+
+            }
+        });
     }
 }
