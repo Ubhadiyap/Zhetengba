@@ -361,6 +361,7 @@ public interface IZtbUrl {
   //发起档期邀请接口
   String ADDACTABOUT_URL=BASE_URL+"schedule/login/addActivityAbout.do";
 
-
+//获取单个圈子说说
+    String GETCIRCLE_URL=BASE_URL+"talk/login/findCircleTalkById.do";
 
 }

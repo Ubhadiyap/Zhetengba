@@ -170,8 +170,8 @@ public class CircleMessAdatper extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, CircleTextAct.class);
-                intent.putExtra("circleEntity", circleInfoList.get(position));
-                intent.putExtra("circleId", circleInfoList.get(position).getId());
+//                intent.putExtra("circleEntity", circleInfoList.get(position));
+                intent.putExtra("circleId", circleInfoList.get(position).getCircleTalkId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
