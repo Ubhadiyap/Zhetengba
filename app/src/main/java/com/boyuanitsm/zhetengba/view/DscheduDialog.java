@@ -16,6 +16,7 @@ import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 import java.util.List;
 
@@ -91,12 +92,12 @@ public class DscheduDialog extends Dialog {
         RequestManager.getScheduleManager().addActAbout(activityId, personId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
-
+                MyToastUtils.showShortToast(context,errorMsg);
             }
 
             @Override
             public void onResponse(ResultBean<String> response) {
-
+                MyToastUtils.showShortToast(context,response.getMessage());
             }
         });
     }

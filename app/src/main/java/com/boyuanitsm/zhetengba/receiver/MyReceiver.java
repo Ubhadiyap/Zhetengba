@@ -110,8 +110,15 @@ public class MyReceiver extends BroadcastReceiver {
 
                 } else {
                     Gson gson = new Gson();
+                    Intent intent2 = new Intent(MessFrg.UPDATE_CONTRACT);
                     ActivityMess activityMess = gson.fromJson(json.toString(), ActivityMess.class);
                     activityMess.setIsAgree(0);
+                    intent2.putExtra("chat_receiver", 3);//3表示有档期消息进入
+                    if (activityMess!=null){
+                        if (!TextUtils.isEmpty(activityMess.getMessage())){
+                            intent2.putExtra("chat_message",activityMess.getMessage());
+                        }
+                    }
                     if (!TextUtils.isEmpty(activityMess.getType())) {
                         if (TextUtils.equals(activityMess.getType(), 1 + "")) {
                             if (!TextUtils.isEmpty(activityMess.getMesstype())) {
@@ -122,16 +129,6 @@ public class MyReceiver extends BroadcastReceiver {
                         }
                     }
                     ActivityMessDao.saveCircleMess(activityMess);
-//                        Intent intent1=new Intent(context,MainAct.class);
-//                        intent1.putExtra("main_receiver",3);
-//                        context.sendBroadcast(intent1);
-                    Intent intent2 = new Intent(MessFrg.UPDATE_CONTRACT);
-                    intent2.putExtra("chat_receiver", 3);//3表示有档期消息进入
-                    if (activityMess!=null){
-                        if (!TextUtils.isEmpty(activityMess.getMessage())){
-                            intent2.putExtra("chat_message",activityMess.getMessage());
-                        }
-                    }
                     context.sendBroadcast(intent2);
                 }
             } catch (JSONException e) {

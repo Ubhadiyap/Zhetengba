@@ -30,6 +30,15 @@ public class CircleEntity implements Parcelable{
     private String talkImage;//说说图片
     private int isInCircle;//是否在圈子里面，后面才加的字段
     private List<CircleEntity> commentsList;//评论列表
+    private String circleTalkId;
+
+    public String getCircleTalkId() {
+        return circleTalkId;
+    }
+
+    public void setCircleTalkId(String circleTalkId) {
+        this.circleTalkId = circleTalkId;
+    }
     /**
      * 用户姓名
      */
@@ -380,6 +389,7 @@ public class CircleEntity implements Parcelable{
         dest.writeString(this.talkImage);
         dest.writeInt(this.isInCircle);
         dest.writeTypedList(this.commentsList);
+        dest.writeString(this.circleTalkId);
         dest.writeString(this.userIcon);
         dest.writeString(this.userSex);
         dest.writeInt(this.liked);
@@ -417,6 +427,7 @@ public class CircleEntity implements Parcelable{
         this.talkImage = in.readString();
         this.isInCircle = in.readInt();
         this.commentsList = in.createTypedArrayList(CircleEntity.CREATOR);
+        this.circleTalkId = in.readString();
         this.userIcon = in.readString();
         this.userSex = in.readString();
         this.liked = in.readInt();

@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.CircleMessDao;
@@ -77,7 +79,7 @@ public class CircleMessAdatper extends BaseAdapter {
         //tiem_mess_one两种布局
         Holder1 holder1;
         if (convertView != null && convertView.getTag() != null) {
-            holder1= (Holder1) convertView.getTag();
+            holder1 = (Holder1) convertView.getTag();
         } else {
             holder1 = new Holder1();
             convertView = View.inflate(context, R.layout.item_mess, null);
@@ -97,20 +99,20 @@ public class CircleMessAdatper extends BaseAdapter {
             holder1.cv_head3 = (CircleImageView) convertView.findViewById(R.id.cv_head3);
             holder1.tv_creatTime2 = (TextView) convertView.findViewById(R.id.tv_creatTime2);
             holder1.tv_petName2 = (TextView) convertView.findViewById(R.id.tv_petName2);
-           holder1.item_mess= (LinearLayout) convertView.findViewById(R.id.item_mess);
-            holder1.item_mess_one=(LinearLayout)convertView.findViewById(R.id.item_mess_one);
-            holder1.item_mess_two=(LinearLayout)convertView.findViewById(R.id.item_mess_two);
+            holder1.item_mess = (LinearLayout) convertView.findViewById(R.id.item_mess);
+            holder1.item_mess_one = (LinearLayout) convertView.findViewById(R.id.item_mess_one);
+            holder1.item_mess_two = (LinearLayout) convertView.findViewById(R.id.item_mess_two);
             convertView.setTag(holder1);
         }
-        if (TextUtils.equals(circleInfoList.get(position).getMesstype(),0+"")){
+        if (TextUtils.equals(circleInfoList.get(position).getMesstype(), 0 + "")) {
             holder1.item_mess.setVisibility(View.VISIBLE);
             holder1.item_mess_one.setVisibility(View.GONE);
             holder1.item_mess_two.setVisibility(View.GONE);
-        }else if (TextUtils.equals(circleInfoList.get(position).getMsgType(),1+"")){
+        } else if (TextUtils.equals(circleInfoList.get(position).getMsgType(), 1 + "")) {
             holder1.item_mess.setVisibility(View.GONE);
             holder1.item_mess_one.setVisibility(View.VISIBLE);
             holder1.item_mess_two.setVisibility(View.GONE);
-        }else if (TextUtils.equals(circleInfoList.get(position).getMesstype(),2+"")){
+        } else if (TextUtils.equals(circleInfoList.get(position).getMesstype(), 2 + "")) {
             holder1.item_mess.setVisibility(View.GONE);
             holder1.item_mess_one.setVisibility(View.GONE);
             holder1.item_mess_two.setVisibility(View.VISIBLE);
@@ -131,7 +133,7 @@ public class CircleMessAdatper extends BaseAdapter {
         } else {
             holder1.tv_talk.setVisibility(View.GONE);
         }
-        if (!TextUtils.isEmpty(circleInfoList.get(position).getMessageState())){
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getMessageState())) {
             if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
                 if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentContent())) {
                     holder1.tv_huifu.setText("评论“我”：" + EmojUtils.decoder(circleInfoList.get(position).getCommentContent()));
@@ -148,14 +150,37 @@ public class CircleMessAdatper extends BaseAdapter {
         if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())) {
             holder1.tv_creatTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
         }
-//        holder1.cv_head2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, PersonalAct.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-//            }
-//        });
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PersonalAct.class);
+                Bundle bundle = new Bundle();
+                if (!TextUtils.isEmpty(circleInfoList.get(position).getUserId())) {
+                    bundle.putString("userId", circleInfoList.get(position).getUserId());
+                }else if (!TextUtils.isEmpty(circleInfoList.get(position).getSender())){
+                    bundle.putString("userId", circleInfoList.get(position).getSender());
+                }
+                intent.putExtras(bundle);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        };
+        View.OnClickListener listener1 = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, CircleTextAct.class);
+                intent.putExtra("circleEntity", circleInfoList.get(position));
+                intent.putExtra("circleId", circleInfoList.get(position).getId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        };
+        holder1.cv_head2.setOnClickListener(listener);
+        holder1.cv_head1.setOnClickListener(listener);
+        holder1.tv_petName.setOnClickListener(listener);
+        holder1.tv_petName2.setOnClickListener(listener);
+        holder1.tv_talk.setOnClickListener(listener1);
         if (TextUtils.equals(circleInfoList.get(position).getHandleResult(), 0 + "")) {
             holder1.bt_yes.setText("已同意");
             holder1.bt_no.setBackgroundResource(R.drawable.bg_circle_stroke_gray2);
@@ -177,148 +202,148 @@ public class CircleMessAdatper extends BaseAdapter {
             holder1.bt_yes.setEnabled(true);
             holder1.bt_no.setEnabled(true);
         }
-        if (!TextUtils.isEmpty(circleInfoList.get(position).getMessageState())){
-        if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
-            holder1.tv_qingqiu.setText(circleInfoList.get(position).getMsgContent());
-            final Holder1 finalHolder = holder1;
-            holder1.bt_yes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finalHolder.bt_yes.setEnabled(false);
-                    finalHolder.bt_no.setEnabled(false);
-                    RequestManager.getTalkManager().sendAgreeCircleResp(circleInfoList.get(position).getTypeId(), circleInfoList.get(position).getSender(), new ResultCallback<ResultBean<String>>() {
-                        @Override
-                        public void onError(int status, String errorMsg) {
-                            finalHolder.bt_yes.setEnabled(false);
-                            finalHolder.bt_no.setEnabled(false);
-                            MyToastUtils.showShortToast(context, "请求出错！");
-                        }
-
-                        @Override
-                        public void onResponse(ResultBean<String> response) {
-                            if (TextUtils.equals(response.getData(), "1")) {
-                                circleInfoList.get(position).setHandleResult(0 + "");
-                                CircleMessDao.saveCircleMess(circleInfoList.get(position));
-                                notifyDataSetChanged();
-                                MyToastUtils.showShortToast(context, response.getMessage());
-                            } else if (TextUtils.equals(response.getData(), "-1")) {
-                                circleInfoList.remove(position);
-                                notifyDataSetChanged();
-                                MyToastUtils.showShortToast(context, response.getMessage());
-                            }else if (TextUtils.equals(response.getData(),"-5")){
-                                circleInfoList.remove(position);
-                                notifyDataSetChanged();
-                                MyToastUtils.showShortToast(context, response.getMessage());
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getMessageState())) {
+            if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
+                holder1.tv_qingqiu.setText(circleInfoList.get(position).getMsgContent());
+                final Holder1 finalHolder = holder1;
+                holder1.bt_yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finalHolder.bt_yes.setEnabled(false);
+                        finalHolder.bt_no.setEnabled(false);
+                        RequestManager.getTalkManager().sendAgreeCircleResp(circleInfoList.get(position).getTypeId(), circleInfoList.get(position).getSender(), new ResultCallback<ResultBean<String>>() {
+                            @Override
+                            public void onError(int status, String errorMsg) {
+                                finalHolder.bt_yes.setEnabled(false);
+                                finalHolder.bt_no.setEnabled(false);
+                                MyToastUtils.showShortToast(context, "请求出错！");
                             }
-                        }
-                    });
-                }
-            });
-            holder1.bt_no.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finalHolder.bt_yes.setEnabled(false);
-                    finalHolder.bt_no.setEnabled(false);
-                    RequestManager.getTalkManager().qingRefuseCircleResp(circleInfoList.get(position).getTypeId(), circleInfoList.get(position).getSender(), new ResultCallback<ResultBean<String>>() {
-                        @Override
-                        public void onError(int status, String errorMsg) {
 
-                        }
-
-                        @Override
-                        public void onResponse(ResultBean<String> response) {
-                            if (TextUtils.equals(response.getData(),-2+"")){
-                                MyToastUtils.showShortToast(context,response.getMessage());
-                                circleInfoList.remove(position);
-                                notifyDataSetChanged();
-                                return;
-                            }else if (TextUtils.equals(response.getData(),-3+"")){
-                                MyToastUtils.showShortToast(context,response.getMessage());
-                                circleInfoList.remove(position);
-                                notifyDataSetChanged();
-                                return;
-                            }else if (TextUtils.equals(response.getData(),-5+"")){
-                                MyToastUtils.showShortToast(context,response.getMessage());
-                                circleInfoList.remove(position);
-                                notifyDataSetChanged();
-                                return;
-                            } else {
-                                circleInfoList.get(position).setHandleResult(1 + "");
-                                CircleMessDao.saveCircleMess(circleInfoList.get(position));
-                                notifyDataSetChanged();
-                                MyToastUtils.showShortToast(context, response.getMessage());
+                            @Override
+                            public void onResponse(ResultBean<String> response) {
+                                if (TextUtils.equals(response.getData(), "1")) {
+                                    circleInfoList.get(position).setHandleResult(0 + "");
+                                    CircleMessDao.saveCircleMess(circleInfoList.get(position));
+                                    notifyDataSetChanged();
+                                    MyToastUtils.showShortToast(context, response.getMessage());
+                                } else if (TextUtils.equals(response.getData(), "-1")) {
+                                    circleInfoList.remove(position);
+                                    notifyDataSetChanged();
+                                    MyToastUtils.showShortToast(context, response.getMessage());
+                                } else if (TextUtils.equals(response.getData(), "-5")) {
+                                    circleInfoList.remove(position);
+                                    notifyDataSetChanged();
+                                    MyToastUtils.showShortToast(context, response.getMessage());
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                });
+                holder1.bt_no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finalHolder.bt_yes.setEnabled(false);
+                        finalHolder.bt_no.setEnabled(false);
+                        RequestManager.getTalkManager().qingRefuseCircleResp(circleInfoList.get(position).getTypeId(), circleInfoList.get(position).getSender(), new ResultCallback<ResultBean<String>>() {
+                            @Override
+                            public void onError(int status, String errorMsg) {
 
-                }
-            });
+                            }
+
+                            @Override
+                            public void onResponse(ResultBean<String> response) {
+                                if (TextUtils.equals(response.getData(), -2 + "")) {
+                                    MyToastUtils.showShortToast(context, response.getMessage());
+                                    circleInfoList.remove(position);
+                                    notifyDataSetChanged();
+                                    return;
+                                } else if (TextUtils.equals(response.getData(), -3 + "")) {
+                                    MyToastUtils.showShortToast(context, response.getMessage());
+                                    circleInfoList.remove(position);
+                                    notifyDataSetChanged();
+                                    return;
+                                } else if (TextUtils.equals(response.getData(), -5 + "")) {
+                                    MyToastUtils.showShortToast(context, response.getMessage());
+                                    circleInfoList.remove(position);
+                                    notifyDataSetChanged();
+                                    return;
+                                } else {
+                                    circleInfoList.get(position).setHandleResult(1 + "");
+                                    CircleMessDao.saveCircleMess(circleInfoList.get(position));
+                                    notifyDataSetChanged();
+                                    MyToastUtils.showShortToast(context, response.getMessage());
+                                }
+                            }
+                        });
+
+                    }
+                });
 //                        holder2.tv_beizhu.setText("备注：你好，我是李宇春");
-        } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
-            holder1.tv_qingqiu.setText(circleInfoList.get(position).getMsgContent());
-            final Holder1 finalHolder1 = holder1;
-            holder1.bt_yes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finalHolder1.bt_yes.setEnabled(false);
-                    finalHolder1.bt_no.setEnabled(false);
-                    //同意加入
-                    RequestManager.getTalkManager().sendAgreeCircleInviteMsg(circleInfoList.get(position).getTypeId(), new ResultCallback<ResultBean<String>>() {
-                        @Override
-                        public void onError(int status, String errorMsg) {
-                            finalHolder1.bt_yes.setEnabled(false);
-                            finalHolder1.bt_no.setEnabled(false);
-                        }
-
-                        @Override
-                        public void onResponse(ResultBean<String> response) {
-                            if (TextUtils.equals(response.getData(),1+"")){
-                                circleInfoList.get(position).setHandleResult(0 + "");
-                                CircleMessDao.saveCircleMess(circleInfoList.get(position));
-                                notifyDataSetChanged();
-                                MyToastUtils.showShortToast(context, response.getMessage());
-                            }else{
-                                circleInfoList.remove(position);
-                                notifyDataSetChanged();
-//                                MyToastUtils.showShortToast(context,response.getMessage());
+            } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
+                holder1.tv_qingqiu.setText(circleInfoList.get(position).getMsgContent());
+                final Holder1 finalHolder1 = holder1;
+                holder1.bt_yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finalHolder1.bt_yes.setEnabled(false);
+                        finalHolder1.bt_no.setEnabled(false);
+                        //同意加入
+                        RequestManager.getTalkManager().sendAgreeCircleInviteMsg(circleInfoList.get(position).getTypeId(), new ResultCallback<ResultBean<String>>() {
+                            @Override
+                            public void onError(int status, String errorMsg) {
+                                finalHolder1.bt_yes.setEnabled(false);
+                                finalHolder1.bt_no.setEnabled(false);
                             }
 
-                        }
-                    });
-                }
-            });
-            final Holder1 finalHolder2 = holder1;
-            holder1.bt_no.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finalHolder2.bt_yes.setEnabled(false);
-                    finalHolder2.bt_no.setEnabled(false);
-                    //拒绝加入
-                    RequestManager.getTalkManager().sendRefuseCircleResp(circleInfoList.get(position).getTypeId(), new ResultCallback<ResultBean<String>>() {
-                        @Override
-                        public void onError(int status, String errorMsg) {
-                            finalHolder2.bt_yes.setEnabled(false);
-                            finalHolder2.bt_no.setEnabled(false);
-                        }
-
-                        @Override
-                        public void onResponse(ResultBean<String> response) {
-                            if (TextUtils.equals(response.getData(),1+"")){
-                                circleInfoList.get(position).setHandleResult(1 + "");
-                                notifyDataSetChanged();
-                                CircleMessDao.saveCircleMess(circleInfoList.get(position));
-                                MyToastUtils.showShortToast(context, response.getMessage());
-                            }else{
-                                circleInfoList.remove(position);
-                                notifyDataSetChanged();
+                            @Override
+                            public void onResponse(ResultBean<String> response) {
+                                if (TextUtils.equals(response.getData(), 1 + "")) {
+                                    circleInfoList.get(position).setHandleResult(0 + "");
+                                    CircleMessDao.saveCircleMess(circleInfoList.get(position));
+                                    notifyDataSetChanged();
+                                    MyToastUtils.showShortToast(context, response.getMessage());
+                                } else {
+                                    circleInfoList.remove(position);
+                                    notifyDataSetChanged();
 //                                MyToastUtils.showShortToast(context,response.getMessage());
+                                }
+
+                            }
+                        });
+                    }
+                });
+                final Holder1 finalHolder2 = holder1;
+                holder1.bt_no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finalHolder2.bt_yes.setEnabled(false);
+                        finalHolder2.bt_no.setEnabled(false);
+                        //拒绝加入
+                        RequestManager.getTalkManager().sendRefuseCircleResp(circleInfoList.get(position).getTypeId(), new ResultCallback<ResultBean<String>>() {
+                            @Override
+                            public void onError(int status, String errorMsg) {
+                                finalHolder2.bt_yes.setEnabled(false);
+                                finalHolder2.bt_no.setEnabled(false);
                             }
 
-                        }
-                    });
-                }
-            });
-        }
+                            @Override
+                            public void onResponse(ResultBean<String> response) {
+                                if (TextUtils.equals(response.getData(), 1 + "")) {
+                                    circleInfoList.get(position).setHandleResult(1 + "");
+                                    notifyDataSetChanged();
+                                    CircleMessDao.saveCircleMess(circleInfoList.get(position));
+                                    MyToastUtils.showShortToast(context, response.getMessage());
+                                } else {
+                                    circleInfoList.remove(position);
+                                    notifyDataSetChanged();
+//                                MyToastUtils.showShortToast(context,response.getMessage());
+                                }
+
+                            }
+                        });
+                    }
+                });
+            }
         }
 
 
@@ -329,7 +354,7 @@ public class CircleMessAdatper extends BaseAdapter {
         if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())) {
             holder1.tv_creatTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
         }
-        if (!TextUtils.isEmpty(circleInfoList.get(position).getMessageState())){
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getMessageState())) {
             if (circleInfoList.get(position).getMessageState().equals(0 + "")) {
                 holder1.tv_shenqing.setText("同意了我的请求，已加入" + circleInfoList.get(position).getCircleName());
             } else if (circleInfoList.get(position).getMessageState().equals(1 + "")) {
@@ -345,7 +370,7 @@ public class CircleMessAdatper extends BaseAdapter {
         return convertView;
     }
 
-   class Holder1 {
+    class Holder1 {
         private TextView tv_huifu;
         private CircleImageView cv_head1;
         private TextView niName1;
@@ -363,6 +388,6 @@ public class CircleMessAdatper extends BaseAdapter {
         private CircleImageView cv_head3;
         private TextView tv_petName;
         private TextView tv_creatTime;
-        private LinearLayout item_mess,item_mess_one,item_mess_two;
+        private LinearLayout item_mess, item_mess_one, item_mess_two;
     }
 }
