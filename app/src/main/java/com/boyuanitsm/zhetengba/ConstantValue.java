@@ -28,7 +28,7 @@ public class ConstantValue {
     /**
      * 数据库版本
      */
-    public final static int VERSION =5;
+    public final static int VERSION =6;
     public final static Class<?>[] MODELS = {UserInfo.class, ChatUserBean.class,UserInterestInfo.class,CircleInfo.class, ActivityMess.class,NewCircleMess.class};
     public final static Class<?>[] NEWSMODELS={NewCircleMess.class};
     public final static String DB_NAME = "user.db";

@@ -474,4 +474,15 @@ public class TalkManager extends RequestManager{
         map.put("talkId",talkId);
         OkHttpManager.getInstance().doPost(IZtbUrl.DELETETALK, map, callback);
     }
+
+    /**
+     * 获取
+     * @param circleTalkId
+     * @param callback
+     */
+    public void getCircleTalk(String circleTalkId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("id",circleTalkId);
+        OkHttpManager.getInstance().doPost(IZtbUrl.GETCIRCLE_URL, map, callback);
+    }
 }

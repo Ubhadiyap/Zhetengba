@@ -60,6 +60,16 @@ public class CircleInfo implements Parcelable{
     private String msgType;//0档期，1，圈子
     @Column
     private String typeId;//活动时，档期id,圈子时，圈子id，
+    @Column
+    private String circleTalkId;
+
+    public String getCircleTalkId() {
+        return circleTalkId;
+    }
+
+    public void setCircleTalkId(String circleTalkId) {
+        this.circleTalkId = circleTalkId;
+    }
 
     @Override
     public String toString() {
@@ -297,6 +307,7 @@ public class CircleInfo implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
         dest.writeString(this.userId);
         dest.writeString(this.userIcon);
         dest.writeString(this.petName);
@@ -320,9 +331,11 @@ public class CircleInfo implements Parcelable{
         dest.writeString(this.requestToJoin);
         dest.writeString(this.msgType);
         dest.writeString(this.typeId);
+        dest.writeString(this.circleTalkId);
     }
 
     protected CircleInfo(Parcel in) {
+        this.id = in.readString();
         this.userId = in.readString();
         this.userIcon = in.readString();
         this.petName = in.readString();
@@ -346,6 +359,7 @@ public class CircleInfo implements Parcelable{
         this.requestToJoin = in.readString();
         this.msgType = in.readString();
         this.typeId = in.readString();
+        this.circleTalkId = in.readString();
     }
 
     public static final Creator<CircleInfo> CREATOR = new Creator<CircleInfo>() {

@@ -125,8 +125,12 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
          position=getIntent().getIntExtra("CirCommentPosition", 0);
         LayoutHelperUtil.freshInit(my_lv);
         my_lv.getRefreshableView().addHeaderView(headerView);
+        if (entity==null){
+            if (!TextUtils.isEmpty(circleId)){
+                getCircleTalk(circleId);
+            }
+        }
         setCircleEntity(entity);
-
         getCircleCommentsList(circleId, page, rows);
         load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
             @Override
@@ -435,6 +439,27 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
                 intent.putExtras(bundle);
                 sendBroadcast(intent);
 
+            }
+        });
+    }
+
+    /**
+     * 获取圈子正文
+     * @param talkId
+     */
+    private void getCircleTalk(String talkId){
+        RequestManager.getTalkManager().getCircleTalk(talkId, new ResultCallback<ResultBean<CircleEntity>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<CircleEntity> response) {
+                if (entity==null){
+                    entity=response.getData();
+                }
+                setCircleEntity(entity);
             }
         });
     }

@@ -104,8 +104,8 @@ public class DqMesAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(list.get(position).getPetName())) {
             viewHolder.tv_name.setText(list.get(position).getPetName());
         }
-        if (!TextUtils.isEmpty(list.get(position).getMessage())&&list.get(position).getMessage().length()>list.get(position).getPetName().length()) {
-            viewHolder.tv_second.setText(list.get(position).getMessage().substring(list.get(position).getPetName().length()));
+        if (!TextUtils.isEmpty(list.get(position).getMessage())) {
+            viewHolder.tv_second.setText(list.get(position).getMessage());
         }
 
         if (!TextUtils.isEmpty(list.get(position).getCreateTime())) {
@@ -146,10 +146,10 @@ public class DqMesAdapter extends BaseAdapter {
 
                     @Override
                     public void onResponse(ResultBean<String> response) {
-                        viewHolder.tvAccept.setClickable(false);
-                        viewHolder.tvRefuse.setClickable(false);
+                        viewHolder.tvAccept.setEnabled(false);
+                        viewHolder.tvRefuse.setEnabled(false);
                         list.get(position).setHandleResult(0 + "");
-                        if (TextUtils.equals(response.getData(),"-3")){
+                        if (TextUtils.equals(response.getData(),"-1")||TextUtils.equals(response.getData(),"-2")){//活动不存在
                             MyToastUtils.showShortToast(context, response.getMessage());
                             list.remove(position);
                             notifyDataSetChanged();
@@ -166,21 +166,21 @@ public class DqMesAdapter extends BaseAdapter {
         viewHolder.tvRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewHolder.tvAccept.setClickable(false);
-                viewHolder.tvRefuse.setClickable(false);
+                viewHolder.tvAccept.setEnabled(false);
+                viewHolder.tvRefuse.setEnabled(false);
                 RequestManager.getScheduleManager().refuseActivity(list.get(position).getActivityId(), new ResultCallback<ResultBean<String>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-                        viewHolder.tvAccept.setClickable(false);
-                        viewHolder.tvRefuse.setClickable(false);
+                        viewHolder.tvAccept.setEnabled(false);
+                        viewHolder.tvRefuse.setEnabled(false);
                     }
 
                     @Override
                     public void onResponse(ResultBean<String> response) {
-                        viewHolder.tvAccept.setClickable(false);
-                        viewHolder.tvRefuse.setClickable(false);
+                        viewHolder.tvAccept.setEnabled(false);
+                        viewHolder.tvRefuse.setEnabled(false);
                         list.get(position).setHandleResult(1 + "");
-                        if (TextUtils.equals(response.getData(),"0")){
+                        if (TextUtils.equals(response.getData(),"-1")){
                             MyToastUtils.showShortToast(context, response.getMessage());
                             list.remove(position);
                             notifyDataSetChanged();
