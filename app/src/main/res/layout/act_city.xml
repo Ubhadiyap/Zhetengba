@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/city_tt"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="goback">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="11dp"
+                android:layout_height="19dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/top_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/iv_back"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:text="返回"
+                android:textColor="#0096e9"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:text="选择城市"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_wc"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:paddingLeft="15dp"
+            android:text="完成"
+            android:textColor="#999999"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_below="@id/city_tt"
+        style="@style/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="0dp"></View>
+
+    <EditText
+        android:id="@+id/et_sh"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_below="@id/view_line"
+        android:layout_margin="10dp"
+        android:background="@drawable/city_serch"
+        android:drawableLeft="@mipmap/serch_gl"
+        android:drawablePadding="5dp"
+        android:hint="输入城市名或拼音"
+        android:paddingLeft="15dp"
+        android:textColor="#515151"
+        android:textSize="16dp"></EditText>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.boyuanitsm.zhetengba.view.PinnedHeaderListView
+            android:id="@+id/plv"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="@null"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:scrollbars="none"></com.boyuanitsm.zhetengba.view.PinnedHeaderListView>
+
+        <ListView
+            android:visibility="gone"
+            android:id="@+id/serch_plv"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="@null"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:scrollbars="none"></ListView>
+
+
+        <!--<ListView-->
+        <!--android:scrollbars="none"-->
+        <!--android:id="@+id/lv_city"-->
+        <!--android:layout_below="@+id/sh"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"></ListView>-->
+    <!--<ListView-->
+        <!--android:visibility="gone"-->
+        <!--android:scrollbars="none"-->
+        <!--android:id="@+id/result_city"-->
+        <!--android:layout_below="@+id/sh"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"></ListView>-->
+
+
+    <com.boyuanitsm.zhetengba.view.city.BladeCityView
+        android:id="@+id/mLetterListView"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="#00000000"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="40dp" />
+
+    </RelativeLayout>
+</LinearLayout>

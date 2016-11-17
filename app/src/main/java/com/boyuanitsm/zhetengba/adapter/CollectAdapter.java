@@ -15,14 +15,15 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.CollectionBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
+import com.boyuanitsm.zhetengba.view.DscheduDialog;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -38,6 +39,8 @@ public class CollectAdapter extends BaseAdapter {
     private List<CollectionBean> list;
     private int dex;
     private boolean flag = true;//true参加
+
+    private List<SimpleInfo> simpleInfos;
 
 
     // 图片缓存 默认 等
@@ -92,16 +95,19 @@ public class CollectAdapter extends BaseAdapter {
             holder.tv_hdtheme = (TextView) convertView.findViewById(R.id.tv_hdtheme);
             holder.tv_loaction = (TextView) convertView.findViewById(R.id.tv_loaction);
             holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
-            holder.tv_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
-            holder.tv_guanzhu_num = (TextView) convertView.findViewById(R.id.tv_guanzhu_num);
+//            holder.tv_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
+//            holder.tv_guanzhu_num = (TextView) convertView.findViewById(R.id.tv_guanzhu_num);
             holder.tv_join_tal_num = (TextView) convertView.findViewById(R.id.tv_join_tal_num);
             holder.tv_join_num = (TextView) convertView.findViewById(R.id.tv_join_num);
-            holder.ll_shouc = (LinearLayout) convertView.findViewById(R.id.ll_shouc);
+//            holder.ll_shouc = (LinearLayout) convertView.findViewById(R.id.ll_shouc);
+            holder.ll_guanzu= (LinearLayout) convertView.findViewById(R.id.ll_guanzhu);
+            holder.iv_guanzhu= (ImageView) convertView.findViewById(R.id.iv_simple_guanzhu);
             holder.iv_gender = (ImageView) convertView.findViewById(R.id.iv_gender);
             holder.iv_join = (ImageView) convertView.findViewById(R.id.iv_join);
             holder.tv_text_jion = (TextView) convertView.findViewById(R.id.tv_text_jion);
             holder.iv_actdetial = (CircleImageView) convertView.findViewById(R.id.iv_actdetial);
             holder.ll_join = (LinearLayout) convertView.findViewById(R.id.ll_join);
+            holder.ll_yaoqin= (LinearLayout) convertView.findViewById(R.id.ll_yaoqin);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -125,12 +131,12 @@ public class CollectAdapter extends BaseAdapter {
             {
                 holder.tv_date.setText(ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getStartTime())) + "—" + ZhetebaUtils.timeToDate(Long.parseLong(list.get(position).getEndTime())));
             }
-            //关注数
-            if (list.get(position).getFollowNum() != null) {
-                holder.tv_guanzhu_num.setText(list.get(position).getFollowNum() + "");
-            }
+//            //关注数
+//            if (list.get(position).getFollowNum() != null) {
+//                holder.tv_guanzhu_num.setText(list.get(position).getFollowNum() + "");
+//            }
             if (list.get(position).isFollow()) {
-                holder.tv_guanzhu.setText("已关注");
+//                holder.tv_guanzhu.setText("已关注");
             }
             //已经响应人数
             if (list.get(position).getMemberNum() != null) {
@@ -167,7 +173,7 @@ public class CollectAdapter extends BaseAdapter {
             //右边标签图片
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(list.get(position).getIcon()), holder.iv_actdetial, options);
             //关注添加监听取消关注并删除本地显示
-            holder.ll_shouc.setOnClickListener(new View.OnClickListener() {
+            holder.ll_guanzu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new MyAlertDialog(context).builder().setTitle("提示").setMsg("确认取消关注").setPositiveButton("确定", new View.OnClickListener() {
@@ -178,6 +184,25 @@ public class CollectAdapter extends BaseAdapter {
                         }
                     }).setNegativeButton("取消", null).show();
 
+                }
+            });
+            holder.ll_yaoqin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RequestManager.getScheduleManager().findWithAct(list.get(position).getId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+                        @Override
+                        public void onError(int status, String errorMsg) {
+
+                        }
+
+                        @Override
+                        public void onResponse(ResultBean<List<SimpleInfo>> response) {
+                            simpleInfos=response.getData();
+                            DscheduDialog dialog=new DscheduDialog(context,simpleInfos,list.get(position).getCreatePersonId());
+                            dialog.show();
+
+                        }
+                    });
                 }
             });
             if (list.get(position).getMemberNum() == list.get(position).getInviteNumber()) {
@@ -258,12 +283,16 @@ public class CollectAdapter extends BaseAdapter {
         private TextView tv_guanzhu_num;//关注数
         private TextView tv_join_tal_num;//邀请总人数
         private TextView tv_join_num;//已参加人数
-        private LinearLayout ll_shouc;//取消关注那列
+//        private LinearLayout ll_shouc;//取消关注那列
         private ImageView iv_gender;//性别
         private ImageView iv_join;//参加头像
         private TextView tv_text_jion;//参加/取消参加
         private CircleImageView iv_actdetial;//活动标签
         private LinearLayout ll_join;//参加活动
+        private LinearLayout ll_guanzu;
+        private ImageView iv_guanzhu;
+        private LinearLayout ll_yaoqin;
+
 
 
     }

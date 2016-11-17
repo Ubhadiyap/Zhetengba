@@ -6,15 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,22 +19,17 @@ import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
-import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.ShareDialogAct;
-import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.mine.MyColleitionAct;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
-import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
-import com.boyuanitsm.zhetengba.bean.ScheduleInfo;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
-import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
@@ -48,10 +38,10 @@ import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.CustomDialog;
 import com.boyuanitsm.zhetengba.view.CustomImageView;
+import com.boyuanitsm.zhetengba.view.DscheduDialog;
 import com.boyuanitsm.zhetengba.view.MyAlertDialog;
 import com.boyuanitsm.zhetengba.view.MyGridView;
 import com.boyuanitsm.zhetengba.view.PicShowDialog;
-import com.boyuanitsm.zhetengba.view.ScheduDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -172,7 +162,7 @@ public class TestAdapter extends BaseAdapter {
             viewHolder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
             viewHolder.ll_guanzhu = (LinearLayout) convertView.findViewById(R.id.ll_guanzhu);
             viewHolder.iv_simple_guanzhu = (ImageView) convertView.findViewById(R.id.iv_simple_guanzhu);
-            viewHolder.tv_guanzhu_num = (TextView) convertView.findViewById(R.id.tv_guanzhu_num);
+//            viewHolder.tv_guanzhu_num = (TextView) convertView.findViewById(R.id.tv_guanzhu_num);
             viewHolder.ll_join = (LinearLayout) convertView.findViewById(R.id.ll_join);
             viewHolder.iv_join = (ImageView) convertView.findViewById(R.id.iv_join);
             viewHolder.tv_join_num = (TextView) convertView.findViewById(R.id.tv_join_num);
@@ -180,15 +170,16 @@ public class TestAdapter extends BaseAdapter {
             viewHolder.iv_gender = (ImageView) convertView.findViewById(R.id.iv_gender);
             viewHolder.iv_actdetial = (CircleImageView) convertView.findViewById(R.id.iv_actdetial);
             viewHolder.tv_text_jion = (TextView) convertView.findViewById(R.id.tv_text_jion);
-            viewHolder.tv_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
+//            viewHolder.tv_text_guanzhu = (TextView) convertView.findViewById(R.id.tv_guanzhu);
             viewHolder.ll_show = (LinearLayout) convertView.findViewById(R.id.ll_show);
             viewHolder.ll_show2 = (LinearLayout) convertView.findViewById(R.id.ll_show2);
-            viewHolder.ll_show3 = (LinearLayout) convertView.findViewById(R.id.ll_show3);
+            viewHolder.ll_show3 = (RelativeLayout) convertView.findViewById(R.id.ll_show3);
             viewHolder.ll_del = (LinearLayout) convertView.findViewById(R.id.ll_del);
             viewHolder.ll_simple_share = (LinearLayout) convertView.findViewById(R.id.ll_simple_share);
             viewHolder.ll_theme_location = (LinearLayout) convertView.findViewById(R.id.ll_theme_location);
             viewHolder.tv_cj= (TextView) convertView.findViewById(R.id.tv_cj);//自己发布活动参加人数
             viewHolder.tv_tt= (TextView) convertView.findViewById(R.id.tv_tt);//能参与的总人数
+            viewHolder.ll_yaoqin= (LinearLayout) convertView.findViewById(R.id.ll_yaoqin);
             convertView.setTag(viewHolder);
         }
 
@@ -219,12 +210,12 @@ public class TestAdapter extends BaseAdapter {
                 viewHolder.tv_tt.setText("/"+scheduleEntity.get(position).getInviteNumber());//自己发布总人数
                 viewHolder.tv_cj.setText(scheduleEntity.get(position).getMemberNum()+"");//已经3响应人数
             }
-            if (scheduleEntity.get(position).getFollowNum() == 0) {
-                viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
-            } else {
-                viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
-                viewHolder.tv_guanzhu_num.setText(scheduleEntity.get(position).getFollowNum() + "");//关注人数
-            }
+//            if (scheduleEntity.get(position).getFollowNum() == 0) {
+//                viewHolder.tv_guanzhu_num.setVisibility(View.GONE);
+//            } else {
+//                viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+//                viewHolder.tv_guanzhu_num.setText(scheduleEntity.get(position).getFollowNum() + "");//关注人数
+//            }
             viewHolder.tv_join_num.setText(scheduleEntity.get(position).getMemberNum() + "");//目前成员数量；
             viewHolder.tv_join_tal_num.setText(scheduleEntity.get(position).getInviteNumber() + "");//邀约人数
             strStart = ZhetebaUtils.timeToDate(Long.parseLong(scheduleEntity.get(position).getStartTime()));
@@ -265,12 +256,12 @@ public class TestAdapter extends BaseAdapter {
             }
 
             if (scheduleEntity.get(position).isFollow()) {
-                viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_b));//已关注
-                viewHolder.tv_text_guanzhu.setText("已关注");
+                viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect_c));//已关注
+//                viewHolder.tv_text_guanzhu.setText("已关注");
                 viewHolder.ll_guanzhu.setEnabled(false);
             } else {
                 viewHolder.iv_simple_guanzhu.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.collect));//默认图标
-                viewHolder.tv_text_guanzhu.setText("关注");
+//                viewHolder.tv_text_guanzhu.setText("关注");
                 viewHolder.ll_guanzhu.setEnabled(true);
             }
             if (!TextUtils.isEmpty(scheduleEntity.get(position).getActivityParticulars())) {
@@ -359,6 +350,24 @@ public class TestAdapter extends BaseAdapter {
 
                 }
             });
+            viewHolder.ll_yaoqin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RequestManager.getScheduleManager().findWithAct(scheduleEntity.get(position).getId(), new ResultCallback<ResultBean<List<SimpleInfo>>>() {
+                        @Override
+                        public void onError(int status, String errorMsg) {
+
+                        }
+
+                        @Override
+                        public void onResponse(ResultBean<List<SimpleInfo>> response) {
+                            DscheduDialog dialog=new DscheduDialog(context,response.getData(),scheduleEntity.get(position).getCreatePersonId());
+                            dialog.show();
+
+                        }
+                    });
+                }
+            });
             viewHolder.ll_simple_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -389,7 +398,8 @@ public class TestAdapter extends BaseAdapter {
                             int noticNum = scheduleEntity.get(position).getFollowNum();
                             noticNum = noticNum + 1;
                             scheduleEntity.get(position).setFollowNum(noticNum);
-                            viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+//                            viewHolder.tv_guanzhu_num.setVisibility(View.VISIBLE);
+                            viewHolder.iv_simple_guanzhu.setBackgroundResource(R.drawable.collect_c);
                             viewHolder.ll_guanzhu.setClickable(false);
                             context.sendBroadcast(new Intent(MyColleitionAct.COLLECTION));
                             context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
@@ -643,10 +653,10 @@ public class TestAdapter extends BaseAdapter {
         private TextView tv_hdtheme;//活动主题
         private TextView tv_loaction;//活动位置
         private TextView tv_date;//活动日期
-        private LinearLayout ll_guanzhu;//关注数量
+//        private LinearLayout ll_guanzhu;//关注数量
         private ImageView iv_simple_guanzhu;//关注图标
-        private TextView tv_text_guanzhu;//关注文本
-        private TextView tv_guanzhu_num;//关注数量设置
+//        private TextView tv_text_guanzhu;//关注文本
+//        private TextView tv_guanzhu_num;//关注数量设置
         private LinearLayout ll_join;//参加人数
         private ImageView iv_join;//参加头像
         private TextView tv_join_num;//参加数量
@@ -655,9 +665,12 @@ public class TestAdapter extends BaseAdapter {
         private ImageView iv_gender;//性别
         private TextView tv_text_jion;//参加/取消参加
         private LinearLayout ll_theme_location;//活动位置Linear
-        private LinearLayout ll_show, ll_show2, ll_show3;
+        private LinearLayout ll_show, ll_show2;
         private LinearLayout ll_del, ll_simple_share;
         private TextView tv_cj,tv_tt;//自己发布后参加人数和总的人数
+        private LinearLayout ll_guanzhu,ll_yaoqin;
+        private RelativeLayout ll_show3;
+
     }
 
     /**
