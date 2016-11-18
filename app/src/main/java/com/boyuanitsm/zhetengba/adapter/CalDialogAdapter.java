@@ -45,11 +45,11 @@ public class CalDialogAdapter extends BaseAdapter{
         convertView=View.inflate(context, R.layout.item_cal_dialog, null);
         TextView tv_name= (TextView) convertView.findViewById(R.id.tv_activity_name);
         String strTheme=list.get(position).getActivityTheme();
-        if (strTheme.length()>7){
-            tv_name.setText(strTheme.substring(0,7)+"...");
-        }else {
+//        if (strTheme.length()>7){
+//            tv_name.setText(strTheme.substring(0,7)+"...");
+//        }else {
             tv_name.setText(strTheme);
-        }
+//        }
         return convertView;
     }
 }
