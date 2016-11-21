@@ -109,7 +109,6 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         super.setUpView();
         // 注册上下文菜单
         List<ActivityMess> list = ActivityMessDao.getCircleUser();
-
 //        tvmessage.setText("nihao");
         if (list != null && list.size() > 0) {
             Collections.reverse(list);

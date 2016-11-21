@@ -3,6 +3,7 @@ package com.boyuanitsm.zhetengba.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
@@ -111,6 +112,11 @@ public class MyReceiver extends BroadcastReceiver {
                 } else {
                     Gson gson = new Gson();
                     Intent intent2 = new Intent(MessFrg.UPDATE_CONTRACT);
+                    broadcastManager = LocalBroadcastManager.getInstance(context);
+                    Intent intentPointGone = new Intent(context, MainAct.class);
+                    intentPointGone.setAction(Constant.ACTION_CONTACT_CHANAGED);
+                    intentPointGone.putExtra("redOut", "redOut");
+                    broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
                     ActivityMess activityMess = gson.fromJson(json.toString(), ActivityMess.class);
                     activityMess.setIsAgree(0);
                     intent2.putExtra("chat_receiver", 3);//3表示有档期消息进入
@@ -119,6 +125,7 @@ public class MyReceiver extends BroadcastReceiver {
                             intent2.putExtra("chat_message",activityMess.getMessage());
                         }
                     }
+                    context.sendBroadcast(intent2);
                     if (!TextUtils.isEmpty(activityMess.getType())) {
                         if (TextUtils.equals(activityMess.getType(), 1 + "")) {
                             if (!TextUtils.isEmpty(activityMess.getMesstype())) {
@@ -129,7 +136,6 @@ public class MyReceiver extends BroadcastReceiver {
                         }
                     }
                     ActivityMessDao.saveCircleMess(activityMess);
-                    context.sendBroadcast(intent2);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
