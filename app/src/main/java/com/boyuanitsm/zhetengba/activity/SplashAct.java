@@ -1,8 +1,11 @@
 package com.boyuanitsm.zhetengba.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
@@ -82,7 +85,15 @@ public class SplashAct extends BaseActivity {
                         } else {
                             //进入主页面
                             startActivity(new Intent(SplashAct.this, MainAct.class));
-//                            toLogin(UserInfoDao.getUser().getUsername(),UserInfoDao.getUser().gethPassword());
+                            //同样，在读取SharedPreferences数据前要实例化出一个SharedPreferences对象
+                            SharedPreferences sharedPreferences= getSharedPreferences("ztb",
+                                    Activity.MODE_PRIVATE);
+                            // 使用getString方法获得value，注意第2个参数是value的默认值
+                            String userName =sharedPreferences.getString("userName","");
+                            String passWord =sharedPreferences.getString("passWord", "");
+                            if (!TextUtils.isEmpty(userName)&&!TextUtils.isEmpty(passWord)){
+                                toLogin(userName,passWord);
+                            }
                             finish();
                         }
                     }
@@ -120,6 +131,7 @@ public class SplashAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<UserBean> response) {
+                MyLogUtils.info("二次登录成功！");
             }
         });
     }

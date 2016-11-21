@@ -1,5 +1,6 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -264,6 +265,8 @@ public class SettingAct extends BaseActivity {
                         ActivityMessDao.delAll();
                         CircleMessDao.dellAll();
                         CircleNewMessDao.deleteUser();
+                        SharedPreferences sharedPreferences=getSharedPreferences("ztb", Activity.MODE_PRIVATE);
+                        sharedPreferences.edit().clear().commit();
                         aCache.clear();//清楚缓存
 //                        ChatUserDao.deleteUser();
                         JPushInterface.setAlias(getApplicationContext(), "", new TagAliasCallback() {

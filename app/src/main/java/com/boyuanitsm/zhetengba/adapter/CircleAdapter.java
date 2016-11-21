@@ -408,7 +408,7 @@ public class CircleAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 clickPos = position;
-                viewHolder.ll_zan.setEnabled(false);
+               viewHolder.ll_zan.setEnabled(false);
                 if (0 == list.get(position).getLiked()) {
                     addCircleLike(list.get(position).getId(), viewHolder.ll_zan);
                 } else {//if (1 == list.get(clickPos).getLiked())
@@ -460,7 +460,6 @@ public class CircleAdapter extends BaseAdapter {
         private TextView cnum2;
         private TextView znumText;
         private TextView cnumText;
-        //        private ImageView iv_more;
         private LinearLayout ll_comment,ll_comment_one,ll_comment_two,ll_comment_three;
         private LinearLayout ll_comment2;
         private TextView tv_comment_one,tv_comment_two,tv_comment_three;
