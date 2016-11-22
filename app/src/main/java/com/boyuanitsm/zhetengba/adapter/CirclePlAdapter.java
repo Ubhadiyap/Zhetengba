@@ -56,11 +56,11 @@ public class CirclePlAdapter extends BaseAdapter {
             convertView= View.inflate(context, R.layout.item_pl_circle, null);
             holder.tv_ct = (TextView) convertView.findViewById(R.id.tv_ct);
         }
-        if (!TextUtils.isEmpty(list.get(position).getPetName())){
-            SpannableStringBuilder style=new SpannableStringBuilder(list.get(position).getPetName()+ "："+ EmojUtils.decoder(list.get(position).getCommentContent()));
-            style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, list.get(position).getPetName().length()+1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-            holder.tv_ct.setText(style);
-        }
+            if (!TextUtils.isEmpty(list.get(position).getPetName())){
+                SpannableStringBuilder style=new SpannableStringBuilder(list.get(position).getPetName()+ "："+ EmojUtils.decoder(list.get(position).getCommentContent()));
+                style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, list.get(position).getPetName().length()+1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                holder.tv_ct.setText(style);
+            }
         return convertView;
     }
     class  PlHolder{

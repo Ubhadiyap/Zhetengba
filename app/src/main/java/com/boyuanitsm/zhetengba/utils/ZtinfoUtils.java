@@ -831,7 +831,7 @@ public class ZtinfoUtils {
                 case 0:
                     if (times >= 60000 && times < 3600000) {//一分钟以上
                         time= (times % (1000 * 60 * 60)) / (1000 * 60) + "分钟前";
-                    } else if (times < 60000) {
+                    } else if (times>0&&times < 60000) {
                         time="刚刚";
                     } else {
                         time = "今天"+time;

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -419,15 +420,13 @@ public class CircleAdapter extends BaseAdapter {
         viewHolder.ll_cmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onItemClick(viewHolder.ll_cmt,list.get(position).getId(),position);
-//                Intent intent = new Intent();
-//                intent.setClass(context, CircleTextAct.class);
-//                intent.putExtra("circleEntity", list.get(position));
-//                intent.putExtra("circleId", list.get(position).getId());
-//                intent.putExtra("CirCommentPosition", position);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                popupWindow.dismiss();
-//                context.startActivity(intent);
+                mOnItemClickListener.onItemClick(viewHolder.ll_cmt, list.get(position).getId(), position);
+            }
+        });
+        viewHolder.lv_pl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                mOnItemClickListener.onItemClick2(viewHolder.ll_cmt, list.get(position).getId(), position);
             }
         });
 

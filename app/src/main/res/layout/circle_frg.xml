@@ -42,14 +42,16 @@
             android:layout_height="44dp"/>
             <TextView
                 android:visibility="gone"
-                android:layout_marginRight="30dp"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="90dp"
                 android:id="@+id/iv_xnew"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:gravity="center"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/didi"
+                android:background="@drawable/bg_circle_red2"
                 />
 
         </RelativeLayout>

@@ -290,7 +290,7 @@ public class LoginAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<UserBean> response) {
 
-            //实例化SharedPreferences对象（第一步）
+                //实例化SharedPreferences对象（第一步）
                 SharedPreferences mySharedPreferences = getSharedPreferences("ztb",
                         Activity.MODE_PRIVATE);
                 //实例化SharedPreferences.Editor对象（第二步）

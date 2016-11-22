@@ -1,9 +1,11 @@
 package com.boyuanitsm.zhetengba.fragment;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.util.Pair;
@@ -118,6 +120,14 @@ public class MessFrg extends EaseConversationListFragment implements View.OnClic
         }else {
             tvmessage.setText("暂无新消息");
             tvUnReaNum.setVisibility(View.GONE);
+        }
+        SharedPreferences sharedPreferences= mActivity.getSharedPreferences("ztb_cir",
+                Activity.MODE_PRIVATE);
+        // 使用getString方法获得value，注意第2个参数是value的默认值
+        String dq_news =sharedPreferences.getString("dq_news", "");
+        if (!TextUtils.isEmpty(dq_news)){
+            tvmessage.setText(dq_news);
+            tvUnReaNum.setVisibility(View.VISIBLE);
         }
         InviteMessgeDao inviteMessgeDao=new InviteMessgeDao(mActivity);
         if (inviteMessgeDao.getUnreadMessagesCount()>0){

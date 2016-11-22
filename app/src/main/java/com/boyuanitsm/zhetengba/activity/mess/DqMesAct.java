@@ -1,7 +1,9 @@
 package com.boyuanitsm.zhetengba.activity.mess;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,6 +33,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * 档期消息
  * Created by wangbin on 16/5/13.
@@ -58,6 +62,9 @@ public class DqMesAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("档期消息");
+        JPushInterface.clearAllNotifications(DqMesAct.this);
+        SharedPreferences sharedPreferences = getSharedPreferences("ztb_cir", Activity.MODE_PRIVATE);
+        sharedPreferences.edit().clear().commit();
         getDqMess(type, page, rows);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -104,7 +111,6 @@ public class DqMesAct extends BaseActivity {
                         } else {
                             ActivityMessDao.deleteMes(list.get(position).getCreateTime());
                         }
-
                         list.remove(position);
                         adapter.notifyDataChange(list);
                         break;
