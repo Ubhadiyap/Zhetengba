@@ -1,14 +1,17 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,6 +113,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     private int position;
     @ViewInject(R.id.load_view)
     private LoadingView load_view;
+    private boolean flag;
+    private String fatherCommentId, commentedUserId;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_circle_text);
@@ -141,17 +146,23 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
         my_lv.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ll_answer.setVisibility(View.VISIBLE);
-//                et_comment.setFocusable(true);
-//                et_comment.setFocusableInTouchMode(true);
-//                et_comment.requestFocus();
-//                et_comment.requestFocusFromTouch();
-//              view= (View) parent.getItemAtPosition(0);
-//             TextView user_name= (TextView) view.findViewById(R.id.tv_user_name);
-//               String  str_nam = user_name.getText().toString();
-//                et_comment.setText("回复"+str_nam+"：");
-
-
+                if (position==0){
+                    etComment.setHint("说点什么吧...");
+                    flag=false;
+                    etComment.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    return;
+                }
+                if (!TextUtils.isEmpty(list.get(position-1).getPetName())){
+                    etComment.setHint("回复"+list.get(position-1).getPetName()+":");
+                    fatherCommentId=list.get(position-1).getId();
+                    commentedUserId=list.get(position-1).getCommentUserId();
+                    flag=true;
+                    etComment.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                }
             }
         });
         my_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -346,13 +357,24 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_chanel_comment:
-                if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
-                    btnSend.setEnabled(false);
-                    btnSend.setClickable(false);
-                    commentCircleTalk(circleId, null, etComment.getText().toString().trim());
+                if (flag){
+                    if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
+                        btnSend.setEnabled(false);
+                        btnSend.setClickable(false);
+                        commentCircleTalk( commentedUserId, circleId, fatherCommentId, etComment.getText().toString().trim());
+                    }else {
+                        MyToastUtils.showShortToast(CircleTextAct.this,"请输入评论内容！");
+                    }
                 }else {
-                    MyToastUtils.showShortToast(CircleTextAct.this,"请输入评论内容！");
+                    if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
+                        btnSend.setEnabled(false);
+                        btnSend.setClickable(false);
+                        commentCircleTalk(null,circleId, null, etComment.getText().toString().trim());
+                    }else {
+                        MyToastUtils.showShortToast(CircleTextAct.this,"请输入评论内容！");
+                    }
                 }
+
                 break;
 
         }
@@ -365,8 +387,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener{
      * @param fatherCommentId
      * @param commentContent
      */
-    private void commentCircleTalk(final String circleTalkId ,String fatherCommentId ,String commentContent){
-        RequestManager.getTalkManager().commentCircleTalk(circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+    private void commentCircleTalk(String commentedUserId,final String circleTalkId ,String fatherCommentId ,String commentContent){
+        RequestManager.getTalkManager().commentCircleTalk(commentedUserId,circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 btnSend.setEnabled(true);

@@ -338,8 +338,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
             case R.id.iv_chanel_comment:
                 if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
                     bt_send.setEnabled(false);
-                    bt_send.setClickable(false);
-                    commentCircleTalk(cirId, null, et_comment.getText().toString().trim());
+                    commentCircleTalk(null,cirId, null, et_comment.getText().toString().trim());
                 } else {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
                 }
@@ -359,8 +358,8 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
      * @param fatherCommentId
      * @param commentContent
      */
-    private void commentCircleTalk(final String circleTalkId, String fatherCommentId, final String commentContent) {
-        RequestManager.getTalkManager().commentCircleTalk(circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+    private void commentCircleTalk(String commtedId,final String circleTalkId, String fatherCommentId, final String commentContent) {
+        RequestManager.getTalkManager().commentCircleTalk(commtedId,circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 bt_send.setEnabled(true);
