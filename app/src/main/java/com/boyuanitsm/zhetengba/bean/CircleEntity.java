@@ -31,10 +31,48 @@ public class CircleEntity implements Parcelable{
     private int isInCircle;//是否在圈子里面，后面才加的字段
     private List<CircleEntity> commentsList;//评论列表
     private String circleTalkId;
+    /**
+     * 被回复者的ID
+     */
+    private String commentedUserId;
+    /**
+     * 被回复者的昵称
+     */
+    private String commentedUsername;
+    /**
+     * 子回复列表
+     */
+    private List<CircleEntity> childCommentsList;
+
+
+    public String getCommentedUserId() {
+        return commentedUserId;
+    }
+
+    public void setCommentedUserId(String commentedUserId) {
+        this.commentedUserId = commentedUserId;
+    }
+
+    public String getCommentedUsername() {
+        return commentedUsername;
+    }
+
+    public void setCommentedUsername(String commentedUsername) {
+        this.commentedUsername = commentedUsername;
+    }
+
+    public List<CircleEntity> getChildCommentsList() {
+        return childCommentsList;
+    }
+
+    public void setChildCommentsList(List<CircleEntity> childCommentsList) {
+        this.childCommentsList = childCommentsList;
+    }
 
     public String getCircleTalkId() {
         return circleTalkId;
     }
+
 
     public void setCircleTalkId(String circleTalkId) {
         this.circleTalkId = circleTalkId;
@@ -390,6 +428,9 @@ public class CircleEntity implements Parcelable{
         dest.writeInt(this.isInCircle);
         dest.writeTypedList(this.commentsList);
         dest.writeString(this.circleTalkId);
+        dest.writeString(this.commentedUserId);
+        dest.writeString(this.commentedUsername);
+        dest.writeTypedList(this.childCommentsList);
         dest.writeString(this.userIcon);
         dest.writeString(this.userSex);
         dest.writeInt(this.liked);
@@ -428,6 +469,9 @@ public class CircleEntity implements Parcelable{
         this.isInCircle = in.readInt();
         this.commentsList = in.createTypedArrayList(CircleEntity.CREATOR);
         this.circleTalkId = in.readString();
+        this.commentedUserId = in.readString();
+        this.commentedUsername = in.readString();
+        this.childCommentsList = in.createTypedArrayList(CircleEntity.CREATOR);
         this.userIcon = in.readString();
         this.userSex = in.readString();
         this.liked = in.readInt();

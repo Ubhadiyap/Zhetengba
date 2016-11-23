@@ -24,6 +24,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.utils.poi.BaiduMapPoiSearch;
+import com.baidu.mapapi.utils.poi.PoiParaOption;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
@@ -651,6 +653,8 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
         LogUtils.i("定位回掉。。。。。。。。。。。。。。。");
+//        String cityCode = bdLocation.getCityCode();
+//        MyLogUtils.info("城市编码是===="+cityCode);
         if (bdLocation != null) {
             if (!TextUtils.isEmpty(bdLocation.getProvince()) && !TextUtils.isEmpty(bdLocation.getDistrict()) && !TextUtils.isEmpty(bdLocation.getStreet())) {
                 if (ZhetebaUtils.isCity(bdLocation.getProvince())) {

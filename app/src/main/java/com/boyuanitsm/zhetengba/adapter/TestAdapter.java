@@ -202,6 +202,7 @@ public class TestAdapter extends BaseAdapter {
                 viewHolder.ll_join.setVisibility(View.VISIBLE);
                 viewHolder.ll_del.setVisibility(View.GONE);
                 viewHolder.ll_simple_share.setVisibility(View.GONE);
+                viewHolder.ll_yaoqin.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.ll_guanzhu.setVisibility(View.GONE);
                 viewHolder.ll_join.setVisibility(View.GONE);
@@ -209,6 +210,7 @@ public class TestAdapter extends BaseAdapter {
                 viewHolder.ll_simple_share.setVisibility(View.VISIBLE);
                 viewHolder.tv_tt.setText("/"+scheduleEntity.get(position).getInviteNumber());//自己发布总人数
                 viewHolder.tv_cj.setText(scheduleEntity.get(position).getMemberNum()+"");//已经3响应人数
+                viewHolder.ll_yaoqin.setVisibility(View.GONE);
             }
 //            if (scheduleEntity.get(position).getFollowNum() == 0) {
 //                viewHolder.tv_guanzhu_num.setVisibility(View.GONE);

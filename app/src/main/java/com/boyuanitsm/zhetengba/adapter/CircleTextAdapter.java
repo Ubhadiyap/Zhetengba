@@ -2,10 +2,13 @@ package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
@@ -71,6 +74,7 @@ public class CircleTextAdapter extends BaseAdapter {
             chaHolder.tv_name= (TextView) convertView.findViewById(R.id.tv_user_name);
             chaHolder.time= (TextView) convertView.findViewById(R.id.time);
             chaHolder.content= (TextView) convertView.findViewById(R.id.tv_comment_text);
+            chaHolder.lv_hf= (ListView) convertView.findViewById(R.id.lv_hf);
             convertView.setTag(chaHolder);
         }
         if(list!=null&&list.size()>0) {
@@ -94,6 +98,11 @@ public class CircleTextAdapter extends BaseAdapter {
             }else {
                 chaHolder.content.setText("");
             }
+            List<CircleEntity> childCommentsList = list.get(position).getChildCommentsList();
+            if (childCommentsList!=null&&childCommentsList.size()>0){
+                chaHolder.lv_hf.setSelector(new ColorDrawable(Color.TRANSPARENT));
+                chaHolder.lv_hf.setAdapter(new CircleHfAdapter(context,childCommentsList,list.get(position).getPetName()));
+            }
         }
         return convertView;
     }
@@ -102,5 +111,6 @@ public class CircleTextAdapter extends BaseAdapter {
        private TextView tv_name;
        private TextView time;
        private TextView content;
+       private ListView lv_hf;
     }
 }

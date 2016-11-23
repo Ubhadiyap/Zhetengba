@@ -531,7 +531,6 @@ public class ScheduleManager extends RequestManager {
     /**
      * 拒绝加入活动接口
      * @param activityId
-     * @param scheduleId
      * @param callback
      */
     public void refuseActivity(String activityId,ResultCallback callback){

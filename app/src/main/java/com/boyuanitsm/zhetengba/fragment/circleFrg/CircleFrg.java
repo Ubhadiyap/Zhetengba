@@ -1,9 +1,11 @@
 package com.boyuanitsm.zhetengba.fragment.circleFrg;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -66,14 +68,23 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        NewCircleMess newMess = CircleNewMessDao.getUser();
-        if (newMess!=null){
-            if (newMess.isCircle()==false){
-                iv_new2.setVisibility(View.VISIBLE);
-            }else {
-                iv_new2.setVisibility(View.GONE);
-            }
+        SharedPreferences sharedPreferences=mActivity.getSharedPreferences("ztb_cirNews",
+                Activity.MODE_PRIVATE);
+        int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
+        if (cir_newsCount==0){
+            iv_new2.setVisibility(View.GONE);
+        }else {
+            iv_new2.setVisibility(View.VISIBLE);
+            iv_new2.setText(cir_newsCount+"");
         }
+//        NewCircleMess newMess = CircleNewMessDao.getUser();
+//        if (newMess!=null){
+//            if (newMess.isCircle()==false){
+//                iv_new2.setVisibility(View.VISIBLE);
+//            }else {
+//                iv_new2.setVisibility(View.GONE);
+//            }
+//        }
     }
 
 
@@ -86,15 +97,15 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
                 openActivity(SquareAct.class);
                 break;
             case R.id.cv_qz:
-                if (CircleNewMessDao.getUser()!=null){
-                    NewCircleMess circleMess = CircleNewMessDao.getUser();
-                    if (circleMess.isCircle()==false){
-                        iv_new2.setVisibility(View.GONE);
-                        circleMess.setIsCircle(true);
-                        circleMess.setIsMain(true);
-                        CircleNewMessDao.updateMess(circleMess);
-                    }
-                }
+//                if (CircleNewMessDao.getUser()!=null){
+//                    NewCircleMess circleMess = CircleNewMessDao.getUser();
+//                    if (circleMess.isCircle()==false){
+//                        iv_new2.setVisibility(View.GONE);
+//                        circleMess.setIsCircle(true);
+//                        circleMess.setIsMain(true);
+//                        CircleNewMessDao.updateMess(circleMess);
+//                    }
+//                }
                 openActivity(CircleAct.class);
                 break;
             case R.id.cv_sys:
@@ -111,32 +122,51 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
         @Override
         public void onReceive(Context context, Intent intent) {
             MyLogUtils.info(" iv_new.setVisibility(View.INVISIBLE);");
-            if (CircleNewMessDao.getUser()!=null){
-                NewCircleMess newCircleMess = CircleNewMessDao.getUser();
-                if (newCircleMess.isCircle()==false){
-                    iv_new2.setVisibility(View.VISIBLE);
-                }else {
-                    iv_new2.setVisibility(View.GONE);
-                }
-            }else {
+            SharedPreferences sharedPreferences=mActivity.getSharedPreferences("ztb_cirNews",
+                    Activity.MODE_PRIVATE);
+            int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
+            if (cir_newsCount==0){
                 iv_new2.setVisibility(View.GONE);
+            }else {
+                iv_new2.setVisibility(View.VISIBLE);
+                iv_new2.setText(cir_newsCount+"");
             }
+//            if (CircleNewMessDao.getUser()!=null){
+//                NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+//                if (newCircleMess.isCircle()==false){
+//                    iv_new2.setVisibility(View.VISIBLE);
+//                }else {
+//                    iv_new2.setVisibility(View.GONE);
+//                }
+//            }else {
+//                iv_new2.setVisibility(View.GONE);
+//            }
+
         }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (CircleNewMessDao.getUser()!=null){
-            NewCircleMess newCircleMess = CircleNewMessDao.getUser();
-            if (newCircleMess.isCircle()==false){
-                iv_new2.setVisibility(View.VISIBLE);
-            }else {
-                iv_new2.setVisibility(View.GONE);
-            }
-        }else {
+        SharedPreferences sharedPreferences=mActivity.getSharedPreferences("ztb_cirNews",
+                Activity.MODE_PRIVATE);
+        int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
+        if (cir_newsCount==0){
             iv_new2.setVisibility(View.GONE);
+        }else {
+            iv_new2.setVisibility(View.VISIBLE);
+            iv_new2.setText(cir_newsCount+"");
         }
+//        if (CircleNewMessDao.getUser()!=null){
+//            NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+//            if (newCircleMess.isCircle()==false){
+//                iv_new2.setVisibility(View.VISIBLE);
+//            }else {
+//                iv_new2.setVisibility(View.GONE);
+//            }
+//        }else {
+//            iv_new2.setVisibility(View.GONE);
+//        }
         if (receiver==null) {
             receiver = new UpdateBroadCastReceiver();
             mActivity.registerReceiver(receiver, new IntentFilter(UPDATE));

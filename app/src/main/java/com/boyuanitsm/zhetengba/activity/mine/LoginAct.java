@@ -1,8 +1,10 @@
 package com.boyuanitsm.zhetengba.activity.mine;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -63,6 +65,7 @@ public class LoginAct extends BaseActivity {
     private String zheTeBaId;
     private ACache aCache;
     private List<UserInterestInfo> titleList;
+
     @Override
     public void setLayout() {
         // 如果登录成功过，直接进入主页面
@@ -106,7 +109,7 @@ public class LoginAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        aCache=ACache.get(LoginAct.this);
+        aCache = ACache.get(LoginAct.this);
 
     }
 
@@ -163,8 +166,8 @@ public class LoginAct extends BaseActivity {
         }
 //        currentUsername = usernameEditText.getText().toString().trim();
 //        currentPassword = passwordEditText.getText().toString().trim();
-        currentUsername=userBean.getUser().gethUsername();
-        currentPassword=userBean.getUser().gethPassword();
+        currentUsername = userBean.getUser().gethUsername();
+        currentPassword = userBean.getUser().gethPassword();
         if (TextUtils.isEmpty(currentUsername)) {
             Toast.makeText(this, R.string.User_name_cannot_be_empty, Toast.LENGTH_SHORT).show();
             return;
@@ -212,18 +215,18 @@ public class LoginAct extends BaseActivity {
                     pd.dismiss();
                 }
 
-                if(type==0){
+                if (type == 0) {
                     //进入完善信息界面
-                    Intent intent=new Intent(LoginAct.this,RegInfoAct.class);
+                    Intent intent = new Intent(LoginAct.this, RegInfoAct.class);
+                    startActivity(intent);
+                    finish();
+                } else if (type == 1) {
+                    // 进入主页面
+                    Intent intent = new Intent(LoginAct.this,
+                            MainAct.class);
                     startActivity(intent);
                     finish();
                 }
-                else if(type==1){
-                // 进入主页面
-                Intent intent = new Intent(LoginAct.this,
-                        MainAct.class);
-                startActivity(intent);
-                finish();}
             }
 
             @Override
@@ -256,7 +259,7 @@ public class LoginAct extends BaseActivity {
         }
     }
 
-    private void toLogin(final String username, String password) {
+    private void toLogin(final String username, final String password) {
         pd.show();
         RequestManager.getUserManager().toLogin(username, password, new ResultCallback<ResultBean<UserBean>>() {
             @Override
@@ -286,6 +289,21 @@ public class LoginAct extends BaseActivity {
 
             @Override
             public void onResponse(ResultBean<UserBean> response) {
+
+                //实例化SharedPreferences对象（第一步）
+                SharedPreferences mySharedPreferences = getSharedPreferences("ztb",
+                        Activity.MODE_PRIVATE);
+                //实例化SharedPreferences.Editor对象（第二步）
+                SharedPreferences.Editor editor = mySharedPreferences.edit();
+                //用putString的方法保存数据
+                if (!TextUtils.isEmpty(username)){
+                    editor.putString("userName", username);
+                }
+                if (!TextUtils.isEmpty(password)){
+                    editor.putString("passWord", password);
+                }
+                //提交当前数据
+                editor.commit();
                 UserBean userBean = response.getData();
                 login(userBean, 1);
                 MyLogUtils.info(userBean.getUser().getId() + "id是");

@@ -245,10 +245,13 @@ public class TalkManager extends RequestManager{
      * @param fatherCommentId
      * @param callback
      */
-    public void commentCircleTalk(String circleTalkId ,String fatherCommentId ,String commentContent,ResultCallback callback){
+    public void commentCircleTalk(String commentedUserId,String circleTalkId ,String fatherCommentId ,String commentContent,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         if(!TextUtils.isEmpty(circleTalkId)){
             map.put("circleId",circleTalkId);
+        }
+        if (!TextUtils.isEmpty(commentedUserId)){
+            map.put("commentedUserId",commentedUserId);
         }
         if (!TextUtils.isEmpty(commentContent)){
             map.put("commentContent",commentContent);

@@ -1,8 +1,10 @@
 package com.boyuanitsm.zhetengba.receiver;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
@@ -44,6 +46,7 @@ public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
     private LocalBroadcastManager broadcastManager;
     private String flag;
+    int newCount = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -76,7 +79,7 @@ public class MyReceiver extends BroadcastReceiver {
                         if (CircleNewMessDao.getUser() != null) {
                             CircleNewMessDao.deleteUser();
                         }
-                        if (UserInfoDao.getUser()!=null){
+                        if (UserInfoDao.getUser() != null) {
                             NewCircleMess newCircleMess = new NewCircleMess();
                             newCircleMess.setId(UserInfoDao.getUser().getId());
                             newCircleMess.setIsMain(false);//false表示未读
@@ -84,18 +87,33 @@ public class MyReceiver extends BroadcastReceiver {
                             newCircleMess.setIsMess(false);
                             CircleNewMessDao.saveUser(newCircleMess);
                         }
-                        broadcastManager = LocalBroadcastManager.getInstance(context);
-                        Intent intentPointGone = new Intent(context, MainAct.class);
-                        intentPointGone.setAction(Constant.ACTION_CONTACT_CHANAGED);
-                        broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
-                        context.sendBroadcast(new Intent(CircleFrg.UPDATE));//发广播到圈子frg红点显示
-                        context.sendBroadcast(new Intent(CircleAct.ALLTALKS));
-                        context.sendBroadcast(new Intent(SerchCirAct.CIRSERCH));
+
                     }
 
                     Gson gson = new Gson();
                     flag = 2 + "";
                     CircleInfo circleInfo = gson.fromJson(json.toString(), CircleInfo.class);//解析成对象
+                    //实例化SharedPreferences对象（第一步）
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_cirNews",
+                            Activity.MODE_PRIVATE);
+                    //实例化SharedPreferences.Editor对象（第二步）
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    //用putString的方法保存数据
+                    if (!TextUtils.isEmpty(circleInfo.getUserIcon())) {
+                        editor.putString("cir_news", circleInfo.getUserIcon());
+                    }
+                    int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
+                    cir_newsCount++;
+                    editor.putInt("cir_NewsCount", cir_newsCount);
+                    //提交当前数据
+                    editor.commit();
+                    broadcastManager = LocalBroadcastManager.getInstance(context);
+                    Intent intentPointGone = new Intent(context, MainAct.class);
+                    intentPointGone.setAction(Constant.ACTION_CONTACT_CHANAGED);
+                    broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
+                    context.sendBroadcast(new Intent(CircleFrg.UPDATE));//发广播到圈子frg红点显示
+                    context.sendBroadcast(new Intent(CircleAct.ALLTALKS));
+                    context.sendBroadcast(new Intent(SerchCirAct.CIRSERCH));
                     if (!TextUtils.isEmpty(circleInfo.getType())) {
                         if (TextUtils.equals(circleInfo.getType(), 2 + "")) {
                             if (!TextUtils.isEmpty(circleInfo.getMesstype())) {
@@ -111,14 +129,31 @@ public class MyReceiver extends BroadcastReceiver {
                 } else {
                     Gson gson = new Gson();
                     Intent intent2 = new Intent(MessFrg.UPDATE_CONTRACT);
+                    broadcastManager = LocalBroadcastManager.getInstance(context);
+                    Intent intentPointGone = new Intent(context, MainAct.class);
+                    intentPointGone.setAction(Constant.ACTION_CONTACT_CHANAGED);
+                    intentPointGone.putExtra("redOut", "redOut");
+                    broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
                     ActivityMess activityMess = gson.fromJson(json.toString(), ActivityMess.class);
                     activityMess.setIsAgree(0);
                     intent2.putExtra("chat_receiver", 3);//3表示有档期消息进入
-                    if (activityMess!=null){
-                        if (!TextUtils.isEmpty(activityMess.getMessage())){
-                            intent2.putExtra("chat_message",activityMess.getMessage());
+                    if (activityMess != null) {
+                        if (!TextUtils.isEmpty(activityMess.getMessage())) {
+                            intent2.putExtra("chat_message", activityMess.getMessage());
                         }
                     }
+                    //实例化SharedPreferences对象（第一步）
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_cir",
+                            Activity.MODE_PRIVATE);
+                    //实例化SharedPreferences.Editor对象（第二步）
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    //用putString的方法保存数据
+                    if (!TextUtils.isEmpty(activityMess.getMessage())) {
+                        editor.putString("dq_news", activityMess.getMessage());
+                    }
+                    //提交当前数据
+                    editor.commit();
+                    context.sendBroadcast(intent2);
                     if (!TextUtils.isEmpty(activityMess.getType())) {
                         if (TextUtils.equals(activityMess.getType(), 1 + "")) {
                             if (!TextUtils.isEmpty(activityMess.getMesstype())) {
@@ -129,7 +164,6 @@ public class MyReceiver extends BroadcastReceiver {
                         }
                     }
                     ActivityMessDao.saveCircleMess(activityMess);
-                    context.sendBroadcast(intent2);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -144,18 +178,8 @@ public class MyReceiver extends BroadcastReceiver {
                 Intent i = new Intent();
                 if (TextUtils.equals(type, "2")) {
                     i.setClass(context, CirMessAct.class);
-//                    Intent intentPointGone=new Intent(CircleFrg.UPFOCUS);
-//                    Bundle bundlePointGone=new Bundle();
-//                    bundlePointGone.putInt("pointGone",1);//1表示点开通知，消息红点消失
-//                    intentPointGone.putExtras(bundlePointGone);
-//                    context.sendBroadcastintentPointGone);
-
-
                 } else {
                     i.setClass(context, DqMesAct.class);
-//                    Intent intentPoint=new Intent(MessFrg.UPDATE_CONTRACT);
-//                    intentPoint.putExtra("update_focus","point_remove");
-//                    context.sendBroadcast(intentPoint);
                 }
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(i);
@@ -163,12 +187,6 @@ public class MyReceiver extends BroadcastReceiver {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-//            //打开自定义的Activity
-//            Intent i = new Intent(context, MainAct.class);
-//            i.putExtras(bundle);
-//            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            context.startActivity(i);
 
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));

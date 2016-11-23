@@ -1,10 +1,12 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,6 +38,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * 圈子--圈子消息
  * Created by xiaoke on 2016/5/6.
@@ -44,12 +48,12 @@ public class CirMessAct extends BaseActivity {
     @ViewInject(R.id.lv_cir_mess)//下拉刷新
     private SwipeMenuListView lv_cir_mess;
     private List<CircleInfo> list = new ArrayList<CircleInfo>();
-    private List<CircleInfo> datas=new ArrayList<>();
+    private List<CircleInfo> datas = new ArrayList<>();
     private List<CircleInfo> agreeList;
     private CircleMessAdatper adapter;
-    private String type=1+"";
-    private int page=-1;
-    private int rows=-1;
+    private String type = 1 + "";
+    private int page = -1;
+    private int rows = -1;
     private ProgressDialog progressDialog;
     @ViewInject(R.id.load_view)
     private LoadingView load_view;
@@ -63,10 +67,14 @@ public class CirMessAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子消息");
-//        progressDialog=new ProgressDialog(this);
-//        progressDialog.setCanceledOnTouchOutside(false);
-//        progressDialog.setMessage("数据加载中...");
-//        progressDialog.show();
+        JPushInterface.clearAllNotifications(CirMessAct.this);
+        //实例化SharedPreferences对象（第一步）
+        SharedPreferences sharedPreferences = getSharedPreferences("ztb_cirNews",
+                Activity.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt("cir_NewsCount", 0);
+        edit.putString("cir_news","");
+        edit.commit();
         setRight("我的发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,7 +132,7 @@ public class CirMessAct extends BaseActivity {
         });
         lv_cir_mess.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
         lv_cir_mess.smoothOpenMenu(0);
-        if (CircleNewMessDao.getUser()!=null){
+        if (CircleNewMessDao.getUser() != null) {
             CircleNewMessDao.deleteUser();
         }
         load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
@@ -137,6 +145,7 @@ public class CirMessAct extends BaseActivity {
 
     /**
      * 删除消息接口
+     *
      * @param id
      */
     private void deleteMsg(String id) {
@@ -161,15 +170,17 @@ public class CirMessAct extends BaseActivity {
 //            Collections.reverse(list);
 //        }
 //    }
+
     /**
      * 调用档期消息，需要操作的接口
      * type,0档期，1是圈子
+     *
      * @param type
      * @param page
      * @param rows
      */
-    private void getDqMess(String type, final int page,int rows){
-        agreeList=new ArrayList<>();
+    private void getDqMess(String type, final int page, int rows) {
+        agreeList = new ArrayList<>();
         RequestManager.getScheduleManager().findMyInviteMsg(type, page, rows, new ResultCallback<ResultBean<DataBean<CircleInfo>>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -182,23 +193,23 @@ public class CirMessAct extends BaseActivity {
             public void onResponse(ResultBean<DataBean<CircleInfo>> response) {
 //                progressDialog.dismiss();
                 load_view.loadComplete();
-                agreeList=response.getData().getRows();
+                agreeList = response.getData().getRows();
                 MyLogUtils.info(agreeList.toString() + "返回集合");
-                list=new ArrayList<>();
+                list = new ArrayList<>();
                 list = CircleMessDao.getCircleUser();
-                if (list!=null&&list.size() > 0) {
+                if (list != null && list.size() > 0) {
 //                    Collections.reverse(list);
-                    if (agreeList!=null&&agreeList.size()>0){
-                        for (int i=0;i<agreeList.size();i++){
+                    if (agreeList != null && agreeList.size() > 0) {
+                        for (int i = 0; i < agreeList.size(); i++) {
                             list.add(agreeList.get(i));
                         }
                     }
                     SortClass sort = new SortClass();
                     Collections.sort(list, sort);
-                }else {//数据为null,返回的做判断
+                } else {//数据为null,返回的做判断
                     if (agreeList != null && agreeList.size() > 0) {
                         list = agreeList;
-                    }else {
+                    } else {
                         load_view.noContent();
                     }
 
@@ -212,6 +223,7 @@ public class CirMessAct extends BaseActivity {
             }
         });
     }
+
     /**
      * 时间降序
      * 排序
@@ -227,7 +239,8 @@ public class CirMessAct extends BaseActivity {
 
     private MyBroadCastReceiver receiver;
     public static final String REDGONG = "receiver_myreceiver";
-    private class MyBroadCastReceiver extends BroadcastReceiver{
+
+    private class MyBroadCastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             getDqMess(type, page, rows);
@@ -240,9 +253,9 @@ public class CirMessAct extends BaseActivity {
     protected void onStart() {
         super.onStart();
         IsShow.setA("2");//是一个全局的变量在receiver中会用到来做判断
-        if(receiver==null){
-            receiver=new MyBroadCastReceiver();
-            registerReceiver(receiver,new IntentFilter(REDGONG));
+        if (receiver == null) {
+            receiver = new MyBroadCastReceiver();
+            registerReceiver(receiver, new IntentFilter(REDGONG));
         }
     }
 
@@ -250,9 +263,9 @@ public class CirMessAct extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         IsShow.setA("1");
-        if(receiver!=null){
+        if (receiver != null) {
             unregisterReceiver(receiver);
-            receiver=null;
+            receiver = null;
         }
     }
 }

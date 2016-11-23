@@ -1,10 +1,12 @@
 package com.boyuanitsm.zhetengba.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
@@ -442,26 +444,39 @@ public class MainAct extends BaseActivity {
             public void onReceive(Context context, Intent intent) {
                 MyLogUtils.info("删除群聊广播");
                 int chat_receiver = intent.getIntExtra("main_receiver", 5);
+                String redOut=intent.getStringExtra("redOut");
                 String flag=intent.getStringExtra("flag");//这是判断是否是第一次发布活动
                 if(!TextUtils.isEmpty(flag)&&flag.equals("2")){
                     TipsDrawDialog tipsDrawDialog=new TipsDrawDialog(MainAct.this).builder();
                     tipsDrawDialog.show();
                     tipsDrawDialog.setCanceledOnTouchOutside(true);
                 }
-                if (CircleNewMessDao.getUser()!=null){
-                    NewCircleMess newCircleMess = CircleNewMessDao.getUser();
-                    if (newCircleMess.isMain()==false){
-                        msg_qunzi.setVisibility(View.VISIBLE);
-//                        newCircleMess.setIsMain(true);
-//                        CircleNewMessDao.updateMess(newCircleMess);
-                    }else if (newCircleMess.isMain()==true){
-                        msg_qunzi.setVisibility(View.GONE);
-                    }
-                }else {
+                SharedPreferences sharedPreferences=getSharedPreferences("ztb_cirNews",
+                        Activity.MODE_PRIVATE);
+                String cir_news = sharedPreferences.getString("cir_news", "");
+                int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
+                if (cir_newsCount==0){
                     msg_qunzi.setVisibility(View.GONE);
+                }else {
+                    msg_qunzi.setVisibility(View.VISIBLE);
+                    msg_qunzi.setText(cir_newsCount+"");
                 }
-
+//                if (CircleNewMessDao.getUser()!=null){
+//                    NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+//                    if (newCircleMess.isMain()==false){
+//                        msg_qunzi.setVisibility(View.VISIBLE);
+////                        newCircleMess.setIsMain(true);
+////                        CircleNewMessDao.updateMess(newCircleMess);
+//                    }else if (newCircleMess.isMain()==true){
+//                        msg_qunzi.setVisibility(View.GONE);
+//                    }
+//                }else {
+//                    msg_qunzi.setVisibility(View.GONE);
+//                }
                  updateUnreadLabel();
+                if (TextUtils.equals(redOut,"redOut")){
+                    unreadLabel.setVisibility(View.VISIBLE);
+                }
                     if (currentTabIndex == 1) {
                         // 当前页面如果为聊天历史页面，刷新此页面
                         if (messFrg != null) {

@@ -178,6 +178,7 @@ public class CircleMessAdatper extends BaseAdapter {
         };
         holder1.cv_head2.setOnClickListener(listener);
         holder1.cv_head1.setOnClickListener(listener);
+        holder1.cv_head3.setOnClickListener(listener);
         holder1.tv_petName.setOnClickListener(listener);
         holder1.tv_petName2.setOnClickListener(listener);
         holder1.tv_talk.setOnClickListener(listener1);
