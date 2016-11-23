@@ -19,6 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.boyuanitsm.zhetengba.AppManager;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
@@ -27,6 +31,8 @@ import com.boyuanitsm.zhetengba.activity.publish.ContractedAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChatUserBean;
 import com.boyuanitsm.zhetengba.bean.NewCircleMess;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.boyuanitsm.zhetengba.chat.act.ChatActivity;
 import com.boyuanitsm.zhetengba.chat.db.InviteMessgeDao;
@@ -39,9 +45,10 @@ import com.boyuanitsm.zhetengba.db.LabelInterestDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.MineFrg;
-import com.boyuanitsm.zhetengba.fragment.calendarFrg.CalendarFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.GeneralUtils;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
@@ -50,7 +57,6 @@ import com.boyuanitsm.zhetengba.utils.SpUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.MyRadioButton;
-import com.boyuanitsm.zhetengba.view.PlaneDialog;
 import com.boyuanitsm.zhetengba.view.TipsDrawDialog;
 import com.hyphenate.EMContactListener;
 import com.hyphenate.EMMessageListener;
@@ -73,6 +79,13 @@ import cn.jpush.android.api.TagAliasCallback;
  */
 public class MainAct extends BaseActivity {
 
+    /**
+     * 定位SDK的核心类
+     */
+    public LocationClient mLocClient;
+    private String locationCity;//当前城市
+    private String citycode;//当前城市编码传后台
+
     private FragmentManager fragmentManager;
     private SimpleFrg calendarFrg;
     private CircleFrg circleFrg;
@@ -82,6 +95,8 @@ public class MainAct extends BaseActivity {
     //    // 未读消息textview
     private TextView unreadLabel;
     private TextView msg_qunzi;//圈子红点
+
+    private UserInfo user;//定位成功后用来给用户设置位置添加这个的时候只是为了用于定位
 
     protected static final String TAG = "MainActivity";
     // 当前fragment的index
@@ -146,6 +161,8 @@ public class MainAct extends BaseActivity {
         }
         setContentView(R.layout.act_main_layout);
         AppManager.getAppManager().addActivity(this);
+        user=UserInfoDao.getUser();
+        position();//定位获取城市
         rb_mes = (MyRadioButton) findViewById(R.id.rb_mes);
         unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
         msg_qunzi= (TextView) findViewById(R.id.msg_qunzi);
@@ -199,6 +216,28 @@ public class MainAct extends BaseActivity {
         version= ZtinfoUtils.getAppVer(MainAct.this);
         generalUtils=new GeneralUtils();
         generalUtils.toVersion(MainAct.this,version,1);
+    }
+
+    /**
+     * 定位
+     */
+    private void position() {
+        // 实例化定位服务，LocationClient类必须在主线程中声明
+        mLocClient = new LocationClient(getApplicationContext());
+        mLocClient.registerLocationListener(new BDLocationListenerImpl());// 注册定位监听接口
+
+        /**
+         * LocationClientOption 该类用来设置定位SDK的定位方式。
+         */
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开GPRS
+        option.setAddrType("all");// 返回的定位结果包含地址信息
+        option.setCoorType("gcj02");// 返回的定位结果是百度经纬度,默认值gcj02
+        option.setPriority(LocationClientOption.GpsFirst); // 设置GPS优先
+        option.setScanSpan(0); // 设置发起定位请求的间隔时间为5000ms
+        option.disableCache(true);// 禁止启用缓存定位
+        mLocClient.setLocOption(option); // 设置定位参数
+        mLocClient.start();
     }
 
 
@@ -758,4 +797,52 @@ public class MainAct extends BaseActivity {
     }
 
 
+    /**
+     * 百度定位回调
+     */
+    public class BDLocationListenerImpl implements BDLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation bdLocation) {
+            if (bdLocation == null) {
+                return;
+            }
+//            GlobalParams.m_latitude = bdLocation.getLatitude();
+//            GlobalParams.m_longitude = bdLocation.getLongitude();
+            locationCity = bdLocation.getCity();//获取定位城市
+            citycode=bdLocation.getCityCode();//城市编码 289上海
+
+            if(!TextUtils.isEmpty(locationCity)&&!TextUtils.isEmpty(locationCity)){
+                user.setCity(citycode);//保存城市编码
+                modifyUser(user);//定位成功把定位城市通过这种接口传给后台
+
+            }
+
+            mLocClient.stop();
+        }
+
+        }
+
+    /**
+     * 修改个人资料
+     * @param user
+     */
+    private void modifyUser(final UserInfo user) {
+        RequestManager.getUserManager().modifyUserInfo(user, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                UserInfoDao.updateUser(user);
+                Intent intent=new Intent();
+                //设置Action
+                intent.setAction(SimpleFrg.UPDATA_CITY);
+                //携带数据
+                sendBroadcast(intent);
+            }
+        });
+    }
 }
+

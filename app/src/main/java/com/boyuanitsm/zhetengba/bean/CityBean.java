@@ -7,66 +7,47 @@ import android.os.Parcelable;
  * Created by bitch-1 on 2016/11/17.
  */
 public class CityBean implements Parcelable {
+    private String cityid;
+    public String name;
+    public String pinyi;
 
-    private String city_id;
-
-    private String city_name;
-
-    private String first_letter;
-
-    private String longitude;//经度
-
-    private String latitude;//纬度
-
-    public String getCity_id() {
-        return city_id;
+    public String getCityid() {
+        return cityid;
     }
 
-    public void setCity_id(String city_id) {
-        this.city_id = city_id;
+    public void setCityid(String cityid) {
+        this.cityid = cityid;
     }
 
-    public String getCity_name() {
-        return city_name;
+    public String getName() {
+        return name;
     }
 
-    public void setCity_name(String city_name) {
-        this.city_name = city_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFirst_letter() {
-        return first_letter;
+    public String getPinyi() {
+        return pinyi;
     }
 
-    public void setFirst_letter(String first_letter) {
-        this.first_letter = first_letter;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setPinyi(String pinyi) {
+        this.pinyi = pinyi;
     }
 
     public CityBean() {
     }
 
+    public CityBean(String cityid, String name, String pinyi) {
+        this.cityid = cityid;
+        this.name = name;
+        this.pinyi = pinyi;
+    }
+
     protected CityBean(Parcel in) {
-        city_id = in.readString();
-        city_name = in.readString();
-        first_letter = in.readString();
-        longitude = in.readString();
-        latitude = in.readString();
+        cityid = in.readString();
+        name = in.readString();
+        pinyi = in.readString();
     }
 
     public static final Creator<CityBean> CREATOR = new Creator<CityBean>() {
@@ -88,10 +69,8 @@ public class CityBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(city_id);
-        dest.writeString(city_name);
-        dest.writeString(first_letter);
-        dest.writeString(longitude);
-        dest.writeString(latitude);
+        dest.writeString(cityid);
+        dest.writeString(name);
+        dest.writeString(pinyi);
     }
 }

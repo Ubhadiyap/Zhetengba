@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.CityAct;
 import com.boyuanitsm.zhetengba.activity.mess.AddFriendsAct;
 import com.boyuanitsm.zhetengba.activity.mess.ScanQrcodeAct;
 import com.boyuanitsm.zhetengba.adapter.ActAdapter;
@@ -33,10 +37,13 @@ import com.boyuanitsm.zhetengba.adapter.MyPageAdapter;
 import com.boyuanitsm.zhetengba.adapter.Simple_TextAdapter;
 import com.boyuanitsm.zhetengba.base.BaseFragment;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
+import com.boyuanitsm.zhetengba.bean.CityBean;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.LabelBannerInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.db.DBHelper;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ACache;
@@ -52,7 +59,9 @@ import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +70,8 @@ import java.util.List;
  * Created by xiaoke on 2016/4/24.
  */
 public class SimpleFrg extends BaseFragment {
+    @ViewInject(R.id.tv_city)
+    private TextView tv_city;
     private PullToRefreshListView lv_act;
     private View view;
     private View viewHeader_act;
@@ -99,12 +110,26 @@ public class SimpleFrg extends BaseFragment {
     private String labelIds;
     private LinearLayout ll_friend;
     private PopupWindow mPopupWindowAd;
+    private ArrayList<CityBean> city_result;//通过城市编码查询本地数据库后得到的值
     private BroadcastReceiver DteChangeRecevier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            page = 1;
-            state = intent.getIntExtra("state", state);
-            getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//切换到好友；
+
+            String action=intent.getAction();
+            if(action.equals(UPDATA_CITY)){//表示接收的是定位好城市后发过来的广播
+                getcityName();
+            }
+            if(action.equals(DATA_CHANGE_KEY)) {
+                page = 1;
+                state = intent.getIntExtra("state", state);
+                getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//切换到好友；
+            }
+            if(action.equals(UPDATA_CITY_RES)){//接收收索过来的结果
+                getcityName();
+            }
+            if(action.equals(UPDATA_CITY_NORES)){//接收手动过来的广播
+                getcityName();
+            }
         }
     };
     @ViewInject(R.id.load_view)
@@ -281,7 +306,7 @@ public class SimpleFrg extends BaseFragment {
             public void onClick(View v) {
                     updatacolor(tv_sjt,iv_sjt,0);//表示要变化颜色
                     cusPos=0;
-                    selectPop(cusPos);
+                selectPop(cusPos);
 
             }
         });
@@ -324,7 +349,64 @@ public class SimpleFrg extends BaseFragment {
                 getBanner();
             }
         });
+        
+        getcityName();//通过城市编码获取城市名称
+
+
+
     }
+
+    /**
+     * 通过city来给首页左上角城市地方赋值
+     */
+    private void getcityName() {
+        String cityid=UserInfoDao.getUser().getCity();
+        city_result = new ArrayList<CityBean>();//收索城市接口
+        getName(cityid);//通过城市编码查询本地数据库得到一个list<>
+        if(city_result.size()>0){
+            if(!TextUtils.isEmpty(city_result.get(0).getName())){
+                tv_city.setText(city_result.get(0).getName());
+            }
+        }
+
+
+    }
+
+    /**
+     * @param cityid
+     */
+    private void getName(String cityid) {
+            DBHelper dbHelper = new DBHelper(mActivity);
+            try {
+                dbHelper.createDataBase();
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                Cursor cursor = db.rawQuery(
+                        "select * from city where name like \"%" + cityid
+                                + "%\"", null);
+                CityBean city;
+                Log.e("info", "length = " + cursor.getCount());
+                while (cursor.moveToNext()) {
+                    city = new CityBean(cursor.getString(3),cursor.getString(1), cursor.getString(2));
+                    city_result.add(city);
+                }
+                cursor.close();
+                db.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+    }
+
+    @OnClick({R.id.tv_city})
+    public void  onclick(View v){
+        switch (v.getId()){
+            case R.id.tv_city:
+                openActivity(CityAct.class);
+                break;
+        }
+    }
+
+
 
 
     /**当头部筛选里面空间第一次被点击时候变换颜色
@@ -345,12 +427,17 @@ public class SimpleFrg extends BaseFragment {
     }
 
     public static final String DATA_CHANGE_KEY = "data_change_fragment";
-
+    public static final String UPDATA_CITY = "mianact_bdLocation";//接收mainact定位成功后的广播
+    public static final String UPDATA_CITY_RES = "cityact_result";//接收收索后手动选择的广播
+    public static final String UPDATA_CITY_NORES = "cityact_result";//接收手动选择的广播(非手动)
     @Override
     public void onStart() {
         //广播接收者，接受好友列表更新数据
         filter = new IntentFilter();
         filter.addAction(DATA_CHANGE_KEY);
+        filter.addAction(UPDATA_CITY);
+        filter.addAction(UPDATA_CITY_RES);
+        filter.addAction(UPDATA_CITY_NORES);
         mActivity.registerReceiver(DteChangeRecevier, filter);//切换到好友；
         super.onStart();
     }
