@@ -113,6 +113,9 @@
         <activity
             android:name=".activity.mine.LoginAct"
             android:screenOrientation="portrait"></activity>
+        <!--城市选择-->
+        <activity android:name=".activity.CityAct"
+            android:screenOrientation="portrait"></activity>
         <!--档期界面-->
         <activity
             android:name=".activity.publish.ScheduleAct"

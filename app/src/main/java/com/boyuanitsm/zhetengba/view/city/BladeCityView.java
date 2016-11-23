@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class BladeCityView extends View{
 
     private OnItemClickListener mOnItemClickListener;
-    String[] b = { "当前","历史","热门","A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
+    String[] b = { "当前","热门","A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
             "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
             "Y", "Z" };
     int choose = -1;
@@ -121,12 +121,13 @@ public class BladeCityView extends View{
 		if (item == 0) {
 			text = "当前";
 		} else if(item==1){
-			text="历史";
-		} else if(item==2){
-            text="热门";
-        }
+			text="热门";
+		}
+//        else if(item==2){
+//            text="热门";
+//        }
         else{
-        text = Character.toString((char) ('A' + (item-3) ));
+        text = Character.toString((char) ('A' + (item-2) ));
 		}
         mPopupText.setText(text);
         if (mPopupWindow.isShowing()) {

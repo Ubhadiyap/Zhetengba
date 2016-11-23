@@ -4,46 +4,68 @@
     android:layout_height="match_parent"
     android:background="@color/common_bg"
     android:orientation="vertical">
-<include layout="@layout/title_main_act_layout"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <include layout="@layout/title_main_act_layout"></include>
+        <TextView
+            android:gravity="center"
+            android:text="上海"
+            android:id="@+id/tv_city"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawablePadding="3dp"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
     <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
-        android:layout_marginTop="48dp"
         android:id="@+id/lv_act"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
+
     <LinearLayout
-        android:layout_marginTop="48dp"
         android:id="@+id/ll_ft"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp">
+
         <include layout="@layout/act_frag_floating"></include>
     </LinearLayout>
+
     <com.boyuanitsm.zhetengba.view.LoadingView
-        android:layout_marginTop="48dp"
         android:id="@+id/load_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.boyuanitsm.zhetengba.view.LoadingView>
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp"></com.boyuanitsm.zhetengba.view.LoadingView>
+
     <LinearLayout
         android:id="@+id/noList"
-        android:visibility="gone"
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <ImageView
             android:id="@+id/ivAnim"
-            android:layout_gravity="center_horizontal"
-            android:background="@mipmap/planeno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/planeno" />
+
         <TextView
             android:id="@+id/noMsg"
-            android:textSize="16sp"
-            android:textColor="#999999"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="加载中..."/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="加载中..."
+            android:textColor="#999999"
+            android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>

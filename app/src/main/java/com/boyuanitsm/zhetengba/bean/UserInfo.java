@@ -45,7 +45,8 @@ public class UserInfo implements Parcelable {
     // "address":null,
     // "petName":null,
     // "homeTown":null,
-    // "dictName":null}
+    // "dictName":null
+    // "city":null}
     @Column
     private String id;//用户id
     @Column
@@ -121,6 +122,17 @@ public class UserInfo implements Parcelable {
 
     @Column
     private boolean friend;
+    @Column
+    private String city;//城市编码后面加的
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     private String hUsername;//环信账号
     private String hPassword;//环信密码
 
@@ -495,10 +507,13 @@ public class UserInfo implements Parcelable {
                 ", petName='" + petName + '\'' +
                 ", homeTown='" + homeTown + '\'' +
                 ", dictName='" + dictName + '\'' +
+                ", friend=" + friend +
+                ", city='" + city + '\'' +
                 ", hUsername='" + hUsername + '\'' +
                 ", hPassword='" + hPassword + '\'' +
                 ", sameLabels='" + sameLabels + '\'' +
-                ", sameCircleCounts='" + sameCircleCounts + '\'' +
+                ", sameCircleCounts=" + sameCircleCounts +
+                ", balance='" + balance + '\'' +
                 '}';
     }
 
@@ -549,6 +564,7 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.sameLabels);
         dest.writeValue(this.sameCircleCounts);
         dest.writeString(this.balance);
+        dest.writeString(this.city);
     }
 
     protected UserInfo(Parcel in) {
@@ -592,6 +608,7 @@ public class UserInfo implements Parcelable {
         this.sameLabels = in.readString();
         this.sameCircleCounts = (Integer) in.readValue(Integer.class.getClassLoader());
         this.balance=in.readString();
+        this.city=in.readString();
     }
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
