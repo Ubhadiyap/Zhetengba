@@ -1,7 +1,12 @@
 package com.boyuanitsm.zhetengba.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -20,11 +25,9 @@ public class CircleHfAdapter extends BaseAdapter{
 
     private List<CircleEntity> list;
     private Context context;
-    private String lz;//楼主
-    public CircleHfAdapter(Context context,List<CircleEntity> list,String strLz){
+    public CircleHfAdapter(Context context,List<CircleEntity> list){
         this.context=context;
         this.list=list;
-        this.lz=strLz;
     }
     @Override
     public int getCount() {
@@ -50,22 +53,21 @@ public class CircleHfAdapter extends BaseAdapter{
             holder=new Holder();
             convertView=View.inflate(context, R.layout.item_hf_circle,null);
             holder.tv_hf= (TextView) convertView.findViewById(R.id.tv_hf);
-            holder.tv_hf2= (TextView) convertView.findViewById(R.id.tv_hf2);
-            holder.tv_hf_content= (TextView) convertView.findViewById(R.id.tv_hf_content);
             convertView.setTag(holder);
         }
       if (!TextUtils.isEmpty(list.get(position).getPetName())){
-          holder.tv_hf.setText(list.get(position).getPetName());
+          String str=list.get(position).getPetName()+"回复"+list.get(position).getCommentedUsername()+":"+list.get(position).getCommentContent();
+          SpannableStringBuilder builder = new SpannableStringBuilder(str);
+          //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
+          ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#52c791"));
+          ForegroundColorSpan redSpan2 = new ForegroundColorSpan(Color.parseColor("#52c791"));
+          builder.setSpan(redSpan, 0, list.get(position).getPetName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+          builder.setSpan(redSpan2,list.get(position).getPetName().length()+2,list.get(position).getPetName().length()+list.get(position).getCommentedUsername().length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+          holder.tv_hf.setText(builder);
       }
-        if (!TextUtils.isEmpty(lz)){
-            holder.tv_hf2.setText(lz+"：");
-        }
-        if (!TextUtils.isEmpty(list.get(position).getCommentContent())){
-            holder.tv_hf_content.setText(list.get(position).getCommentContent());
-        }
         return convertView;
     }
     class Holder{
-        private TextView tv_hf,tv_hf2,tv_hf_content;
+        private TextView tv_hf;
     }
 }

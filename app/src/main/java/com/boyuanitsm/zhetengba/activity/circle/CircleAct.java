@@ -107,6 +107,8 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     private String strlist;
     private Gson gson;
     private List<CircleEntity> infos;
+    String petName;
+    private String fatherCommentId,commentedUserId;
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
@@ -336,12 +338,22 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 openActivity(SerchCirAct.class);
                 break;
             case R.id.iv_chanel_comment:
-                if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
-                    bt_send.setEnabled(false);
-                    commentCircleTalk(null,cirId, null, et_comment.getText().toString().trim());
-                } else {
-                    MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+                if (flag){
+                    if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+                        bt_send.setEnabled(false);
+                        commentCircleTalk(commentedUserId,cirId, fatherCommentId, et_comment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(getApplicationContext(), "请输入回复内容！");
+                    }
+                }else {
+                    if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+                        bt_send.setEnabled(false);
+                        commentCircleTalk(null,cirId, null, et_comment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+                    }
                 }
+
                 break;
             case R.id.ll_news:
 //                ll_news.setVisibility(View.GONE);
@@ -358,12 +370,11 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
      * @param fatherCommentId
      * @param commentContent
      */
-    private void commentCircleTalk(String commtedId,final String circleTalkId, String fatherCommentId, final String commentContent) {
+    private void commentCircleTalk(final String commtedId,final String circleTalkId, final String fatherCommentId, final String commentContent) {
         RequestManager.getTalkManager().commentCircleTalk(commtedId,circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 bt_send.setEnabled(true);
-                bt_send.setClickable(true);
             }
 
             @Override
@@ -372,21 +383,43 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                 et_comment.setText("");
                 //封装数据
-                CircleEntity entity = new CircleEntity();
-                entity.setPetName(UserInfoDao.getUser().getPetName());
-                entity.setCommentContent(commentContent);
-                if (datas.get(cusPos).getCommentsList() == null) {
-                    List<CircleEntity> list = new ArrayList<CircleEntity>();
-                    datas.get(cusPos).setCommentsList(list);
-                    datas.get(cusPos).getCommentsList().add(entity);
-                } else {
-                    datas.get(cusPos).getCommentsList().add(entity);
-                }
-                datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
-                if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
-                    datas.get(cusPos).setCommentCounts(datas.get(cusPos).getCommentCounts() + 1);
-                } else {
-                    datas.get(cusPos).setCommentCounts(1);
+                if (flag){
+                    CircleEntity entity = new CircleEntity();
+                    entity.setPetName(UserInfoDao.getUser().getPetName());
+                    entity.setCommentContent(commentContent);
+                    entity.setCommentedUsername(petName);
+                    entity.setFatherCommentId(fatherCommentId);
+                    entity.setCommentUserId(commtedId);
+                    if (datas.get(cusPos).getCommentsList() == null) {
+                        List<CircleEntity> list = new ArrayList<CircleEntity>();
+                        datas.get(cusPos).setCommentsList(list);
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    } else {
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    }
+                    datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
+                    if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(response.getData()));
+                    } else {
+                        datas.get(cusPos).setCommentCounts(1);
+                    }
+                }else {
+                    CircleEntity entity = new CircleEntity();
+                    entity.setPetName(UserInfoDao.getUser().getPetName());
+                    entity.setCommentContent(commentContent);
+                    if (datas.get(cusPos).getCommentsList() == null) {
+                        List<CircleEntity> list = new ArrayList<CircleEntity>();
+                        datas.get(cusPos).setCommentsList(list);
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    } else {
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    }
+                    datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
+                    if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(response.getData()));
+                    } else {
+                        datas.get(cusPos).setCommentCounts(1);
+                    }
                 }
                 if (adapter == null) {
                     adapter = new CircleAdapter(CircleAct.this, datas);
@@ -396,7 +429,6 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 }
                 MyToastUtils.showShortToast(getApplicationContext(), response.getMessage());
                 bt_send.setEnabled(true);
-                bt_send.setClickable(true);
                 ll_comment.setVisibility(View.GONE);
 
             }
@@ -504,6 +536,30 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            String cir_hf = intent.getStringExtra("cir_hf");
+             petName = intent.getStringExtra("petName");
+            String fatherId = intent.getStringExtra("fatherId");
+            String comId = intent.getStringExtra("comId");
+            if (TextUtils.equals("cir_hf",cir_hf)) {
+                ll_comment.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(fatherId)) {
+                    if (!TextUtils.isEmpty(comId)) {
+                        commentedUserId = comId;
+                    }
+                    fatherCommentId = fatherId;
+                    if (!TextUtils.isEmpty(petName)) {
+                        et_comment.setHint("回复" + petName + ":");
+                    }
+                    flag = true;
+                }else {
+                    et_comment.setHint("说点什么吧...");
+                    flag=false;
+                }
+                lv_cir.getRefreshableView().setSelection(cusPos);
+                et_comment.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
             SharedPreferences sharedPreferences=getSharedPreferences("ztb_cirNews",
                     Activity.MODE_PRIVATE);
             String cir_news = sharedPreferences.getString("cir_news", "");
@@ -552,10 +608,11 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-            } else {
+            }else {
                 page = 1;
                 getAllCircleTalk(page, rows);
             }
+
         }
     }
 

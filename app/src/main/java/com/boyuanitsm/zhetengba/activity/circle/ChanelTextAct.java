@@ -293,7 +293,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             case R.id.iv_chanel_comment:
                 if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
                     btnSend.setEnabled(false);
-                    btnSend.setClickable(false);
                     commentChannelTalk(channelId, null, etComment.getText().toString().trim());
                 }else {
                     MyToastUtils.showShortToast(ChanelTextAct.this,"请输入评论内容！");
@@ -313,7 +312,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             @Override
             public void onError(int status, String errorMsg) {
                 btnSend.setEnabled(true);
-                btnSend.setClickable(true);
             }
 
             @Override
@@ -326,7 +324,6 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 page=1;
                 getCircleCommentsList(channelTalkId, page, rows);
                 btnSend.setEnabled(true);
-                btnSend.setClickable(true);
 
             }
         });
@@ -349,7 +346,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 my_lv.onPullUpRefreshComplete();
                 my_lv.onPullDownRefreshComplete();
                 load_view.loadComplete();
-                list=response.getData().getRows();
+                list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
                     } else {
@@ -357,29 +354,33 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                     }
                 }
 
-                if(page==1){
+                if (page == 1) {
                     datas.clear();
                 }
                 datas.addAll(list);
 //                commentNum.setText("评论" + datas.size());
-                if (adapter==null) {
+                if (adapter == null) {
                     adapter = new ChaTextAdapter(ChanelTextAct.this, datas);
                     my_lv.getRefreshableView().setAdapter(adapter);
-                }else {
+                } else {
                     adapter.notifyChange(datas);
                 }
-                Intent intent=new Intent(SquareAct.TALK_LIST);
-                Bundle bundle=new Bundle();
-                bundle.putInt("ComtPosition", position);
-                bundle.putString("tag", "comTag");
-                if (!TextUtils.isEmpty(comNum)){
-                    bundle.putInt("ComtNum", Integer.parseInt(comNum));
+                if (!TextUtils.isEmpty(comNum)) {
+                    if (Integer.parseInt(comNum) < 5&&Integer.parseInt(comNum)>0) {
+                        Intent intent = new Intent(SquareAct.TALK_LIST);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("ComtPosition", position);
+                        bundle.putString("tag", "comTag");
+                        if (!TextUtils.isEmpty(comNum)) {
+                            bundle.putInt("ComtNum", Integer.parseInt(comNum));
+                        }
+                        if (datas != null && datas.size() > 0) {
+                            bundle.putParcelableArrayList("ComtList", (ArrayList<ChannelTalkEntity>) datas);
+                        }
+                        intent.putExtras(bundle);
+                        sendBroadcast(intent);
+                    }
                 }
-                if (datas!=null&&datas.size()>0){
-                    bundle.putParcelableArrayList("ComtList", (ArrayList<ChannelTalkEntity>) datas);
-                }
-                intent.putExtras(bundle);
-                sendBroadcast(intent);
             }
         });
     }

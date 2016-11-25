@@ -31,6 +31,7 @@ public class CircleEntity implements Parcelable{
     private int isInCircle;//是否在圈子里面，后面才加的字段
     private List<CircleEntity> commentsList;//评论列表
     private String circleTalkId;
+
     /**
      * 被回复者的ID
      */

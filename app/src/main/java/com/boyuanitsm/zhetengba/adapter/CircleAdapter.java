@@ -87,21 +87,13 @@ public class CircleAdapter extends BaseAdapter {
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-//    public CircleAdapter(Context context, List<List<ImageInfo>> dateList) {
-//        this.context = context;
-//        this.dateList = dateList;
-//
-//    }
-
     public CircleAdapter(Context context, List<CircleEntity> list) {
         this.context = context;
-//        this.dateList = dateList;
         this.list = list;
 
     }
 
     public void notifyChange(List<CircleEntity> list) {
-//        this.dateList = dateList;
         this.list = list;
         notifyDataSetChanged();
     }
@@ -169,7 +161,6 @@ public class CircleAdapter extends BaseAdapter {
             viewHolder.cnum2 = (TextView) convertView.findViewById(R.id.cnum2);
             viewHolder.cnumText = (TextView) convertView.findViewById(R.id.cnumText);
             viewHolder.znumText = (TextView) convertView.findViewById(R.id.znumText);
-//            viewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
 
             viewHolder.ll_comment2 = (LinearLayout) convertView.findViewById(R.id.ll_comment2);
             viewHolder.tv_more= (TextView) convertView.findViewById(R.id.tv_more);
@@ -181,7 +172,6 @@ public class CircleAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
         }
         viewHolder.llphoto.setVisibility(View.VISIBLE);
-//        final List<ImageInfo> itemList=dateList.get(position);
         if (!TextUtils.isEmpty(list.get(position).getTalkImage())) {
             final String[] urlList = ZtinfoUtils.convertStrToArray(list.get(position).getTalkImage());
             if (urlList.length == 1) {
@@ -298,7 +288,7 @@ public class CircleAdapter extends BaseAdapter {
                 if (list.get(position).getCommentCounts() == 0) {
                     viewHolder.cnum2.setVisibility(View.GONE);
                     viewHolder.cnumText.setVisibility(View.GONE);
-                } else {
+                } else if (list.get(position).getCommentCounts()>0){
                     viewHolder.cnum2.setVisibility(View.VISIBLE);
                     viewHolder.cnumText.setVisibility(View.VISIBLE);
                     viewHolder.cnum2.setText(list.get(position).getCommentCounts() + "");
@@ -308,6 +298,9 @@ public class CircleAdapter extends BaseAdapter {
                         viewHolder.rl_more.setVisibility(View.GONE);
                     }
                 }
+            }else {
+                viewHolder.cnum2.setVisibility(View.GONE);
+                viewHolder.cnumText.setVisibility(View.GONE);
             }
 
             if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
@@ -398,13 +391,6 @@ public class CircleAdapter extends BaseAdapter {
                 dialog.builder().show();
             }
         });
-//        viewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                clickPos = position;
-//                showPopupWindow(viewHolder.iv_more, clickPos);
-//            }
-//        });
         viewHolder.ll_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -426,7 +412,14 @@ public class CircleAdapter extends BaseAdapter {
         viewHolder.lv_pl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                mOnItemClickListener.onItemClick2(viewHolder.ll_cmt, list.get(position).getId(), position);
+                if (list!=null){
+                    Intent intent = new Intent(CircleAct.ALLTALKS);
+                    intent.putExtra("cir_hf","cir_hf");
+                    intent.putExtra("petName", list.get(position).getPetName());
+                    intent.putExtra("fatherId", list.get(position).getId());
+                    intent.putExtra("comId", list.get(position).getCommentUserId());
+                    context.sendBroadcast(intent);
+                }
             }
         });
 

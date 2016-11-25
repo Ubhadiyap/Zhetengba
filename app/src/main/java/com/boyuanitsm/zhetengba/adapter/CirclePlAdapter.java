@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
@@ -56,11 +57,25 @@ public class CirclePlAdapter extends BaseAdapter {
             convertView= View.inflate(context, R.layout.item_pl_circle, null);
             holder.tv_ct = (TextView) convertView.findViewById(R.id.tv_ct);
         }
+        if (!TextUtils.isEmpty(list.get(position).getFatherCommentId())){
+            if (!TextUtils.isEmpty(list.get(position).getPetName())&&!TextUtils.isEmpty(list.get(position).getCommentedUsername())){
+                String str=list.get(position).getPetName()+"回复"+list.get(position).getCommentedUsername()+":"+list.get(position).getCommentContent();
+                SpannableStringBuilder builder = new SpannableStringBuilder(str);
+                //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
+                ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#52c791"));
+                ForegroundColorSpan redSpan2 = new ForegroundColorSpan(Color.parseColor("#52c791"));
+                builder.setSpan(redSpan, 0, list.get(position).getPetName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(redSpan2,list.get(position).getPetName().length()+2,list.get(position).getPetName().length()+list.get(position).getCommentedUsername().length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                holder.tv_ct.setText(builder);
+            }
+        }else {
             if (!TextUtils.isEmpty(list.get(position).getPetName())){
                 SpannableStringBuilder style=new SpannableStringBuilder(list.get(position).getPetName()+ "："+ EmojUtils.decoder(list.get(position).getCommentContent()));
                 style.setSpan(new ForegroundColorSpan(Color.parseColor("#52c791")), 0, list.get(position).getPetName().length()+1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                 holder.tv_ct.setText(style);
             }
+        }
+
         return convertView;
     }
     class  PlHolder{
