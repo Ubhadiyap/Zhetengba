@@ -311,13 +311,16 @@ public class TalkManager extends RequestManager{
      * @param fatherCommentId
      * @param callback
      */
-    public void commentChannelTalk(String channelTalkId  ,String fatherCommentId ,String commentContent,ResultCallback callback){
+    public void commentChannelTalk(String channelTalkId  ,String fatherCommentId , String commentedUserId,String commentContent,ResultCallback callback){
         Map<String,String> map=new HashMap<>();
         if(!TextUtils.isEmpty(channelTalkId )){
             map.put("channelTalkId",channelTalkId );
         }
         if(!TextUtils.isEmpty(fatherCommentId)){
             map.put("fatherCommentId",fatherCommentId);
+        }
+        if (!TextUtils.isEmpty(commentedUserId)){
+            map.put("commentedUserId",commentedUserId);
         }
         if(!TextUtils.isEmpty(commentContent)){
             map.put("commentContent",commentContent);
@@ -487,5 +490,16 @@ public class TalkManager extends RequestManager{
         Map<String,String> map=new HashMap<>();
         map.put("id",circleTalkId);
         OkHttpManager.getInstance().doPost(IZtbUrl.GETCIRCLE_URL, map, callback);
+    }
+
+    /**
+     * 获取单个吐槽说说
+     * @param chanelTalkId
+     * @param callback
+     */
+    public void getChanelTalk(String chanelTalkId,ResultCallback callback){
+        Map<String,String> map=new HashMap<>();
+        map.put("id",chanelTalkId);
+        OkHttpManager.getInstance().doPost(IZtbUrl.GETCHANEL_URL,map,callback);
     }
 }

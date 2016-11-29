@@ -182,8 +182,8 @@ public class DBHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("alter table city add cityid varchar(100)");
-		onCreate(db);
+//		db.execSQL("alter table city add cityid varchar(100)");
+//		onCreate(db);
 
 	}
 

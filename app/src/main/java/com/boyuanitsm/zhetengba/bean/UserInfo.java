@@ -559,12 +559,12 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.homeTown);
         dest.writeString(this.dictName);
         dest.writeByte(this.friend ? (byte) 1 : (byte) 0);
+        dest.writeString(this.city);
         dest.writeString(this.hUsername);
         dest.writeString(this.hPassword);
         dest.writeString(this.sameLabels);
         dest.writeValue(this.sameCircleCounts);
         dest.writeString(this.balance);
-        dest.writeString(this.city);
     }
 
     protected UserInfo(Parcel in) {
@@ -603,12 +603,12 @@ public class UserInfo implements Parcelable {
         this.homeTown = in.readString();
         this.dictName = in.readString();
         this.friend = in.readByte() != 0;
+        this.city = in.readString();
         this.hUsername = in.readString();
         this.hPassword = in.readString();
         this.sameLabels = in.readString();
         this.sameCircleCounts = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.balance=in.readString();
-        this.city=in.readString();
+        this.balance = in.readString();
     }
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {

@@ -114,7 +114,8 @@
             android:name=".activity.mine.LoginAct"
             android:screenOrientation="portrait"></activity>
         <!--城市选择-->
-        <activity android:name=".activity.CityAct"
+        <activity
+            android:name=".activity.CityAct"
             android:screenOrientation="portrait"></activity>
         <!--档期界面-->
         <activity
@@ -533,9 +534,18 @@
         <activity
             android:name=".activity.mine.TimeHistoryAct"
             android:screenOrientation="portrait"></activity>
-
+        <!--吐槽消息界面-->
+        <activity
+            android:name=".activity.mess.SquareMessAct"
+            android:screenOrientation="portrait"></activity>
+        <!--登录注册-->
+        <activity android:name=".activity.mine.LoginFirstAct"
+            android:screenOrientation="portrait"></activity>
+        <!--验证码登录-->
+        <activity android:name=".activity.mine.SmsLoginAct"
+            android:screenOrientation="portrait"></activity>
         <!--<activity android:name=".view.crop.square.CropImageActivity"-->
-            <!--android:screenOrientation="portrait"></activity>-->
+        <!--android:screenOrientation="portrait"></activity>-->
 
         <!-- 极光-->
         <!-- Rich push 核心功能 since 2.0.6-->

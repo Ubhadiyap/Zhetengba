@@ -16,7 +16,7 @@ public interface IZtbUrl {
     //开发
 
     public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
-//    public static final String BASE_URL = "http:/172.16.6.196:8090/zhetengba/";
+//    public static final String BASE_URL = "http:/172.16.5.133:8090/zhetengba/";
 
 //    public static final String BASE_URL = "http://180.76.149.156:8060/zhetengba/";
       
@@ -364,4 +364,8 @@ public interface IZtbUrl {
 //获取单个圈子说说
     String GETCIRCLE_URL=BASE_URL+"talk/login/findCircleTalkById.do";
 
+   //获取单个吐槽说说
+    String GETCHANEL_URL=BASE_URL+"talk/login/findChannelTalkById.do";
+    //短信登录验证码接口
+    String SMSLOGIN_URL=BASE_URL+"manager/unLogin/smsLogin.do";
 }

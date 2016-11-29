@@ -3,7 +3,6 @@ package com.boyuanitsm.zhetengba.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -15,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.utils.Uitls;
-import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -26,19 +25,17 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.List;
 
 /**
- * 圈子正文，回复adapter
- * Created by xiaoke on 2016/11/23.
+ * Created by xiaoke on 2016/11/28.
  */
-public class CircleHfAdapter extends BaseAdapter{
-
-    private List<CircleEntity> list;
+public class ChanelHfAdapter extends BaseAdapter {
+    private List<ChannelTalkEntity> list;
     private Context context;
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
-    public CircleHfAdapter(Context context,List<CircleEntity> list){
+    public ChanelHfAdapter(Context context,List<ChannelTalkEntity> list){
         this.context=context;
         this.list=list;
     }
@@ -71,16 +68,16 @@ public class CircleHfAdapter extends BaseAdapter{
             holder.tv_time= (TextView) convertView.findViewById(R.id.time);
             convertView.setTag(holder);
         }
-      if (!TextUtils.isEmpty(list.get(position).getPetName())){
-          String str="回复"+list.get(position).getCommentedUsername()+":"+list.get(position).getCommentContent();
-          SpannableStringBuilder builder = new SpannableStringBuilder(str);
-          //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
-          ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#52c791"));
+        if (!TextUtils.isEmpty(list.get(position).getPetName())){
+            String str="回复"+list.get(position).getCommentedUsername()+":"+list.get(position).getCommentContent();
+            SpannableStringBuilder builder = new SpannableStringBuilder(str);
+            //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
+            ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#52c791"));
 //          ForegroundColorSpan redSpan2 = new ForegroundColorSpan(Color.parseColor("#52c791"));
 //          builder.setSpan(redSpan, 2, list.get(position).getPetName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-          builder.setSpan(redSpan,2,list.get(position).getCommentedUsername().length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-          holder.tv_hf.setText(builder);
-      }
+            builder.setSpan(redSpan,2,list.get(position).getCommentedUsername().length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            holder.tv_hf.setText(builder);
+        }
         if (!TextUtils.isEmpty(list.get(position).getPetName())){
             holder.tv_username.setText(list.get(position).getPetName());
         }

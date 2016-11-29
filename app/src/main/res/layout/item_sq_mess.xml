@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.boyuanitsm.zhetengba.view.CircleImageView
+                android:id="@+id/cv_head"
+                android:background="@drawable/userhead"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_toRightOf="@+id/cv_head"
+                android:text="会说话的Tom猫"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="12sp"
+                android:textColor="#52c791"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_huifu"
+                android:layout_below="@+id/tv_name"
+                android:layout_toRightOf="@+id/cv_head"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="回复“我”"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_talkImage"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="79dp"
+                android:layout_height="79dp" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_talk"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="15dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineSpacingExtra="8dp"
+                android:textSize="14sp"
+                android:textColor="#999999"
+                android:layout_width="79dp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_content"
+            android:text="湖水平静展览"
+            android:lineSpacingExtra="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginRight="15dp"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_gravity="right"
+            android:id="@+id/tv_time"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tv_content"
+            android:text="11:22"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:textSize="12sp"
+            android:textColor="#999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+<View
+    android:layout_marginTop="10dp"
+    android:layout_below="@+id/ll_content"
+    style="@style/view_line"
+    android:layout_marginLeft="0dp"
+    android:layout_width="1px"/>
+</RelativeLayout>

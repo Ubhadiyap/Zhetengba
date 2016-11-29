@@ -61,6 +61,10 @@ public class MyPlaneAct extends BaseActivity {
     private MyPlaneAdapter adapter;
     private int cusPos;
     private String cirId;
+    private boolean flag;
+    private String commentedUserId;
+    private String fatherCommentId;
+    private int clickPos=-1;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_my_plane);
@@ -127,13 +131,28 @@ public class MyPlaneAct extends BaseActivity {
         bt_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
-                    bt_send.setEnabled(false);
-                    bt_send.setClickable(false);
-                    commentCircleTalk(null,cirId, null, et_comment.getText().toString().trim());
+                if (flag) {
+                    if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+                        bt_send.setEnabled(false);
+                        commentCircleTalk(commentedUserId, cirId, fatherCommentId, et_comment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(MyPlaneAct.this, "请输入回复内容！");
+                    }
                 } else {
-                    MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+                    if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+                        bt_send.setEnabled(false);
+                        commentCircleTalk(null, cirId, null, et_comment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(MyPlaneAct.this, "请输入评论内容！");
+                    }
                 }
+//                if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+//                    bt_send.setEnabled(false);
+//                    bt_send.setClickable(false);
+//                    commentCircleTalk(null,cirId, null, et_comment.getText().toString().trim());
+//                } else {
+//                    MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+//                }
 
             }
         });
@@ -195,6 +214,7 @@ public class MyPlaneAct extends BaseActivity {
                         lv_my_plane.getRefreshableView().setSelection(position);
                         cusPos = position;
                         ll_comment.setVisibility(View.VISIBLE);
+                        et_comment.setHint("说点什么吧...");
                         et_comment.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
@@ -230,21 +250,29 @@ public class MyPlaneAct extends BaseActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-//            Bundle bundle = intent.getExtras();
-//            if (bundle != null && datas.size() > 0) {
-//                int cposition = bundle.getInt("CirCommentPosition");
-//                int cNum = bundle.getInt("CirComtNum");
-//                datas.get(cposition).setCommentCounts(cNum);
-//                if (adapter == null) {
-//                    adapter = new MyPlaneAdapter(MyPlaneAct.this, datalist, datas);
-//                    lv_my_plane.getRefreshableView().setAdapter(adapter);
-//                } else {
-//                    adapter.notifyChange(datalist, datas);
-//                }
-//            } else {
-                page = 1;
-                getMyTalks(page, rows,"");
-//            }
+            String petName = intent.getStringExtra("petName");
+            String fatherId = intent.getStringExtra("fatherId");
+            String comId = intent.getStringExtra("comId");
+            clickPos=intent.getIntExtra("clickPos",clickPos);
+            if (!TextUtils.isEmpty(comId)) {
+                commentedUserId = comId;
+            }
+            if (!TextUtils.isEmpty(fatherId)) {
+                fatherCommentId = fatherId;
+                if (!TextUtils.isEmpty(petName)) {
+                    et_comment.setHint("回复" + petName + ":");
+                }
+                flag = true;
+            }else {
+                et_comment.setHint("说点什么吧...");
+                flag=false;
+            }
+            ll_comment.setVisibility(View.VISIBLE);
+            et_comment.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                page = 1;
+//                getMyTalks(page, rows,"");
         }
     }
     /**
@@ -254,34 +282,45 @@ public class MyPlaneAct extends BaseActivity {
      * @param commentContent
      */
     private void commentCircleTalk(String comtedId,final String circleTalkId ,String fatherCommentId , final String commentContent){
-        RequestManager.getTalkManager().commentCircleTalk(comtedId,circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getTalkManager().commentCircleTalk(comtedId,circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<CircleEntity>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 bt_send.setEnabled(true);
-                bt_send.setClickable(true);
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
+            public void onResponse(ResultBean<CircleEntity> response) {
+                CircleEntity entity = response.getData();
                 //重新获取评论列表，刷新评论数目，关闭键盘
-                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                 et_comment.setText("");
+                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                 //封装数据
-                CircleEntity entity = new CircleEntity();
-                entity.setPetName(UserInfoDao.getUser().getPetName());
-                entity.setCommentContent(commentContent);
-                if (datas.get(cusPos).getCommentsList() == null) {
-                    List<CircleEntity> list = new ArrayList<CircleEntity>();
-                    datas.get(cusPos).setCommentsList(list);
-                    datas.get(cusPos).getCommentsList().add(entity);
+                if (flag){
+                    if (datas.get(cusPos).getCommentsList() == null) {
+                        List<CircleEntity> list = new ArrayList<CircleEntity>();
+                        datas.get(cusPos).setCommentsList(list);
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    } else {
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    }
+                    if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(entity.getRemark()));
+                    } else {
+                        datas.get(cusPos).setCommentCounts(1);
+                    }
                 }else {
-                    datas.get(cusPos).getCommentsList().add(entity);
-                }
-                datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
-                if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts()+"")){
-                    datas.get(cusPos).setCommentCounts(datas.get(cusPos).getCommentCounts() + 1);
-                }else {
-                    datas.get(cusPos).setCommentCounts(1);
+                    if (datas.get(cusPos).getCommentsList() == null) {
+                        List<CircleEntity> list = new ArrayList<CircleEntity>();
+                        datas.get(cusPos).setCommentsList(list);
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    } else {
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    }
+                    if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(entity.getRemark()));
+                    } else {
+                        datas.get(cusPos).setCommentCounts(1);
+                    }
                 }
                 if (adapter == null) {
                     adapter = new MyPlaneAdapter(MyPlaneAct.this, datas);
@@ -291,7 +330,6 @@ public class MyPlaneAct extends BaseActivity {
                 }
                 MyToastUtils.showShortToast(getApplicationContext(), response.getMessage());
                 bt_send.setEnabled(true);
-                bt_send.setClickable(true);
                 ll_comment.setVisibility(View.GONE);
 
             }

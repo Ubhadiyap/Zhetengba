@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_color">
+    android:background="@color/white">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingBottom="15dp">
+        android:paddingBottom="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,6 +66,7 @@
             <!--正文-->
             <TextView
                 android:id="@+id/content"
+                android:text="我是正文"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#333333"
@@ -146,9 +146,94 @@
                     android:layout_width="120dp"
                     android:layout_height="160dp" />
             </LinearLayout>
+            <RelativeLayout
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="22"
+                        android:id="@+id/znum2"
+                        style="@style/Chanel_Small_Text" />
+                    <TextView
+                        android:id="@+id/znumText"
+                        style="@style/Chanel_Small_Text"
+                        android:paddingRight="10dp"
+                        android:text="赞" />
+                    <TextView
+                        android:text="22"
+                        android:id="@+id/cnum2"
+                        style="@style/Chanel_Small_Text" />
+                    <TextView
+                        android:id="@+id/cnumText"
+                        style="@style/Chanel_Small_Text"
+                        android:text="评论" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/ll_zan"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_zan"
+                            android:background="@mipmap/zan2x"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
+                        <TextView
+                            android:layout_marginLeft="5dp"
+                            android:text="赞"
+                            android:textColor="#333333"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_cmt"
+                        android:gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:background="@mipmap/comment2x"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp" />
+                        <TextView
+                            android:layout_marginLeft="5dp"
+                            android:text="评论"
+                            android:textColor="#333333"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_more"
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/more"/>
+
+            </RelativeLayout>
         </LinearLayout>
+
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:layout_marginTop="13dp"
@@ -173,5 +258,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/headbg2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/headbg2">
+
     </LinearLayout>
 </LinearLayout>

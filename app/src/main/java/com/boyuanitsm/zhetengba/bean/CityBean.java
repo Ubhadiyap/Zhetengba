@@ -44,24 +44,6 @@ public class CityBean implements Parcelable {
         this.pinyi = pinyi;
     }
 
-    protected CityBean(Parcel in) {
-        cityid = in.readString();
-        name = in.readString();
-        pinyi = in.readString();
-    }
-
-    public static final Creator<CityBean> CREATOR = new Creator<CityBean>() {
-        @Override
-        public CityBean createFromParcel(Parcel in) {
-            return new CityBean(in);
-        }
-
-        @Override
-        public CityBean[] newArray(int size) {
-            return new CityBean[size];
-        }
-    };
-
     @Override
     public int describeContents() {
         return 0;
@@ -69,8 +51,26 @@ public class CityBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(cityid);
-        dest.writeString(name);
-        dest.writeString(pinyi);
+        dest.writeString(this.cityid);
+        dest.writeString(this.name);
+        dest.writeString(this.pinyi);
     }
+
+    protected CityBean(Parcel in) {
+        this.cityid = in.readString();
+        this.name = in.readString();
+        this.pinyi = in.readString();
+    }
+
+    public static final Creator<CityBean> CREATOR = new Creator<CityBean>() {
+        @Override
+        public CityBean createFromParcel(Parcel source) {
+            return new CityBean(source);
+        }
+
+        @Override
+        public CityBean[] newArray(int size) {
+            return new CityBean[size];
+        }
+    };
 }

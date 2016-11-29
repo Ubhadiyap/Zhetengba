@@ -15,16 +15,32 @@
         <View style="@style/view_line"
             android:layout_marginLeft="0dp"
             android:layout_height="1px"></View>
-        <com.boyuanitsm.zhetengba.view.CommonView
-            android:id="@+id/cv_gc"
-            app:desText="吐槽"
-            app:desTextSize="14sp"
-            app:desTextColor="#333333"
-            app:statusImage="@drawable/guang"
-            app:statusImage_width="30dp"
-            app:statusImage_height="30dp"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="44dp"></com.boyuanitsm.zhetengba.view.CommonView>
+            android:layout_height="wrap_content">
+            <com.boyuanitsm.zhetengba.view.CommonView
+                android:id="@+id/cv_gc"
+                app:desText="吐槽"
+                app:desTextSize="14sp"
+                app:desTextColor="#333333"
+                app:statusImage="@drawable/guang"
+                app:statusImage_width="30dp"
+                app:statusImage_height="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"></com.boyuanitsm.zhetengba.view.CommonView>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="90dp"
+                android:id="@+id/iv_xnew2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:background="@drawable/bg_circle_red2"
+                />
+        </RelativeLayout>
+
         <View style="@style/view_line"
             android:layout_height="1px"></View>
         <RelativeLayout

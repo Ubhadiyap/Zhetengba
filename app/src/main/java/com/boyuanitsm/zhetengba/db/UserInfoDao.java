@@ -67,6 +67,7 @@ public class UserInfoDao extends TemplateDAO<UserInfo, String> {
         values.put("job",userInfo.getJob());
         values.put("icon",userInfo.getIcon());
         values.put("user_type",userInfo.getUserType());
+        values.put("city",userInfo.getCity());
         db.update(getDao().getTableName(), values, "username=?", new String[]{userInfo.getUsername()});
     }
 

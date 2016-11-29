@@ -6,23 +6,47 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/title_act_layout"></include>
-
-    <EditText
-        android:id="@+id/et_phone"
-        android:textColorHint="#cdcdcd"
-        android:paddingBottom="15dp"
-        android:gravity="bottom"
-        android:textSize="16sp"
-        android:textColor="#333333"
-        android:layout_marginLeft="15dp"
-        android:hint="请输入手机号码"
-        android:background="@null"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:inputType="number"
-        android:maxLength="11"
-        android:singleLine="true"
-        />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="请输入手机号"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_toRightOf="@+id/tv_phone"
+            android:layout_toLeftOf="@+id/code_tv"
+            android:layout_centerVertical="true"
+            android:id="@+id/et_phone"
+            android:textColorHint="#cdcdcd"
+            android:layout_marginLeft="5dp"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="number"
+            android:maxLength="11"
+            android:singleLine="true"
+            />
+        <TextView
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/code_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="获取验证码"
+            android:textColor="@color/com_btn_nor"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
     <View
         android:layout_marginLeft="15dp"
         android:background="#dcdcde"
@@ -36,6 +60,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:visibility="gone"
             android:inputType="textPassword"
             android:textColorHint="#cdcdcd"
             android:paddingBottom="15dp"
@@ -50,6 +75,7 @@
             android:singleLine="true" />
 
         <ImageView
+            android:visibility="gone"
             android:src="@mipmap/yzmjiazai"
             android:id="@+id/iv_aqm"
             android:layout_width="85dp"
@@ -71,6 +97,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <TextView
+            android:layout_centerVertical="true"
+            android:text="请输入验证码"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <EditText
             android:textColorHint="#cdcdcd"
@@ -78,31 +111,31 @@
             android:gravity="bottom"
             android:id="@+id/et_yzm"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="输入验证码"
             android:inputType="number"
             android:maxLength="6"
             android:singleLine="true" />
 
-        <TextView
-            android:background="@drawable/yzm_btn"
-            android:padding="5dp"
-            android:id="@+id/code_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:text="发送验证码"
-            android:textColor="@color/com_btn_nor"
-            android:textSize="16sp" />
     </LinearLayout>
     <View
         android:layout_marginLeft="15dp"
         android:background="#dcdcde"
         android:layout_width="match_parent"
         android:layout_height="1px"></View>
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_marginLeft="15dp"
+        android:layout_centerVertical="true"
+        android:text="重新设置密码"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/et_pwd"
         android:textColorHint="#cdcdcd"
@@ -111,36 +144,49 @@
         android:textSize="16sp"
         android:textColor="#333333"
         android:layout_marginLeft="15dp"
-        android:hint="请输入新密码"
         android:background="@null"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="50dp"
         android:inputType="textPassword"
         android:maxLength="24"
         android:singleLine="true"
         />
+</LinearLayout>
+
     <View
         android:layout_marginLeft="15dp"
         android:background="#dcdcde"
         android:layout_width="match_parent"
         android:layout_height="1px"></View>
 
-    <EditText
-        android:id="@+id/et_cpwd"
-        android:textColorHint="#cdcdcd"
-        android:paddingBottom="15dp"
-        android:gravity="bottom"
-        android:textSize="16sp"
-        android:textColor="#333333"
-        android:layout_marginLeft="15dp"
-        android:hint="再次确认密码"
-        android:background="@null"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:inputType="textPassword"
-        android:maxLength="24"
-        android:singleLine="true"
-        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:text="重新设置密码"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_cpwd"
+            android:textColorHint="#cdcdcd"
+            android:paddingBottom="15dp"
+            android:gravity="bottom"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:layout_marginLeft="15dp"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textPassword"
+            android:maxLength="24"
+            android:singleLine="true"
+            />
+    </LinearLayout>
+
     <View
         android:layout_marginLeft="15dp"
         android:background="#dcdcde"

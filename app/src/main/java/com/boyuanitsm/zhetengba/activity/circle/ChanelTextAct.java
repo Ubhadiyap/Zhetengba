@@ -1,14 +1,19 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,10 +22,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
 import com.boyuanitsm.zhetengba.adapter.ChaTextAdapter;
+import com.boyuanitsm.zhetengba.adapter.CircleTextAdapter;
 import com.boyuanitsm.zhetengba.adapter.PicGdAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -92,6 +100,15 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
     ChaTextAdapter adapter;
     @ViewInject(R.id.load_view)
     private LoadingView load_view;
+
+    private TextView cnum2, cnumText, znum2, znumText;
+    private LinearLayout ll_zan, ll_cmt;
+    private ImageView iv_zan;
+    private LinearLayout ll_headbg2, ll_head2;
+    private int clickPos = -1;//评论点击位置
+    private String fatherCommentId,commentedUserId;
+    private boolean flag;
+    private String chanelComtNum;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_chanel_text);
@@ -102,13 +119,22 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         setTopTitle("");
         headView=getLayoutInflater().inflate(R.layout.hannel_headerview,null);
         assignView(headView);
-        channelTalkEntity=getIntent().getParcelableExtra("channelEntity");
+//        channelTalkEntity=getIntent().getParcelableExtra("channelEntity");
         channelId=getIntent().getStringExtra("channelId");
         position= getIntent().getIntExtra("CommentPosition", 0);
-        LayoutHelperUtil.freshInit(my_lv);
+        my_lv.setPullRefreshEnabled(true);//下拉刷新
+        my_lv.setScrollLoadEnabled(true);//滑动加载
+        my_lv.setPullLoadEnabled(false);//上拉刷新
+        my_lv.setHasMoreData(true);//是否有更多数据
+        my_lv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
+        my_lv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
+        my_lv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+        my_lv.getRefreshableView().setDivider(null);
         my_lv.getRefreshableView().addHeaderView(headView);
-        setChannel(channelTalkEntity);
-        getCircleCommentsList(channelId, page, rows);
+        if (!TextUtils.isEmpty(channelId)) {
+            getChanelTalk(channelId);
+            getCircleCommentsList(channelId, page, rows);
+        }
         load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
             @Override
             public void OnRetry() {
@@ -120,14 +146,14 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 my_lv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-                page=1;
-                getCircleCommentsList(channelId,page,rows);
+                page = 1;
+                getCircleCommentsList(channelId, page, rows);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getCircleCommentsList(channelId,page,rows);
+                getCircleCommentsList(channelId, page, rows);
             }
         });
 
@@ -139,10 +165,10 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!TextUtils.isEmpty(s.toString().trim())){
+                if (!TextUtils.isEmpty(s.toString().trim())) {
                     btnSend.setBackgroundResource(R.drawable.main_btn_nor);
                     btnSend.setTextColor(Color.parseColor("#FFFFFF"));
-                }else {
+                } else {
                     btnSend.setBackgroundColor(Color.parseColor("#f4f4f4"));
                     btnSend.setTextColor(Color.parseColor("#999999"));
                 }
@@ -153,7 +179,30 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
             }
         });
+        ll_zan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll_zan.setEnabled(false);
+                if (0 == channelTalkEntity.getLiked()) {
+                    addChannelLike(channelId);
+                } else {//if (1 == list.get(clickPos).getLiked())
+                    removeChannelLike(channelId);
+                }
+            }
+        });
+        ll_cmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=false;
+                etComment.setHint("说点什么吧...");
+                etComment.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
     }
+
+
 
     private void setChannel(ChannelTalkEntity entity){
         if(entity!=null){
@@ -188,6 +237,36 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             if(!TextUtils.isEmpty(entity.getChannelImage())){
                 initDate(entity);
             }
+            if (!TextUtils.isEmpty(entity.getLiked() + "")) {
+                if (0 == entity.getLiked()) {//未点赞
+                    iv_zan.setImageResource(R.mipmap.zan2x);
+                } else {//if (1 == list.get(clickPos).getLiked())
+                    iv_zan.setImageResource(R.mipmap.zanx);
+                }
+            }
+            if (!TextUtils.isEmpty(entity.getLikeCounts() + "")) {
+                if (entity.getLikeCounts() == 0) {
+                    znum2.setVisibility(View.GONE);
+                    znumText.setVisibility(View.GONE);
+                } else {
+                    znum2.setVisibility(View.VISIBLE);
+                    znumText.setVisibility(View.VISIBLE);
+                    znum2.setText(entity.getLikeCounts() + "");
+                }
+            }
+            if (!TextUtils.isEmpty(entity.getCommentCounts() + "")) {
+                if (entity.getCommentCounts() == 0) {
+                    cnum2.setVisibility(View.GONE);
+                    cnumText.setVisibility(View.GONE);
+                } else if (entity.getCommentCounts() > 0) {
+                    cnum2.setVisibility(View.VISIBLE);
+                    cnumText.setVisibility(View.VISIBLE);
+                    cnum2.setText(entity.getCommentCounts() + "");
+                }
+            } else {
+                cnum2.setVisibility(View.GONE);
+                cnumText.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -206,6 +285,15 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
         iv_two_three = (CustomImageView) view.findViewById(R.id.iv_two_three);
         iv_two_four = (CustomImageView) view.findViewById(R.id.iv_two_four);
         llphoto= (LinearLayout) view.findViewById(R.id.llphoto);
+        znum2 = (TextView) view.findViewById(R.id.znum2);
+        cnum2 = (TextView) view.findViewById(R.id.cnum2);
+        cnumText = (TextView) view.findViewById(R.id.cnumText);
+        znumText = (TextView) view.findViewById(R.id.znumText);
+        ll_zan = (LinearLayout) view.findViewById(R.id.ll_zan);
+        ll_cmt = (LinearLayout) view.findViewById(R.id.ll_cmt);
+        iv_zan = (ImageView) view.findViewById(R.id.iv_zan);
+        ll_head2 = (LinearLayout) view.findViewById(R.id.ll_head2);
+        ll_headbg2 = (LinearLayout) view.findViewById(R.id.headbg2);
     }
 
     private void initDate(ChannelTalkEntity channelTalkEntity) {
@@ -291,13 +379,43 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             case R.id.ll_comment:
                 break;
             case R.id.iv_chanel_comment:
-                if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
-                    btnSend.setEnabled(false);
-                    commentChannelTalk(channelId, null, etComment.getText().toString().trim());
-                }else {
-                    MyToastUtils.showShortToast(ChanelTextAct.this,"请输入评论内容！");
+                if (flag) {
+                    if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
+                        btnSend.setEnabled(false);
+                        commentChannelTalk(channelId, fatherCommentId, commentedUserId, etComment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(getApplicationContext(), "请输入回复内容！");
+                    }
+                } else {
+                    if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
+                        btnSend.setEnabled(false);
+                        commentChannelTalk(channelId, null, null, etComment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+                    }
                 }
+//                if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
+//                    btnSend.setEnabled(false);
+//                    commentChannelTalk(channelId, null,null, etComment.getText().toString().trim());
+//                }else {
+//                    MyToastUtils.showShortToast(ChanelTextAct.this,"请输入评论内容！");
+//                }
                 break;
+//            case R.id.ll_zan:
+//                ll_zan.setEnabled(false);
+//                if (0 == channelTalkEntity.getLiked()) {
+//                    addChannelLike(channelId);
+//                } else {//if (1 == list.get(clickPos).getLiked())
+//                    removeChannelLike(channelId);
+//                }
+//                break;
+//            case R.id.ll_cmt:
+//                flag=false;
+//                etComment.setHint("说点什么吧...");
+//                etComment.requestFocus();
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                break;
         }
     }
 
@@ -307,23 +425,68 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
      * @param fatherCommentId
      * @param commentContent
      */
-    private void commentChannelTalk(final String channelTalkId  ,String fatherCommentId ,String commentContent){
-        RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+    private void commentChannelTalk(final String channelTalkId  ,String fatherCommentId ,String comentedId,String commentContent){
+        RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, comentedId, commentContent, new ResultCallback<ResultBean<ChannelTalkEntity>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 btnSend.setEnabled(true);
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
+            public void onResponse(ResultBean<ChannelTalkEntity> response) {
+                //重新获取评论列表，刷新评论数目，关闭键盘
+//                ZtinfoUtils.hideSoftKeyboard(ChanelTextAct.this, etComment);
+//                etComment.setText("");
+//                commentNum.setText("评论" + response.getData());
+//                comNum=response.getData();
+//                page=1;
+//                getCircleCommentsList(channelTalkId, page, rows);
+//                btnSend.setEnabled(true);
+                getChanelTalk(channelId);
+                ll_headbg2.setVisibility(View.VISIBLE);
+                channelTalkEntity = response.getData();//返回的评论实体
+//                if (!TextUtils.isEmpty(channelTalkEntity.getRemark() + "")) {
+//                    if (Integer.parseInt(channelTalkEntity.getRemark()) == 0) {
+//                        cnum2.setVisibility(View.GONE);
+//                        cnumText.setVisibility(View.GONE);
+//                    } else if (Integer.parseInt(channelTalkEntity.getRemark()) > 0) {
+//                        cnum2.setVisibility(View.VISIBLE);
+//                        cnumText.setVisibility(View.VISIBLE);
+//                        cnum2.setText(channelTalkEntity.getRemark());
+//                    }
+//                } else {
+//                    cnum2.setVisibility(View.GONE);
+//                    cnumText.setVisibility(View.GONE);
+//                }
                 //重新获取评论列表，刷新评论数目，关闭键盘
                 ZtinfoUtils.hideSoftKeyboard(ChanelTextAct.this, etComment);
                 etComment.setText("");
-                commentNum.setText("评论" + response.getData());
-                comNum=response.getData();
-                page=1;
-                getCircleCommentsList(channelTalkId, page, rows);
+//                commentNum.setText("评论" + circleEntity.getRemark());
+//                chanelComtNum = channelTalkEntity.getRemark();
+                if (flag) {
+                    getCircleCommentsList(channelTalkId,1,10);
+//                    if (clickPos > 0) {
+//                        if (datas.get(clickPos-1).getChildCommentsList() != null) {
+//                            datas.get(clickPos-1).getChildCommentsList().add(channelTalkEntity);
+//                        } else {
+//                            List<ChannelTalkEntity> list = new ArrayList<ChannelTalkEntity>();
+//                            datas.get(clickPos-1).setChildCommentsList(list);
+//                            datas.get(clickPos-1).getChildCommentsList().add(channelTalkEntity);
+//                        }
+//                    }
+                } else {
+                    datas.add(channelTalkEntity);
+                }
+                if (adapter == null) {
+                    adapter = new ChaTextAdapter(ChanelTextAct.this, datas);//评论列表
+                    my_lv.getRefreshableView().setAdapter(adapter);
+                } else {
+                    adapter.notifyChange(datas);
+                }
+//                page = 1;
+//                getCircleCommentsList(circleTalkId, page, rows);
                 btnSend.setEnabled(true);
+                sendBroadcast(new Intent(SquareAct.TALK_LIST));
 
             }
         });
@@ -349,9 +512,13 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
+                        ll_headbg2.setVisibility(View.GONE);
+
                     } else {
                         my_lv.setHasMoreData(false);
                     }
+                }else {
+                    ll_headbg2.setVisibility(View.VISIBLE);
                 }
 
                 if (page == 1) {
@@ -384,6 +551,126 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
             }
         });
     }
+    /**
+     * 获取单个吐槽说说
+     * @param channelId
+     */
+    private void getChanelTalk(String channelId) {
+        RequestManager.getTalkManager().getChanelTalk(channelId, new ResultCallback<ResultBean<ChannelTalkEntity>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+
+            }
+
+            @Override
+            public void onResponse(ResultBean<ChannelTalkEntity> response) {
+                channelTalkEntity=response.getData();
+                setChannel(channelTalkEntity);
+
+            }
+        });
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (receiverTalk == null) {
+            receiverTalk = new MyBroadCastReceiverTalk();
+            registerReceiver(receiverTalk, new IntentFilter(CHANELTEXT));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiverTalk != null) {
+            unregisterReceiver(receiverTalk);
+            receiverTalk = null;
+        }
+    }
+
+    private MyBroadCastReceiverTalk receiverTalk;
+    public static final String CHANELTEXT = "chanel_text";
 
 
+    private class MyBroadCastReceiverTalk extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String petName = intent.getStringExtra("petName");
+            String fatherId = intent.getStringExtra("fatherId");
+            String comId = intent.getStringExtra("comId");
+            clickPos = intent.getIntExtra("clickPos", clickPos);
+            if (!TextUtils.isEmpty(comId)) {
+                commentedUserId = comId;
+            }
+            if (!TextUtils.isEmpty(fatherId)) {
+                fatherCommentId = fatherId;
+                if (!TextUtils.isEmpty(petName)) {
+                    etComment.setHint("回复" + petName + ":");
+                }
+                flag = true;
+            } else {
+                etComment.setHint("说点什么吧...");
+                flag = false;
+            }
+            etComment.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**
+     * 点赞
+     *
+     * @param channelId
+     */
+    private void addChannelLike(String channelId) {
+        RequestManager.getTalkManager().addChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                ll_zan.setEnabled(true);
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                ll_zan.setEnabled(true);
+                channelTalkEntity.setLiked(1);
+                if (!TextUtils.isEmpty(response.getData())) {
+                    znum2.setVisibility(View.VISIBLE);
+                    znumText.setVisibility(View.VISIBLE);
+                    znum2.setText(Integer.parseInt(response.getData()) + "");
+                }
+                iv_zan.setImageResource(R.mipmap.zanx);
+            }
+        });
+
+    }
+
+    /**
+     * 取消点赞
+     *
+     * @param channelId
+     */
+    private void removeChannelLike(String channelId) {
+        RequestManager.getTalkManager().removeChannelLike(channelId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                ll_zan.setEnabled(true);
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                ll_zan.setEnabled(true);
+                channelTalkEntity.setLiked(0);
+                if (!TextUtils.isEmpty(response.getData())) {
+                    znum2.setVisibility(View.VISIBLE);
+                    znumText.setVisibility(View.VISIBLE);
+                    znum2.setText(Integer.parseInt(response.getData()) + "");
+                }
+                iv_zan.setImageResource(R.mipmap.zanx);
+            }
+        });
+    }
 }

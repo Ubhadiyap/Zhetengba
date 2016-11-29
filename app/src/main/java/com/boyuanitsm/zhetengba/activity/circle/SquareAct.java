@@ -1,10 +1,13 @@
 package com.boyuanitsm.zhetengba.activity.circle;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -23,10 +26,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boyuanitsm.zhetengba.R;
+import com.boyuanitsm.zhetengba.activity.mess.SquareMessAct;
 import com.boyuanitsm.zhetengba.activity.mine.LabelMangerAct;
 import com.boyuanitsm.zhetengba.adapter.ChanAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -39,16 +44,22 @@ import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
+import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
+import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.LoadingView;
 import com.boyuanitsm.zhetengba.view.bounScrollView.BounceScrollView;
 import com.boyuanitsm.zhetengba.view.bounScrollView.ViewPagerIndicator;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshBase;
 import com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView;
+import com.boyuanitsm.zhetengba.view.scan.Intents;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +97,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
     private TextView noMsg;
     private AnimationDrawable animationDrawable;
     private List<ChannelTalkEntity> channelTalkEntityList;
-//    private List<List<ImageInfo>> datalist;
+    //    private List<List<ImageInfo>> datalist;
     private List<ChannelTalkEntity> datas = new ArrayList<>();
     private int page = 1;
     private int rows = 10;
@@ -101,6 +112,20 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
     private Gson gson;
     private List<ChannelTalkEntity> infos;
 
+    private String petName;
+    private String commentedUserId;
+    private String fatherCommentId;
+    private boolean flag;
+    private View headview;
+    private LinearLayout ll_news2;
+    private TextView tv_mess2;
+    private CircleImageView cv_head2;
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
+
     @Override
     public void setLayout() {
         setContentView(R.layout.act_square);
@@ -112,15 +137,41 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
         llnoList = (LinearLayout) findViewById(R.id.noList);
         ivAnim = (ImageView) findViewById(R.id.ivAnim);
         noMsg = (TextView) findViewById(R.id.noMsg);
+        headview = View.inflate(SquareAct.this, R.layout.cir_frg_floating, null);
         LayoutHelperUtil.freshInit(vp_chan);
+        vp_chan.getRefreshableView().addHeaderView(headview);
+        ll_news2 = (LinearLayout) headview.findViewById(R.id.ll_news);
+        tv_mess2 = (TextView) headview.findViewById(R.id.tv_mess);
+        cv_head2 = (CircleImageView) headview.findViewById(R.id.cv_head);
+        SharedPreferences sharedPreferences = getSharedPreferences("sqa_cir",
+                Activity.MODE_PRIVATE);
+        String cir_news = sharedPreferences.getString("sqa_news", "");
+        int cir_newsCount = sharedPreferences.getInt("sqa_NewsCount", 0);
+        if (cir_newsCount == 0) {
+            ll_news2.setVisibility(View.GONE);
+        } else {
+            ll_news2.setVisibility(View.VISIBLE);
+            tv_mess2.setText(cir_newsCount + "条新消息");
+        }
+        if (!TextUtils.isEmpty(cir_news)) {
+//            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news),cv_head,options);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news), cv_head2, options);
+        }
+        ll_news2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity(SquareMessAct.class);
+            }
+        });
         //用缓存
         aCache = ACache.get(SquareAct.this);
-        strlist=aCache.getAsString("channelTalkList");
-        gson=new Gson();
-        if(!TextUtils.isEmpty(strlist)){
-            infos=gson.fromJson(strlist,new TypeToken<List<ChannelTalkEntity>>(){}.getType());
+        strlist = aCache.getAsString("channelTalkList");
+        gson = new Gson();
+        if (!TextUtils.isEmpty(strlist)) {
+            infos = gson.fromJson(strlist, new TypeToken<List<ChannelTalkEntity>>() {
+            }.getType());
         }
-        if(infos!=null&&infos.size()>0){
+        if (infos != null && infos.size() > 0) {
             load_view.loadComplete();
             if (adapter == null) {
                 //设置简约listview的条目
@@ -154,18 +205,18 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
             }
         });
 
-                vp_chan.setOnScrollListener(new AbsListView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(AbsListView view, int scrollState) {
-                        ll_comment.setVisibility(View.GONE);
-                        ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
-                    }
+        vp_chan.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                ll_comment.setVisibility(View.GONE);
+                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
+            }
 
-                    @Override
-                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    }
-                });
+            }
+        });
         vp_chan.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -204,16 +255,32 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                 openActivity(LabelMangerAct.class);
                 break;
             case R.id.iv_chanel_comment:
-                if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
-                    bt_send.setEnabled(false);
-                    bt_send.setClickable(false);
-                    commentChannelTalk(channelId, null, et_comment.getText().toString().trim());
+                if (flag) {
+                    if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+                        bt_send.setEnabled(false);
+                        commentChannelTalk(channelId, fatherCommentId, commentedUserId, et_comment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(getApplicationContext(), "请输入回复内容！");
+                    }
                 } else {
-                    MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+                    if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+                        bt_send.setEnabled(false);
+                        commentChannelTalk(channelId, null, null, et_comment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+                    }
                 }
+//                if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+//                    bt_send.setEnabled(false);
+//                    bt_send.setClickable(false);
+//                    commentChannelTalk(channelId, null, et_comment.getText().toString().trim());
+//                } else {
+//                    MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+//                }
                 break;
         }
     }
+
     /**
      * 频道说说评论
      *
@@ -221,45 +288,58 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
      * @param fatherCommentId
      * @param commentContent
      */
-    private void commentChannelTalk(final String channelTalkId, String fatherCommentId, final String commentContent) {
-        RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+    private void commentChannelTalk(final String channelTalkId, String fatherCommentId, String commentedUserId, final String commentContent) {
+        RequestManager.getTalkManager().commentChannelTalk(channelTalkId, fatherCommentId, commentedUserId, commentContent, new ResultCallback<ResultBean<ChannelTalkEntity>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 bt_send.setEnabled(true);
-                bt_send.setClickable(true);
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
+            public void onResponse(ResultBean<ChannelTalkEntity> response) {
+                ChannelTalkEntity entity = response.getData();
                 //重新获取评论列表，刷新评论数目，关闭键盘
-                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                 et_comment.setText("");
+                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                 //封装数据
-                ChannelTalkEntity entity = new ChannelTalkEntity();
-                entity.setPetName(UserInfoDao.getUser().getPetName());
-                entity.setCommentContent(commentContent);
-                if (datas.get(cusPos).getCommentsList() == null) {
-                    List<ChannelTalkEntity> list = new ArrayList<ChannelTalkEntity>();
-                    datas.get(cusPos).setCommentsList(list);
-                    datas.get(cusPos).getCommentsList().add(entity);
-                }else {
-                    datas.get(cusPos).getCommentsList().add(entity);
+//                if (cusPos>0){
+                if (flag) {
+                    if (datas.get(cusPos).getCommentsList() == null) {
+                        List<ChannelTalkEntity> list = new ArrayList<ChannelTalkEntity>();
+                        datas.get(cusPos).setCommentsList(list);
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    } else {
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    }
+                    if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(entity.getRemark()));
+                    } else {
+                        datas.get(cusPos).setCommentCounts(1);
+                    }
+                } else {
+                    if (datas.get(cusPos).getCommentsList() == null) {
+                        List<ChannelTalkEntity> list = new ArrayList<ChannelTalkEntity>();
+                        datas.get(cusPos).setCommentsList(list);
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    } else {
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    }
+                    if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(entity.getRemark()));
+                    } else {
+                        datas.get(cusPos).setCommentCounts(1);
+                    }
+//                }
                 }
-                datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
-                if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts()+"")){
-                    datas.get(cusPos).setCommentCounts(datas.get(cusPos).getCommentCounts() + 1);
-                }else {
-                    datas.get(cusPos).setCommentCounts(1);
-                }
+
                 if (adapter == null) {
-                    adapter = new ChanAdapter(SquareAct.this,datas);
+                    adapter = new ChanAdapter(SquareAct.this, datas);
                     vp_chan.getRefreshableView().setAdapter(adapter);
                 } else {
                     adapter.notifyChange(datas);
                 }
-                MyToastUtils.showShortToast(getApplicationContext(),response.getMessage());
+                MyToastUtils.showShortToast(getApplicationContext(), response.getMessage());
                 bt_send.setEnabled(true);
-                bt_send.setClickable(true);
                 ll_comment.setVisibility(View.GONE);
             }
         });
@@ -323,7 +403,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                         vp_chan.setHasMoreData(false);
                     }
                 } else {
-                   load_view.loadComplete();
+                    load_view.loadComplete();
                 }
                 if (page == 1) {
                     datas.clear();
@@ -331,10 +411,10 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                 datas.addAll(channelTalkEntityList);
                 aCache.put("channelTalkList", GsonUtils.bean2Json(datas));//实体转换成json
                 if (adapter == null) {
-                    adapter = new ChanAdapter(SquareAct.this,datas);
+                    adapter = new ChanAdapter(SquareAct.this, datas);
                     vp_chan.getRefreshableView().setAdapter(adapter);
                 } else {
-                    adapter.notifyChange( datas);
+                    adapter.notifyChange(datas);
                 }
                 adapter.setOnItemClickListener(new ChanAdapter.OnItemClickListener() {
                     @Override
@@ -344,6 +424,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                         cusPos = position;
                         ll_comment.setVisibility(View.VISIBLE);
                         et_comment.requestFocus();
+                        et_comment.setHint("说点什么吧...");
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     }
@@ -358,6 +439,46 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            String cir_hf = intent.getStringExtra("cir_hf");
+            petName = intent.getStringExtra("petName");
+            String fatherId = intent.getStringExtra("fatherId");
+            String comId = intent.getStringExtra("comId");
+            channelId = intent.getStringExtra("channelTalkId");
+            cusPos = intent.getIntExtra("clickPos", cusPos);
+            if (TextUtils.equals("cir_hf", cir_hf)) {
+                ll_comment.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(fatherId)) {
+                    if (!TextUtils.isEmpty(comId)) {
+                        commentedUserId = comId;
+                    }
+                    fatherCommentId = fatherId;
+                    if (!TextUtils.isEmpty(petName)) {
+                        et_comment.setHint("回复" + petName + ":");
+                    }
+                    flag = true;
+                } else {
+                    et_comment.setHint("说点什么吧...");
+                    flag = false;
+                }
+                vp_chan.getRefreshableView().setSelection(cusPos);
+                et_comment.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+            SharedPreferences sharedPreferences = getSharedPreferences("sqa_cir",
+                    Activity.MODE_PRIVATE);
+            String cir_news = sharedPreferences.getString("sqa_news", "");
+            int cir_newsCount = sharedPreferences.getInt("sqa_NewsCount", 0);
+            if (cir_newsCount == 0) {
+                ll_news2.setVisibility(View.GONE);
+            } else {
+                ll_news2.setVisibility(View.VISIBLE);
+                tv_mess2.setText(cir_newsCount + "条新消息");
+                if (!TextUtils.isEmpty(cir_news)) {
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news), cv_head2, options);
+                    return;
+                }
+            }
             Bundle bundle = intent.getExtras();
             if (bundle != null && datas.size() > 0) {
                 String tag = bundle.getString("tag");
@@ -377,7 +498,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
 //                        datalist.remove(position);
                     }
                     if (adapter == null) {
-                        adapter = new ChanAdapter(SquareAct.this,datas);
+                        adapter = new ChanAdapter(SquareAct.this, datas);
                         vp_chan.getRefreshableView().setAdapter(adapter);
                     } else {
                         adapter.notifyChange(datas);
@@ -394,6 +515,19 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        SharedPreferences sharedPreferences = getSharedPreferences("sqa_cir",
+                Activity.MODE_PRIVATE);
+        String cir_news = sharedPreferences.getString("sqa_news", "");
+        int cir_newsCount = sharedPreferences.getInt("sqa_NewsCount", 0);
+        if (cir_newsCount == 0) {
+            ll_news2.setVisibility(View.GONE);
+        } else {
+            ll_news2.setVisibility(View.VISIBLE);
+            tv_mess2.setText(cir_newsCount + "条新消息");
+        }
+        if (!TextUtils.isEmpty(cir_news)) {
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news), cv_head2, options);
+        }
         if (myReceiver == null) {
             myReceiver = new MyReceiver();
             registerReceiver(myReceiver, new IntentFilter(TALK_LIST));
@@ -408,10 +542,4 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
             myReceiver = null;
         }
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        vp_chan.doPullRefreshing(true,500);
-//    }
 }

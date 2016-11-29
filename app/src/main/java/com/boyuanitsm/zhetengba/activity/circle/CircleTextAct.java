@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.boyuanitsm.zhetengba.MyApplication;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
 import com.boyuanitsm.zhetengba.adapter.CircleAdapter;
@@ -35,9 +36,11 @@ import com.boyuanitsm.zhetengba.bean.DataBean;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -95,7 +98,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
     private EditText etComment;
     private String circleId;//说说id
     private CircleEntity entity;//说说实体
-
+    private CircleEntity circleEntity;//评论成功返回的实体。
     //    @ViewInject(R.id.iv_ch_head)
     private CircleImageView head;//头像
     //    @ViewInject(R.id.tv_ch_niName)
@@ -121,6 +124,12 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
     private LoadingView load_view;
     private boolean flag;
     private String fatherCommentId, commentedUserId;
+    private int clickPos = -1;//评论点击位置
+    private int comtPos = -1;//回复点击位置。
+    private TextView cnum2, cnumText, znum2, znumText;
+    private LinearLayout ll_zan, ll_cmt;
+    private ImageView iv_zan;
+    private LinearLayout ll_head, ll_head2,ll_headbg2;
 
     @Override
     public void setLayout() {
@@ -132,83 +141,90 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
         setTopTitle("");
         headerView = getLayoutInflater().inflate(R.layout.circle_headerview, null);
         assignView(headerView);
-        entity = getIntent().getParcelableExtra("circleEntity");
+//        entity = getIntent().getParcelableExtra("circleEntity");
         circleId = getIntent().getStringExtra("circleId");
         position = getIntent().getIntExtra("CirCommentPosition", 0);
-        LayoutHelperUtil.freshInit(my_lv);
+        my_lv.setPullRefreshEnabled(true);//下拉刷新
+        my_lv.setScrollLoadEnabled(true);//滑动加载
+        my_lv.setPullLoadEnabled(false);//上拉刷新
+        my_lv.setHasMoreData(true);//是否有更多数据
+        my_lv.getRefreshableView().setVerticalScrollBarEnabled(false);//设置右侧滑动
+        my_lv.getRefreshableView().setSelector(new ColorDrawable(Color.TRANSPARENT));
+        my_lv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+        my_lv.getRefreshableView().setDivider(null);
         my_lv.getRefreshableView().addHeaderView(headerView);
-        if (entity == null) {
+//        if (entity == null) {
             if (!TextUtils.isEmpty(circleId)) {
                 getCircleTalk(circleId);
-            }
-        }
-        setCircleEntity(entity);
-        getCircleCommentsList(circleId, page, rows);
-        load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
-            @Override
-            public void OnRetry() {
                 getCircleCommentsList(circleId, page, rows);
             }
-        });
-        my_lv.getRefreshableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    etComment.setHint("说点什么吧...");
-                    flag = false;
-                    etComment.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                    return;
+//        }
+//        setCircleEntity(entity);
+            load_view.setOnRetryListener(new LoadingView.OnRetryListener() {
+                @Override
+                public void OnRetry() {
+                    getCircleCommentsList(circleId, page, rows);
                 }
-                if (!TextUtils.isEmpty(list.get(position - 1).getPetName())) {
-                    etComment.setHint("回复" + list.get(position - 1).getPetName() + ":");
-                    fatherCommentId = list.get(position - 1).getId();
-                    commentedUserId = list.get(position - 1).getCommentUserId();
-                    flag = true;
-                    etComment.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            });
+            my_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+                @Override
+                public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                    my_lv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
+                    page = 1;
+                    getCircleCommentsList(circleId, page, rows);
+                }
+
+                @Override
+                public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                    page++;
+                    getCircleCommentsList(circleId, page, rows);
+                }
+            });
+
+            etComment.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!TextUtils.isEmpty(s.toString().trim())) {
+                        btnSend.setBackgroundResource(R.drawable.main_btn_nor);
+                        btnSend.setTextColor(Color.parseColor("#FFFFFF"));
+                    } else {
+                        btnSend.setBackgroundColor(Color.parseColor("#f4f4f4"));
+                        btnSend.setTextColor(Color.parseColor("#999999"));
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        ll_zan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll_zan.setEnabled(false);
+                if (0 == entity.getLiked()) {
+                    addCircleLike(circleId);
+                } else {//if (1 == list.get(clickPos).getLiked())
+                    removeCircleLike(circleId);
                 }
             }
         });
-        my_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        ll_cmt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                my_lv.setLastUpdatedLabel(ZtinfoUtils.getCurrentTime());
-                page = 1;
-                getCircleCommentsList(circleId, page, rows);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
-                getCircleCommentsList(circleId, page, rows);
+            public void onClick(View v) {
+                flag = false;
+                etComment.setHint("说点什么吧...");
+                etComment.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
-
-        etComment.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!TextUtils.isEmpty(s.toString().trim())) {
-                    btnSend.setBackgroundResource(R.drawable.main_btn_nor);
-                    btnSend.setTextColor(Color.parseColor("#FFFFFF"));
-                } else {
-                    btnSend.setBackgroundColor(Color.parseColor("#f4f4f4"));
-                    btnSend.setTextColor(Color.parseColor("#999999"));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        }
     }
 
     private void setCircleEntity(CircleEntity entity) {
@@ -225,7 +241,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
             }
             if (!TextUtils.isEmpty(entity.getCircleName())) {
                 String circleName = entity.getCircleName();
-                if (entity.getCircleName().length() >5) {
+                if (entity.getCircleName().length() > 5) {
                     cirType.setText(circleName.substring(0, 2) + "..." + circleName.substring(circleName.length() - 2, circleName.length()));
                 } else {
                     cirType.setText(entity.getCircleName());
@@ -251,6 +267,36 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
             if (!TextUtils.isEmpty(entity.getTalkImage())) {
                 initDate(entity);
             }
+            if (!TextUtils.isEmpty(entity.getLiked() + "")) {
+                if (0 == entity.getLiked()) {//未点赞
+                    iv_zan.setImageResource(R.mipmap.zan2x);
+                } else {//if (1 == list.get(clickPos).getLiked())
+                    iv_zan.setImageResource(R.mipmap.zanx);
+                }
+            }
+            if (!TextUtils.isEmpty(entity.getLikedCounts() + "")) {
+                if (entity.getLikedCounts() == 0) {
+                    znum2.setVisibility(View.GONE);
+                    znumText.setVisibility(View.GONE);
+                } else {
+                    znum2.setVisibility(View.VISIBLE);
+                    znumText.setVisibility(View.VISIBLE);
+                    znum2.setText(entity.getLikedCounts() + "");
+                }
+            }
+            if (!TextUtils.isEmpty(entity.getCommentCounts() + "")) {
+                if (entity.getCommentCounts() == 0) {
+                    cnum2.setVisibility(View.GONE);
+                    cnumText.setVisibility(View.GONE);
+                } else if (entity.getCommentCounts() > 0) {
+                    cnum2.setVisibility(View.VISIBLE);
+                    cnumText.setVisibility(View.VISIBLE);
+                    cnum2.setText(entity.getCommentCounts() + "");
+                }
+            } else {
+                cnum2.setVisibility(View.GONE);
+                cnumText.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -270,6 +316,15 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
         iv_two_two = (CustomImageView) view.findViewById(R.id.iv_two_two);
         iv_two_three = (CustomImageView) view.findViewById(R.id.iv_two_three);
         iv_two_four = (CustomImageView) view.findViewById(R.id.iv_two_four);
+        znum2 = (TextView) view.findViewById(R.id.znum2);
+        cnum2 = (TextView) view.findViewById(R.id.cnum2);
+        cnumText = (TextView) view.findViewById(R.id.cnumText);
+        znumText = (TextView) view.findViewById(R.id.znumText);
+        ll_zan = (LinearLayout) view.findViewById(R.id.ll_zan);
+        ll_cmt = (LinearLayout) view.findViewById(R.id.ll_cmt);
+        iv_zan = (ImageView) view.findViewById(R.id.iv_zan);
+        ll_head2 = (LinearLayout) findViewById(R.id.ll_head2);
+        ll_headbg2 = (LinearLayout) view.findViewById(R.id.headbg2);
     }
 
     private void initDate(CircleEntity circleEntity) {
@@ -282,13 +337,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
                 ll_two.setVisibility(View.GONE);
                 iv_ch_image.setVisibility(View.GONE);
                 iv_oneimage.setVisibility(View.VISIBLE);
-//            Bitmap bitmap = ImageLoader.getInstance().loadImageSync(Uitls.imageFullUrl(singleList.get(0).getUrl()),optionsImag);
-//            singleList.get(0).setWidth(120);
-//            singleList.get(0).setHeight(120);
-//            LayoutHelperUtil.handlerOneImage(CircleTextAct.this, singleList.get(0), iv_oneimage);
                 ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(urlList[0]), iv_oneimage, optionsImag);
-//            LayoutHelperUtil.handlerOneImage(getApplicationContext(), singleList.get(0), iv_oneimage);
-
                 iv_oneimage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -353,12 +402,6 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
             iv_oneimage.setVisibility(View.GONE);
             iv_ch_image.setVisibility(View.GONE);
         }
-//        if (singleList.isEmpty() || singleList.isEmpty()) {
-//            llphoto.setVisibility(View.GONE);
-//            ll_two.setVisibility(View.GONE);
-//            iv_oneimage.setVisibility(View.GONE);
-//            iv_ch_image.setVisibility(View.GONE);
-//        } else
     }
 
     @OnClick({R.id.iv_chanel_comment})
@@ -370,7 +413,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
                         btnSend.setEnabled(false);
                         commentCircleTalk(commentedUserId, circleId, fatherCommentId, etComment.getText().toString().trim());
                     } else {
-                        MyToastUtils.showShortToast(CircleTextAct.this, "请输入评论内容！");
+                        MyToastUtils.showShortToast(CircleTextAct.this, "请输入回复内容！");
                     }
                 } else {
                     if (!TextUtils.isEmpty(etComment.getText().toString().trim())) {
@@ -382,6 +425,21 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
                 }
 
                 break;
+//            case R.id.ll_zan:
+//                ll_zan.setEnabled(false);
+//                if (0 == entity.getLiked()) {
+//                    addCircleLike(circleId);
+//                } else {//if (1 == list.get(clickPos).getLiked())
+//                    removeCircleLike(circleId);
+//                }
+//                break;
+//            case R.id.ll_cmt:
+//                flag = false;
+//                etComment.setHint("说点什么吧...");
+//                etComment.requestFocus();
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                break;
 
         }
     }
@@ -395,21 +453,58 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
      * @param commentContent
      */
     private void commentCircleTalk(String commentedUserId, final String circleTalkId, String fatherCommentId, String commentContent) {
-        RequestManager.getTalkManager().commentCircleTalk(commentedUserId, circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getTalkManager().commentCircleTalk(commentedUserId, circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<CircleEntity>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 btnSend.setEnabled(true);
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
+            public void onResponse(ResultBean<CircleEntity> response) {
+                getCircleTalk(circleId);
+                ll_headbg2.setVisibility(View.VISIBLE);
+                ll_head2.setVisibility(View.VISIBLE);
+                CircleEntity circleEntity = response.getData();//返回的评论实体
+//                if (!TextUtils.isEmpty(circleEntity.getRemark())) {
+//                    if (Integer.parseInt(circleEntity.getRemark()) == 0) {
+//                        cnum2.setVisibility(View.GONE);
+//                        cnumText.setVisibility(View.GONE);
+//                    } else if (Integer.parseInt(circleEntity.getRemark()) > 0) {
+//                        cnum2.setVisibility(View.VISIBLE);
+//                        cnumText.setVisibility(View.VISIBLE);
+//                        cnum2.setText(entity.getRemark());
+//                    }
+//                } else {
+//                    cnum2.setVisibility(View.GONE);
+//                    cnumText.setVisibility(View.GONE);
+//                }
                 //重新获取评论列表，刷新评论数目，关闭键盘
                 ZtinfoUtils.hideSoftKeyboard(CircleTextAct.this, etComment);
                 etComment.setText("");
-                commentNum.setText("评论" + response.getData());
-                cirComtNum = response.getData();
-                page = 1;
-                getCircleCommentsList(circleTalkId, page, rows);
+//                commentNum.setText("评论" + circleEntity.getRemark());
+//                cirComtNum = circleEntity.getRemark();
+                if (flag) {
+                    getCircleCommentsList(circleTalkId,1,10);
+//                    if (clickPos > 0) {
+//                        if (datas.get(clickPos ).getChildCommentsList() != null) {
+//                            datas.get(clickPos ).getChildCommentsList().add(circleEntity);
+//                        } else {
+//                            List<CircleEntity> list = new ArrayList<CircleEntity>();
+//                            datas.get(clickPos ).setChildCommentsList(list);
+//                            datas.get(clickPos ).getChildCommentsList().add(circleEntity);
+//                        }
+//                    }
+                } else {
+                    datas.add(circleEntity);
+                }
+                if (adapter == null) {
+                    adapter = new CircleTextAdapter(CircleTextAct.this, datas);//评论列表
+                    my_lv.getRefreshableView().setAdapter(adapter);
+                } else {
+                    adapter.notifyChange(datas);
+                }
+//                page = 1;
+//                getCircleCommentsList(circleTalkId, page, rows);
                 btnSend.setEnabled(true);
                 sendBroadcast(new Intent(CirxqAct.TALKS));
                 sendBroadcast(new Intent(MyPlaneAct.PLANEALLTALKS));
@@ -439,10 +534,12 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
                 list = response.getData().getRows();
                 if (list.size() == 0) {
                     if (page == 1) {
-
+                        ll_headbg2.setVisibility(View.GONE);
                     } else {
                         my_lv.setHasMoreData(false);
                     }
+                } else {
+                    ll_headbg2.setVisibility(View.VISIBLE);
                 }
                 if (page == 1) {
                     datas.clear();
@@ -454,8 +551,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
                 } else {
                     adapter.notifyChange(datas);
                 }
-                if (!TextUtils.isEmpty(cirComtNum)){
-                    if (Integer.parseInt(cirComtNum)<5&&Integer.parseInt(cirComtNum)>0){
+                if (!TextUtils.isEmpty(cirComtNum)) {
+                    if (Integer.parseInt(cirComtNum) < 5 && Integer.parseInt(cirComtNum) > 0) {
                         Intent intent = new Intent(CircleAct.ALLTALKS);
                         Bundle bundle = new Bundle();
                         bundle.putInt("CirCommentPosition", position);
@@ -490,9 +587,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onResponse(ResultBean<CircleEntity> response) {
-                if (entity == null) {
-                    entity = response.getData();
-                }
+                entity = response.getData();
                 setCircleEntity(entity);
             }
         });
@@ -527,6 +622,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
             String petName = intent.getStringExtra("petName");
             String fatherId = intent.getStringExtra("fatherId");
             String comId = intent.getStringExtra("comId");
+            clickPos = intent.getIntExtra("clickPos", clickPos);
             if (!TextUtils.isEmpty(comId)) {
                 commentedUserId = comId;
             }
@@ -536,13 +632,67 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
                     etComment.setHint("回复" + petName + ":");
                 }
                 flag = true;
-            }else {
+            } else {
                 etComment.setHint("说点什么吧...");
-                flag=false;
+                flag = false;
             }
             etComment.requestFocus();
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    /**
+     * 圈子说说点赞
+     *
+     * @param circleTalkId
+     */
+    private void addCircleLike(String circleTalkId) {
+        RequestManager.getTalkManager().addCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                ll_zan.setEnabled(true);
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                ll_zan.setEnabled(true);
+                entity.setLiked(1);
+                if (!TextUtils.isEmpty(response.getData())) {
+                    znum2.setVisibility(View.VISIBLE);
+                    znumText.setVisibility(View.VISIBLE);
+                    znum2.setText(Integer.parseInt(response.getData()) + "");
+                }
+                iv_zan.setImageResource(R.mipmap.zanx);
+            }
+        });
+    }
+
+    /**
+     * 取消圈子说说点赞
+     *
+     * @param circleTalkId
+     */
+    private void removeCircleLike(String circleTalkId) {
+        RequestManager.getTalkManager().removeCircleLike(circleTalkId, new ResultCallback<ResultBean<String>>() {
+            @Override
+            public void onError(int status, String errorMsg) {
+                ll_zan.setEnabled(true);
+                MyToastUtils.showShortToast(getApplicationContext(), errorMsg);
+            }
+
+            @Override
+            public void onResponse(ResultBean<String> response) {
+                ll_zan.setEnabled(true);
+                entity.setLiked(0);
+                if (!TextUtils.isEmpty(response.getData())) {
+                    znum2.setVisibility(View.VISIBLE);
+                    znumText.setVisibility(View.VISIBLE);
+                    znum2.setText(Integer.parseInt(response.getData()) + "");
+                }
+                iv_zan.setImageResource(R.mipmap.zanx);
+            }
+        });
     }
 }

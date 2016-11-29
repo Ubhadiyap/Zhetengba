@@ -110,6 +110,10 @@ public class CirxqAct extends BaseActivity {
     private int cusPos;
     private String cirId;
     private String cirname;//用来分享的时候分享的theme
+    private String petName;//昵称
+    private boolean flag;
+    private String commentedUserId;
+    private String fatherCommentId;
     @Override
     public void setLayout() {
         setContentView(R.layout.act_cirxq);
@@ -158,12 +162,27 @@ public class CirxqAct extends BaseActivity {
         bt_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
-                    bt_send.setEnabled(false);
-                    bt_send.setClickable(false);
-                    commentCircleTalk(null,cirId, null, et_comment.getText().toString().trim());
-                } else {
-                    MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+//                if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+//                    bt_send.setEnabled(false);
+//                    bt_send.setClickable(false);
+//                    commentCircleTalk(null,cirId, null, et_comment.getText().toString().trim());
+//                } else {
+//                    MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+//                }
+                if (flag){
+                    if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+                        bt_send.setEnabled(false);
+                        commentCircleTalk(commentedUserId,cirId, fatherCommentId, et_comment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(getApplicationContext(), "请输入回复内容！");
+                    }
+                }else {
+                    if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
+                        bt_send.setEnabled(false);
+                        commentCircleTalk(null,cirId, null, et_comment.getText().toString().trim());
+                    } else {
+                        MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
+                    }
                 }
             }
         });
@@ -238,7 +257,7 @@ public class CirxqAct extends BaseActivity {
                 iv_fa.setVisibility(View.GONE);
                 isFabu=false;
                 rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
-                qzzl.setEnabled(false);//圈子资料不可点击
+//                qzzl.setEnabled(false);//圈子资料不可点击
                 getCircleDetail(circleId);
                 getCircleMembers(circleId,0);
                 xqAdapter=new CirclexqListAdapter(CirxqAct.this,datas);
@@ -257,7 +276,7 @@ public class CirxqAct extends BaseActivity {
                 iv_fa.setVisibility(View.VISIBLE);
                 isFabu=true;
                 rl_jiaru.setVisibility(View.GONE);
-                qzzl.setEnabled(true);
+//                qzzl.setEnabled(true);
                 getCircleDetail(circleId);
                 getCircleMembers(circleId, 1);
                 getThisCircleTalks(circleId, page, rows);
@@ -269,7 +288,7 @@ public class CirxqAct extends BaseActivity {
             rl_share.setVisibility(View.VISIBLE);
             iv_fa.setVisibility(View.VISIBLE);
             isFabu=true;
-            qzzl.setEnabled(true);
+//            qzzl.setEnabled(true);
             getCircleDetail(circleId);
             getCircleMembers(circleId, 1);
             getThisCircleTalks(circleId, page, rows);
@@ -287,7 +306,7 @@ public class CirxqAct extends BaseActivity {
      * @param commentContent
      */
     private void commentCircleTalk(String comtedId,final String circleTalkId ,String fatherCommentId , final String commentContent){
-        RequestManager.getTalkManager().commentCircleTalk(comtedId,circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getTalkManager().commentCircleTalk(comtedId,circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<CircleEntity>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 bt_send.setEnabled(true);
@@ -295,27 +314,57 @@ public class CirxqAct extends BaseActivity {
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
+            public void onResponse(ResultBean<CircleEntity> response) {
+                CircleEntity entity = response.getData();
                 //重新获取评论列表，刷新评论数目，关闭键盘
-                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                 et_comment.setText("");
+                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                 //封装数据
-                CircleEntity entity = new CircleEntity();
-                entity.setPetName(UserInfoDao.getUser().getPetName());
-                entity.setCommentContent(commentContent);
-                if (datas.get(cusPos).getCommentsList() == null) {
-                    List<CircleEntity> list = new ArrayList<CircleEntity>();
-                    datas.get(cusPos).setCommentsList(list);
-                    datas.get(cusPos).getCommentsList().add(entity);
-                } else {
-                    datas.get(cusPos).getCommentsList().add(entity);
+                if (flag){
+                    if (datas.get(cusPos).getCommentsList() == null) {
+                        List<CircleEntity> list = new ArrayList<CircleEntity>();
+                        datas.get(cusPos).setCommentsList(list);
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    } else {
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    }
+                    if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(entity.getRemark()));
+                    } else {
+                        datas.get(cusPos).setCommentCounts(1);
+                    }
+                }else {
+                    if (datas.get(cusPos).getCommentsList() == null) {
+                        List<CircleEntity> list = new ArrayList<CircleEntity>();
+                        datas.get(cusPos).setCommentsList(list);
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    } else {
+                        datas.get(cusPos).getCommentsList().add(entity);
+                    }
+                    if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(entity.getRemark()));
+                    } else {
+                        datas.get(cusPos).setCommentCounts(1);
+                    }
+//                }
                 }
-                datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
-                if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
-                    datas.get(cusPos).setCommentCounts(datas.get(cusPos).getCommentCounts() + 1);
-                } else {
-                    datas.get(cusPos).setCommentCounts(1);
-                }
+//
+//                CircleEntity entity = new CircleEntity();
+//                entity.setPetName(UserInfoDao.getUser().getPetName());
+//                entity.setCommentContent(commentContent);
+//                if (datas.get(cusPos).getCommentsList() == null) {
+//                    List<CircleEntity> list = new ArrayList<CircleEntity>();
+//                    datas.get(cusPos).setCommentsList(list);
+//                    datas.get(cusPos).getCommentsList().add(entity);
+//                } else {
+//                    datas.get(cusPos).getCommentsList().add(entity);
+//                }
+//                datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
+//                if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
+//                    datas.get(cusPos).setCommentCounts(datas.get(cusPos).getCommentCounts() + 1);
+//                } else {
+//                    datas.get(cusPos).setCommentCounts(1);
+//                }
                 if (xqAdapter == null) {
                     xqAdapter = new CirclexqListAdapter(CirxqAct.this,datas);
                     lv_cir.getRefreshableView().setAdapter(xqAdapter);
@@ -475,7 +524,7 @@ public class CirxqAct extends BaseActivity {
                     iv_fa.setVisibility(View.GONE);
                     isFabu=false;
                     rl_jiaru.setVisibility(View.VISIBLE);//申请加入按钮可见
-                    qzzl.setEnabled(false);
+//                    qzzl.setEnabled(false);
                     getCircleMembers(circleId, 0);
                     xqAdapter=new CirclexqListAdapter(CirxqAct.this,datas);
                     lv_cir.getRefreshableView().setAdapter(xqAdapter);
@@ -488,7 +537,7 @@ public class CirxqAct extends BaseActivity {
                     });
                 }else if(IsInCircle==1){
                     //在圈子里面
-                    qzzl.setEnabled(true);
+//                    qzzl.setEnabled(true);
                     iv_fa.setVisibility(View.VISIBLE);
                     isFabu=true;
                     rl_jiaru.setVisibility(View.GONE);
@@ -649,6 +698,7 @@ public class CirxqAct extends BaseActivity {
                         cusPos = position;
                         ll_comment.setVisibility(View.VISIBLE);
                         et_comment.requestFocus();
+                        et_comment.setHint("说点什么吧...");
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     }
@@ -735,6 +785,33 @@ public class CirxqAct extends BaseActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            String cir_hf = intent.getStringExtra("cir_hf");
+            petName = intent.getStringExtra("petName");
+            String fatherId = intent.getStringExtra("fatherId");
+            String comId = intent.getStringExtra("comId");
+            cirId=intent.getStringExtra("circleId");
+            cusPos=intent.getIntExtra("clickPos", cusPos);
+            if (TextUtils.equals("cir_hf",cir_hf)) {
+                ll_comment.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(fatherId)) {
+                    if (!TextUtils.isEmpty(comId)) {
+                        commentedUserId = comId;
+                    }
+                    fatherCommentId = fatherId;
+                    if (!TextUtils.isEmpty(petName)) {
+                        et_comment.setHint("回复" + petName + ":");
+                    }
+                    flag = true;
+                }else {
+                    et_comment.setHint("说点什么吧...");
+                    flag=false;
+                }
+                lv_cir.getRefreshableView().setSelection(cusPos);
+                et_comment.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                return;
+            }
             page=1;
             getThisCircleTalks(circleId, page, rows);
         }

@@ -278,7 +278,19 @@ public class UserManager extends RequestManager{
 
     }
 
+    /**
+     * 短信登录获取验证码
+     * @param userName
+     * @param yzm
+     * @param callback
+     */
+    public void getSms(String userName,String yzm,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("username",userName);
+        params.put("captcha",yzm);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SMSLOGIN_URL, params, callback);
 
+    }
 
 
 }

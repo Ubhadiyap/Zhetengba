@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
+import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -125,7 +127,7 @@ public class CirclexqListAdapter extends BaseAdapter {
 //        if (list.get(position) != null) {
 //            itemList1 = dateList.get(position);
 //        }
-        List<CircleEntity> clist=list.get(position).getCommentsList();
+        final List<CircleEntity> clist=list.get(position).getCommentsList();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -315,7 +317,23 @@ public class CirclexqListAdapter extends BaseAdapter {
             }
 
         }
-
+        viewHolder.lv_pl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position2, long id) {
+                if (clist!=null){
+                    if (!TextUtils.equals(UserInfoDao.getUser().getId(), clist.get(position2).getCommentUserId())) {
+                        Intent intent = new Intent(CirxqAct.TALKS);
+                        intent.putExtra("cir_hf", "cir_hf");
+                        intent.putExtra("petName", clist.get(position2).getPetName());
+                        intent.putExtra("fatherId", clist.get(position2).getId());
+                        intent.putExtra("comId", clist.get(position2).getCommentUserId());
+                        intent.putExtra("circleId", list.get(position).getId());
+                        intent.putExtra("clickPos", position);
+                        context.sendBroadcast(intent);
+                    }
+                }
+            }
+        });
         viewHolder.ll_comment2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -439,69 +457,6 @@ public class CirclexqListAdapter extends BaseAdapter {
         private LinearLayout ll_zan,ll_cmt;
         private ImageView iv_zan;
     }
-
-    /**
-     *
-     */
-//    private void showPopupWindow(View parent, final int position) {
-//        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(
-//                R.layout.pupu_cir_item, null);
-//
-//        // 实例化popupWindow
-//        popupWindow = new PopupWindow(layout, AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT);
-//        //控制键盘是否可以获得焦点
-//        popupWindow.setFocusable(true);
-//        //设置popupWindow弹出窗体的背景
-//        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
-//        WindowManager manager = (WindowManager)context. getSystemService(context.WINDOW_SERVICE);
-//        int[] location=new int[2];
-//        parent.getLocationOnScreen(location);
-//        @SuppressWarnings("deprecation")
-//        //获取xoff
-//                int xpos = manager.getDefaultDisplay().getWidth() / 2 - popupWindow.getWidth() / 2;
-//        int ypos=location[1]-popupWindow.getHeight()/2;
-//        int ypos1=ypos-ZhetebaUtils.dip2px(context,10);
-//        //xoff,yoff基于anchor的左下角进行偏移。
-////        popupWindow.showAsDropDown(parent, xpos, 0);
-//        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY,xpos,ypos1);
-//        final LinearLayout ll_zan= (LinearLayout) layout.findViewById(R.id.ll_zan);
-//        final LinearLayout ll_cmt= (LinearLayout) layout.findViewById(R.id.ll_cmt);
-//        final TextView ivzan= (TextView) layout.findViewById(R.id.tvzan);
-//        if (!TextUtils.isEmpty(list.get(position).getLiked() + "")) {
-//            if (0 == list.get(clickPos).getLiked()) {//未点赞
-//                ivzan.setText("赞");
-//            } else{// if (1 == list.get(clickPos).getLiked())
-//                ivzan.setText("取消");
-//            }
-//        }
-//        ll_zan.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ll_zan.setEnabled(false);
-//                if (0 == list.get(clickPos).getLiked()) {
-//                    addCircleLike(list.get(clickPos).getId(), ll_zan,ivzan);
-//                } else{// if (1 == list.get(clickPos).getLiked())
-//                    removeCircleLike(list.get(clickPos).getId(), ll_zan,ivzan);
-//                }
-//            }
-//        });
-//        ll_cmt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mOnItemClickListener.onItemClick(ll_cmt,list.get(position).getId(),position);
-////                Intent intent = new Intent();
-////                intent.setClass(context, CircleTextAct.class);
-////                intent.putExtra("circleEntity", list.get(position));
-////                intent.putExtra("circleId", list.get(position).getId());
-////                intent.putExtra("CirCommentPosition", position);
-////                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                popupWindow.dismiss();
-////                context.startActivity(intent);
-//            }
-//        });
-//
-//
-//    }
     /**
      * 圈子说说点赞
      *

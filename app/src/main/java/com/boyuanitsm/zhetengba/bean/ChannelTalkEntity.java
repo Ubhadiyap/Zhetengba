@@ -53,6 +53,45 @@ public class ChannelTalkEntity implements Parcelable{
     private String commentContent;//评论内容
 
     private List<ChannelTalkEntity> commentsList;//评论列表
+    /**
+     * 被回复者的ID
+     */
+    private String commentedUserId;
+    /**
+     * 被回复者的昵称
+     */
+    private String commentedUsername;
+    /**
+     * 子回复列表
+     */
+    private List<ChannelTalkEntity> childCommentsList;
+
+//    private String remark;
+
+
+    public String getCommentedUserId() {
+        return commentedUserId;
+    }
+
+    public void setCommentedUserId(String commentedUserId) {
+        this.commentedUserId = commentedUserId;
+    }
+
+    public String getCommentedUsername() {
+        return commentedUsername;
+    }
+
+    public void setCommentedUsername(String commentedUsername) {
+        this.commentedUsername = commentedUsername;
+    }
+
+    public List<ChannelTalkEntity> getChildCommentsList() {
+        return childCommentsList;
+    }
+
+    public void setChildCommentsList(List<ChannelTalkEntity> childCommentsList) {
+        this.childCommentsList = childCommentsList;
+    }
 
     @Override
     public String toString() {
@@ -308,6 +347,9 @@ public class ChannelTalkEntity implements Parcelable{
         dest.writeString(this.commentTime);
         dest.writeString(this.commentContent);
         dest.writeTypedList(this.commentsList);
+        dest.writeString(this.commentedUserId);
+        dest.writeString(this.commentedUsername);
+        dest.writeTypedList(this.childCommentsList);
     }
 
     protected ChannelTalkEntity(Parcel in) {
@@ -334,6 +376,9 @@ public class ChannelTalkEntity implements Parcelable{
         this.commentTime = in.readString();
         this.commentContent = in.readString();
         this.commentsList = in.createTypedArrayList(ChannelTalkEntity.CREATOR);
+        this.commentedUserId = in.readString();
+        this.commentedUsername = in.readString();
+        this.childCommentsList = in.createTypedArrayList(ChannelTalkEntity.CREATOR);
     }
 
     public static final Creator<ChannelTalkEntity> CREATOR = new Creator<ChannelTalkEntity>() {

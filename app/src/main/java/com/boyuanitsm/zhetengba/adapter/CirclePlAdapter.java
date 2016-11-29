@@ -78,6 +78,12 @@ public class CirclePlAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+//    public void update(List<CircleEntity> clist) {
+//        this.list=clist;
+//        notifyDataSetChanged();
+//    }
+
     class  PlHolder{
         private TextView tv_ct;
     }
