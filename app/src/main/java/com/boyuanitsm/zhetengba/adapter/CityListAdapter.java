@@ -2,6 +2,9 @@ package com.boyuanitsm.zhetengba.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -113,6 +116,7 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
         RelativeLayout rlGps = (RelativeLayout) convertView.findViewById(R.id.rlGps);
         MyGridView mvHistory = (MyGridView) convertView.findViewById(R.id.mvHistory);
         MyGridView mvHot = (MyGridView) convertView.findViewById(R.id.mvHot);
+        mvHot.setSelector(new ColorDrawable(Color.TRANSPARENT));//设置选择颜色为透明
         TextView textView = (TextView) convertView
                 .findViewById(R.id.friends_item);
         LinearLayout linearLayout= (LinearLayout) convertView.findViewById(R.id.ll_friends_item);
@@ -289,7 +293,7 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
             @Override
             public void onResponse(ResultBean<String> response) {
                 UserInfoDao.updateUser(user);//成功后更新数据并通知变化首页左上角城市
-                context.sendBroadcast(new Intent(SimpleFrg.UPDATA_CITY_RES));
+                context.sendBroadcast(new Intent(SimpleFrg.UPDATA_CITY_NORES));
                 MyLogUtils.info(UserInfoDao.getUser().getCity());
             }
         });

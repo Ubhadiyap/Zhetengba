@@ -118,16 +118,13 @@ public class SimpleFrg extends BaseFragment {
             String action=intent.getAction();
             if(action.equals(UPDATA_CITY)){//表示接收的是定位好城市后发过来的广播
                 getcityName();
-            }
-            if(action.equals(DATA_CHANGE_KEY)) {
+            }else if(action.equals(DATA_CHANGE_KEY)) {
                 page = 1;
                 state = intent.getIntExtra("state", state);
                 getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//切换到好友；
-            }
-            if(action.equals(UPDATA_CITY_RES)){//接收收索过来的结果
+            }else if(action.equals(UPDATA_CITY_RES)){//接收收索过来的结果
                 getcityName();
-            }
-            if(action.equals(UPDATA_CITY_NORES)){//接收手动过来的广播
+            }else if(action.equals(UPDATA_CITY_NORES)){//接收手动过来的广播
                 getcityName();
             }
         }
@@ -366,6 +363,7 @@ public class SimpleFrg extends BaseFragment {
         getName(cityid);//通过城市编码查询本地数据库得到一个list<>
         if(city_result.size()>0){
             if(!TextUtils.isEmpty(city_result.get(0).getName())){
+                MyLogUtils.info("hahahah"+city_result.get(0).getName());
                 tv_city.setText(city_result.get(0).getName());
             }
         }
@@ -381,9 +379,13 @@ public class SimpleFrg extends BaseFragment {
             try {
                 dbHelper.createDataBase();
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-                Cursor cursor = db.rawQuery(
-                        "select * from city Where cityid like '%"+cityid+"%'"
-                        , null);
+                cityid = "'"+cityid+"'";
+//                <<<<<<< HEAD
+//                "select * from city Where cityid like '%"+cityid+"%'"
+//                        , null);
+//                =======
+                Cursor cursor = db.rawQuery( "select * from city where cityid =" + cityid , null);
+//>>>>>>> a23e0a9e3cdaff862b763883ee6a7a56b980f6f0
                 CityBean city;
                 Log.e("info", "length = " + cursor.getCount());
                 while (cursor.moveToNext()) {
@@ -430,7 +432,7 @@ public class SimpleFrg extends BaseFragment {
     public static final String DATA_CHANGE_KEY = "data_change_fragment";
     public static final String UPDATA_CITY = "mianact_bdLocation";//接收mainact定位成功后的广播
     public static final String UPDATA_CITY_RES = "cityact_result";//接收收索后手动选择的广播
-    public static final String UPDATA_CITY_NORES = "cityact_result";//接收手动选择的广播(非手动)
+    public static final String UPDATA_CITY_NORES = "city_result";//接收手动选择的广播(非手动)
     @Override
     public void onStart() {
         //广播接收者，接受好友列表更新数据

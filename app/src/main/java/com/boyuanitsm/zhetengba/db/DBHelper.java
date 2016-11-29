@@ -31,10 +31,8 @@ public class DBHelper extends SQLiteOpenHelper {
 	 * android.os.Environment.getExternalStorageDirectory().getAbsolutePath() +
 	 * "/arthurcn/drivertest/packfiles/";
 	 */
-	private static String DB_NAME = "meituan_cities.db";
-	private static String ASSETS_NAME = "meituan_cities.db";
-
-
+	private static String DB_NAME = "ztb_cities.db";
+	private static String ASSETS_NAME = "ztb_cities.db";
 	private SQLiteDatabase myDataBase = null;
 	private final Context myContext;
 
@@ -81,7 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public void createDataBase() throws IOException {
 		boolean dbExist = checkDataBase();
 		if (dbExist) {
-			// 数据库已存在，do nothing.
+			// 数据库存在，do nothing.
 		} else {
 			// 创建数据库
 			try {
@@ -184,6 +182,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 //		db.execSQL("alter table city add cityid varchar(100)");
 //		onCreate(db);
+
 
 	}
 
