@@ -368,4 +368,7 @@ public interface IZtbUrl {
     String GETCHANEL_URL=BASE_URL+"talk/login/findChannelTalkById.do";
     //短信登录验证码接口
     String SMSLOGIN_URL=BASE_URL+"manager/unLogin/smsLogin.do";
+    //获取验证码（不校验图片验证）
+    String SENDSMS_URL = BASE_URL + "manager/unLogin/sendSmsCaptcha.do";
+
 }

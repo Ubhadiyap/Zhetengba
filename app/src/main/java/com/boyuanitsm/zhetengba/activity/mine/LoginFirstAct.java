@@ -45,7 +45,7 @@ public class LoginFirstAct extends BaseActivity {
         tvLogin2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openActivity(RegistAct.class);
             }
         });
     }

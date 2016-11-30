@@ -154,13 +154,13 @@ public class FrogetpwdAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
                     return;
                 }
-                if(TextUtils.isEmpty(aqm)){
-                    MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
-                    et_aqm.requestFocus();
-                    return;
-                }
+//                if(TextUtils.isEmpty(aqm)){
+//                    MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
+//                    et_aqm.requestFocus();
+//                    return;
+//                }
 
-                   sendSms(phone, "false",aqm);
+                   sendSms(phone, "false");
                 break;
 
 
@@ -243,11 +243,11 @@ public class FrogetpwdAct extends BaseActivity {
 //            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母和数字");
 //            return false;
 //        }
-        if (TextUtils.isEmpty(aqm)) {
-            MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
-            et_aqm.requestFocus();
-            return false;
-        }
+//        if (TextUtils.isEmpty(aqm)) {
+//            MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
+//            et_aqm.requestFocus();
+//            return false;
+//        }
         return true;
     }
 
@@ -341,9 +341,9 @@ public class FrogetpwdAct extends BaseActivity {
      * @param phoneNumber
      * @param isRegister
      */
-    public void sendSms(String phoneNumber,String isRegister,String imageCaptcha){
+    public void sendSms(String phoneNumber,String isRegister){
         tv_code.setEnabled(false);
-        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister,imageCaptcha, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getUserManager().getSms2(phoneNumber, isRegister, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 tv_code.setEnabled(true);

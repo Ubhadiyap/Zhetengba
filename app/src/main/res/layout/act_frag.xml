@@ -20,6 +20,14 @@
             android:drawablePadding="3dp"
             android:textColor="#ffffff"
             android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/iv_city"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_city"
+            android:background="@drawable/arrow_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView

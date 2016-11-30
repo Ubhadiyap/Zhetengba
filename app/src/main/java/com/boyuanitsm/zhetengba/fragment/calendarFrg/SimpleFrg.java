@@ -380,12 +380,7 @@ public class SimpleFrg extends BaseFragment {
                 dbHelper.createDataBase();
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 cityid = "'"+cityid+"'";
-//                <<<<<<< HEAD
-//                "select * from city Where cityid like '%"+cityid+"%'"
-//                        , null);
-//                =======
                 Cursor cursor = db.rawQuery( "select * from city where cityid =" + cityid , null);
-//>>>>>>> a23e0a9e3cdaff862b763883ee6a7a56b980f6f0
                 CityBean city;
                 Log.e("info", "length = " + cursor.getCount());
                 while (cursor.moveToNext()) {
@@ -404,6 +399,9 @@ public class SimpleFrg extends BaseFragment {
     public void  onclick(View v){
         switch (v.getId()){
             case R.id.tv_city:
+                openActivity(CityAct.class);
+                break;
+            case R.id.iv_city:
                 openActivity(CityAct.class);
                 break;
         }
@@ -640,8 +638,6 @@ public class SimpleFrg extends BaseFragment {
                 } else {
                     adapter.update(datas);
                 }
-
-
             }
         });
 

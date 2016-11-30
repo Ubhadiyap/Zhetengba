@@ -420,6 +420,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onItemClick(View view, String id, int position) {
                         channelId = id;
+                        flag=false;
                         vp_chan.getRefreshableView().setSelection(position);
                         cusPos = position;
                         ll_comment.setVisibility(View.VISIBLE);

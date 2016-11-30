@@ -831,6 +831,16 @@ public class MainAct extends BaseActivity {
             citycode=bdLocation.getCityCode();//城市编码 289上海
 
             if(!TextUtils.isEmpty(locationCity)&&!TextUtils.isEmpty(locationCity)){
+
+                //实例化SharedPreferences对象（第一步）
+                SharedPreferences sharedPreferences = getSharedPreferences("ztb_City",
+                        Activity.MODE_PRIVATE);
+                //实例化SharedPreferences.Editor对象（第二步）
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                //用putString的方法保存数据
+                    editor.putString("city_location", locationCity);
+                //提交当前数据
+                editor.commit();
                 user.setCity(citycode);//保存城市编码
                 modifyUser(user);//定位成功把定位城市通过这种接口传给后台
 

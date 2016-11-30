@@ -106,8 +106,12 @@ public class RegistAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        getImaCatch();//获取图像验证码
+//        getImaCatch();//获取图像验证码
         setTopTitle("注册");
+       String phoneNum= getIntent().getStringExtra("phoneNum");
+        if (!TextUtils.isEmpty(phoneNum)){
+            et_phone.setText(phoneNum);
+        }
         pd = new ProgressDialog(this);
         pd.setCanceledOnTouchOutside(false);
         pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -213,9 +217,8 @@ public class RegistAct extends BaseActivity {
         switch (v.getId()) {
             case R.id.tv_code://发送验证码
                 phone = et_phone.getText().toString().trim();
-                aqm = et_aqm.getText().toString().toLowerCase();
+//                aqm = et_aqm.getText().toString().toLowerCase();
                 if (TextUtils.isEmpty(phone)) {
-
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入手机号");
                     return;
                 }
@@ -229,18 +232,18 @@ public class RegistAct extends BaseActivity {
                     MyToastUtils.showShortToast(getApplicationContext(), "请输入正确的手机号码");
                     return;
                 }
-                if (TextUtils.isEmpty(aqm)) {
-                    MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
-                    et_aqm.requestFocus();
-                    return;
-                }
+//                if (TextUtils.isEmpty(aqm)) {
+//                    MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
+//                    et_aqm.requestFocus();
+//                    return;
+//                }
 //                if(!aqm.equals(zifu)){
 //                    MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
 //                    et_aqm.requestFocus();
 //                    return;
 //                }
 
-                sendSms(phone, "true", aqm);
+                sendSms(phone, "true");
 
 
                 break;
@@ -276,14 +279,14 @@ public class RegistAct extends BaseActivity {
         yzm = et_yzm.getText().toString().trim();
         pwd = et_pwd.getText().toString();//.trim();
         cpwd = et_cpwd.getText().toString();//.trim();
-        aqm = et_aqm.getText().toString().toLowerCase();
+//        aqm = et_aqm.getText().toString().toLowerCase();
         yqphone = et_yqphone.getText().toString().trim();
 //        yqphone=et_yqphone.getText().toString();
-        if (TextUtils.isEmpty(aqm)) {
-            MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
-            et_aqm.requestFocus();
-            return false;
-        }
+//        if (TextUtils.isEmpty(aqm)) {
+//            MyToastUtils.showShortToast(getApplicationContext(), "请输入安全码");
+//            et_aqm.requestFocus();
+//            return false;
+//        }
 //        if (!aqm.equals(zifu)) {
 //            MyToastUtils.showShortToast(getApplicationContext(), "安全码不正确");
 //            et_aqm.requestFocus();
@@ -343,17 +346,17 @@ public class RegistAct extends BaseActivity {
             et_pwd.setSelection(pwd.length());
             return false;
         }
-        if (TextUtils.isEmpty(cpwd)) {
-            MyToastUtils.showShortToast(getApplicationContext(), "请确认密码");
-            et_cpwd.requestFocus();
-            return false;
-        }
-
-        if (!(cpwd.equals(pwd))) {
-            MyToastUtils.showShortToast(getApplicationContext(), "确认密码输入错误");
-            et_cpwd.requestFocus();
-            return false;
-        }
+//        if (TextUtils.isEmpty(cpwd)) {
+//            MyToastUtils.showShortToast(getApplicationContext(), "请确认密码");
+//            et_cpwd.requestFocus();
+//            return false;
+//        }
+//
+//        if (!(cpwd.equals(pwd))) {
+//            MyToastUtils.showShortToast(getApplicationContext(), "确认密码输入错误");
+//            et_cpwd.requestFocus();
+//            return false;
+//        }
 
 //        if(!ZhetebaUtils.checkPwd(pwd)){
 //            MyToastUtils.showShortToast(getApplicationContext(), "请输入4-24位字母和数字");
@@ -389,13 +392,13 @@ public class RegistAct extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (type == 1) {
-                if (msg.what == 0x9527) {
-                    //显示从网上下载的图片
-                    iv_aqm.setImageBitmap(bitmap);
-                }
-            }
-            if (type == 2) {
+//            if (type == 1) {
+//                if (msg.what == 0x9527) {
+//                    //显示从网上下载的图片
+//                    iv_aqm.setImageBitmap(bitmap);
+//                }
+//            }
+//            if (type == 2) {
                 if (msg.what == 0 || msg.what < 0) {
                     tv_code.setEnabled(true);
                     tv_code.setText("重新发送");
@@ -404,7 +407,7 @@ public class RegistAct extends BaseActivity {
                 } else {
                     tv_code.setText(msg.what + "秒");
                 }
-            }
+//            }
         }
 
     };
@@ -445,9 +448,9 @@ public class RegistAct extends BaseActivity {
      * @param phoneNumber
      * @param isRegister
      */
-    public void sendSms(String phoneNumber, String isRegister, String imageCaptcha) {
+    public void sendSms(String phoneNumber, String isRegister) {
         tv_code.setEnabled(false);
-        RequestManager.getUserManager().sendSmsCaptcha(phoneNumber, isRegister, imageCaptcha, new ResultCallback<ResultBean<String>>() {
+        RequestManager.getUserManager().getSms2(phoneNumber, isRegister, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 tv_code.setEnabled(true);
