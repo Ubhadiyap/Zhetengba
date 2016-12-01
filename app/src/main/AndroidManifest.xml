@@ -67,6 +67,22 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -116,6 +132,9 @@
         <!--城市选择-->
         <activity
             android:name=".activity.CityAct"
+            android:screenOrientation="portrait"></activity>
+        <!--发档期时候根据城市选择地址-->
+        <activity android:name=".activity.SerchcityAct"
             android:screenOrientation="portrait"></activity>
         <!--档期界面-->
         <activity
@@ -668,9 +687,12 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+        <!--<meta-data-->
+            <!--android:name="com.baidu.lbsapi.API_KEY"-->
+            <!--android:value="QpVNC1N6WGaZWlYv4BNHCSdCLssyz7KV" /> -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="QpVNC1N6WGaZWlYv4BNHCSdCLssyz7KV" />
+            android:value="evwi8GzybfHVCwZcg2dP3EL1noeeQoYG" />
     </application>
 
 

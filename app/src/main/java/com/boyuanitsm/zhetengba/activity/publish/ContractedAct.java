@@ -2,7 +2,10 @@ package com.boyuanitsm.zhetengba.activity.publish;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,11 +27,13 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.utils.poi.BaiduMapPoiSearch;
 import com.baidu.mapapi.utils.poi.PoiParaOption;
 import com.boyuanitsm.zhetengba.Constant;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.MainAct;
+import com.boyuanitsm.zhetengba.activity.SerchcityAct;
 import com.boyuanitsm.zhetengba.activity.circle.EventdetailsAct;
 import com.boyuanitsm.zhetengba.activity.mine.AssignScanAct;
 import com.boyuanitsm.zhetengba.activity.mine.TimeHistoryAct;
@@ -37,6 +42,7 @@ import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
+import com.boyuanitsm.zhetengba.bean.SuggestionInfoBean;
 import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -131,6 +137,9 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private ACache aCache;
     private Gson gson;
     private LocalBroadcastManager broadcastManager;
+    private IntentFilter filter;
+
+
 
     @Override
     public void setLayout() {
@@ -291,11 +300,14 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         this.map = map;
     }
 
-    @OnClick({R.id.tv_select, R.id.ll_theme_content, R.id.ll_select_tab, R.id.ll_start_time, R.id.ll_end_time, R.id.ll_theme, R.id.ll_hu_can, R.id.ll_hu_no_can, R.id.ll_tab, R.id.ll_hide, R.id.bt_plane,R.id.ll_hide_key})
+    @OnClick({R.id.tv_select, R.id.ll_theme_content, R.id.ll_select_tab, R.id.ll_start_time, R.id.ll_end_time, R.id.ll_theme, R.id.ll_hu_can, R.id.ll_hu_no_can, R.id.ll_tab, R.id.ll_hide, R.id.bt_plane,R.id.ll_hide_key,R.id.rl_city})
     public void onClick(View v) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         switch (v.getId()) {
+            case R.id.rl_city://地址那栏
+                openActivity(SerchcityAct.class);
+                break;
             case R.id.ll_tab://选择标签
                 ZtinfoUtils.hideSoftKeyboard(ContractedAct.this,ll_select_tab);
                 selectTab();
@@ -669,5 +681,33 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             tv_select.setHint("无法获取位置信息，请手动输入！");
         }
         locationClient.stop();
+    }
+    public static final String UPDATA_ET = "serchcityact_send";//接收发档期收索过来的更改et
+    private BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            SuggestionInfoBean infoBean=intent.getParcelableExtra("suggestionInfo");
+            String key=infoBean.getKey();
+            String city=infoBean.getCity();
+            String district=infoBean.getDistrict();
+            tv_select.setText(city+district+key);
+
+
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        filter=new IntentFilter();
+        filter.addAction(UPDATA_ET);
+        registerReceiver(broadcastReceiver,filter);
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
     }
 }

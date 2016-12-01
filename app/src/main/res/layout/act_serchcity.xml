@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:onClick="goback">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="11dp"
+                android:layout_height="19dp"
+                android:src="@mipmap/top_back"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_citychang"
+            android:paddingRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_centerVertical="true"
+                android:text="上海"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <View
+        android:background="@color/line_color"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+
+    <EditText
+        android:id="@+id/et_sh"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_below="@id/view_line"
+        android:layout_margin="10dp"
+        android:background="@drawable/city_serch"
+        android:drawableLeft="@mipmap/serch_gl"
+        android:drawablePadding="5dp"
+        android:hint="输入您的地址"
+        android:paddingLeft="15dp"
+        android:textColor="#515151"
+        android:textSize="16dp"></EditText>
+
+    <ListView
+        android:id="@+id/serch_plv"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:scrollbars="none"></ListView>
+
+
+
+</LinearLayout>
