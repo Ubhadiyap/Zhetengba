@@ -2,78 +2,85 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/title_act_layout"></include>
 
     <LinearLayout
+        android:id="@+id/ll_head2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="45dp"
-        android:layout_marginTop="48dp">
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginRight="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
                 <com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView
                     android:id="@+id/my_lv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="#e1e1e1"
-                    android:dividerHeight="1px"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
-            </LinearLayout>
+                    android:divider="@null"></com.boyuanitsm.zhetengba.view.refresh.PullToRefreshListView>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="#f4f4f6"
-        android:gravity="center"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            style="@style/view_line"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="0dp"
+            android:layout_height="1px"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#f4f4f6"
+            android:gravity="center"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_comment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="7dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="7dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_circle_stroke_yes_white2"
-            android:gravity="center_vertical"
-            android:hint="评论 (最多140字)"
-            android:maxLines="3"
-            android:maxLength="140"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="#666666"
-            android:textSize="14sp" />
+            <EditText
+                android:id="@+id/et_comment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_circle_stroke_yes_white2"
+                android:gravity="center_vertical"
+                android:hint="评论"
+                android:maxLines="3"
+                android:maxLength="140"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="#666666"
+                android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/iv_chanel_comment"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginRight="15dp"
-            android:background="@null"
-            android:text="发送"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:textColor="#999999"
-            android:textSize="14sp" />
+            <Button
+                android:id="@+id/iv_chanel_comment"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:text="发送"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:textColor="#999999"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
+
     <com.boyuanitsm.zhetengba.view.LoadingView
         android:layout_marginTop="48dp"
         android:id="@+id/load_view"

@@ -106,6 +106,18 @@
         <item name="android:layout_height">40dp</item>
 
     </style>
+    <!--全局通用大圆角的button 如注册 登录-->
+    <style name="com_dybtn2">
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:background">@drawable/com_dybtn_select2</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+
+    </style>
     <!--个人资料界面item相对布局样式-->
     <style name="rl_personnal">
         <item name="android:layout_marginLeft">15dp</item>

@@ -1,7 +1,9 @@
 package com.boyuanitsm.zhetengba.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -66,7 +68,6 @@ public class CityAct extends BaseActivity {
     private TextView tv_noresult;//无收索内容
 
 
-
     private ResultListAdapter resultListAdapter;//收索适配器
     private ArrayList<CityBean> city_result;//收索城市
     private DatabaseHelper helper;//历史数据库helper
@@ -87,7 +88,6 @@ public class CityAct extends BaseActivity {
     private Map<String, Integer> mIndexer;//点击右边的首字母调到到相应的首字母位置
 
 
-
     private String locCityName;//当前定位城市从首页传过来的
     public static final String CITYNAME = "city_name";//定位的城市
 
@@ -102,7 +102,7 @@ public class CityAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        user= UserInfoDao.getUser();
+        user = UserInfoDao.getUser();
         city_result = new ArrayList<CityBean>();//收索城市接口
         helper = new DatabaseHelper(this);//超做历史记录的数据库(这里可以暂时不要)
 
@@ -186,14 +186,21 @@ public class CityAct extends BaseActivity {
 
     /**
      * 初始化
+     *
      * @param list
      */
     private void initData(List<CityBean> list) {
         List<CityBean> listLocation = new ArrayList<>();//定位的id
         CityBean locationBean = new CityBean();
-        if (TextUtils.isEmpty(locCityName))
+        //实例化SharedPreferences对象（第一步）
+        SharedPreferences sharedPreferences = getSharedPreferences("ztb_City",
+                Activity.MODE_PRIVATE);
+        locationCity=sharedPreferences.getString("city_location","");
+        if (TextUtils.isEmpty(locationCity)) {
             locationBean.setName("定位失败");
-        else locationBean.setName(locationCity);
+        } else {
+            locationBean.setName(locationCity);
+        }
         locationBean.setPinyi("当前定位城市");
 //        locationBean.setLatitude(GlobalParams.m_latitude + "");
 //        locationBean.setLongitude(GlobalParams.m_longitude + "");
@@ -222,7 +229,7 @@ public class CityAct extends BaseActivity {
         list.addAll(0, listLocation);//把定位城市加到listview去
 
         for (int i = 0; i < list.size(); i++) {
-            String firstName = list.get(i).getPinyi().substring(0,1).toString().toUpperCase();
+            String firstName = list.get(i).getPinyi().substring(0, 1).toString().toUpperCase();
             if (firstName.matches(FORMAT)) {
                 if (mSections.contains(firstName)) {
                     mMap.get(firstName).add(list.get(i));
@@ -272,10 +279,10 @@ public class CityAct extends BaseActivity {
         }
 
         if (mAdapter == null) {
-            mAdapter = new CityListAdapter(this, list, mSections, mPositions,  listHots);
+            mAdapter = new CityListAdapter(this, list, mSections, mPositions, listHots);
             mListView.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyData(list, mSections, mPositions,  listHots);
+            mAdapter.notifyData(list, mSections, mPositions, listHots);
         }
 
         mListView.setOnScrollListener(mAdapter);
@@ -284,10 +291,9 @@ public class CityAct extends BaseActivity {
     }
 
 
-
-
     /**
      * 收索城市
+     *
      * @param keyword
      */
     private void getResultCityList(String keyword) {
@@ -301,7 +307,7 @@ public class CityAct extends BaseActivity {
             CityBean city;
             Log.e("info", "length = " + cursor.getCount());
             while (cursor.moveToNext()) {
-                city = new CityBean(cursor.getString(3),cursor.getString(1), cursor.getString(2));
+                city = new CityBean(cursor.getString(3), cursor.getString(1), cursor.getString(2));
                 city_result.add(city);
             }
             cursor.close();
@@ -343,7 +349,7 @@ public class CityAct extends BaseActivity {
             Cursor cursor = db.rawQuery("select * from city", null);
             CityBean city;
             while (cursor.moveToNext()) {
-                city = new CityBean(cursor.getString(3),cursor.getString(1), cursor.getString(2));
+                city = new CityBean(cursor.getString(3), cursor.getString(1), cursor.getString(2));
                 list.add(city);
             }
             cursor.close();
@@ -406,6 +412,7 @@ public class CityAct extends BaseActivity {
 
     /**
      * 修改个人资料
+     *
      * @param user
      */
     private void modifyUser(final UserInfo user) {

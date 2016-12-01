@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +30,8 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
+import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
+import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
@@ -136,7 +139,7 @@ public class ChanAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final CaViewHolder viewHolder;
-        List<ChannelTalkEntity> clist = list.get(position).getCommentsList();
+        final List<ChannelTalkEntity> clist = list.get(position).getCommentsList();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (CaViewHolder) convertView.getTag();
         } else {
@@ -396,6 +399,23 @@ public class ChanAdapter extends BaseAdapter {
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                popupWindow.dismiss();
 //                context.startActivity(intent);
+            }
+        });
+        viewHolder.lv_pl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position2, long id) {
+                if (clist!=null){
+                    if (!TextUtils.equals(UserInfoDao.getUser().getId(), clist.get(position2).getCommentUserId())) {
+                        Intent intent = new Intent(SquareAct.TALK_LIST);
+                        intent.putExtra("cir_hf", "cir_hf");
+                        intent.putExtra("petName", clist.get(position2).getPetName());
+                        intent.putExtra("fatherId", clist.get(position2).getId());
+                        intent.putExtra("comId", clist.get(position2).getCommentUserId());
+                        intent.putExtra("channelTalkId", list.get(position).getId());
+                        intent.putExtra("clickPos", position);
+                        context.sendBroadcast(intent);
+                    }
+                }
             }
         });
         return convertView;

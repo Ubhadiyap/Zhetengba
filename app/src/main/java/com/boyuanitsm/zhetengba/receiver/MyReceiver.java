@@ -16,13 +16,16 @@ import com.boyuanitsm.zhetengba.activity.MainAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirMessAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
 import com.boyuanitsm.zhetengba.activity.circle.SerchCirAct;
+import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.bean.NewCircleMess;
+import com.boyuanitsm.zhetengba.bean.SquareInfo;
 import com.boyuanitsm.zhetengba.db.ActivityMessDao;
 import com.boyuanitsm.zhetengba.db.CircleMessDao;
 import com.boyuanitsm.zhetengba.db.CircleNewMessDao;
+import com.boyuanitsm.zhetengba.db.SquareMessDao;
 import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.fragment.MessFrg;
 import com.boyuanitsm.zhetengba.fragment.circleFrg.CircleFrg;
@@ -126,7 +129,32 @@ public class MyReceiver extends BroadcastReceiver {
                     circleInfo.setIsAgree(0);
                     CircleMessDao.saveCircleMess(circleInfo);
 
-                } else {
+                } else if (TextUtils.equals(type, "3")){
+                    //吐槽评论，赞
+                    Gson gson = new Gson();
+                    SquareInfo circleInfo = gson.fromJson(json.toString(), SquareInfo.class);//解析成对象
+                    //实例化SharedPreferences对象（第一步）
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("sqa_cir",
+                            Activity.MODE_PRIVATE);
+                    //实例化SharedPreferences.Editor对象（第二步）
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    //用putString的方法保存数据
+                    if (!TextUtils.isEmpty(circleInfo.getUserIcon())) {
+                        editor.putString("sqa_news", circleInfo.getUserIcon());
+                    }
+                    int cir_newsCount = sharedPreferences.getInt("sqa_NewsCount", 0);
+                    cir_newsCount++;
+                    editor.putInt("sqa_NewsCount", cir_newsCount);
+                    //提交当前数据
+                    editor.commit();
+                    SquareMessDao.saveCircleMess(circleInfo);
+                    broadcastManager = LocalBroadcastManager.getInstance(context);
+                    Intent intentPointGone = new Intent(context, MainAct.class);
+                    intentPointGone.setAction(Constant.ACTION_CONTACT_CHANAGED);
+                    broadcastManager.sendBroadcast(intentPointGone);//发广播到主界面红点显示
+                    context.sendBroadcast(new Intent(CircleFrg.UPDATE));//发广播到圈子frg红点显示
+                    context.sendBroadcast(new Intent(SquareAct.TALK_LIST));//发广播到吐槽界面，红点显示
+                }else {
                     Gson gson = new Gson();
                     Intent intent2 = new Intent(MessFrg.UPDATE_CONTRACT);
                     broadcastManager = LocalBroadcastManager.getInstance(context);

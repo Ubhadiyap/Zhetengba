@@ -69,11 +69,11 @@ public class LoginAct extends BaseActivity {
     @Override
     public void setLayout() {
         // 如果登录成功过，直接进入主页面
-        if (DemoHelper.getInstance().isLoggedIn()) {
-            autoLogin = true;
-            startActivity(new Intent(LoginAct.this, MainAct.class));
-            return;
-        }
+//        if (DemoHelper.getInstance().isLoggedIn()) {
+//            autoLogin = true;
+//            startActivity(new Intent(LoginAct.this, MainAct.class));
+//            return;
+//        }
         setContentView(R.layout.login);
         AppManager.getAppManager().addActivity(this);
         usernameEditText = (EditText) findViewById(R.id.etPhone);
@@ -109,12 +109,13 @@ public class LoginAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        setTopTitle("登录");
         aCache = ACache.get(LoginAct.this);
 
     }
 
 
-    @OnClick({R.id.tvLogin, R.id.tv_regist, R.id.tv_forget_pw})
+    @OnClick({R.id.tvLogin, R.id.tv_regist, R.id.tv_forget_pw,R.id.tv_sms})
 
     public void onClick(View v) {
         switch (v.getId()) {
@@ -129,6 +130,9 @@ public class LoginAct extends BaseActivity {
                 break;
             case R.id.tv_forget_pw:
                 openActivity(FrogetpwdAct.class);
+                break;
+            case R.id.tv_sms:
+                openActivity(SmsLoginAct.class);
                 break;
         }
     }

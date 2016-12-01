@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CirxqAct;
+import com.boyuanitsm.zhetengba.activity.publish.MyPlaneAct;
 import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.ImageInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -110,7 +112,7 @@ public class MyPlaneAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
-        List<CircleEntity> clist=list.get(position).getCommentsList();
+        final List<CircleEntity> clist=list.get(position).getCommentsList();
         if (convertView != null && convertView.getTag() != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
@@ -295,6 +297,23 @@ public class MyPlaneAdapter extends BaseAdapter {
                 viewHolder.ll_comment2.setVisibility(View.GONE);
             }
         }
+        viewHolder.lv_pl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position2, long id) {
+                if (clist!=null){
+                    if (!TextUtils.equals(UserInfoDao.getUser().getId(), clist.get(position2).getCommentUserId())) {
+                        Intent intent = new Intent(MyPlaneAct.PLANEALLTALKS);
+                        intent.putExtra("cir_hf", "cir_hf");
+                        intent.putExtra("petName", clist.get(position2).getPetName());
+                        intent.putExtra("fatherId", clist.get(position2).getId());
+                        intent.putExtra("comId", clist.get(position2).getCommentUserId());
+                        intent.putExtra("circleId", list.get(position).getId());
+                        intent.putExtra("clickPos", position);
+                        context.sendBroadcast(intent);
+                    }
+                }
+            }
+        });
         //点击用户头像，进入用户圈子主页
         viewHolder.ivChHead.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -114,6 +114,7 @@
             android:horizontalSpacing="10dp"
             android:numColumns="4"
             android:paddingLeft="10dp"
+            android:paddingRight="20dp"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:verticalSpacing="10dp"></com.boyuanitsm.zhetengba.view.MyGridView>

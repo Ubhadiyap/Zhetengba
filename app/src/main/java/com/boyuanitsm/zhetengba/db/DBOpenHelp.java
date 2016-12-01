@@ -25,6 +25,8 @@ public class DBOpenHelp extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {//这个方法当数据库版本号发生改变时调用
 		db.execSQL("ALTER TABLE label ADD dictName VARCHAR(12) NULL");//给表里添加一个phone的字段
+		db.execSQL("ALTER TABLE label ADD city VARCHAR(100) NULL");//给表里添加一个phone的字段
+
 	}
 
 }

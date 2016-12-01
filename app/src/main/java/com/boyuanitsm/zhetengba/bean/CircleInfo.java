@@ -63,6 +63,17 @@ public class CircleInfo implements Parcelable{
     @Column
     private String circleTalkId;
 
+    @Column
+    private String imgTalk;
+
+    public String getImgTalk() {
+        return imgTalk;
+    }
+
+    public void setImgTalk(String imgTalk) {
+        this.imgTalk = imgTalk;
+    }
+
     public String getCircleTalkId() {
         return circleTalkId;
     }
@@ -332,6 +343,7 @@ public class CircleInfo implements Parcelable{
         dest.writeString(this.msgType);
         dest.writeString(this.typeId);
         dest.writeString(this.circleTalkId);
+        dest.writeString(this.imgTalk);
     }
 
     protected CircleInfo(Parcel in) {
@@ -360,6 +372,7 @@ public class CircleInfo implements Parcelable{
         this.msgType = in.readString();
         this.typeId = in.readString();
         this.circleTalkId = in.readString();
+        this.imgTalk = in.readString();
     }
 
     public static final Creator<CircleInfo> CREATOR = new Creator<CircleInfo>() {

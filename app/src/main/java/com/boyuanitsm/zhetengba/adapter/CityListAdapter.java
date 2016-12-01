@@ -1,10 +1,13 @@
 package com.boyuanitsm.zhetengba.adapter;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,13 +49,14 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
     private List<Integer> mFriendsPositions;
     private LayoutInflater inflater;
     private CityAct context;
-//    private List<CityBean> historys;
+    //    private List<CityBean> historys;
     private List<CityBean> hotList;
     private ProgressDialog dialog;
     private UserInfo user;
+    private int clickPos=-1;
 
     public CityListAdapter(CityAct context, List<CityBean> datas, List<String> friendsSections,
-                           List<Integer> friendsPositions,  List<CityBean> hotList) {
+                           List<Integer> friendsPositions, List<CityBean> hotList) {
         // TODO Auto-generated constructor stub
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -60,14 +64,14 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
         mFriendsSections = friendsSections;
         mFriendsPositions = friendsPositions;
         this.hotList = hotList;
-        user= UserInfoDao.getUser();
+        user = UserInfoDao.getUser();
         dialog = new ProgressDialog(context);
         dialog.setMessage("重新定位中，请稍后...");
         dialog.setCancelable(false);
     }
 
     public void notifyData(List<CityBean> datas, List<String> friendsSections,
-                           List<Integer> friendsPositions,  List<CityBean> hotList) {
+                           List<Integer> friendsPositions, List<CityBean> hotList) {
         mDatas = datas;
         mFriendsSections = friendsSections;
         mFriendsPositions = friendsPositions;
@@ -115,11 +119,11 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
 
         RelativeLayout rlGps = (RelativeLayout) convertView.findViewById(R.id.rlGps);
         MyGridView mvHistory = (MyGridView) convertView.findViewById(R.id.mvHistory);
-        MyGridView mvHot = (MyGridView) convertView.findViewById(R.id.mvHot);
+        final MyGridView mvHot = (MyGridView) convertView.findViewById(R.id.mvHot);
         mvHot.setSelector(new ColorDrawable(Color.TRANSPARENT));//设置选择颜色为透明
         TextView textView = (TextView) convertView
                 .findViewById(R.id.friends_item);
-        LinearLayout linearLayout= (LinearLayout) convertView.findViewById(R.id.ll_friends_item);
+        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.ll_friends_item);
         TextView tvGps = (TextView) convertView.findViewById(R.id.tvGps);
 //        TextView tvLocation = (TextView) convertView.findViewById(R.id.tvLocAgain);
         if ("当前定位城市".equals(mDatas.get(position).getPinyi())) {
@@ -170,7 +174,11 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
             rlGps.setVisibility(View.GONE);
             mvHot.setVisibility(View.VISIBLE);
             if (hotList != null && hotList.size() > 0) {
-                mvHot.setAdapter(new GvCityAdapter(context, hotList));
+                SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_CityPos",
+                        Activity.MODE_PRIVATE);
+                //实例化SharedPreferences.Editor对象（第二步）
+                clickPos  = sharedPreferences.getInt("city_Pos", 0);
+                mvHot.setAdapter(new GvCityAdapter(context, hotList, clickPos));
                 mvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -179,6 +187,18 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
 //                                new CityEvent(hotList.get(position)));
 //                        context.finish();
 //                        context.overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+                        //实例化SharedPreferences对象（第一步）
+                        SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_CityPos",
+                                Activity.MODE_PRIVATE);
+                        //实例化SharedPreferences.Editor对象（第二步）
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        //用putString的方法保存数据
+                        editor.putInt("city_Pos", position);
+                        //提交当前数据
+                        editor.commit();
+                        GvCityAdapter.getIsSelected().put(position, true);
+                        GvCityAdapter adapter = new GvCityAdapter(context, hotList, position);
+                        mvHot.setAdapter(adapter);
                         user.setCity(hotList.get(position).getCityid());
                         modifyUser(user);//选择收索出来的城市后把它传给后台
                         context.finish();
@@ -281,6 +301,7 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
 
     /**
      * 修改个人资料
+     *
      * @param user
      */
     private void modifyUser(final UserInfo user) {

@@ -455,11 +455,15 @@ public class MainAct extends BaseActivity {
                         Activity.MODE_PRIVATE);
                 String cir_news = sharedPreferences.getString("cir_news", "");
                 int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
-                if (cir_newsCount==0){
+                SharedPreferences sharedPreferences2=getSharedPreferences("sqa_cir",
+                        Activity.MODE_PRIVATE);
+                int sqa_newsCount = sharedPreferences2.getInt("sqa_NewsCount", 0);
+                int newcount=cir_newsCount+sqa_newsCount;
+                if (newcount==0){
                     msg_qunzi.setVisibility(View.GONE);
                 }else {
                     msg_qunzi.setVisibility(View.VISIBLE);
-                    msg_qunzi.setText(cir_newsCount+"");
+                    msg_qunzi.setText(newcount+"");
                 }
 //                if (CircleNewMessDao.getUser()!=null){
 //                    NewCircleMess newCircleMess = CircleNewMessDao.getUser();
@@ -827,6 +831,16 @@ public class MainAct extends BaseActivity {
             citycode=bdLocation.getCityCode();//城市编码 289上海
 
             if(!TextUtils.isEmpty(locationCity)&&!TextUtils.isEmpty(locationCity)){
+
+                //实例化SharedPreferences对象（第一步）
+                SharedPreferences sharedPreferences = getSharedPreferences("ztb_City",
+                        Activity.MODE_PRIVATE);
+                //实例化SharedPreferences.Editor对象（第二步）
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                //用putString的方法保存数据
+                    editor.putString("city_location", locationCity);
+                //提交当前数据
+                editor.commit();
                 user.setCity(citycode);//保存城市编码
                 modifyUser(user);//定位成功把定位城市通过这种接口传给后台
 

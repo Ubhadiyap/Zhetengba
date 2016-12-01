@@ -43,6 +43,7 @@ import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.ACache;
 import com.boyuanitsm.zhetengba.utils.GsonUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -94,12 +95,12 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     private EditText et_comment;
     @ViewInject(R.id.iv_chanel_comment)
     private Button bt_send;
-    @ViewInject(R.id.ll_news)
-    private LinearLayout ll_news;
-    @ViewInject(R.id.cv_head)
-    private CircleImageView cv_head;
-    @ViewInject(R.id.tv_mess)
-    private TextView tv_mess;
+    //    @ViewInject(R.id.ll_news)
+//    private LinearLayout ll_news;
+//    @ViewInject(R.id.cv_head)
+//    private CircleImageView cv_head;
+//    @ViewInject(R.id.tv_mess)
+//    private TextView tv_mess;
     private int cusPos;
     private String cirId;
 
@@ -108,12 +109,17 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     private Gson gson;
     private List<CircleEntity> infos;
     String petName;
-    private String fatherCommentId,commentedUserId;
+    private String fatherCommentId, commentedUserId;
+    private View headview;
+    private LinearLayout ll_news2;
+    private TextView tv_mess2;
+    private CircleImageView cv_head2;
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
+
     @Override
     public void setLayout() {
         setContentView(R.layout.cir_frg);
@@ -123,18 +129,31 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子");
         lv_cir = (PullToRefreshListView) findViewById(R.id.lv_cir);
-        SharedPreferences sharedPreferences=getSharedPreferences("ztb_cirNews",
+        headview = View.inflate(CircleAct.this, R.layout.cir_frg_floating, null);
+        ll_news2 = (LinearLayout) headview.findViewById(R.id.ll_news);
+        tv_mess2 = (TextView) headview.findViewById(R.id.tv_mess);
+        cv_head2 = (CircleImageView) headview.findViewById(R.id.cv_head);
+        SharedPreferences sharedPreferences = getSharedPreferences("ztb_cirNews",
                 Activity.MODE_PRIVATE);
         String cir_news = sharedPreferences.getString("cir_news", "");
         int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
-        if (cir_newsCount==0){
-            ll_news.setVisibility(View.GONE);
-        }else {
-            ll_news.setVisibility(View.VISIBLE);
-            tv_mess.setText(cir_newsCount + "条新消息");
+        if (cir_newsCount == 0) {
+//            ll_news.setVisibility(View.GONE);
+            ll_news2.setVisibility(View.GONE);
+        } else {
+//            ll_news.setVisibility(View.VISIBLE);
+            ll_news2.setVisibility(View.VISIBLE);
+            tv_mess2.setText(cir_newsCount + "条新消息");
+//            tv_mess.setText(cir_newsCount + "条新消息");
         }
-        if (!TextUtils.isEmpty(cir_news)){
-            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news),cv_head,options);
+        ll_news2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity(CirMessAct.class);
+            }
+        });
+        if (!TextUtils.isEmpty(cir_news)) {
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news), cv_head2, options);
         }
         if (CircleNewMessDao.getUser() != null) {
             NewCircleMess newCircleMess = CircleNewMessDao.getUser();
@@ -147,6 +166,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
             }
         }
         LayoutHelperUtil.freshInit(lv_cir);
+        lv_cir.getRefreshableView().addHeaderView(headview);
         //用缓存
         aCache = ACache.get(CircleAct.this);
         gson = new Gson();
@@ -262,16 +282,11 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 circleEntityList = response.getData().getRows();
                 if (circleEntityList.size() == 0) {
                     if (page == 1) {
-//                        llnoList.setVisibility(View.VISIBLE);
-//                        ivAnim.setImageResource(R.mipmap.planeno);
-//                        noMsg.setText("暂无内容");
                         load_view.noContent();
                     } else {
                         lv_cir.setHasMoreData(false);
                     }
-//                    return;
                 } else {
-//                    llnoList.setVisibility(View.GONE);
                     load_view.loadComplete();
                 }
                 if (page == 1) {
@@ -279,17 +294,6 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 }
                 datas.addAll(circleEntityList);
                 aCache.put("CircleTalkList", GsonUtils.bean2Json(datas));//实体转换成json
-//                for (int j = 0; j < datas.size(); j++) {
-//                    final List<ImageInfo> itemList = new ArrayList<>();
-//                    //将图片地址转化成数组
-//                    if (!TextUtils.isEmpty(datas.get(j).getTalkImage())) {
-//                        final String[] urlList = ZtinfoUtils.convertStrToArray(datas.get(j).getTalkImage());
-//                        for (int i = 0; i < urlList.length; i++) {
-//                            itemList.add(new ImageInfo(urlList[i], 120, 120));
-//                        }
-//                    }
-//                    datalist.add(itemList);
-//                }
                 if (adapter == null) {
                     adapter = new CircleAdapter(CircleAct.this, datas);
                     lv_cir.getRefreshableView().setAdapter(adapter);
@@ -302,6 +306,8 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                         cirId = id;
                         lv_cir.getRefreshableView().setSelection(position);
                         cusPos = position;
+                        flag = false;
+                        et_comment.setHint("说点什么吧...");
                         ll_comment.setVisibility(View.VISIBLE);
                         et_comment.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -313,7 +319,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     }
 
 
-    @OnClick({R.id.rl_more, R.id.iv_serch, R.id.iv_chanel_comment, R.id.ll_news})
+    @OnClick({R.id.rl_more, R.id.iv_serch, R.id.iv_chanel_comment})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -338,27 +344,27 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 openActivity(SerchCirAct.class);
                 break;
             case R.id.iv_chanel_comment:
-                if (flag){
+                if (flag) {
                     if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
                         bt_send.setEnabled(false);
-                        commentCircleTalk(commentedUserId,cirId, fatherCommentId, et_comment.getText().toString().trim());
+                        commentCircleTalk(commentedUserId, cirId, fatherCommentId, et_comment.getText().toString().trim());
                     } else {
                         MyToastUtils.showShortToast(getApplicationContext(), "请输入回复内容！");
                     }
-                }else {
+                } else {
                     if (!TextUtils.isEmpty(et_comment.getText().toString().trim())) {
                         bt_send.setEnabled(false);
-                        commentCircleTalk(null,cirId, null, et_comment.getText().toString().trim());
+                        commentCircleTalk(null, cirId, null, et_comment.getText().toString().trim());
                     } else {
                         MyToastUtils.showShortToast(getApplicationContext(), "请输入评论内容！");
                     }
                 }
 
                 break;
-            case R.id.ll_news:
+//            case R.id.ll_news:
 //                ll_news.setVisibility(View.GONE);
-                openActivity(CirMessAct.class);
-                break;
+//                openActivity(CirMessAct.class);
+//                break;
 
         }
     }
@@ -370,26 +376,22 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
      * @param fatherCommentId
      * @param commentContent
      */
-    private void commentCircleTalk(final String commtedId,final String circleTalkId, final String fatherCommentId, final String commentContent) {
-        RequestManager.getTalkManager().commentCircleTalk(commtedId,circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<String>>() {
+    private void commentCircleTalk(final String commtedId, final String circleTalkId, final String fatherCommentId, final String commentContent) {
+        RequestManager.getTalkManager().commentCircleTalk(commtedId, circleTalkId, fatherCommentId, commentContent, new ResultCallback<ResultBean<CircleEntity>>() {
             @Override
             public void onError(int status, String errorMsg) {
                 bt_send.setEnabled(true);
             }
 
             @Override
-            public void onResponse(ResultBean<String> response) {
+            public void onResponse(ResultBean<CircleEntity> response) {
+                CircleEntity entity = response.getData();
                 //重新获取评论列表，刷新评论数目，关闭键盘
-                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                 et_comment.setText("");
+                ZtinfoUtils.hideSoftKeyboard(getApplicationContext(), et_comment);
                 //封装数据
-                if (flag){
-                    CircleEntity entity = new CircleEntity();
-                    entity.setPetName(UserInfoDao.getUser().getPetName());
-                    entity.setCommentContent(commentContent);
-                    entity.setCommentedUsername(petName);
-                    entity.setFatherCommentId(fatherCommentId);
-                    entity.setCommentUserId(commtedId);
+//                if (cusPos>0){
+                if (flag) {
                     if (datas.get(cusPos).getCommentsList() == null) {
                         List<CircleEntity> list = new ArrayList<CircleEntity>();
                         datas.get(cusPos).setCommentsList(list);
@@ -397,16 +399,12 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     } else {
                         datas.get(cusPos).getCommentsList().add(entity);
                     }
-                    datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
                     if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
-                        datas.get(cusPos).setCommentCounts(Integer.parseInt(response.getData()));
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(entity.getRemark()));
                     } else {
                         datas.get(cusPos).setCommentCounts(1);
                     }
-                }else {
-                    CircleEntity entity = new CircleEntity();
-                    entity.setPetName(UserInfoDao.getUser().getPetName());
-                    entity.setCommentContent(commentContent);
+                } else {
                     if (datas.get(cusPos).getCommentsList() == null) {
                         List<CircleEntity> list = new ArrayList<CircleEntity>();
                         datas.get(cusPos).setCommentsList(list);
@@ -414,13 +412,14 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     } else {
                         datas.get(cusPos).getCommentsList().add(entity);
                     }
-                    datas.get(cusPos).setCommentsList(datas.get(cusPos).getCommentsList());
                     if (!TextUtils.isEmpty(datas.get(cusPos).getCommentCounts() + "")) {
-                        datas.get(cusPos).setCommentCounts(Integer.parseInt(response.getData()));
+                        datas.get(cusPos).setCommentCounts(Integer.parseInt(entity.getRemark()));
                     } else {
                         datas.get(cusPos).setCommentCounts(1);
                     }
+//                }
                 }
+
                 if (adapter == null) {
                     adapter = new CircleAdapter(CircleAct.this, datas);
                     lv_cir.getRefreshableView().setAdapter(adapter);
@@ -503,15 +502,18 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        SharedPreferences sharedPreferences=getSharedPreferences("ztb_cirNews",
+        SharedPreferences sharedPreferences = getSharedPreferences("ztb_cirNews",
                 Activity.MODE_PRIVATE);
         String cir_news = sharedPreferences.getString("cir_news", "");
         int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
-        if (cir_newsCount==0){
-            ll_news.setVisibility(View.GONE);
-        }else {
-            ll_news.setVisibility(View.VISIBLE);
-            tv_mess.setText(cir_newsCount + "条新消息");
+        if (cir_newsCount == 0) {
+            ll_news2.setVisibility(View.GONE);
+        } else {
+            ll_news2.setVisibility(View.VISIBLE);
+            tv_mess2.setText(cir_newsCount + "条新消息");
+        }
+        if (!TextUtils.isEmpty(cir_news)) {
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news), cv_head2, options);
         }
         if (receiverTalk == null) {
             receiverTalk = new MyBroadCastReceiverTalk();
@@ -537,10 +539,12 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             String cir_hf = intent.getStringExtra("cir_hf");
-             petName = intent.getStringExtra("petName");
+            petName = intent.getStringExtra("petName");
             String fatherId = intent.getStringExtra("fatherId");
             String comId = intent.getStringExtra("comId");
-            if (TextUtils.equals("cir_hf",cir_hf)) {
+            cirId = intent.getStringExtra("circleId");
+            cusPos = intent.getIntExtra("clickPos", cusPos);
+            if (TextUtils.equals("cir_hf", cir_hf)) {
                 ll_comment.setVisibility(View.VISIBLE);
                 if (!TextUtils.isEmpty(fatherId)) {
                     if (!TextUtils.isEmpty(comId)) {
@@ -551,26 +555,30 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                         et_comment.setHint("回复" + petName + ":");
                     }
                     flag = true;
-                }else {
+                } else {
                     et_comment.setHint("说点什么吧...");
-                    flag=false;
+                    flag = false;
                 }
                 lv_cir.getRefreshableView().setSelection(cusPos);
                 et_comment.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             }
-            SharedPreferences sharedPreferences=getSharedPreferences("ztb_cirNews",
+            SharedPreferences sharedPreferences = getSharedPreferences("ztb_cirNews",
                     Activity.MODE_PRIVATE);
             String cir_news = sharedPreferences.getString("cir_news", "");
             int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
-            if (cir_newsCount==0){
-                ll_news.setVisibility(View.GONE);
-            }else {
-                ll_news.setVisibility(View.VISIBLE);
-                tv_mess.setText(cir_newsCount + "条新消息");
-                if (!TextUtils.isEmpty(cir_news)){
-                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news),cv_head,options);
+            if (cir_newsCount == 0) {
+//                ll_news.setVisibility(View.GONE);
+                ll_news2.setVisibility(View.GONE);
+            } else {
+                ll_news2.setVisibility(View.VISIBLE);
+//                ll_news.setVisibility(View.VISIBLE);
+                tv_mess2.setText(cir_newsCount + "条新消息");
+//                tv_mess.setText(cir_newsCount + "条新消息");
+                if (!TextUtils.isEmpty(cir_news)) {
+//                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news),cv_head,options);
+                    ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news), cv_head2, options);
                     return;
                 }
             }
@@ -598,7 +606,6 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     } else if (TextUtils.equals(tag, "CirdelTag")) {
                         int position = bundle.getInt("CirDelPosition");
                         datas.remove(position);
-                        datalist.remove(position);
                     }
                     if (adapter == null) {
                         adapter = new CircleAdapter(CircleAct.this, datas);
@@ -608,7 +615,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-            }else {
+            } else {
                 page = 1;
                 getAllCircleTalk(page, rows);
             }

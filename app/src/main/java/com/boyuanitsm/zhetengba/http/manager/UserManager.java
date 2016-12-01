@@ -2,6 +2,7 @@ package com.boyuanitsm.zhetengba.http.manager;
 
 import android.text.TextUtils;
 
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.UserInfo;
 import com.boyuanitsm.zhetengba.http.IZtbUrl;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -278,7 +279,29 @@ public class UserManager extends RequestManager{
 
     }
 
+    /**
+     * 短信登录
+     * @param userName
+     * @param yzm
+     * @param callback
+     */
+    public void loginSms(String userName,String yzm,ResultCallback callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("username",userName);
+        params.put("captcha",yzm);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SMSLOGIN_URL, params, callback);
 
+    }
 
-
+    /***
+     * 获取短信验证码
+     * @param phone
+     * @param callback
+     */
+    public void getSms2(String phone,String isRegister, ResultCallback callback) {
+        Map<String,String> params=new HashMap<>();
+        params.put("phoneNumber",phone);
+        params.put("isRegister", isRegister);
+        OkHttpManager.getInstance().doPost(IZtbUrl.SENDSMS_URL, params, callback);
+    }
 }

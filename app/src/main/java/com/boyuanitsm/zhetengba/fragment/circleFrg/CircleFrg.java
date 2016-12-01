@@ -44,6 +44,8 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
     private CommonView cv_sys;
     @ViewInject(R.id.iv_xnew)
     private TextView iv_new2;
+    @ViewInject(R.id.iv_xnew2)
+    private TextView tv_new;
     private View view;
     private FragmentManager childFragmentManager;
     private boolean tag = true;
@@ -71,6 +73,15 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
         SharedPreferences sharedPreferences=mActivity.getSharedPreferences("ztb_cirNews",
                 Activity.MODE_PRIVATE);
         int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
+        SharedPreferences sharedPreferences2=mActivity.getSharedPreferences("sqa_cir",
+                Activity.MODE_PRIVATE);
+        int sqa_newsCount = sharedPreferences2.getInt("sqa_NewsCount", 0);
+        if (sqa_newsCount==0){
+            tv_new.setVisibility(View.GONE);
+        }else {
+            tv_new.setVisibility(View.VISIBLE);
+            tv_new.setText(sqa_newsCount+"");
+        }
         if (cir_newsCount==0){
             iv_new2.setVisibility(View.GONE);
         }else {
@@ -125,6 +136,15 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
             SharedPreferences sharedPreferences=mActivity.getSharedPreferences("ztb_cirNews",
                     Activity.MODE_PRIVATE);
             int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
+            SharedPreferences sharedPreferences2=mActivity.getSharedPreferences("sqa_cir",
+                    Activity.MODE_PRIVATE);
+            int sqa_newsCount = sharedPreferences2.getInt("sqa_NewsCount", 0);
+            if (sqa_newsCount==0){
+                tv_new.setVisibility(View.GONE);
+            }else {
+                tv_new.setVisibility(View.VISIBLE);
+                tv_new.setText(sqa_newsCount+"");
+            }
             if (cir_newsCount==0){
                 iv_new2.setVisibility(View.GONE);
             }else {
@@ -151,6 +171,15 @@ public class CircleFrg extends BaseFragment implements View.OnClickListener{
         SharedPreferences sharedPreferences=mActivity.getSharedPreferences("ztb_cirNews",
                 Activity.MODE_PRIVATE);
         int cir_newsCount = sharedPreferences.getInt("cir_NewsCount", 0);
+        SharedPreferences sharedPreferences2=mActivity.getSharedPreferences("sqa_cir",
+                Activity.MODE_PRIVATE);
+        int sqa_newsCount = sharedPreferences2.getInt("sqa_NewsCount", 0);
+        if (sqa_newsCount==0){
+            tv_new.setVisibility(View.GONE);
+        }else {
+            tv_new.setVisibility(View.VISIBLE);
+            tv_new.setText(sqa_newsCount+"");
+        }
         if (cir_newsCount==0){
             iv_new2.setVisibility(View.GONE);
         }else {

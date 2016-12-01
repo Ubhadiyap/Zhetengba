@@ -45,10 +45,11 @@ public class CirmationAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         setTopTitle("圈子资料");
-        circleEntity=getIntent().getParcelableExtra("circleEntity");
-        if(circleEntity!=null){
-            if (!TextUtils.isEmpty(circleEntity.getCircleOwnerId())){
-                if (circleEntity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())){
+        circleEntity = getIntent().getParcelableExtra("circleEntity");
+        if (circleEntity != null) {
+            if (!TextUtils.isEmpty(circleEntity.getCircleOwnerId())) {
+                if (circleEntity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())) {
+                    tv_tc.setVisibility(View.VISIBLE);
                     notice.setEnabled(true);
                     setRight("确定", new View.OnClickListener() {
                         @Override
@@ -61,27 +62,33 @@ public class CirmationAct extends BaseActivity {
                         }
                     });
                     tv_tc.setText("解散圈子");
-                }else {
-                    setRight("",null);
+                } else if (circleEntity.getIsInCircle() == 0) {
+                    tv_tc.setVisibility(View.GONE);
+                    setRight("", null);
+                    notice.setEnabled(false);
+                } else {
+                    tv_tc.setVisibility(View.VISIBLE);
+                    setRight("", null);
                     notice.setEnabled(false);
                     tv_tc.setText("退出圈子");
                 }
             }
-            if(!TextUtils.isEmpty(circleEntity.getNotice())) {
-                notice.setText(circleEntity.getNotice());
-            }else {
-                notice.setText("");
-            }
-            notice.requestFocus(notice.getText().toString().trim().length());
         }
+        if (!TextUtils.isEmpty(circleEntity.getNotice())) {
+            notice.setText(circleEntity.getNotice());
+        } else {
+            notice.setText("");
+        }
+        notice.requestFocus(notice.getText().toString().trim().length());
+
     }
 
-    @OnClick({R.id.com_ewm,R.id.tv_tc})
-    public void OnClick(View v){
-        switch (v.getId()){
+    @OnClick({R.id.com_ewm, R.id.tv_tc})
+    public void OnClick(View v) {
+        switch (v.getId()) {
             case R.id.com_ewm://圈子二维码
-                Intent intent=new Intent(this,CircleEr.class);
-                Bundle bundle=new Bundle();
+                Intent intent = new Intent(this, CircleEr.class);
+                Bundle bundle = new Bundle();
                 bundle.putString("circleId", circleEntity.getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -91,7 +98,7 @@ public class CirmationAct extends BaseActivity {
 //
 //                break;
             case R.id.tv_tc://圈子退出
-            exitCircle(circleEntity.getId());
+                exitCircle(circleEntity.getId());
 
 //                Toast.makeText(getApplicationContext(),"hah",Toast.LENGTH_SHORT).show();
 
@@ -102,10 +109,11 @@ public class CirmationAct extends BaseActivity {
 
     /**
      * 发布公告
+     *
      * @param circleId
      * @param notice
      */
-    private void addNotice(String circleId ,String notice ){
+    private void addNotice(String circleId, String notice) {
         RequestManager.getTalkManager().addNotice(circleId, notice, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -123,9 +131,10 @@ public class CirmationAct extends BaseActivity {
 
     /**
      * 成员退出圈子（群主退出，圈也注销）
+     *
      * @param circleId
      */
-    private void exitCircle(String circleId){
+    private void exitCircle(String circleId) {
         RequestManager.getTalkManager().removeCircle(circleId, new ResultCallback<ResultBean<String>>() {
             @Override
             public void onError(int status, String errorMsg) {
@@ -137,11 +146,11 @@ public class CirmationAct extends BaseActivity {
                 if (!TextUtils.isEmpty(circleEntity.getCircleOwnerId())) {
                     if (circleEntity.getCircleOwnerId().equals(UserInfoDao.getUser().getId())) {
                         AppManager.getAppManager().finishActivity(CirxqAct.class);
-                        MyToastUtils.showShortToast(CirmationAct.this,"圈子已经解散！");
-                    }else {
-                        MyToastUtils.showShortToast(CirmationAct.this,response.getMessage());
+                        MyToastUtils.showShortToast(CirmationAct.this, "圈子已经解散！");
+                    } else {
+                        MyToastUtils.showShortToast(CirmationAct.this, response.getMessage());
                     }
-                }else {
+                } else {
                     MyToastUtils.showShortToast(CirmationAct.this, response.getMessage());
                 }
                 finish();

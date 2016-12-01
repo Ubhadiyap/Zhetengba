@@ -358,6 +358,7 @@ public class SimpleFrg extends BaseFragment {
      */
     private void getcityName() {
         String cityid=UserInfoDao.getUser().getCity();
+        MyLogUtils.info(cityid);
         city_result = new ArrayList<CityBean>();//收索城市接口
         getName(cityid);//通过城市编码查询本地数据库得到一个list<>
         if(city_result.size()>0){
@@ -379,8 +380,7 @@ public class SimpleFrg extends BaseFragment {
                 dbHelper.createDataBase();
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 cityid = "'"+cityid+"'";
-                Cursor cursor = db.rawQuery(
-                        "select * from city where cityid =" + cityid , null);
+                Cursor cursor = db.rawQuery( "select * from city where cityid =" + cityid , null);
                 CityBean city;
                 Log.e("info", "length = " + cursor.getCount());
                 while (cursor.moveToNext()) {
@@ -399,6 +399,9 @@ public class SimpleFrg extends BaseFragment {
     public void  onclick(View v){
         switch (v.getId()){
             case R.id.tv_city:
+                openActivity(CityAct.class);
+                break;
+            case R.id.iv_city:
                 openActivity(CityAct.class);
                 break;
         }
@@ -635,8 +638,6 @@ public class SimpleFrg extends BaseFragment {
                 } else {
                     adapter.update(datas);
                 }
-
-
             }
         });
 

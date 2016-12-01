@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.mine.LoginAct;
+import com.boyuanitsm.zhetengba.activity.mine.LoginFirstAct;
 import com.boyuanitsm.zhetengba.activity.mine.RegInfoAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
@@ -108,11 +109,11 @@ public class SplashAct extends BaseActivity {
                     if (isFirst) {
                         // 第一次进入应用
 //                        intent = new Intent(SplashAct.this, GuideAct.class);
-                        intent=new Intent(SplashAct.this,LoginAct.class);
+                        intent=new Intent(SplashAct.this,LoginFirstAct.class);
                         SpUtils.setIsFirst(SplashAct.this, false);
                     } else {
                         // 主页面
-                        intent = new Intent(SplashAct.this, LoginAct.class);
+                        intent = new Intent(SplashAct.this, LoginFirstAct.class);
                     }
                     startActivity(intent);
                     finish();

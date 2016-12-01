@@ -1,12 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<TextView
-    android:id="@+id/tv_hf"
-    android:textSize="14sp"
-    android:textColor="#666666"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <!--头像-->
+            <ImageView
+                android:id="@+id/head"
+                android:background="@drawable/userhead"
+                android:layout_width="35dp"
+                android:layout_height="35dp"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_marginLeft="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ll_ni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--昵称-->
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:textSize="14sp"
+                    android:text="women"
+                    android:textColor="@color/main_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!--时间-->
+                <TextView
+                    android:id="@+id/time"
+                    android:text="2222222"
+                    android:textSize="12sp"
+                    android:textColor="#999999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_below="@+id/ll_ni"
+                android:layout_marginTop="9dp"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--正文-->
+                <TextView
+                    android:id="@+id/tv_hf"
+                    android:layout_marginRight="15dp"
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_marginLeft="0dp"
+        style="@style/view_line"/>
 </LinearLayout>
