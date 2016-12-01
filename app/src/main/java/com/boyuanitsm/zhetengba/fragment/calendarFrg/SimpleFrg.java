@@ -395,15 +395,15 @@ public class SimpleFrg extends BaseFragment {
 
     }
 
-    @OnClick({R.id.tv_city})
+    @OnClick({R.id.ll_city})
     public void  onclick(View v){
         switch (v.getId()){
-            case R.id.tv_city:
+            case R.id.ll_city:
                 openActivity(CityAct.class);
                 break;
-            case R.id.iv_city:
-                openActivity(CityAct.class);
-                break;
+//            case R.id.iv_city:
+//                openActivity(CityAct.class);
+//                break;
         }
     }
 
