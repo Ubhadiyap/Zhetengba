@@ -15,9 +15,9 @@
 
             <ImageView
                 android:id="@+id/iv_back"
-                android:layout_width="11dp"
-                android:layout_height="19dp"
-                android:src="@mipmap/top_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/back2"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 />
@@ -34,11 +34,27 @@
                 android:id="@+id/tv_city"
                 android:layout_centerVertical="true"
                 android:text="上海"
+                android:textColor="#999999"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_city"
+                android:background="@drawable/arrow_down2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
 
         </RelativeLayout>
+        <TextView
+            android:layout_centerInParent="true"
+            android:text="选择地址"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
         android:background="@color/line_color"
@@ -52,7 +68,7 @@
         android:layout_below="@id/view_line"
         android:layout_margin="10dp"
         android:background="@drawable/city_serch"
-        android:drawableLeft="@mipmap/serch_gl"
+        android:drawableLeft="@drawable/ease_search_bar_icon_normal"
         android:drawablePadding="5dp"
         android:hint="输入您的地址"
         android:paddingLeft="15dp"

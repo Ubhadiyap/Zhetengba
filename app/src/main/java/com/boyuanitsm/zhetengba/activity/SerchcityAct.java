@@ -1,7 +1,9 @@
 package com.boyuanitsm.zhetengba.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -47,9 +49,9 @@ public class SerchcityAct extends BaseActivity {
     private SuggestionSearch mSuggestionSearch;
     private List<SuggestionResult.SuggestionInfo>infos;//收索结果
     private ResultAdapter adapter;
-
-
-
+    private String cityName;
+    private String cityCode;
+    private String locationCity;//定位城市
     @Override
 
     public void setLayout() {
@@ -61,6 +63,12 @@ public class SerchcityAct extends BaseActivity {
         infos=new ArrayList<SuggestionResult.SuggestionInfo>();
         //初识化在线建议查询
         initPoiSearch();
+        //实例化SharedPreferences对象（第一步）
+        SharedPreferences sharedPreferences = getSharedPreferences("ztb_City",
+                Activity.MODE_PRIVATE);
+        locationCity=sharedPreferences.getString("city_location","");
+        cityCode=sharedPreferences.getString("cityCode","");
+        tv_city.setText(locationCity);
         et_sh.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -70,7 +78,7 @@ public class SerchcityAct extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString() != null && !"".equals(s.toString())) {
-                    mSuggestionSearch.requestSuggestion((new SuggestionSearchOption()).city("上海").keyword(s.toString()));
+                    mSuggestionSearch.requestSuggestion((new SuggestionSearchOption()).city(tv_city.getText().toString().trim()).keyword(s.toString()));
                 }
 
             }
@@ -98,10 +106,10 @@ public class SerchcityAct extends BaseActivity {
                 suggestionInfo.setDistrict(info.district);
                 suggestionInfo.setPt(info.pt);
                 suggestionInfo.setUid(info.uid);
-
                 Intent intent=new Intent();
                 intent.setAction(ContractedAct.UPDATA_ET);
-                intent.putExtra("suggestionInfo",suggestionInfo);
+                intent.putExtra("suggestionInfo", suggestionInfo);
+                intent.putExtra("cityCode",cityCode);
                 sendBroadcast(intent);
                 finish();
 
@@ -122,12 +130,26 @@ public class SerchcityAct extends BaseActivity {
     public void onclick(View v) {
         switch (v.getId()) {
             case R.id.rl_citychang:
-                openActivity(CityAct.class);
+                Intent intent=new Intent(SerchcityAct.this,CityAct.class);
+                intent.putExtra("Citytype", 1);
+                startActivityForResult(intent, 0);
+//                openActivity(CityAct.class);
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode==0){
+            if (data!=null){
+                cityName = data.getStringExtra("CityName");
+                cityCode = data.getStringExtra("CityCode");
+                tv_city.setText(cityName+"市");
+            }
 
+        }
+
+    }
 
     /**
      * 收索出来的适配器

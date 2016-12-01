@@ -40,6 +40,33 @@ public class SimpleInfo implements Parcelable{
     private boolean colleagues;//是否同事
     private boolean friend;//false 是否好友
     private int joinCount;//一起参加次数
+    private Double addLat;//地理经度
+    private Double addLng;//地理纬度
+    private String cityCode;//城市编码
+
+    public Double getAddLat() {
+        return addLat;
+    }
+
+    public void setAddLat(Double addLat) {
+        this.addLat = addLat;
+    }
+
+    public Double getAddLng() {
+        return addLng;
+    }
+
+    public void setAddLng(Double addLng) {
+        this.addLng = addLng;
+    }
+
+    public String getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
+    }
 
     @Override
     public String toString() {
@@ -373,6 +400,9 @@ public class SimpleInfo implements Parcelable{
         dest.writeByte(this.colleagues ? (byte) 1 : (byte) 0);
         dest.writeByte(this.friend ? (byte) 1 : (byte) 0);
         dest.writeInt(this.joinCount);
+        dest.writeValue(this.addLat);
+        dest.writeValue(this.addLng);
+        dest.writeString(this.cityCode);
     }
 
     protected SimpleInfo(Parcel in) {
@@ -407,6 +437,9 @@ public class SimpleInfo implements Parcelable{
         this.colleagues = in.readByte() != 0;
         this.friend = in.readByte() != 0;
         this.joinCount = in.readInt();
+        this.addLat = (Double) in.readValue(Double.class.getClassLoader());
+        this.addLng = (Double) in.readValue(Double.class.getClassLoader());
+        this.cityCode = in.readString();
     }
 
     public static final Creator<SimpleInfo> CREATOR = new Creator<SimpleInfo>() {

@@ -92,7 +92,7 @@ public class CityAct extends BaseActivity {
     public static final String CITYNAME = "city_name";//定位的城市
 
     private UserInfo user;//根据user里面的city(是城市id)然后匹配本地数据库读出城市名称
-
+    private int type;//0是从首页进入，1是从发布档期地址进入
 
     @Override
     public void setLayout() {
@@ -103,6 +103,7 @@ public class CityAct extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         user = UserInfoDao.getUser();
+        type=getIntent().getIntExtra("Citytype",0);
         city_result = new ArrayList<CityBean>();//收索城市接口
         helper = new DatabaseHelper(this);//超做历史记录的数据库(这里可以暂时不要)
 
@@ -154,8 +155,15 @@ public class CityAct extends BaseActivity {
 //                Toast.makeText(getApplicationContext(),
 //                        city_result.get(position).getName(), Toast.LENGTH_SHORT)
 //                        .show();
-                user.setCity(city_result.get(position).getCityid());
-                modifyUser(user);//选择收索出来的城市后把它传给后台
+                if (type==0){
+                    user.setCity(city_result.get(position).getCityid());
+                    modifyUser(user);//选择收索出来的城市后把它传给后台
+                }else if (type==1){
+                   Intent intent=new Intent();
+                    intent.putExtra("CityName",city_result.get(position).getName());
+                    intent.putExtra("CityCode", city_result.get(position).getCityid());
+                    setResult(0,intent);
+                }
                 finish();
 
             }
@@ -279,10 +287,10 @@ public class CityAct extends BaseActivity {
         }
 
         if (mAdapter == null) {
-            mAdapter = new CityListAdapter(this, list, mSections, mPositions, listHots);
+            mAdapter = new CityListAdapter(this, list, mSections, mPositions, listHots,type);
             mListView.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyData(list, mSections, mPositions, listHots);
+            mAdapter.notifyData(list, mSections, mPositions, listHots,type);
         }
 
         mListView.setOnScrollListener(mAdapter);
@@ -426,6 +434,7 @@ public class CityAct extends BaseActivity {
             public void onResponse(ResultBean<String> response) {
                 UserInfoDao.updateUser(user);//成功后更新数据并通知变化首页左上角城市
                 sendBroadcast(new Intent(SimpleFrg.UPDATA_CITY_RES));
+                sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
             }
         });
     }

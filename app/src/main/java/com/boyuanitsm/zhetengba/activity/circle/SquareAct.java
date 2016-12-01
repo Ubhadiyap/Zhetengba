@@ -421,7 +421,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                     public void onItemClick(View view, String id, int position) {
                         channelId = id;
                         flag=false;
-                        vp_chan.getRefreshableView().setSelection(position);
+                        vp_chan.getRefreshableView().setSelection(position+1);
                         cusPos = position;
                         ll_comment.setVisibility(View.VISIBLE);
                         et_comment.requestFocus();
@@ -461,7 +461,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                     et_comment.setHint("说点什么吧...");
                     flag = false;
                 }
-                vp_chan.getRefreshableView().setSelection(cusPos);
+                vp_chan.getRefreshableView().setSelection(cusPos+1);
                 et_comment.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);

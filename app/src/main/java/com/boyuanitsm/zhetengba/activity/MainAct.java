@@ -839,6 +839,7 @@ public class MainAct extends BaseActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 //用putString的方法保存数据
                     editor.putString("city_location", locationCity);
+                editor.putString("cityCode",citycode);
                 //提交当前数据
                 editor.commit();
                 user.setCity(citycode);//保存城市编码

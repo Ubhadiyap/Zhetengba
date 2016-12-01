@@ -54,9 +54,9 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
     private ProgressDialog dialog;
     private UserInfo user;
     private int clickPos=-1;
-
+    private int type=0;
     public CityListAdapter(CityAct context, List<CityBean> datas, List<String> friendsSections,
-                           List<Integer> friendsPositions, List<CityBean> hotList) {
+                           List<Integer> friendsPositions, List<CityBean> hotList,int type) {
         // TODO Auto-generated constructor stub
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -64,6 +64,7 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
         mFriendsSections = friendsSections;
         mFriendsPositions = friendsPositions;
         this.hotList = hotList;
+        this.type=type;
         user = UserInfoDao.getUser();
         dialog = new ProgressDialog(context);
         dialog.setMessage("重新定位中，请稍后...");
@@ -71,11 +72,12 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
     }
 
     public void notifyData(List<CityBean> datas, List<String> friendsSections,
-                           List<Integer> friendsPositions, List<CityBean> hotList) {
+                           List<Integer> friendsPositions, List<CityBean> hotList,int type) {
         mDatas = datas;
         mFriendsSections = friendsSections;
         mFriendsPositions = friendsPositions;
         this.hotList = hotList;
+        this.type=type;
         dialog.dismiss();
 //        GlobalParams.bdPosition = 0;
         notifyDataSetChanged();
@@ -174,11 +176,20 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
             rlGps.setVisibility(View.GONE);
             mvHot.setVisibility(View.VISIBLE);
             if (hotList != null && hotList.size() > 0) {
-                SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_CityPos",
-                        Activity.MODE_PRIVATE);
-                //实例化SharedPreferences.Editor对象（第二步）
-                clickPos  = sharedPreferences.getInt("city_Pos", 0);
-                mvHot.setAdapter(new GvCityAdapter(context, hotList, clickPos));
+                if (type==0){
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_CityPos",
+                            Activity.MODE_PRIVATE);
+                    //实例化SharedPreferences.Editor对象（第二步）
+                    clickPos  = sharedPreferences.getInt("city_Pos", 0);
+                    mvHot.setAdapter(new GvCityAdapter(context, hotList, clickPos));
+                }else if (type==1){
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_CityPos",
+                            Activity.MODE_PRIVATE);
+                    //实例化SharedPreferences.Editor对象（第二步）
+                    clickPos  = sharedPreferences.getInt("city_Pos2", 0);
+                    mvHot.setAdapter(new GvCityAdapter(context, hotList, clickPos));
+                }
+
                 mvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -187,20 +198,40 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
 //                                new CityEvent(hotList.get(position)));
 //                        context.finish();
 //                        context.overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-                        //实例化SharedPreferences对象（第一步）
-                        SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_CityPos",
-                                Activity.MODE_PRIVATE);
-                        //实例化SharedPreferences.Editor对象（第二步）
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        //用putString的方法保存数据
-                        editor.putInt("city_Pos", position);
-                        //提交当前数据
-                        editor.commit();
-                        GvCityAdapter.getIsSelected().put(position, true);
-                        GvCityAdapter adapter = new GvCityAdapter(context, hotList, position);
-                        mvHot.setAdapter(adapter);
-                        user.setCity(hotList.get(position).getCityid());
-                        modifyUser(user);//选择收索出来的城市后把它传给后台
+                        if (type==0){
+                            //实例化SharedPreferences对象（第一步）
+                            SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_CityPos",
+                                    Activity.MODE_PRIVATE);
+                            //实例化SharedPreferences.Editor对象（第二步）
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            //用putString的方法保存数据
+                            editor.putInt("city_Pos", position);
+                            //提交当前数据
+                            editor.commit();
+                            GvCityAdapter.getIsSelected().put(position, true);
+                            GvCityAdapter adapter = new GvCityAdapter(context, hotList, position);
+                            mvHot.setAdapter(adapter);
+                            user.setCity(hotList.get(position).getCityid());
+                            modifyUser(user);//选择收索出来的城市后把它传给后台
+                        }else if (type==1){
+                            //实例化SharedPreferences对象（第一步）
+                            SharedPreferences sharedPreferences = context.getSharedPreferences("ztb_CityPos",
+                                    Activity.MODE_PRIVATE);
+                            //实例化SharedPreferences.Editor对象（第二步）
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            //用putString的方法保存数据
+                            editor.putInt("city_Pos2", position);
+                            //提交当前数据
+                            editor.commit();
+                            GvCityAdapter.getIsSelected().put(position, true);
+                            GvCityAdapter adapter = new GvCityAdapter(context, hotList, position);
+                            mvHot.setAdapter(adapter);
+                            Intent intent=new Intent();
+                            intent.putExtra("CityName",hotList.get(position).getName());
+                            intent.putExtra("CityCode",hotList.get(position).getCityid());
+                            context.setResult(0,intent);
+                        }
+
                         context.finish();
                     }
                 });
@@ -221,8 +252,15 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
 //                            new CityEvent(mDatas.get(position)));
 //                    context.finish();
 //                    context.overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-                    user.setCity(mDatas.get(position).getCityid());
-                    modifyUser(user);//选择收索出来的城市后把它传给后台
+                    if (type==0){
+                        user.setCity(mDatas.get(position).getCityid());
+                        modifyUser(user);//选择收索出来的城市后把它传给后台
+                    }else if (type==1){
+                        Intent intent=new Intent();
+                        intent.putExtra("CityName",mDatas.get(position).getName());
+                        intent.putExtra("CityCode",mDatas.get(position).getCityid());
+                        context.setResult(0,intent);
+                    }
                     context.finish();
 
                 }

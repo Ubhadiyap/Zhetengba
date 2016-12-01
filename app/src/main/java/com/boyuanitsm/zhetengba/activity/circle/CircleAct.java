@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewParent;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -155,16 +156,16 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
         if (!TextUtils.isEmpty(cir_news)) {
             ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(cir_news), cv_head2, options);
         }
-        if (CircleNewMessDao.getUser() != null) {
-            NewCircleMess newCircleMess = CircleNewMessDao.getUser();
-            if (newCircleMess.isMess() == false) {
-                iv_xnew.setVisibility(View.VISIBLE);
-//                ll_news.setVisibility(View.VISIBLE);
-            } else {
-                iv_xnew.setVisibility(View.GONE);
-//                ll_news.setVisibility(View.GONE);
-            }
-        }
+//        if (CircleNewMessDao.getUser() != null) {
+//            NewCircleMess newCircleMess = CircleNewMessDao.getUser();
+//            if (newCircleMess.isMess() == false) {
+//                iv_xnew.setVisibility(View.VISIBLE);
+////                ll_news.setVisibility(View.VISIBLE);
+//            } else {
+//                iv_xnew.setVisibility(View.GONE);
+////                ll_news.setVisibility(View.GONE);
+//            }
+//        }
         LayoutHelperUtil.freshInit(lv_cir);
         lv_cir.getRefreshableView().addHeaderView(headview);
         //用缓存
@@ -582,15 +583,15 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     return;
                 }
             }
-            if (CircleNewMessDao.getUser() != null) {
-                if (CircleNewMessDao.getUser().isMess() == false) {
-                    iv_xnew.setVisibility(View.VISIBLE);
-                } else {
-                    iv_xnew.setVisibility(View.GONE);
-                }
-            } else {
-                iv_xnew.setVisibility(View.GONE);
-            }
+//            if (CircleNewMessDao.getUser() != null) {
+//                if (CircleNewMessDao.getUser().isMess() == false) {
+//                    iv_xnew.setVisibility(View.VISIBLE);
+//                } else {
+//                    iv_xnew.setVisibility(View.GONE);
+//                }
+//            } else {
+//                iv_xnew.setVisibility(View.GONE);
+//            }
             Bundle bundle = intent.getExtras();
             if (bundle != null && datas.size() > 0) {
                 String tag = bundle.getString("tag");

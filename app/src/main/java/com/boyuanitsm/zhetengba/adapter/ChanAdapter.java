@@ -409,7 +409,11 @@ public class ChanAdapter extends BaseAdapter {
                         Intent intent = new Intent(SquareAct.TALK_LIST);
                         intent.putExtra("cir_hf", "cir_hf");
                         intent.putExtra("petName", clist.get(position2).getPetName());
-                        intent.putExtra("fatherId", clist.get(position2).getId());
+                        if (!TextUtils.isEmpty(clist.get(position2).getFatherCommentId())){
+                            intent.putExtra("fatherId", clist.get(position2).getFatherCommentId());
+                        }else {
+                            intent.putExtra("fatherId", clist.get(position2).getId());
+                        }
                         intent.putExtra("comId", clist.get(position2).getCommentUserId());
                         intent.putExtra("channelTalkId", list.get(position).getId());
                         intent.putExtra("clickPos", position);

@@ -138,8 +138,9 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     private Gson gson;
     private LocalBroadcastManager broadcastManager;
     private IntentFilter filter;
-
-
+    private String cityCode;//城市编码
+    private double addLat;//坐标经度
+    private double addLng;//坐标维度
 
     @Override
     public void setLayout() {
@@ -284,6 +285,15 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         }
         simpleInfo.setActivityVisibility(select);//全部可见
         simpleInfo.setActivityParticulars(backTheme);
+        if (!TextUtils.isEmpty(cityCode)){
+            simpleInfo.setCityCode(cityCode);
+        }
+        if (!TextUtils.isEmpty(addLat+"")){
+            simpleInfo.setAddLat(addLat);
+        }
+        if (!TextUtils.isEmpty(addLng+"")){
+            simpleInfo.setAddLng(addLng);
+        }
       if (select==1){
           if (clickTemp==2){
               simpleInfo.setNoticeUserIds(hucanUserIds);//指定谁可见
@@ -677,6 +687,9 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             } else {
                 tv_select.setHint("无法获取位置信息，请手动输入！");
             }
+            cityCode = bdLocation.getCityCode();
+            addLat = bdLocation.getLatitude();
+            addLng= bdLocation.getAltitude();
         } else {
             tv_select.setHint("无法获取位置信息，请手动输入！");
         }
@@ -687,9 +700,12 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             SuggestionInfoBean infoBean=intent.getParcelableExtra("suggestionInfo");
+            cityCode = intent.getStringExtra("cityCode");
             String key=infoBean.getKey();
             String city=infoBean.getCity();
             String district=infoBean.getDistrict();
+            addLat=infoBean.getPt().latitude;
+            addLng=infoBean.getPt().longitude;
             tv_select.setText(city+district+key);
 
 

@@ -75,7 +75,7 @@
         android:layout_below="@id/view_line"
         android:layout_margin="10dp"
         android:background="@drawable/city_serch"
-        android:drawableLeft="@mipmap/serch_gl"
+        android:drawableLeft="@drawable/ease_search_bar_icon_normal"
         android:drawablePadding="5dp"
         android:hint="输入城市名或拼音"
         android:paddingLeft="15dp"

@@ -29,5 +29,4 @@ public class MyRecyleview extends RecyclerView {
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
 
-
 }

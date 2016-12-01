@@ -74,12 +74,16 @@
                         android:paddingLeft="15dp"
                         android:singleLine="true"
                         android:textSize="12sp" />
-                    <LinearLayout
+                    <TextView
+                        android:gravity="center|right"
+                        android:layout_marginRight="15dp"
                         android:orientation="horizontal"
                         android:id="@+id/rl_city"
+                        android:text="选择地点"
                         android:background="#00000000"
+                        android:textColor="@color/main_color"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"></LinearLayout>
+                        android:layout_height="match_parent"></TextView>
 
                 </RelativeLayout>
 
