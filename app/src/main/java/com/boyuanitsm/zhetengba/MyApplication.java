@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.baidu.mapapi.SDKInitializer;
 import com.boyuanitsm.zhetengba.chat.DemoHelper;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -56,6 +57,10 @@ public class MyApplication extends Application{
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
         //新浪微博 appkey appsecret
         PlatformConfig.setQQZone("1105535488", "xuPkxYELgurLPqvZ");
+
+        SDKInitializer.initialize(getApplicationContext());//在使用SDK各组件之前初始化context信息，传入ApplicationContext
+        //注意该方法要再setContentView方法之前实现
+
 
     }
 
