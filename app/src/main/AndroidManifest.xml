@@ -687,12 +687,12 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-        <!--<meta-data-->
-            <!--android:name="com.baidu.lbsapi.API_KEY"-->
-            <!--android:value="QpVNC1N6WGaZWlYv4BNHCSdCLssyz7KV" /> -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="evwi8GzybfHVCwZcg2dP3EL1noeeQoYG" />
+            android:value="QpVNC1N6WGaZWlYv4BNHCSdCLssyz7KV" />
+        <!--<meta-data-->
+            <!--android:name="com.baidu.lbsapi.API_KEY"-->
+            <!--android:value="evwi8GzybfHVCwZcg2dP3EL1noeeQoYG" />-->
     </application>
 
 
