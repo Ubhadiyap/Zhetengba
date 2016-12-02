@@ -172,7 +172,12 @@ public class CircleMessAdatper extends BaseAdapter {
                 RequestManager.getTalkManager().getCircleTalk(circleInfoList.get(position).getCircleTalkId(), new ResultCallback<ResultBean<CircleEntity>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-
+                        if (status==500){
+                            MyToastUtils.showShortToast(context,"该圈子说说已删除！");
+                            circleInfoList.remove(position);
+                            notifyDataSetChanged();
+                            return;
+                        }
                     }
 
                     @Override
@@ -186,11 +191,6 @@ public class CircleMessAdatper extends BaseAdapter {
                             intent.putExtra("circleId", circleInfoList.get(position).getCircleTalkId());
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
-                        }else {
-                            MyToastUtils.showShortToast(context,"说说已不存在！");
-                            circleInfoList.remove(position);
-                            notifyDataSetChanged();
-                            return;
                         }
                         }
                 });

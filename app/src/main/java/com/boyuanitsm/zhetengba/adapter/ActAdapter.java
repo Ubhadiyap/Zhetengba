@@ -409,8 +409,14 @@ public class ActAdapter extends BaseAdapter {
                     @Override
                     public void onResponse(ResultBean<List<SimpleInfo>> response) {
                         simpleInfos=response.getData();
-                        DscheduDialog dialog=new DscheduDialog(context,simpleInfos,infos.get(position).getCreatePersonId());
-                        dialog.show();
+                        if (simpleInfos!=null&&simpleInfos.size()>0){
+                            DscheduDialog dialog=new DscheduDialog(context,simpleInfos,infos.get(position).getCreatePersonId());
+                            dialog.show();
+                        }else {
+                            MyToastUtils.showShortToast(context,"没有相匹配的档期");
+                            return;
+                        }
+
 
                     }
                 });

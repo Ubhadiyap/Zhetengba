@@ -26,6 +26,8 @@ public class SmartDb extends SmartDBHelper {
 //        super.onUpgrade(db, oldVersion, newVersion);
         if (oldVersion<5){
             TableHelper.createTablesByClasses(db, ConstantValue.NEWSMODELS);
+        }else  if (oldVersion<10){
+         db.execSQL("alter table user_table add city varchar(100)");
         }
     }
 }

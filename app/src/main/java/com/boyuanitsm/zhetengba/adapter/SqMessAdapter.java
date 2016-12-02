@@ -136,7 +136,11 @@ public class SqMessAdapter extends BaseAdapter {
                 RequestManager.getTalkManager().getChanelTalk(list.get(position).getCircleTalkId(), new ResultCallback<ResultBean<ChannelTalkEntity>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-
+                        if (500==status){
+                            MyToastUtils.showShortToast(context,"该吐槽已经删除！");
+                            list.remove(position);
+                            notifyDataSetChanged();
+                        }
                     }
 
                     @Override
