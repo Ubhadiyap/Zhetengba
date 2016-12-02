@@ -138,7 +138,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("");
+        setTopTitle("圈子详情");
         headerView = getLayoutInflater().inflate(R.layout.circle_headerview, null);
         assignView(headerView);
 //        entity = getIntent().getParcelableExtra("circleEntity");
@@ -691,7 +691,7 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
                     znumText.setVisibility(View.VISIBLE);
                     znum2.setText(Integer.parseInt(response.getData()) + "");
                 }
-                iv_zan.setImageResource(R.mipmap.zanx);
+                iv_zan.setImageResource(R.mipmap.zan2x);
             }
         });
     }

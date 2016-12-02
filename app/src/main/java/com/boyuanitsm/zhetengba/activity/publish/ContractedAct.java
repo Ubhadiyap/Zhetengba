@@ -1,11 +1,13 @@
 package com.boyuanitsm.zhetengba.activity.publish;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -117,7 +119,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     @ViewInject(R.id.ll_zhiding)//指定谁看，不让谁看那个布局
     private LinearLayout ll_zhiding;
     private Map<Integer, String> map;
-    private boolean flag = true;
+    private boolean flag = false;
     private int MIN_MARK = 2;
     private int MAX_MARK = 120;
     private Map<String, String> newMap = new HashMap<>();
@@ -677,22 +679,34 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         LogUtils.i("定位回掉。。。。。。。。。。。。。。。");
 //        String cityCode = bdLocation.getCityCode();
 //        MyLogUtils.info("城市编码是===="+cityCode);
+        //实例化SharedPreferences对象（第一步）
+        SharedPreferences sharedPreferences = getSharedPreferences("ztb_cityAd",
+                Activity.MODE_PRIVATE);
+        //实例化SharedPreferences.Editor对象（第二步）
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         if (bdLocation != null) {
             if (!TextUtils.isEmpty(bdLocation.getProvince()) && !TextUtils.isEmpty(bdLocation.getDistrict()) && !TextUtils.isEmpty(bdLocation.getStreet())) {
                 if (ZhetebaUtils.isCity(bdLocation.getProvince())) {
                     tv_select.setText(bdLocation.getCity() + bdLocation.getDistrict() + bdLocation.getStreet());
+                    editor.putString("city_add", bdLocation.getCity() + bdLocation.getDistrict() + bdLocation.getStreet());
                 } else {
+                    editor.putString("city_add", bdLocation.getCity() + bdLocation.getDistrict() + bdLocation.getStreet());
                     tv_select.setText(bdLocation.getProvince() + bdLocation.getCity() + bdLocation.getDistrict() + bdLocation.getStreet());
                 }
             } else {
-                tv_select.setHint("无法获取位置信息，请手动输入！");
+                tv_select.setHint("无法获取位置信息，请手动选择！");
+                editor.putString("city_add", "无法获取位置信息，请手动选择！");
             }
             cityCode = bdLocation.getCityCode();
             addLat = bdLocation.getLatitude();
             addLng= bdLocation.getAltitude();
         } else {
-            tv_select.setHint("无法获取位置信息，请手动输入！");
+            tv_select.setHint("无法获取位置信息，请手动选择！");
+            editor.putString("city_add", "无法获取位置信息，请手动选择！");
+
         }
+        //提交当前数据
+        editor.commit();
         locationClient.stop();
     }
     public static final String UPDATA_ET = "serchcityact_send";//接收发档期收索过来的更改et

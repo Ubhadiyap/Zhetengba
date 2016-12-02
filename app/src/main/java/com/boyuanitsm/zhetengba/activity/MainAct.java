@@ -868,7 +868,7 @@ public class MainAct extends BaseActivity {
                 UserInfoDao.updateUser(user);
                 Intent intent=new Intent();
                 //设置Action
-                intent.setAction(SimpleFrg.UPDATA_CITY);
+                intent.setAction(SimpleFrg.DATA_CHANGE_KEY);
                 //携带数据
                 sendBroadcast(intent);
             }

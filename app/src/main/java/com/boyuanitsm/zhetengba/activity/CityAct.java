@@ -433,7 +433,7 @@ public class CityAct extends BaseActivity {
             @Override
             public void onResponse(ResultBean<String> response) {
                 UserInfoDao.updateUser(user);//成功后更新数据并通知变化首页左上角城市
-                sendBroadcast(new Intent(SimpleFrg.UPDATA_CITY_RES));
+//                sendBroadcast(new Intent(SimpleFrg.UPDATA_CITY_RES));
                 sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
             }
         });

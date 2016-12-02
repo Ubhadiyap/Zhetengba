@@ -17,8 +17,13 @@ import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.circle.ChanelTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
 import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
+import com.boyuanitsm.zhetengba.bean.ChannelTalkEntity;
 import com.boyuanitsm.zhetengba.bean.IconFilePath;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SquareInfo;
+import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
+import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
@@ -128,12 +133,32 @@ public class SqMessAdapter extends BaseAdapter {
         View.OnClickListener listener1=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context, ChanelTextAct.class);
-//                intent.putExtra("circleEntity", circleInfoList.get(position));
-                intent.putExtra("channelId", list.get(position).getCircleTalkId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                RequestManager.getTalkManager().getChanelTalk(list.get(position).getCircleTalkId(), new ResultCallback<ResultBean<ChannelTalkEntity>>() {
+                    @Override
+                    public void onError(int status, String errorMsg) {
+
+                    }
+
+                    @Override
+                    public void onResponse(ResultBean<ChannelTalkEntity> response) {
+                        ChannelTalkEntity channelTalkEntity=new ChannelTalkEntity();
+                        channelTalkEntity= response.getData();
+                        if (channelTalkEntity!=null){
+                            Intent intent = new Intent();
+                            intent.setClass(context, ChanelTextAct.class);
+                            intent.putExtra("channelId", list.get(position).getCircleTalkId());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }else {
+                            MyToastUtils.showShortToast(context,"说说已不存在！");
+                            list.remove(position);
+                            notifyDataSetChanged();
+                            return;
+                        }
+
+                    }
+                });
+
             }
         };
         holder.tv_content.setOnClickListener(listener1);

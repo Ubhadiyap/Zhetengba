@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.PersonalAct;
 import com.boyuanitsm.zhetengba.activity.circle.CircleTextAct;
+import com.boyuanitsm.zhetengba.bean.CircleEntity;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.db.CircleMessDao;
@@ -168,12 +169,32 @@ public class CircleMessAdatper extends BaseAdapter {
         View.OnClickListener listener1 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context, CircleTextAct.class);
+                RequestManager.getTalkManager().getCircleTalk(circleInfoList.get(position).getCircleTalkId(), new ResultCallback<ResultBean<CircleEntity>>() {
+                    @Override
+                    public void onError(int status, String errorMsg) {
+
+                    }
+
+                    @Override
+                    public void onResponse(ResultBean<CircleEntity> response) {
+                      CircleEntity  entity=new CircleEntity();
+                        entity= response.getData();
+                        if (entity!=null) {
+                            Intent intent = new Intent();
+                            intent.setClass(context, CircleTextAct.class);
 //                intent.putExtra("circleEntity", circleInfoList.get(position));
-                intent.putExtra("circleId", circleInfoList.get(position).getCircleTalkId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                            intent.putExtra("circleId", circleInfoList.get(position).getCircleTalkId());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }else {
+                            MyToastUtils.showShortToast(context,"说说已不存在！");
+                            circleInfoList.remove(position);
+                            notifyDataSetChanged();
+                            return;
+                        }
+                        }
+                });
+
             }
         };
         holder1.cv_head2.setOnClickListener(listener);

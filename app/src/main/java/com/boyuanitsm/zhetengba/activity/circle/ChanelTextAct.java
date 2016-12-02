@@ -116,7 +116,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setTopTitle("");
+        setTopTitle("吐槽详情");
         headView=getLayoutInflater().inflate(R.layout.hannel_headerview,null);
         assignView(headView);
 //        channelTalkEntity=getIntent().getParcelableExtra("channelEntity");
@@ -669,7 +669,7 @@ public class ChanelTextAct extends BaseActivity implements View.OnClickListener{
                     znumText.setVisibility(View.VISIBLE);
                     znum2.setText(Integer.parseInt(response.getData()) + "");
                 }
-                iv_zan.setImageResource(R.mipmap.zanx);
+                iv_zan.setImageResource(R.mipmap.zan2x);
             }
         });
     }

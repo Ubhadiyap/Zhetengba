@@ -70,11 +70,21 @@
         android:background="@drawable/city_serch"
         android:drawableLeft="@drawable/ease_search_bar_icon_normal"
         android:drawablePadding="5dp"
+        android:singleLine="true"
         android:hint="输入您的地址"
         android:paddingLeft="15dp"
         android:textColor="#515151"
         android:textSize="16dp"></EditText>
 
+    <TextView
+        android:text="shaghai"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/tv_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dip"
+        android:textColor="#FF767676"
+        android:textSize="16dp" />
     <ListView
         android:id="@+id/serch_plv"
         android:layout_width="fill_parent"

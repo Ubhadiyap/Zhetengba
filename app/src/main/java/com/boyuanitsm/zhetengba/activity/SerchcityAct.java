@@ -46,6 +46,8 @@ public class SerchcityAct extends BaseActivity {
     private EditText et_sh;//收索框
     @ViewInject(R.id.serch_plv)
     private ListView serch_plv;
+    @ViewInject(R.id.tv_address)
+    private TextView tv_address;
     private SuggestionSearch mSuggestionSearch;
     private List<SuggestionResult.SuggestionInfo>infos;//收索结果
     private ResultAdapter adapter;
@@ -68,6 +70,11 @@ public class SerchcityAct extends BaseActivity {
                 Activity.MODE_PRIVATE);
         locationCity=sharedPreferences.getString("city_location","");
         cityCode=sharedPreferences.getString("cityCode","");
+
+        //实例化SharedPreferences对象（第一步）
+        SharedPreferences sharedPreferences2 = getSharedPreferences("ztb_cityAd",
+                Activity.MODE_PRIVATE);
+        tv_address.setText("当前地址："+sharedPreferences2.getString("city_add",""));
         tv_city.setText(locationCity);
         et_sh.addTextChangedListener(new TextWatcher() {
             @Override
@@ -77,6 +84,7 @@ public class SerchcityAct extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tv_address.setVisibility(View.GONE);
                 if (s.toString() != null && !"".equals(s.toString())) {
                     mSuggestionSearch.requestSuggestion((new SuggestionSearchOption()).city(tv_city.getText().toString().trim()).keyword(s.toString()));
                 }
@@ -89,6 +97,7 @@ public class SerchcityAct extends BaseActivity {
                     if(infos!=null){
                     infos.clear();
                     adapter.notify(infos);}
+                    tv_address.setVisibility(View.VISIBLE);
                     serch_plv.setVisibility(View.GONE);//这里做了个欺骗因为这里快速清空输入框没达到效果
                 }
 

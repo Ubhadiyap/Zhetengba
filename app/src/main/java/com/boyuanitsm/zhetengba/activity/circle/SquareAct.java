@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -45,6 +47,7 @@ import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
 import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
+import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
 import com.boyuanitsm.zhetengba.utils.ZtinfoUtils;
 import com.boyuanitsm.zhetengba.view.CircleImageView;
 import com.boyuanitsm.zhetengba.view.LoadingView;
@@ -125,6 +128,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565).build();
+    private int srfHeight;
 
     @Override
     public void setLayout() {
@@ -237,6 +241,25 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
             public void OnRetry() {
                 getChannelTalks(labelStr, page, rows);
             }
+        });
+        et_comment.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            //当键盘弹出隐藏的时候会 调用此方法。
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                //获取当前界面可视部分
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
+                //获取屏幕的高度
+                int screenHeight = getWindow().getDecorView().getRootView().getHeight();
+                //此处就是用来获取键盘的高度的， 在键盘没有弹出的时候 此高度为0 键盘弹出的时候为一个正数
+                srfHeight = screenHeight - r.bottom;
+                if (srfHeight > 0) {
+                    vp_chan.getRefreshableView().setSelectionFromTop(cusPos + 1, -srfHeight / 3);
+                }
+                MyLogUtils.info(srfHeight + "输入法弹出的高度===");
+            }
+
         });
     }
 
@@ -421,7 +444,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                     public void onItemClick(View view, String id, int position) {
                         channelId = id;
                         flag=false;
-                        vp_chan.getRefreshableView().setSelection(position+1);
+//                        vp_chan.getRefreshableView().setSelection(position+1);
                         cusPos = position;
                         ll_comment.setVisibility(View.VISIBLE);
                         et_comment.requestFocus();
@@ -461,7 +484,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                     et_comment.setHint("说点什么吧...");
                     flag = false;
                 }
-                vp_chan.getRefreshableView().setSelection(cusPos+1);
+
                 et_comment.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);

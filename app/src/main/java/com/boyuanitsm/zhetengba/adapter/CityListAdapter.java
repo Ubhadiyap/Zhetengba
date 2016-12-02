@@ -352,7 +352,8 @@ public class CityListAdapter extends BaseAdapter implements SectionIndexer,
             @Override
             public void onResponse(ResultBean<String> response) {
                 UserInfoDao.updateUser(user);//成功后更新数据并通知变化首页左上角城市
-                context.sendBroadcast(new Intent(SimpleFrg.UPDATA_CITY_NORES));
+//                context.sendBroadcast(new Intent(SimpleFrg.UPDATA_CITY_NORES));
+                context.sendBroadcast(new Intent(SimpleFrg.DATA_CHANGE_KEY));
                 MyLogUtils.info(UserInfoDao.getUser().getCity());
             }
         });

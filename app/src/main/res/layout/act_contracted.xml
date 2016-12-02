@@ -307,8 +307,7 @@
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
-                    android:paddingBottom="10dp"
-                    android:visibility="gone">
+                    android:paddingBottom="10dp">
 
                     <com.boyuanitsm.zhetengba.view.MyGridView
                         android:id="@+id/gv_tab"

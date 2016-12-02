@@ -244,7 +244,7 @@ public class CirMessAct extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             getDqMess(type, page, rows);
-            CircleMessDao.dellAll();
+//            CircleMessDao.dellAll();
 
         }
     }

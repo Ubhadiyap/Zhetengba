@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewParent;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -96,6 +98,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
     private EditText et_comment;
     @ViewInject(R.id.iv_chanel_comment)
     private Button bt_send;
+
     //    @ViewInject(R.id.ll_news)
 //    private LinearLayout ll_news;
 //    @ViewInject(R.id.cv_head)
@@ -104,6 +107,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
 //    private TextView tv_mess;
     private int cusPos;
     private String cirId;
+    private int srfHeight;
 
     private ACache aCache;
     private String strlist;
@@ -244,6 +248,25 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                 getAllCircleTalk(page, rows);
             }
         });
+        et_comment.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            //当键盘弹出隐藏的时候会 调用此方法。
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                //获取当前界面可视部分
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
+                //获取屏幕的高度
+                int screenHeight = getWindow().getDecorView().getRootView().getHeight();
+                //此处就是用来获取键盘的高度的， 在键盘没有弹出的时候 此高度为0 键盘弹出的时候为一个正数
+                srfHeight = screenHeight - r.bottom;
+                if (srfHeight > 0) {
+                    lv_cir.getRefreshableView().setSelectionFromTop(cusPos + 1, -srfHeight / 3);
+                }
+                MyLogUtils.info(srfHeight + "输入法弹出的高度===");
+            }
+
+        });
     }
 
     private List<CircleEntity> datas = new ArrayList<>();
@@ -305,7 +328,7 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onItemClick(View view, String id, int position) {
                         cirId = id;
-                        lv_cir.getRefreshableView().setSelection(position);
+//                        lv_cir.getRefreshableView().setSelection(position);
                         cusPos = position;
                         flag = false;
                         et_comment.setHint("说点什么吧...");
@@ -560,10 +583,11 @@ public class CircleAct extends BaseActivity implements View.OnClickListener {
                     et_comment.setHint("说点什么吧...");
                     flag = false;
                 }
-                lv_cir.getRefreshableView().setSelection(cusPos);
+//                lv_cir.getRefreshableView().setSelection(cusPos);
                 et_comment.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
             }
             SharedPreferences sharedPreferences = getSharedPreferences("ztb_cirNews",
                     Activity.MODE_PRIVATE);

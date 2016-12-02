@@ -115,18 +115,19 @@ public class SimpleFrg extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            String action=intent.getAction();
-            if(action.equals(UPDATA_CITY)){//表示接收的是定位好城市后发过来的广播
+//            String action=intent.getAction();
+//            if(action.equals(UPDATA_CITY)){//表示接收的是定位好城市后发过来的广播
+//
+//            }else if(action.equals(DATA_CHANGE_KEY)) {
                 getcityName();
-            }else if(action.equals(DATA_CHANGE_KEY)) {
                 page = 1;
                 state = intent.getIntExtra("state", state);
                 getFriendOrAllAcitvity(page, rows, state + "", labelIds, times);//切换到好友；
-            }else if(action.equals(UPDATA_CITY_RES)){//接收收索过来的结果
-                getcityName();
-            }else if(action.equals(UPDATA_CITY_NORES)){//接收手动过来的广播
-                getcityName();
-            }
+//            }else if(action.equals(UPDATA_CITY_RES)){//接收收索过来的结果
+//                getcityName();
+//            }else if(action.equals(UPDATA_CITY_NORES)){//接收手动过来的广播
+//                getcityName();
+//            }
         }
     };
     @ViewInject(R.id.load_view)
@@ -434,12 +435,12 @@ public class SimpleFrg extends BaseFragment {
     @Override
     public void onStart() {
         //广播接收者，接受好友列表更新数据
-        filter = new IntentFilter();
-        filter.addAction(DATA_CHANGE_KEY);
-        filter.addAction(UPDATA_CITY);
-        filter.addAction(UPDATA_CITY_RES);
-        filter.addAction(UPDATA_CITY_NORES);
-        mActivity.registerReceiver(DteChangeRecevier, filter);//切换到好友；
+//        filter = new IntentFilter();
+//        filter.addAction(DATA_CHANGE_KEY);
+//        filter.addAction(UPDATA_CITY);
+//        filter.addAction(UPDATA_CITY_RES);
+//        filter.addAction(UPDATA_CITY_NORES);
+        mActivity.registerReceiver(DteChangeRecevier, new IntentFilter(DATA_CHANGE_KEY));//切换到好友；
         super.onStart();
     }
 
