@@ -192,6 +192,8 @@ public class PersonalAct extends BaseActivity{
                     ll_float.setVisibility(View.VISIBLE);
                 } else {
                     ll_float.setVisibility(View.GONE);
+
+
                 }
             }
         });
@@ -596,21 +598,16 @@ public class PersonalAct extends BaseActivity{
      * 点击头像跳转个人资料
      */
     private void setOnclikListener() {
-        urlList = ZtinfoUtils.convertStrToArray(userEntity.get(0).getIcon());
-        cv_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intentPerson = new Intent();
-//                intentPerson.setClass(PersonalAct.this, PersonalmesAct.class);
-//                Bundle bundlePerson = new Bundle();
-//                bundlePerson.putParcelable(PAGEFRG_KEY, personalMain);
-//                intentPerson.putExtras(bundlePerson);
-//                startActivity(intentPerson);
-                PicSmShowDialog dialog=new PicSmShowDialog(PersonalAct.this,urlList,0);
-                dialog.show();
-            }
-        });
-
+        if (!TextUtils.isEmpty(userEntity.get(0).getIcon())){
+            urlList = ZtinfoUtils.convertStrToArray(userEntity.get(0).getIcon());
+            cv_photo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PicSmShowDialog dialog=new PicSmShowDialog(PersonalAct.this,urlList,0);
+                    dialog.show();
+                }
+            });
+        }
     }
     /**
      * 用户信息初始化

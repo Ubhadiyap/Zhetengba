@@ -698,8 +698,8 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
                 editor.putString("city_add", "无法获取位置信息，请手动选择！");
             }
             cityCode = bdLocation.getCityCode();
-            addLat = bdLocation.getLatitude();
-            addLng= bdLocation.getAltitude();
+            addLng = bdLocation.getLatitude();
+            addLat= bdLocation.getAltitude();
         } else {
             tv_select.setHint("无法获取位置信息，请手动选择！");
             editor.putString("city_add", "无法获取位置信息，请手动选择！");
@@ -718,8 +718,8 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
             String key=infoBean.getKey();
             String city=infoBean.getCity();
             String district=infoBean.getDistrict();
-            addLat=infoBean.getPt().latitude;
-            addLng=infoBean.getPt().longitude;
+            addLng=infoBean.getPt().latitude;
+            addLat=infoBean.getPt().longitude;
             tv_select.setText(city+district+key);
 
 
