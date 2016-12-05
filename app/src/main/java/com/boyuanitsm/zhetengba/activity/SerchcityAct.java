@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +21,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiAddrInfo;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
@@ -28,18 +37,24 @@ import com.boyuanitsm.zhetengba.activity.publish.ContractedAct;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 
 
+import com.boyuanitsm.zhetengba.bean.CityBean;
+import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SuggestionInfoBean;
+import com.boyuanitsm.zhetengba.db.DBHelper;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.view.scan.Intents;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**发档期选择地址时候收索
+/**
+ * 发档期选择地址时候收索
  * Created by bitch-1 on 2016/11/29.
  */
-public class SerchcityAct extends BaseActivity {
+public class SerchcityAct extends BaseActivity{
     @ViewInject(R.id.tv_city)
     private TextView tv_city;//城市
     @ViewInject(R.id.et_sh)
@@ -49,7 +64,7 @@ public class SerchcityAct extends BaseActivity {
     @ViewInject(R.id.tv_address)
     private TextView tv_address;
     private SuggestionSearch mSuggestionSearch;
-    private List<SuggestionResult.SuggestionInfo>infos;//收索结果
+    private List<SuggestionResult.SuggestionInfo> infos;//收索结果
     private ResultAdapter adapter;
     private String cityName;
     private String cityCode;
@@ -62,19 +77,19 @@ public class SerchcityAct extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        infos=new ArrayList<SuggestionResult.SuggestionInfo>();
+        infos = new ArrayList<SuggestionResult.SuggestionInfo>();
         //初识化在线建议查询
         initPoiSearch();
         //实例化SharedPreferences对象（第一步）
         SharedPreferences sharedPreferences = getSharedPreferences("ztb_City",
                 Activity.MODE_PRIVATE);
-        locationCity=sharedPreferences.getString("city_location","");
-        cityCode=sharedPreferences.getString("cityCode","");
+        locationCity = sharedPreferences.getString("city_location", "");
+        cityCode = sharedPreferences.getString("cityCode", "");
 
         //实例化SharedPreferences对象（第一步）
         SharedPreferences sharedPreferences2 = getSharedPreferences("ztb_cityAd",
                 Activity.MODE_PRIVATE);
-        tv_address.setText("当前地址："+sharedPreferences2.getString("city_add",""));
+        tv_address.setText("当前地址：" + sharedPreferences2.getString("city_add", ""));
         tv_city.setText(locationCity);
         et_sh.addTextChangedListener(new TextWatcher() {
             @Override
@@ -86,17 +101,23 @@ public class SerchcityAct extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tv_address.setVisibility(View.GONE);
                 if (s.toString() != null && !"".equals(s.toString())) {
-                    mSuggestionSearch.requestSuggestion((new SuggestionSearchOption()).city(tv_city.getText().toString().trim()).keyword(s.toString()));
+//                    mPoiserch.searchInCity(new PoiCitySearchOption().city(tv_city.getText().toString().trim()).keyword(s.toString()));
+
+                    mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
+                            .keyword(s.toString())
+                            .city(tv_city.getText().toString().trim()));
+
                 }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(et_sh.getText().toString())){
-                    if(infos!=null){
-                    infos.clear();
-                    adapter.notify(infos);}
+                if (TextUtils.isEmpty(et_sh.getText().toString())) {
+                    if (infos != null) {
+                        infos.clear();
+                        adapter.notify(infos);
+                    }
                     tv_address.setVisibility(View.VISIBLE);
                     serch_plv.setVisibility(View.GONE);//这里做了个欺骗因为这里快速清空输入框没达到效果
                 }
@@ -108,17 +129,17 @@ public class SerchcityAct extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mSuggestionSearch.destroy();
 //                SuggestionResult.SuggestionInfo suggestionInfo= (SuggestionResult.SuggestionInfo) parent.getItemAtPosition(position);
-                SuggestionResult.SuggestionInfo info= (SuggestionResult.SuggestionInfo) parent.getItemAtPosition(position);
-                SuggestionInfoBean suggestionInfo=new SuggestionInfoBean();
+                SuggestionResult.SuggestionInfo info = (SuggestionResult.SuggestionInfo) parent.getItemAtPosition(position);
+                SuggestionInfoBean suggestionInfo = new SuggestionInfoBean();
                 suggestionInfo.setKey(info.key);
                 suggestionInfo.setCity(info.city);
                 suggestionInfo.setDistrict(info.district);
                 suggestionInfo.setPt(info.pt);
                 suggestionInfo.setUid(info.uid);
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setAction(ContractedAct.UPDATA_ET);
                 intent.putExtra("suggestionInfo", suggestionInfo);
-                intent.putExtra("cityCode",cityCode);
+                intent.putExtra("cityCode", cityCode);
                 sendBroadcast(intent);
                 finish();
 
@@ -139,7 +160,7 @@ public class SerchcityAct extends BaseActivity {
     public void onclick(View v) {
         switch (v.getId()) {
             case R.id.rl_citychang:
-                Intent intent=new Intent(SerchcityAct.this,CityAct.class);
+                Intent intent = new Intent(SerchcityAct.this, CityAct.class);
                 intent.putExtra("Citytype", 1);
                 startActivityForResult(intent, 0);
 //                openActivity(CityAct.class);
@@ -149,16 +170,17 @@ public class SerchcityAct extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode==0){
-            if (data!=null){
+        if (requestCode == 0) {
+            if (data != null) {
                 cityName = data.getStringExtra("CityName");
                 cityCode = data.getStringExtra("CityCode");
-                tv_city.setText(cityName+"市");
+                tv_city.setText(cityName);
             }
 
         }
 
     }
+
 
     /**
      * 收索出来的适配器
@@ -171,7 +193,8 @@ public class SerchcityAct extends BaseActivity {
             inflater = LayoutInflater.from(context);
             this.results = results;
         }
-        public void notify(List<SuggestionResult.SuggestionInfo> results ) {
+
+        public void notify(List<SuggestionResult.SuggestionInfo> results) {
             this.results = results;
             notifyDataSetChanged();
         }
@@ -193,7 +216,7 @@ public class SerchcityAct extends BaseActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder=null;
+            ViewHolder viewHolder = null;
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.list_item, null);
                 viewHolder = new ViewHolder();
@@ -203,11 +226,15 @@ public class SerchcityAct extends BaseActivity {
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            if (!TextUtils.isEmpty(infos.get(position).city) || !TextUtils.isEmpty(infos.get(position).district))
-                viewHolder.name.setText(
-                        infos.get(position).key + "(" + infos.get(position).city + infos.get(position).district + ")");
-            else
+            if (!TextUtils.isEmpty(infos.get(position).city) || !TextUtils.isEmpty(infos.get(position).district)){
+                MyLogUtils.info(infos.get(position).city+"城市=="+infos.get(position).district);
+                viewHolder.name.setText(infos.get(position).key + "(" + infos.get(position).city + infos.get(position).district + ")");
+            }
+            else{
+                MyLogUtils.info(infos.get(position).city+"城市==");
                 viewHolder.name.setText(infos.get(position).key);
+
+            }
 
             return convertView;
         }
@@ -218,31 +245,32 @@ public class SerchcityAct extends BaseActivity {
 
     }
 
-    private OnGetSuggestionResultListener listener =new OnGetSuggestionResultListener(){
+    private OnGetSuggestionResultListener listener = new OnGetSuggestionResultListener() {
 
         @Override
         public void onGetSuggestionResult(SuggestionResult suggestionResult) {
             if (suggestionResult == null || suggestionResult.getAllSuggestions() == null) {
                 return;
                 //未找到相关结果
-            }else {
+            } else {
                 serch_plv.setVisibility(View.VISIBLE);
                 infos.clear();
                 List<SuggestionResult.SuggestionInfo> suggestionInfos = suggestionResult.getAllSuggestions();
+                MyLogUtils.info(suggestionInfos+"搜索结果");
                 for (int i = 0; i < suggestionInfos.size(); i++) {
                     if (!TextUtils.isEmpty(suggestionInfos.get(i).key) && suggestionInfos.get(i).pt != null) {
                         infos.add(suggestionInfos.get(i));//筛选结果，只有关键字和经纬度同时获取到的才显示在列表中
                     }
                 }
-                if(infos!=null){
-                    adapter=new ResultAdapter(SerchcityAct.this,infos);
+                if (infos != null) {
+                    adapter = new ResultAdapter(SerchcityAct.this, infos);
                     serch_plv.setAdapter(adapter);
                 }
 
             }
 
-            }
-        };
+        }
+    };
 
-    }
+}
 

@@ -246,6 +246,8 @@ public class CircleTextAct extends BaseActivity implements View.OnClickListener 
                 } else {
                     cirType.setText(entity.getCircleName());
                 }
+            }else {
+                cirType.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(entity.getUserName())) {
                 name.setText(entity.getUserName());

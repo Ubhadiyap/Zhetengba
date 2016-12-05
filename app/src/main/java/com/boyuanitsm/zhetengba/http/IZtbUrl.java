@@ -10,12 +10,12 @@ public interface IZtbUrl {
     //基础地址
     //外网，h5web，更换domain地址
 //    public static final String BASE_URL = "http://hseb.net.cn/zhetengba/";
-//  public static final String BASE_URL="http://180.76.149.156:8033/zhetengba/";
+  public static final String BASE_URL="http://180.76.149.156:8033/zhetengba/";
 
 
     //开发
 //    public static final String BASE_URL="http://180.167.77.62:8081/zhetengba/";
-    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
+//    public static final String BASE_URL = "http://172.16.6.253:8089/zhetengba/";
 //    public static final String BASE_URL = "http:/172.16.5.133:8090/zhetengba/";
 
 //    public static final String BASE_URL = "http://180.76.149.156:8060/zhetengba/";
@@ -126,7 +126,7 @@ public interface IZtbUrl {
     /*圈子说说取消点赞*/
     String CIRCLE_UNLIKE_URL = BASE_URL + "talk/login/removeCircleTalkLike.do";
     /*圈子说说评论*/
-    String CIRCLE_COMMENT_URL = BASE_URL + "talk/login/addCircleTalkComments.do";
+    String CIRCLE_COMMENT_URL = BASE_URL + "talk/login/addNewCircleTalkComments.do";
     /*频道说说列表*/
     String CHANNELTALK_URL = BASE_URL + "talk/login/findChannelTalkList.do";
     /*频道说说点赞*/
@@ -134,7 +134,7 @@ public interface IZtbUrl {
     /*取消频道说说点赞*/
     String CHANNEL_UNLIKE_URL = BASE_URL + "talk/login/removeChannelTalkLike.do";
     /*频道说说评论*/
-    String CHANNEL_COMMENT_URL = BASE_URL + "talk/login/addChannelTalkComments.do";
+    String CHANNEL_COMMENT_URL = BASE_URL + "talk/login/addNewChannelTalkComments.do";
     /*频道说说发布*/
     String CHANNEL_RELEASE_URL = BASE_URL + "talk/login/addChannelTalk.do";
     /*圈子说说评论列表*/
@@ -318,9 +318,9 @@ public interface IZtbUrl {
     String FIND_NEW_APP=BASE_URL+"manager/unLogin/checkUpdrage.do";
 
     //正式地址域名
-//    String SHARE_URL="http://hseb.net.cn/h5";
+    String SHARE_URL="http://hseb.net.cn/h5";
     //测试分享地址
-    String SHARE_URL="http://172.16.6.253:8087/h5";
+//    String SHARE_URL="http://172.16.6.253:8087/h5";
 
 
     /**

@@ -41,6 +41,7 @@ import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
 import com.boyuanitsm.zhetengba.utils.EmojUtils;
 import com.boyuanitsm.zhetengba.utils.LayoutHelperUtil;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 import com.boyuanitsm.zhetengba.utils.Uitls;
 import com.boyuanitsm.zhetengba.utils.ZhetebaUtils;
@@ -526,6 +527,7 @@ public class CirclexqListAdapter extends BaseAdapter {
             tv_jb= (TextView) view.findViewById(R.id.tv_jb);
             tv_qx= (TextView) view.findViewById(R.id.tv_qx);
             if(UserInfoDao.getUser().getId().equals(list.get(circleDelPos).getUserId())){
+                MyLogUtils.info(list.get(circleDelPos).getUserId()+"删除Id===");
                 tv_sc.setVisibility(View.VISIBLE);
             }else if (TextUtils.equals(UserInfoDao.getUser().getId(),list.get(circleDelPos).getCircleOwnerId())){
                 tv_sc.setVisibility(View.VISIBLE);

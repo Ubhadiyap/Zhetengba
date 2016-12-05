@@ -255,7 +255,7 @@ public class SquareAct extends BaseActivity implements View.OnClickListener {
                 //此处就是用来获取键盘的高度的， 在键盘没有弹出的时候 此高度为0 键盘弹出的时候为一个正数
                 srfHeight = screenHeight - r.bottom;
                 if (srfHeight > 0) {
-                    vp_chan.getRefreshableView().setSelectionFromTop(cusPos + 1, -srfHeight / 3);
+                    vp_chan.getRefreshableView().setSelectionFromTop(cusPos + 1, -srfHeight / 4);
                 }
                 MyLogUtils.info(srfHeight + "输入法弹出的高度===");
             }

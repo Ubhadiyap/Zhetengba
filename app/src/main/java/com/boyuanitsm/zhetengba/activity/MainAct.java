@@ -845,6 +845,9 @@ public class MainAct extends BaseActivity {
                 user.setCity(citycode);//保存城市编码
                 modifyUser(user);//定位成功把定位城市通过这种接口传给后台
 
+            }else {
+                user.setCity("289");
+                modifyUser(user);
             }
 
             mLocClient.stop();

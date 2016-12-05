@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,6 +46,12 @@ public class CircleMessAdatper extends BaseAdapter {
     private Context context;
     // 图片缓存 默认 等
     private DisplayImageOptions optionsImag = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.userhead)
+            .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
+            .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565).build();
+    // 图片缓存 默认 等
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.mipmap.userhead)
             .showImageOnFail(R.mipmap.userhead).cacheInMemory(true).cacheOnDisk(true)
             .considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY)
@@ -103,31 +110,70 @@ public class CircleMessAdatper extends BaseAdapter {
             holder1.item_mess = (LinearLayout) convertView.findViewById(R.id.item_mess);
             holder1.item_mess_one = (LinearLayout) convertView.findViewById(R.id.item_mess_one);
             holder1.item_mess_two = (LinearLayout) convertView.findViewById(R.id.item_mess_two);
+
+            holder1.cvHead = (CircleImageView) convertView.findViewById(R.id.cv_head);
+            holder1.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
+            holder1.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
+            holder1.tv_talk1 = (TextView) convertView.findViewById(R.id.tv_talk1);
+            holder1.iv_talk = (ImageView) convertView.findViewById(R.id.iv_talkImage);
+            holder1.tv_huifu1 = (TextView) convertView.findViewById(R.id.tv_huifu1);
+            holder1.tv_time = (TextView) convertView.findViewById(R.id.tv_time1);
+            holder1.ll_content= (LinearLayout) convertView.findViewById(R.id.ll_content);
+
             convertView.setTag(holder1);
         }
         if (TextUtils.equals(circleInfoList.get(position).getMesstype(), 0 + "")) {
-            holder1.item_mess.setVisibility(View.VISIBLE);
+//            holder1.item_mess.setVisibility(View.VISIBLE);
+            holder1.ll_content.setVisibility(View.VISIBLE);
             holder1.item_mess_one.setVisibility(View.GONE);
             holder1.item_mess_two.setVisibility(View.GONE);
         } else if (TextUtils.equals(circleInfoList.get(position).getMsgType(), 1 + "")) {
-            holder1.item_mess.setVisibility(View.GONE);
+//            holder1.item_mess.setVisibility(View.GONE);
+            holder1.ll_content.setVisibility(View.GONE);
             holder1.item_mess_one.setVisibility(View.VISIBLE);
             holder1.item_mess_two.setVisibility(View.GONE);
         } else if (TextUtils.equals(circleInfoList.get(position).getMesstype(), 2 + "")) {
-            holder1.item_mess.setVisibility(View.GONE);
+//            holder1.item_mess.setVisibility(View.GONE);
+            holder1.ll_content.setVisibility(View.GONE);
             holder1.item_mess_one.setVisibility(View.GONE);
             holder1.item_mess_two.setVisibility(View.VISIBLE);
         }
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleInfoList.get(position).getUserIcon()), holder1.cv_head1, optionsImag);
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleInfoList.get(position).getUserIcon()), holder1.cvHead, optionsImag);
         if (!TextUtils.isEmpty(circleInfoList.get(position).getPetName())) {
             holder1.niName1.setText(circleInfoList.get(position).getPetName());
             holder1.tv_petName2.setText(circleInfoList.get(position).getPetName());
+            holder1.tv_name.setText(circleInfoList.get(position).getPetName());
         }
         if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())) {
             holder1.createTime1.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
             holder1.tv_creatTime2.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
+            holder1.tv_time.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
         }
         ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(UserInfoDao.getUser().getIcon()), holder1.iv_icon, optionsImag);
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getImgTalk())){
+            holder1.iv_talk.setVisibility(View.VISIBLE);
+            holder1.tv_talk1.setVisibility(View.GONE);
+            ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleInfoList.get(position).getImgTalk()), holder1.iv_talk, options);
+        }else {
+            holder1.iv_talk.setVisibility(View.GONE);
+            holder1.tv_talk1.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentTalk())){
+                holder1.tv_talk1.setText("\""+circleInfoList.get(position).getCommentTalk()+"\"");
+            }
+        }
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getMessage())){
+            holder1.tv_huifu1.setText(circleInfoList.get(position).getMessage());
+        }
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentContent())){
+            holder1.tv_content.setVisibility(View.VISIBLE);
+            holder1.tv_content.setText(circleInfoList.get(position).getCommentContent());
+        }else {
+            holder1.tv_content.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())){
+            holder1.tv_time.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
+        }
         if (!TextUtils.isEmpty(circleInfoList.get(position).getCommentTalk())) {
             holder1.tv_talk.setVisibility(View.VISIBLE);
             holder1.tv_talk.setText(circleInfoList.get(position).getCommentTalk());
@@ -144,14 +190,7 @@ public class CircleMessAdatper extends BaseAdapter {
             }
         }
 
-        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleInfoList.get(position).getUserIcon()), holder1.cv_head2, optionsImag);
-        if (!TextUtils.isEmpty(circleInfoList.get(position).getPetName())) {
-            holder1.tv_petName.setText(circleInfoList.get(position).getPetName());
-        }
-        if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())) {
-            holder1.tv_creatTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
-        }
-        View.OnClickListener listener = new View.OnClickListener() {
+        final View.OnClickListener listener=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PersonalAct.class);
@@ -166,14 +205,42 @@ public class CircleMessAdatper extends BaseAdapter {
                 context.startActivity(intent);
             }
         };
+        holder1.cvHead.setOnClickListener(listener);
+        holder1.tv_name.setOnClickListener(listener);
+
+
+
+
+        ImageLoader.getInstance().displayImage(Uitls.imageFullUrl(circleInfoList.get(position).getUserIcon()), holder1.cv_head2, optionsImag);
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getPetName())) {
+            holder1.tv_petName.setText(circleInfoList.get(position).getPetName());
+        }
+        if (!TextUtils.isEmpty(circleInfoList.get(position).getCreateTime())) {
+            holder1.tv_creatTime.setText(ZtinfoUtils.timeChange(Long.parseLong(circleInfoList.get(position).getCreateTime())));
+        }
+        View.OnClickListener listener2 = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PersonalAct.class);
+                Bundle bundle = new Bundle();
+                if (!TextUtils.isEmpty(circleInfoList.get(position).getUserId())) {
+                    bundle.putString("userId", circleInfoList.get(position).getUserId());
+                } else if (!TextUtils.isEmpty(circleInfoList.get(position).getSender())) {
+                    bundle.putString("userId", circleInfoList.get(position).getSender());
+                }
+                intent.putExtras(bundle);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        };
         View.OnClickListener listener1 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RequestManager.getTalkManager().getCircleTalk(circleInfoList.get(position).getCircleTalkId(), new ResultCallback<ResultBean<CircleEntity>>() {
                     @Override
                     public void onError(int status, String errorMsg) {
-                        if (status==500){
-                            MyToastUtils.showShortToast(context,"该圈子说说已删除！");
+                        if (status == 500) {
+                            MyToastUtils.showShortToast(context, "该圈子说说已删除！");
                             circleInfoList.remove(position);
                             notifyDataSetChanged();
                             return;
@@ -182,9 +249,9 @@ public class CircleMessAdatper extends BaseAdapter {
 
                     @Override
                     public void onResponse(ResultBean<CircleEntity> response) {
-                      CircleEntity  entity=new CircleEntity();
-                        entity= response.getData();
-                        if (entity!=null) {
+                        CircleEntity entity = new CircleEntity();
+                        entity = response.getData();
+                        if (entity != null) {
                             Intent intent = new Intent();
                             intent.setClass(context, CircleTextAct.class);
 //                intent.putExtra("circleEntity", circleInfoList.get(position));
@@ -192,17 +259,21 @@ public class CircleMessAdatper extends BaseAdapter {
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                         }
-                        }
+                    }
                 });
 
             }
         };
+        holder1.cvHead.setOnClickListener(listener);
         holder1.cv_head2.setOnClickListener(listener);
         holder1.cv_head1.setOnClickListener(listener);
         holder1.cv_head3.setOnClickListener(listener);
         holder1.tv_petName.setOnClickListener(listener);
         holder1.tv_petName2.setOnClickListener(listener);
+        holder1.tv_name.setOnClickListener(listener);
         holder1.tv_talk.setOnClickListener(listener1);
+        holder1.tv_talk1.setOnClickListener(listener1);
+
         if (TextUtils.equals(circleInfoList.get(position).getHandleResult(), 0 + "")) {
             holder1.bt_yes.setText("已同意");
             holder1.bt_no.setBackgroundResource(R.drawable.bg_circle_stroke_gray2);
@@ -411,5 +482,11 @@ public class CircleMessAdatper extends BaseAdapter {
         private TextView tv_petName;
         private TextView tv_creatTime;
         private LinearLayout item_mess, item_mess_one, item_mess_two;
+
+
+        private CircleImageView cvHead;
+        private TextView tv_content, tv_name, tv_talk1, tv_huifu1, tv_time;
+        private ImageView iv_talk;
+        private LinearLayout ll_content;
     }
 }

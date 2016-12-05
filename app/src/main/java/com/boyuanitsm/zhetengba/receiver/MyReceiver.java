@@ -18,6 +18,7 @@ import com.boyuanitsm.zhetengba.activity.circle.CircleAct;
 import com.boyuanitsm.zhetengba.activity.circle.SerchCirAct;
 import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.activity.mess.DqMesAct;
+import com.boyuanitsm.zhetengba.activity.mess.SquareMessAct;
 import com.boyuanitsm.zhetengba.bean.ActivityMess;
 import com.boyuanitsm.zhetengba.bean.CircleInfo;
 import com.boyuanitsm.zhetengba.bean.NewCircleMess;
@@ -206,9 +207,11 @@ public class MyReceiver extends BroadcastReceiver {
                 Intent i = new Intent();
                 if (TextUtils.equals(type, "2")) {
                     i.setClass(context, CirMessAct.class);
-                } else {
-                    i.setClass(context, DqMesAct.class);
-                }
+                } else if (TextUtils.equals(type,"3")) {
+                        i.setClass(context, SquareMessAct.class);
+                }else {
+                        i.setClass(context, DqMesAct.class);
+                    }
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(i);
                 JPushInterface.clearAllNotifications(context);

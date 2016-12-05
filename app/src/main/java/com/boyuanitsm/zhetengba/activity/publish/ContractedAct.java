@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -29,6 +32,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.utils.poi.BaiduMapPoiSearch;
 import com.baidu.mapapi.utils.poi.PoiParaOption;
@@ -42,9 +46,11 @@ import com.boyuanitsm.zhetengba.activity.mine.TimeHistoryAct;
 import com.boyuanitsm.zhetengba.adapter.GvTbAdapter;
 import com.boyuanitsm.zhetengba.base.BaseActivity;
 import com.boyuanitsm.zhetengba.bean.ActivityLabel;
+import com.boyuanitsm.zhetengba.bean.CityBean;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
 import com.boyuanitsm.zhetengba.bean.SimpleInfo;
 import com.boyuanitsm.zhetengba.bean.SuggestionInfoBean;
+import com.boyuanitsm.zhetengba.db.DBHelper;
 import com.boyuanitsm.zhetengba.fragment.TimeFrg;
 import com.boyuanitsm.zhetengba.fragment.calendarFrg.SimpleFrg;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
@@ -64,6 +70,7 @@ import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -242,6 +249,9 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         }
         if (!TextUtils.isEmpty(tv_select.getText().toString())) {
             simpleInfo.setActivitySite(tv_select.getText().toString());//位置
+        }else {
+            MyToastUtils.showShortToast(ContractedAct.this, "您有档期位置未完善，请完善！");
+            return;
         }
         if (!TextUtils.isEmpty(et_pp_num.getText().toString())) {
             if (Integer.parseInt(et_pp_num.getText().toString()) < 2) {
@@ -296,6 +306,7 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         if (!TextUtils.isEmpty(addLng+"")){
             simpleInfo.setAddLng(addLng);
         }
+
       if (select==1){
           if (clickTemp==2){
               simpleInfo.setNoticeUserIds(hucanUserIds);//指定谁可见
@@ -714,14 +725,21 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             SuggestionInfoBean infoBean=intent.getParcelableExtra("suggestionInfo");
-            cityCode = intent.getStringExtra("cityCode");
             String key=infoBean.getKey();
             String city=infoBean.getCity();
             String district=infoBean.getDistrict();
+            String name =city.substring(0,city.length()-1);
+            if (!TextUtils.isEmpty(getCityCode(name).getCityid()+"")){
+                cityCode=getCityCode(name).getCityid();
+                MyLogUtils.info(cityCode+"城市代码是====");
+            }else {
+                cityCode = intent.getStringExtra("cityCode");
+                MyLogUtils.info(cityCode+"城市编码2是===");
+            }
             addLng=infoBean.getPt().latitude;
             addLat=infoBean.getPt().longitude;
             tv_select.setText(city+district+key);
-
+            MyLogUtils.info(city+"城市是====");
 
         }
     };
@@ -739,5 +757,30 @@ public class ContractedAct extends BaseActivity implements BDLocationListener {
     protected void onDestroy() {
         unregisterReceiver(broadcastReceiver);
         super.onDestroy();
+    }
+    /**
+     * @param name
+     */
+    private CityBean getCityCode(String name) {
+        DBHelper dbHelper = new DBHelper(getApplicationContext());
+        CityBean city=new CityBean();
+        try {
+            dbHelper.createDataBase();
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            name = "'"+name+"'";
+            Cursor cursor = db.rawQuery( "select * from city where name =" + name , null);
+            Log.e("info", "length = " + cursor.getCount());
+            while (cursor.moveToNext()) {
+                city.setCityid(cursor.getString(3));
+                city.setName(cursor.getString(1));
+                city.setPinyi(cursor.getString(2));
+//                city = new CityBean(cursor.getString(3),cursor.getString(1), cursor.getString(2));
+            }
+            cursor.close();
+            db.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return city;
     }
 }

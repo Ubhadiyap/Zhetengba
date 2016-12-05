@@ -54,6 +54,8 @@
             android:text="汤泉国际"
             android:textColor="#999999"
             android:layout_marginTop="15dp"
+            android:maxLines="1"
+            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView

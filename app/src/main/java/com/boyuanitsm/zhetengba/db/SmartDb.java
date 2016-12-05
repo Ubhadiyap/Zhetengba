@@ -27,7 +27,17 @@ public class SmartDb extends SmartDBHelper {
         if (oldVersion<5){
             TableHelper.createTablesByClasses(db, ConstantValue.NEWSMODELS);
         }else  if (oldVersion<10){
-         db.execSQL("alter table user_table add city varchar(100)");
+            TableHelper.createTablesByClasses(db, ConstantValue.NEWSMODELS2);
+            db.execSQL("alter table user_table add city varchar(100)");
+            db.execSQL("alter table circle_talbe add message varchar(100)");
+            db.execSQL("alter table circle_talbe add img_talk varchar(100)");
+            db.execSQL("alter table circle_talbe add circle_talk_id varchar(100)");
+        }else if (oldVersion==10){
+            TableHelper.createTablesByClasses(db, ConstantValue.NEWSMODELS2);
+//            db.execSQL("alter table user_table add city varchar(100)");
+            db.execSQL("alter table circle_talbe add message varchar(100)");
+            db.execSQL("alter table circle_talbe add img_talk varchar(100)");
+            db.execSQL("alter table circle_talbe add circle_talk_id varchar(100)");
         }
     }
 }

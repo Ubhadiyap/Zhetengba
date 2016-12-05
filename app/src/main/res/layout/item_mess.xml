@@ -5,117 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
-    <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/item_mess"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:padding="15dp"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <com.boyuanitsm.zhetengba.view.CircleImageView
-            android:id="@+id/cv_head1"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingBottom="5dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_niname"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/one_color"/>
-            <TextView
-                android:id="@+id/tv_time"
-                android:gravity="center"
-                android:textColor="#999999"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_huifu"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#999999"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:textSize="14sp"
-                android:text="回复“我”："/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#999999"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingLeft="55dp"
-        android:paddingBottom="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.boyuanitsm.zhetengba.view.CircleImageView
-                android:id="@+id/iv_icon"
-                android:layout_width="23dp"
-                android:layout_height="23dp" />
-            <TextView
-                android:id="@+id/tv_talk"
-                android:layout_marginLeft="8dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp"
-                android:lineSpacingExtra="3dp"
-                android:paddingTop="8dp"
-                android:background="@drawable/stroker_radio"
-                android:layout_width="220dp"
-                android:layout_height="42dp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:textColor="#666666"
-                android:textSize="12sp"/>
-        </LinearLayout>
-
-
-    </LinearLayout>
-    <View
-        style="@style/view_line"></View>
-    </LinearLayout>
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/item_mess_one"
@@ -327,5 +217,200 @@
         </LinearLayout>
         <View
             style="@style/view_line"></View>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_content"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.boyuanitsm.zhetengba.view.CircleImageView
+                android:id="@+id/cv_head"
+                android:background="@drawable/userhead"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_toRightOf="@+id/cv_head"
+                android:text="会说话的Tom猫"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="12sp"
+                android:textColor="#52c791"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_huifu1"
+                android:layout_below="@+id/tv_name"
+                android:layout_toRightOf="@+id/cv_head"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="回复“我”"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_talkImage"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="79dp"
+                android:layout_height="79dp" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_talk1"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="15dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineSpacingExtra="8dp"
+                android:textSize="14sp"
+                android:textColor="#999999"
+                android:layout_width="79dp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_content"
+            android:text="湖水平静展览"
+            android:lineSpacingExtra="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginRight="15dp"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_gravity="right"
+            android:id="@+id/tv_time1"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tv_content"
+            android:text="11:22"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:textSize="12sp"
+            android:textColor="#999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/item_mess"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <com.boyuanitsm.zhetengba.view.CircleImageView
+            android:id="@+id/cv_head1"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_niname"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/one_color"/>
+            <TextView
+                android:id="@+id/tv_time"
+                android:gravity="center"
+                android:textColor="#999999"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_huifu"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#999999"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="14sp"
+                android:text="回复“我”："/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#999999"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="55dp"
+        android:paddingBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.boyuanitsm.zhetengba.view.CircleImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="23dp"
+                android:layout_height="23dp" />
+            <TextView
+                android:id="@+id/tv_talk"
+                android:layout_marginLeft="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:lineSpacingExtra="3dp"
+                android:paddingTop="8dp"
+                android:background="@drawable/stroker_radio"
+                android:layout_width="220dp"
+                android:layout_height="42dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="#666666"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <View
+        style="@style/view_line"></View>
     </LinearLayout>
 </FrameLayout>

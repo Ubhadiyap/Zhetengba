@@ -15,8 +15,11 @@ import android.widget.TextView;
 import com.boyuanitsm.zhetengba.R;
 import com.boyuanitsm.zhetengba.activity.circle.SquareAct;
 import com.boyuanitsm.zhetengba.bean.ResultBean;
+import com.boyuanitsm.zhetengba.chat.db.UserDao;
+import com.boyuanitsm.zhetengba.db.UserInfoDao;
 import com.boyuanitsm.zhetengba.http.callback.ResultCallback;
 import com.boyuanitsm.zhetengba.http.manager.RequestManager;
+import com.boyuanitsm.zhetengba.utils.MyLogUtils;
 import com.boyuanitsm.zhetengba.utils.MyToastUtils;
 
 /**
@@ -50,7 +53,7 @@ public class GcDialog implements View.OnClickListener {
         tv_sc= (TextView) view.findViewById(R.id.tv_sc);
         tv_jb= (TextView) view.findViewById(R.id.tv_jb);
         tv_qx= (TextView) view.findViewById(R.id.tv_qx);
-        if(userid.equals(creatid)){
+        if(UserInfoDao.getUser().getId().equals(creatid)){
             tv_sc.setVisibility(View.VISIBLE);
         }else {
             tv_sc.setVisibility(View.GONE);

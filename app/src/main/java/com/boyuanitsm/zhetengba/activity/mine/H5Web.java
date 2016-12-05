@@ -133,7 +133,7 @@ public class H5Web extends BaseActivity {
 
 //            sbCookie.append(String.format(";Domain=%s","139.196.234.89"));//180.76.149.156
 
-            sbCookie.append(String.format(";Domain=%s","172.16.6.253"));//180.76.149.156
+//            sbCookie.append(String.format(";Domain=%s","172.16.6.253"));//180.76.149.156
 
             sbCookie.append(String.format(";Path=%s","/zhetengba/"));
 //            sbCookie.append(String.format(";HttpOnly"));
